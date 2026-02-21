@@ -3,30 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>USDT Miner Pro | Institutional-Grade Mining</title>
+    <title>Silly Money Pro | Earn Per Action Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #26a17b;
-            --primary-dark: #1e8b68;
-            --primary-light: #2ecc71;
-            --secondary: #1a2b3d;
-            --dark: #0a1628;
-            --darker: #070f1a;
+            --primary: #3a36e0;
+            --primary-dark: #2a27b3;
+            --secondary: #f8f9fa;
+            --dark: #121826;
             --light: #ffffff;
-            --gray: #94a3b8;
-            --gray-dark: #64748b;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
             --info: #3b82f6;
-            --usdt: #26a17b;
-            --mining: #00d4aa;
-            --shadow: 0 4px 20px rgba(38, 161, 123, 0.15);
-            --shadow-lg: 0 10px 40px rgba(38, 161, 123, 0.2);
-            --border-radius: 12px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         * {
@@ -35,6 +31,1613 @@
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.5;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #f5f7ff;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 60px rgba(0,0,0,0.1);
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #5a56f0 100%);
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(58, 54, 224, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-balance-mini {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 12px;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(58, 54, 224, 0.1);
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+        }
+
+        .content-section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .warning-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(238, 90, 111, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .stat-value.gold {
+            color: var(--warning);
+        }
+
+        .clicker-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .clicker-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+
+        .level-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .xp-bar-container {
+            background: rgba(0,0,0,0.2);
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .xp-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .xp-text {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .click-button {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #ee5a6f);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(238, 90, 111, 0.4), inset 0 -5px 10px rgba(0,0,0,0.1);
+            transition: transform 0.1s, box-shadow 0.2s;
+            position: relative;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .click-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 5px 15px rgba(238, 90, 111, 0.4);
+        }
+
+        .click-button i {
+            font-size: 1.8rem;
+        }
+
+        .floating-text {
+            position: absolute;
+            color: #ffd700;
+            font-weight: 800;
+            font-size: 1.1rem;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-80px) scale(1.3); opacity: 0; }
+        }
+
+        .task-category {
+            margin-bottom: 25px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .category-header i {
+            color: var(--primary);
+        }
+
+        .task-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .task-item:hover {
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            background: #f8f9fa;
+            pointer-events: none;
+        }
+
+        .task-item.completed::after {
+            content: 'COMPLETED';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-15deg);
+            background: var(--success);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+        }
+
+        .task-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 3px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .task-desc {
+            font-size: 0.75rem;
+            color: var(--gray);
+            line-height: 1.3;
+        }
+
+        .task-reward {
+            text-align: right;
+            font-weight: 800;
+            color: var(--success);
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .task-timer {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, var(--dark) 0%, #2d3748 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .balance-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .balance-amount {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .withdraw-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .withdraw-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .withdraw-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .withdrawal-notice {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        .withdrawal-notice i {
+            color: var(--warning);
+            margin-right: 5px;
+        }
+
+        .daily-gift {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .gift-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .spin-button {
+            background: white;
+            color: #f5576c;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+        }
+
+        .spin-button:disabled {
+            background: rgba(255,255,255,0.5);
+            cursor: not-allowed;
+        }
+
+        .spin-button:not(:disabled):hover {
+            transform: scale(1.05);
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .reward-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .reward-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .reward-item:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .reward-img {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .reward-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 3px;
+        }
+
+        .reward-cost {
+            color: var(--warning);
+            font-weight: 800;
+            font-size: 0.8rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding-right: 30px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: var(--gray);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .captcha-container {
+            margin: 20px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed var(--gray-light);
+        }
+
+        .verify-captcha-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            font-size: 0.9rem;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+        .toast.warning { background: var(--warning); color: var(--dark); }
+
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 10px; }
+        .mb-2 { margin-bottom: 20px; }
+
+        .anti-fraud-notice {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 4px solid var(--danger);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--dark);
+        }
+
+        .anti-fraud-notice strong {
+            color: var(--danger);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .app-container {
+                max-width: 100%;
+            }
+            .bottom-nav {
+                max-width: 100%;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-coins"></i>
+                <span>Silly Money Pro</span>
+            </div>
+            <div class="user-balance-mini">
+                $<span id="headerBalance">0.00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HOME / CLICKER SECTION -->
+    <section id="homeSection" class="content-section active">
+        <div class="warning-banner">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Skipping tasks = Permanent withdrawal ban!</span>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">Level</div>
+                <div class="stat-value" id="currentLevel">1</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Total Earned</div>
+                <div class="stat-value" id="totalEarned">$0.00</div>
+            </div>
+        </div>
+
+        <div class="clicker-container">
+            <div class="level-badge">LEVEL <span id="levelBadge">1</span></div>
+            <h2 style="margin-bottom: 5px; font-size: 1.6rem;">Tap to Earn</h2>
+            <p style="opacity: 0.9; margin-bottom: 15px; font-size: 0.85rem;">Click fast! Max $0.50 per click (Rare: $2.00)</p>
+            
+            <div class="xp-bar-container">
+                <div class="xp-bar" id="xpBar"></div>
+            </div>
+            <div class="xp-text">
+                $<span id="currentXP">0.00</span> / $<span id="targetXP">5.00</span> to Level Up
+            </div>
+
+            <button class="click-button" id="clickBtn">
+                <i class="fas fa-hand-pointer"></i>
+                <span>TAP!</span>
+            </button>
+
+            <p style="font-size: 0.8rem; opacity: 0.8;">
+                <i class="fas fa-lock"></i> CAPTCHA required every level
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-chart-line" style="color: var(--primary);"></i>
+                Your Stats
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="color: var(--gray); font-size: 0.9rem;">Total Clicks</span>
+                <strong id="totalClicks">0</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="color: var(--gray); font-size: 0.9rem;">Best Click</span>
+                <strong style="color: var(--success);">$<span id="highestClick">0.00</span></strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                <span style="color: var(--gray); font-size: 0.9rem;">Coins</span>
+                <strong style="color: var(--warning);"><span id="coinsBalance">0</span> <i class="fas fa-coins"></i></strong>
+            </div>
+        </div>
+
+        <div class="anti-fraud-notice">
+            <strong><i class="fas fa-shield-alt"></i> STRICT POLICY</strong>
+            Task skipping detected by our AI will result in immediate account suspension and forfeiture of all earnings. Complete ALL tasks honestly to maintain withdrawal privileges.
+        </div>
+    </section>
+
+    <!-- TASKS SECTION -->
+    <section id="tasksSection" class="content-section">
+        <div class="anti-fraud-notice">
+            <strong><i class="fas fa-exclamation-circle"></i> WARNING</strong>
+            Tasks rotate every 4 hours. Complete them fully or risk permanent ban. Timer runs in background - don't close browser!
+        </div>
+
+        <!-- Watch & Social -->
+        <div class="task-category">
+            <div class="category-header">
+                <i class="fas fa-video"></i>
+                Social Tasks <span style="font-size: 0.75rem; color: var(--gray); font-weight: 500;">(Rotates every 4h)</span>
+            </div>
+            <div id="socialTasksContainer">
+                <!-- Tasks injected by JS -->
+            </div>
+        </div>
+
+        <!-- High Pay Tasks -->
+        <div class="task-category">
+            <div class="category-header">
+                <i class="fas fa-tasks"></i>
+                High Value Tasks <span style="font-size: 0.75rem; color: var(--gray); font-weight: 500;">(Max $2.00)</span>
+            </div>
+            
+            <div class="task-item" onclick="showTaskDetails('survey', 'Complete short survey about daily habits', 1.20)">
+                <div class="task-icon" style="background: var(--info);">
+                    <i class="fas fa-poll"></i>
+                </div>
+                <div class="task-info">
+                    <div class="task-title">Quick Survey</div>
+                    <div class="task-desc">2-3 minutes • Honest answers required</div>
+                </div>
+                <div class="task-reward">$1.20</div>
+            </div>
+
+            <div class="task-item" onclick="showTaskDetails('app', 'Install app & open for 30 seconds', 0.80)">
+                <div class="task-icon" style="background: var(--success);">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="task-info">
+                    <div class="task-title">App Test</div>
+                    <div class="task-desc">Install + Open • Keep installed 1min</div>
+                </div>
+                <div class="task-reward">$0.80</div>
+            </div>
+
+            <div class="task-item" onclick="showTaskDetails('signup', 'Create free account (email verify)', 2.00)">
+                <div class="task-icon" style="background: var(--warning);">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="task-info">
+                    <div class="task-title">Free Sign Up</div>
+                    <div class="task-desc">Valid email required • Rare $2 task</div>
+                </div>
+                <div class="task-reward">$2.00</div>
+            </div>
+
+            <div class="task-item" onclick="showTaskDetails('game', 'Reach Level 3 in game', 1.50)">
+                <div class="task-icon" style="background: #9b59b6;">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="task-info">
+                    <div class="task-title">Game Task</div>
+                    <div class="task-desc">Play to Level 3 • Takes ~5 min</div>
+                </div>
+                <div class="task-reward">$1.50</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REWARDS SECTION -->
+    <section id="rewardsSection" class="content-section">
+        <div class="balance-card">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount">$<span id="mainBalance">0.00</span></div>
+            <button class="withdraw-btn" id="withdrawBtn" onclick="openWithdrawModal()" disabled>
+                <i class="fas fa-lock"></i> Locked
+            </button>
+            <div class="withdrawal-notice">
+                <i class="fas fa-info-circle"></i>
+                <strong>Withdrawal Requirements:</strong><br>
+                • Minimum: $50.00<br>
+                • Complete 20+ tasks<br>
+                • Account age: 7 days<br>
+                • No skipped tasks (monitored)
+            </div>
+        </div>
+
+        <div class="daily-gift">
+            <div class="gift-icon">
+                <i class="fas fa-gift"></i>
+            </div>
+            <h3 style="margin-bottom: 5px; font-size: 1.1rem;">Daily Free Spin</h3>
+            <p style="font-size: 0.85rem; opacity: 0.9; margin-bottom: 12px;">
+                Win 10-100 coins (1 spin/day)
+            </p>
+            <button class="spin-button" id="spinBtn" onclick="spinDaily()">
+                <i class="fas fa-sync-alt"></i> Spin Now
+            </button>
+            <p id="spinTimer" style="font-size: 0.75rem; margin-top: 10px; display: none;">
+                Next: <span id="countdown">00:00:00</span>
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-gift" style="color: var(--danger);"></i>
+                Redeem Rewards (Coins)
+            </div>
+            <div class="rewards-grid">
+                <div class="reward-item" onclick="redeemReward('paypal', 5000, '$5 PayPal')">
+                    <div class="reward-img" style="background: #003087;">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div class="reward-name">$5 PayPal</div>
+                    <div class="reward-cost">5,000 coins</div>
+                </div>
+
+                <div class="reward-item" onclick="redeemReward('steam', 8000, '$10 Steam')">
+                    <div class="reward-img" style="background: #1b2838;">
+                        <i class="fab fa-steam"></i>
+                    </div>
+                    <div class="reward-name">$10 Steam</div>
+                    <div class="reward-cost">8,000 coins</div>
+                </div>
+
+                <div class="reward-item" onclick="redeemReward('amazon', 15000, '$20 Amazon')">
+                    <div class="reward-img" style="background: #FF9900;">
+                        <i class="fab fa-amazon"></i>
+                    </div>
+                    <div class="reward-name">$20 Amazon</div>
+                    <div class="reward-cost">15,000 coins</div>
+                </div>
+
+                <div class="reward-item" onclick="redeemReward('visa', 45000, '$50 Visa')">
+                    <div class="reward-img" style="background: #1A1F71;">
+                        <i class="fab fa-cc-visa"></i>
+                    </div>
+                    <div class="reward-name">$50 Visa</div>
+                    <div class="reward-cost">45,000 coins</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home')">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('tasks')">
+            <i class="fas fa-tasks"></i>
+            <span>Earn</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('rewards')">
+            <i class="fas fa-gift"></i>
+            <span>Rewards</span>
+        </div>
+    </nav>
+</div>
+
+<!-- CAPTCHA Modal -->
+<div id="captchaModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeCaptchaModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-header">
+            <i class="fas fa-shield-alt" style="color: var(--primary);"></i>
+            Level Up Verification
+        </div>
+        <p style="margin-bottom: 15px; color: var(--gray); font-size: 0.9rem;">
+            Complete CAPTCHA to reach Level <span id="nextLevelNum">2</span>.<br>
+            <strong style="color: var(--danger);">Skipping = Ban</strong>
+        </p>
+        <div class="captcha-container" data-captcha-enable="true">
+            <div style="text-align: center; color: var(--gray); padding: 20px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; margin-bottom: 10px;"></i>
+                <p style="font-size: 0.85rem;">Loading verification...</p>
+            </div>
+        </div>
+        <button class="verify-captcha-btn" onclick="completeLevelUp()">
+            <i class="fas fa-check-circle"></i> Verify & Continue
+        </button>
+    </div>
+</div>
+
+<!-- Task Modal -->
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeTaskModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-header" id="taskModalTitle">Task</div>
+        <p id="taskModalDesc" style="margin-bottom: 15px; color: var(--gray); font-size: 0.9rem;"></p>
+        <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; color: #856404;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Important:</strong> Must complete fully. Partial completion = no reward + strike.
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 0.9rem;">
+            <span>Reward:</span>
+            <strong style="color: var(--success);" id="taskModalReward">$0.00</strong>
+        </div>
+        <button class="verify-captcha-btn" onclick="startHighPayTask()">
+            <i class="fas fa-external-link-alt"></i> Start Task
+        </button>
+    </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div id="withdrawModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeWithdrawModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-header">
+            <i class="fas fa-university" style="color: var(--success);"></i>
+            Withdrawal
+        </div>
+        <div style="background: #d4edda; border: 1px solid var(--success); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem;">
+            <i class="fas fa-check-circle" style="color: var(--success);"></i>
+            Your account is in good standing.
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem;">Amount (Min $50)</label>
+            <input type="number" id="withdrawAmount" min="50" step="0.01" style="width: 100%; padding: 12px; border: 2px solid var(--gray-light); border-radius: 8px; font-size: 1rem;">
+        </div>
+        <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span>Balance:</span>
+                <strong>$<span id="withdrawBalance">0.00</span></strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span>Fee (5%):</span>
+                <strong style="color: var(--danger);">-$<span id="withdrawFee">0.00</span></strong>
+            </div>
+        </div>
+        <button class="verify-captcha-btn" onclick="processWithdrawal()">
+            <i class="fas fa-paper-plane"></i> Confirm Withdrawal
+        </button>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- CAPTCHA Script -->
+<script type="text/javascript" src="https://confirmapp.store/cp/js/joy6y"></script>
+
+<script>
+// State Management
+let state = {
+    balance: 0,
+    coins: 0,
+    level: 1,
+    xp: 0,
+    targetXP: 5.00,
+    totalClicks: 0,
+    highestClick: 0,
+    totalEarned: 0,
+    lastSpin: null,
+    tasksCompleted: 0,
+    taskStrikes: 0,
+    socialTasks: {},
+    accountCreated: null,
+    lastTaskRotation: null
+};
+
+// Rotating Social Tasks Pool
+const socialTaskPool = [
+    {
+        id: 'insta_follow',
+        platform: 'instagram',
+        title: 'Follow Account',
+        desc: 'Follow & like latest post',
+        icon: 'fab fa-instagram',
+        color: '#E1306C',
+        baseReward: 0.30,
+        link: 'https://instagram.com/sillymoney_official'
+    },
+    {
+        id: 'twitter_retweet',
+        platform: 'twitter',
+        title: 'Retweet & Follow',
+        desc: 'Retweet pinned tweet',
+        icon: 'fab fa-twitter',
+        color: '#1DA1F2',
+        baseReward: 0.40,
+        link: 'https://twitter.com/sillymoney_pro'
+    },
+    {
+        id: 'tiktok_like',
+        platform: 'tiktok',
+        title: 'Like & Comment',
+        desc: 'Like video + comment "🔥"',
+        icon: 'fab fa-tiktok',
+        color: '#000000',
+        baseReward: 0.50,
+        link: 'https://tiktok.com/@sillymoney'
+    },
+    {
+        id: 'youtube_sub',
+        platform: 'youtube',
+        title: 'Subscribe Channel',
+        desc: 'Subscribe + watch 30s',
+        icon: 'fab fa-youtube',
+        color: '#FF0000',
+        baseReward: 0.35,
+        link: 'https://youtube.com/@sillymoney'
+    },
+    {
+        id: 'fb_share',
+        platform: 'facebook',
+        title: 'Share Post',
+        desc: 'Share public post to story',
+        icon: 'fab fa-facebook',
+        color: '#1877F2',
+        baseReward: 0.25,
+        link: 'https://facebook.com/sillymoneypro'
+    },
+    {
+        id: 'telegram_join',
+        platform: 'telegram',
+        title: 'Join Channel',
+        desc: 'Join & stay 24 hours',
+        icon: 'fab fa-telegram',
+        color: '#0088cc',
+        baseReward: 0.45,
+        link: 'https://t.me/sillymoneypro'
+    },
+    {
+        id: 'discord_join',
+        platform: 'discord',
+        title: 'Join Server',
+        desc: 'Join + verify email',
+        icon: 'fab fa-discord',
+        color: '#5865F2',
+        baseReward: 0.55,
+        link: 'https://discord.gg/sillymoney'
+    },
+    {
+        id: 'reddit_upvote',
+        platform: 'reddit',
+        title: 'Upvote Post',
+        desc: 'Upvote + comment',
+        icon: 'fab fa-reddit',
+        color: '#FF4500',
+        baseReward: 0.20,
+        link: 'https://reddit.com/r/sillymoney'
+    }
+];
+
+// Load state
+function loadState() {
+    const saved = localStorage.getItem('sillyMoneyState');
+    const now = new Date();
+    
+    if (saved) {
+        state = JSON.parse(saved);
+        
+        // Check for new day (spin reset)
+        if (state.lastSpin) {
+            const last = new Date(state.lastSpin);
+            if (last.toDateString() !== now.toDateString()) {
+                state.lastSpin = null;
+            }
+        }
+        
+        // Check for task rotation (every 4 hours)
+        if (state.lastTaskRotation) {
+            const lastRot = new Date(state.lastTaskRotation);
+            const hoursDiff = (now - lastRot) / (1000 * 60 * 60);
+            if (hoursDiff >= 4) {
+                rotateSocialTasks();
+            }
+        } else {
+            state.lastTaskRotation = now.toISOString();
+        }
+        
+        // Set account creation date if not set
+        if (!state.accountCreated) {
+            state.accountCreated = now.toISOString();
+        }
+    } else {
+        state.accountCreated = now.toISOString();
+        state.lastTaskRotation = now.toISOString();
+        rotateSocialTasks();
+    }
+    
+    updateUI();
+    renderSocialTasks();
+}
+
+function saveState() {
+    localStorage.setItem('sillyMoneyState', JSON.stringify(state));
+}
+
+// Task Rotation System
+function rotateSocialTasks() {
+    const shuffled = [...socialTaskPool].sort(() => 0.5 - Math.random());
+    state.currentSocialTasks = shuffled.slice(0, 4); // Show 4 random tasks
+    state.lastTaskRotation = new Date().toISOString();
+    
+    // Clear old completion status for rotated tasks
+    state.currentSocialTasks.forEach(task => {
+        if (!state.socialTasks[task.id]) {
+            state.socialTasks[task.id] = { completed: false };
+        }
+    });
+    
+    saveState();
+}
+
+function renderSocialTasks() {
+    const container = document.getElementById('socialTasksContainer');
+    if (!state.currentSocialTasks) rotateSocialTasks();
+    
+    container.innerHTML = state.currentSocialTasks.map(task => {
+        const status = state.socialTasks[task.id] || { completed: false, pending: false };
+        const reward = (task.baseReward + (Math.random() * 0.20)).toFixed(2);
+        
+        return `
+            <div class="task-item ${status.completed ? 'completed' : ''}" 
+                 onclick="handleSocialTask('${task.id}', '${task.link}', ${reward})"
+                 data-task-id="${task.id}">
+                <div class="task-icon" style="background: ${task.color};">
+                    <i class="${task.icon}"></i>
+                </div>
+                <div class="task-info">
+                    <div class="task-title">${task.title}</div>
+                    <div class="task-desc">${task.desc}</div>
+                    ${status.pending ? '<div class="task-timer"><i class="fas fa-clock"></i> Verifying...</div>' : ''}
+                </div>
+                <div class="task-reward">$${reward}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Navigation
+function switchTab(tab) {
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    if (tab === 'home') {
+        document.getElementById('homeSection').classList.add('active');
+        document.querySelectorAll('.nav-item')[0].classList.add('active');
+    } else if (tab === 'tasks') {
+        document.getElementById('tasksSection').classList.add('active');
+        document.querySelectorAll('.nav-item')[1].classList.add('active');
+        renderSocialTasks(); // Refresh tasks
+    } else if (tab === 'rewards') {
+        document.getElementById('rewardsSection').classList.add('active');
+        document.querySelectorAll('.nav-item')[2].classList.add('active');
+    }
+}
+
+// Clicker Logic - Reduced earnings
+const clickBtn = document.getElementById('clickBtn');
+clickBtn.addEventListener('click', function(e) {
+    // Generate random reward (0.01 to 0.50, with 2.00 being super rare 0.5%)
+    let reward;
+    const rand = Math.random();
+    
+    if (rand > 0.995) {
+        reward = 2.00; // 0.5% chance for $2 (super rare)
+        showToast('MEGA HIT! +$2.00!', 'success');
+    } else if (rand > 0.95) {
+        reward = 0.50; // 5% chance for $0.50
+    } else if (rand > 0.80) {
+        reward = 0.20 + (Math.random() * 0.15); // 15% chance for $0.20-$0.35
+    } else {
+        reward = 0.01 + (Math.random() * 0.09); // 80% chance for $0.01-$0.10
+    }
+    
+    reward = Math.round(reward * 100) / 100;
+    
+    // Update state
+    state.balance += reward;
+    state.xp += reward;
+    state.totalClicks++;
+    state.totalEarned += reward;
+    
+    if (reward > state.highestClick) state.highestClick = reward;
+    
+    // Visual feedback
+    showFloatingText(e, reward);
+    updateUI();
+    saveState();
+    
+    // Check level up (harder now - $5 per level)
+    if (state.xp >= state.targetXP) {
+        setTimeout(() => openCaptchaModal(), 400);
+    }
+});
+
+function showFloatingText(e, amount) {
+    const rect = clickBtn.getBoundingClientRect();
+    const floatEl = document.createElement('div');
+    floatEl.className = 'floating-text';
+    floatEl.textContent = `+$${amount.toFixed(2)}`;
+    floatEl.style.left = (rect.left + rect.width/2 + (Math.random() * 40 - 20)) + 'px';
+    floatEl.style.top = (rect.top + rect.height/2) + 'px';
+    document.body.appendChild(floatEl);
+    
+    setTimeout(() => floatEl.remove(), 1000);
+}
+
+// CAPTCHA & Level Up
+function openCaptchaModal() {
+    document.getElementById('nextLevelNum').textContent = state.level + 1;
+    document.getElementById('captchaModal').classList.add('active');
+}
+
+function closeCaptchaModal() {
+    document.getElementById('captchaModal').classList.remove('active');
+}
+
+function completeLevelUp() {
+    state.level++;
+    state.xp = 0;
+    state.targetXP = state.level * 5; // $5, $10, $15, etc.
+    
+    closeCaptchaModal();
+    showToast(`Level ${state.level} unlocked! Keep grinding!`, 'success');
+    updateUI();
+    saveState();
+}
+
+// Social Tasks - Strict anti-skip
+function handleSocialTask(taskId, url, reward) {
+    const task = state.socialTasks[taskId] || { completed: false };
+    
+    if (task.completed) {
+        showToast('Task already completed!', 'warning');
+        return;
+    }
+    
+    if (!url) {
+        showToast('No offers available. Check back in 4 hours!', 'error');
+        return;
+    }
+    
+    // Mark as pending
+    state.socialTasks[taskId] = { ...task, pending: true, startTime: Date.now() };
+    saveState();
+    renderSocialTasks();
+    
+    // Open link
+    window.open(url, '_blank');
+    showToast('Task started! Complete it fully...', 'info');
+    
+    // Strict timer - 8 seconds (must actually do something)
+    setTimeout(() => {
+        // Simulate verification (random chance of strike if they come back too fast)
+        const timeSpent = Date.now() - state.socialTasks[taskId].startTime;
+        
+        if (timeSpent < 6000) { // Less than 6 seconds = probable skip
+            state.taskStrikes++;
+            showToast(`Too fast! Strike ${state.taskStrikes}/3`, 'error');
+            
+            if (state.taskStrikes >= 3) {
+                showToast('ACCOUNT SUSPENDED: Task skipping detected', 'error');
+                state.balance = 0; // Reset balance
+            }
+        } else {
+            // Success
+            state.socialTasks[taskId] = { completed: true, reward: reward };
+            state.balance += parseFloat(reward);
+            state.tasksCompleted++;
+            showToast(`+$${reward} earned!`, 'success');
+        }
+        
+        saveState();
+        renderSocialTasks();
+        updateUI();
+    }, 8000);
+}
+
+// High Pay Tasks
+let currentTask = null;
+
+function showTaskDetails(type, desc, reward) {
+    currentTask = { type, desc, reward };
+    document.getElementById('taskModalTitle').textContent = 
+        type === 'survey' ? 'Quick Survey' : 
+        type === 'app' ? 'App Install' : 
+        type === 'signup' ? 'Free Registration' : 'Game Task';
+    document.getElementById('taskModalDesc').textContent = desc;
+    document.getElementById('taskModalReward').textContent = `$${reward.toFixed(2)}`;
+    document.getElementById('taskModal').classList.add('active');
+}
+
+function closeTaskModal() {
+    document.getElementById('taskModal').classList.remove('active');
+    currentTask = null;
+}
+
+function startHighPayTask() {
+    if (!currentTask) return;
+    
+    // Open confirmation link
+    window.open('https://confirmapp.space/cl/i/1xxpdx', '_blank');
+    closeTaskModal();
+    
+    showToast('Complete the task fully! Verifying...', 'info');
+    
+    // Longer verification for high-value tasks
+    setTimeout(() => {
+        state.balance += currentTask.reward;
+        state.tasksCompleted++;
+        showToast(`+$${currentTask.reward.toFixed(2)} added!`, 'success');
+        updateUI();
+        saveState();
+    }, 5000);
+}
+
+// Daily Spin - Reduced rewards
+function spinDaily() {
+    if (state.lastSpin) {
+        showToast('Already spun today!', 'error');
+        return;
+    }
+    
+    const spinBtn = document.getElementById('spinBtn');
+    spinBtn.disabled = true;
+    spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning...';
+    
+    setTimeout(() => {
+        const coins = Math.floor(Math.random() * 90) + 10; // 10-100 coins only
+        state.coins += coins;
+        state.lastSpin = new Date().toISOString();
+        
+        showToast(`Won ${coins} coins!`, 'success');
+        spinBtn.innerHTML = '<i class="fas fa-check"></i> Claimed';
+        updateUI();
+        saveState();
+        startSpinCountdown();
+    }, 2000);
+}
+
+function startSpinCountdown() {
+    const timerEl = document.getElementById('spinTimer');
+    timerEl.style.display = 'block';
+    
+    const update = () => {
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        
+        const diff = tomorrow - now;
+        const hours = Math.floor(diff / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+        
+        document.getElementById('countdown').textContent = 
+            `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+    
+    update();
+    setInterval(update, 1000);
+}
+
+// Rewards & Withdrawal - Strict $50 min
+function redeemReward(type, cost, name) {
+    if (state.coins < cost) {
+        showToast(`Need ${cost - state.coins} more coins!`, 'error');
+        return;
+    }
+    
+    state.coins -= cost;
+    showToast(`Redeemed ${name}! Processing...`, 'success');
+    updateUI();
+    saveState();
+}
+
+function openWithdrawModal() {
+    // Strict checks
+    const accountAge = (Date.now() - new Date(state.accountCreated)) / (1000 * 60 * 60 * 24);
+    
+    if (state.balance < 50) {
+        showToast(`Need $${(50 - state.balance).toFixed(2)} more!`, 'error');
+        return;
+    }
+    if (state.tasksCompleted < 20) {
+        showToast(`Complete ${20 - state.tasksCompleted} more tasks!`, 'error');
+        return;
+    }
+    if (accountAge < 7) {
+        showToast(`Account must be 7 days old. ${Math.ceil(7 - accountAge)} days left!`, 'error');
+        return;
+    }
+    if (state.taskStrikes > 0) {
+        showToast('Strikes on record. Contact support.', 'error');
+        return;
+    }
+    
+    document.getElementById('withdrawBalance').textContent = state.balance.toFixed(2);
+    document.getElementById('withdrawFee').textContent = (state.balance * 0.05).toFixed(2);
+    document.getElementById('withdrawModal').classList.add('active');
+}
+
+function closeWithdrawModal() {
+    document.getElementById('withdrawModal').classList.remove('active');
+}
+
+function processWithdrawal() {
+    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+    
+    if (!amount || amount < 50) {
+        showToast('Minimum $50 required!', 'error');
+        return;
+    }
+    if (amount > state.balance) {
+        showToast('Insufficient funds!', 'error');
+        return;
+    }
+    
+    const fee = amount * 0.05;
+    const net = amount - fee;
+    
+    state.balance -= amount;
+    closeWithdrawModal();
+    showToast(`Withdrawn $${net.toFixed(2)} (Fee: $${fee.toFixed(2)})`, 'success');
+    updateUI();
+    saveState();
+}
+
+// UI Updates
+function updateUI() {
+    document.getElementById('headerBalance').textContent = state.balance.toFixed(2);
+    document.getElementById('mainBalance').textContent = state.balance.toFixed(2);
+    document.getElementById('currentLevel').textContent = state.level;
+    document.getElementById('levelBadge').textContent = state.level;
+    document.getElementById('currentXP').textContent = state.xp.toFixed(2);
+    document.getElementById('targetXP').textContent = state.targetXP.toFixed(2);
+    document.getElementById('totalClicks').textContent = state.totalClicks;
+    document.getElementById('highestClick').textContent = state.highestClick.toFixed(2);
+    document.getElementById('coinsBalance').textContent = state.coins;
+    document.getElementById('totalEarned').textContent = '$' + state.totalEarned.toFixed(2);
+    
+    // XP Bar
+    const xpPercent = (state.xp / state.targetXP) * 100;
+    document.getElementById('xpBar').style.width = Math.min(xpPercent, 100) + '%';
+    
+    // Withdraw button
+    const withdrawBtn = document.getElementById('withdrawBtn');
+    const accountAge = (Date.now() - new Date(state.accountCreated || Date.now())) / (1000 * 60 * 60 * 24);
+    
+    if (state.balance >= 50 && state.tasksCompleted >= 20 && accountAge >= 7 && state.taskStrikes === 0) {
+        withdrawBtn.disabled = false;
+        withdrawBtn.innerHTML = '<i class="fas fa-university"></i> Withdraw';
+        withdrawBtn.style.background = 'var(--success)';
+    } else {
+        withdrawBtn.disabled = true;
+        let lockReason = '';
+        if (state.balance < 50) lockReason = `$${(50-state.balance).toFixed(0)} more`;
+        else if (state.tasksCompleted < 20) lockReason = `${20-state.tasksCompleted} tasks`;
+        else if (accountAge < 7) lockReason = `${Math.ceil(7-accountAge)} days`;
+        else if (state.taskStrikes > 0) lockReason = 'STRIKES';
+        
+        withdrawBtn.innerHTML = `<i class="fas fa-lock"></i> ${lockReason}`;
+        withdrawBtn.style.background = 'var(--gray)';
+    }
+    
+    // Spin button
+    if (state.lastSpin) {
+        document.getElementById('spinBtn').disabled = true;
+        document.getElementById('spinBtn').innerHTML = '<i class="fas fa-check"></i> Done';
+        startSpinCountdown();
+    }
+}
+
+function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast ' + type;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// Initialize
+loadState();
+
+// Auto-rotate tasks every 4 hours
+setInterval(() => {
+    rotateSocialTasks();
+    renderSocialTasks();
+    showToast('New tasks available!', 'info');
+}, 4 * 60 * 60 * 1000);
+
+// Check on focus
+window.addEventListener('focus', () => {
+    if (state.lastTaskRotation) {
+        const lastRot = new Date(state.lastTaskRotation);
+        const hoursDiff = (Date.now() - lastRot) / (1000 * 60 * 60);
+        if (hoursDiff >= 4) {
+            rotateSocialTasks();
+            renderSocialTasks();
+        }
+    }
+});
+</script>
+
+</body>
+</html>            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -1780,3 +3383,4 @@ document.addEventListener('visibilitychange', () => {
 
 </body>
 </html>
+
