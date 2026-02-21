@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#3a36e0">
+    <title>Silly Money Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a36e0;
+            --primary-light: #5a56f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #121826;
+            --gray: #6c757d;
+            --light-bg: #f5f7ff;
+            --safe-top: env(safe-area-inset-top);
+            --safe-bottom: env(safe-area-inset-bottom);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: manipulation;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: fixed;
+            overscroll-behavior: none;
+        }
+
+        #app {
+            max-width: 100%;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Loader Page */
+        .loader-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader-page.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            box-shadow: 0 12px 40px rgba(58, 54, 224, 0.3);
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { transform: scale(1); box-shadow: 0 12px 40px rgba(58, 54, 224, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 16px 50px rgba(58, 54, 224, 0.4); }
+        }
+
+        .loader-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .loader-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
+        }
+
+        .loader-description {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+
+        .xp-loader-container {
+            width: 280px;
+            max-width: 80%;
+        }
+
+        .xp-loader-bar-bg {
+            background: #e9ecef;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        .xp-loader-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 50%, var(--success) 100%);
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 20px rgba(58, 54, 224, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .xp-loader-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .xp-loader-percentage {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Main App */
+        .main-app {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            background: var(--light-bg);
+        }
+
+        .main-app.show {
+            display: flex;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 16px 20px;
+            padding-top: max(16px, var(--safe-top));
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(58, 54, 224, 0.3);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 20px;
+            padding-bottom: calc(20px + var(--safe-bottom));
+        }
+
+        .welcome-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .welcome-subtitle {
+            font-size: 0.95rem;
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        /* Sections Grid */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .section-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .section-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .section-content {
+            padding: 20px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--success);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .section-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .section-arrow-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .section-arrow-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: all 0.2s;
+        }
+
+        .section-card:active .section-arrow-icon {
+            background: var(--primary);
+            color: white;
+            transform: translateX(4px);
+        }
+
+        /* Hot Tag */
+        .hot-tag {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(238, 90, 111, 0.3);
+            animation: pulse-hot 2s infinite;
+        }
+
+        @keyframes pulse-hot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 2000;
+            pointer-events: none;
+            text-align: center;
+            max-width: 85%;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Mobile optimizations */
+        @supports (-webkit-touch-callout: none) {
+            .section-card {
+                transform: translateZ(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loader Page -->
+    <div class="loader-page" id="loaderPage">
+        <div class="loader-icon">
+            <i class="fas fa-coins"></i>
+        </div>
+        <div class="loader-text">Silly Money</div>
+        <div class="loader-description">Earn Silly Money</div>
+        
+        <div class="xp-loader-container">
+            <div class="xp-loader-bar-bg">
+                <div class="xp-loader-bar-fill" id="loaderBar"></div>
+            </div>
+            <div class="xp-loader-percentage" id="loaderPercent">0%</div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="main-app" id="mainApp">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-coins"></i>
+                <span>Silly Money</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <h1 class="welcome-title">Choose Your Path</h1>
+            <p class="welcome-subtitle">Select a section to start earning rewards</p>
+
+            <div class="sections-grid">
+                <!-- Click to Earn Section -->
+                <div class="section-card" onclick="openSection('https://hivas-ai.github.io/Silly-Money/clicktoearn')">
+                    <div class="hot-tag">Popular</div>
+                    <img src="./Clicktoearn.jpg" alt="Click to Earn" class="section-image" onerror="this.style.background='linear-gradient(135deg, #667eea 0%, #764ba2 100%)'">
+                    <div class="section-content">
+                        <div class="section-badge">
+                            <i class="fas fa-bolt"></i> Instant
+                        </div>
+                        <h2 class="section-title">
+                            <i class="fas fa-hand-pointer" style="color: var(--primary);"></i>
+                            Click to Earn
+                        </h2>
+                        <p class="section-description">
+                            Tap your way to earnings! Click the button to earn instant rewards with every tap. Level up and unlock bigger payouts.
+                        </p>
+                        <div class="section-arrow">
+                            <span class="section-arrow-text">Start Clicking</span>
+                            <div class="section-arrow-icon">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- USDT Miner Section -->
+                <div class="section-card" onclick="openSection('https://hivas-ai.github.io/Silly-Money/usdt')">
+                    <img src="./usdt.jpg" alt="USDT Miner" class="section-image" onerror="this.style.background='linear-gradient(135deg, #10b981 0%, #059669 100%)'">
+                    <div class="section-content">
+                        <div class="section-badge" style="background: var(--warning);">
+                            <i class="fas fa-gem"></i> Premium
+                        </div>
+                        <h2 class="section-title">
+                            <i class="fas fa-coins" style="color: var(--success);"></i>
+                            USDT Miner
+                        </h2>
+                        <p class="section-description">
+                            Mine USDT automatically! Set up your mining operation and watch your crypto earnings grow passively over time.
+                        </p>
+                        <div class="section-arrow">
+                            <span class="section-arrow-text">Start Mining</span>
+                            <div class="section-arrow-icon">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Card -->
+            <div style="background: white; border-radius: 20px; padding: 20px; margin-top: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; color: var(--dark);">
+                    <i class="fas fa-chart-pie" style="color: var(--primary); margin-right: 8px;"></i>
+                    Quick Stats
+                </h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div style="text-align: center; padding: 16px; background: var(--light-bg); border-radius: 16px;">
+                        <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 4px;">2</div>
+                        <div style="font-size: 0.8rem; color: var(--gray); font-weight: 600;">Active Sections</div>
+                    </div>
+                    <div style="text-align: center; padding: 16px; background: var(--light-bg); border-radius: 16px;">
+                        <div style="font-size: 1.8rem; font-weight: 800; color: var(--success); margin-bottom: 4px;">$50+</div>
+                        <div style="font-size: 0.8rem; color: var(--gray); font-weight: 600;">Max Earnings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Loader Animation
+        let currentPercent = 0;
+        const loaderBar = document.getElementById('loaderBar');
+        const loaderPercent = document.getElementById('loaderPercent');
+
+        function updateLoader(target, duration, callback) {
+            const start = currentPercent;
+            const startTime = Date.now();
+
+            function animate() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                currentPercent = start + (target - start) * easeOutQuart;
+                
+                loaderBar.style.width = currentPercent + '%';
+                loaderPercent.textContent = Math.floor(currentPercent) + '%';
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    currentPercent = target;
+                    if (callback) callback();
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Start loader sequence and auto-transition
+        setTimeout(() => {
+            updateLoader(58, 600, () => {
+                setTimeout(() => {
+                    updateLoader(95, 800, () => {
+                        setTimeout(() => {
+                            updateLoader(100, 400, () => {
+                                // Auto transition to main app after loader completes
+                                setTimeout(() => {
+                                    showMainApp();
+                                }, 300);
+                            });
+                        }, 200);
+                    });
+                }, 300);
+            });
+        }, 500);
+
+        function showMainApp() {
+            document.getElementById('loaderPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.add('show');
+            if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+        }
+
+        function openSection(url) {
+            if (navigator.vibrate) navigator.vibrate(40);
+            window.location.href = url;
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // Mobile optimizations
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('dblclick', e => e.preventDefault());
+        
+        let lastTouch = 0;
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if (now - lastTouch <= 300) e.preventDefault();
+            lastTouch = now;
+        }, {passive: false});
+    </script>
+
+</body>
+</html>
