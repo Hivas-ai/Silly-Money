@@ -1,1 +1,2372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>USDT Miner Pro | Manual Mining Control</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #26a17b;
+            --primary-dark: #1e8b68;
+            --primary-light: #2ecc71;
+            --secondary: #f8f9fa;
+            --dark: #121826;
+            --light: #ffffff;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --usdt: #26a17b;
+            --mining: #00d4aa;
+            --shadow: 0 4px 20px rgba(38, 161, 123, 0.15);
+            --shadow-lg: 0 10px 40px rgba(38, 161, 123, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 60px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(38, 161, 123, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        .user-balance-mini {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .user-balance-mini:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0 16px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 6px 16px;
+            border-radius: 12px;
+            border: none;
+            background: none;
+            outline: none;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(38, 161, 123, 0.1);
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+            padding-bottom: 100px;
+            min-height: calc(100vh - 180px);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mining Control Card */
+        .mining-control-card {
+            background: linear-gradient(135deg, rgba(38, 161, 123, 0.1) 0%, rgba(255,255,255,0.9) 100%);
+            border: 2px solid rgba(38, 161, 123, 0.3);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mining-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border: 2px solid rgba(239, 68, 68, 0.2);
+            transition: var(--transition);
+        }
+
+        .mining-status.active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border-color: rgba(16, 185, 129, 0.3);
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.2); }
+        }
+
+        .mining-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0%, var(--primary-dark) 25%, #e9ecef 25%, #e9ecef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .mining-circle.mining {
+            animation: rotate 3s linear infinite;
+            box-shadow: 0 0 60px rgba(38, 161, 123, 0.4);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .mining-inner {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hash-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .hash-unit {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .mining-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .mining-btn.start {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .mining-btn.stop {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .mining-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .mining-btn:active {
+            transform: scale(0.98);
+        }
+
+        .earnings-display {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .earnings-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .earnings-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .last-mine {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 10px;
+        }
+
+        .last-mine span {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Speed Control */
+        .speed-control {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .speed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .speed-title {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .speed-value {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .speed-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(38, 161, 123, 0.3);
+            transition: var(--transition);
+        }
+
+        .speed-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .speed-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        /* Task Offers */
+        .offer-container {
+            margin-bottom: 15px;
+        }
+
+        .offer-box {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-box.active-offer {
+            border-color: var(--success);
+            cursor: pointer;
+        }
+
+        .offer-box.active-offer:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .offer-box.locked-offer {
+            opacity: 0.7;
+            background: #f8f9fa;
+            border-color: var(--gray-light);
+            cursor: not-allowed;
+        }
+
+        .offer-box.completed-offer {
+            border-color: var(--success);
+            background: #f0fff4;
+            cursor: default;
+        }
+
+        .hot-banner {
+            position: absolute;
+            top: 12px;
+            right: -30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 5px 35px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 10px rgba(238, 90, 111, 0.4);
+            z-index: 1;
+        }
+
+        .offer-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .offer-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .offer-box.active-offer .offer-icon {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
+        }
+
+        .offer-title-section {
+            flex: 1;
+        }
+
+        .offer-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 3px;
+        }
+
+        .offer-subtitle {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .offer-reward {
+            text-align: right;
+        }
+
+        .reward-amount {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--success);
+            line-height: 1;
+        }
+
+        .reward-label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .offer-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: 12px;
+            padding-left: 70px;
+        }
+
+        .offer-requirement {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-left: 70px;
+        }
+
+        .offer-box.locked-offer .offer-requirement {
+            background: var(--gray);
+        }
+
+        .offer-box.completed-offer .offer-requirement {
+            background: var(--success);
+        }
+
+        .lock-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: var(--gray-light);
+            z-index: 2;
+        }
+
+        .check-icon {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: var(--success);
+            z-index: 2;
+        }
+
+        /* Booster Cards */
+        .booster-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .booster-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .booster-card:hover:not(.disabled) {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .booster-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .booster-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .booster-icon.speed { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .booster-icon.power { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .booster-icon.golden { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+        .booster-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            color: var(--dark);
+        }
+
+        .booster-multiplier {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .booster-duration {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(38, 161, 123, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .booster-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Wallet */
+        .balance-display {
+            background: linear-gradient(135deg, rgba(38, 161, 123, 0.1) 0%, rgba(255,255,255,0.9) 100%);
+            border: 2px solid rgba(38, 161, 123, 0.3);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .balance-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .balance-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .balance-currency {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            outline: none;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(38, 161, 123, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--gray);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0,0,0,0.05);
+            color: var(--gray);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .modal-close:hover {
+            background: rgba(0,0,0,0.1);
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .task-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .task-option {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .task-option:hover {
+            border-color: var(--primary);
+            background: rgba(38, 161, 123, 0.05);
+        }
+
+        .task-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .task-reward {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            color: var(--dark);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+        }
+
+        .summary-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+
+        .summary-label {
+            color: var(--gray);
+        }
+
+        .summary-value {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--dark);
+        }
+
+        .summary-value.negative { color: var(--danger); }
+        .summary-value.positive { color: var(--success); }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: white;
+            color: var(--dark);
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastIn 0.3s ease;
+            min-width: 280px;
+            pointer-events: auto;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast.success { border-left: 4px solid var(--success); }
+        .toast.error { border-left: 4px solid var(--danger); }
+        .toast.warning { border-left: 4px solid var(--warning); }
+        .toast.info { border-left: 4px solid var(--info); }
+
+        .toast-icon {
+            font-size: 1.2rem;
+        }
+
+        .toast.success .toast-icon { color: var(--success); }
+        .toast.error .toast-icon { color: var(--danger); }
+        .toast.warning .toast-icon { color: var(--warning); }
+        .toast.info .toast-icon { color: var(--info); }
+
+        /* Warning Box */
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-left: 4px solid var(--warning);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: var(--dark);
+        }
+
+        .warning-box strong {
+            color: var(--danger);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--info);
+        }
+
+        .info-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .info-title i {
+            color: var(--info);
+        }
+
+        /* Progress */
+        .progress-section {
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .progress-label {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .progress-value {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--mining));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        /* Transaction List */
+        .tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tx-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .tx-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .tx-icon.income { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .tx-icon.outcome { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .tx-details {
+            flex: 1;
+        }
+
+        .tx-type {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .tx-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .tx-amount {
+            text-align: right;
+        }
+
+        .tx-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .tx-value.in { color: var(--success); }
+        .tx-value.out { color: var(--danger); }
+
+        .tx-status {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-text {
+            font-size: 0.95rem;
+        }
+
+        /* Active Booster Card */
+        .active-booster-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .active-booster-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .active-booster-info {
+            flex: 1;
+        }
+
+        .active-booster-name {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+
+        .active-booster-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(38, 161, 123, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(38, 161, 123, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-cube"></i>
+                <span>USDT Miner Pro</span>
+            </div>
+            <div class="user-balance-mini" onclick="switchTab('wallet')">
+                <i class="fas fa-wallet"></i> $<span id="headerBalance">0.00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MINING SECTION -->
+    <section id="mineSection" class="content-section active">
+        <!-- Mining Control -->
+        <div class="mining-control-card">
+            <div class="mining-status" id="miningStatus">
+                <i class="fas fa-circle"></i>
+                <span>MINING STOPPED</span>
+            </div>
+
+            <div class="mining-circle" id="miningCircle">
+                <div class="mining-inner">
+                    <div class="hash-display" id="hashDisplay">0.0</div>
+                    <div class="hash-unit">GH/s</div>
+                </div>
+            </div>
+
+            <button class="mining-btn start" id="miningBtn" onclick="toggleMining()">
+                <i class="fas fa-play"></i> START MINING
+            </button>
+
+            <div class="earnings-display">
+                <div class="earnings-label">Session Earnings</div>
+                <div class="earnings-value" id="sessionEarnings">$0.0000</div>
+                <div class="last-mine">Last mined: <span id="lastMine">-</span></div>
+            </div>
+        </div>
+
+        <!-- Speed Control -->
+        <div class="speed-control">
+            <div class="speed-header">
+                <span class="speed-title">Mining Intensity</span>
+                <span class="speed-value" id="speedValue">50%</span>
+            </div>
+            <input type="range" class="speed-slider" id="speedSlider" min="10" max="100" value="50" oninput="updateSpeed(this.value)">
+            <div class="speed-labels">
+                <span>Eco (10%)</span>
+                <span>Balanced</span>
+                <span>Max (100%)</span>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">Total Mined</div>
+                <div class="stat-value" id="totalMined">$0.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Mining Time</div>
+                <div class="stat-value" id="miningTime">00:00:00</div>
+            </div>
+        </div>
+
+        <!-- Active Boosters -->
+        <div class="card" id="activeBoostersCard" style="display: none;">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-fire" style="color: var(--warning);"></i>
+                    Active Boosters
+                </div>
+            </div>
+            <div id="activeBoostersList"></div>
+        </div>
+    </section>
+
+    <!-- EARN SECTION -->
+    <section id="earnSection" class="content-section">
+        <div class="warning-box">
+            <strong><i class="fas fa-exclamation-triangle"></i> TASK SYSTEM</strong>
+            Complete offers to earn boosters and USDT rewards. Each offer unlocks the next tier.
+        </div>
+
+        <!-- Boosters -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-bolt" style="color: var(--warning);"></i>
+                    Your Boosters
+                </div>
+                <span style="font-size: 0.8rem; color: var(--gray);">Tap to activate</span>
+            </div>
+            <div class="booster-grid" id="boosterGrid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <span class="progress-label">Task Progress</span>
+                <span class="progress-value"><span id="completedTasks">0</span>/6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="taskProgress" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Offer 1 -->
+        <div class="offer-container">
+            <div class="offer-box active-offer" id="offer1" onclick="openTaskModal(1)">
+                <div class="hot-banner">HOT</div>
+                <div class="offer-header">
+                    <div class="offer-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="offer-title-section">
+                        <div class="offer-title">Speed Booster Pack</div>
+                        <div class="offer-subtitle">2x for 2 hours + $2 USDT</div>
+                    </div>
+                    <div class="offer-reward">
+                        <div class="reward-amount">+$2</div>
+                        <div class="reward-label">USDT</div>
+                    </div>
+                </div>
+                <div class="offer-description">Complete <strong>1 task</strong> to unlock Speed Booster + $2 bonus.</div>
+                <div class="offer-requirement"><i class="fas fa-check-circle"></i> Complete 1 Task</div>
+            </div>
+        </div>
+
+        <!-- Offer 2 -->
+        <div class="offer-container">
+            <div class="offer-box locked-offer" id="offer2" onclick="return false;">
+                <div class="offer-header">
+                    <div class="offer-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);"><i class="fas fa-battery-full"></i></div>
+                    <div class="offer-title-section">
+                        <div class="offer-title">Power Booster Pack</div>
+                        <div class="offer-subtitle">3x for 3 hours + $5 USDT</div>
+                    </div>
+                    <div class="offer-reward">
+                        <div class="reward-amount" style="color: var(--warning);">+$5</div>
+                        <div class="reward-label">USDT</div>
+                    </div>
+                </div>
+                <div class="offer-description">Complete <strong>2 tasks</strong> to unlock Power Booster + $5 bonus.</div>
+                <div class="offer-requirement"><i class="fas fa-lock"></i> Need Offer 1</div>
+                <i class="fas fa-lock lock-icon"></i>
+            </div>
+        </div>
+
+        <!-- Offer 3 -->
+        <div class="offer-container">
+            <div class="offer-box locked-offer" id="offer3" onclick="return false;">
+                <div class="offer-header">
+                    <div class="offer-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fas fa-crown"></i></div>
+                    <div class="offer-title-section">
+                        <div class="offer-title">Golden Booster Pack</div>
+                        <div class="offer-subtitle">5x for 4 hours + $10 USDT</div>
+                    </div>
+                    <div class="offer-reward">
+                        <div class="reward-amount" style="color: var(--danger);">+$10</div>
+                        <div class="reward-label">USDT</div>
+                    </div>
+                </div>
+                <div class="offer-description">Complete <strong>3 tasks</strong> to unlock Golden Booster + $10 bonus.</div>
+                <div class="offer-requirement"><i class="fas fa-lock"></i> Need Offer 2</div>
+                <i class="fas fa-lock lock-icon"></i>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-title"><i class="fas fa-info-circle"></i> How It Works</div>
+            <ol style="font-size: 0.85rem; color: var(--gray); padding-left: 18px; line-height: 1.8;">
+                <li>Click <strong>active offer</strong> (green border)</li>
+                <li>Complete task on partner site</li>
+                <li>Return to claim booster + USDT</li>
+                <li>Activate boosters in Mining tab</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- WALLET SECTION -->
+    <section id="walletSection" class="content-section">
+        <div class="balance-display">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount" id="mainBalance">0.00</div>
+            <div class="balance-currency">USDT (TRC-20)</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-label">Total Mined</div>
+                <div class="stat-value" id="walletTotalMined">$0.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Task Rewards</div>
+                <div class="stat-value" style="color: var(--warning);" id="walletTaskRewards">$0.00</div>
+            </div>
+        </div>
+
+        <button class="btn-primary" id="withdrawBtn" onclick="openWithdrawModal()" disabled>
+            <i class="fas fa-lock"></i> Min 50 USDT Required
+        </button>
+
+        <div class="card" style="margin-top: 20px;">
+            <div class="card-header">
+                <div class="card-title">
+                    <i class="fas fa-history"></i>
+                    Transaction History
+                </div>
+            </div>
+            <div id="transactionList">
+                <div class="empty-state">
+                    <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+                    <div class="empty-text">No transactions yet</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('mine')" id="nav-mine">
+            <i class="fas fa-microchip"></i>
+            <span>Mine</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('earn')" id="nav-earn">
+            <i class="fas fa-tasks"></i>
+            <span>Earn</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('wallet')" id="nav-wallet">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </button>
+    </nav>
+</div>
+
+<!-- Task Modal -->
+<div class="modal-overlay" id="taskModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title"><i class="fas fa-tasks" style="color: var(--success);"></i> Select Task</div>
+            <button class="modal-close" onclick="closeTaskModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 15px; color: var(--gray);">Complete <strong id="tasksNeeded">1</strong> task(s):</p>
+            <div class="task-options" id="taskOptions"></div>
+            <div class="warning-box" style="margin-top: 15px;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Warning:</strong> Must complete fully. Partial = no reward.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booster Modal -->
+<div class="modal-overlay" id="boosterModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title"><i class="fas fa-bolt" style="color: var(--warning);"></i> Activate Booster</div>
+            <button class="modal-close" onclick="closeBoosterModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div id="boosterIcon" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;"></div>
+                <h3 id="boosterName" style="margin-bottom: 5px; color: var(--dark);"></h3>
+                <p id="boosterDesc" style="color: var(--gray); font-size: 0.9rem;"></p>
+            </div>
+            <button class="btn-primary" style="background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);" onclick="confirmActivateBooster()">
+                <i class="fas fa-rocket"></i> Activate Now
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Withdraw Modal -->
+<div class="modal-overlay" id="withdrawModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title"><i class="fas fa-paper-plane" style="color: var(--primary);"></i> Withdraw USDT</div>
+            <button class="modal-close" onclick="closeWithdrawModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="input-group">
+                <label class="input-label">TRC-20 Wallet Address</label>
+                <input type="text" class="input-field" id="withdrawAddress" placeholder="T...">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Amount (USDT)</label>
+                <input type="number" class="input-field" id="withdrawAmount" min="50" step="0.01" placeholder="50.00">
+            </div>
+            <div class="summary-box">
+                <div class="summary-row"><span class="summary-label">Available</span><span class="summary-value" id="modalBalance">0.00 USDT</span></div>
+                <div class="summary-row"><span class="summary-label">Network Fee</span><span class="summary-value negative">-1.00 USDT</span></div>
+                <div class="summary-row"><span class="summary-label">You Receive</span><span class="summary-value positive" id="receiveAmount">0.00 USDT</span></div>
+            </div>
+            <button class="btn-primary" onclick="processWithdrawal()">
+                <i class="fas fa-check-circle"></i> Confirm Withdrawal
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// Application State
+const AppState = {
+    balance: 0,
+    totalMined: 0,
+    sessionEarnings: 0,
+    taskEarnings: 0,
+    isMining: false,
+    miningSpeed: 50,
+    miningInterval: null,
+    sessionTime: 0,
+    lastMineAmount: 0,
+    
+    inventory: { speed: 0, power: 0, golden: 0 },
+    activeBoosters: [],
+    
+    offersCompleted: { 1: false, 2: false, 3: false },
+    currentOfferTasks: { 1: 0, 2: 0, 3: 0 },
+    totalTasksCompleted: 0,
+    
+    transactions: []
+};
+
+const BOOSTERS = {
+    speed: { name: 'Speed Booster', multiplier: 2, duration: 2 * 60 * 60 * 1000, icon: 'fa-bolt', color: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', desc: '2x hash rate for 2 hours' },
+    power: { name: 'Power Booster', multiplier: 3, duration: 3 * 60 * 60 * 1000, icon: 'fa-battery-full', color: 'linear-gradient(135deg, #8b5cf6, #6d28d9)', desc: '3x hash rate for 3 hours' },
+    golden: { name: 'Golden Booster', multiplier: 5, duration: 4 * 60 * 60 * 1000, icon: 'fa-crown', color: 'linear-gradient(135deg, #f59e0b, #d97706)', desc: '5x hash rate for 4 hours' }
+};
+
+const TASKS = [
+    { id: 'survey1', name: 'Quick Survey (3 min)', reward: 0.50, icon: 'fa-poll', color: '#3b82f6' },
+    { id: 'app1', name: 'Install App + Open', reward: 0.40, icon: 'fa-mobile-alt', color: '#10b981' },
+    { id: 'signup1', name: 'Email Sign Up', reward: 0.60, icon: 'fa-envelope', color: '#f59e0b' },
+    { id: 'game1', name: 'Reach Level 2', reward: 0.70, icon: 'fa-gamepad', color: '#8b5cf6' },
+    { id: 'video1', name: 'Watch 2 Videos', reward: 0.30, icon: 'fa-video', color: '#ef4444' }
+];
+
+let currentOffer = null;
+let selectedBooster = null;
+let globalTimer = null;
+
+// Initialize
+function init() {
+    loadState();
+    
+    // Clean up any existing intervals
+    if (globalTimer) clearInterval(globalTimer);
+    if (AppState.miningInterval) clearInterval(AppState.miningInterval);
+    
+    // Reset mining state on load (safety)
+    AppState.isMining = false;
+    AppState.miningInterval = null;
+    
+    // Start global timer
+    globalTimer = setInterval(updateGlobalTimer, 1000);
+    
+    renderBoosters();
+    updateOffersUI();
+    updateUI();
+    
+    // Setup input listener for withdraw amount
+    const withdrawInput = document.getElementById('withdrawAmount');
+    if (withdrawInput) {
+        withdrawInput.addEventListener('input', function() {
+            const amt = parseFloat(this.value) || 0;
+            const receiveEl = document.getElementById('receiveAmount');
+            if (receiveEl) {
+                receiveEl.textContent = Math.max(0, amt - 1).toFixed(2) + ' USDT';
+            }
+        });
+    }
+    
+    console.log('USDT Miner Pro initialized');
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem('usdtMinerPro_v3');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            
+            // Restore state but keep certain values fresh
+            AppState.balance = parsed.balance || 0;
+            AppState.totalMined = parsed.totalMined || 0;
+            AppState.taskEarnings = parsed.taskEarnings || 0;
+            AppState.inventory = parsed.inventory || { speed: 0, power: 0, golden: 0 };
+            AppState.offersCompleted = parsed.offersCompleted || { 1: false, 2: false, 3: false };
+            AppState.currentOfferTasks = parsed.currentOfferTasks || { 1: 0, 2: 0, 3: 0 };
+            AppState.totalTasksCompleted = parsed.totalTasksCompleted || 0;
+            AppState.transactions = parsed.transactions || [];
+            AppState.miningSpeed = parsed.miningSpeed || 50;
+            
+            // Clean expired boosters
+            const now = Date.now();
+            AppState.activeBoosters = (parsed.activeBoosters || []).filter(b => b.endTime > now);
+            
+            // Update speed slider
+            const slider = document.getElementById('speedSlider');
+            if (slider) slider.value = AppState.miningSpeed;
+        }
+    } catch (e) {
+        console.error('Load state error:', e);
+    }
+}
+
+function saveState() {
+    try {
+        localStorage.setItem('usdtMinerPro_v3', JSON.stringify({
+            balance: AppState.balance,
+            totalMined: AppState.totalMined,
+            taskEarnings: AppState.taskEarnings,
+            inventory: AppState.inventory,
+            activeBoosters: AppState.activeBoosters,
+            offersCompleted: AppState.offersCompleted,
+            currentOfferTasks: AppState.currentOfferTasks,
+            totalTasksCompleted: AppState.totalTasksCompleted,
+            transactions: AppState.transactions,
+            miningSpeed: AppState.miningSpeed
+        }));
+    } catch (e) {
+        console.error('Save state error:', e);
+    }
+}
+
+// Mining Functions
+function toggleMining() {
+    if (AppState.isMining) {
+        stopMining();
+    } else {
+        startMining();
+    }
+}
+
+function startMining() {
+    if (AppState.isMining) return; // Prevent double start
+    
+    AppState.isMining = true;
+    AppState.sessionEarnings = 0;
+    AppState.sessionTime = 0;
+    
+    // Update UI
+    const statusEl = document.getElementById('miningStatus');
+    const circleEl = document.getElementById('miningCircle');
+    const btn = document.getElementById('miningBtn');
+    
+    if (statusEl) {
+        statusEl.classList.add('active');
+        statusEl.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i><span>MINING ACTIVE</span>';
+    }
+    
+    if (circleEl) circleEl.classList.add('mining');
+    
+    if (btn) {
+        btn.className = 'mining-btn stop';
+        btn.innerHTML = '<i class="fas fa-stop"></i> STOP MINING';
+    }
+    
+    // Calculate and start mining interval
+    const interval = calculateMiningInterval();
+    AppState.miningInterval = setInterval(mineTick, interval);
+    
+    showToast('Mining started!', 'success');
+    updateUI();
+    saveState();
+}
+
+function stopMining() {
+    if (!AppState.isMining) return;
+    
+    AppState.isMining = false;
+    clearInterval(AppState.miningInterval);
+    AppState.miningInterval = null;
+    
+    // Update UI
+    const statusEl = document.getElementById('miningStatus');
+    const circleEl = document.getElementById('miningCircle');
+    const btn = document.getElementById('miningBtn');
+    const hashEl = document.getElementById('hashDisplay');
+    
+    if (statusEl) {
+        statusEl.classList.remove('active');
+        statusEl.innerHTML = '<i class="fas fa-circle"></i><span>MINING STOPPED</span>';
+    }
+    
+    if (circleEl) circleEl.classList.remove('mining');
+    
+    if (btn) {
+        btn.className = 'mining-btn start';
+        btn.innerHTML = '<i class="fas fa-play"></i> START MINING';
+    }
+    
+    if (hashEl) hashEl.textContent = '0.0';
+    
+    showToast('Mining stopped. Session saved.', 'warning');
+    saveState();
+}
+
+function calculateMiningInterval() {
+    // 10% speed = 10 seconds, 100% speed = 1 second
+    const minInterval = 1000;
+    const maxInterval = 10000;
+    const speedFactor = AppState.miningSpeed / 100;
+    return Math.round(maxInterval - (speedFactor * (maxInterval - minInterval)));
+}
+
+function mineTick() {
+    // Calculate earnings: 0.01 to 0.20 based on speed and randomness
+    const speedBonus = (AppState.miningSpeed / 100) * 0.05;
+    const min = 0.01;
+    const max = 0.20 + speedBonus;
+    
+    // Weighted random
+    const rand = Math.random();
+    let amount;
+    if (rand < 0.5) {
+        amount = min + Math.random() * 0.04; // 0.01-0.05
+    } else if (rand < 0.8) {
+        amount = 0.05 + Math.random() * 0.05; // 0.05-0.10
+    } else if (rand < 0.95) {
+        amount = 0.10 + Math.random() * 0.05; // 0.10-0.15
+    } else {
+        amount = 0.15 + Math.random() * 0.05; // 0.15-0.20
+    }
+    
+    // Apply boosters
+    let multiplier = 1;
+    AppState.activeBoosters.forEach(b => {
+        multiplier += (b.multiplier - 1);
+    });
+    
+    const finalAmount = amount * multiplier;
+    
+    // Update state
+    AppState.balance += finalAmount;
+    AppState.totalMined += finalAmount;
+    AppState.sessionEarnings += finalAmount;
+    AppState.lastMineAmount = finalAmount;
+    
+    // Update UI
+    const lastMineEl = document.getElementById('lastMine');
+    const hashEl = document.getElementById('hashDisplay');
+    const earningsEl = document.getElementById('sessionEarnings');
+    
+    if (lastMineEl) lastMineEl.textContent = '$' + finalAmount.toFixed(4);
+    if (hashEl) hashEl.textContent = (25 * multiplier).toFixed(1);
+    if (earningsEl) {
+        earningsEl.textContent = '$' + AppState.sessionEarnings.toFixed(4);
+        pulseElement(earningsEl);
+    }
+    
+    saveState();
+    updateUI();
+}
+
+function pulseElement(el) {
+    el.style.transform = 'scale(1.05)';
+    el.style.color = 'var(--success)';
+    setTimeout(() => {
+        el.style.transform = 'scale(1)';
+        el.style.color = 'var(--primary)';
+    }, 200);
+}
+
+function updateSpeed(value) {
+    AppState.miningSpeed = parseInt(value);
+    
+    const speedValueEl = document.getElementById('speedValue');
+    if (speedValueEl) speedValueEl.textContent = value + '%';
+    
+    // Restart mining with new speed if active
+    if (AppState.isMining) {
+        clearInterval(AppState.miningInterval);
+        const interval = calculateMiningInterval();
+        AppState.miningInterval = setInterval(mineTick, interval);
+    }
+    
+    saveState();
+}
+
+function updateGlobalTimer() {
+    // Update session time
+    if (AppState.isMining) {
+        AppState.sessionTime++;
+        
+        const hours = Math.floor(AppState.sessionTime / 3600);
+        const mins = Math.floor((AppState.sessionTime % 3600) / 60);
+        const secs = AppState.sessionTime % 60;
+        
+        const timeStr = `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        
+        const miningTimeEl = document.getElementById('miningTime');
+        if (miningTimeEl) miningTimeEl.textContent = timeStr;
+    }
+    
+    // Check expired boosters
+    const now = Date.now();
+    const beforeCount = AppState.activeBoosters.length;
+    AppState.activeBoosters = AppState.activeBoosters.filter(b => b.endTime > now);
+    
+    if (AppState.activeBoosters.length < beforeCount) {
+        updateActiveBoosters();
+        renderBoosters();
+        if (AppState.isMining) {
+            showToast('A booster has expired', 'warning');
+        }
+        saveState();
+    }
+    
+    // Update active boosters display
+    updateActiveBoosters();
+    
+    // Update hash display if mining
+    if (AppState.isMining) {
+        let multiplier = 1;
+        AppState.activeBoosters.forEach(b => multiplier += (b.multiplier - 1));
+        const hashEl = document.getElementById('hashDisplay');
+        if (hashEl) hashEl.textContent = (25 * multiplier).toFixed(1);
+    }
+}
+
+function updateActiveBoosters() {
+    const container = document.getElementById('activeBoostersList');
+    const card = document.getElementById('activeBoostersCard');
+    
+    if (!container || !card) return;
+    
+    if (AppState.activeBoosters.length === 0) {
+        card.style.display = 'none';
+        return;
+    }
+    
+    card.style.display = 'block';
+    const now = Date.now();
+    
+    container.innerHTML = AppState.activeBoosters.map(b => {
+        const remaining = Math.ceil((b.endTime - now) / 60000);
+        const booster = BOOSTERS[b.type];
+        return `
+            <div class="active-booster-item">
+                <div class="active-booster-icon" style="background: ${booster.color};">
+                    <i class="fas ${booster.icon}"></i>
+                </div>
+                <div class="active-booster-info">
+                    <div class="active-booster-name">${booster.name}</div>
+                    <div class="active-booster-time">${b.multiplier}x active • ${remaining}m left</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Booster Functions
+function renderBoosters() {
+    const container = document.getElementById('boosterGrid');
+    if (!container) return;
+    
+    container.innerHTML = Object.entries(BOOSTERS).map(([type, booster]) => {
+        const count = AppState.inventory[type] || 0;
+        const hasBoosters = count > 0;
+        
+        return `
+            <div class="booster-card ${!hasBoosters ? 'disabled' : ''}" 
+                 onclick="${hasBoosters ? `openBoosterModal('${type}')` : ''}">
+                ${hasBoosters ? `<div class="booster-count">${count}</div>` : ''}
+                <div class="booster-icon ${type}" style="background: ${booster.color}">
+                    <i class="fas ${booster.icon}"></i>
+                </div>
+                <div class="booster-name">${booster.name}</div>
+                <div class="booster-multiplier">${booster.multiplier}x Multiplier</div>
+                <div class="booster-duration">${booster.duration / 3600000}h duration</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function openBoosterModal(type) {
+    if ((AppState.inventory[type] || 0) <= 0) return;
+    
+    selectedBooster = type;
+    const booster = BOOSTERS[type];
+    
+    const iconEl = document.getElementById('boosterIcon');
+    const nameEl = document.getElementById('boosterName');
+    const descEl = document.getElementById('boosterDesc');
+    
+    if (iconEl) {
+        iconEl.style.background = booster.color;
+        iconEl.innerHTML = `<i class="fas ${booster.icon}"></i>`;
+    }
+    if (nameEl) nameEl.textContent = booster.name;
+    if (descEl) descEl.textContent = booster.desc;
+    
+    const modal = document.getElementById('boosterModal');
+    if (modal) modal.classList.add('active');
+}
+
+function closeBoosterModal() {
+    const modal = document.getElementById('boosterModal');
+    if (modal) modal.classList.remove('active');
+    selectedBooster = null;
+}
+
+function confirmActivateBooster() {
+    if (!selectedBooster || (AppState.inventory[selectedBooster] || 0) <= 0) {
+        closeBoosterModal();
+        return;
+    }
+    
+    const booster = BOOSTERS[selectedBooster];
+    
+    // Remove from inventory
+    AppState.inventory[selectedBooster]--;
+    
+    // Add to active
+    AppState.activeBoosters.push({
+        type: selectedBooster,
+        multiplier: booster.multiplier,
+        endTime: Date.now() + booster.duration
+    });
+    
+    closeBoosterModal();
+    showToast(`${booster.name} activated!`, 'success');
+    
+    // Update displays
+    renderBoosters();
+    updateActiveBoosters();
+    
+    // Update hash if mining
+    if (AppState.isMining) {
+        let multiplier = 1;
+        AppState.activeBoosters.forEach(b => multiplier += (b.multiplier - 1));
+        const hashEl = document.getElementById('hashDisplay');
+        if (hashEl) hashEl.textContent = (25 * multiplier).toFixed(1);
+    }
+    
+    saveState();
+}
+
+// Task Functions
+function updateOffersUI() {
+    const completedEl = document.getElementById('completedTasks');
+    const progressEl = document.getElementById('taskProgress');
+    
+    if (completedEl) completedEl.textContent = AppState.totalTasksCompleted;
+    if (progressEl) {
+        const progress = Math.min((AppState.totalTasksCompleted / 6) * 100, 100);
+        progressEl.style.width = `${progress}%`;
+    }
+    
+    // Offer 1
+    const offer1 = document.getElementById('offer1');
+    if (offer1) {
+        if (AppState.offersCompleted[1]) {
+            offer1.className = 'offer-box completed-offer';
+            offer1.onclick = null;
+            const req = offer1.querySelector('.offer-requirement');
+            if (req) req.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+            const banner = offer1.querySelector('.hot-banner');
+            if (banner) banner.remove();
+            if (!offer1.querySelector('.check-icon')) {
+                offer1.innerHTML += '<i class="fas fa-check-circle check-icon"></i>';
+            }
+        }
+    }
+    
+    // Offer 2
+    const offer2 = document.getElementById('offer2');
+    if (offer2) {
+        if (AppState.offersCompleted[1]) {
+            if (AppState.offersCompleted[2]) {
+                offer2.className = 'offer-box completed-offer';
+                const req = offer2.querySelector('.offer-requirement');
+                if (req) req.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+                if (!offer2.querySelector('.check-icon')) {
+                    offer2.innerHTML += '<i class="fas fa-check-circle check-icon"></i>';
+                }
+            } else {
+                offer2.className = 'offer-box active-offer';
+                offer2.onclick = function() { openTaskModal(2); };
+                const req = offer2.querySelector('.offer-requirement');
+                if (req) req.innerHTML = '<i class="fas fa-play-circle"></i> Complete 2 Tasks';
+                const lock = offer2.querySelector('.lock-icon');
+                if (lock) lock.remove();
+            }
+        }
+    }
+    
+    // Offer 3
+    const offer3 = document.getElementById('offer3');
+    if (offer3) {
+        if (AppState.offersCompleted[2]) {
+            if (AppState.offersCompleted[3]) {
+                offer3.className = 'offer-box completed-offer';
+                const req = offer3.querySelector('.offer-requirement');
+                if (req) req.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+                if (!offer3.querySelector('.check-icon')) {
+                    offer3.innerHTML += '<i class="fas fa-check-circle check-icon"></i>';
+                }
+            } else {
+                offer3.className = 'offer-box active-offer';
+                offer3.onclick = function() { openTaskModal(3); };
+                const req = offer3.querySelector('.offer-requirement');
+                if (req) req.innerHTML = '<i class="fas fa-play-circle"></i> Complete 3 Tasks';
+                const lock = offer3.querySelector('.lock-icon');
+                if (lock) lock.remove();
+            }
+        }
+    }
+}
+
+function openTaskModal(offerNum) {
+    if (AppState.offersCompleted[offerNum]) return;
+    
+    currentOffer = offerNum;
+    const tasksNeeded = offerNum === 1 ? 1 : offerNum === 2 ? 2 : 3;
+    
+    const tasksNeededEl = document.getElementById('tasksNeeded');
+    if (tasksNeededEl) tasksNeededEl.textContent = tasksNeeded;
+    
+    const container = document.getElementById('taskOptions');
+    if (container) {
+        container.innerHTML = TASKS.map(task => `
+            <div class="task-option" onclick="startTask('${task.id}')">
+                <div class="task-icon" style="background: ${task.color}">
+                    <i class="fas ${task.icon}"></i>
+                </div>
+                <div class="task-info">
+                    <div class="task-name">${task.name}</div>
+                    <div class="task-reward">Reward: $${task.reward.toFixed(2)}</div>
+                </div>
+                <i class="fas fa-chevron-right" style="color: var(--gray);"></i>
+            </div>
+        `).join('');
+    }
+    
+    const modal = document.getElementById('taskModal');
+    if (modal) modal.classList.add('active');
+}
+
+function closeTaskModal() {
+    const modal = document.getElementById('taskModal');
+    if (modal) modal.classList.remove('active');
+    currentOffer = null;
+}
+
+function startTask(taskId) {
+    closeTaskModal();
+    showToast('Opening partner task... Complete it fully!', 'info');
+    
+    // Open offer link
+    window.open('https://confirmapp.space/cl/i/1xxpdx', '_blank');
+    
+    // Simulate completion after delay
+    setTimeout(() => {
+        if (!currentOffer) return;
+        
+        AppState.currentOfferTasks[currentOffer] = (AppState.currentOfferTasks[currentOffer] || 0) + 1;
+        AppState.totalTasksCompleted++;
+        
+        const tasksNeeded = currentOffer === 1 ? 1 : currentOffer === 2 ? 2 : 3;
+        
+        if (AppState.currentOfferTasks[currentOffer] >= tasksNeeded) {
+            completeOffer(currentOffer);
+        } else {
+            const remaining = tasksNeeded - AppState.currentOfferTasks[currentOffer];
+            showToast(`Task done! ${remaining} more needed`, 'warning');
+            setTimeout(() => openTaskModal(currentOffer), 1000);
+        }
+        
+        saveState();
+        updateOffersUI();
+    }, 4000);
+}
+
+function completeOffer(offerNum) {
+    AppState.offersCompleted[offerNum] = true;
+    
+    let boosterType, usdtReward, boosterName;
+    switch(offerNum) {
+        case 1: 
+            boosterType = 'speed'; 
+            usdtReward = 2; 
+            boosterName = 'Speed Booster';
+            break;
+        case 2: 
+            boosterType = 'power'; 
+            usdtReward = 5; 
+            boosterName = 'Power Booster';
+            break;
+        case 3: 
+            boosterType = 'golden'; 
+            usdtReward = 10; 
+            boosterName = 'Golden Booster';
+            break;
+    }
+    
+    // Add rewards
+    AppState.inventory[boosterType] = (AppState.inventory[boosterType] || 0) + 1;
+    AppState.balance += usdtReward;
+    AppState.taskEarnings += usdtReward;
+    
+    // Add transaction
+    AppState.transactions.unshift({
+        type: 'income',
+        amount: usdtReward,
+        description: `Offer ${offerNum} Reward (${boosterName})`,
+        time: new Date().toLocaleString(),
+        status: 'Completed'
+    });
+    
+    showToast(`Offer ${offerNum} Complete! +$${usdtReward} USDT + ${boosterName}`, 'success');
+    
+    renderBoosters();
+    renderTransactions();
+    updateUI();
+    updateOffersUI();
+    saveState();
+}
+
+// Wallet Functions
+function openWithdrawModal() {
+    if (AppState.balance < 50) {
+        showToast('Minimum 50 USDT required for withdrawal', 'error');
+        return;
+    }
+    
+    const modalBalanceEl = document.getElementById('modalBalance');
+    if (modalBalanceEl) modalBalanceEl.textContent = AppState.balance.toFixed(2) + ' USDT';
+    
+    const modal = document.getElementById('withdrawModal');
+    if (modal) modal.classList.add('active');
+}
+
+function closeWithdrawModal() {
+    const modal = document.getElementById('withdrawModal');
+    if (modal) modal.classList.remove('active');
+    
+    // Clear inputs
+    const addressInput = document.getElementById('withdrawAddress');
+    const amountInput = document.getElementById('withdrawAmount');
+    if (addressInput) addressInput.value = '';
+    if (amountInput) amountInput.value = '';
+    
+    const receiveEl = document.getElementById('receiveAmount');
+    if (receiveEl) receiveEl.textContent = '0.00 USDT';
+}
+
+function processWithdrawal() {
+    const addressInput = document.getElementById('withdrawAddress');
+    const amountInput = document.getElementById('withdrawAmount');
+    
+    const address = addressInput ? addressInput.value.trim() : '';
+    const amount = parseFloat(amountInput ? amountInput.value : 0);
+    
+    // Validation
+    if (!address || address.length < 20) {
+        showToast('Please enter a valid TRC-20 address', 'error');
+        return;
+    }
+    
+    if (!amount || amount < 50) {
+        showToast('Minimum withdrawal is 50 USDT', 'error');
+        return;
+    }
+    
+    if (amount > AppState.balance) {
+        showToast('Amount exceeds available balance', 'error');
+        return;
+    }
+    
+    const netAmount = amount - 1; // 1 USDT fee
+    
+    // Process
+    AppState.balance -= amount;
+    AppState.transactions.unshift({
+        type: 'outcome',
+        amount: netAmount,
+        description: 'Withdrawal to ' + address.substring(0, 10) + '...',
+        time: new Date().toLocaleString(),
+        status: 'Processing'
+    });
+    
+    closeWithdrawModal();
+    showToast(`Withdrawal of ${netAmount.toFixed(2)} USDT submitted!`, 'success');
+    
+    renderTransactions();
+    updateUI();
+    saveState();
+}
+
+function renderTransactions() {
+    const container = document.getElementById('transactionList');
+    if (!container) return;
+    
+    if (AppState.transactions.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+                <div class="empty-text">No transactions yet</div>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = AppState.transactions.map(tx => `
+        <div class="tx-item">
+            <div class="tx-icon ${tx.type}">
+                <i class="fas ${tx.type === 'income' ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+            </div>
+            <div class="tx-details">
+                <div class="tx-type">${tx.description}</div>
+                <div class="tx-time">${tx.time}</div>
+            </div>
+            <div class="tx-amount">
+                <div class="tx-value ${tx.type}">${tx.type === 'income' ? '+' : '-'}$${tx.amount.toFixed(2)}</div>
+                <div class="tx-status">${tx.status}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// UI Updates
+function updateUI() {
+    // Header balance
+    const headerBalanceEl = document.getElementById('headerBalance');
+    if (headerBalanceEl) headerBalanceEl.textContent = AppState.balance.toFixed(2);
+    
+    // Main balance
+    const mainBalanceEl = document.getElementById('mainBalance');
+    if (mainBalanceEl) mainBalanceEl.textContent = AppState.balance.toFixed(2);
+    
+    // Modal balance
+    const modalBalanceEl = document.getElementById('modalBalance');
+    if (modalBalanceEl) modalBalanceEl.textContent = AppState.balance.toFixed(2) + ' USDT';
+    
+    // Session earnings
+    const sessionEarningsEl = document.getElementById('sessionEarnings');
+    if (sessionEarningsEl) sessionEarningsEl.textContent = '$' + AppState.sessionEarnings.toFixed(4);
+    
+    // Total mined
+    const totalMinedEl = document.getElementById('totalMined');
+    if (totalMinedEl) totalMinedEl.textContent = '$' + AppState.totalMined.toFixed(2);
+    
+    const walletTotalMinedEl = document.getElementById('walletTotalMined');
+    if (walletTotalMinedEl) walletTotalMinedEl.textContent = '$' + AppState.totalMined.toFixed(2);
+    
+    // Task rewards
+    const walletTaskRewardsEl = document.getElementById('walletTaskRewards');
+    if (walletTaskRewardsEl) walletTaskRewardsEl.textContent = '$' + AppState.taskEarnings.toFixed(2);
+    
+    // Withdraw button
+    const withdrawBtn = document.getElementById('withdrawBtn');
+    if (withdrawBtn) {
+        if (AppState.balance >= 50) {
+            withdrawBtn.disabled = false;
+            withdrawBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Withdraw USDT';
+        } else {
+            withdrawBtn.disabled = true;
+            withdrawBtn.innerHTML = `<i class="fas fa-lock"></i> Min ${(50 - AppState.balance).toFixed(0)} USDT`;
+        }
+    }
+}
+
+// Navigation
+function switchTab(tab) {
+    // Hide all sections
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    
+    // Remove active from all nav items
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    // Show selected section
+    const sectionMap = {
+        mine: 'mineSection',
+        earn: 'earnSection',
+        wallet: 'walletSection'
+    };
+    
+    const section = document.getElementById(sectionMap[tab]);
+    if (section) section.classList.add('active');
+    
+    // Activate nav item
+    const navMap = {
+        mine: 'nav-mine',
+        earn: 'nav-earn',
+        wallet: 'nav-wallet'
+    };
+    
+    const navItem = document.getElementById(navMap[tab]);
+    if (navItem) navItem.classList.add('active');
+    
+    // Refresh content
+    if (tab === 'earn') {
+        renderBoosters();
+        updateOffersUI();
+    }
+    if (tab === 'wallet') {
+        renderTransactions();
+    }
+}
+
+// Toast System
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle',
+        info: 'fa-info-circle'
+    };
+    
+    toast.innerHTML = `<i class="fas ${icons[type]} toast-icon"></i><span>${message}</span>`;
+    
+    container.appendChild(toast);
+    
+    // Auto remove
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', function() {
+    init();
+    
+    // Handle page visibility
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            updateUI();
+            renderBoosters();
+            updateActiveBoosters();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
 
