@@ -11,19 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #3a36e0;
-            --primary-light: #5a56f0;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --dark: #121826;
-            --gray: #6c757d;
-            --light-bg: #f5f7ff;
-            --safe-top: env(safe-area-inset-top);
-            --safe-bottom: env(safe-area-inset-bottom);
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -35,6 +22,480 @@
             touch-action: manipulation;
         }
 
+        html, body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: fixed;
+            overscroll-behavior: none;
+        }
+
+        /* Loader Page */
+        #loaderPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        #loaderPage.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3a36e0 0%, #5a56f0 100%);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            box-shadow: 0 12px 40px rgba(58, 54, 224, 0.3);
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .loader-icon i {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .loader-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #121826;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .loader-subtext {
+            font-size: 0.95rem;
+            color: #6c757d;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+
+        .xp-loader-container {
+            width: 260px;
+            max-width: 70%;
+        }
+
+        .xp-loader-bar-bg {
+            background: #e9ecef;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .xp-loader-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3a36e0 0%, #5a56f0 50%, #10b981 100%);
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 20px rgba(58, 54, 224, 0.3);
+        }
+
+        .xp-loader-percentage {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #3a36e0;
+        }
+
+        /* Main App */
+        #mainApp {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            background: #f5f7ff;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #mainApp.show {
+            display: flex;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #3a36e0 0%, #5a56f0 100%);
+            color: white;
+            padding: 16px;
+            padding-top: max(16px, env(safe-area-inset-top));
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(58, 54, 224, 0.3);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px;
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+        }
+
+        .welcome-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #121826;
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .welcome-subtitle {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* Sections */
+        .section-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 16px;
+            transition: transform 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .section-card:active {
+            transform: scale(0.98);
+        }
+
+        .section-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .section-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .section-content {
+            padding: 16px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #10b981;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #121826;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-desc {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+
+        .section-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .section-btn-text {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #3a36e0;
+        }
+
+        .section-arrow {
+            width: 36px;
+            height: 36px;
+            background: #f5f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3a36e0;
+            font-size: 0.8rem;
+        }
+
+        .hot-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(238, 90, 111, 0.3);
+            z-index: 10;
+            animation: pulse-hot 2s infinite;
+        }
+
+        @keyframes pulse-hot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 16px 28px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 2000;
+            pointer-events: none;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loader -->
+    <div id="loaderPage">
+        <div class="loader-icon">
+            <i class="fas fa-coins"></i>
+        </div>
+        <div class="loader-text">Silly Money</div>
+        <div class="loader-subtext">Earn Silly Money</div>
+        <div class="xp-loader-container">
+            <div class="xp-loader-bar-bg">
+                <div class="xp-loader-bar-fill" id="loaderBar"></div>
+            </div>
+            <div class="xp-loader-percentage" id="loaderPercent">0%</div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-coins"></i>
+                <span>Silly Money</span>
+            </div>
+        </div>
+
+        <div class="main">
+            <h1 class="welcome-title">Choose Your Path</h1>
+            <p class="welcome-subtitle">Select a section to start earning</p>
+
+            <!-- Click to Earn -->
+            <div class="section-card" onclick="goTo('https://hivas-ai.github.io/Silly-Money/clicktoearn')">
+                <div class="hot-tag">Popular</div>
+                <div class="section-image-wrapper">
+                    <img src="./Clicktoearn.jpg" alt="Click to Earn" class="section-image" onerror="this.style.display='none'">
+                </div>
+                <div class="section-content">
+                    <div class="section-badge">
+                        <i class="fas fa-bolt"></i> Instant
+                    </div>
+                    <h2 class="section-title">
+                        <i class="fas fa-hand-pointer" style="color: #3a36e0;"></i>
+                        Click to Earn
+                    </h2>
+                    <p class="section-desc">Tap & earn instant cash rewards</p>
+                    <div class="section-footer">
+                        <span class="section-btn-text">Start Earning</span>
+                        <div class="section-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- USDT Miner -->
+            <div class="section-card" onclick="goTo('https://hivas-ai.github.io/Silly-Money/usdt')">
+                <div class="section-image-wrapper">
+                    <img src="./usdt.jpg" alt="USDT Miner" class="section-image" onerror="this.style.display='none'">
+                </div>
+                <div class="section-content">
+                    <div class="section-badge" style="background: #f59e0b;">
+                        <i class="fas fa-robot"></i> Auto
+                    </div>
+                    <h2 class="section-title">
+                        <i class="fas fa-coins" style="color: #10b981;"></i>
+                        USDT Miner
+                    </h2>
+                    <p class="section-desc">Passive USDT mining 24/7</p>
+                    <div class="section-footer">
+                        <span class="section-btn-text">Start Mining</span>
+                        <div class="section-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Loader Animation - Fixed for all devices
+        let currentPercent = 0;
+        const loaderBar = document.getElementById('loaderBar');
+        const loaderPercent = document.getElementById('loaderPercent');
+        const loaderPage = document.getElementById('loaderPage');
+        const mainApp = document.getElementById('mainApp');
+
+        function setLoader(percent) {
+            currentPercent = percent;
+            loaderBar.style.width = percent + '%';
+            loaderPercent.textContent = Math.floor(percent) + '%';
+        }
+
+        function animateLoader() {
+            const startTime = Date.now();
+            const duration = 2000; // 2 seconds total
+            
+            function step() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Custom curve: fast start, slow middle, fast end
+                let percent;
+                if (progress < 0.3) {
+                    // 0-58% in first 30%
+                    percent = (progress / 0.3) * 58;
+                } else if (progress < 0.7) {
+                    // 58-95% in next 40%
+                    percent = 58 + ((progress - 0.3) / 0.4) * 37;
+                } else {
+                    // 95-100% in last 30%
+                    percent = 95 + ((progress - 0.7) / 0.3) * 5;
+                }
+                
+                setLoader(percent);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    setLoader(100);
+                    setTimeout(showMain, 400);
+                }
+            }
+            
+            requestAnimationFrame(step);
+        }
+
+        function showMain() {
+            loaderPage.classList.add('hidden');
+            mainApp.classList.add('show');
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        function goTo(url) {
+            if (navigator.vibrate) navigator.vibrate(30);
+            window.location.href = url;
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
+        }
+
+        // Start loader when page loads
+        window.onload = function() {
+            setTimeout(animateLoader, 300);
+        };
+
+        // Prevent zoom and other mobile issues
+        document.addEventListener('gesturestart', function(e) {
+            e.preventDefault();
+        });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+
+</body>
+</html>
         html {
             height: 100%;
             overflow: hidden;
@@ -1093,3 +1554,4 @@
 </body>
 
 </html>
+
