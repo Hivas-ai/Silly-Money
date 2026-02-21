@@ -19,16 +19,16 @@
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
-            touch-action: manipulation;
         }
 
         html, body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #ffffff;
+            background: #f5f7ff;
             height: 100%;
             width: 100%;
             overflow: hidden;
             position: fixed;
+            touch-action: pan-y;
         }
 
         /* LOADER */
@@ -43,17 +43,18 @@
             align-items: center;
             justify-content: center;
             z-index: 99999;
+            touch-action: none;
         }
 
-        #loader.done {
+        #loader.hide {
             opacity: 0;
             visibility: hidden;
-            transition: all 0.5s ease;
+            transition: all 0.5s;
+            pointer-events: none;
         }
 
-        .loader-content {
+        .loader-box {
             text-align: center;
-            width: 100%;
             padding: 20px;
         }
 
@@ -86,18 +87,18 @@
             margin-bottom: 8px;
         }
 
-        .loader-subtitle {
+        .loader-sub {
             font-size: 14px;
             color: #6c757d;
             margin-bottom: 32px;
         }
 
-        .progress-container {
+        .progress-box {
             width: 260px;
             margin: 0 auto;
         }
 
-        .progress-bar {
+        .progress-bg {
             height: 10px;
             background: #e9ecef;
             border-radius: 5px;
@@ -119,21 +120,19 @@
             margin-top: 16px;
         }
 
-        /* MAIN APP */
+        /* APP */
         #app {
             display: none;
-            height: 100%;
             width: 100%;
-            background: #f5f7ff;
-            flex-direction: column;
+            height: 100%;
             position: fixed;
             top: 0;
             left: 0;
             overflow: hidden;
         }
 
-        #app.active {
-            display: flex;
+        #app.show {
+            display: block;
         }
 
         /* Header */
@@ -142,28 +141,36 @@
             color: white;
             padding: 16px;
             text-align: center;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 10;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 56px;
         }
 
-        .header-brand {
+        .header-title {
             font-size: 18px;
             font-weight: 800;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            height: 100%;
         }
 
-        /* Content - FIXED FOR SCROLL */
-        .content {
-            flex: 1;
-            overflow-y: scroll;
+        /* Scrollable Content */
+        .scroll-wrap {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             padding: 16px;
-            position: relative;
-            height: calc(100% - 60px);
+            background: #f5f7ff;
         }
 
         .page-title {
@@ -174,7 +181,7 @@
             margin-bottom: 4px;
         }
 
-        .page-subtitle {
+        .page-sub {
             font-size: 14px;
             color: #6c757d;
             text-align: center;
@@ -188,10 +195,9 @@
             overflow: hidden;
             margin-bottom: 16px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            touch-action: pan-y;
         }
 
-        .card-img-wrap {
+        .card-img-box {
             position: relative;
             width: 100%;
             padding-bottom: 100%;
@@ -208,7 +214,7 @@
             pointer-events: none;
         }
 
-        .hot-badge {
+        .hot-tag {
             position: absolute;
             top: 12px;
             right: 12px;
@@ -218,11 +224,11 @@
             border-radius: 20px;
             font-size: 11px;
             font-weight: 800;
-            animation: hotpulse 2s infinite;
+            animation: hot 2s infinite;
             pointer-events: none;
         }
 
-        @keyframes hotpulse {
+        @keyframes hot {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
@@ -251,9 +257,6 @@
             font-weight: 800;
             color: #121826;
             margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .card-desc {
@@ -262,7 +265,7 @@
             margin-bottom: 14px;
         }
 
-        .card-footer {
+        .card-foot {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -287,23 +290,27 @@
             color: #3a36e0;
             font-size: 12px;
         }
+
+        .spacer {
+            height: 30px;
+        }
     </style>
 </head>
 <body>
 
     <!-- LOADER -->
     <div id="loader">
-        <div class="loader-content">
+        <div class="loader-box">
             <div class="loader-icon">
                 <i class="fas fa-coins"></i>
             </div>
             <div class="loader-title">Silly Money</div>
-            <div class="loader-subtitle">Earn Silly Money</div>
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="fill"></div>
+            <div class="loader-sub">Earn Silly Money</div>
+            <div class="progress-box">
+                <div class="progress-bg">
+                    <div class="progress-fill" id="bar"></div>
                 </div>
-                <div class="progress-text" id="percent">0%</div>
+                <div class="progress-text" id="txt">0%</div>
             </div>
         </div>
     </div>
@@ -311,20 +318,20 @@
     <!-- APP -->
     <div id="app">
         <div class="header">
-            <div class="header-brand">
+            <div class="header-title">
                 <i class="fas fa-coins"></i>
                 <span>Silly Money</span>
             </div>
         </div>
 
-        <div class="content" id="scrollArea">
+        <div class="scroll-wrap" id="scrollBox">
             <div class="page-title">Choose Your Path</div>
-            <div class="page-subtitle">Select a section to start earning</div>
+            <div class="page-sub">Select a section to start earning</div>
 
             <!-- Click to Earn -->
             <div class="card" onclick="go('https://hivas-ai.github.io/Silly-Money/clicktoearn')">
-                <div class="card-img-wrap">
-                    <div class="hot-badge">Popular</div>
+                <div class="card-img-box">
+                    <div class="hot-tag">Popular</div>
                     <img src="./Clicktoearn.jpg" class="card-img" alt="Click to Earn">
                 </div>
                 <div class="card-body">
@@ -336,7 +343,7 @@
                         Click to Earn
                     </div>
                     <div class="card-desc">Tap & earn instant cash rewards</div>
-                    <div class="card-footer">
+                    <div class="card-foot">
                         <span class="card-btn">Start Earning</span>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
@@ -347,7 +354,7 @@
 
             <!-- USDT Miner -->
             <div class="card" onclick="go('https://hivas-ai.github.io/Silly-Money/usdt')">
-                <div class="card-img-wrap">
+                <div class="card-img-box">
                     <img src="./usdt.jpg" class="card-img" alt="USDT Miner">
                 </div>
                 <div class="card-body">
@@ -359,7 +366,7 @@
                         USDT Miner
                     </div>
                     <div class="card-desc">Passive USDT mining 24/7</div>
-                    <div class="card-footer">
+                    <div class="card-foot">
                         <span class="card-btn">Start Mining</span>
                         <div class="card-arrow">
                             <i class="fas fa-arrow-right"></i>
@@ -368,19 +375,18 @@
                 </div>
             </div>
 
-            <!-- Extra space for scroll testing -->
-            <div style="height: 50px;"></div>
+            <div class="spacer"></div>
         </div>
     </div>
 
     <script>
-        // Simple working loader
+        // Loader
         var p = 0;
-        var fill = document.getElementById('fill');
-        var text = document.getElementById('percent');
+        var bar = document.getElementById('bar');
+        var txt = document.getElementById('txt');
         var loader = document.getElementById('loader');
         var app = document.getElementById('app');
-        var scrollArea = document.getElementById('scrollArea');
+        var scrollBox = document.getElementById('scrollBox');
 
         function load() {
             if (p < 58) {
@@ -394,21 +400,18 @@
                 setTimeout(load, 40);
             } else {
                 p = 100;
-                setTimeout(showApp, 200);
+                finish();
             }
-            
-            fill.style.width = p + '%';
-            text.innerText = Math.floor(p) + '%';
+            bar.style.width = p + '%';
+            txt.innerText = Math.floor(p) + '%';
         }
 
-        function showApp() {
-            loader.classList.add('done');
-            app.classList.add('active');
-            if (navigator.vibrate) navigator.vibrate(50);
-            
-            // Enable scrolling
-            scrollArea.style.overflowY = 'scroll';
-            scrollArea.style.webkitOverflowScrolling = 'touch';
+        function finish() {
+            setTimeout(function() {
+                loader.classList.add('hide');
+                app.classList.add('show');
+                if (navigator.vibrate) navigator.vibrate(50);
+            }, 200);
         }
 
         function go(url) {
@@ -416,23 +419,14 @@
             window.location.href = url;
         }
 
-        // Start
         setTimeout(load, 300);
 
-        // Fix iOS scroll issues
-        document.body.addEventListener('touchmove', function(e) {
-            e.stopPropagation();
-        }, { passive: true });
-
-        // Prevent double tap zoom only on buttons
-        var lastTouch = 0;
-        document.addEventListener('touchend', function(e) {
-            var now = new Date().getTime();
-            if (now - lastTouch < 300 && e.target.closest('.card')) {
+        // Allow scroll on content only
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.closest('#loader')) {
                 e.preventDefault();
             }
-            lastTouch = now;
-        }, false);
+        }, { passive: false });
     </script>
 
 </body>
