@@ -19,22 +19,578 @@
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
         }
 
         html, body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #ffffff;
             height: 100%;
             width: 100%;
             overflow: hidden;
             position: fixed;
+            top: 0;
+            left: 0;
         }
 
-        /* Loader */
-        #loader {
+        /* LOADER PAGE */
+        #loaderPage {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        #loaderPage.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .app-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #3a36e0 0%, #5a56f0 100%);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 32px rgba(58, 54, 224, 0.35);
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(58, 54, 224, 0.35); }
+            50% { transform: scale(1.08); box-shadow: 0 12px 40px rgba(58, 54, 224, 0.45); }
+        }
+
+        .app-icon i {
+            font-size: 44px;
+            color: #ffffff;
+        }
+
+        .brand-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: #121826;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-tagline {
+            font-size: 15px;
+            color: #6c757d;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .progress-wrapper {
+            width: 280px;
+            max-width: 75vw;
+        }
+
+        .progress-track {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3a36e0 0%, #5a56f0 50%, #10b981 100%);
+            border-radius: 5px;
+            transition: width 0.15s linear;
+            box-shadow: 0 0 15px rgba(58, 54, 224, 0.3);
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 32px;
+            font-weight: 800;
+            color: #3a36e0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* MAIN APP */
+        #mainApp {
+            display: none;
+            height: 100%;
+            width: 100%;
+            background: #f5f7ff;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #mainApp.show {
+            display: flex;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, #3a36e0 0%, #5a56f0 100%);
+            color: #ffffff;
+            padding: 16px 20px;
+            padding-top: calc(16px + env(safe-area-inset-top));
+            flex-shrink: 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(58, 54, 224, 0.25);
+        }
+
+        .header-brand {
+            font-size: 20px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Content Area */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px;
+            padding-bottom: calc(16px + env(safe-area-inset-bottom));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: #121826;
+            margin-bottom: 4px;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        /* Option Cards */
+        .option-card {
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .option-card:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        }
+
+        .card-image-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(238, 90, 111, 0.3);
+            animation: badgePulse 2s infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .card-info {
+            padding: 16px;
+        }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .type-badge.instant {
+            background: #10b981;
+            color: #ffffff;
+        }
+
+        .type-badge.auto {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+
+        .card-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #121826;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
+
+        .card-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .action-text {
+            font-size: 14px;
+            font-weight: 700;
+            color: #3a36e0;
+        }
+
+        .action-arrow {
+            width: 36px;
+            height: 36px;
+            background: #f5f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3a36e0;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .option-card:active .action-arrow {
+            background: #3a36e0;
+            color: #ffffff;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(0,0,0,0.9);
+            color: #ffffff;
+            padding: 16px 28px;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100000;
+            pointer-events: none;
+            text-align: center;
+            max-width: 85%;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Prevent text selection everywhere */
+        .noselect {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body class="noselect">
+
+    <!-- LOADER -->
+    <div id="loaderPage">
+        <div class="loader-container">
+            <div class="app-icon">
+                <i class="fas fa-coins"></i>
+            </div>
+            <div class="brand-name">Silly Money</div>
+            <div class="brand-tagline">Earn Silly Money</div>
+            <div class="progress-wrapper">
+                <div class="progress-track">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="mainApp">
+        <div class="app-header">
+            <div class="header-brand">
+                <i class="fas fa-coins"></i>
+                <span>Silly Money</span>
+            </div>
+        </div>
+
+        <div class="app-content">
+            <div class="section-header">
+                <h1 class="section-title">Choose Your Path</h1>
+                <p class="section-subtitle">Select a section to start earning</p>
+            </div>
+
+            <!-- Click to Earn -->
+            <div class="option-card" onclick="navigateTo('https://hivas-ai.github.io/Silly-Money/clicktoearn')">
+                <div class="card-image-box">
+                    <div class="popular-badge">Popular</div>
+                    <img src="./Clicktoearn.jpg" class="card-image" alt="Click to Earn" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23667eea%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2260%22%3E%F0%9F%91%86%3C/text%3E%3C/svg%3E'">
+                </div>
+                <div class="card-info">
+                    <div class="type-badge instant">
+                        <i class="fas fa-bolt"></i> Instant
+                    </div>
+                    <h2 class="card-name">
+                        <i class="fas fa-hand-pointer" style="color: #3a36e0;"></i>
+                        Click to Earn
+                    </h2>
+                    <p class="card-desc">Tap & earn instant cash rewards</p>
+                    <div class="card-action">
+                        <span class="action-text">Start Earning</span>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- USDT Miner -->
+            <div class="option-card" onclick="navigateTo('https://hivas-ai.github.io/Silly-Money/usdt')">
+                <div class="card-image-box">
+                    <img src="./usdt.jpg" class="card-image" alt="USDT Miner" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%2310b981%22 width=%22400%22 height=%22400%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22white%22 font-size=%2260%22%3E%E2%9B%8F%EF%B8%8F%3C/text%3E%3C/svg%3E'">
+                </div>
+                <div class="card-info">
+                    <div class="type-badge auto">
+                        <i class="fas fa-robot"></i> Auto
+                    </div>
+                    <h2 class="card-name">
+                        <i class="fas fa-coins" style="color: #10b981;"></i>
+                        USDT Miner
+                    </h2>
+                    <p class="card-desc">Passive USDT mining 24/7</p>
+                    <div class="card-action">
+                        <span class="action-text">Start Mining</span>
+                        <div class="action-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== LOADER SYSTEM =====
+        (function() {
+            var currentProgress = 0;
+            var progressBar = document.getElementById('progressBar');
+            var progressText = document.getElementById('progressText');
+            var loaderPage = document.getElementById('loaderPage');
+            var mainApp = document.getElementById('mainApp');
+            var isComplete = false;
+
+            function setProgress(percent) {
+                currentProgress = Math.min(percent, 100);
+                progressBar.style.width = currentProgress + '%';
+                progressText.textContent = Math.floor(currentProgress) + '%';
+            }
+
+            function animateLoader() {
+                var startTime = Date.now();
+                var duration = 2200; // 2.2 seconds total
+
+                function step() {
+                    var elapsed = Date.now() - startTime;
+                    var rawProgress = elapsed / duration;
+                    
+                    if (rawProgress >= 1) {
+                        setProgress(100);
+                        completeLoader();
+                        return;
+                    }
+
+                    // Custom curve: 0->58% (fast), 58->95% (slow), 95->100% (fast)
+                    var displayProgress;
+                    if (rawProgress < 0.25) {
+                        // 0-25% time = 0-58% progress
+                        displayProgress = (rawProgress / 0.25) * 58;
+                    } else if (rawProgress < 0.75) {
+                        // 25-75% time = 58-95% progress
+                        displayProgress = 58 + ((rawProgress - 0.25) / 0.5) * 37;
+                    } else {
+                        // 75-100% time = 95-100% progress
+                        displayProgress = 95 + ((rawProgress - 0.75) / 0.25) * 5;
+                    }
+
+                    setProgress(displayProgress);
+                    requestAnimationFrame(step);
+                }
+
+                requestAnimationFrame(step);
+            }
+
+            function completeLoader() {
+                if (isComplete) return;
+                isComplete = true;
+                
+                setTimeout(function() {
+                    loaderPage.classList.add('hide');
+                    mainApp.classList.add('show');
+                    
+                    // Haptic feedback if available
+                    if (window.navigator && window.navigator.vibrate) {
+                        navigator.vibrate([30, 50, 30]);
+                    }
+                }, 300);
+            }
+
+            // Start loader when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(animateLoader, 100);
+                });
+            } else {
+                setTimeout(animateLoader, 100);
+            }
+        })();
+
+        // ===== NAVIGATION =====
+        function navigateTo(url) {
+            // Haptic feedback
+            if (window.navigator && window.navigator.vibrate) {
+                navigator.vibrate(20);
+            }
+            
+            // Small delay for visual feedback
+            setTimeout(function() {
+                window.location.href = url;
+            }, 50);
+        }
+
+        // ===== TOAST SYSTEM =====
+        function showToast(message) {
+            var toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('visible');
+            
+            setTimeout(function() {
+                toast.classList.remove('visible');
+            }, 2000);
+        }
+
+        // ===== MOBILE FIXES =====
+        (function() {
+            // Prevent zoom on double tap
+            var lastTouchEnd = 0;
+            document.addEventListener('touchend', function(event) {
+                var now = Date.now();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, { passive: false });
+
+            // Prevent pinch zoom
+            document.addEventListener('touchmove', function(event) {
+                if (event.scale !== 1) {
+                    event.preventDefault();
+                }
+            }, { passive: false });
+
+            // Prevent context menu on long press
+            document.addEventListener('contextmenu', function(event) {
+                event.preventDefault();
+                return false;
+            });
+
+            // Handle visibility change (pause/resume)
+            document.addEventListener('visibilitychange', function() {
+                // App is visible again
+                if (!document.hidden) {
+                    // Ensure loader completed
+                    var loader = document.getElementById('loaderPage');
+                    var main = document.getElementById('mainApp');
+                    if (!loader.classList.contains('hide') && main.classList.contains('show')) {
+                        loader.classList.add('hide');
+                    }
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>            left: 0;
             width: 100%;
             height: 100%;
             background: #ffffff;
@@ -1961,5 +2517,6 @@
 </body>
 
 </html>
+
 
 
