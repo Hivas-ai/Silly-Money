@@ -126,6 +126,10 @@
             width: 100%;
             background: #f5f7ff;
             flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow: hidden;
         }
 
         #app.active {
@@ -139,6 +143,8 @@
             padding: 16px;
             text-align: center;
             flex-shrink: 0;
+            position: relative;
+            z-index: 10;
         }
 
         .header-brand {
@@ -150,11 +156,14 @@
             gap: 8px;
         }
 
-        /* Content */
+        /* Content - FIXED FOR SCROLL */
         .content {
             flex: 1;
-            overflow-y: auto;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
             padding: 16px;
+            position: relative;
+            height: calc(100% - 60px);
         }
 
         .page-title {
@@ -179,6 +188,7 @@
             overflow: hidden;
             margin-bottom: 16px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            touch-action: pan-y;
         }
 
         .card-img-wrap {
@@ -195,6 +205,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            pointer-events: none;
         }
 
         .hot-badge {
@@ -208,6 +219,7 @@
             font-size: 11px;
             font-weight: 800;
             animation: hotpulse 2s infinite;
+            pointer-events: none;
         }
 
         @keyframes hotpulse {
@@ -305,7 +317,7 @@
             </div>
         </div>
 
-        <div class="content">
+        <div class="content" id="scrollArea">
             <div class="page-title">Choose Your Path</div>
             <div class="page-subtitle">Select a section to start earning</div>
 
@@ -355,6 +367,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Extra space for scroll testing -->
+            <div style="height: 50px;"></div>
         </div>
     </div>
 
@@ -365,25 +380,19 @@
         var text = document.getElementById('percent');
         var loader = document.getElementById('loader');
         var app = document.getElementById('app');
+        var scrollArea = document.getElementById('scrollArea');
 
         function load() {
-            // Fast to 58
             if (p < 58) {
                 p += 3;
                 setTimeout(load, 30);
-            }
-            // Slow to 95
-            else if (p < 95) {
+            } else if (p < 95) {
                 p += 0.8;
                 setTimeout(load, 50);
-            }
-            // Fast to 100
-            else if (p < 100) {
+            } else if (p < 100) {
                 p += 2;
                 setTimeout(load, 40);
-            }
-            // Done
-            else {
+            } else {
                 p = 100;
                 setTimeout(showApp, 200);
             }
@@ -396,6 +405,10 @@
             loader.classList.add('done');
             app.classList.add('active');
             if (navigator.vibrate) navigator.vibrate(50);
+            
+            // Enable scrolling
+            scrollArea.style.overflowY = 'scroll';
+            scrollArea.style.webkitOverflowScrolling = 'touch';
         }
 
         function go(url) {
@@ -406,15 +419,18 @@
         // Start
         setTimeout(load, 300);
 
-        // Mobile fixes
-        document.addEventListener('touchmove', function(e) {
-            if (e.scale !== 1) e.preventDefault();
-        }, { passive: false });
+        // Fix iOS scroll issues
+        document.body.addEventListener('touchmove', function(e) {
+            e.stopPropagation();
+        }, { passive: true });
 
+        // Prevent double tap zoom only on buttons
         var lastTouch = 0;
         document.addEventListener('touchend', function(e) {
             var now = new Date().getTime();
-            if (now - lastTouch < 300) e.preventDefault();
+            if (now - lastTouch < 300 && e.target.closest('.card')) {
+                e.preventDefault();
+            }
             lastTouch = now;
         }, false);
     </script>
