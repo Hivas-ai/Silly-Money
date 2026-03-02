@@ -1,0 +1,3510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Color Matcher Pro | GameCoin Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #eab308;
+            --primary-dark: #ca8a04;
+            --primary-light: #facc15;
+            --primary-soft: rgba(234, 179, 8, 0.1);
+            --secondary: #fefce8;
+            --dark: #1c1917;
+            --light: #ffffff;
+            --gray: #78716c;
+            --gray-light: #e7e5e4;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0ea5e9;
+            --accent: #ec4899;
+            --shadow: 0 4px 20px rgba(234, 179, 8, 0.15);
+            --shadow-lg: 0 10px 40px rgba(234, 179, 8, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1c1917 0%, #292524 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 14px;
+        }
+
+        .game-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background: #fafaf9;
+            box-shadow: 0 0 60px rgba(0,0,0,0.3);
+        }
+
+        /* Header - Right Aligned */
+        .game-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(234, 179, 8, 0.3);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-3px);
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Right Aligned Stats */
+        .header-stats {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .header-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-stat i {
+            font-size: 0.9rem;
+        }
+
+        .header-stat.wallet i {
+            color: #fef08a;
+        }
+
+        .header-stat.coins i {
+            color: #fff;
+        }
+
+        /* Level Section */
+        .level-section {
+            background: white;
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .level-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .level-badge i {
+            color: var(--warning);
+        }
+
+        .xp-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .xp-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: var(--gray-light);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .xp-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            box-shadow: 0 0 10px rgba(234, 179, 8, 0.3);
+        }
+
+        .xp-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Score Section */
+        .score-section {
+            background: linear-gradient(135deg, var(--primary-soft) 0%, white 100%);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 2px solid rgba(234, 179, 8, 0.1);
+        }
+
+        .total-earned-display {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .total-earned-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+
+        .current-score-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .current-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .multiplier-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Match Reward Info */
+        .match-reward-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .match-reward-info i {
+            color: var(--warning);
+        }
+
+        /* Game Preview Section */
+        .game-preview {
+            padding: 30px 20px;
+            background: white;
+            border-bottom: 1px solid var(--gray-light);
+            text-align: center;
+        }
+
+        .preview-container {
+            position: relative;
+            max-width: 300px;
+            margin: 0 auto 20px;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2px;
+            background: var(--gray-light);
+            padding: 10px;
+            border-radius: 12px;
+            opacity: 0.6;
+        }
+
+        .preview-pixel {
+            aspect-ratio: 1;
+            background: linear-gradient(145deg, #e7e5e4, #d6d3d1);
+            border-radius: 2px;
+        }
+
+        .preview-pixel.accent {
+            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+        }
+
+        .preview-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 40px rgba(234, 179, 8, 0.4);
+            z-index: 10;
+            animation: float-icon 3s ease-in-out infinite;
+        }
+
+        @keyframes float-icon {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+
+        .preview-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .preview-subtext {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .preview-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+        }
+
+        .preview-stat {
+            text-align: center;
+        }
+
+        .preview-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .preview-stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Timer Section */
+        .timer-section {
+            background: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gray-light);
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timer-section.active {
+            display: flex;
+        }
+
+        .timer-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .timer-display i {
+            color: var(--danger);
+        }
+
+        .timer-display.warning {
+            color: var(--danger);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .round-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--gray);
+        }
+
+        .round-display i {
+            color: var(--primary);
+        }
+
+        /* Color Display Area */
+        .color-display-section {
+            padding: 20px;
+            background: white;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .color-display-section.active {
+            display: flex;
+        }
+
+        .color-grid-container {
+            width: 100%;
+            max-width: 320px;
+            background: var(--gray-light);
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(var(--grid-cols, 8), 1fr);
+            gap: 2px;
+            width: 100%;
+        }
+
+        .color-pixel {
+            aspect-ratio: 1;
+            border-radius: 2px;
+            transition: transform 0.2s;
+        }
+
+        .color-pixel:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .target-color-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary-soft);
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .target-color-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Options Grid */
+        .options-section {
+            padding: 20px;
+            display: none;
+            background: #fafaf9;
+        }
+
+        .options-section.active {
+            display: block;
+        }
+
+        .options-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .color-option {
+            aspect-ratio: 1;
+            border: 3px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .color-option:hover:not(.disabled) {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border-color: var(--primary);
+        }
+
+        .color-option.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .color-option.correct {
+            animation: correctPulse 0.6s ease;
+            border-color: var(--success);
+            box-shadow: 0 0 20px var(--success);
+        }
+
+        .color-option.wrong {
+            animation: wrongShake 0.5s ease;
+            border-color: var(--danger);
+            opacity: 0.6;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .option-number {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(255,255,255,0.9);
+            color: var(--dark);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Progress Section */
+        .progress-section {
+            padding: 0 20px 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-title {
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .progress-dot.completed {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .progress-dot.current {
+            background: var(--primary);
+            animation: pulse-dot 1.5s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Restart Cost Info */
+        .restart-info {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid var(--warning);
+            padding: 12px 15px;
+            margin: 0 20px 15px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .restart-info.active {
+            display: flex;
+        }
+
+        .restart-text {
+            font-size: 0.9rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .restart-cost {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--warning);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* Stats Grid */
+        .stats-section {
+            padding: 0 20px 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Win animation */
+        .stat-card.win-active {
+            border-color: var(--success);
+            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+            animation: winPulse 1s ease;
+        }
+
+        @keyframes winPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Upgrades */
+        .upgrades-section {
+            padding: 0 20px 20px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--dark);
+        }
+
+        .upgrade-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .upgrade-card:hover:not(.disabled) {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .upgrade-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f8fafc;
+        }
+
+        .upgrade-card.maxed {
+            border-color: var(--success);
+            background: #f0fdf4;
+            cursor: default;
+        }
+
+        .upgrade-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .upgrade-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .upgrade-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .upgrade-level {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .upgrade-cost {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .upgrade-cost i {
+            color: var(--warning);
+        }
+
+        /* Claim Section */
+        .claim-section {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: 1000;
+        }
+
+        .claim-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--success) 0%, #16a34a 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .claim-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        .claim-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .claim-btn.restart {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+
+        .claim-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Start Game Button - Modern Style */
+        .start-game-container {
+            padding: 0 20px 20px;
+            text-align: center;
+        }
+
+        .start-game-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(234, 179, 8, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-game-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .start-game-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .start-game-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(234, 179, 8, 0.45);
+        }
+
+        .start-game-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .start-game-btn i {
+            font-size: 1.3rem;
+        }
+
+        /* Professional Light Blur Overlays */
+        .level-up-overlay,
+        .verification-overlay,
+        .game-over-overlay,
+        .win-overlay,
+        .wrong-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(28, 25, 23, 0.4);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+        }
+
+        .level-up-overlay.active,
+        .verification-overlay.active,
+        .game-over-overlay.active,
+        .win-overlay.active,
+        .wrong-overlay.active {
+            display: flex;
+        }
+
+        .level-up-content,
+        .verification-content,
+        .game-over-content,
+        .win-content,
+        .wrong-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 
+                        0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .level-up-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: #92400e;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            animation: starBounce 0.6s ease;
+        }
+
+        @keyframes starBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .level-up-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .level-up-text {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .level-up-btn {
+            width: 100%;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(234, 179, 8, 0.3);
+        }
+
+        .level-up-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(234, 179, 8, 0.4);
+        }
+
+        /* Win Overlay Specifics */
+        .win-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--success), #16a34a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+            animation: winBounce 0.6s ease;
+        }
+
+        @keyframes winBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .win-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .win-text {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .win-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .win-stat {
+            background: var(--primary-soft);
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .win-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .win-stat-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Wrong Answer Overlay */
+        .wrong-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .wrong-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .wrong-text {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        /* Verification Overlay Specifics */
+        .verification-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .verification-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .verification-desc {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .verification-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .verify-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(234, 179, 8, 0.2);
+        }
+
+        .verify-btn.captcha {
+            border-color: var(--info);
+            color: var(--info);
+        }
+
+        .verify-btn.captcha:hover {
+            background: var(--info);
+            color: white;
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+        }
+
+        .verify-btn.human {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .verify-btn.human:hover {
+            background: var(--success);
+            color: white;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+        }
+
+        /* Captcha Container */
+        .captcha-wrapper {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed var(--gray-light);
+        }
+
+        .captcha-wrapper.active {
+            display: block;
+        }
+
+        .captcha-header {
+            font-size: 0.9rem;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .captcha-header i {
+            color: var(--info);
+        }
+
+        /* Human Verification Loading Section */
+        .human-verification-wrapper {
+            display: none;
+            margin: 20px 0;
+            padding: 30px 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed var(--gray-light);
+            text-align: center;
+        }
+
+        .human-verification-wrapper.active {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--gray-light);
+            border-top: 4px solid var(--success);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .loading-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite both;
+        }
+
+        .loading-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { 
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .verification-loading-text {
+            font-size: 0.9rem;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .verification-loading-subtext {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Success message for verification */
+        .verification-success {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 12px;
+            border: 2px solid var(--success);
+            text-align: center;
+            animation: successPop 0.5s ease;
+        }
+
+        .verification-success.active {
+            display: block;
+        }
+
+        @keyframes successPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .success-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .success-subtext {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .toast {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--dark);
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastIn 0.3s ease;
+            pointer-events: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast-icon {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Max Level Badge */
+        .max-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Pending Level Badge */
+        .pending-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, var(--info), #0284c7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 8px;
+            animation: pulse-badge 1.5s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--warning);
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Game Over Overlay */
+        .game-over-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+        }
+
+        .game-over-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .game-over-text {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Task reminder box */
+        .task-reminder {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            display: none;
+        }
+
+        .task-reminder.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .task-reminder-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .task-reminder-title i {
+            color: var(--warning);
+        }
+
+        .task-reminder-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.4;
+        }
+
+        /* Status indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status-indicator.processing {
+            background: #dbeafe;
+            color: var(--primary);
+        }
+
+        .status-indicator.completed {
+            background: #d1fae5;
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        .status-indicator.processing .status-dot {
+            background: var(--primary);
+        }
+
+        .status-indicator.completed .status-dot {
+            background: var(--success);
+            animation: none;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Progress Bar for Verification */
+        .verification-progress {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .verification-progress.active {
+            display: block;
+        }
+
+        .verification-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #34d399);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .verification-progress-text {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Combo indicator */
+        .combo-indicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            z-index: 3000;
+            display: none;
+            animation: comboPop 0.5s ease;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
+        }
+
+        .combo-indicator.active {
+            display: block;
+        }
+
+        @keyframes comboPop {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Floating coins animation */
+        .floating-coins {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            z-index: 3000;
+            display: none;
+            animation: coinsFloat 1s ease-out forwards;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
+        }
+
+        .floating-coins.active {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @keyframes coinsFloat {
+            0% { 
+                transform: translate(-50%, -50%) scale(0.5); 
+                opacity: 0; 
+            }
+            20% { 
+                transform: translate(-50%, -50%) scale(1.1); 
+                opacity: 1; 
+            }
+            80% { 
+                transform: translate(-50%, -150%) scale(1); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translate(-50%, -200%) scale(0.8); 
+                opacity: 0; 
+            }
+        }
+
+        /* Locked State Message */
+        .locked-message {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--warning);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .locked-message-title {
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .locked-message-text {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .locked-message-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .locked-message-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);
+        }
+
+        /* Difficulty Badge */
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--primary-soft);
+            color: var(--primary-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="header-top">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="game-title">
+                    <i class="fas fa-palette"></i>
+                    Color Matcher Pro
+                </div>
+                <div style="width: 40px;"></div>
+            </div>
+            <!-- Right Aligned Stats -->
+            <div class="header-stats">
+                <div class="header-stat wallet">
+                    <i class="fas fa-wallet"></i>
+                    <span id="mainBalance">0</span>
+                </div>
+                <div class="header-stat coins">
+                    <i class="fas fa-coins"></i>
+                    <span id="sessionEarnings">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Level Section -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Level <span id="levelValue">1</span></span>
+                    <span id="maxBadge" class="max-badge" style="display: none;">
+                        <i class="fas fa-crown"></i> MAX
+                    </span>
+                    <span id="pendingBadge" class="pending-badge" style="display: none;">
+                        <i class="fas fa-lock"></i> PENDING
+                    </span>
+                </div>
+                <div class="xp-text">
+                    <span id="currentXp">0</span> / <span id="targetXp">100</span> XP
+                </div>
+            </div>
+            <div class="xp-bar-bg">
+                <div class="xp-bar-fill" id="xpBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Score Section -->
+        <div class="score-section">
+            <div class="total-earned-display">Total Earned This Session</div>
+            <div class="total-earned-value" id="totalEarnedDisplay">0</div>
+            
+            <div class="current-score-label">Current Score</div>
+            <div class="current-score" id="currentScore">0</div>
+            
+            <div class="multiplier-badge">
+                <i class="fas fa-bolt"></i>
+                <span id="multiplierText">x1.0</span>
+            </div>
+            
+            <div class="match-reward-info">
+                <i class="fas fa-coins"></i>
+                <span>Earn <strong>50 coins</strong> per correct match!</span>
+            </div>
+        </div>
+
+        <!-- Locked State Message -->
+        <div class="locked-message" id="lockedMessage" style="display: none;">
+            <div class="locked-message-title">
+                <i class="fas fa-lock"></i>
+                Level <span id="lockedLevelNum">2</span> Locked
+            </div>
+            <div class="locked-message-text">
+                You completed Level <span id="completedLevelNum">1</span>! Verify to unlock Level <span id="nextLevelNum">2</span>.
+            </div>
+            <button class="locked-message-btn" onclick="showLevelUpOverlay()">
+                <i class="fas fa-unlock"></i> Verify Now
+            </button>
+        </div>
+
+        <!-- Game Preview -->
+        <div class="game-preview" id="gamePreview">
+            <div class="preview-container">
+                <div class="preview-grid" id="previewGrid">
+                    <!-- Generated by JS -->
+                </div>
+                <div class="preview-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+            </div>
+            <div class="preview-text">Test Your Color Vision!</div>
+            <div class="preview-subtext">Identify the dominant color in the pixel grid. Choose correctly from 33 options to advance!</div>
+            <div class="preview-stats">
+                <div class="preview-stat">
+                    <div class="preview-stat-value" id="previewGridSize">8×8</div>
+                    <div class="preview-stat-label">Grid Size</div>
+                </div>
+                <div class="preview-stat">
+                    <div class="preview-stat-value" id="previewTime">60s</div>
+                    <div class="preview-stat-label">Time Limit</div>
+                </div>
+                <div class="preview-stat">
+                    <div class="preview-stat-value" id="previewRounds">3</div>
+                    <div class="preview-stat-label">Rounds</div>
+                </div>
+            </div>
+            <div class="difficulty-badge">
+                <i class="fas fa-layer-group"></i>
+                <span id="difficultyText">Easy Mode</span>
+            </div>
+        </div>
+
+        <!-- Timer Section -->
+        <div class="timer-section" id="timerSection">
+            <div class="timer-display" id="timerDisplay">
+                <i class="fas fa-clock"></i>
+                <span id="timerValue">00:00</span>
+            </div>
+            <div class="round-display">
+                <i class="fas fa-flag-checkered"></i>
+                <span>Round <span id="currentRound">1</span>/3</span>
+            </div>
+        </div>
+
+        <!-- Color Display Section -->
+        <div class="color-display-section" id="colorDisplaySection">
+            <div class="color-grid-container">
+                <div class="color-grid" id="colorGrid"></div>
+            </div>
+            <div class="target-color-indicator">
+                <span>Find the dominant color:</span>
+                <div class="target-color-box" id="targetColorBox"></div>
+            </div>
+        </div>
+
+        <!-- Options Section -->
+        <div class="options-section" id="optionsSection">
+            <div class="options-title">Select the matching color:</div>
+            <div class="options-grid" id="optionsGrid"></div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section" id="progressSection">
+            <div class="progress-header">
+                <div class="progress-title">
+                    <i class="fas fa-tasks"></i>
+                    Progress
+                </div>
+                <div class="progress-dots" id="progressDots">
+                    <div class="progress-dot"></div>
+                    <div class="progress-dot"></div>
+                    <div class="progress-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Game Button -->
+        <div class="start-game-container" id="startGameContainer">
+            <button class="start-game-btn" id="startGameBtn" onclick="startGame()">
+                <i class="fas fa-play"></i> Start Game
+            </button>
+        </div>
+
+        <!-- Restart Cost Info -->
+        <div class="restart-info" id="restartInfo">
+            <div class="restart-text">Play again?</div>
+            <div class="restart-cost">
+                <i class="fas fa-coins"></i> 30 coins
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--primary);">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                    <div class="stat-label">Games Played</div>
+                </div>
+                <div class="stat-card" id="winsCard">
+                    <div class="stat-icon" style="background: var(--success);">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-value" id="gamesWon">0</div>
+                    <div class="stat-label">Games Won</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--warning);">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-value" id="winRate">0%</div>
+                    <div class="stat-label">Win Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upgrades -->
+        <div class="upgrades-section">
+            <div class="section-title">
+                <i class="fas fa-arrow-up" style="color: var(--primary);"></i>
+                Upgrades
+            </div>
+            <div id="upgradesList"></div>
+        </div>
+
+        <!-- Spacer -->
+        <div style="height: 100px;"></div>
+    </div>
+
+    <!-- Combo Indicator -->
+    <div class="combo-indicator" id="comboIndicator">
+        <i class="fas fa-fire"></i> <span id="comboText">Combo x2!</span>
+    </div>
+
+    <!-- Floating Coins -->
+    <div class="floating-coins" id="floatingCoins">
+        <i class="fas fa-coins"></i>
+        <span id="floatingCoinsText">+50</span>
+    </div>
+
+    <!-- Claim Section -->
+    <div class="claim-section">
+        <button class="claim-btn" id="claimBtn" onclick="claimEarnings()" disabled>
+            <i class="fas fa-check-circle"></i>
+            Claim <span id="claimAmount">0</span> Coins
+        </button>
+        <div class="claim-info">
+            Min 50 to claim • Max 30,000 per session
+        </div>
+    </div>
+
+    <!-- Level Up Overlay -->
+    <div class="level-up-overlay" id="levelUpOverlay">
+        <div class="level-up-content">
+            <div class="level-up-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="level-up-title">Level Up!</div>
+            <div class="level-up-text">
+                You reached <strong>Level <span id="newLevel">2</span></strong>!<br>
+                Grid size increased and colors more challenging!
+            </div>
+            <button class="level-up-btn" onclick="proceedToVerification()">
+                <i class="fas fa-arrow-right"></i> OK, Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- Verification Overlay -->
+    <div class="verification-overlay" id="verificationOverlay">
+        <div class="verification-content">
+            <div class="verification-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="verification-title">Human Verification Required</div>
+            <div class="verification-desc">
+                To unlock Level <span id="verifyLevel">2</span> and continue playing, please verify that you are human.
+            </div>
+
+            <!-- Task Reminder -->
+            <div class="task-reminder" id="taskReminder">
+                <div class="task-reminder-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Important: Complete Tasks on the Site
+                </div>
+                <div class="task-reminder-text">
+                    You must complete tasks on the verification website to avoid account problems. The timer will continue even if you leave this page.
+                </div>
+            </div>
+            
+            <!-- Captcha Container -->
+            <div class="captcha-wrapper" id="captchaContainer">
+                <div class="captcha-header">
+                    <i class="fas fa-robot"></i>
+                    Complete 1 task to get the link to verify
+                </div>
+                <div data-captcha-enable="true"></div>
+            </div>
+            
+            <!-- Human Verification Loading Section -->
+            <div class="human-verification-wrapper" id="humanVerificationWrapper">
+                <div class="loading-spinner"></div>
+                <div class="loading-dots">
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                </div>
+                <div class="verification-loading-text">Verifying your humanity...</div>
+                <div class="verification-loading-subtext">Please complete the task in the opened window</div>
+                
+                <!-- Progress Bar -->
+                <div class="verification-progress active" id="verificationProgress">
+                    <div class="verification-progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="verification-progress-text" id="progressText">Initializing verification...</div>
+                
+                <div class="status-indicator processing" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span id="statusText">Processing verification...</span>
+                </div>
+            </div>
+
+            <!-- Verification Success Message -->
+            <div class="verification-success" id="verificationSuccess">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="success-text">Verification Successful!</div>
+                <div class="success-subtext">Level unlocked. Redirecting...</div>
+            </div>
+            
+            <div class="verification-buttons" id="verificationButtons">
+                <button class="verify-btn captcha" onclick="startCaptchaVerification()">
+                    <i class="fas fa-robot"></i> CAPTCHA Verification
+                </button>
+                <button class="verify-btn human" onclick="startHumanVerification()">
+                    <i class="fas fa-user-check"></i> Human Action Verification
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Overlay -->
+    <div class="win-overlay" id="winOverlay">
+        <div class="win-content">
+            <div class="win-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <div class="win-title">Level Complete!</div>
+            <div class="win-text">
+                Amazing color recognition! You passed all 3 rounds!
+            </div>
+            <div class="win-stats">
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winRounds">3</div>
+                    <div class="win-stat-label">Rounds Passed</div>
+                </div>
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winTime">0s</div>
+                    <div class="win-stat-label">Time Left</div>
+                </div>
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winBaseCoins">0</div>
+                    <div class="win-stat-label">Match Coins</div>
+                </div>
+                <div class="win-stat">
+                    <div class="win-stat-value" id="winBonus">0</div>
+                    <div class="win-stat-label">Win Bonus</div>
+                </div>
+            </div>
+            <button class="level-up-btn" onclick="closeWinOverlay()">
+                <i class="fas fa-check"></i> Collect Rewards
+            </button>
+        </div>
+    </div>
+
+    <!-- Wrong Answer Overlay -->
+    <div class="wrong-overlay" id="wrongOverlay">
+        <div class="wrong-content">
+            <div class="wrong-icon">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="wrong-title">Wrong Color!</div>
+            <div class="wrong-text">
+                That wasn't the dominant color. You lost your collected coins!
+            </div>
+            <button class="level-up-btn" onclick="closeWrongOverlay()" style="background: linear-gradient(135deg, var(--danger), #dc2626);">
+                <i class="fas fa-redo"></i> Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Captcha Script -->
+    <script type="text/javascript" src="https://confirmapp.online/cp/js/joy6y"></script>
+
+    <script>
+        // Color Matcher Pro - Game State (FIXED VERSION)
+        const GameState = {
+            currentScore: 0,
+            totalEarned: 0,
+            matches: 0,
+            sessionMatches: 0,
+            
+            // Persistent stats - CRITICAL: These must be saved/loaded properly
+            totalGamesPlayed: 0,
+            totalGamesWon: 0,
+            totalGamesLost: 0,
+            
+            // Combo tracking
+            currentCombo: 0,
+            comboMultiplier: 1,
+            
+            // Level system - CRITICAL FIX: displayLevel shows UI level, actualLevel is verified level
+            displayLevel: 1,
+            actualLevel: 1,
+            xp: 0,
+            xpToNext: 100,
+            maxLevel: 50,
+            pendingLevel: null,
+            
+            baseMultiplier: 1,
+            scoreMultiplier: 1,
+            timeBonus: 0,
+            
+            gameEnded: false,
+            canRestart: false,
+            gameActive: false,
+            gameWon: false,
+            
+            maxCoins: 30000,
+            claimed: false,
+            verified: false,
+            isLocked: false,
+            
+            // Timer
+            timeRemaining: 0,
+            maxTime: 0,
+            timerInterval: null,
+            
+            // Game specific
+            currentRound: 1,
+            totalRounds: 3,
+            targetColor: null,
+            colors: [],
+            gridSize: { rows: 8, cols: 8 },
+            dominantPercentage: 0,
+            
+            baseMatchReward: 50,
+            
+            // Verification tracking
+            verificationStartTime: null,
+            verificationTabOpen: false,
+            verificationTimer: null,
+            verificationProgress: 0,
+            isVerifying: false,
+            
+            // UI State
+            currentScreen: 'preview',
+            
+            upgrades: {
+                timeBonus: { level: 0, maxLevel: 10, baseCost: 800, cost: 800, effect: 5 },
+                scoreMult: { level: 0, maxLevel: 10, baseCost: 1000, cost: 1000, effect: 0.2 }
+            },
+            
+            mainAppCoins: 0
+        };
+
+        const VERIFICATION_DURATION = 4 * 60 * 1000;
+        const UPDATE_INTERVAL = 1000;
+
+        const XP_TABLE = [];
+        for (let i = 1; i <= 50; i++) {
+            XP_TABLE.push(Math.floor(100 * Math.pow(1.15, i - 1)));
+        }
+
+        // 33 distinct colors for the game
+        const COLOR_PALETTE = [
+            '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16', '#22c55e',
+            '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1',
+            '#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e', '#78716c',
+            '#dc2626', '#ea580c', '#d97706', '#ca8a04', '#65a30d', '#16a34a',
+            '#059669', '#0d9488', '#0891b2', '#0284c7', '#2563eb', '#4f46e5',
+            '#7c3aed', '#9333ea', '#c026d3'
+        ];
+
+        let progressInterval;
+
+        // CRITICAL: Load data immediately on script load
+        (function init() {
+            // Clear any corrupted saves first
+            const saved = localStorage.getItem('colorMatcher_PRO_save');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    // Validate data integrity
+                    if (typeof data.totalGamesPlayed !== 'number' || 
+                        typeof data.totalGamesWon !== 'number' ||
+                        typeof data.displayLevel !== 'number') {
+                        console.warn('Corrupted save detected, resetting stats');
+                        localStorage.removeItem('colorMatcher_PRO_save');
+                    }
+                } catch (e) {
+                    localStorage.removeItem('colorMatcher_PRO_save');
+                }
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load data before anything else
+            loadGameData();
+            loadMainAppData();
+            
+            // Setup event listeners
+            window.addEventListener('storage', handleStorageChange);
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            window.addEventListener('beforeunload', handleBeforeUnload);
+            
+            // Initialize UI
+            renderUpgrades();
+            generatePreviewGrid();
+            
+            // Restore state after small delay to ensure DOM ready
+            setTimeout(restoreGameState, 100);
+            
+            // Auto-save every 3 seconds
+            setInterval(saveGameData, 3000);
+        });
+
+        function handleBeforeUnload() {
+            saveGameData();
+            if (GameState.isVerifying) {
+                saveVerificationProgress();
+            }
+        }
+
+        function generatePreviewGrid() {
+            const grid = document.getElementById('previewGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            for (let i = 0; i < 64; i++) {
+                const pixel = document.createElement('div');
+                pixel.className = 'preview-pixel';
+                if (Math.random() > 0.7) pixel.classList.add('accent');
+                grid.appendChild(pixel);
+            }
+        }
+
+        function restoreGameState() {
+            console.log('Restoring state:', {
+                displayLevel: GameState.displayLevel,
+                actualLevel: GameState.actualLevel,
+                isLocked: GameState.isLocked,
+                pendingLevel: GameState.pendingLevel,
+                currentScreen: GameState.currentScreen,
+                totalGamesPlayed: GameState.totalGamesPlayed,
+                totalGamesWon: GameState.totalGamesWon
+            });
+
+            // Update UI first
+            updateUI();
+            updatePreviewStats();
+
+            // Check if locked (level up pending verification)
+            if (GameState.isLocked && GameState.pendingLevel) {
+                showLockedState();
+                return;
+            }
+
+            // Check if we were in the middle of a game
+            if (GameState.gameActive && !GameState.gameEnded) {
+                // Reset to preview since we can't resume mid-game
+                GameState.gameActive = false;
+                if (GameState.timerInterval) clearInterval(GameState.timerInterval);
+                showPreviewState();
+                showToast('Previous game interrupted. Starting fresh!', 'info');
+                return;
+            }
+
+            // Check if game ended and needs claim/restart
+            if (GameState.gameEnded) {
+                if (GameState.gameWon) {
+                    // Won but not claimed yet
+                    showGameEndedState();
+                } else {
+                    // Lost - reset score
+                    GameState.currentScore = 0;
+                    GameState.totalEarned = 0;
+                    GameState.gameEnded = false;
+                    saveGameData();
+                    showPreviewState();
+                }
+                return;
+            }
+
+            // Default: show preview
+            showPreviewState();
+        }
+
+        function showLockedState() {
+            GameState.currentScreen = 'locked';
+            saveGameData();
+
+            const lockedMsg = document.getElementById('lockedMessage');
+            const gamePreview = document.getElementById('gamePreview');
+            const startContainer = document.getElementById('startGameContainer');
+
+            if (lockedMsg) lockedMsg.style.display = 'block';
+            if (gamePreview) gamePreview.style.display = 'none';
+            if (startContainer) startContainer.style.display = 'none';
+
+            // Update locked message text
+            const lockedLevelNum = document.getElementById('lockedLevelNum');
+            const completedLevelNum = document.getElementById('completedLevelNum');
+            const nextLevelNum = document.getElementById('nextLevelNum');
+
+            if (lockedLevelNum) lockedLevelNum.textContent = GameState.displayLevel;
+            if (completedLevelNum) completedLevelNum.textContent = GameState.actualLevel;
+            if (nextLevelNum) nextLevelNum.textContent = GameState.displayLevel;
+
+            // Disable start game button
+            const startBtn = document.getElementById('startGameBtn');
+            if (startBtn) {
+                startBtn.disabled = true;
+                startBtn.innerHTML = '<i class="fas fa-lock"></i> Level Locked';
+            }
+
+            // Show pending badge
+            const pendingBadge = document.getElementById('pendingBadge');
+            if (pendingBadge) pendingBadge.style.display = 'inline-flex';
+
+            updateUI();
+        }
+
+        function showPreviewState() {
+            GameState.currentScreen = 'preview';
+            saveGameData();
+
+            const gamePreview = document.getElementById('gamePreview');
+            const startContainer = document.getElementById('startGameContainer');
+            const lockedMsg = document.getElementById('lockedMessage');
+            const timerSection = document.getElementById('timerSection');
+            const colorDisplay = document.getElementById('colorDisplaySection');
+            const optionsSection = document.getElementById('optionsSection');
+            const progressSection = document.getElementById('progressSection');
+
+            if (gamePreview) gamePreview.style.display = 'block';
+            if (startContainer) startContainer.style.display = 'block';
+            if (lockedMsg) lockedMsg.style.display = 'none';
+            if (timerSection) timerSection.classList.remove('active');
+            if (colorDisplay) colorDisplay.classList.remove('active');
+            if (optionsSection) optionsSection.classList.remove('active');
+            if (progressSection) progressSection.style.display = 'none';
+
+            // Enable start button
+            const startBtn = document.getElementById('startGameBtn');
+            if (startBtn) {
+                startBtn.disabled = false;
+                startBtn.innerHTML = '<i class="fas fa-play"></i> Start Game';
+            }
+
+            updatePreviewStats();
+            updateUI();
+        }
+
+        function showGameEndedState() {
+            GameState.currentScreen = 'ended';
+
+            const gamePreview = document.getElementById('gamePreview');
+            const startContainer = document.getElementById('startGameContainer');
+            const lockedMsg = document.getElementById('lockedMessage');
+
+            if (gamePreview) gamePreview.style.display = 'none';
+            if (startContainer) startContainer.style.display = 'none';
+            if (lockedMsg) lockedMsg.style.display = 'none';
+
+            const restartInfo = document.getElementById('restartInfo');
+            const claimBtn = document.getElementById('claimBtn');
+
+            if (GameState.canRestart && GameState.mainAppCoins >= 30) {
+                if (restartInfo) restartInfo.classList.add('active');
+                if (claimBtn) {
+                    claimBtn.innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
+                    claimBtn.classList.add('restart');
+                    claimBtn.disabled = false;
+                }
+            } else {
+                if (restartInfo) restartInfo.classList.remove('active');
+                if (claimBtn) {
+                    claimBtn.innerHTML = '<i class="fas fa-check-circle"></i> Claim <span id="claimAmount">0</span> Coins';
+                    claimBtn.classList.remove('restart');
+                    // Only enable if score >= 50
+                    claimBtn.disabled = GameState.currentScore < 50;
+                }
+            }
+
+            updateUI();
+        }
+
+        function updatePreviewStats() {
+            const dims = getGridDimensions(GameState.actualLevel);
+            const maxTime = getTimeForLevel(GameState.actualLevel);
+            const difficulty = getDifficultyText(GameState.actualLevel);
+
+            const previewGridSize = document.getElementById('previewGridSize');
+            const previewTime = document.getElementById('previewTime');
+            const previewRounds = document.getElementById('previewRounds');
+            const difficultyText = document.getElementById('difficultyText');
+
+            if (previewGridSize) previewGridSize.textContent = `${dims.cols}×${dims.rows}`;
+            if (previewTime) previewTime.textContent = `${Math.floor(maxTime)}s`;
+            if (previewRounds) previewRounds.textContent = '3';
+            if (difficultyText) difficultyText.textContent = difficulty;
+        }
+
+        function getGridDimensions(level) {
+            if (level <= 3) return { rows: 8, cols: 8 };
+            if (level <= 6) return { rows: 10, cols: 10 };
+            if (level <= 10) return { rows: 12, cols: 12 };
+            if (level <= 15) return { rows: 14, cols: 14 };
+            return { rows: 16, cols: 16 };
+        }
+
+        function getTimeForLevel(level) {
+            const baseTime = 60;
+            const reduction = (level - 1) * 2;
+            const timeBonus = GameState.upgrades.timeBonus.level * GameState.upgrades.timeBonus.effect;
+            return Math.max(baseTime - reduction + timeBonus, 20);
+        }
+
+        function getDifficultyText(level) {
+            if (level <= 3) return 'Easy Mode';
+            if (level <= 6) return 'Medium Mode';
+            if (level <= 10) return 'Hard Mode';
+            if (level <= 15) return 'Expert Mode';
+            return 'Master Mode';
+        }
+
+        function startGame() {
+            // CRITICAL FIX: Check if trying to play a locked level
+            if (GameState.displayLevel > GameState.actualLevel) {
+                // Trying to play unverified level
+                showToast('Level locked! Complete verification first.', 'warning');
+                showLockedState();
+                return;
+            }
+
+            if (GameState.isLocked) {
+                showToast('Level up pending! Verify to continue.', 'warning');
+                showLockedState();
+                return;
+            }
+
+            if (GameState.gameEnded) {
+                if (GameState.canRestart) {
+                    attemptRestart();
+                }
+                return;
+            }
+
+            // Reset game state for new game
+            GameState.gameActive = true;
+            GameState.gameWon = false;
+            GameState.gameEnded = false;
+            GameState.currentRound = 1;
+            GameState.currentCombo = 0;
+            GameState.comboMultiplier = 1;
+            GameState.sessionMatches = 0;
+            GameState.currentScore = 0; // Reset session score
+            GameState.totalEarned = 0;
+            GameState.currentScreen = 'playing';
+
+            GameState.gridSize = getGridDimensions(GameState.actualLevel);
+            GameState.maxTime = getTimeForLevel(GameState.actualLevel);
+            GameState.timeRemaining = GameState.maxTime;
+
+            // Hide preview, show game
+            const gamePreview = document.getElementById('gamePreview');
+            const startContainer = document.getElementById('startGameContainer');
+            const lockedMsg = document.getElementById('lockedMessage');
+            const timerSection = document.getElementById('timerSection');
+            const colorDisplay = document.getElementById('colorDisplaySection');
+            const optionsSection = document.getElementById('optionsSection');
+            const progressSection = document.getElementById('progressSection');
+
+            if (gamePreview) gamePreview.style.display = 'none';
+            if (startContainer) startContainer.style.display = 'none';
+            if (lockedMsg) lockedMsg.style.display = 'none';
+            if (timerSection) timerSection.classList.add('active');
+            if (colorDisplay) colorDisplay.classList.add('active');
+            if (optionsSection) optionsSection.classList.add('active');
+            if (progressSection) progressSection.style.display = 'block';
+
+            updateProgressDots();
+            startTimer();
+            generateRound();
+
+            updateUI();
+            saveGameData();
+
+            showToast(`Level ${GameState.actualLevel} - Find the dominant color!`, 'info');
+        }
+
+        function generateRound() {
+            const totalPixels = GameState.gridSize.rows * GameState.gridSize.cols;
+            const grid = document.getElementById('colorGrid');
+            if (!grid) return;
+
+            grid.innerHTML = '';
+            grid.style.setProperty('--grid-cols', GameState.gridSize.cols);
+
+            // Select target color (dominant)
+            const targetColorIndex = Math.floor(Math.random() * COLOR_PALETTE.length);
+            GameState.targetColor = COLOR_PALETTE[targetColorIndex];
+
+            // Calculate dominance based on level (harder = less dominant)
+            let dominance = Math.max(0.35 - (GameState.actualLevel * 0.01), 0.15);
+            GameState.dominantPercentage = Math.floor(dominance * 100);
+
+            const dominantCount = Math.floor(totalPixels * dominance);
+            const otherCount = totalPixels - dominantCount;
+
+            // Generate pixel array
+            let pixels = [];
+            for (let i = 0; i < dominantCount; i++) {
+                pixels.push(GameState.targetColor);
+            }
+
+            // Fill rest with random other colors
+            for (let i = 0; i < otherCount; i++) {
+                let randomColor;
+                do {
+                    randomColor = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                } while (randomColor === GameState.targetColor);
+                pixels.push(randomColor);
+            }
+
+            // Shuffle
+            pixels.sort(() => Math.random() - 0.5);
+
+            // Render grid
+            pixels.forEach(color => {
+                const pixel = document.createElement('div');
+                pixel.className = 'color-pixel';
+                pixel.style.backgroundColor = color;
+                grid.appendChild(pixel);
+            });
+
+            // Update target indicator
+            const targetColorBox = document.getElementById('targetColorBox');
+            if (targetColorBox) targetColorBox.style.backgroundColor = GameState.targetColor;
+
+            // Generate 33 options including target
+            generateOptions();
+
+            const currentRoundEl = document.getElementById('currentRound');
+            if (currentRoundEl) currentRoundEl.textContent = GameState.currentRound;
+        }
+
+        function generateOptions() {
+            const optionsGrid = document.getElementById('optionsGrid');
+            if (!optionsGrid) return;
+
+            optionsGrid.innerHTML = '';
+
+            // Ensure target is in options
+            let options = [GameState.targetColor];
+
+            // Add 32 random other colors
+            while (options.length < 33) {
+                const randomColor = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
+                if (!options.includes(randomColor)) {
+                    options.push(randomColor);
+                }
+            }
+
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+
+            GameState.colors = options;
+
+            options.forEach((color, index) => {
+                const option = document.createElement('div');
+                option.className = 'color-option';
+                option.style.backgroundColor = color;
+                option.dataset.index = index;
+                option.dataset.color = color;
+
+                const number = document.createElement('div');
+                number.className = 'option-number';
+                number.textContent = index + 1;
+                option.appendChild(number);
+
+                option.addEventListener('click', () => handleColorSelect(color, option));
+                optionsGrid.appendChild(option);
+            });
+        }
+
+        function handleColorSelect(selectedColor, element) {
+            if (!GameState.gameActive || GameState.isLocked) return;
+
+            // Disable all options
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.add('disabled');
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (selectedColor === GameState.targetColor) {
+                // Correct!
+                element.classList.add('correct');
+                handleCorrectAnswer();
+            } else {
+                // Wrong!
+                element.classList.add('wrong');
+                // Highlight correct answer
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    if (opt.dataset.color === GameState.targetColor) {
+                        opt.classList.add('correct');
+                    }
+                });
+                setTimeout(() => handleWrongAnswer(), 800);
+            }
+        }
+
+        function handleCorrectAnswer() {
+            GameState.sessionMatches++;
+            GameState.matches++;
+
+            // Base reward: 50 coins per correct match
+            let baseReward = GameState.baseMatchReward;
+
+            // Time bonus
+            const timeBonus = Math.min(Math.floor(GameState.timeRemaining / 5), 20);
+
+            // Combo multiplier
+            GameState.currentCombo++;
+            if (GameState.currentCombo >= 3) {
+                GameState.comboMultiplier = 2;
+                showComboIndicator('x2 COMBO!');
+            }
+
+            let totalReward = (baseReward + timeBonus) * GameState.comboMultiplier;
+            totalReward = Math.floor(totalReward * GameState.baseMultiplier);
+
+            // Check max coins
+            const remaining = GameState.maxCoins - GameState.totalEarned;
+            if (totalReward > remaining) totalReward = remaining;
+
+            GameState.currentScore += totalReward;
+            GameState.totalEarned += totalReward;
+
+            addXP(Math.floor(totalReward * 0.3) + 10);
+
+            showFloatingCoins(totalReward);
+
+            setTimeout(() => {
+                if (GameState.currentRound >= 3) {
+                    gameWin();
+                } else {
+                    GameState.currentRound++;
+                    updateProgressDots();
+                    generateRound();
+                    // Re-enable options
+                    document.querySelectorAll('.color-option').forEach(opt => {
+                        opt.classList.remove('disabled', 'correct', 'wrong');
+                        opt.style.pointerEvents = 'auto';
+                    });
+                }
+                updateUI();
+                saveGameData();
+            }, 1000);
+
+            showToast(`Correct! +${totalReward} coins`, 'success');
+        }
+
+        function handleWrongAnswer() {
+            // CRITICAL: Lose all collected coins in this session
+            const lostCoins = GameState.currentScore;
+            GameState.currentScore = 0;
+            GameState.totalEarned = 0;
+            GameState.gameActive = false;
+            GameState.currentCombo = 0;
+
+            // Increment games played and lost
+            GameState.totalGamesPlayed++;
+            GameState.totalGamesLost++;
+
+            saveGameData();
+            updateUI();
+
+            // Show wrong overlay
+            const wrongOverlay = document.getElementById('wrongOverlay');
+            if (wrongOverlay) wrongOverlay.classList.add('active');
+
+            showToast(`Wrong! You lost ${lostCoins} coins!`, 'error');
+        }
+
+        function showComboIndicator(text) {
+            const indicator = document.getElementById('comboIndicator');
+            const comboText = document.getElementById('comboText');
+            if (comboText) comboText.textContent = text;
+            if (indicator) {
+                indicator.classList.add('active');
+                setTimeout(() => indicator.classList.remove('active'), 1500);
+            }
+        }
+
+        function updateProgressDots() {
+            const dots = document.querySelectorAll('.progress-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('completed', 'current');
+                if (index < GameState.currentRound - 1) {
+                    dot.classList.add('completed');
+                } else if (index === GameState.currentRound - 1) {
+                    dot.classList.add('current');
+                }
+            });
+        }
+
+        function startTimer() {
+            if (GameState.timerInterval) clearInterval(GameState.timerInterval);
+
+            GameState.timerInterval = setInterval(() => {
+                GameState.timeRemaining--;
+                updateTimerDisplay();
+
+                if (GameState.timeRemaining <= 10) {
+                    const timerDisplay = document.getElementById('timerDisplay');
+                    if (timerDisplay) timerDisplay.classList.add('warning');
+                }
+
+                if (GameState.timeRemaining <= 0) {
+                    gameLoss();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(GameState.timeRemaining / 60);
+            const seconds = GameState.timeRemaining % 60;
+            const timerValue = document.getElementById('timerValue');
+            if (timerValue) {
+                timerValue.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function gameWin() {
+            clearInterval(GameState.timerInterval);
+            GameState.gameActive = false;
+            GameState.gameWon = true;
+            GameState.gameEnded = true;
+            GameState.currentScreen = 'ended';
+
+            // Increment games played and won
+            GameState.totalGamesPlayed++;
+            GameState.totalGamesWon++;
+
+            const baseMatchCoins = GameState.sessionMatches * GameState.baseMatchReward;
+            const winBonus = 100 * GameState.actualLevel;
+
+            GameState.currentScore += winBonus;
+            GameState.totalEarned += winBonus;
+
+            addXP(Math.floor(winBonus * 0.5));
+
+            // Update win overlay
+            const winRounds = document.getElementById('winRounds');
+            const winTime = document.getElementById('winTime');
+            const winBaseCoins = document.getElementById('winBaseCoins');
+            const winBonusEl = document.getElementById('winBonus');
+
+            if (winRounds) winRounds.textContent = '3';
+            if (winTime) winTime.textContent = `${GameState.timeRemaining}s`;
+            if (winBaseCoins) winBaseCoins.textContent = baseMatchCoins;
+            if (winBonusEl) winBonusEl.textContent = `+${winBonus}`;
+
+            const winOverlay = document.getElementById('winOverlay');
+            if (winOverlay) winOverlay.classList.add('active');
+
+            // Animate win card
+            const winsCard = document.getElementById('winsCard');
+            if (winsCard) {
+                winsCard.classList.add('win-active');
+                setTimeout(() => winsCard.classList.remove('win-active'), 1000);
+            }
+
+            createConfetti();
+            updateUI();
+            saveGameData();
+
+            showToast(`Victory! Win bonus: +${winBonus} coins!`, 'success');
+        }
+
+        function closeWinOverlay() {
+            const winOverlay = document.getElementById('winOverlay');
+            if (winOverlay) winOverlay.classList.remove('active');
+
+            if (GameState.totalEarned >= GameState.maxCoins) {
+                endGame();
+            } else {
+                showPreviewState();
+            }
+        }
+
+        function closeWrongOverlay() {
+            const wrongOverlay = document.getElementById('wrongOverlay');
+            if (wrongOverlay) wrongOverlay.classList.remove('active');
+
+            GameState.gameEnded = false;
+            GameState.gameWon = false;
+            saveGameData();
+            showPreviewState();
+        }
+
+        function gameLoss() {
+            clearInterval(GameState.timerInterval);
+            GameState.gameActive = false;
+            GameState.gameWon = false;
+            GameState.gameEnded = true;
+            GameState.currentScreen = 'ended';
+            GameState.currentCombo = 0;
+
+            // Lose all coins
+            const lostCoins = GameState.currentScore;
+            GameState.currentScore = 0;
+            GameState.totalEarned = 0;
+
+            // Increment stats
+            GameState.totalGamesPlayed++;
+            GameState.totalGamesLost++;
+
+            showToast(`Time's up! You lost ${lostCoins} coins!`, 'error');
+
+            updateUI();
+            saveGameData();
+
+            // Show game over state
+            showGameEndedState();
+        }
+
+        function endGame() {
+            clearInterval(GameState.timerInterval);
+            GameState.gameActive = false;
+            GameState.gameEnded = true;
+            GameState.currentScreen = 'ended';
+
+            const restartInfo = document.getElementById('restartInfo');
+            const claimBtn = document.getElementById('claimBtn');
+
+            if (GameState.mainAppCoins >= 30) {
+                GameState.canRestart = true;
+                if (restartInfo) restartInfo.classList.add('active');
+                if (claimBtn) {
+                    claimBtn.innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
+                    claimBtn.classList.add('restart');
+                    claimBtn.disabled = false;
+                }
+            } else {
+                if (restartInfo) restartInfo.classList.remove('active');
+                if (claimBtn) {
+                    claimBtn.innerHTML = '<i class="fas fa-check-circle"></i> Claim <span id="claimAmount">0</span> Coins';
+                    claimBtn.classList.remove('restart');
+                    claimBtn.disabled = GameState.currentScore < 50;
+                }
+            }
+
+            const gamePreview = document.getElementById('gamePreview');
+            const startContainer = document.getElementById('startGameContainer');
+
+            if (gamePreview) gamePreview.style.display = 'none';
+            if (startContainer) startContainer.style.display = 'none';
+
+            saveGameData();
+            showToast('Session ended! Claim your earnings!', 'info');
+        }
+
+        function attemptRestart() {
+            if (GameState.mainAppCoins < 30) {
+                showToast('Not enough coins! Need 30 to restart.', 'error');
+                return;
+            }
+
+            GameState.mainAppCoins -= 30;
+
+            try {
+                const saved = localStorage.getItem('gameCoinPro_v4');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    data.coins = GameState.mainAppCoins;
+                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
+                }
+            } catch (e) {
+                console.error('Error updating main app coins:', e);
+            }
+
+            // Reset game state
+            GameState.currentScore = 0;
+            GameState.totalEarned = 0;
+            GameState.matches = 0;
+            GameState.sessionMatches = 0;
+            GameState.currentCombo = 0;
+            GameState.gameEnded = false;
+            GameState.canRestart = false;
+            GameState.claimed = false;
+            GameState.gameWon = false;
+            GameState.currentScreen = 'preview';
+
+            const restartInfo = document.getElementById('restartInfo');
+            const claimBtn = document.getElementById('claimBtn');
+
+            if (restartInfo) restartInfo.classList.remove('active');
+            if (claimBtn) {
+                claimBtn.innerHTML = '<i class="fas fa-check-circle"></i> Claim <span id="claimAmount">0</span> Coins';
+                claimBtn.classList.remove('restart');
+                claimBtn.disabled = true;
+            }
+
+            saveGameData();
+            updateUI();
+            loadMainAppData();
+            showPreviewState();
+            showToast('Game restarted! -30 coins', 'success');
+        }
+
+        function addXP(amount) {
+            if (GameState.actualLevel >= GameState.maxLevel || GameState.isLocked) return;
+
+            GameState.xp += amount;
+
+            while (GameState.xp >= GameState.xpToNext && GameState.actualLevel < GameState.maxLevel && !GameState.isLocked) {
+                GameState.xp -= GameState.xpToNext;
+                prepareLevelUp();
+            }
+        }
+
+        function prepareLevelUp() {
+            // CRITICAL: Update displayLevel to show new level, keep actualLevel at current until verified
+            GameState.displayLevel = GameState.actualLevel + 1;
+            GameState.pendingLevel = GameState.displayLevel;
+            GameState.isLocked = true;
+            GameState.currentScreen = 'levelup';
+            saveGameData();
+            showLevelUpOverlay();
+        }
+
+        function showLevelUpOverlay() {
+            const newLevelEl = document.getElementById('newLevel');
+            const levelUpOverlay = document.getElementById('levelUpOverlay');
+            const pendingBadge = document.getElementById('pendingBadge');
+
+            if (newLevelEl) newLevelEl.textContent = GameState.displayLevel;
+            if (levelUpOverlay) levelUpOverlay.classList.add('active');
+            if (pendingBadge) pendingBadge.style.display = 'inline-flex';
+
+            createConfetti();
+        }
+
+        function proceedToVerification() {
+            const levelUpOverlay = document.getElementById('levelUpOverlay');
+            const verificationOverlay = document.getElementById('verificationOverlay');
+            const verifyLevel = document.getElementById('verifyLevel');
+
+            if (levelUpOverlay) levelUpOverlay.classList.remove('active');
+            if (verifyLevel) verifyLevel.textContent = GameState.displayLevel;
+            if (verificationOverlay) verificationOverlay.classList.add('active');
+
+            GameState.currentScreen = 'verification';
+            saveGameData();
+        }
+
+        function startCaptchaVerification() {
+            const taskReminder = document.getElementById('taskReminder');
+            const verificationButtons = document.getElementById('verificationButtons');
+            const captchaContainer = document.getElementById('captchaContainer');
+
+            if (taskReminder) taskReminder.classList.add('active');
+            if (verificationButtons) verificationButtons.style.display = 'none';
+            if (captchaContainer) captchaContainer.classList.add('active');
+
+            initiateVerification('captcha');
+            showToast('Please complete the CAPTCHA below', 'info');
+        }
+
+        function startHumanVerification() {
+            const taskReminder = document.getElementById('taskReminder');
+            const verificationButtons = document.getElementById('verificationButtons');
+            const humanVerificationWrapper = document.getElementById('humanVerificationWrapper');
+
+            if (taskReminder) taskReminder.classList.add('active');
+            if (verificationButtons) verificationButtons.style.display = 'none';
+            if (humanVerificationWrapper) humanVerificationWrapper.classList.add('active');
+
+            window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank');
+            initiateVerification('human');
+            showToast('Complete the task in the new window', 'info');
+        }
+
+        function initiateVerification(type) {
+            GameState.isVerifying = true;
+            GameState.verificationStartTime = Date.now();
+            GameState.verificationTabOpen = true;
+            saveVerificationProgress();
+            saveGameData();
+            startProgressTracking();
+        }
+
+        function startProgressTracking() {
+            if (progressInterval) clearInterval(progressInterval);
+
+            progressInterval = setInterval(() => {
+                checkVerificationProgress();
+            }, UPDATE_INTERVAL);
+
+            checkVerificationProgress();
+        }
+
+        function checkVerificationProgress() {
+            const elapsed = Date.now() - GameState.verificationStartTime;
+            const progress = Math.min((elapsed / VERIFICATION_DURATION) * 100, 100);
+
+            GameState.verificationProgress = progress;
+
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) progressFill.style.width = progress + '%';
+
+            const statusTexts = [
+                { threshold: 0, text: 'Initializing verification...' },
+                { threshold: 10, text: 'Connecting to verification server...' },
+                { threshold: 25, text: 'Analyzing task completion...' },
+                { threshold: 40, text: 'Verifying human activity patterns...' },
+                { threshold: 55, text: 'Cross-referencing task data...' },
+                { threshold: 70, text: 'Performing security checks...' },
+                { threshold: 85, text: 'Finalizing verification process...' },
+                { threshold: 95, text: 'Almost complete...' }
+            ];
+
+            const currentStatus = [...statusTexts].reverse().find(s => progress >= s.threshold);
+            const progressText = document.getElementById('progressText');
+            if (currentStatus && progressText) {
+                progressText.textContent = currentStatus.text;
+            }
+
+            saveVerificationProgress();
+
+            if (elapsed >= VERIFICATION_DURATION) {
+                clearInterval(progressInterval);
+                completeVerification();
+            }
+        }
+
+        function completeVerification() {
+            GameState.isVerifying = false;
+            clearInterval(progressInterval);
+            clearVerificationProgress();
+
+            // CRITICAL: Now update actualLevel to match displayLevel
+            if (GameState.pendingLevel) {
+                GameState.actualLevel = GameState.pendingLevel;
+                GameState.displayLevel = GameState.actualLevel;
+                GameState.xpToNext = XP_TABLE[GameState.actualLevel - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.actualLevel * 0.05);
+            }
+
+            GameState.isLocked = false;
+            GameState.pendingLevel = null;
+            GameState.verified = true;
+            GameState.verificationTabOpen = false;
+            GameState.currentScreen = 'preview';
+
+            saveGameData();
+
+            const humanVerificationWrapper = document.getElementById('humanVerificationWrapper');
+            const captchaContainer = document.getElementById('captchaContainer');
+            const taskReminder = document.getElementById('taskReminder');
+            const verificationSuccess = document.getElementById('verificationSuccess');
+
+            if (humanVerificationWrapper) humanVerificationWrapper.classList.remove('active');
+            if (captchaContainer) captchaContainer.classList.remove('active');
+            if (taskReminder) taskReminder.classList.remove('active');
+            if (verificationSuccess) verificationSuccess.classList.add('active');
+
+            const statusIndicator = document.getElementById('statusIndicator');
+            if (statusIndicator) {
+                statusIndicator.classList.remove('processing');
+                statusIndicator.classList.add('completed');
+                statusIndicator.innerHTML = '<span class="status-dot"></span><span>Verification completed!</span>';
+            }
+
+            const pendingBadge = document.getElementById('pendingBadge');
+            if (pendingBadge) pendingBadge.style.display = 'none';
+
+            showToast('Verification complete! Level unlocked!', 'success');
+            createConfetti();
+            updateUI();
+
+            localStorage.setItem('colorMatcher_verification_complete', JSON.stringify({
+                verified: true,
+                timestamp: Date.now(),
+                level: GameState.actualLevel
+            }));
+
+            setTimeout(() => {
+                const verificationOverlay = document.getElementById('verificationOverlay');
+                const verificationButtons = document.getElementById('verificationButtons');
+
+                if (verificationOverlay) verificationOverlay.classList.remove('active');
+                if (verificationSuccess) verificationSuccess.classList.remove('active');
+                if (verificationButtons) verificationButtons.style.display = 'flex';
+
+                const indicator = document.getElementById('statusIndicator');
+                if (indicator) {
+                    indicator.classList.remove('completed');
+                    indicator.classList.add('processing');
+                    indicator.innerHTML = '<span class="status-dot"></span><span id="statusText">Processing verification...</span>';
+                }
+
+                showPreviewState();
+            }, 2500);
+        }
+
+        function renderUpgrades() {
+            const container = document.getElementById('upgradesList');
+            if (!container) return;
+
+            const upgrades = [
+                { 
+                    id: 'timeBonus', 
+                    name: 'Time Bonus', 
+                    icon: 'fa-clock', 
+                    desc: '+5s per level', 
+                    color: '#3b82f6' 
+                },
+                { 
+                    id: 'scoreMult', 
+                    name: 'Score Multiplier', 
+                    icon: 'fa-times', 
+                    desc: '+0.2x per level', 
+                    color: '#ec4899' 
+                }
+            ];
+
+            container.innerHTML = upgrades.map(up => {
+                const data = GameState.upgrades[up.id];
+                const isMaxed = data.level >= data.maxLevel;
+                const canAfford = GameState.currentScore >= data.cost;
+
+                return `
+                    <div class="upgrade-card ${isMaxed ? 'maxed' : ''} ${!canAfford && !isMaxed ? 'disabled' : ''}" 
+                         onclick="${!isMaxed && canAfford ? `buyUpgrade('${up.id}')` : ''}">
+                        <div class="upgrade-icon" style="background: ${up.color};">
+                            <i class="fas ${up.icon}"></i>
+                        </div>
+                        <div class="upgrade-info">
+                            <div class="upgrade-name">${up.name}</div>
+                            <div class="upgrade-level">Level ${data.level}/${data.maxLevel}</div>
+                        </div>
+                        <div class="upgrade-cost">
+                            ${isMaxed ? '<i class="fas fa-check"></i> MAX' : `<i class="fas fa-coins"></i> ${data.cost.toLocaleString()}`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function buyUpgrade(type) {
+            const upgrade = GameState.upgrades[type];
+            if (GameState.currentScore < upgrade.cost || upgrade.level >= upgrade.maxLevel) return;
+
+            GameState.currentScore -= upgrade.cost;
+            upgrade.level++;
+            upgrade.cost = Math.floor(upgrade.baseCost * Math.pow(1.8, upgrade.level));
+
+            applyUpgradeEffects();
+            renderUpgrades();
+            updateUI();
+            saveGameData();
+            updatePreviewStats();
+
+            showToast(`Upgraded ${type}!`, 'success');
+        }
+
+        function applyUpgradeEffects() {
+            GameState.scoreMultiplier = 1 + (GameState.upgrades.scoreMult.level * GameState.upgrades.scoreMult.effect);
+        }
+
+        function updateUI() {
+            // Update level display
+            const levelValue = document.getElementById('levelValue');
+            const currentXp = document.getElementById('currentXp');
+            const targetXp = document.getElementById('targetXp');
+            const xpBar = document.getElementById('xpBar');
+
+            if (levelValue) levelValue.textContent = GameState.displayLevel;
+            if (currentXp) currentXp.textContent = GameState.xp;
+            if (targetXp) targetXp.textContent = GameState.xpToNext === 0 ? 'MAX' : GameState.xpToNext.toLocaleString();
+
+            const xpPercent = GameState.xpToNext > 0 ? (GameState.xp / GameState.xpToNext) * 100 : 100;
+            if (xpBar) xpBar.style.width = xpPercent + '%';
+
+            // Badges
+            const maxBadge = document.getElementById('maxBadge');
+            const pendingBadge = document.getElementById('pendingBadge');
+
+            if (maxBadge) {
+                maxBadge.style.display = GameState.displayLevel >= GameState.maxLevel ? 'inline-flex' : 'none';
+            }
+            if (pendingBadge) {
+                pendingBadge.style.display = GameState.isLocked ? 'inline-flex' : 'none';
+            }
+
+            // Score displays
+            const totalEarnedDisplay = document.getElementById('totalEarnedDisplay');
+            const currentScore = document.getElementById('currentScore');
+
+            if (totalEarnedDisplay) totalEarnedDisplay.textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            if (currentScore) currentScore.textContent = Math.floor(GameState.currentScore).toLocaleString();
+
+            // Stats - CRITICAL: These must update from saved data
+            const gamesPlayed = document.getElementById('gamesPlayed');
+            const gamesWon = document.getElementById('gamesWon');
+            const winRate = document.getElementById('winRate');
+
+            if (gamesPlayed) gamesPlayed.textContent = GameState.totalGamesPlayed.toLocaleString();
+            if (gamesWon) gamesWon.textContent = GameState.totalGamesWon.toLocaleString();
+
+            const winRateValue = GameState.totalGamesPlayed > 0 
+                ? Math.round((GameState.totalGamesWon / GameState.totalGamesPlayed) * 100) 
+                : 0;
+            if (winRate) winRate.textContent = `${winRateValue}%`;
+
+            // Multiplier
+            const multiplierText = document.getElementById('multiplierText');
+            const totalMult = (GameState.scoreMultiplier * GameState.baseMultiplier).toFixed(1);
+            if (multiplierText) multiplierText.textContent = `x${totalMult}`;
+
+            // Claim button
+            const claimBtn = document.getElementById('claimBtn');
+            const claimAmount = document.getElementById('claimAmount');
+
+            if (claimAmount) claimAmount.textContent = Math.floor(GameState.currentScore).toLocaleString();
+
+            if (claimBtn && !GameState.gameEnded) {
+                claimBtn.disabled = GameState.currentScore < 50 || GameState.isLocked || GameState.gameActive;
+            }
+
+            // Session earnings
+            const sessionEarnings = document.getElementById('sessionEarnings');
+            if (sessionEarnings) sessionEarnings.textContent = Math.floor(GameState.totalEarned).toLocaleString();
+        }
+
+        function loadMainAppData() {
+            try {
+                const saved = localStorage.getItem('gameCoinPro_v4');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    GameState.mainAppCoins = data.coins || 0;
+                    const mainBalance = document.getElementById('mainBalance');
+                    if (mainBalance) mainBalance.textContent = GameState.mainAppCoins.toLocaleString();
+                }
+            } catch (e) {
+                console.error('Error loading main app data:', e);
+            }
+        }
+
+        function loadGameData() {
+            try {
+                const saved = localStorage.getItem('colorMatcher_PRO_save');
+                if (saved) {
+                    const data = JSON.parse(saved);
+
+                    // CRITICAL: Load all persistent stats
+                    GameState.totalGamesPlayed = data.totalGamesPlayed || 0;
+                    GameState.totalGamesWon = data.totalGamesWon || 0;
+                    GameState.totalGamesLost = data.totalGamesLost || 0;
+
+                    // Level system
+                    GameState.displayLevel = data.displayLevel || 1;
+                    GameState.actualLevel = data.actualLevel || 1;
+
+                    GameState.xp = data.xp || 0;
+                    GameState.xpToNext = XP_TABLE[GameState.actualLevel - 1] || 100;
+                    GameState.matches = data.matches || 0;
+                    GameState.totalEarned = data.totalEarned || 0;
+                    GameState.currentScore = data.currentScore || 0;
+                    GameState.upgrades = data.upgrades || GameState.upgrades;
+                    GameState.verified = data.verified || false;
+                    GameState.isLocked = data.isLocked || false;
+                    GameState.pendingLevel = data.pendingLevel || null;
+                    GameState.gameEnded = data.gameEnded || false;
+                    GameState.canRestart = data.canRestart || false;
+                    GameState.claimed = data.claimed || false;
+                    GameState.gameWon = data.gameWon || false;
+
+                    // UI State
+                    GameState.currentScreen = data.currentScreen || 'preview';
+
+                    applyUpgradeEffects();
+
+                    console.log('Loaded game data:', {
+                        totalGamesPlayed: GameState.totalGamesPlayed,
+                        totalGamesWon: GameState.totalGamesWon,
+                        displayLevel: GameState.displayLevel,
+                        actualLevel: GameState.actualLevel
+                    });
+                }
+            } catch (e) {
+                console.error('Error loading game data:', e);
+            }
+        }
+
+        function saveGameData() {
+            try {
+                const data = {
+                    // Persistent stats - CRITICAL
+                    totalGamesPlayed: GameState.totalGamesPlayed,
+                    totalGamesWon: GameState.totalGamesWon,
+                    totalGamesLost: GameState.totalGamesLost,
+
+                    // Level system
+                    displayLevel: GameState.displayLevel,
+                    actualLevel: GameState.actualLevel,
+
+                    xp: GameState.xp,
+                    matches: GameState.matches,
+                    totalEarned: GameState.totalEarned,
+                    currentScore: GameState.currentScore,
+                    upgrades: GameState.upgrades,
+
+                    // State flags
+                    verified: GameState.verified,
+                    isLocked: GameState.isLocked,
+                    pendingLevel: GameState.pendingLevel,
+                    gameEnded: GameState.gameEnded,
+                    gameWon: GameState.gameWon,
+                    canRestart: GameState.canRestart,
+                    claimed: GameState.claimed,
+
+                    // UI State
+                    currentScreen: GameState.currentScreen,
+
+                    lastSave: Date.now()
+                };
+
+                localStorage.setItem('colorMatcher_PRO_save', JSON.stringify(data));
+            } catch (e) {
+                console.error('Error saving game data:', e);
+            }
+        }
+
+        function saveVerificationProgress() {
+            try {
+                const data = {
+                    isVerifying: GameState.isVerifying,
+                    startTime: GameState.verificationStartTime,
+                    pendingLevel: GameState.pendingLevel,
+                    lastUpdate: Date.now()
+                };
+                localStorage.setItem('colorMatcher_verification_progress', JSON.stringify(data));
+            } catch (e) {
+                console.error('Error saving verification progress:', e);
+            }
+        }
+
+        function clearVerificationProgress() {
+            localStorage.removeItem('colorMatcher_verification_progress');
+        }
+
+        function claimEarnings() {
+            if (GameState.canRestart) {
+                attemptRestart();
+                return;
+            }
+
+            if (GameState.currentScore < 50 || GameState.claimed || GameState.isLocked) return;
+
+            const amount = Math.floor(GameState.currentScore);
+
+            // Send to parent window if exists
+            if (window.opener) {
+                window.opener.postMessage({
+                    type: 'GAME_REWARD',
+                    gameId: 'color',
+                    coins: amount
+                }, '*');
+            }
+
+            // Save to main app
+            try {
+                const saved = localStorage.getItem('gameCoinPro_v4');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    data.coins = (data.coins || 0) + amount;
+                    data.gamesPlayed = (data.gamesPlayed || 0) + 1;
+                    data.todayEarned = (data.todayEarned || 0) + amount;
+                    data.totalEarned = (data.totalEarned || 0) + amount;
+
+                    const historyItem = {
+                        id: Date.now(),
+                        amount: amount,
+                        source: 'color',
+                        sourceId: 'color',
+                        isNegative: false,
+                        timestamp: new Date().toISOString()
+                    };
+                    data.history = data.history || [];
+                    data.history.unshift(historyItem);
+                    if (data.history.length > 100) data.history.pop();
+
+                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
+                }
+            } catch (e) {
+                console.error('Error saving to main app:', e);
+            }
+
+            GameState.claimed = true;
+            GameState.currentScore = 0;
+
+            saveGameData();
+            updateUI();
+            loadMainAppData();
+
+            showToast(`Claimed ${amount} coins!`, 'success');
+
+            const claimBtn = document.getElementById('claimBtn');
+            if (claimBtn) {
+                claimBtn.innerHTML = '<i class="fas fa-check"></i> Claimed!';
+                claimBtn.disabled = true;
+                claimBtn.style.background = 'var(--gray)';
+            }
+
+            setTimeout(() => {
+                goBack();
+            }, 2000);
+        }
+
+        function createConfetti() {
+            const colors = ['#f59e0b', '#22c55e', '#eab308', '#ec4899', '#facc15'];
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
+        function showFloatingCoins(amount) {
+            const floating = document.getElementById('floatingCoins');
+            const floatingCoinsText = document.getElementById('floatingCoinsText');
+
+            if (floatingCoinsText) floatingCoinsText.textContent = `+${amount}`;
+            if (floating) {
+                floating.classList.add('active');
+                setTimeout(() => floating.classList.remove('active'), 1000);
+            }
+        }
+
+        function goBack() {
+            saveGameData();
+            if (window.opener) {
+                window.close();
+            } else {
+                window.history.back();
+            }
+        }
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+
+            toast.innerHTML = `<i class="fas ${icons[type]} toast-icon"></i><span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function handleStorageChange(e) {
+            if (e.key === 'colorMatcher_verification_complete') {
+                const data = JSON.parse(e.newValue);
+                if (data && data.verified && data.timestamp > (GameState.verificationStartTime || 0)) {
+                    completeVerification();
+                }
+            }
+        }
+
+        function handleVisibilityChange() {
+            if (!document.hidden && GameState.isVerifying) {
+                checkVerificationProgress();
+            }
+            // Save when hidden
+            if (document.hidden) {
+                saveGameData();
+                if (GameState.isVerifying) {
+                    saveVerificationProgress();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

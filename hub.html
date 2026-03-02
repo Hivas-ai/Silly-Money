@@ -1,0 +1,3914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GameCoin Pro | Play, Earn, Redeem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #3b82f6;
+            --primary-soft: rgba(37, 99, 235, 0.1);
+            --secondary: #f8fafc;
+            --dark: #0f172a;
+            --light: #ffffff;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0ea5e9;
+            --accent: #8b5cf6;
+            --shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
+            --shadow-lg: 0 10px 40px rgba(37, 99, 235, 0.2);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-size: 14px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #ffffff;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 60px rgba(0,0,0,0.1);
+        }
+
+        /* Loader Screen */
+        .loader-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .loader-logo {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .loader-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .xp-container {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .xp-bar-bg {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .xp-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #60a5fa, #ffffff, #60a5fa);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+            position: relative;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .xp-text {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-top: 15px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .xp-status {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+
+        /* Onboarding Screen */
+        .onboarding-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            z-index: 9000;
+            display: none;
+            flex-direction: column;
+            padding: 0;
+            color: white;
+            overflow: hidden;
+        }
+
+        .onboarding-screen.active {
+            display: flex;
+        }
+
+        .onboarding-header {
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+        .onboarding-logo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .onboarding-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+        }
+
+        .onboarding-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .onboarding-step {
+            display: none;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .onboarding-step.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            font-size: 3.5rem;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .step-desc {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .onboarding-dots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transition: var(--transition);
+        }
+
+        .dot.active {
+            background: white;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .onboarding-btn {
+            width: 100%;
+            max-width: 320px;
+            padding: 16px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .onboarding-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .onboarding-skip {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .onboarding-skip:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Setup Screen */
+        .setup-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            z-index: 8000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .setup-screen.active {
+            display: flex;
+        }
+
+        .setup-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: 4px solid rgba(255,255,255,0.3);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .setup-avatar:hover {
+            transform: scale(1.05);
+            border-color: white;
+        }
+
+        .setup-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .setup-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            padding: 10px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .setup-avatar:hover .setup-avatar-edit {
+            opacity: 1;
+        }
+
+        .setup-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .setup-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .setup-input-group {
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 20px;
+        }
+
+        .setup-label {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .setup-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .setup-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .setup-input:focus {
+            border-color: white;
+            background: rgba(255,255,255,0.25);
+        }
+
+        .random-name-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .random-name-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .setup-btn {
+            width: 100%;
+            max-width: 320px;
+            padding: 16px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .setup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            z-index: 5000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .welcome-screen.active {
+            display: flex;
+        }
+
+        .welcome-logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .welcome-input-group {
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-label {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: block;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .welcome-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .welcome-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .welcome-input:focus {
+            border-color: white;
+            background: rgba(255,255,255,0.25);
+        }
+
+        .welcome-btn {
+            width: 100%;
+            max-width: 320px;
+            padding: 16px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .welcome-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .welcome-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(37, 99, 235, 0.3);
+            display: none;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.3rem;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+            color: #60a5fa;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-coins-mini {
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .user-coins-mini:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        .profile-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .profile-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .profile-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-btn i {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        /* Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            display: none;
+            justify-content: space-around;
+            padding: 12px 0 20px;
+            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 6px 16px;
+            border-radius: 12px;
+            border: none;
+            background: none;
+            outline: none;
+            flex: 1;
+            max-width: 100px;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.4s ease;
+            padding-bottom: 100px;
+            min-height: calc(100vh - 180px);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Profile Section */
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-soft) 0%, rgba(255,255,255,0.9) 100%);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 2px solid rgba(37, 99, 235, 0.2);
+        }
+
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 4px solid white;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-avatar-large i {
+            font-size: 3rem;
+            color: white;
+        }
+
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 5px;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .profile-avatar-large:hover .profile-avatar-edit {
+            opacity: 1;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .profile-joined {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .profile-stat {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .profile-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .profile-stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* Dashboard */
+        .dashboard-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(255,255,255,0.9) 100%);
+            border: 2px solid rgba(37, 99, 235, 0.2);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-display-large {
+            position: relative;
+            z-index: 1;
+        }
+
+        .balance-label-large {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .balance-amount-large {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .coin-icon {
+            color: var(--warning);
+            font-size: 2rem;
+            animation: coinPulse 2s infinite;
+        }
+
+        @keyframes coinPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-stat {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .quick-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .quick-stat-label {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        /* Top Earners */
+        .top-earners-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .top-earners-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .top-earners-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-earners-title i {
+            color: var(--warning);
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: var(--success);
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .earner-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .earner-item:hover {
+            background: #f8fafc;
+        }
+
+        .earner-rank {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .earner-rank.gold {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #92400e;
+        }
+
+        .earner-rank.silver {
+            background: linear-gradient(135deg, #c0c0c0, #e5e7eb);
+            color: #4b5563;
+        }
+
+        .earner-rank.bronze {
+            background: linear-gradient(135deg, #cd7f32, #d97706);
+            color: white;
+        }
+
+        .earner-rank.normal {
+            background: var(--gray-light);
+            color: var(--gray);
+        }
+
+        .earner-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .earner-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .earner-avatar i {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .earner-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .earner-name {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .earner-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        /* Professional Spin Wheel */
+        .spin-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .spin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .spin-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spin-title i {
+            color: var(--warning);
+        }
+
+        .spins-left {
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 30px;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.2),
+                inset 0 0 0 8px rgba(255,255,255,0.1),
+                inset 0 0 20px rgba(0,0,0,0.1);
+            border: 4px solid #1e293b;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: right bottom;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .wheel-segment span {
+            transform: rotate(18deg) translateX(-25px);
+            display: block;
+            text-align: center;
+            width: 60px;
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 4px 20px rgba(0,0,0,0.3),
+                inset 0 2px 4px rgba(255,255,255,0.1);
+            z-index: 10;
+            border: 3px solid #f59e0b;
+        }
+
+        .wheel-center i {
+            font-size: 1.5rem;
+            color: #f59e0b;
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 20;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            animation: pointerBounce 1s infinite;
+        }
+
+        @keyframes pointerBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .spin-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spin-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .spin-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .spin-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: var(--gray);
+            box-shadow: none;
+        }
+
+        .spin-btn.spinning {
+            animation: btnPulse 0.5s infinite;
+        }
+
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .spin-history {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .spin-history-title {
+            font-weight: 600;
+            color: var(--gray);
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .spin-history-list {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .spin-history-item {
+            flex-shrink: 0;
+            padding: 6px 12px;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--gray-light);
+        }
+
+        .spin-history-item.win {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .spin-history-item.lose {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Win Animation */
+        .win-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 6000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .win-overlay.active {
+            display: flex;
+        }
+
+        .win-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            max-width: 350px;
+            width: 100%;
+            animation: winPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes winPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .win-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, transparent 70%);
+            animation: winGlow 2s infinite;
+        }
+
+        @keyframes winGlow {
+            0%, 100% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .win-icon {
+            font-size: 4rem;
+            color: var(--warning);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            animation: winBounce 1s infinite;
+        }
+
+        @keyframes winBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .win-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .win-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .win-text {
+            color: var(--gray);
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .win-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .win-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--warning);
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Games Grid */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .view-all {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            display: block;
+        }
+
+        .game-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            position: relative;
+        }
+
+        .game-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--success);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .game-badge.hot {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        }
+
+        .game-info {
+            padding: 12px;
+        }
+
+        .game-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-reward {
+            font-size: 0.8rem;
+            color: var(--success);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Tasks */
+        .task-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 18px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .task-card:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .task-card.completed {
+            border-color: var(--success);
+            background: #f0fdf4;
+            opacity: 0.8;
+            cursor: default;
+        }
+
+        .task-card.processing {
+            border-color: var(--warning);
+            background: #fffbeb;
+            cursor: wait;
+        }
+
+        .task-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .task-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .task-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 6px;
+        }
+
+        .task-reward-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .task-status {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .task-status.pending {
+            background: var(--gray-light);
+            color: var(--gray);
+        }
+
+        .task-status.completed {
+            background: var(--success);
+            color: white;
+        }
+
+        .task-status.processing {
+            background: var(--warning);
+            color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Chart */
+        .chart-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-title {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .chart-live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .chart-container {
+            height: 200px;
+            position: relative;
+            background: #f8fafc;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .chart-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .chart-stat {
+            text-align: center;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .chart-stat:hover {
+            background: var(--primary-soft);
+            transform: translateY(-2px);
+        }
+
+        .chart-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .chart-stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        /* Redeem */
+        .redeem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .redeem-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .redeem-card:hover:not(.disabled) {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .redeem-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f8fafc;
+        }
+
+        .redeem-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .redeem-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .redeem-cost {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .redeem-stock {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* Profile Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0,0,0,0.05);
+            color: var(--gray);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: rgba(0,0,0,0.1);
+            color: var(--dark);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .avatar-upload {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            border: 3px dashed var(--gray-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+
+        .avatar-upload:hover {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .avatar-upload img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .avatar-upload i {
+            font-size: 2rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .avatar-upload span {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            color: var(--dark);
+            font-size: 1rem;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .toast {
+            background: white;
+            color: var(--dark);
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastIn 0.3s ease;
+            pointer-events: auto;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .toast.success { border-left: 4px solid var(--success); }
+        .toast.error { border-left: 4px solid var(--danger); }
+        .toast.warning { border-left: 4px solid var(--warning); }
+        .toast.info { border-left: 4px solid var(--info); }
+
+        .toast-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon { color: var(--success); }
+        .toast.error .toast-icon { color: var(--danger); }
+        .toast.warning .toast-icon { color: var(--warning); }
+        .toast.info .toast-icon { color: var(--info); }
+
+        /* History Section */
+        .history-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .history-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .history-title i {
+            color: var(--primary);
+        }
+
+        .history-clear {
+            font-size: 0.8rem;
+            color: var(--danger);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .history-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            transition: var(--transition);
+        }
+
+        .history-item:hover {
+            background: var(--primary-soft);
+        }
+
+        .history-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .history-icon.spin { background: var(--warning); }
+        .history-icon.game { background: var(--primary); }
+        .history-icon.task { background: var(--success); }
+        .history-icon.wheel { background: var(--accent); }
+
+        .history-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-source {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .history-time {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .history-amount {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--success);
+            font-size: 1.1rem;
+        }
+
+        .history-amount.negative {
+            color: var(--danger);
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+
+        .empty-history i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 480px) {
+            .app-container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Loader Screen -->
+    <div class="loader-screen" id="loaderScreen">
+        <div class="loader-logo">
+            <i class="fas fa-gamepad"></i>
+        </div>
+        <div class="loader-title">GameCoin Pro</div>
+        <div class="xp-container">
+            <div class="xp-bar-bg">
+                <div class="xp-bar-fill" id="xpBarFill"></div>
+            </div>
+            <div class="xp-text" id="xpText">0%</div>
+            <div class="xp-status" id="xpStatus">Loading assets...</div>
+        </div>
+    </div>
+
+    <!-- Onboarding Screen -->
+    <div class="onboarding-screen" id="onboardingScreen">
+        <button class="onboarding-skip" onclick="skipOnboarding()">Skip</button>
+        
+        <div class="onboarding-header">
+            <div class="onboarding-logo">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            <div class="onboarding-title">Welcome to GameCoin Pro</div>
+        </div>
+
+        <div class="onboarding-content">
+            <!-- Step 1: App Concept -->
+            <div class="onboarding-step active" id="step1">
+                <div class="step-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="step-title">Play & Earn</div>
+                <div class="step-desc">
+                    Discover a revolutionary way to earn real rewards. Play exciting games, complete daily tasks, and spin the lucky wheel to collect GameCoins that you can redeem for real prizes!
+                </div>
+            </div>
+
+            <!-- Step 2: Games -->
+            <div class="onboarding-step" id="step2">
+                <div class="step-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <div class="step-title">Fun Mini-Games</div>
+                <div class="step-desc">
+                    Enjoy a variety of addictive mini-games from Coin Clicker to Memory Match. Each game rewards you with coins based on your performance. The better you play, the more you earn!
+                </div>
+            </div>
+
+            <!-- Step 3: Rewards -->
+            <div class="onboarding-step" id="step3">
+                <div class="step-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="step-title">Real Rewards</div>
+                <div class="step-desc">
+                    Redeem your hard-earned coins for PayPal cash, Google Play credits, Xbox/PlayStation gift cards, Amazon vouchers, and Steam credits. Real rewards for your gaming skills!
+                </div>
+            </div>
+
+            <div class="onboarding-dots">
+                <div class="dot active" id="dot1"></div>
+                <div class="dot" id="dot2"></div>
+                <div class="dot" id="dot3"></div>
+            </div>
+
+            <button class="onboarding-btn" id="onboardingBtn" onclick="nextOnboardingStep()">
+                <span>Next</span> <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Setup Screen -->
+    <div class="setup-screen" id="setupScreen">
+        <div class="setup-avatar" id="setupAvatar" onclick="document.getElementById('setupImageInput').click()">
+            <img id="setupAvatarImg" style="display: none;">
+            <i class="fas fa-camera" id="setupAvatarIcon"></i>
+            <div class="setup-avatar-edit">
+                <i class="fas fa-camera"></i> Add Photo
+            </div>
+        </div>
+        <input type="file" id="setupImageInput" accept="image/*" style="display: none;" onchange="handleSetupImageUpload(event)">
+        
+        <div class="setup-title">Create Your Profile</div>
+        <div class="setup-subtitle">Personalize your gaming experience</div>
+        
+        <div class="setup-input-group">
+            <label class="setup-label">Choose your username</label>
+            <input type="text" class="setup-input" id="setupUsernameInput" placeholder="Enter username" maxlength="20">
+        </div>
+        
+        <button class="random-name-btn" onclick="generateRandomName()">
+            <i class="fas fa-dice"></i> Generate Random Name
+        </button>
+        
+        <button class="setup-btn" onclick="completeSetup()">
+            <i class="fas fa-rocket"></i> Start Earning
+        </button>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-logo">
+            <i class="fas fa-gamepad"></i>
+        </div>
+        <h1 class="welcome-title">GameCoin Pro</h1>
+        <p class="welcome-subtitle">Play games, earn coins, redeem rewards</p>
+        
+        <div class="welcome-input-group">
+            <label class="welcome-label">Enter your username</label>
+            <input type="text" class="welcome-input" id="usernameInput" placeholder="Player123" maxlength="20">
+        </div>
+        
+        <button class="welcome-btn" id="startBtn">
+            <i class="fas fa-rocket"></i> Start Earning
+        </button>
+    </div>
+
+    <!-- Header -->
+    <header class="app-header" id="mainHeader">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-gamepad"></i>
+                <span>GameCoin Pro</span>
+            </div>
+            <div class="header-actions">
+                <div class="user-coins-mini" onclick="switchTab('redeem')">
+                    <i class="fas fa-coins" style="color: var(--warning);"></i>
+                    <span id="headerCoins">0</span>
+                </div>
+                <div class="profile-btn" onclick="openProfileModal()">
+                    <img id="headerAvatar" style="display: none;">
+                    <i class="fas fa-user" id="headerAvatarIcon"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HOME SECTION -->
+    <section id="homeSection" class="content-section">
+        <!-- Dashboard -->
+        <div class="dashboard-card">
+            <div class="balance-display-large">
+                <div class="balance-label-large">Total Balance</div>
+                <div class="balance-amount-large">
+                    <i class="fas fa-coins coin-icon"></i>
+                    <span id="totalCoins">0</span>
+                </div>
+                <div class="balance-currency">GAME COINS</div>
+            </div>
+            
+            <div class="quick-stats">
+                <div class="quick-stat">
+                    <div class="quick-stat-value" id="gamesPlayed">0</div>
+                    <div class="quick-stat-label">Games</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-value" id="tasksDone">0</div>
+                    <div class="quick-stat-label">Tasks</div>
+                </div>
+                <div class="quick-stat">
+                    <div class="quick-stat-value" id="spinsUsed">0</div>
+                    <div class="quick-stat-label">Spins</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Earners -->
+        <div class="top-earners-card">
+            <div class="top-earners-header">
+                <div class="top-earners-title">
+                    <i class="fas fa-trophy"></i>
+                    Top Earners
+                </div>
+                <div class="live-badge">
+                    <div class="live-dot"></div>
+                    LIVE
+                </div>
+            </div>
+            <div id="topEarnersList"></div>
+        </div>
+
+        <!-- Spin Wheel -->
+        <div class="spin-section">
+            <div class="spin-header">
+                <div class="spin-title">
+                    <i class="fas fa-dharmachakra"></i>
+                    Lucky Spin
+                </div>
+                <div class="spins-left">
+                    <i class="fas fa-ticket-alt"></i> <span id="spinsLeft">3</span> left
+                </div>
+            </div>
+            
+            <div class="wheel-container">
+                <div class="wheel-pointer"></div>
+                <div class="wheel" id="wheel"></div>
+                <div class="wheel-center">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <button class="spin-btn" id="spinBtn">
+                <i class="fas fa-play"></i> SPIN NOW
+            </button>
+            
+            <div class="spin-history">
+                <div class="spin-history-title">Recent Spins</div>
+                <div class="spin-history-list" id="spinHistoryList">
+                    <span style="color: var(--gray); font-size: 0.85rem;">No spins yet</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <div class="chart-title">
+                    <i class="fas fa-chart-line" style="color: var(--primary);"></i>
+                    Live Viewers
+                </div>
+                <div class="chart-live">
+                    <div class="live-dot"></div>
+                    LIVE
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="earningsChart" class="chart-canvas"></canvas>
+            </div>
+            <div class="chart-stats">
+                <div class="chart-stat">
+                    <div class="chart-stat-value" id="currentViewers">0</div>
+                    <div class="chart-stat-label">Current</div>
+                </div>
+                <div class="chart-stat">
+                    <div class="chart-stat-value" id="avgViewers">0</div>
+                    <div class="chart-stat-label">Average</div>
+                </div>
+                <div class="chart-stat">
+                    <div class="chart-stat-value" id="peakViewers">0</div>
+                    <div class="chart-stat-label">Peak</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Featured Games -->
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-fire"></i>
+                Featured Games
+            </div>
+            <div class="view-all" onclick="switchTab('games')">View All</div>
+        </div>
+        
+        <div class="games-grid" id="featuredGames"></div>
+    </section>
+
+    <!-- PROFILE SECTION -->
+    <section id="profileSection" class="content-section">
+        <div class="profile-header">
+            <div class="profile-avatar-large" onclick="document.getElementById('profileImageInput').click()">
+                <img id="profileAvatarImg" style="display: none;">
+                <i class="fas fa-user" id="profileAvatarIcon"></i>
+                <div class="profile-avatar-edit">
+                    <i class="fas fa-camera"></i> Change
+                </div>
+            </div>
+            <input type="file" id="profileImageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+            
+            <div class="profile-name" id="profileUsername">Player</div>
+            <div class="profile-joined" id="profileJoined">Joined today</div>
+            
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileCoins">0</div>
+                    <div class="profile-stat-label">Coins</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileGames">0</div>
+                    <div class="profile-stat-label">Games</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileRank">#--</div>
+                    <div class="profile-stat-label">Rank</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-card">
+            <div class="history-header">
+                <div class="history-title">
+                    <i class="fas fa-history"></i>
+                    Earnings History
+                </div>
+                <div class="history-clear" onclick="clearHistory()">
+                    <i class="fas fa-trash"></i> Clear
+                </div>
+            </div>
+            <div class="history-list" id="historyList">
+                <div class="empty-history">
+                    <i class="fas fa-receipt"></i>
+                    <div>No transactions yet</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="background: white; border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow);">
+            <div class="section-title" style="margin-bottom: 15px;">
+                <i class="fas fa-cog"></i>
+                Settings
+            </div>
+            <button class="btn-primary" onclick="logout()" style="background: var(--danger);">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </section>
+
+    <!-- GAMES SECTION -->
+    <section id="gamesSection" class="content-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-gamepad"></i>
+                All Games
+            </div>
+        </div>
+        
+        <div class="games-grid" id="allGames"></div>
+    </section>
+
+    <!-- TASKS SECTION -->
+    <section id="tasksSection" class="content-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-tasks"></i>
+                Daily Tasks
+            </div>
+        </div>
+        
+        <div id="tasksList"></div>
+        
+        <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid var(--warning); border-radius: 10px; padding: 15px; margin-top: 20px; font-size: 0.85rem; color: var(--dark);">
+            <strong style="color: var(--danger); display: block; margin-bottom: 5px;">
+                <i class="fas fa-exclamation-triangle"></i> Pro Tip
+            </strong>
+            Complete all daily tasks to earn bonus 100 coins! Tasks reset every 24 hours.
+        </div>
+    </section>
+
+    <!-- REDEEM SECTION -->
+    <section id="redeemSection" class="content-section">
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fas fa-gift"></i>
+                Redeem Rewards
+            </div>
+        </div>
+        
+        <div class="redeem-grid" id="redeemGrid"></div>
+        
+        <div style="background: #f0f9ff; border-radius: 12px; padding: 15px; margin-top: 20px; border: 1px solid #bae6fd;">
+            <div style="font-weight: 700; color: var(--primary); margin-bottom: 8px;">
+                <i class="fas fa-info-circle"></i> How to Redeem
+            </div>
+            <ol style="font-size: 0.85rem; color: var(--gray); padding-left: 18px; line-height: 1.8;">
+                <li>Earn coins by playing games</li>
+                <li>Select your reward below</li>
+                <li>Receive code via email within 24h</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button class="nav-item active" onclick="switchTab('home')" id="nav-home">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('games')" id="nav-games">
+            <i class="fas fa-gamepad"></i>
+            <span>Games</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('tasks')" id="nav-tasks">
+            <i class="fas fa-tasks"></i>
+            <span>Tasks</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('redeem')" id="nav-redeem">
+            <i class="fas fa-gift"></i>
+            <span>Redeem</span>
+        </button>
+    </nav>
+</div>
+
+<!-- Win Overlay -->
+<div class="win-overlay" id="winOverlay">
+    <div class="win-content">
+        <div class="win-icon">
+            <i class="fas fa-gift"></i>
+        </div>
+        <div class="win-title" id="winTitle">Congratulations!</div>
+        <div class="win-amount" id="winAmount">+50</div>
+        <div class="win-text" id="winText">coins added to your balance</div>
+        <button class="win-btn" onclick="closeWinOverlay()">
+            <i class="fas fa-check"></i> Awesome!
+        </button>
+    </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="modal-overlay" id="profileModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-user" style="color: var(--primary);"></i>
+                Edit Profile
+            </div>
+            <button class="modal-close" onclick="closeProfileModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="avatar-upload" onclick="document.getElementById('modalImageInput').click()">
+                <img id="modalAvatarImg" style="display: none;">
+                <i class="fas fa-camera" id="modalAvatarIcon"></i>
+                <span id="modalAvatarText">Upload Photo</span>
+            </div>
+            <input type="file" id="modalImageInput" accept="image/*" style="display: none;" onchange="handleModalImageUpload(event)">
+            
+            <div class="input-group">
+                <label class="input-label">Username</label>
+                <input type="text" class="input-field" id="editUsername" maxlength="20">
+            </div>
+            
+            <button class="btn-primary" onclick="saveProfile()">
+                <i class="fas fa-save"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Redeem Confirmation Modal -->
+<div class="modal-overlay" id="redeemModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fas fa-gift" style="color: var(--primary);"></i>
+                Confirm Redemption
+            </div>
+            <button class="modal-close" onclick="closeRedeemModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div id="redeemIcon" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;"></div>
+                <h3 id="redeemName" style="margin-bottom: 5px;"></h3>
+                <p style="color: var(--gray); font-size: 0.9rem;">Cost: <span id="redeemCost" style="color: var(--primary); font-weight: 700;"></span> coins</p>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Email Address</label>
+                <input type="email" class="input-field" id="redeemEmail" placeholder="your@email.com">
+            </div>
+            <button class="btn-primary" onclick="confirmRedeem()">
+                <i class="fas fa-check-circle"></i> Confirm Redemption
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// Application State
+const AppState = {
+    username: '',
+    avatar: null,
+    coins: 0,
+    spinsLeft: 3,
+    gamesPlayed: 0,
+    tasksCompleted: 0,
+    spinsUsed: 0,
+    todayEarned: 0,
+    weekEarned: 0,
+    totalEarned: 0,
+    lastSpin: null,
+    lastLogin: null,
+    tasks: {},
+    earnings: [],
+    spinHistory: [],
+    currentGame: null,
+    selectedReward: null,
+    joinDate: null,
+    isFirstTime: true,
+    taskProcessing: {},
+    pendingTaskRewards: {},
+    history: []
+};
+
+// Random usernames
+const RANDOM_NAMES = [
+    'CoinMaster', 'GameKing', 'LuckyPlayer', 'CryptoHunter', 'SpinMaster',
+    'RewardSeeker', 'ProGamer', 'CoinCollector', 'JackpotKing', 'LuckyStar',
+    'GameChamp', 'RewardHero', 'CoinWizard', 'LuckyDragon', 'MegaWinner',
+    'GameLegend', 'CoinRush', 'LuckyStrike', 'ProPlayer', 'RewardMaster'
+];
+
+// Top Earners Data
+const TOP_EARNERS = [
+    { name: 'CryptoKing', avatar: null, coins: 25430 },
+    { name: 'GameMaster', avatar: null, coins: 22150 },
+    { name: 'CoinHunter', avatar: null, coins: 19800 },
+    { name: 'ProPlayer', avatar: null, coins: 17500 },
+    { name: 'LuckySpin', avatar: null, coins: 15200 }
+];
+
+const GAMES = [
+    { id: 'clicker', name: 'Coin Clicker', icon: 'fa-hand-pointer', color: '#3b82f6', reward: '10-50 coins', href: 'clicker.html' },
+    { id: 'memory', name: 'Memory Match', icon: 'fa-brain', color: '#8b5cf6', reward: '20-100 coins', href: 'memory.html' },
+    { id: 'math', name: 'Math Rush', icon: 'fa-calculator', color: '#10b981', reward: '15-75 coins', href: 'math.html' },
+    { id: 'color', name: 'Color Match', icon: 'fa-palette', color: '#f59e0b', reward: '25-125 coins', href: 'color.html' },
+    { id: 'reaction', name: 'Reaction Time', icon: 'fa-bolt', color: '#ef4444', reward: '30-150 coins', href: 'reaction.html' },
+    { id: 'puzzle', name: 'Puzzle Solve', icon: 'fa-puzzle-piece', color: '#ec4899', reward: '40-200 coins', href: 'puzzle.html' }
+];
+
+const TASKS = [
+    { id: 'daily_login', title: 'Daily Login', desc: 'Open the app today', reward: 50, icon: 'fa-calendar-check', color: '#3b82f6', href: null },
+    { id: 'play_3_games', title: 'Play 3 Games', desc: 'Play any 3 games today', reward: 100, icon: 'fa-gamepad', color: '#8b5cf6', href: null },
+    { id: 'spin_wheel', title: 'Spin the Wheel', desc: 'Use your daily spin', reward: 25, icon: 'fa-dharmachakra', color: '#f59e0b', href: null },
+    { id: 'earn_100', title: 'Earn 100 Coins', desc: 'Collect 100 coins today', reward: 50, icon: 'fa-coins', color: '#10b981', href: null },
+    { id: 'watch_video', title: 'Watch Video', desc: 'Watch a short video', reward: 300, icon: 'fa-play-circle', color: '#ef4444', href: 'video.html', external: true },
+    { id: 'survey', title: 'Complete Survey', desc: 'Answer a few questions', reward: 500, icon: 'fa-clipboard-list', color: '#ec4899', href: 'survey.html', external: true },
+    { id: 'download_app', title: 'Download App', desc: 'Try a new app', reward: 700, icon: 'fa-download', color: '#0ea5e9', href: 'app.html', external: true }
+];
+
+const REWARDS = [
+    { id: 'paypal_10', name: '$10 PayPal', icon: 'fa-paypal', color: '#003087', cost: 20000, stock: 'High' },
+    { id: 'google_10', name: '$10 Google Play', icon: 'fa-google-play', color: '#4285f4', cost: 20000, stock: 'Medium' },
+    { id: 'xbox_10', name: '$10 Xbox', icon: 'fa-xbox', color: '#107c10', cost: 20000, stock: 'Low' },
+    { id: 'psn_10', name: '$10 PSN', icon: 'fa-playstation', color: '#003791', cost: 20000, stock: 'High' },
+    { id: 'amazon_10', name: '$10 Amazon', icon: 'fa-amazon', color: '#ff9900', cost: 20000, stock: 'Medium' },
+    { id: 'steam_10', name: '$10 Steam', icon: 'fa-steam', color: '#1b2838', cost: 20000, stock: 'High' }
+];
+
+// Professional Wheel Rewards - 10 segments
+const WHEEL_REWARDS = [
+    { value: 10, color: '#64748b', label: '10' },
+    { value: 25, color: '#3b82f6', label: '25' },
+    { value: 0, color: '#ef4444', label: '0' },
+    { value: 50, color: '#10b981', label: '50' },
+    { value: 1, color: '#8b5cf6', label: '+1' },
+    { value: 100, color: '#f59e0b', label: '100' },
+    { value: 0, color: '#ef4444', label: '0' },
+    { value: 200, color: '#ec4899', label: '200' },
+    { value: 2, color: '#8b5cf6', label: '+2' },
+    { value: 500, color: '#f59e0b', label: '500' }
+];
+
+let isSpinning = false;
+let chartUpdateInterval = null;
+let topEarnersInterval = null;
+let currentOnboardingStep = 1;
+let currentViewers = 2500;
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('App initializing...');
+    
+    // Load saved state
+    loadState();
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Setup wheel
+    renderWheel();
+    
+    // Setup chart
+    initChart();
+    
+    // Render content
+    renderGames();
+    renderTasks();
+    renderRewards();
+    renderTopEarners();
+    updateSpinHistory();
+    renderHistory();
+    
+    // Start live updates
+    startLiveUpdates();
+    
+    // Check pending tasks
+    checkPendingTasks();
+    
+    // Check if user is logged in
+    checkUserStatus();
+    
+    console.log('App initialized');
+});
+
+function checkUserStatus() {
+    if (AppState.username && !AppState.isFirstTime) {
+        showLoader();
+    } else if (AppState.username && AppState.isFirstTime) {
+        showMainApp();
+    } else {
+        showLoader();
+    }
+}
+
+function showLoader() {
+    const loaderScreen = document.getElementById('loaderScreen');
+    const xpBarFill = document.getElementById('xpBarFill');
+    const xpText = document.getElementById('xpText');
+    const xpStatus = document.getElementById('xpStatus');
+    
+    const loadingSteps = [
+        { progress: 0, status: 'Initializing...' },
+        { progress: 52, status: 'Loading assets...' },
+        { progress: 75, status: 'Connecting to server...' },
+        { progress: 98, status: 'Almost ready...' },
+        { progress: 100, status: 'Complete!' }
+    ];
+    
+    let stepIndex = 0;
+    
+    function updateLoader() {
+        if (stepIndex >= loadingSteps.length) {
+            setTimeout(() => {
+                loaderScreen.style.display = 'none';
+                if (!AppState.username) {
+                    showSetup();
+                } else {
+                    showMainApp();
+                }
+            }, 500);
+            return;
+        }
+        
+        const step = loadingSteps[stepIndex];
+        xpBarFill.style.width = step.progress + '%';
+        xpText.textContent = step.progress + '%';
+        xpStatus.textContent = step.status;
+        
+        stepIndex++;
+        setTimeout(updateLoader, 800);
+    }
+    
+    updateLoader();
+}
+
+function showSetup() {
+    const setupScreen = document.getElementById('setupScreen');
+    setupScreen.classList.add('active');
+}
+
+function generateRandomName() {
+    const randomName = RANDOM_NAMES[Math.floor(Math.random() * RANDOM_NAMES.length)];
+    document.getElementById('setupUsernameInput').value = randomName;
+}
+
+function handleSetupImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        AppState.avatar = e.target.result;
+        updateSetupAvatar();
+    };
+    reader.readAsDataURL(file);
+}
+
+function updateSetupAvatar() {
+    const setupAvatarImg = document.getElementById('setupAvatarImg');
+    const setupAvatarIcon = document.getElementById('setupAvatarIcon');
+    
+    if (AppState.avatar) {
+        setupAvatarImg.src = AppState.avatar;
+        setupAvatarImg.style.display = 'block';
+        setupAvatarIcon.style.display = 'none';
+    } else {
+        setupAvatarImg.style.display = 'none';
+        setupAvatarIcon.style.display = 'block';
+    }
+}
+
+function completeSetup() {
+    const usernameInput = document.getElementById('setupUsernameInput');
+    const username = usernameInput.value.trim();
+    
+    if (!username) {
+        showToast('Please enter a username', 'error');
+        return;
+    }
+    
+    AppState.username = username;
+    AppState.joinDate = new Date().toISOString();
+    AppState.lastLogin = new Date().toDateString();
+    AppState.isFirstTime = true;
+    saveState();
+    
+    document.getElementById('setupScreen').classList.remove('active');
+    showOnboarding();
+}
+
+function showOnboarding() {
+    const onboardingScreen = document.getElementById('onboardingScreen');
+    onboardingScreen.classList.add('active');
+    updateOnboardingStep();
+}
+
+function updateOnboardingStep() {
+    document.querySelectorAll('.onboarding-step').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    document.getElementById('step' + currentOnboardingStep).classList.add('active');
+    
+    document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index + 1 === currentOnboardingStep);
+    });
+    
+    const btn = document.getElementById('onboardingBtn');
+    if (currentOnboardingStep === 3) {
+        btn.innerHTML = '<span>Get Started</span> <i class="fas fa-check"></i>';
+    } else {
+        btn.innerHTML = '<span>Next</span> <i class="fas fa-arrow-right"></i>';
+    }
+}
+
+function nextOnboardingStep() {
+    if (currentOnboardingStep < 3) {
+        currentOnboardingStep++;
+        updateOnboardingStep();
+    } else {
+        finishOnboarding();
+    }
+}
+
+function skipOnboarding() {
+    finishOnboarding();
+}
+
+function finishOnboarding() {
+    AppState.isFirstTime = false;
+    saveState();
+    document.getElementById('onboardingScreen').classList.remove('active');
+    showMainApp();
+    showToast(`Welcome, ${AppState.username}!`, 'success');
+}
+
+function setupEventListeners() {
+    const spinBtn = document.getElementById('spinBtn');
+    if (spinBtn) {
+        spinBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            spinWheel();
+        });
+    }
+}
+
+function loadState() {
+    try {
+        const saved = localStorage.getItem('gameCoinPro_v4');
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            
+            const today = new Date().toDateString();
+            const lastLogin = parsed.lastLogin;
+            
+            if (lastLogin !== today) {
+                AppState.username = parsed.username || '';
+                AppState.avatar = parsed.avatar || null;
+                AppState.coins = parsed.coins || 0;
+                AppState.spinsLeft = 3;
+                AppState.gamesPlayed = parsed.gamesPlayed || 0;
+                AppState.tasksCompleted = parsed.tasksCompleted || 0;
+                AppState.spinsUsed = parsed.spinsUsed || 0;
+                AppState.todayEarned = 0;
+                AppState.weekEarned = (parsed.weekEarned || 0) + (parsed.todayEarned || 0);
+                AppState.totalEarned = parsed.totalEarned || 0;
+                AppState.lastSpin = null;
+                AppState.lastLogin = today;
+                AppState.tasks = {};
+                AppState.earnings = [];
+                AppState.spinHistory = [];
+                AppState.joinDate = parsed.joinDate || new Date().toISOString();
+                AppState.isFirstTime = parsed.isFirstTime !== undefined ? parsed.isFirstTime : true;
+                AppState.taskProcessing = {};
+                AppState.pendingTaskRewards = parsed.pendingTaskRewards || {};
+                AppState.history = parsed.history || [];
+                
+                if (AppState.username) {
+                    showToast('New day! Daily rewards reset.', 'info');
+                }
+            } else {
+                AppState.username = parsed.username || '';
+                AppState.avatar = parsed.avatar || null;
+                AppState.coins = parsed.coins || 0;
+                AppState.spinsLeft = parsed.spinsLeft !== undefined ? parsed.spinsLeft : 3;
+                AppState.gamesPlayed = parsed.gamesPlayed || 0;
+                AppState.tasksCompleted = parsed.tasksCompleted || 0;
+                AppState.spinsUsed = parsed.spinsUsed || 0;
+                AppState.todayEarned = parsed.todayEarned || 0;
+                AppState.weekEarned = parsed.weekEarned || 0;
+                AppState.totalEarned = parsed.totalEarned || 0;
+                AppState.lastSpin = parsed.lastSpin || null;
+                AppState.lastLogin = parsed.lastLogin || today;
+                AppState.tasks = parsed.tasks || {};
+                AppState.earnings = parsed.earnings || [];
+                AppState.spinHistory = parsed.spinHistory || [];
+                AppState.joinDate = parsed.joinDate || new Date().toISOString();
+                AppState.isFirstTime = parsed.isFirstTime !== undefined ? parsed.isFirstTime : true;
+                AppState.taskProcessing = parsed.taskProcessing || {};
+                AppState.pendingTaskRewards = parsed.pendingTaskRewards || {};
+                AppState.history = parsed.history || [];
+            }
+        }
+    } catch (e) {
+        console.error('Load error:', e);
+    }
+}
+
+function saveState() {
+    try {
+        localStorage.setItem('gameCoinPro_v4', JSON.stringify({
+            username: AppState.username,
+            avatar: AppState.avatar,
+            coins: AppState.coins,
+            spinsLeft: AppState.spinsLeft,
+            gamesPlayed: AppState.gamesPlayed,
+            tasksCompleted: AppState.tasksCompleted,
+            spinsUsed: AppState.spinsUsed,
+            todayEarned: AppState.todayEarned,
+            weekEarned: AppState.weekEarned,
+            totalEarned: AppState.totalEarned,
+            lastSpin: AppState.lastSpin,
+            lastLogin: AppState.lastLogin || new Date().toDateString(),
+            tasks: AppState.tasks,
+            earnings: AppState.earnings,
+            spinHistory: AppState.spinHistory,
+            joinDate: AppState.joinDate || new Date().toISOString(),
+            isFirstTime: AppState.isFirstTime,
+            taskProcessing: AppState.taskProcessing,
+            pendingTaskRewards: AppState.pendingTaskRewards,
+            history: AppState.history
+        }));
+    } catch (e) {
+        console.error('Save error:', e);
+    }
+}
+
+function showMainApp() {
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    if (welcomeScreen) welcomeScreen.style.display = 'none';
+    
+    const mainHeader = document.getElementById('mainHeader');
+    if (mainHeader) mainHeader.style.display = 'block';
+    
+    const homeSection = document.getElementById('homeSection');
+    if (homeSection) {
+        homeSection.style.display = 'block';
+        homeSection.classList.add('active');
+    }
+    
+    const bottomNav = document.getElementById('bottomNav');
+    if (bottomNav) bottomNav.style.display = 'flex';
+    
+    updateProfileDisplay();
+    updateUI();
+    
+    setTimeout(() => {
+        completeTask('daily_login');
+    }, 1000);
+}
+
+function updateProfileDisplay() {
+    const headerAvatar = document.getElementById('headerAvatar');
+    const headerAvatarIcon = document.getElementById('headerAvatarIcon');
+    
+    if (AppState.avatar) {
+        if (headerAvatar) {
+            headerAvatar.src = AppState.avatar;
+            headerAvatar.style.display = 'block';
+        }
+        if (headerAvatarIcon) headerAvatarIcon.style.display = 'none';
+    } else {
+        if (headerAvatar) headerAvatar.style.display = 'none';
+        if (headerAvatarIcon) headerAvatarIcon.style.display = 'block';
+    }
+    
+    const profileUsername = document.getElementById('profileUsername');
+    const profileJoined = document.getElementById('profileJoined');
+    const profileAvatarImg = document.getElementById('profileAvatarImg');
+    const profileAvatarIcon = document.getElementById('profileAvatarIcon');
+    
+    if (profileUsername) profileUsername.textContent = AppState.username;
+    if (profileJoined) {
+        const joinDate = new Date(AppState.joinDate || Date.now());
+        profileJoined.textContent = 'Joined ' + joinDate.toLocaleDateString();
+    }
+    
+    if (AppState.avatar) {
+        if (profileAvatarImg) {
+            profileAvatarImg.src = AppState.avatar;
+            profileAvatarImg.style.display = 'block';
+        }
+        if (profileAvatarIcon) profileAvatarIcon.style.display = 'none';
+    } else {
+        if (profileAvatarImg) profileAvatarImg.style.display = 'none';
+        if (profileAvatarIcon) profileAvatarIcon.style.display = 'block';
+    }
+}
+
+// Profile Functions
+function openProfileModal() {
+    const modal = document.getElementById('profileModal');
+    const editUsername = document.getElementById('editUsername');
+    const modalAvatarImg = document.getElementById('modalAvatarImg');
+    const modalAvatarIcon = document.getElementById('modalAvatarIcon');
+    const modalAvatarText = document.getElementById('modalAvatarText');
+    
+    if (editUsername) editUsername.value = AppState.username;
+    
+    if (AppState.avatar) {
+        if (modalAvatarImg) {
+            modalAvatarImg.src = AppState.avatar;
+            modalAvatarImg.style.display = 'block';
+        }
+        if (modalAvatarIcon) modalAvatarIcon.style.display = 'none';
+        if (modalAvatarText) modalAvatarText.style.display = 'none';
+    } else {
+        if (modalAvatarImg) modalAvatarImg.style.display = 'none';
+        if (modalAvatarIcon) modalAvatarIcon.style.display = 'block';
+        if (modalAvatarText) {
+            modalAvatarText.textContent = 'Upload Photo';
+            modalAvatarText.style.display = 'block';
+        }
+    }
+    
+    if (modal) modal.classList.add('active');
+}
+
+function closeProfileModal() {
+    const modal = document.getElementById('profileModal');
+    if (modal) modal.classList.remove('active');
+}
+
+function handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        AppState.avatar = e.target.result;
+        updateProfileDisplay();
+        saveState();
+        showToast('Profile picture updated!', 'success');
+    };
+    reader.readAsDataURL(file);
+}
+
+function handleModalImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const modalAvatarImg = document.getElementById('modalAvatarImg');
+        const modalAvatarIcon = document.getElementById('modalAvatarIcon');
+        const modalAvatarText = document.getElementById('modalAvatarText');
+        
+        if (modalAvatarImg) {
+            modalAvatarImg.src = e.target.result;
+            modalAvatarImg.style.display = 'block';
+        }
+        if (modalAvatarIcon) modalAvatarIcon.style.display = 'none';
+        if (modalAvatarText) modalAvatarText.style.display = 'none';
+        
+        AppState.avatar = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function saveProfile() {
+    const editUsername = document.getElementById('editUsername');
+    const newUsername = editUsername ? editUsername.value.trim() : '';
+    
+    if (newUsername && newUsername !== AppState.username) {
+        AppState.username = newUsername;
+        showToast('Username updated!', 'success');
+    }
+    
+    saveState();
+    updateProfileDisplay();
+    closeProfileModal();
+}
+
+function logout() {
+    if (confirm('Are you sure you want to logout? Your progress will be saved.')) {
+        saveState();
+        location.reload();
+    }
+}
+
+// History Functions
+function addToHistory(amount, source, sourceId, isNegative = false) {
+    const historyItem = {
+        id: Date.now(),
+        amount: amount,
+        source: source,
+        sourceId: sourceId,
+        isNegative: isNegative,
+        timestamp: new Date().toISOString()
+    };
+    
+    AppState.history.unshift(historyItem);
+    if (AppState.history.length > 100) {
+        AppState.history = AppState.history.slice(0, 100);
+    }
+    
+    saveState();
+    renderHistory();
+}
+
+function renderHistory() {
+    const container = document.getElementById('historyList');
+    if (!container) return;
+    
+    if (AppState.history.length === 0) {
+        container.innerHTML = `
+            <div class="empty-history">
+                <i class="fas fa-receipt"></i>
+                <div>No transactions yet</div>
+            </div>
+        `;
+        return;
+    }
+    
+    const sourceIcons = {
+        'wheel': 'fa-dharmachakra',
+        'game': 'fa-gamepad',
+        'task': 'fa-tasks',
+        'spin': 'fa-ticket-alt',
+        'clicker': 'fa-hand-pointer',
+        'memory': 'fa-brain',
+        'math': 'fa-calculator',
+        'color': 'fa-palette',
+        'reaction': 'fa-bolt',
+        'puzzle': 'fa-puzzle-piece',
+        'redeem': 'fa-gift'
+    };
+    
+    const sourceLabels = {
+        'wheel': 'Lucky Wheel',
+        'game': 'Mini Game',
+        'task': 'Daily Task',
+        'spin': 'Free Spin',
+        'clicker': 'Coin Clicker',
+        'memory': 'Memory Match',
+        'math': 'Math Rush',
+        'color': 'Color Match',
+        'reaction': 'Reaction Time',
+        'puzzle': 'Puzzle Solve',
+        'redeem': 'Redemption'
+    };
+    
+    container.innerHTML = AppState.history.map(item => {
+        const iconClass = sourceIcons[item.source] || 'fa-coins';
+        const label = sourceLabels[item.source] || item.source;
+        const timeAgo = getTimeAgo(new Date(item.timestamp));
+        
+        return `
+            <div class="history-item">
+                <div class="history-icon ${item.source}">
+                    <i class="fas ${iconClass}"></i>
+                </div>
+                <div class="history-info">
+                    <div class="history-source">${label}</div>
+                    <div class="history-time">${timeAgo}</div>
+                </div>
+                <div class="history-amount ${item.isNegative ? 'negative' : ''}">
+                    ${item.isNegative ? '-' : '+'}${item.amount}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    
+    let interval = seconds / 31536000;
+    if (interval > 1) return Math.floor(interval) + " years ago";
+    
+    interval = seconds / 2592000;
+    if (interval > 1) return Math.floor(interval) + " months ago";
+    
+    interval = seconds / 86400;
+    if (interval > 1) return Math.floor(interval) + " days ago";
+    
+    interval = seconds / 3600;
+    if (interval > 1) return Math.floor(interval) + " hours ago";
+    
+    interval = seconds / 60;
+    if (interval > 1) return Math.floor(interval) + " minutes ago";
+    
+    return "Just now";
+}
+
+function clearHistory() {
+    if (confirm('Are you sure you want to clear your history?')) {
+        AppState.history = [];
+        saveState();
+        renderHistory();
+        showToast('History cleared', 'info');
+    }
+}
+
+// Top Earners Functions
+function renderTopEarners() {
+    const container = document.getElementById('topEarnersList');
+    if (!container) return;
+    
+    const sorted = [...TOP_EARNERS].sort((a, b) => b.coins - a.coins);
+    
+    const userEntry = { 
+        name: AppState.username || 'You', 
+        avatar: AppState.avatar, 
+        coins: AppState.coins,
+        isUser: true 
+    };
+    
+    const allEarners = [...sorted, userEntry].sort((a, b) => b.coins - a.coins).slice(0, 5);
+    
+    container.innerHTML = allEarners.map((earner, index) => {
+        const rankClass = index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : 'normal';
+        const isUser = earner.isUser;
+        
+        return `
+            <div class="earner-item" style="${isUser ? 'background: var(--primary-soft); border-radius: 10px;' : ''}">
+                <div class="earner-rank ${rankClass}">${index + 1}</div>
+                <div class="earner-avatar" style="background: ${earner.avatar ? 'transparent' : '#3b82f6'};">
+                    ${earner.avatar ? `<img src="${earner.avatar}">` : '<i class="fas fa-user"></i>'}
+                </div>
+                <div class="earner-info">
+                    <div class="earner-name">${earner.name} ${isUser ? '(You)' : ''}</div>
+                </div>
+                <div class="earner-amount">${earner.coins.toLocaleString()}</div>
+            </div>
+        `;
+    }).join('');
+    
+    const userRank = allEarners.findIndex(e => e.isUser) + 1;
+    const profileRank = document.getElementById('profileRank');
+    if (profileRank) profileRank.textContent = userRank ? `#${userRank}` : '--';
+}
+
+function updateTopEarners() {
+    TOP_EARNERS.forEach(earner => {
+        if (Math.random() > 0.7) {
+            earner.coins += Math.floor(Math.random() * 50) + 10;
+        }
+    });
+    renderTopEarners();
+}
+
+// Wheel Functions
+function renderWheel() {
+    const wheel = document.getElementById('wheel');
+    if (!wheel) return;
+    
+    const segmentAngle = 360 / WHEEL_REWARDS.length;
+    
+    wheel.innerHTML = WHEEL_REWARDS.map((reward, index) => {
+        const rotation = index * segmentAngle;
+        
+        return `
+            <div class="wheel-segment" style="
+                transform: rotate(${rotation}deg);
+                background: ${reward.color};
+                clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            ">
+                <span>${reward.label}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function spinWheel() {
+    if (isSpinning) return;
+    
+    if (AppState.spinsLeft <= 0) {
+        showToast('No spins left! Come back tomorrow.', 'error');
+        return;
+    }
+    
+    isSpinning = true;
+    const btn = document.getElementById('spinBtn');
+    if (btn) {
+        btn.disabled = true;
+        btn.classList.add('spinning');
+    }
+    
+    const wheel = document.getElementById('wheel');
+    const randomIndex = Math.floor(Math.random() * WHEEL_REWARDS.length);
+    const segmentAngle = 360 / WHEEL_REWARDS.length;
+    const extraSpins = 5 + Math.floor(Math.random() * 3);
+    const finalRotation = 360 * extraSpins + (randomIndex * segmentAngle) + (segmentAngle / 2) + (Math.random() * 10 - 5);
+    
+    if (wheel) wheel.style.transform = `rotate(${finalRotation}deg)`;
+    
+    setTimeout(() => {
+        const reward = WHEEL_REWARDS[randomIndex];
+        handleWheelWin(reward);
+        
+        isSpinning = false;
+        if (btn) {
+            btn.disabled = false;
+            btn.classList.remove('spinning');
+        }
+    }, 4000);
+}
+
+function handleWheelWin(reward) {
+    let message = '';
+    let amount = 0;
+    let type = '';
+    
+    if (reward.value === 0) {
+        message = 'Try Again';
+        type = 'lose';
+        showToast('Unlucky! Try again next spin.', 'warning');
+    } else if (reward.label.includes('+')) {
+        const spins = reward.value;
+        AppState.spinsLeft += spins;
+        message = `+${spins} spins`;
+        type = 'win';
+        showWinOverlay(spins, 'spins');
+        addToHistory(spins, 'spin', 'free_spin');
+    } else {
+        amount = reward.value;
+        addCoins(amount, 'wheel');
+        message = `+${amount}`;
+        type = 'win';
+        showWinOverlay(amount, 'coins');
+        addToHistory(amount, 'wheel', 'wheel_spin');
+    }
+    
+    AppState.spinHistory.unshift({
+        result: message,
+        type: type,
+        time: new Date().toLocaleTimeString()
+    });
+    
+    if (AppState.spinHistory.length > 10) AppState.spinHistory.pop();
+    
+    AppState.spinsLeft--;
+    AppState.spinsUsed++;
+    AppState.lastSpin = Date.now();
+    
+    updateSpinHistory();
+    completeTask('spin_wheel');
+    saveState();
+    updateUI();
+}
+
+function showWinOverlay(amount, type) {
+    const overlay = document.getElementById('winOverlay');
+    const winTitle = document.getElementById('winTitle');
+    const winAmount = document.getElementById('winAmount');
+    const winText = document.getElementById('winText');
+    
+    if (type === 'coins') {
+        winTitle.textContent = 'Congratulations!';
+        winAmount.textContent = `+${amount}`;
+        winAmount.style.color = 'var(--success)';
+        winText.textContent = 'coins added to your balance';
+    } else {
+        winTitle.textContent = 'Free Spin!';
+        winAmount.textContent = `+${amount}`;
+        winAmount.style.color = 'var(--warning)';
+        winText.textContent = 'extra spins added';
+    }
+    
+    createConfetti();
+    overlay.classList.add('active');
+}
+
+function createConfetti() {
+    const overlay = document.getElementById('winOverlay');
+    const colors = ['#f59e0b', '#10b981', '#3b82f6', '#ec4899', '#8b5cf6'];
+    
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        overlay.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 4000);
+    }
+}
+
+function closeWinOverlay() {
+    const overlay = document.getElementById('winOverlay');
+    overlay.classList.remove('active');
+}
+
+function updateSpinHistory() {
+    const container = document.getElementById('spinHistoryList');
+    if (!container) return;
+    
+    if (AppState.spinHistory.length === 0) {
+        container.innerHTML = '<span style="color: var(--gray); font-size: 0.85rem;">No spins yet</span>';
+        return;
+    }
+    
+    container.innerHTML = AppState.spinHistory.map(item => `
+        <div class="spin-history-item ${item.type}">
+            ${item.result}
+        </div>
+    `).join('');
+}
+
+// Game Functions
+function renderGames() {
+    const featured = document.getElementById('featuredGames');
+    const all = document.getElementById('allGames');
+    
+    const createGameCard = (game) => `
+        <a href="${game.href}" class="game-card" onclick="startGame('${game.id}', event)">
+            <div class="game-image" style="background: ${game.color};">
+                <i class="fas ${game.icon}"></i>
+                ${game.id === 'clicker' ? '<div class="game-badge hot">HOT</div>' : ''}
+            </div>
+            <div class="game-info">
+                <div class="game-title">${game.name}</div>
+                <div class="game-reward">
+                    <i class="fas fa-coins" style="color: var(--warning);"></i>
+                    ${game.reward}
+                </div>
+            </div>
+        </a>
+    `;
+    
+    if (featured) {
+        featured.innerHTML = GAMES.slice(0, 4).map(createGameCard).join('');
+    }
+    if (all) {
+        all.innerHTML = GAMES.map(createGameCard).join('');
+    }
+}
+
+function startGame(gameId, event) {
+    saveState();
+    console.log('Starting game:', gameId);
+}
+
+// Task Functions
+function renderTasks() {
+    const container = document.getElementById('tasksList');
+    if (!container) return;
+    
+    container.innerHTML = TASKS.map(task => {
+        const isCompleted = AppState.tasks[task.id] || false;
+        const isProcessing = AppState.taskProcessing[task.id] || false;
+        
+        let cardClass = '';
+        let statusIcon = 'fa-clock';
+        let statusClass = 'pending';
+        
+        if (isCompleted) {
+            cardClass = 'completed';
+            statusIcon = 'fa-check';
+            statusClass = 'completed';
+        } else if (isProcessing) {
+            cardClass = 'processing';
+            statusIcon = 'fa-spinner';
+            statusClass = 'processing';
+        }
+        
+        const href = task.href ? `href="${task.href}" onclick="startTask('${task.id}', event)"` : `onclick="doTask('${task.id}')"`;
+        
+        return `
+            <a ${task.href ? href : 'href="javascript:void(0)" onclick="doTask(\'' + task.id + '\')"'} class="task-card ${cardClass}" data-task-id="${task.id}">
+                <div class="task-icon" style="background: ${task.color};">
+                    <i class="fas ${task.icon}"></i>
+                </div>
+                <div class="task-content">
+                    <div class="task-title">${task.title}</div>
+                    <div class="task-desc">${task.desc}</div>
+                    <div class="task-reward-badge">
+                        <i class="fas fa-coins"></i> +${task.reward}
+                    </div>
+                </div>
+                <div class="task-status ${statusClass}">
+                    <i class="fas ${statusIcon}"></i>
+                </div>
+            </a>
+        `;
+    }).join('');
+}
+
+function startTask(taskId, event) {
+    const task = TASKS.find(t => t.id === taskId);
+    if (!task || !task.href) return;
+    
+    if (AppState.taskProcessing[taskId] || AppState.tasks[taskId]) {
+        return;
+    }
+    
+    AppState.taskProcessing[taskId] = true;
+    AppState.pendingTaskRewards[taskId] = {
+        reward: task.reward,
+        startTime: Date.now(),
+        completed: false
+    };
+    saveState();
+    renderTasks();
+    
+    showToast('Loading task... You will receive rewards after completion!', 'info');
+    
+    setTimeout(() => {
+        completeTaskReward(taskId);
+    }, 180000);
+}
+
+function completeTaskReward(taskId) {
+    const pending = AppState.pendingTaskRewards[taskId];
+    if (!pending || pending.completed) return;
+    
+    pending.completed = true;
+    AppState.tasks[taskId] = true;
+    delete AppState.taskProcessing[taskId];
+    
+    addCoins(pending.reward, 'task');
+    AppState.tasksCompleted++;
+    
+    addToHistory(pending.reward, 'task', taskId);
+    
+    showToast(`Task completed! +${pending.reward} coins added!`, 'success');
+    saveState();
+    renderTasks();
+    updateUI();
+}
+
+function checkPendingTasks() {
+    const now = Date.now();
+    let updated = false;
+    
+    Object.keys(AppState.pendingTaskRewards).forEach(taskId => {
+        const pending = AppState.pendingTaskRewards[taskId];
+        if (!pending.completed) {
+            const elapsed = now - pending.startTime;
+            if (elapsed >= 180000) {
+                completeTaskReward(taskId);
+                updated = true;
+            }
+        }
+    });
+    
+    if (updated) {
+        renderTasks();
+    }
+}
+
+function doTask(taskId) {
+    const task = TASKS.find(t => t.id === taskId);
+    if (!task) return;
+    
+    if (AppState.tasks[taskId]) return;
+    
+    switch(taskId) {
+        case 'daily_login':
+            completeTask(taskId);
+            showToast('Daily login bonus claimed!', 'success');
+            break;
+        case 'play_3_games':
+            showToast('Play 3 games to complete this task!', 'info');
+            break;
+        case 'spin_wheel':
+            showToast('Spin the wheel to complete this task!', 'info');
+            break;
+        case 'earn_100':
+            showToast('Earn 100 coins today to complete!', 'info');
+            break;
+        default:
+            showToast('Complete this action in the app!', 'info');
+    }
+}
+
+function completeTask(taskId) {
+    if (AppState.tasks[taskId]) return;
+    
+    const task = TASKS.find(t => t.id === taskId);
+    if (!task) return;
+    
+    AppState.tasks[taskId] = true;
+    addCoins(task.reward, 'task');
+    AppState.tasksCompleted++;
+    
+    addToHistory(task.reward, 'task', taskId);
+    
+    showToast(`Task completed! +${task.reward} coins`, 'success');
+    saveState();
+    renderTasks();
+    updateUI();
+}
+
+// Reward Functions
+function renderRewards() {
+    const container = document.getElementById('redeemGrid');
+    if (!container) return;
+    
+    container.innerHTML = REWARDS.map(reward => {
+        const canAfford = AppState.coins >= reward.cost;
+        
+        return `
+            <div class="redeem-card ${canAfford ? '' : 'disabled'}" onclick="${canAfford ? `openRedeemModal('${reward.id}')` : ''}">
+                <div class="redeem-icon" style="background: ${reward.color};">
+                    <i class="fab ${reward.icon}"></i>
+                </div>
+                <div class="redeem-name">${reward.name}</div>
+                <div class="redeem-cost">
+                    <i class="fas fa-coins" style="color: var(--warning);"></i> ${reward.cost.toLocaleString()}
+                </div>
+                <div class="redeem-stock">Stock: ${reward.stock}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function openRedeemModal(rewardId) {
+    const reward = REWARDS.find(r => r.id === rewardId);
+    if (!reward || AppState.coins < reward.cost) return;
+    
+    AppState.selectedReward = reward;
+    
+    const iconEl = document.getElementById('redeemIcon');
+    const nameEl = document.getElementById('redeemName');
+    const costEl = document.getElementById('redeemCost');
+    
+    if (iconEl) {
+        iconEl.style.background = reward.color;
+        iconEl.innerHTML = `<i class="fab ${reward.icon}"></i>`;
+    }
+    if (nameEl) nameEl.textContent = reward.name;
+    if (costEl) costEl.textContent = reward.cost.toLocaleString();
+    
+    const modal = document.getElementById('redeemModal');
+    if (modal) modal.classList.add('active');
+}
+
+function closeRedeemModal() {
+    const modal = document.getElementById('redeemModal');
+    if (modal) modal.classList.remove('active');
+    
+    AppState.selectedReward = null;
+    
+    const emailInput = document.getElementById('redeemEmail');
+    if (emailInput) emailInput.value = '';
+}
+
+function confirmRedeem() {
+    const emailInput = document.getElementById('redeemEmail');
+    const email = emailInput ? emailInput.value.trim() : '';
+    
+    if (!email || !email.includes('@')) {
+        showToast('Please enter a valid email', 'error');
+        return;
+    }
+    
+    if (!AppState.selectedReward) return;
+    
+    const cost = AppState.selectedReward.cost;
+    AppState.coins -= cost;
+    
+    addToHistory(cost, 'redeem', AppState.selectedReward.id, true);
+    
+    showToast(`Redemption submitted! Check ${email} soon.`, 'success');
+    
+    closeRedeemModal();
+    saveState();
+    updateUI();
+    renderRewards();
+}
+
+// Chart Functions
+function initChart() {
+    const canvas = document.getElementById('earningsChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth || 300;
+    canvas.height = canvas.offsetHeight || 200;
+    
+    generateChartData();
+    drawChart();
+}
+
+function generateChartData() {
+    AppState.earnings = [];
+    
+    for (let i = 0; i < 30; i++) {
+        const value = Math.floor(Math.random() * (5000 - 300 + 1)) + 300;
+        AppState.earnings.push(value);
+    }
+    
+    currentViewers = AppState.earnings[AppState.earnings.length - 1];
+    updateViewerStats();
+}
+
+function updateViewerStats() {
+    const currentEl = document.getElementById('currentViewers');
+    const avgEl = document.getElementById('avgViewers');
+    const peakEl = document.getElementById('peakViewers');
+    
+    if (currentEl) currentEl.textContent = currentViewers.toLocaleString();
+    
+    const avg = Math.floor(AppState.earnings.reduce((a, b) => a + b, 0) / AppState.earnings.length);
+    if (avgEl) avgEl.textContent = avg.toLocaleString();
+    
+    const peak = Math.max(...AppState.earnings);
+    if (peakEl) peakEl.textContent = peak.toLocaleString();
+}
+
+function drawChart() {
+    const canvas = document.getElementById('earningsChart');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    ctx.clearRect(0, 0, width, height);
+    
+    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+    gradient.addColorStop(0, 'rgba(37, 99, 235, 0.3)');
+    gradient.addColorStop(1, 'rgba(37, 99, 235, 0.0)');
+    
+    ctx.beginPath();
+    const step = width / (AppState.earnings.length - 1);
+    const min = 300;
+    const max = 5000;
+    const range = max - min;
+    
+    AppState.earnings.forEach((val, i) => {
+        const x = i * step;
+        const normalizedVal = (val - min) / range;
+        const y = height - (normalizedVal * (height - 40)) - 20;
+        
+        if (i === 0) ctx.moveTo(x, y);
+        else {
+            const prevX = (i - 1) * step;
+            const prevVal = AppState.earnings[i - 1];
+            const prevNormalized = (prevVal - min) / range;
+            const prevY = height - (prevNormalized * (height - 40)) - 20;
+            const cpX = (prevX + x) / 2;
+            ctx.quadraticCurveTo(cpX, prevY, x, y);
+        }
+    });
+    
+    ctx.strokeStyle = '#2563eb';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    
+    ctx.lineTo(width, height);
+    ctx.lineTo(0, height);
+    ctx.closePath();
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    
+    AppState.earnings.forEach((val, i) => {
+        if (i % 5 === 0 || i === AppState.earnings.length - 1) {
+            const x = i * step;
+            const normalizedVal = (val - min) / range;
+            const y = height - (normalizedVal * (height - 40)) - 20;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(37, 99, 235, 0.2)';
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#2563eb';
+            ctx.fill();
+        }
+    });
+}
+
+function updateChart() {
+    AppState.earnings.shift();
+    
+    const lastValue = AppState.earnings[AppState.earnings.length - 1];
+    const change = Math.floor(Math.random() * 800) - 400;
+    let newValue = lastValue + change;
+    
+    newValue = Math.max(300, Math.min(5000, newValue));
+    
+    AppState.earnings.push(newValue);
+    currentViewers = newValue;
+    
+    updateViewerStats();
+    drawChart();
+}
+
+// Live Updates
+function startLiveUpdates() {
+    chartUpdateInterval = setInterval(updateChart, 2000);
+    topEarnersInterval = setInterval(updateTopEarners, 5000);
+    setInterval(checkPendingTasks, 10000);
+}
+
+// Utility Functions
+function addCoins(amount, source) {
+    AppState.coins += amount;
+    AppState.todayEarned += amount;
+    AppState.weekEarned += amount;
+    AppState.totalEarned += amount;
+    
+    const taskProgress = (AppState.tasks['earn_100_progress'] || 0) + amount;
+    AppState.tasks['earn_100_progress'] = taskProgress;
+    if (taskProgress >= 100 && !AppState.tasks['earn_100']) {
+        completeTask('earn_100');
+    }
+    
+    saveState();
+    updateUI();
+    renderTopEarners();
+}
+
+function updateUI() {
+    const elements = {
+        headerCoins: document.getElementById('headerCoins'),
+        totalCoins: document.getElementById('totalCoins'),
+        spinsLeft: document.getElementById('spinsLeft'),
+        gamesPlayed: document.getElementById('gamesPlayed'),
+        tasksDone: document.getElementById('tasksDone'),
+        spinsUsed: document.getElementById('spinsUsed'),
+        profileCoins: document.getElementById('profileCoins'),
+        profileGames: document.getElementById('profileGames')
+    };
+    
+    if (elements.headerCoins) elements.headerCoins.textContent = AppState.coins.toLocaleString();
+    if (elements.totalCoins) elements.totalCoins.textContent = AppState.coins.toLocaleString();
+    if (elements.spinsLeft) elements.spinsLeft.textContent = AppState.spinsLeft;
+    if (elements.gamesPlayed) elements.gamesPlayed.textContent = AppState.gamesPlayed;
+    if (elements.tasksDone) elements.tasksDone.textContent = AppState.tasksCompleted;
+    if (elements.spinsUsed) elements.spinsUsed.textContent = AppState.spinsUsed;
+    if (elements.profileCoins) elements.profileCoins.textContent = AppState.coins.toLocaleString();
+    if (elements.profileGames) elements.profileGames.textContent = AppState.gamesPlayed;
+}
+
+function switchTab(tab) {
+    document.querySelectorAll('.content-section').forEach(s => {
+        s.classList.remove('active');
+        s.style.display = 'none';
+    });
+    
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    const sectionMap = {
+        home: 'homeSection',
+        profile: 'profileSection',
+        games: 'gamesSection',
+        tasks: 'tasksSection',
+        redeem: 'redeemSection'
+    };
+    
+    const section = document.getElementById(sectionMap[tab]);
+    if (section) {
+        section.style.display = 'block';
+        section.classList.add('active');
+    }
+    
+    const navMap = {
+        home: 'nav-home',
+        games: 'nav-games',
+        tasks: 'nav-tasks',
+        redeem: 'nav-redeem'
+    };
+    
+    const nav = document.getElementById(navMap[tab]);
+    if (nav) nav.classList.add('active');
+    
+    if (tab === 'tasks') renderTasks();
+    if (tab === 'redeem') renderRewards();
+    if (tab === 'profile') {
+        updateProfileDisplay();
+        renderHistory();
+    }
+}
+
+function showToast(message, type) {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle',
+        info: 'fa-info-circle'
+    };
+    
+    toast.innerHTML = `<i class="fas ${icons[type]} toast-icon"></i><span>${message}</span>`;
+    
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+    }, 3000);
+}
+
+// Listen for messages from game windows
+window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'GAME_REWARD') {
+        const { gameId, coins } = event.data;
+        console.log('Received reward from game:', gameId, coins);
+        addCoins(coins, 'game');
+        AppState.gamesPlayed++;
+        addToHistory(coins, gameId, gameId);
+        completeTask('play_3_games');
+        showToast(`Earned ${coins} coins from ${gameId}!`, 'success');
+    }
+});
+
+// Listen for storage changes (for cross-tab communication)
+window.addEventListener('storage', function(event) {
+    if (event.key === 'gameCoinPro_v4') {
+        loadState();
+        updateUI();
+        renderHistory();
+        showToast('Balance updated from another session!', 'info');
+    }
+});
+</script>
+
+</body>
+</html>
