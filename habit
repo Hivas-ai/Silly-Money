@@ -1,0 +1,3850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HabitQuest RPG | Complete Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-hover: #f1f5f9;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-soft: rgba(99, 102, 241, 0.1);
+            --secondary: #ec4899;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #0ea5e9;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --border: #e2e8f0;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --font-display: 'Orbitron', sans-serif;
+        }
+
+        [data-theme="dark"] {
+            --bg: #020617;
+            --surface: #0f172a;
+            --surface-hover: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #818cf8;
+            --primary-dark: #6366f1;
+            --primary-soft: rgba(129, 140, 248, 0.15);
+            --border: #334155;
+            --shadow: 0 4px 20px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        [data-theme="forest"] {
+            --bg: #022c22;
+            --surface: #064e3b;
+            --surface-hover: #065f46;
+            --text: #ecfdf5;
+            --text-muted: #6ee7b7;
+            --primary: #34d399;
+            --primary-dark: #10b981;
+            --primary-soft: rgba(52, 211, 153, 0.15);
+            --border: #047857;
+            --shadow: 0 4px 20px rgba(0,0,0,0.5);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* LOADER */
+        .loader-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--purple) 100%);
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .loader-content {
+            text-align: center;
+            max-width: 300px;
+            width: 90%;
+        }
+
+        .loader-logo {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .loader-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .loader-bar-container {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .loader-bar-bg {
+            height: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #60a5fa, #ffffff, #60a5fa);
+            background-size: 200% 100%;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .loader-percent {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .loader-status {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            height: 20px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* Main App */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 100px;
+            display: none;
+        }
+
+        .app-container.loaded {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .app-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: rgba(var(--bg), 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .header-btn:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Hero Stats */
+        .hero-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 20px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-card.coins .stat-value { color: var(--warning); }
+        .stat-card.gems .stat-value { color: var(--secondary); }
+        .stat-card.energy .stat-value { color: var(--info); }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Bars */
+        .bar-container {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .bar-bg {
+            height: 10px;
+            background: var(--surface);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .xp-fill {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            animation: gradient-shift 3s ease infinite;
+            background-size: 200% 100%;
+        }
+
+        .energy-fill {
+            background: linear-gradient(90deg, var(--info), var(--accent));
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .bar-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Daily Reward */
+        .daily-reward {
+            margin: 0 20px 20px;
+            background: linear-gradient(135deg, var(--warning), var(--orange));
+            border-radius: var(--radius);
+            padding: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .daily-reward:hover {
+            transform: translateY(-2px);
+        }
+
+        .daily-reward::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .daily-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .daily-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .claim-btn {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            color: var(--orange);
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: all 0.2s;
+        }
+
+        .claim-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .claim-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Section Headers */
+        .section-header {
+            padding: 0 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .section-action {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .add-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .add-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Journey Map */
+        .journey-section {
+            margin-bottom: 25px;
+        }
+
+        .map-container {
+            position: relative;
+            padding: 30px 20px;
+            margin: 0 20px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .map-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 20% 50%, var(--primary) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--secondary) 0%, transparent 50%);
+        }
+
+        .map-path {
+            position: relative;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .path-line {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            transform: translateY(-50%);
+        }
+
+        .path-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        .map-node {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .map-node:hover {
+            transform: scale(1.1);
+        }
+
+        .node-orb {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            background: var(--bg);
+        }
+
+        .map-node.completed .node-orb {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .map-node.current .node-orb {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 30px var(--primary);
+            animation: pulse-glow 2s infinite;
+        }
+
+        .map-node.locked .node-orb {
+            background: var(--surface-hover);
+            color: var(--text-muted);
+            border-color: var(--border);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px var(--primary); }
+            50% { box-shadow: 0 0 40px var(--primary); }
+        }
+
+        .node-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+            max-width: 70px;
+            background: var(--surface);
+            padding: 4px 8px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .map-node.current .node-label {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Mission Card */
+        .mission-card {
+            margin: 0 20px 25px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 25px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 30px var(--primary-soft);
+        }
+
+        .mission-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .mission-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .mission-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .mission-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .mission-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .mission-progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .mission-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .mission-progress-text {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .mission-tasks {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mission-task {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .mission-task:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .mission-task.completed {
+            opacity: 0.6;
+            border-color: var(--accent);
+        }
+
+        .mission-task.completed .task-text {
+            text-decoration: line-through;
+        }
+
+        .task-check {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: transparent;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .mission-task.completed .task-check {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .task-reward {
+            margin-left: auto;
+            font-size: 0.75rem;
+            color: var(--warning);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Pet */
+        .pet-card {
+            margin: 0 20px 25px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 25px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.2s;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .pet-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-soft), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pet-status {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+            border: 3px solid var(--surface);
+        }
+
+        .pet-info {
+            flex: 1;
+        }
+
+        .pet-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pet-level {
+            background: var(--primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
+
+        .pet-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .pet-stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .pet-bar {
+            width: 60px;
+            height: 6px;
+            background: var(--bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-left: 4px;
+        }
+
+        .pet-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+
+        .pet-bar-fill.happiness { background: var(--secondary); }
+        .pet-bar-fill.hunger { background: var(--warning); }
+
+        .pet-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .pet-btn {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pet-btn.feed {
+            background: var(--warning);
+            color: white;
+        }
+
+        .pet-btn.play {
+            background: var(--primary);
+            color: white;
+        }
+
+        .pet-btn:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+
+        .pet-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Games */
+        .games-section {
+            margin-bottom: 25px;
+        }
+
+        .games-scroll {
+            display: flex;
+            gap: 15px;
+            padding: 0 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .games-scroll::-webkit-scrollbar { display: none; }
+
+        .game-card {
+            min-width: 150px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .game-cost {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--bg);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--info);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .game-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .game-card:nth-child(1) .game-icon { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .game-card:nth-child(2) .game-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .game-card:nth-child(3) .game-icon { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+        .game-name {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .game-reward {
+            font-size: 0.8rem;
+            color: var(--warning);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        /* Habits */
+        .habits-section {
+            margin-bottom: 25px;
+        }
+
+        .habit-card {
+            margin: 0 20px 12px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .habit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .habit-card.completed {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, var(--surface) 100%);
+        }
+
+        .habit-icon-wrapper {
+            position: relative;
+        }
+
+        .habit-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-sm);
+            background: var(--primary-soft);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+
+        .habit-card.completed .habit-icon {
+            background: var(--accent);
+            color: white;
+            transform: rotate(360deg);
+        }
+
+        .habit-streak-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: var(--warning);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: 2px solid var(--surface);
+        }
+
+        .habit-info {
+            flex: 1;
+        }
+
+        .habit-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .habit-chain {
+            display: flex;
+            gap: 4px;
+        }
+
+        .chain-link {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s;
+        }
+
+        .chain-link.active {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent);
+        }
+
+        .habit-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 15px;
+            margin-top: 6px;
+        }
+
+        .habit-reward {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--warning);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .habit-check {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .habit-card.completed .habit-check {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Analytics */
+        .analytics-card {
+            margin: 0 20px 25px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .chart-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .chart-container {
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .stats-detailed {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .detailed-stat {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .detailed-stat:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .detailed-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .detailed-icon.purple { background: var(--primary-soft); color: var(--primary); }
+        .detailed-icon.green { background: rgba(16, 185, 129, 0.1); color: var(--accent); }
+        .detailed-icon.orange { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .detailed-icon.blue { background: rgba(14, 165, 233, 0.1); color: var(--info); }
+
+        .detailed-value {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .detailed-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 440px;
+            background: var(--surface);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            z-index: 1000;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 60px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 20px;
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .nav-item.active i {
+            transform: scale(1.1);
+        }
+
+        .nav-item.middle {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-top: -30px;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .nav-item.middle i {
+            font-size: 1.6rem;
+        }
+
+        /* Modals */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 420px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid var(--border);
+        }
+
+        @keyframes modalUp {
+            from { transform: translateY(100px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-hover) 100%);
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--bg);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--border);
+            color: var(--text);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Game Modals */
+        .game-area {
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Clicker Game */
+        .clicker-game {
+            text-align: center;
+        }
+
+        .clicker-target {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--warning), var(--orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+            cursor: pointer;
+            margin: 30px auto;
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+            transition: transform 0.1s;
+            user-select: none;
+            position: relative;
+        }
+
+        .clicker-target:active {
+            transform: scale(0.95);
+        }
+
+        .clicker-target::after {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            border: 3px solid var(--warning);
+            opacity: 0;
+            animation: ripple 1s infinite;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .clicker-score {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 20px 0;
+        }
+
+        .clicker-timer {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .clicker-timer.warning {
+            color: var(--danger);
+            animation: pulse 0.5s infinite;
+        }
+
+        /* Memory Game */
+        .memory-game {
+            width: 100%;
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--border);
+        }
+
+        .memory-card:hover:not(.flipped):not(.matched) {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .memory-card.flipped {
+            background: var(--primary);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            background: var(--accent);
+            color: white;
+            animation: matchPulse 0.5s;
+        }
+
+        @keyframes matchPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .memory-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .memory-stat {
+            text-align: center;
+        }
+
+        .memory-stat-value {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .memory-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Spin Game */
+        .spin-game {
+            text-align: center;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 30px auto;
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border: 4px solid var(--border);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: right bottom;
+            left: 0;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        .wheel-segment span {
+            transform: rotate(22.5deg) translateX(-30px);
+            display: block;
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--surface);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 10;
+            border: 3px solid var(--warning);
+        }
+
+        .wheel-center i {
+            font-size: 1.5rem;
+            color: var(--warning);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            z-index: 20;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        .spin-btn {
+            padding: 18px 50px;
+            background: linear-gradient(135deg, var(--warning), var(--orange));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .spin-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+        }
+
+        .spin-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .spin-btn.spinning {
+            animation: btnPulse 0.5s infinite;
+        }
+
+        @keyframes btnPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-soft);
+        }
+
+        .icon-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .icon-option {
+            aspect-ratio: 1;
+            border-radius: var(--radius-sm);
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .icon-option:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .icon-option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Shop Grid */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .shop-item {
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .shop-item:hover:not(.owned):not(.disabled) {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .shop-item.owned {
+            border-color: var(--accent);
+            opacity: 0.8;
+            cursor: default;
+        }
+
+        .shop-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .shop-item-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .shop-item-name {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .shop-item-price {
+            color: var(--warning);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .shop-item.owned .shop-item-price {
+            color: var(--accent);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .toast {
+            background: var(--surface);
+            color: var(--text);
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: toastSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+            border: 1px solid var(--border);
+        }
+
+        @keyframes toastSlide {
+            from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        .toast.success { border-left-color: var(--accent); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.warning { border-left-color: var(--warning); }
+
+        /* Floating Text */
+        .float-text {
+            position: fixed;
+            pointer-events: none;
+            font-weight: 800;
+            font-size: 1.5rem;
+            z-index: 5000;
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            pointer-events: none;
+            z-index: 6000;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Result Overlay */
+        .result-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .result-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .result-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+
+        .result-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .result-amount {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--warning);
+            margin-bottom: 20px;
+        }
+
+        .result-btn {
+            padding: 15px 40px;
+            background: white;
+            color: var(--bg);
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .result-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Leaderboard */
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .leaderboard-item:hover {
+            transform: translateX(5px);
+        }
+
+        .leaderboard-rank {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            width: 40px;
+            text-align: center;
+        }
+
+        .leaderboard-rank.gold { color: #ffd700; }
+        .leaderboard-rank.silver { color: #c0c0c0; }
+        .leaderboard-rank.bronze { color: #cd7f32; }
+
+        .leaderboard-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .leaderboard-level {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .leaderboard-score {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Profile */
+        .profile-header {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            box-shadow: 0 0 40px var(--primary-soft);
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .profile-stat {
+            background: var(--surface);
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .profile-stat:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .profile-stat-value {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .profile-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Achievement */
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .achievement-item.unlocked {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, var(--surface) 100%);
+        }
+
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--text-muted);
+        }
+
+        .achievement-item.unlocked .achievement-icon {
+            background: var(--accent);
+            color: white;
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .achievement-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .achievement-status {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .achievement-item.unlocked .achievement-status {
+            color: var(--accent);
+        }
+
+        /* Shop Tabs */
+        .shop-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .shop-tab {
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .shop-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .shop-tab:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Boost Timer */
+        .boost-timer {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--warning);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 999;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .boost-timer.active {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<!-- BOOST TIMER -->
+<div class="boost-timer" id="boostTimer">
+    <i class="fas fa-bolt"></i>
+    <span id="boostTimeLeft">2x XP: 5:00</span>
+</div>
+
+<!-- LOADER -->
+<div class="loader-screen" id="loader">
+    <div class="loader-content">
+        <div class="loader-logo"><i class="fas fa-dragon"></i></div>
+        <div class="loader-title">HabitQuest RPG</div>
+        <div class="loader-bar-container">
+            <div class="loader-bar-bg">
+                <div class="loader-bar-fill" id="loaderBar"></div>
+            </div>
+        </div>
+        <div class="loader-percent" id="loaderPercent">0%</div>
+        <div class="loader-status" id="loaderStatus">Initializing...</div>
+    </div>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="resultOverlay">
+    <div class="result-icon" id="resultIcon"><i class="fas fa-trophy"></i></div>
+    <div class="result-title" id="resultTitle">Victory!</div>
+    <div class="result-amount" id="resultAmount">+50 Coins</div>
+    <button class="result-btn" onclick="closeResult()">Awesome!</button>
+</div>
+
+<div class="app-container" id="app">
+    
+    <!-- Header -->
+    <header class="app-header">
+        <div class="logo"><i class="fas fa-dragon"></i> HabitQuest</div>
+        <div class="header-actions">
+            <button class="header-btn" onclick="toggleTheme()">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+            <div class="level-badge">
+                <i class="fas fa-crown"></i>
+                <span id="headerLevel">1</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- HOME VIEW -->
+    <div id="view-home">
+        <!-- Stats -->
+        <div class="hero-bar">
+            <div class="stat-card coins">
+                <div class="stat-value" id="statCoins">0</div>
+                <div class="stat-label">Coins</div>
+            </div>
+            <div class="stat-card gems">
+                <div class="stat-value" id="statGems">0</div>
+                <div class="stat-label">Gems</div>
+            </div>
+            <div class="stat-card energy">
+                <div class="stat-value" id="statEnergy">100</div>
+                <div class="stat-label">Energy</div>
+            </div>
+        </div>
+
+        <!-- Energy Bar -->
+        <div class="bar-container">
+            <div class="bar-bg">
+                <div class="bar-fill energy-fill" id="energyBar" style="width: 100%"></div>
+            </div>
+            <div class="bar-text">
+                <span>Energy</span>
+                <span id="energyText">100/100</span>
+            </div>
+        </div>
+
+        <!-- XP Bar -->
+        <div class="bar-container">
+            <div class="bar-bg">
+                <div class="bar-fill xp-fill" id="xpBar" style="width: 0%"></div>
+            </div>
+            <div class="bar-text">
+                <span>Level <span id="currentLevel">1</span></span>
+                <span><span id="currentXP">0</span> / <span id="maxXP">100</span> XP</span>
+            </div>
+        </div>
+
+        <!-- Daily Reward -->
+        <div class="daily-reward" id="dailyReward">
+            <div class="daily-header">
+                <div class="daily-icon"><i class="fas fa-gift"></i></div>
+                <div>
+                    <h3>Daily Reward</h3>
+                    <p style="opacity: 0.9; font-size: 0.9rem;">Claim your daily bonus!</p>
+                </div>
+            </div>
+            <button class="claim-btn" id="claimBtn" onclick="claimDaily()">
+                <i class="fas fa-gift"></i> Claim Now
+            </button>
+        </div>
+
+        <!-- Journey Map -->
+        <div class="journey-section">
+            <div class="section-header">
+                <div class="section-title"><i class="fas fa-map-marked-alt"></i> Journey</div>
+                <span class="section-action" onclick="showJourneyInfo()">Info <i class="fas fa-info-circle"></i></span>
+            </div>
+            <div class="map-container">
+                <div class="map-bg"></div>
+                <div class="map-path" id="journeyMap"></div>
+            </div>
+        </div>
+
+        <!-- Mission -->
+        <div id="missionSection">
+            <div class="section-header">
+                <div class="section-title"><i class="fas fa-crosshairs"></i> Active Mission</div>
+            </div>
+            <div class="mission-card" id="missionCard"></div>
+        </div>
+
+        <!-- Pet -->
+        <div class="section-header">
+            <div class="section-title"><i class="fas fa-paw"></i> Companion</div>
+            <span class="section-action" onclick="openShop('pets')">Change <i class="fas fa-exchange-alt"></i></span>
+        </div>
+        <div class="pet-card">
+            <div class="pet-avatar" id="petAvatar">🐉</div>
+            <div class="pet-info">
+                <h3 id="petName">Drako <span class="pet-level">Lvl <span id="petLevel">1</span></span></h3>
+                <div class="pet-stats">
+                    <div class="pet-stat">
+                        <i class="fas fa-heart"></i>
+                        <div class="pet-bar"><div class="pet-bar-fill happiness" id="petHappinessBar" style="width: 80%"></div></div>
+                        <span id="petHappiness">80</span>%
+                    </div>
+                    <div class="pet-stat">
+                        <i class="fas fa-drumstick-bite"></i>
+                        <div class="pet-bar"><div class="pet-bar-fill hunger" id="petHungerBar" style="width: 60%"></div></div>
+                        <span id="petHunger">60</span>%
+                    </div>
+                </div>
+                <div class="pet-actions">
+                    <button class="pet-btn feed" onclick="feedPet()">
+                        <i class="fas fa-drumstick-bite"></i> Feed (10🪙)
+                    </button>
+                    <button class="pet-btn play" onclick="playWithPet()">
+                        <i class="fas fa-gamepad"></i> Play
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Games -->
+        <div class="games-section">
+            <div class="section-header">
+                <div class="section-title"><i class="fas fa-gamepad"></i> Arcade</div>
+            </div>
+            <div class="games-scroll">
+                <div class="game-card" onclick="startClicker()">
+                    <span class="game-cost"><i class="fas fa-bolt"></i> 10</span>
+                    <div class="game-icon"><i class="fas fa-hand-pointer"></i></div>
+                    <div class="game-name">Coin Rush</div>
+                    <div class="game-reward"><i class="fas fa-coins"></i> Up to 100</div>
+                </div>
+                <div class="game-card" onclick="startMemory()">
+                    <span class="game-cost"><i class="fas fa-bolt"></i> 15</span>
+                    <div class="game-icon"><i class="fas fa-brain"></i></div>
+                    <div class="game-name">Memory Match</div>
+                    <div class="game-reward"><i class="fas fa-gem"></i> Up to 5</div>
+                </div>
+                <div class="game-card" onclick="startSpin()">
+                    <span class="game-cost"><i class="fas fa-bolt"></i> 5</span>
+                    <div class="game-icon"><i class="fas fa-dharmachakra"></i></div>
+                    <div class="game-name">Lucky Spin</div>
+                    <div class="game-reward"><i class="fas fa-trophy"></i> Jackpot!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Habits -->
+        <div class="habits-section">
+            <div class="section-header">
+                <div class="section-title"><i class="fas fa-check-circle"></i> Daily Habits</div>
+                <button class="add-btn" onclick="openAddModal()"><i class="fas fa-plus"></i></button>
+            </div>
+            <div id="habitsList"></div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="analytics-card">
+            <div class="chart-header">
+                <div class="section-title" style="padding: 0;"><i class="fas fa-chart-line"></i> Progress</div>
+                <div class="chart-tabs">
+                    <button class="chart-tab active" onclick="switchChart('7days')">7 Days</button>
+                    <button class="chart-tab" onclick="switchChart('30days')">30 Days</button>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="analyticsChart"></canvas>
+            </div>
+            <div class="stats-detailed">
+                <div class="detailed-stat">
+                    <div class="detailed-icon purple"><i class="fas fa-fire"></i></div>
+                    <div class="detailed-value" id="statStreak">0</div>
+                    <div class="detailed-label">Day Streak</div>
+                </div>
+                <div class="detailed-stat">
+                    <div class="detailed-icon green"><i class="fas fa-check"></i></div>
+                    <div class="detailed-value" id="statCompleted">0</div>
+                    <div class="detailed-label">Done Today</div>
+                </div>
+                <div class="detailed-stat">
+                    <div class="detailed-icon orange"><i class="fas fa-trophy"></i></div>
+                    <div class="detailed-value" id="statBest">0</div>
+                    <div class="detailed-label">Best Streak</div>
+                </div>
+                <div class="detailed-stat">
+                    <div class="detailed-icon blue"><i class="fas fa-star"></i></div>
+                    <div class="detailed-value" id="statTotal">0</div>
+                    <div class="detailed-label">Total XP</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOCIAL VIEW -->
+    <div id="view-social" class="hidden">
+        <div class="section-header" style="margin-top: 20px;">
+            <div class="section-title"><i class="fas fa-trophy"></i> Leaderboard</div>
+        </div>
+        <div id="leaderboardList" style="padding: 0 20px;"></div>
+    </div>
+
+    <!-- PROFILE VIEW -->
+    <div id="view-profile" class="hidden">
+        <div class="profile-header">
+            <div class="profile-avatar" id="profileAvatar">🧙‍♂️</div>
+            <div class="profile-name">Habit Master</div>
+            <div class="profile-title">Level <span id="profileLevel">1</span> • <span id="profileRank">Novice</span></div>
+            
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileHabits">0</div>
+                    <div class="profile-stat-label">Habits</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileCompleted">0</div>
+                    <div class="profile-stat-label">Completed</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value" id="profileCoins">0</div>
+                    div class="profile-stat-label">Coins</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-header">
+            <div class="section-title"><i class="fas fa-medal"></i> Achievements</div>
+        </div>
+        <div id="achievementsList" style="padding: 0 20px 100px;"></div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchView('home')">
+            <i class="fas fa-home"></i>
+            <span>Quest</span>
+        </button>
+        <button class="nav-item" onclick="switchView('social')">
+            <i class="fas fa-trophy"></i>
+            <span>Rank</span>
+        </button>
+        <button class="nav-item middle" onclick="quickAdd()">
+            <i class="fas fa-plus"></i>
+        </button>
+        <button class="nav-item" onclick="openShop()">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </button>
+        <button class="nav-item" onclick="switchView('profile')">
+            <i class="fas fa-user"></i>
+            <span>Hero</span>
+        </button>
+    </nav>
+
+    <!-- MODALS -->
+
+    <!-- Add Habit -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-plus-circle" style="color: var(--primary);"></i> New Quest</div>
+                <button class="modal-close" onclick="closeAddModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label class="input-label">Quest Name</label>
+                    <input type="text" class="input-field" id="habitNameInput" placeholder="e.g., Read 10 pages">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Choose Icon</label>
+                    <div class="icon-picker" id="iconPicker"></div>
+                </div>
+                <button class="btn-primary" onclick="addHabit()">
+                    <i class="fas fa-magic"></i> Create Quest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clicker Game -->
+    <div class="modal-overlay" id="clickerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-hand-pointer" style="color: var(--warning);"></i> Coin Rush</div>
+                <button class="modal-close" onclick="closeClicker()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="game-area clicker-game">
+                    <div class="clicker-timer" id="clickerTimer">10.0s</div>
+                    <div class="clicker-score" id="clickerScore">0</div>
+                    <div class="clicker-target" id="clickerTarget" onclick="doClick(event)">
+                        <i class="fas fa-hand-pointer"></i>
+                    </div>
+                    <p style="color: var(--text-muted);">Tap as fast as you can!</p>
+                    <button class="btn-primary" id="clickerStartBtn" onclick="startClickerGame()" style="margin-top: 20px;">
+                        <i class="fas fa-play"></i> Start Game (10⚡)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Game -->
+    <div class="modal-overlay" id="memoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-brain" style="color: var(--info);"></i> Memory Match</div>
+                <button class="modal-close" onclick="closeMemory()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="game-area memory-game">
+                    <div class="memory-stats">
+                        <div class="memory-stat">
+                            <div class="memory-stat-value" id="memoryMoves">0</div>
+                            <div class="memory-stat-label">Moves</div>
+                        </div>
+                        <div class="memory-stat">
+                            <div class="memory-stat-value" id="memoryMatches">0</div>
+                            <div class="memory-stat-label">Matches</div>
+                        </div>
+                        <div class="memory-stat">
+                            <div class="memory-stat-value" id="memoryTime">0</div>
+                            <div class="memory-stat-label">Time</div>
+                        </div>
+                    </div>
+                    <div class="memory-grid" id="memoryGrid"></div>
+                    <button class="btn-primary" id="memoryStartBtn" onclick="startMemoryGame()" style="margin-top: 20px;">
+                        <i class="fas fa-play"></i> Start Game (15⚡)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spin Game -->
+    <div class="modal-overlay" id="spinModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-dharmachakra" style="color: var(--accent);"></i> Lucky Spin</div>
+                <button class="modal-close" onclick="closeSpin()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="game-area spin-game">
+                    <div class="wheel-container">
+                        <div class="wheel-pointer"></div>
+                        <div class="wheel" id="wheel"></div>
+                        <div class="wheel-center">
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <button class="spin-btn" id="spinBtn" onclick="doSpin()">
+                        <i class="fas fa-play"></i> SPIN (5⚡)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop -->
+    <div class="modal-overlay" id="shopModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title"><i class="fas fa-store" style="color: var(--purple);"></i> Premium Shop</div>
+                <button class="modal-close" onclick="closeShop()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="shop-tabs">
+                    <button class="shop-tab active" onclick="switchShopTab('themes')">Themes</button>
+                    <button class="shop-tab" onclick="switchShopTab('pets')">Pets</button>
+                    <button class="shop-tab" onclick="switchShopTab('boosts')">Boosts</button>
+                </div>
+                <div class="shop-grid" id="shopGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+</div>
+
+<script>
+// --- STATE ---
+const state = {
+    level: 1,
+    xp: 0,
+    totalXP: 0,
+    coins: 100,
+    gems: 10,
+    energy: 100,
+    maxEnergy: 100,
+    streak: 0,
+    bestStreak: 0,
+    lastLogin: null,
+    habits: [],
+    completions: {},
+    currentJourney: 'discipline',
+    journeyProgress: {},
+    theme: 'light',
+    pet: { 
+        id: 'dragon', 
+        name: 'Drako',
+        level: 1, 
+        happiness: 80, 
+        hunger: 60, 
+        xp: 0 
+    },
+    inventory: [],
+    achievements: [],
+    dailyClaimed: false,
+    lastDaily: null,
+    gameStats: { clickerBest: 0, memoryBest: 0 },
+    activeBoosts: {
+        xp: { active: false, multiplier: 1, expires: 0 },
+        coins: { active: false, multiplier: 1, expires: 0 }
+    }
+};
+
+// --- CONFIG ---
+const JOURNEYS = {
+    discipline: {
+        name: 'Path of Discipline',
+        icon: 'fa-dumbbell',
+        color: '#6366f1',
+        stages: [
+            { 
+                name: 'Awakening', 
+                habits: [
+                    'Wake up before 7 AM',
+                    'Drink 2L water',
+                    'Meditate 10 mins',
+                    'No phone for 1 hour',
+                    'Make your bed'
+                ], 
+                xp: 50 
+            },
+            { 
+                name: 'Warrior', 
+                habits: [
+                    'Workout 30 mins',
+                    'Cold shower',
+                    'Read 20 pages',
+                    'Healthy breakfast',
+                    'Practice gratitude'
+                ], 
+                xp: 75 
+            },
+            { 
+                name: 'Master', 
+                habits: [
+                    'Deep work 2 hours',
+                    'No sugar',
+                    'Journal writing',
+                    'Walk 10k steps',
+                    'Learn something new'
+                ], 
+                xp: 100 
+            },
+            { 
+                name: 'Legend', 
+                habits: [
+                    'Perfect day completion',
+                    'Help someone',
+                    'Plan tomorrow',
+                    'Review goals',
+                    'Quality time with family'
+                ], 
+                xp: 150 
+            }
+        ]
+    }
+};
+
+const PETS = [
+    { id: 'dragon', name: 'Drako', icon: '🐉', cost: 0, currency: 'coins', color: '#6366f1' },
+    { id: 'phoenix', name: 'Phoenix', icon: '🔥', cost: 100, currency: 'gems', color: '#f97316' },
+    { id: 'wolf', name: 'Shadow', icon: '🐺', cost: 50, currency: 'gems', color: '#64748b' },
+    { id: 'cat', name: 'Luna', icon: '🐱', cost: 25, currency: 'gems', color: '#ec4899' },
+    { id: 'owl', name: 'Wisdom', icon: '🦉', cost: 75, currency: 'gems', color: '#8b5cf6' }
+];
+
+const SHOP_ITEMS = [
+    // Themes
+    { id: 'theme_dark', name: 'Dark Knight', type: 'theme', icon: '🌙', cost: 50, currency: 'gems', color: '#6366f1' },
+    { id: 'theme_forest', name: 'Forest', type: 'theme', icon: '🌲', cost: 50, currency: 'gems', color: '#059669' },
+    // Boosts
+    { id: 'boost_xp', name: '2x XP Boost', type: 'boost', subtype: 'xp', icon: '⚡', cost: 200, currency: 'coins', color: '#f59e0b', duration: 300000 },
+    { id: 'boost_coins', name: '2x Coins', type: 'boost', subtype: 'coins', icon: '💰', cost: 150, currency: 'coins', color: '#10b981', duration: 300000 },
+    { id: 'boost_energy', name: 'Energy Refill', type: 'boost', subtype: 'energy', icon: '🔋', cost: 50, currency: 'gems', color: '#0ea5e9' }
+];
+
+const ICONS = ['fa-book', 'fa-dumbbell', 'fa-glass-water', 'fa-bed', 'fa-code', 'fa-pen', 'fa-music', 'fa-money-bill', 'fa-carrot', 'fa-bicycle', 'fa-heart', 'fa-star', 'fa-fire', 'fa-bolt', 'fa-moon'];
+
+const LEADERBOARD = [
+    { name: 'DragonSlayer', level: 15, score: 15420, avatar: '🐉' },
+    { name: 'NightOwl', level: 12, score: 12300, avatar: '🦉' },
+    { name: 'EarlyBird', level: 10, score: 9800, avatar: '🐦' },
+    { name: 'IronWill', level: 9, score: 8200, avatar: '💪' },
+    { name: 'You', level: 1, score: 0, avatar: '🧙‍♂️', isUser: true }
+];
+
+const WHEEL_REWARDS = [
+    { value: 5, type: 'coins', color: '#64748b', icon: '🪙' },
+    { value: 10, type: 'coins', color: '#3b82f6', icon: '🪙' },
+    { value: 25, type: 'coins', color: '#10b981', icon: '🪙' },
+    { value: 1, type: 'gems', color: '#ec4899', icon: '💎' },
+    { value: 50, type: 'coins', color: '#f59e0b', icon: '🪙' },
+    { value: 2, type: 'gems', color: '#8b5cf6', icon: '💎' },
+    { value: 100, type: 'coins', color: '#f97316', icon: '🪙' },
+    { value: 5, type: 'gems', color: '#ef4444', icon: '💎' }
+];
+
+let chartInstance = null;
+let clickerInterval = null;
+let memoryInterval = null;
+let boostInterval = null;
+let clickerScore = 0;
+let clickerTime = 10;
+let memoryMoves = 0;
+let memoryMatches = 0;
+let memoryTime = 0;
+let memoryFlipped = [];
+let memoryCards = [];
+let isSpinning = false;
+let currentShopTab = 'themes';
+
+// --- LOADER ---
+window.addEventListener('load', () => {
+    loadState();
+    initLoader();
+});
+
+function initLoader() {
+    const steps = [
+        { pct: 0, status: 'Initializing...' },
+        { pct: 30, status: 'Loading assets...' },
+        { pct: 60, status: 'Preparing world...' },
+        { pct: 85, status: 'Loading pets...' },
+        { pct: 100, status: 'Entering HabitQuest!' }
+    ];
+    
+    let step = 0;
+    
+    function update() {
+        if (step >= steps.length) {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('app').classList.add('loaded');
+                    initApp();
+                }, 300);
+            }, 500);
+            return;
+        }
+        
+        const s = steps[step];
+        document.getElementById('loaderBar').style.width = s.pct + '%';
+        document.getElementById('loaderPercent').textContent = s.pct + '%';
+        document.getElementById('loaderStatus').textContent = s.status;
+        
+        step++;
+        setTimeout(update, step === 1 ? 800 : 600);
+    }
+    
+    update();
+}
+
+function initApp() {
+    applyTheme();
+    initIconPicker();
+    checkDailyReset();
+    initWheel();
+    startBoostTimer();
+    updateUI();
+    renderAll();
+    startEnergyRegen();
+}
+
+// --- CORE FUNCTIONS ---
+
+function initIconPicker() {
+    const container = document.getElementById('iconPicker');
+    container.innerHTML = ICONS.map((icon, i) => `
+        <div class="icon-option ${i === 0 ? 'selected' : ''}" data-icon="${icon}" onclick="selectIcon(this)">
+            <i class="fas ${icon}"></i>
+        </div>
+    `).join('');
+}
+
+function selectIcon(el) {
+    document.querySelectorAll('.icon-option').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+}
+
+function addHabit() {
+    const name = document.getElementById('habitNameInput').value.trim();
+    if (!name) return showToast('Enter a quest name!', 'error');
+
+    const selected = document.querySelector('.icon-option.selected');
+    const icon = selected ? selected.dataset.icon : ICONS[0];
+
+    state.habits.push({
+        id: Date.now(),
+        name,
+        icon,
+        streak: 0,
+        total: 0,
+        created: Date.now()
+    });
+
+    saveState();
+    renderHabits();
+    closeAddModal();
+    showToast('Quest created! +10 XP', 'success');
+    addXP(10);
+    checkAchievement('first_habit');
+}
+
+function toggleHabit(id) {
+    const today = new Date().toDateString();
+    if (!state.completions[today]) state.completions[today] = {};
+
+    if (state.completions[today][id]) {
+        delete state.completions[today][id];
+        const habit = state.habits.find(h => h.id === id);
+        if (habit) habit.total = Math.max(0, habit.total - 1);
+    } else {
+        if (state.energy < 5) return showToast('Not enough energy!', 'error');
+        
+        state.energy -= 5;
+        state.completions[today][id] = true;
+        
+        const habit = state.habits.find(h => h.id === id);
+        habit.total++;
+        habit.streak++;
+        
+        // Apply boost multipliers
+        const xpReward = Math.floor(15 * state.activeBoosts.xp.multiplier);
+        const coinReward = Math.floor(10 * state.activeBoosts.coins.multiplier);
+        
+        addXP(xpReward);
+        state.coins += coinReward;
+        
+        showFloatingText(event, `+${xpReward} XP +${coinReward}🪙`);
+        showToast('Quest completed!', 'success');
+        
+        state.pet.happiness = Math.min(100, state.pet.happiness + 5);
+        createConfetti(10);
+    }
+
+    saveState();
+    updateUI();
+    renderHabits();
+    updateChart();
+}
+
+function addXP(amount) {
+    const boostedAmount = Math.floor(amount * state.activeBoosts.xp.multiplier);
+    state.xp += boostedAmount;
+    state.totalXP += boostedAmount;
+    const needed = getXPForLevel(state.level);
+    
+    if (state.xp >= needed) {
+        state.xp -= needed;
+        levelUp();
+    }
+    updateUI();
+}
+
+function getXPForLevel(lvl) {
+    return Math.floor(100 * Math.pow(1.3, lvl - 1));
+}
+
+function levelUp() {
+    state.level++;
+    createConfetti(50);
+    showResult('LEVEL UP!', `You are now level ${state.level}!`, '🎉', 'Continue');
+    renderJourneyMap();
+    checkAchievement('level_5');
+}
+
+// --- GAMES ---
+
+// CLICKER GAME
+function startClicker() {
+    document.getElementById('clickerModal').classList.add('active');
+    document.getElementById('clickerStartBtn').style.display = 'block';
+    document.getElementById('clickerTarget').style.pointerEvents = 'none';
+    clickerScore = 0;
+    clickerTime = 10;
+    updateClickerDisplay();
+}
+
+function startClickerGame() {
+    if (state.energy < 10) {
+        showToast('Need 10 energy!', 'error');
+        return;
+    }
+    
+    state.energy -= 10;
+    updateUI();
+    
+    document.getElementById('clickerStartBtn').style.display = 'none';
+    document.getElementById('clickerTarget').style.pointerEvents = 'auto';
+    
+    clickerInterval = setInterval(() => {
+        clickerTime -= 0.1;
+        if (clickerTime <= 0) {
+            clickerTime = 0;
+            endClicker();
+        }
+        updateClickerDisplay();
+    }, 100);
+}
+
+function doClick(e) {
+    clickerScore++;
+    updateClickerDisplay();
+    
+    const target = document.getElementById('clickerTarget');
+    target.style.transform = 'scale(0.9)';
+    setTimeout(() => target.style.transform = 'scale(1)', 50);
+    
+    const plus = document.createElement('div');
+    plus.className = 'float-text';
+    plus.textContent = '+1';
+    plus.style.left = (e.clientX - 20) + 'px';
+    plus.style.top = (e.clientY - 40) + 'px';
+    plus.style.color = 'var(--warning)';
+    document.body.appendChild(plus);
+    setTimeout(() => plus.remove(), 800);
+}
+
+function updateClickerDisplay() {
+    document.getElementById('clickerScore').textContent = clickerScore;
+    document.getElementById('clickerTimer').textContent = clickerTime.toFixed(1) + 's';
+    
+    const timer = document.getElementById('clickerTimer');
+    if (clickerTime <= 3) timer.classList.add('warning');
+    else timer.classList.remove('warning');
+}
+
+function endClicker() {
+    clearInterval(clickerInterval);
+    document.getElementById('clickerTarget').style.pointerEvents = 'none';
+    
+    const reward = Math.min(100, clickerScore);
+    const boostedReward = Math.floor(reward * state.activeBoosts.coins.multiplier);
+    state.coins += boostedReward;
+    addXP(Math.floor(reward / 3));
+    
+    if (clickerScore > state.gameStats.clickerBest) {
+        state.gameStats.clickerBest = clickerScore;
+    }
+    
+    saveState();
+    updateUI();
+    
+    setTimeout(() => {
+        closeClicker();
+        showResult('Game Over!', `You earned ${boostedReward} coins!`, '🏆', 'Awesome!');
+    }, 500);
+}
+
+function closeClicker() {
+    clearInterval(clickerInterval);
+    document.getElementById('clickerModal').classList.remove('active');
+}
+
+// MEMORY GAME
+function startMemory() {
+    document.getElementById('memoryModal').classList.add('active');
+    document.getElementById('memoryStartBtn').style.display = 'block';
+    document.getElementById('memoryGrid').innerHTML = '';
+    memoryMoves = 0;
+    memoryMatches = 0;
+    memoryTime = 0;
+    memoryFlipped = [];
+    updateMemoryDisplay();
+}
+
+function startMemoryGame() {
+    if (state.energy < 15) {
+        showToast('Need 15 energy!', 'error');
+        return;
+    }
+    
+    state.energy -= 15;
+    updateUI();
+    
+    document.getElementById('memoryStartBtn').style.display = 'none';
+    
+    const emojis = ['🎮', '🎲', '🎯', '🎪', '🎨', '🎭'];
+    const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+    memoryCards = cards;
+    
+    const grid = document.getElementById('memoryGrid');
+    grid.innerHTML = cards.map((emoji, i) => `
+        <div class="memory-card" data-index="${i}" data-emoji="${emoji}" onclick="flipCard(${i})">
+            <span style="opacity: 0;">${emoji}</span>
+        </div>
+    `).join('');
+    
+    memoryInterval = setInterval(() => {
+        memoryTime++;
+        updateMemoryDisplay();
+    }, 1000);
+}
+
+function flipCard(index) {
+    const card = document.querySelector(`.memory-card[data-index="${index}"]`);
+    if (!card || card.classList.contains('flipped') || card.classList.contains('matched') || memoryFlipped.length >= 2) return;
+    
+    card.classList.add('flipped');
+    card.querySelector('span').style.opacity = '1';
+    memoryFlipped.push({ index, emoji: memoryCards[index] });
+    
+    if (memoryFlipped.length === 2) {
+        memoryMoves++;
+        updateMemoryDisplay();
+        
+        const [first, second] = memoryFlipped;
+        if (first.emoji === second.emoji) {
+            setTimeout(() => {
+                document.querySelector(`.memory-card[data-index="${first.index}"]`).classList.add('matched');
+                document.querySelector(`.memory-card[data-index="${second.index}"]`).classList.add('matched');
+                memoryMatches++;
+                memoryFlipped = [];
+                updateMemoryDisplay();
+                
+                if (memoryMatches === 6) {
+                    endMemory();
+                }
+            }, 500);
+        } else {
+            setTimeout(() => {
+                document.querySelector(`.memory-card[data-index="${first.index}"]`).classList.remove('flipped');
+                document.querySelector(`.memory-card[data-index="${first.index}"]`).querySelector('span').style.opacity = '0';
+                document.querySelector(`.memory-card[data-index="${second.index}"]`).classList.remove('flipped');
+                document.querySelector(`.memory-card[data-index="${second.index}"]`).querySelector('span').style.opacity = '0';
+                memoryFlipped = [];
+            }, 1000);
+        }
+    }
+}
+
+function updateMemoryDisplay() {
+    document.getElementById('memoryMoves').textContent = memoryMoves;
+    document.getElementById('memoryMatches').textContent = memoryMatches;
+    document.getElementById('memoryTime').textContent = memoryTime + 's';
+}
+
+function endMemory() {
+    clearInterval(memoryInterval);
+    
+    const baseReward = 3;
+    const timeBonus = Math.max(0, 5 - Math.floor(memoryTime / 30));
+    const moveBonus = Math.max(0, 3 - Math.floor(memoryMoves / 6));
+    const totalGems = baseReward + timeBonus + moveBonus;
+    
+    state.gems += totalGems;
+    addXP(50);
+    
+    if (memoryTime < state.gameStats.memoryBest || state.gameStats.memoryBest === 0) {
+        state.gameStats.memoryBest = memoryTime;
+    }
+    
+    saveState();
+    updateUI();
+    
+    setTimeout(() => {
+        closeMemory();
+        showResult('Victory!', `Perfect! You earned ${totalGems} gems!`, '💎', 'Excellent!');
+    }, 500);
+}
+
+function closeMemory() {
+    clearInterval(memoryInterval);
+    document.getElementById('memoryModal').classList.remove('active');
+}
+
+// SPIN GAME
+function initWheel() {
+    const wheel = document.getElementById('wheel');
+    const segmentAngle = 360 / WHEEL_REWARDS.length;
+    
+    wheel.innerHTML = WHEEL_REWARDS.map((reward, i) => {
+        const rotation = i * segmentAngle;
+        return `
+            <div class="wheel-segment" style="
+                transform: rotate(${rotation}deg);
+                background: ${reward.color};
+                clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            ">
+                <span>${reward.icon} ${reward.value}</span>
+            </div>
+        `;
+    }).join('');
+}
+
+function startSpin() {
+    document.getElementById('spinModal').classList.add('active');
+}
+
+function doSpin() {
+    if (isSpinning) return;
+    if (state.energy < 5) {
+        showToast('Need 5 energy!', 'error');
+        return;
+    }
+    
+    state.energy -= 5;
+    updateUI();
+    
+    isSpinning = true;
+    const btn = document.getElementById('spinBtn');
+    btn.disabled = true;
+    btn.classList.add('spinning');
+    
+    const wheel = document.getElementById('wheel');
+    const randomIndex = Math.floor(Math.random() * WHEEL_REWARDS.length);
+    const segmentAngle = 360 / WHEEL_REWARDS.length;
+    const extraSpins = 5 + Math.floor(Math.random() * 3);
+    const finalRotation = 360 * extraSpins + (randomIndex * segmentAngle) + (segmentAngle / 2);
+    
+    wheel.style.transform = `rotate(${finalRotation}deg)`;
+    
+    setTimeout(() => {
+        const reward = WHEEL_REWARDS[randomIndex];
+        applyReward(reward);
+        
+        isSpinning = false;
+        btn.disabled = false;
+        btn.classList.remove('spinning');
+    }, 4000);
+}
+
+function applyReward(reward) {
+    let amount = reward.value;
+    
+    if (reward.type === 'coins') {
+        amount = Math.floor(amount * state.activeBoosts.coins.multiplier);
+        state.coins += amount;
+    } else {
+        state.gems += amount;
+    }
+    
+    saveState();
+    updateUI();
+    
+    const typeText = reward.type === 'coins' ? 'coins' : 'gems';
+    const icon = reward.type === 'coins' ? '🪙' : '💎';
+    
+    setTimeout(() => {
+        closeSpin();
+        showResult('You Won!', `${icon} ${amount} ${typeText}!`, icon, 'Great!');
+    }, 300);
+}
+
+function closeSpin() {
+    document.getElementById('spinModal').classList.remove('active');
+}
+
+// --- PET SYSTEM ---
+
+function feedPet() {
+    if (state.coins < 10) return showToast('Need 10 coins!', 'error');
+    if (state.pet.hunger >= 100) return showToast('Pet is full!', 'info');
+    
+    state.coins -= 10;
+    state.pet.hunger = Math.min(100, state.pet.hunger + 30);
+    state.pet.xp += 10;
+    
+    if (state.pet.xp >= state.pet.level * 50) {
+        state.pet.level++;
+        state.pet.xp = 0;
+        showToast('Pet leveled up!', 'success');
+    }
+    
+    saveState();
+    updateUI();
+    showToast('Yum! Pet is happy! +10 XP', 'success');
+}
+
+function playWithPet() {
+    if (state.energy < 10) return showToast('Need more energy!', 'error');
+    
+    state.energy -= 10;
+    state.pet.happiness = Math.min(100, state.pet.happiness + 15);
+    state.pet.xp += 5;
+    
+    saveState();
+    updateUI();
+    showToast('Pet had fun! +5 XP', 'success');
+}
+
+function changePet(petId) {
+    const pet = PETS.find(p => p.id === petId);
+    if (!pet) return;
+    
+    state.pet.id = petId;
+    state.pet.name = pet.name;
+    
+    saveState();
+    updateUI();
+    showToast(`Now using ${pet.name}!`, 'success');
+}
+
+// --- BOOST SYSTEM ---
+
+function activateBoost(boostId) {
+    const item = SHOP_ITEMS.find(i => i.id === boostId);
+    if (!item) return;
+    
+    if (item.subtype === 'energy') {
+        state.energy = state.maxEnergy;
+        showToast('Energy refilled!', 'success');
+        saveState();
+        updateUI();
+        return;
+    }
+    
+    const now = Date.now();
+    state.activeBoosts[item.subtype] = {
+        active: true,
+        multiplier: 2,
+        expires: now + item.duration
+    };
+    
+    startBoostTimer();
+    saveState();
+    updateUI();
+    showToast(`${item.name} activated for 5 minutes!`, 'success');
+}
+
+function startBoostTimer() {
+    if (boostInterval) clearInterval(boostInterval);
+    
+    function update() {
+        const now = Date.now();
+        let active = false;
+        
+        ['xp', 'coins'].forEach(type => {
+            if (state.activeBoosts[type].active) {
+                if (now >= state.activeBoosts[type].expires) {
+                    state.activeBoosts[type].active = false;
+                    state.activeBoosts[type].multiplier = 1;
+                } else {
+                    active = true;
+                    const remaining = Math.ceil((state.activeBoosts[type].expires - now) / 1000);
+                    const mins = Math.floor(remaining / 60);
+                    const secs = remaining % 60;
+                    
+                    const timerEl = document.getElementById('boostTimer');
+                    const timeText = document.getElementById('boostTimeLeft');
+                    
+                    if (state.activeBoosts.xp.active && state.activeBoosts.coins.active) {
+                        timeText.textContent = `2x All: ${mins}:${secs.toString().padStart(2, '0')}`;
+                    } else if (state.activeBoosts.xp.active) {
+                        timeText.textContent = `2x XP: ${mins}:${secs.toString().padStart(2, '0')}`;
+                    } else {
+                        timeText.textContent = `2x Coins: ${mins}:${secs.toString().padStart(2, '0')}`;
+                    }
+                    
+                    timerEl.classList.add('active');
+                }
+            }
+        });
+        
+        if (!active) {
+            document.getElementById('boostTimer').classList.remove('active');
+        }
+        
+        saveState();
+    }
+    
+    update();
+    boostInterval = setInterval(update, 1000);
+}
+
+// --- DAILY REWARD ---
+
+function claimDaily() {
+    if (state.dailyClaimed) return;
+    
+    const rewards = { coins: 50, xp: 20, gems: 3 };
+    state.coins += rewards.coins;
+    state.gems += rewards.gems;
+    addXP(rewards.xp);
+    
+    state.dailyClaimed = true;
+    state.lastDaily = new Date().toDateString();
+    
+    document.getElementById('claimBtn').disabled = true;
+    document.getElementById('claimBtn').textContent = 'Claimed!';
+    
+    showResult('Daily Reward!', `🪙 ${rewards.coins} | XP ${rewards.xp} | 💎 ${rewards.gems}`, '🎁', 'Claimed!');
+    saveState();
+    updateUI();
+}
+
+function checkDailyReset() {
+    const today = new Date().toDateString();
+    if (state.lastDaily !== today) {
+        state.dailyClaimed = false;
+    }
+    
+    const btn = document.getElementById('claimBtn');
+    if (state.dailyClaimed) {
+        btn.disabled = true;
+        btn.textContent = 'Come back tomorrow!';
+    } else {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-gift"></i> Claim Now';
+    }
+    
+    if (state.lastLogin !== today) {
+        state.lastLogin = today;
+        checkStreak();
+    }
+}
+
+function checkStreak() {
+    let current = 0;
+    const today = new Date();
+    
+    for (let i = 0; i < 365; i++) {
+        const d = new Date(today);
+        d.setDate(d.getDate() - i);
+        const ds = d.toDateString();
+        
+        if (state.completions[ds] && Object.keys(state.completions[ds]).length > 0) {
+            current++;
+        } else if (i > 0) break;
+    }
+    
+    state.streak = current;
+    if (current > state.bestStreak) state.bestStreak = current;
+    if (current >= 7) checkAchievement('week_streak');
+}
+
+// --- SHOP ---
+
+function openShop(tab = 'themes') {
+    currentShopTab = tab;
+    switchShopTab(tab);
+    document.getElementById('shopModal').classList.add('active');
+}
+
+function switchShopTab(tab) {
+    currentShopTab = tab;
+    
+    // Update tabs
+    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    const grid = document.getElementById('shopGrid');
+    
+    if (tab === 'themes') {
+        const themes = SHOP_ITEMS.filter(i => i.type === 'theme');
+        grid.innerHTML = themes.map(item => {
+            const owned = state.inventory.includes(item.id);
+            const canAfford = state[item.currency] >= item.cost;
+            const isActive = state.theme === item.id.split('_')[1];
+            
+            return `
+                <div class="shop-item ${owned || isActive ? 'owned' : ''} ${!canAfford && !owned ? 'disabled' : ''}" 
+                     onclick="${owned || isActive ? `applyTheme('${item.id.split('_')[1]}')` : `buyItem('${item.id}')`}">
+                    <div class="shop-item-icon" style="background: ${item.color}20; color: ${item.color};">
+                        ${item.icon}
+                    </div>
+                    <div class="shop-item-name">${item.name}</div>
+                    <div class="shop-item-price">
+                        ${isActive ? 'ACTIVE' : owned ? 'OWNED' : `<i class="fas fa-${item.currency === 'gems' ? 'gem' : 'coins'}"></i> ${item.cost}`}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    } else if (tab === 'pets') {
+        grid.innerHTML = PETS.map(pet => {
+            const owned = state.inventory.includes(`pet_${pet.id}`) || pet.id === 'dragon';
+            const canAfford = state[pet.currency] >= pet.cost;
+            const isActive = state.pet.id === pet.id;
+            
+            return `
+                <div class="shop-item ${owned ? 'owned' : ''} ${!canAfford && !owned ? 'disabled' : ''}" 
+                     onclick="${owned ? `changePet('${pet.id}')` : `buyPet('${pet.id}')`}">
+                    <div class="shop-item-icon" style="background: ${pet.color}20; color: ${pet.color}; font-size: 2.5rem;">
+                        ${pet.icon}
+                    </div>
+                    <div class="shop-item-name">${pet.name}</div>
+                    <div class="shop-item-price">
+                        ${isActive ? 'ACTIVE' : owned ? 'OWNED' : pet.cost === 0 ? 'FREE' : `<i class="fas fa-${pet.currency === 'gems' ? 'gem' : 'coins'}"></i> ${pet.cost}`}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    } else if (tab === 'boosts') {
+        const boosts = SHOP_ITEMS.filter(i => i.type === 'boost');
+        grid.innerHTML = boosts.map(item => {
+            const canAfford = state[item.currency] >= item.cost;
+            
+            return `
+                <div class="shop-item ${!canAfford ? 'disabled' : ''}" 
+                     onclick="${canAfford ? `buyItem('${item.id}')` : ''}">
+                    <div class="shop-item-icon" style="background: ${item.color}20; color: ${item.color};">
+                        ${item.icon}
+                    </div>
+                    <div class="shop-item-name">${item.name}</div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-${item.currency === 'gems' ? 'gem' : 'coins'}"></i> ${item.cost}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+}
+
+function buyItem(id) {
+    const item = SHOP_ITEMS.find(i => i.id === id);
+    if (state[item.currency] < item.cost) {
+        showToast(`Not enough ${item.currency}!`, 'error');
+        return;
+    }
+    
+    if (item.type === 'boost') {
+        state[item.currency] -= item.cost;
+        activateBoost(id);
+        closeShop();
+        return;
+    }
+    
+    state[item.currency] -= item.cost;
+    state.inventory.push(id);
+    
+    if (item.type === 'theme') {
+        applyTheme(item.id.split('_')[1]);
+    }
+    
+    saveState();
+    updateUI();
+    switchShopTab(currentShopTab);
+    showToast('Item purchased!', 'success');
+}
+
+function buyPet(petId) {
+    const pet = PETS.find(p => p.id === petId);
+    if (state[pet.currency] < pet.cost) {
+        showToast(`Not enough ${pet.currency}!`, 'error');
+        return;
+    }
+    
+    state[pet.currency] -= pet.cost;
+    state.inventory.push(`pet_${petId}`);
+    
+    saveState();
+    updateUI();
+    switchShopTab('pets');
+    showToast('Pet purchased!', 'success');
+}
+
+function closeShop() {
+    document.getElementById('shopModal').classList.remove('active');
+}
+
+// --- RENDERING ---
+
+function renderAll() {
+    renderJourneyMap();
+    renderMission();
+    renderHabits();
+    renderLeaderboard();
+    renderAchievements();
+    updateChart();
+}
+
+function renderJourneyMap() {
+    const journey = JOURNEYS[state.currentJourney];
+    const progress = state.journeyProgress[state.currentJourney] || { currentStage: 0, dayInStage: 0 };
+    const container = document.getElementById('journeyMap');
+    
+    const icons = ['fa-seedling', 'fa-fire', 'fa-mountain', 'fa-crown'];
+    const pct = ((progress.currentStage * 7 + progress.dayInStage) / (journey.stages.length * 7)) * 100;
+    
+    container.innerHTML = `
+        <div class="path-line">
+            <div class="path-progress" style="width: ${pct}%"></div>
+        </div>
+        ${journey.stages.map((stage, i) => {
+            let status = 'locked';
+            if (i < progress.currentStage) status = 'completed';
+            if (i === progress.currentStage) status = 'current';
+            
+            return `
+                <div class="map-node ${status}">
+                    <div class="node-orb">
+                        <i class="fas ${icons[i]}"></i>
+                    </div>
+                    <div class="node-label">${stage.name}</div>
+                </div>
+            `;
+        }).join('')}
+    `;
+}
+
+function renderMission() {
+    const journey = JOURNEYS[state.currentJourney];
+    let progress = state.journeyProgress[state.currentJourney];
+    
+    if (!progress) {
+        progress = { currentStage: 0, dayInStage: 0, tasks: {} };
+        state.journeyProgress[state.currentJourney] = progress;
+    }
+    
+    if (progress.currentStage >= journey.stages.length) {
+        document.getElementById('missionSection').innerHTML = `
+            <div class="mission-card" style="text-align: center;">
+                <i class="fas fa-trophy" style="font-size: 3rem; color: var(--accent); margin-bottom: 15px;"></i>
+                <h3>Journey Complete!</h3>
+                <p>You've mastered ${journey.name}</p>
+            </div>
+        `;
+        return;
+    }
+    
+    const stage = journey.stages[progress.currentStage];
+    const completedTasks = Object.keys(progress.tasks || {}).filter(k => k.startsWith(`${progress.currentStage}-`)).length;
+    const pct = (completedTasks / stage.habits.length) * 100;
+    
+    document.getElementById('missionCard').innerHTML = `
+        <div class="mission-header">
+            <div class="mission-icon" style="background: ${journey.color};">
+                <i class="fas ${journey.icon}"></i>
+            </div>
+            <div class="mission-info">
+                <h3>${stage.name}</h3>
+                <p>Day ${progress.dayInStage + 1}/7 • Stage ${progress.currentStage + 1} of ${journey.stages.length}</p>
+            </div>
+        </div>
+        <div class="mission-progress">
+            <div class="mission-progress-bar">
+                <div class="mission-progress-fill" style="width: ${pct}%"></div>
+            </div>
+            <div class="mission-progress-text">${completedTasks}/${stage.habits.length}</div>
+        </div>
+        <div class="mission-tasks">
+            ${stage.habits.map((task, i) => {
+                const key = `${progress.currentStage}-${i}`;
+                const done = progress.tasks && progress.tasks[key];
+                return `
+                    <div class="mission-task ${done ? 'completed' : ''}" onclick="toggleMissionTask(${progress.currentStage}, ${i})">
+                        <div class="task-check"><i class="fas fa-check"></i></div>
+                        <div class="task-text">${task}</div>
+                        <div class="task-reward"><i class="fas fa-star"></i> +15</div>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+    `;
+}
+
+function toggleMissionTask(stageIdx, taskIdx) {
+    if (!state.journeyProgress[state.currentJourney]) {
+        state.journeyProgress[state.currentJourney] = { currentStage: 0, dayInStage: 0, tasks: {} };
+    }
+    
+    const progress = state.journeyProgress[state.currentJourney];
+    if (progress.currentStage !== stageIdx) return;
+    
+    const key = `${stageIdx}-${taskIdx}`;
+    const isDone = progress.tasks[key];
+    
+    if (isDone) {
+        delete progress.tasks[key];
+    } else {
+        progress.tasks[key] = true;
+        addXP(15);
+        state.coins += 8;
+        showFloatingText(event, '+15 XP +8🪙');
+        
+        const journey = JOURNEYS[state.currentJourney];
+        const stage = journey.stages[stageIdx];
+        const completed = Object.keys(progress.tasks).filter(k => k.startsWith(`${stageIdx}-`)).length;
+        
+        if (completed >= stage.habits.length) {
+            setTimeout(() => {
+                addXP(stage.xp);
+                state.coins += 50;
+                progress.dayInStage++;
+                
+                if (progress.dayInStage >= 7) {
+                    progress.currentStage++;
+                    progress.dayInStage = 0;
+                    progress.tasks = {};
+                    showResult('Stage Complete!', `+${stage.xp} XP Bonus!`, '🎉', 'Continue');
+                } else {
+                    progress.tasks = {};
+                    showToast(`Day ${progress.dayInStage}/7 complete!`, 'success');
+                }
+                
+                checkAchievement('complete_journey');
+                renderAll();
+            }, 500);
+        }
+    }
+    
+    saveState();
+    renderMission();
+    updateUI();
+}
+
+function renderHabits() {
+    const container = document.getElementById('habitsList');
+    const today = new Date().toDateString();
+    const comps = state.completions[today] || {};
+    
+    if (state.habits.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-scroll"></i>
+                <p>No active quests. Create one!</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = state.habits.map(h => {
+        const done = comps[h.id];
+        const chain = Array(7).fill(0).map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (6 - i));
+            return state.completions[d.toDateString()]?.[h.id];
+        });
+        
+        return `
+            <div class="habit-card ${done ? 'completed' : ''}" onclick="toggleHabit(${h.id})">
+                <div class="habit-icon-wrapper">
+                    <div class="habit-icon">
+                        <i class="fas ${h.icon}"></i>
+                    </div>
+                    ${h.streak > 2 ? `<div class="habit-streak-badge"><i class="fas fa-fire"></i></div>` : ''}
+                </div>
+                <div class="habit-info">
+                    <div class="habit-title">
+                        ${h.name}
+                        ${done ? '<i class="fas fa-check-circle" style="color: var(--accent);"></i>' : ''}
+                    </div>
+                    <div class="habit-chain">
+                        ${chain.map(c => `<div class="chain-link ${c ? 'active' : ''}"></div>`).join('')}
+                    </div>
+                    <div class="habit-meta">
+                        <span>Best: ${h.streak} days</span>
+                        <span class="habit-reward"><i class="fas fa-bolt"></i> 5 | <i class="fas fa-coins"></i> 10</span>
+                    </div>
+                </div>
+                <div class="habit-check">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderLeaderboard() {
+    const list = document.getElementById('leaderboardList');
+    LEADERBOARD[4].score = state.totalXP;
+    LEADERBOARD[4].level = state.level;
+    
+    const sorted = [...LEADERBOARD].sort((a, b) => b.score - a.score);
+    
+    list.innerHTML = sorted.map((user, i) => `
+        <div class="leaderboard-item" style="${user.isUser ? 'background: var(--primary-soft); border-color: var(--primary);' : ''}">
+            <div class="leaderboard-rank ${i < 3 ? ['gold', 'silver', 'bronze'][i] : ''}">${i + 1}</div>
+            <div class="leaderboard-avatar">${user.avatar}</div>
+            <div class="leaderboard-info">
+                <div class="leaderboard-name">${user.name} ${user.isUser ? '(You)' : ''}</div>
+                <div class="leaderboard-level">Level ${user.level}</div>
+            </div>
+            <div class="leaderboard-score">${user.score.toLocaleString()}</div>
+        </div>
+    `).join('');
+}
+
+function renderAchievements() {
+    const achievements = [
+        { id: 'first_habit', name: 'First Steps', desc: 'Create your first habit', icon: 'fa-shoe-prints' },
+        { id: 'week_streak', name: 'On Fire', desc: '7 day streak', icon: 'fa-fire' },
+        { id: 'level_5', name: 'Rising Star', desc: 'Reach level 5', icon: 'fa-star' },
+        { id: 'complete_journey', name: 'Path Walker', desc: 'Complete a journey stage', icon: 'fa-road' },
+        { id: 'rich', name: 'Treasure Hunter', desc: 'Collect 500 coins', icon: 'fa-coins' },
+        { id: 'master', name: 'Habit Master', desc: 'Complete a habit 30 times', icon: 'fa-crown' }
+    ];
+    
+    document.getElementById('achievementsList').innerHTML = achievements.map(a => {
+        const unlocked = state.achievements.includes(a.id);
+        return `
+            <div class="achievement-item ${unlocked ? 'unlocked' : ''}">
+                <div class="achievement-icon">
+                    <i class="fas ${a.icon}"></i>
+                </div>
+                <div class="achievement-info">
+                    <div class="achievement-name">${a.name}</div>
+                    <div class="achievement-desc">${a.desc}</div>
+                </div>
+                <div class="achievement-status">
+                    <i class="fas ${unlocked ? 'fa-check-circle' : 'fa-lock'}"></i>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function updateChart() {
+    const ctx = document.getElementById('analyticsChart');
+    if (!ctx) return;
+    
+    const days = document.querySelector('.chart-tab.active').textContent.includes('7') ? 7 : 30;
+    const labels = [];
+    const data = [];
+    
+    for (let i = days - 1; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        labels.push(i === 0 ? 'Today' : d.toLocaleDateString('en', { weekday: 'short' }));
+        data.push(Object.keys(state.completions[d.toDateString()] || {}).length);
+    }
+    
+    if (chartInstance) chartInstance.destroy();
+    
+    const primary = getComputedStyle(document.body).getPropertyValue('--primary').trim();
+    
+    chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                data,
+                borderColor: primary,
+                backgroundColor: primary + '20',
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { stepSize: 1 } }
+            }
+        }
+    });
+}
+
+// --- UI UPDATES ---
+
+function updateUI() {
+    const needed = getXPForLevel(state.level);
+    const xpPct = (state.xp / needed) * 100;
+    
+    document.getElementById('xpBar').style.width = `${xpPct}%`;
+    document.getElementById('currentXP').textContent = state.xp;
+    document.getElementById('maxXP').textContent = needed;
+    document.getElementById('currentLevel').textContent = state.level;
+    document.getElementById('headerLevel').textContent = state.level;
+    
+    document.getElementById('statCoins').textContent = state.coins;
+    document.getElementById('statGems').textContent = state.gems;
+    document.getElementById('statEnergy').textContent = state.energy;
+    document.getElementById('energyBar').style.width = `${(state.energy / state.maxEnergy) * 100}%`;
+    document.getElementById('energyText').textContent = `${state.energy}/${state.maxEnergy}`;
+    
+    // Pet UI
+    const pet = PETS.find(p => p.id === state.pet.id) || PETS[0];
+    document.getElementById('petAvatar').textContent = pet.icon;
+    document.getElementById('petName').innerHTML = `${state.pet.name} <span class="pet-level">Lvl ${state.pet.level}</span>`;
+    document.getElementById('petLevel').textContent = state.pet.level;
+    document.getElementById('petHappiness').textContent = state.pet.happiness;
+    document.getElementById('petHunger').textContent = state.pet.hunger;
+    document.getElementById('petHappinessBar').style.width = `${state.pet.happiness}%`;
+    document.getElementById('petHungerBar').style.width = `${state.pet.hunger}%`;
+    
+    document.getElementById('statStreak').textContent = state.streak;
+    document.getElementById('statCompleted').textContent = Object.keys(state.completions[new Date().toDateString()] || {}).length;
+    document.getElementById('statBest').textContent = state.bestStreak;
+    document.getElementById('statTotal').textContent = state.totalXP;
+    
+    document.getElementById('profileLevel').textContent = state.level;
+    document.getElementById('profileRank').textContent = ['Novice', 'Apprentice', 'Warrior', 'Knight', 'Champion', 'Master', 'Legend'][Math.min(state.level - 1, 6)] || 'God';
+    document.getElementById('profileHabits').textContent = state.habits.length;
+    document.getElementById('profileCompleted').textContent = state.habits.reduce((a, h) => a + h.total, 0);
+    document.getElementById('profileCoins').textContent = state.coins;
+}
+
+function startEnergyRegen() {
+    setInterval(() => {
+        if (state.energy < state.maxEnergy) {
+            state.energy = Math.min(state.maxEnergy, state.energy + 1);
+            updateUI();
+            saveState();
+        }
+    }, 60000);
+}
+
+// --- UTILITIES ---
+
+function switchView(view) {
+    document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
+    document.getElementById(`view-${view}`).classList.remove('hidden');
+    
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    
+    if (view === 'social') renderLeaderboard();
+    if (view === 'profile') renderAchievements();
+}
+
+function toggleTheme() {
+    const themes = ['light', 'dark', 'forest'];
+    const current = state.theme || 'light';
+    const next = themes[(themes.indexOf(current) + 1) % themes.length];
+    applyTheme(next);
+}
+
+function applyTheme(theme) {
+    if (!theme) theme = state.theme || 'light';
+    state.theme = theme;
+    document.body.setAttribute('data-theme', theme);
+    document.getElementById('themeIcon').className = `fas fa-${theme === 'light' ? 'moon' : 'sun'}`;
+    saveState();
+    updateChart();
+}
+
+function showToast(msg, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = { success: 'fa-check', error: 'fa-exclamation', info: 'fa-info', warning: 'fa-exclamation-triangle' };
+    toast.innerHTML = `<i class="fas ${icons[type]} toast-icon"></i> <span>${msg}</span>`;
+    
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+function showFloatingText(e, text) {
+    const el = document.createElement('div');
+    el.className = 'float-text';
+    el.textContent = text;
+    el.style.left = (e.clientX - 30) + 'px';
+    el.style.top = (e.clientY - 40) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+}
+
+function showResult(title, subtitle, icon, btnText) {
+    document.getElementById('resultTitle').textContent = title;
+    document.getElementById('resultAmount').textContent = subtitle;
+    document.getElementById('resultIcon').innerHTML = icon;
+    document.querySelector('.result-btn').textContent = btnText;
+    document.getElementById('resultOverlay').classList.add('active');
+}
+
+function closeResult() {
+    document.getElementById('resultOverlay').classList.remove('active');
+}
+
+function createConfetti(count = 30) {
+    const colors = ['#f43f5e', '#8b5cf6', '#0ea5e9', '#10b981', '#f59e0b'];
+    for (let i = 0; i < count; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animation = `confetti-fall ${2 + Math.random() * 2}s linear forwards`;
+        c.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+    }
+}
+
+function checkAchievement(id) {
+    if (!state.achievements.includes(id)) {
+        state.achievements.push(id);
+        const names = { first_habit: 'First Steps', week_streak: 'On Fire', level_5: 'Rising Star', complete_journey: 'Path Walker' };
+        showToast(`Achievement: ${names[id] || id}! +5💎`, 'success');
+        state.gems += 5;
+        saveState();
+        renderAchievements();
+    }
+}
+
+function switchChart(range) {
+    document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    updateChart();
+}
+
+// --- MODAL CONTROLS ---
+
+function openAddModal() {
+    document.getElementById('addModal').classList.add('active');
+    document.getElementById('habitNameInput').value = '';
+}
+
+function closeAddModal() {
+    document.getElementById('addModal').classList.remove('active');
+}
+
+function quickAdd() {
+    openAddModal();
+}
+
+function showJourneyInfo() {
+    showToast('Complete all 7 days to advance to the next stage!', 'info');
+}
+
+// --- PERSISTENCE ---
+
+function saveState() {
+    localStorage.setItem('habitQuest_v5', JSON.stringify(state));
+}
+
+function loadState() {
+    const saved = localStorage.getItem('habitQuest_v5');
+    if (saved) {
+        const parsed = JSON.parse(saved);
+        Object.assign(state, parsed);
+    }
+}
+
+// Close modals on outside click
+document.querySelectorAll('.modal-overlay').forEach(m => {
+    m.addEventListener('click', (e) => {
+        if (e.target === m && !m.id.includes('result')) m.classList.remove('active');
+    });
+});
+</script>
+
+</body>
+</html>
