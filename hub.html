@@ -36,7 +36,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 @keyframes pgGlow{0%,100%{opacity:0;}50%{opacity:1;}}
 .pg-text{font-size:.9375rem;opacity:.95;font-weight:600;letter-spacing:0.5px;}
 
-/* ── ONBOARDING SLIDES ── UPDATED POSITIONING ── */
+/* ── ONBOARDING SLIDES ── */
 .onboarding{position:fixed;inset:0;background:linear-gradient(180deg,var(--surface) 0%,var(--bg) 100%);z-index:9500;display:none;flex-direction:column;}
 .onboarding.active{display:flex;animation:slideIn .4s ease;}
 @keyframes slideIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
@@ -204,6 +204,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .offer-card.processing{border-color:var(--warning);background:linear-gradient(135deg,#fffbeb,#fff);}
 .offer-card.completed{border-color:var(--success);background:linear-gradient(135deg,#f0fdf4,#fff);opacity:.85;}
 .offer-card.ready{border-color:var(--success);background:linear-gradient(135deg,#dcfce7,#f0fdf4);animation:pulse-border 2s infinite;}
+.offer-card.cooldown{border-color:var(--danger);background:linear-gradient(135deg,#fef2f2,#fff);opacity:.9;}
 @keyframes pulse-border{
   0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.4);}
   50%{box-shadow:0 0 0 4px rgba(16,185,129,0.2);}
@@ -231,6 +232,8 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .sbadge.ready::before{content:'';width:8px;height:8px;background:#3b82f6;border-radius:50%;box-shadow:0 0 0 3px rgba(59,130,246,.2);}
 .sbadge.expired{background:#fee2e2;color:#991b1b;}
 .sbadge.expired::before{content:'';width:8px;height:8px;background:#ef4444;border-radius:50%;}
+.sbadge.cooldown{background:#fee2e2;color:#991b1b;}
+.sbadge.cooldown::before{content:'';width:8px;height:8px;background:#ef4444;border-radius:50%;}
 .obtn{padding:10px 20px;border-radius:10px;border:none;font-weight:700;font-size:.875rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:6px;}
 .obtn-p{background:var(--primary);color:#fff;}
 .obtn-p:hover:not(:disabled){background:var(--primary-dark);transform:scale(1.05);}
@@ -366,6 +369,11 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .expire-countdown i{color:var(--danger);font-size:.875rem;}
 .expire-countdown-text{color:#991b1b;font-size:.8125rem;font-weight:700;font-variant-numeric:tabular-nums;}
 
+/* ── COOLDOWN COUNTDOWN ── */
+.cooldown-countdown{background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1px solid #fecaca;border-radius:var(--r);padding:10px 14px;margin-top:10px;text-align:center;display:flex;align-items:center;justify-content:center;gap:8px;}
+.cooldown-countdown i{color:var(--danger);font-size:.875rem;}
+.cooldown-countdown-text{color:#991b1b;font-size:.8125rem;font-weight:700;font-variant-numeric:tabular-nums;}
+
 /* ── ACTION LOADER ── */
 .act-loader{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:3000;align-items:center;justify-content:center;}
 .act-loader.active{display:flex;}
@@ -412,7 +420,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .free-spin-badge{position:absolute;top:-8px;right:-8px;background:linear-gradient(135deg,var(--success),#059669);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.875rem;font-weight:800;box-shadow:0 2px 8px rgba(16,185,129,.4);animation:bounce 2s infinite;z-index:30;}
 @keyframes bounce{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
 
-/* ── HOME CARDS ── PROFESSIONAL REDESIGN ── */
+/* ── HOME CARDS ── */
 .home-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
 .home-card{background:var(--surface);border-radius:var(--r);padding:24px 16px;border:1px solid rgba(0,0,0,.05);transition:var(--tr);cursor:pointer;text-align:center;position:relative;overflow:hidden;box-shadow:var(--sh);}
 .home-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));}
@@ -616,7 +624,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </section>
 
-<!-- OFFERS (Now includes Tasks below) -->
+<!-- OFFERS -->
 <section id="offersSection" class="sec">
   <div class="sec-hdr"><div class="sec-title"><i class="fa-solid fa-fire"></i> Hot Offers</div></div>
   <div class="ftabs" id="filterTabs">
@@ -633,7 +641,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
     <p>You must complete the task correctly on the external website to receive your coins. Failed completions or fake attempts may result in withdrawal restrictions. You have 2 minutes to claim your reward once ready!</p>
   </div>
 
-  <!-- Tasks Section Moved Here -->
+  <!-- Tasks Section -->
   <div class="tasks-container">
     <div class="tasks-title"><i class="fa-solid fa-clipboard-check"></i> Daily Tasks (<span id="taskCountDisplay">0/60</span>)</div>
     <div id="offersTasksList"></div>
@@ -641,13 +649,13 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
       <div style="font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
         <i class="fa-solid fa-trophy" style="color:var(--warning);"></i> Completion Bonus
       </div>
-      <div style="font-size:.875rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">Complete all 60 daily tasks to unlock withdrawal access and earn 2000 bonus coins!</div>
+      <div style="font-size:.875rem;color:var(--gray);line-height:1.6;margin-bottom:16px;">Complete all 60 daily tasks to unlock withdrawal access and earn 100 bonus coins!</div>
       <div style="height:8px;background:var(--gray-light);border-radius:100px;overflow:hidden;">
         <div id="taskProgressBar" style="height:100%;background:linear-gradient(90deg,var(--success),#34d399);width:0%;transition:width .3s ease;"></div>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:.875rem;font-weight:600;">
         <span style="color:var(--gray);" id="taskProgressText">0/60 completed</span>
-        <span style="color:var(--success);">+2000 bonus</span>
+        <span style="color:var(--success);">+100 bonus</span>
       </div>
     </div>
   </div>
@@ -763,7 +771,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   <button class="btn-p" onclick="logout()" style="background:var(--danger);margin-top:20px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
 </section>
 
-<!-- BOTTOM NAV - Tasks removed -->
+<!-- BOTTOM NAV -->
 <nav class="bnav" id="bottomNav">
   <button class="nitem active" onclick="switchTab('home')" id="nav-home"><i class="fa-solid fa-house"></i><span>Home</span></button>
   <button class="nitem" onclick="switchTab('offers')" id="nav-offers"><i class="fa-solid fa-fire"></i><span>Offers</span></button>
@@ -773,7 +781,9 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 </nav>
 </div>
 
-<!-- OFFER PROCESSING MODAL -->
+<!-- MODALS -->
+
+<!-- Offer Processing Modal -->
 <div class="modal-ov" id="processingModal">
   <div class="modal-box proc-modal">
     <div class="modal-body">
@@ -786,7 +796,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- SHARE TASK MODAL -->
+<!-- Share Task Modal -->
 <div class="modal-ov" id="shareTaskModal">
   <div class="modal-box proc-modal">
     <div class="modal-body">
@@ -805,7 +815,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- TASK PROCESSING MODAL -->
+<!-- Task Processing Modal -->
 <div class="modal-ov" id="taskProcessingModal">
   <div class="modal-box proc-modal">
     <div class="modal-body">
@@ -817,7 +827,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- REDEEM MODAL -->
+<!-- Redeem Modal -->
 <div class="modal-ov" id="redeemModal">
   <div class="modal-box">
     <div class="modal-hdr">
@@ -839,7 +849,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- USERNAME EDIT MODAL -->
+<!-- Username Edit Modal -->
 <div class="modal-ov" id="usernameModal">
   <div class="modal-box">
     <div class="modal-hdr">
@@ -862,7 +872,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- DELETE ACCOUNT MODAL -->
+<!-- Delete Account Modal -->
 <div class="modal-ov" id="deleteModal">
   <div class="modal-box">
     <div class="modal-hdr">
@@ -881,7 +891,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- BIO EDIT MODAL -->
+<!-- Bio Edit Modal -->
 <div class="modal-ov" id="bioModal">
   <div class="modal-box">
     <div class="modal-hdr">
@@ -899,7 +909,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- ACTION LOADER -->
+<!-- Action Loader -->
 <div class="act-loader" id="actLoader">
   <div class="act-box">
     <div class="act-spin"><i class="fa-solid fa-link" id="actLoaderIco"></i><div class="act-ring"></div></div>
@@ -908,21 +918,28 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- Toast Container -->
 <div class="toast-wrap" id="toastContainer"></div>
 
 <script>
 // ============================================================
-// DATA
+// CONFIGURATION & CONSTANTS
 // ============================================================
-const OFFER_PROCESSING_TIME = 3 * 60 * 1000;
-const TASK_PROCESSING_TIME = 90 * 1000;
-const CLAIM_WINDOW_TIME = 2 * 60 * 1000;
-const SHARE_TASK_TIME = 24 * 60 * 60 * 1000;
-const WITHDRAWAL_DAYS = 7;
-const TOTAL_TASKS = 60;
-const SPIN_COST = 300;
+const CONFIG = {
+  OFFER_PROCESSING_TIME: 3 * 60 * 1000,    // 3 minutes
+  TASK_PROCESSING_TIME: 90 * 1000,         // 90 seconds
+  CLAIM_WINDOW_TIME: 2 * 60 * 1000,        // 2 minutes to claim
+  EXPIRED_COOLDOWN: 5 * 60 * 1000,         // 5 minutes cooldown after expire
+  SHARE_TASK_TIME: 24 * 60 * 60 * 1000,    // 24 hours
+  WITHDRAWAL_DAYS: 7,
+  TOTAL_TASKS: 60,
+  SPIN_COST: 300,
+  STORAGE_KEY: 'sillyPrize_v7'
+};
 
+// ============================================================
+// DATA SETS
+// ============================================================
 const AVATARS = [
   {id:'av1', emoji:'🦊', bg:'#ff6b35'},
   {id:'av2', emoji:'🐼', bg:'#333'},
@@ -939,120 +956,139 @@ const AVATARS = [
 ];
 
 const WHEEL_SEGMENTS = [
-  {value:10,color:'#94a3b8',label:'+10'},
-  {value:25,color:'#cbd5e1',label:'+25'},
-  {value:50,color:'#3b82f6',label:'+50'},
-  {value:75,color:'#8b5cf6',label:'+75'},
-  {value:100,color:'#6366f1',label:'+100'},
-  {value:150,color:'#10b981',label:'+150'},
-  {value:200,color:'#f59e0b',label:'+200'},
-  {value:300,color:'#ec4899',label:'+300'},
-  {value:500,color:'#ef4444',label:'+500'},
-  {value:1000,color:'#f97316',label:'+1K'},
-  {value:0,color:'#22c55e',label:'FREE',type:'free'},
-  {value:0,color:'#64748b',label:'AGAIN',type:'again'}
+  {value:10, color:'#94a3b8', label:'+10'},
+  {value:25, color:'#cbd5e1', label:'+25'},
+  {value:50, color:'#3b82f6', label:'+50'},
+  {value:75, color:'#8b5cf6', label:'+75'},
+  {value:100, color:'#6366f1', label:'+100'},
+  {value:150, color:'#10b981', label:'+150'},
+  {value:200, color:'#f59e0b', label:'+200'},
+  {value:300, color:'#ec4899', label:'+300'},
+  {value:500, color:'#ef4444', label:'+500'},
+  {value:1000, color:'#f97316', label:'+1K'},
+  {value:0, color:'#22c55e', label:'FREE', type:'free'},
+  {value:0, color:'#64748b', label:'AGAIN', type:'again'}
 ];
 
-// 60 Total Tasks - Mix of original and new meaningful tasks
 const TASKS = [
-  // Original 30
-  {id:'daily_login',title:'Daily Login',description:'Open the app today',reward:50,icon:'fa-calendar-check',color:'#3b82f6',type:'auto',auto:true},
-  {id:'spin_wheel',title:'Daily Spin',description:'Use your daily spin',reward:100,icon:'fa-dharmachakra',color:'#f59e0b',type:'auto',auto:true},
-  {id:'share_app',title:'Share with 20',description:'Share the app with 20 friends',reward:500,icon:'fa-share-nodes',color:'#10b981',type:'share'},
-  {id:'screen_time_5',title:'5 Min Active',description:'Stay active for 5 minutes',reward:30,icon:'fa-mobile-screen',color:'#6366f1',type:'auto',auto:true,timeReq:5},
-  {id:'screen_time_15',title:'15 Min Active',description:'Stay active for 15 minutes',reward:75,icon:'fa-clock',color:'#8b5cf6',type:'auto',auto:true,timeReq:15},
-  {id:'screen_time_30',title:'30 Min Active',description:'Stay active for 30 minutes',reward:150,icon:'fa-hourglass-half',color:'#ec4899',type:'auto',auto:true,timeReq:30},
-  {id:'screen_time_60',title:'1 Hour Active',description:'Stay active for 1 hour',reward:300,icon:'fa-hourglass',color:'#f59e0b',type:'auto',auto:true,timeReq:60},
-  {id:'complete_3_offers',title:'Complete 3 Offers',description:'Finish 3 offers successfully',reward:300,icon:'fa-fire',color:'#f97316',type:'auto',auto:true,countRequired:3},
-  {id:'morning_check',title:'Early Bird',description:'Open app before 9 AM',reward:40,icon:'fa-sun',color:'#fbbf24',type:'auto',auto:true},
-  {id:'night_check',title:'Night Owl',description:'Open app after 8 PM',reward:40,icon:'fa-moon',color:'#4c1d95',type:'auto',auto:true},
-  {id:'streak_2',title:'2-Day Streak',description:'Login 2 days in a row',reward:100,icon:'fa-fire',color:'#f97316',type:'auto',auto:true},
-  {id:'streak_3',title:'3-Day Streak',description:'Login 3 days in a row',reward:300,icon:'fa-fire-flame-curved',color:'#ef4444',type:'auto',auto:true},
-  {id:'streak_4',title:'4-Day Streak',description:'Login 4 days in a row',reward:500,icon:'fa-fire-flame-simple',color:'#dc2626',type:'auto',auto:true},
-  {id:'streak_7',title:'Week Warrior',description:'Login 7 days in a row',reward:1000,icon:'fa-trophy',color:'#f59e0b',type:'auto',auto:true},
-  {id:'ad_watch_1',title:'Watch Ad #1',description:'Watch a short advertisement',reward:50,icon:'fa-circle-play',color:'#ef4444',type:'action'},
-  {id:'ad_watch_2',title:'Watch Ad #2',description:'Watch another advertisement',reward:50,icon:'fa-circle-play',color:'#ef4444',type:'action'},
-  {id:'ad_watch_3',title:'Watch Ad #3',description:'Watch third advertisement',reward:50,icon:'fa-circle-play',color:'#ef4444',type:'action'},
-  {id:'complete_offer',title:'Complete Any Offer',description:'Finish any hot offer',reward:100,icon:'fa-check-double',color:'#6366f1',type:'auto',auto:true},
-  {id:'wheel_2x',title:'Double Spin',description:'Spin the wheel twice',reward:60,icon:'fa-rotate',color:'#f59e0b',type:'auto',auto:true},
-  {id:'social_follow',title:'Follow Us',description:'Follow us on social media',reward:80,icon:'fa-hashtag',color:'#0ea5e9',type:'action'},
-  {id:'rate_app',title:'Rate App',description:'Give us 5 stars rating',reward:120,icon:'fa-star',color:'#fbbf24',type:'action'},
-  {id:'feedback',title:'Send Feedback',description:'Submit your feedback',reward:90,icon:'fa-comment-dots',color:'#8b5cf6',type:'action'},
-  {id:'tutorial',title:'Complete Tutorial',description:'Finish the onboarding',reward:50,icon:'fa-graduation-cap',color:'#10b981',type:'auto',auto:true},
-  {id:'lucky_day',title:'Lucky Sunday',description:'Open app on Sunday',reward:100,icon:'fa-clover',color:'#22c55e',type:'auto',auto:true},
-  {id:'big_spender',title:'Save Coins',description:'Have 1000+ coins',reward:50,icon:'fa-piggy-bank',color:'#ec4899',type:'counted'},
-  {id:'first_redeem_attempt',title:'Check Rewards',description:'Visit redeem page',reward:25,icon:'fa-eye',color:'#6366f1',type:'auto',auto:true},
-  {id:'push_enable',title:'Enable Notifications',description:'Turn on push notifications',reward:75,icon:'fa-bell',color:'#f59e0b',type:'action'},
-  {id:'avatar_set',title:'Set Avatar',description:'Choose a profile avatar',reward:60,icon:'fa-image-portrait',color:'#8b5cf6',type:'auto',auto:true},
-  {id:'bio_add',title:'Add Bio',description:'Write a short bio',reward:40,icon:'fa-pen',color:'#64748b',type:'auto',auto:true},
-  {id:'contact_support',title:'Contact Support',description:'Reach out to our support team',reward:20,icon:'fa-headset',color:'#6366f1',type:'action'},
+  // Daily & Time-based
+  {id:'daily_login', title:'Daily Login', description:'Open the app today', reward:50, icon:'fa-calendar-check', color:'#3b82f6', type:'auto', auto:true},
+  {id:'spin_wheel', title:'Daily Spin', description:'Use your daily spin', reward:100, icon:'fa-dharmachakra', color:'#f59e0b', type:'auto', auto:true},
+  {id:'share_app', title:'Share with 20', description:'Share the app with 20 friends', reward:500, icon:'fa-share-nodes', color:'#10b981', type:'share'},
+  {id:'screen_time_5', title:'5 Min Active', description:'Stay active for 5 minutes', reward:30, icon:'fa-mobile-screen', color:'#6366f1', type:'auto', auto:true, timeReq:5},
+  {id:'screen_time_15', title:'15 Min Active', description:'Stay active for 15 minutes', reward:75, icon:'fa-clock', color:'#8b5cf6', type:'auto', auto:true, timeReq:15},
+  {id:'screen_time_30', title:'30 Min Active', description:'Stay active for 30 minutes', reward:150, icon:'fa-hourglass-half', color:'#ec4899', type:'auto', auto:true, timeReq:30},
+  {id:'screen_time_60', title:'1 Hour Active', description:'Stay active for 1 hour', reward:300, icon:'fa-hourglass', color:'#f59e0b', type:'auto', auto:true, timeReq:60},
   
-  // Additional 30 Tasks
-  {id:'ad_watch_4',title:'Watch Ad #4',description:'Watch another advertisement',reward:50,icon:'fa-circle-play',color:'#ef4444',type:'action'},
-  {id:'ad_watch_5',title:'Watch Ad #5',description:'Watch fifth advertisement',reward:50,icon:'fa-circle-play',color:'#ef4444',type:'action'},
-  {id:'complete_5_offers',title:'Complete 5 Offers',description:'Finish 5 offers successfully',reward:500,icon:'fa-fire',color:'#f97316',type:'auto',auto:true,countRequired:5},
-  {id:'complete_10_offers',title:'Complete 10 Offers',description:'Finish 10 offers successfully',reward:1000,icon:'fa-fire',color:'#f97316',type:'auto',auto:true,countRequired:10},
-  {id:'streak_14',title:'2-Week Streak',description:'Login 14 days in a row',reward:1500,icon:'fa-calendar-check',color:'#f59e0b',type:'auto',auto:true},
-  {id:'streak_30',title:'Month Streak',description:'Login 30 days in a row',reward:3000,icon:'fa-calendar-days',color:'#f59e0b',type:'auto',auto:true},
-  {id:'share_app_2',title:'Share Again',description:'Share the app with more friends',reward:300,icon:'fa-share-nodes',color:'#10b981',type:'share'},
-  {id:'play_game_1',title:'Play Mini Game',description:'Play any mini game',reward:40,icon:'fa-gamepad',color:'#8b5cf6',type:'action'},
-  {id:'play_game_2',title:'Game Master',description:'Play 5 different mini games',reward:200,icon:'fa-gamepad',color:'#8b5cf6',type:'action'},
-  {id:'high_roller',title:'High Roller',description:'Have 5000+ coins',reward:100,icon:'fa-coins',color:'#fbbf24',type:'counted'},
-  {id:'super_saver',title:'Super Saver',description:'Have 10000+ coins',reward:200,icon:'fa-vault',color:'#fbbf24',type:'counted'},
-  {id:'first_spin',title:'First Spin',description:'Spin the wheel for first time',reward:25,icon:'fa-dharmachakra',color:'#f59e0b',type:'auto',auto:true},
-  {id:'night_owl_late',title:'Midnight Owl',description:'Open app after 11 PM',reward:50,icon:'fa-moon',color:'#1e1b4b',type:'auto',auto:true},
-  {id:'early_bird_early',title:'Rise & Shine',description:'Open app before 6 AM',reward:50,icon:'fa-sun',color:'#fbbf24',type:'auto',auto:true},
-  {id:'weekend_warrior',title:'Weekend Warrior',description:'Open app on Saturday',reward:75,icon:'fa-calendar-day',color:'#ec4899',type:'auto',auto:true},
-  {id:'feedback_2',title:'Detailed Feedback',description:'Send detailed suggestions',reward:150,icon:'fa-comments',color:'#8b5cf6',type:'action'},
-  {id:'social_share',title:'Social Share',description:'Share on your social media',reward:100,icon:'fa-share',color:'#0ea5e9',type:'action'},
-  {id:'invite_friend_1',title:'Invite Friend #1',description:'Invite a friend to join',reward:200,icon:'fa-user-plus',color:'#10b981',type:'action'},
-  {id:'invite_friend_2',title:'Invite Friend #2',description:'Invite another friend',reward:200,icon:'fa-user-plus',color:'#10b981',type:'action'},
-  {id:'invite_friend_3',title:'Invite Friend #3',description:'Invite third friend',reward:200,icon:'fa-user-plus',color:'#10b981',type:'action'},
-  {id:'watch_video_1',title:'Watch Video #1',description:'Watch video content',reward:40,icon:'fa-film',color:'#f59e0b',type:'action'},
-  {id:'watch_video_2',title:'Watch Video #2',description:'Watch another video',reward:40,icon:'fa-film',color:'#f59e0b',type:'action'},
-  {id:'download_app_1',title:'Download App #1',description:'Download partner app',reward:300,icon:'fa-download',color:'#6366f1',type:'action'},
-  {id:'download_app_2',title:'Download App #2',description:'Download another app',reward:300,icon:'fa-download',color:'#6366f1',type:'action'},
-  {id:'survey_master',title:'Survey Master',description:'Complete 5 surveys',reward:500,icon:'fa-poll',color:'#3b82f6',type:'auto',auto:true},
-  {id:'offer_master',title:'Offer Master',description:'Complete 20 offers total',reward:1500,icon:'fa-crown',color:'#f59e0b',type:'auto',auto:true},
-  {id:'daily_streak_5',title:'5-Day Streak',description:'Login 5 days straight',reward:200,icon:'fa-fire',color:'#f97316',type:'auto',auto:true},
-  {id:'coin_collector',title:'Coin Collector',description:'Earn 1000 coins in one day',reward:100,icon:'fa-coins',color:'#fbbf24',type:'auto',auto:true},
-  {id:'spin_master',title:'Spin Master',description:'Spin the wheel 10 times',reward:150,icon:'fa-rotate',color:'#f59e0b',type:'auto',auto:true},
-  {id:'task_master',title:'Task Master',description:'Complete 30 tasks',reward:500,icon:'fa-list-check',color:'#10b981',type:'auto',auto:true}
+  // Streak Tasks
+  {id:'streak_2', title:'2-Day Streak', description:'Login 2 days in a row', reward:100, icon:'fa-fire', color:'#f97316', type:'auto', auto:true},
+  {id:'streak_3', title:'3-Day Streak', description:'Login 3 days in a row', reward:300, icon:'fa-fire-flame-curved', color:'#ef4444', type:'auto', auto:true},
+  {id:'streak_4', title:'4-Day Streak', description:'Login 4 days in a row', reward:500, icon:'fa-fire-flame-simple', color:'#dc2626', type:'auto', auto:true},
+  {id:'streak_7', title:'Week Warrior', description:'Login 7 days in a row', reward:1000, icon:'fa-trophy', color:'#f59e0b', type:'auto', auto:true},
+  {id:'streak_14', title:'2-Week Streak', description:'Login 14 days in a row', reward:1500, icon:'fa-calendar-check', color:'#f59e0b', type:'auto', auto:true},
+  {id:'streak_30', title:'Month Streak', description:'Login 30 days in a row', reward:3000, icon:'fa-calendar-days', color:'#f59e0b', type:'auto', auto:true},
+  
+  // Ad Tasks
+  {id:'ad_watch_1', title:'Watch Ad #1', description:'Watch a short advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_2', title:'Watch Ad #2', description:'Watch another advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_3', title:'Watch Ad #3', description:'Watch third advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_4', title:'Watch Ad #4', description:'Watch another advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_5', title:'Watch Ad #5', description:'Watch fifth advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  
+  // Offer Tasks
+  {id:'complete_offer', title:'Complete Any Offer', description:'Finish any hot offer', reward:100, icon:'fa-check-double', color:'#6366f1', type:'auto', auto:true},
+  {id:'complete_3_offers', title:'Complete 3 Offers', description:'Finish 3 offers successfully', reward:300, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:3},
+  {id:'complete_5_offers', title:'Complete 5 Offers', description:'Finish 5 offers successfully', reward:500, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:5},
+  {id:'complete_10_offers', title:'Complete 10 Offers', description:'Finish 10 offers successfully', reward:1000, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:10},
+  {id:'offer_master', title:'Offer Master', description:'Complete 20 offers total', reward:1500, icon:'fa-crown', color:'#f59e0b', type:'auto', auto:true},
+  
+  // Time-based
+  {id:'morning_check', title:'Early Bird', description:'Open app before 9 AM', reward:40, icon:'fa-sun', color:'#fbbf24', type:'auto', auto:true},
+  {id:'night_check', title:'Night Owl', description:'Open app after 8 PM', reward:40, icon:'fa-moon', color:'#4c1d95', type:'auto', auto:true},
+  {id:'night_owl_late', title:'Midnight Owl', description:'Open app after 11 PM', reward:50, icon:'fa-moon', color:'#1e1b4b', type:'auto', auto:true},
+  {id:'early_bird_early', title:'Rise & Shine', description:'Open app before 6 AM', reward:50, icon:'fa-sun', color:'#fbbf24', type:'auto', auto:true},
+  {id:'lucky_day', title:'Lucky Sunday', description:'Open app on Sunday', reward:100, icon:'fa-clover', color:'#22c55e', type:'auto', auto:true},
+  {id:'weekend_warrior', title:'Weekend Warrior', description:'Open app on Saturday', reward:75, icon:'fa-calendar-day', color:'#ec4899', type:'auto', auto:true},
+  
+  // Spin Tasks
+  {id:'first_spin', title:'First Spin', description:'Spin the wheel for first time', reward:25, icon:'fa-dharmachakra', color:'#f59e0b', type:'auto', auto:true},
+  {id:'wheel_2x', title:'Double Spin', description:'Spin the wheel twice', reward:60, icon:'fa-rotate', color:'#f59e0b', type:'auto', auto:true},
+  {id:'spin_master', title:'Spin Master', description:'Spin the wheel 10 times', reward:150, icon:'fa-rotate', color:'#f59e0b', type:'auto', auto:true},
+  
+  // Social Tasks
+  {id:'social_follow', title:'Follow Us', description:'Follow us on social media', reward:80, icon:'fa-hashtag', color:'#0ea5e9', type:'action'},
+  {id:'social_share', title:'Social Share', description:'Share on your social media', reward:100, icon:'fa-share', color:'#0ea5e9', type:'action'},
+  {id:'share_app_2', title:'Share Again', description:'Share the app with more friends', reward:300, icon:'fa-share-nodes', color:'#10b981', type:'share'},
+  {id:'rate_app', title:'Rate App', description:'Give us 5 stars rating', reward:120, icon:'fa-star', color:'#fbbf24', type:'action'},
+  {id:'feedback', title:'Send Feedback', description:'Submit your feedback', reward:90, icon:'fa-comment-dots', color:'#8b5cf6', type:'action'},
+  {id:'feedback_2', title:'Detailed Feedback', description:'Send detailed suggestions', reward:150, icon:'fa-comments', color:'#8b5cf6', type:'action'},
+  
+  // Profile Tasks
+  {id:'tutorial', title:'Complete Tutorial', description:'Finish the onboarding', reward:50, icon:'fa-graduation-cap', color:'#10b981', type:'auto', auto:true},
+  {id:'avatar_set', title:'Set Avatar', description:'Choose a profile avatar', reward:60, icon:'fa-image-portrait', color:'#8b5cf6', type:'auto', auto:true},
+  {id:'bio_add', title:'Add Bio', description:'Write a short bio', reward:40, icon:'fa-pen', color:'#64748b', type:'auto', auto:true},
+  {id:'contact_support', title:'Contact Support', description:'Reach out to our support team', reward:20, icon:'fa-headset', color:'#6366f1', type:'action'},
+  {id:'first_redeem_attempt', title:'Check Rewards', description:'Visit redeem page', reward:25, icon:'fa-eye', color:'#6366f1', type:'auto', auto:true},
+  {id:'push_enable', title:'Enable Notifications', description:'Turn on push notifications', reward:75, icon:'fa-bell', color:'#f59e0b', type:'action'},
+  
+  // Game Tasks
+  {id:'play_game_1', title:'Play Mini Game', description:'Play any mini game', reward:40, icon:'fa-gamepad', color:'#8b5cf6', type:'action'},
+  {id:'play_game_2', title:'Game Master', description:'Play 5 different mini games', reward:200, icon:'fa-gamepad', color:'#8b5cf6', type:'action'},
+  
+  // Coin Tasks
+  {id:'big_spender', title:'Save Coins', description:'Have 1000+ coins', reward:50, icon:'fa-piggy-bank', color:'#ec4899', type:'counted'},
+  {id:'high_roller', title:'High Roller', description:'Have 5000+ coins', reward:100, icon:'fa-coins', color:'#fbbf24', type:'counted'},
+  {id:'super_saver', title:'Super Saver', description:'Have 10000+ coins', reward:200, icon:'fa-vault', color:'#fbbf24', type:'counted'},
+  {id:'coin_collector', title:'Coin Collector', description:'Earn 1000 coins in one day', reward:100, icon:'fa-coins', color:'#fbbf24', type:'auto', auto:true},
+  {id:'daily_streak_5', title:'5-Day Streak', description:'Login 5 days straight', reward:200, icon:'fa-fire', color:'#f97316', type:'auto', auto:true},
+  {id:'task_master', title:'Task Master', description:'Complete 30 tasks', reward:500, icon:'fa-list-check', color:'#10b981', type:'auto', auto:true},
+  
+  // Invite Tasks
+  {id:'invite_friend_1', title:'Invite Friend #1', description:'Invite a friend to join', reward:200, icon:'fa-user-plus', color:'#10b981', type:'action'},
+  {id:'invite_friend_2', title:'Invite Friend #2', description:'Invite another friend', reward:200, icon:'fa-user-plus', color:'#10b981', type:'action'},
+  {id:'invite_friend_3', title:'Invite Friend #3', description:'Invite third friend', reward:200, icon:'fa-user-plus', color:'#10b981', type:'action'},
+  
+  // Content Tasks
+  {id:'watch_video_1', title:'Watch Video #1', description:'Watch video content', reward:40, icon:'fa-film', color:'#f59e0b', type:'action'},
+  {id:'watch_video_2', title:'Watch Video #2', description:'Watch another video', reward:40, icon:'fa-film', color:'#f59e0b', type:'action'},
+  {id:'download_app_1', title:'Download App #1', description:'Download partner app', reward:300, icon:'fa-download', color:'#6366f1', type:'action'},
+  {id:'download_app_2', title:'Download App #2', description:'Download another app', reward:300, icon:'fa-download', color:'#6366f1', type:'action'},
+  {id:'survey_master', title:'Survey Master', description:'Complete 5 surveys', reward:500, icon:'fa-poll', color:'#3b82f6', type:'auto', auto:true}
 ];
 
 const OFFERS = [
-  {id:'offer_1',title:'Premium Survey',description:'Complete detailed consumer survey (10 mins)',reward:1500,icon:'fa-poll',color:'#6366f1',url:'https://forms.gle/example1',hot:true,rating:4.8,reviews:234,category:'survey'},
-  {id:'offer_2',title:'Gaming App Install',description:'Download and play RPG game for 5 minutes',reward:2500,icon:'fa-gamepad',color:'#10b981',url:'https://play.google.com/store/apps/example',hot:true,rating:4.9,reviews:892,category:'app'},
-  {id:'offer_3',title:'Watch Video Ads',description:'Watch 3 video advertisements (30 sec each)',reward:600,icon:'fa-circle-play',color:'#f59e0b',url:'#',hot:false,rating:4.2,reviews:1205,category:'video'},
-  {id:'offer_4',title:'Casino App',description:'Install slots app and reach level 5',reward:5000,icon:'fa-dice',color:'#ec4899',url:'https://example.com/casino',hot:true,rating:4.7,reviews:567,category:'app'},
-  {id:'offer_5',title:'Shopping Sign Up',description:'Create account on fashion store',reward:1800,icon:'fa-bag-shopping',color:'#8b5cf6',url:'https://example.com/shop',hot:false,rating:4.5,reviews:340,category:'survey'},
-  {id:'offer_6',title:'Streaming Trial',description:'Start free trial of music streaming',reward:3000,icon:'fa-music',color:'#ef4444',url:'https://example.com/music',hot:true,rating:4.6,reviews:780,category:'app'},
-  {id:'offer_7',title:'Quick Survey',description:'2-minute opinion poll',reward:400,icon:'fa-circle-question',color:'#0ea5e9',url:'https://forms.gle/quick',hot:false,rating:4.3,reviews:1500,category:'survey'},
-  {id:'offer_8',title:'Fitness App',description:'Track workout for 3 days',reward:2200,icon:'fa-person-running',color:'#10b981',url:'https://example.com/fitness',hot:false,rating:4.4,reviews:445,category:'app'},
-  {id:'offer_9',title:'Movie Trailer',description:'Watch upcoming movie trailer',reward:350,icon:'fa-film',color:'#f59e0b',url:'#',hot:false,rating:4.1,reviews:2100,category:'video'},
-  {id:'offer_10',title:'Investment App',description:'Deposit $5 and get bonus',reward:8000,icon:'fa-chart-line',color:'#6366f1',url:'https://example.com/invest',hot:true,rating:4.9,reviews:320,category:'app'},
-  {id:'offer_11',title:'Follow Us',description:'Follow our official social media accounts',reward:300,icon:'fa-hashtag',color:'#e4405f',url:'https://instagram.com/sillyprize',hot:false,rating:5.0,reviews:5000,category:'social'}
+  {id:'offer_1', title:'Premium Survey', description:'Complete detailed consumer survey (10 mins)', reward:1500, icon:'fa-poll', color:'#6366f1', url:'https://forms.gle/example1', hot:true, rating:4.8, reviews:234, category:'survey'},
+  {id:'offer_2', title:'Gaming App Install', description:'Download and play RPG game for 5 minutes', reward:2500, icon:'fa-gamepad', color:'#10b981', url:'https://play.google.com/store/apps/example', hot:true, rating:4.9, reviews:892, category:'app'},
+  {id:'offer_3', title:'Watch Video Ads', description:'Watch 3 video advertisements (30 sec each)', reward:600, icon:'fa-circle-play', color:'#f59e0b', url:'#', hot:false, rating:4.2, reviews:1205, category:'video'},
+  {id:'offer_4', title:'Casino App', description:'Install slots app and reach level 5', reward:5000, icon:'fa-dice', color:'#ec4899', url:'https://example.com/casino', hot:true, rating:4.7, reviews:567, category:'app'},
+  {id:'offer_5', title:'Shopping Sign Up', description:'Create account on fashion store', reward:1800, icon:'fa-bag-shopping', color:'#8b5cf6', url:'https://example.com/shop', hot:false, rating:4.5, reviews:340, category:'survey'},
+  {id:'offer_6', title:'Streaming Trial', description:'Start free trial of music streaming', reward:3000, icon:'fa-music', color:'#ef4444', url:'https://example.com/music', hot:true, rating:4.6, reviews:780, category:'app'},
+  {id:'offer_7', title:'Quick Survey', description:'2-minute opinion poll', reward:400, icon:'fa-circle-question', color:'#0ea5e9', url:'https://forms.gle/quick', hot:false, rating:4.3, reviews:1500, category:'survey'},
+  {id:'offer_8', title:'Fitness App', description:'Track workout for 3 days', reward:2200, icon:'fa-person-running', color:'#10b981', url:'https://example.com/fitness', hot:false, rating:4.4, reviews:445, category:'app'},
+  {id:'offer_9', title:'Movie Trailer', description:'Watch upcoming movie trailer', reward:350, icon:'fa-film', color:'#f59e0b', url:'#', hot:false, rating:4.1, reviews:2100, category:'video'},
+  {id:'offer_10', title:'Investment App', description:'Deposit $5 and get bonus', reward:8000, icon:'fa-chart-line', color:'#6366f1', url:'https://example.com/invest', hot:true, rating:4.9, reviews:320, category:'app'},
+  {id:'offer_11', title:'Follow Us', description:'Follow our official social media accounts', reward:300, icon:'fa-hashtag', color:'#e4405f', url:'https://instagram.com/sillyprize', hot:false, rating:5.0, reviews:5000, category:'social'}
 ];
 
 const REWARDS = [
-  {id:'paypal_5',name:'$5 PayPal',icon:'fa-paypal',iconType:'brand',color:'#003087',cost:10000},
-  {id:'paypal_10',name:'$10 PayPal',icon:'fa-paypal',iconType:'brand',color:'#003087',cost:20000},
-  {id:'paypal_25',name:'$25 PayPal',icon:'fa-paypal',iconType:'brand',color:'#003087',cost:45000},
-  {id:'google_10',name:'$10 Google Play',icon:'fa-google-play',iconType:'brand',color:'#4285f4',cost:20000},
-  {id:'google_25',name:'$25 Google Play',icon:'fa-google-play',iconType:'brand',color:'#4285f4',cost:45000},
-  {id:'apple_10',name:'$10 Apple Pay',icon:'fa-apple',iconType:'brand',color:'#111',cost:20000},
-  {id:'apple_25',name:'$25 Apple Pay',icon:'fa-apple',iconType:'brand',color:'#111',cost:45000},
-  {id:'xbox_10',name:'$10 Xbox',icon:'fa-xbox',iconType:'brand',color:'#107c10',cost:20000},
-  {id:'xbox_25',name:'$25 Xbox',icon:'fa-xbox',iconType:'brand',color:'#107c10',cost:45000},
-  {id:'xbox_50',name:'$50 Xbox',icon:'fa-xbox',iconType:'brand',color:'#107c10',cost:85000},
-  {id:'psn_10',name:'$10 PSN',icon:'fa-playstation',iconType:'brand',color:'#003791',cost:20000},
-  {id:'psn_25',name:'$25 PSN',icon:'fa-playstation',iconType:'brand',color:'#003791',cost:45000},
-  {id:'psn_50',name:'$50 PSN',icon:'fa-playstation',iconType:'brand',color:'#003791',cost:85000},
-  {id:'steam_10',name:'$10 Steam',icon:'fa-steam',iconType:'brand',color:'#1b2838',cost:20000},
-  {id:'steam_20',name:'$20 Steam',icon:'fa-steam',iconType:'brand',color:'#1b2838',cost:38000},
-  {id:'steam_50',name:'$50 Steam',icon:'fa-steam',iconType:'brand',color:'#1b2838',cost:85000},
-  {id:'spotify_10',name:'$10 Spotify',icon:'fa-spotify',iconType:'brand',color:'#1db954',cost:20000},
-  {id:'spotify_15',name:'$15 Spotify',icon:'fa-spotify',iconType:'brand',color:'#1db954',cost:28000}
+  {id:'paypal_5', name:'$5 PayPal', icon:'fa-paypal', iconType:'brand', color:'#003087', cost:10000},
+  {id:'paypal_10', name:'$10 PayPal', icon:'fa-paypal', iconType:'brand', color:'#003087', cost:20000},
+  {id:'paypal_25', name:'$25 PayPal', icon:'fa-paypal', iconType:'brand', color:'#003087', cost:45000},
+  {id:'google_10', name:'$10 Google Play', icon:'fa-google-play', iconType:'brand', color:'#4285f4', cost:20000},
+  {id:'google_25', name:'$25 Google Play', icon:'fa-google-play', iconType:'brand', color:'#4285f4', cost:45000},
+  {id:'apple_10', name:'$10 Apple Pay', icon:'fa-apple', iconType:'brand', color:'#111', cost:20000},
+  {id:'apple_25', name:'$25 Apple Pay', icon:'fa-apple', iconType:'brand', color:'#111', cost:45000},
+  {id:'xbox_10', name:'$10 Xbox', icon:'fa-xbox', iconType:'brand', color:'#107c10', cost:20000},
+  {id:'xbox_25', name:'$25 Xbox', icon:'fa-xbox', iconType:'brand', color:'#107c10', cost:45000},
+  {id:'xbox_50', name:'$50 Xbox', icon:'fa-xbox', iconType:'brand', color:'#107c10', cost:85000},
+  {id:'psn_10', name:'$10 PSN', icon:'fa-playstation', iconType:'brand', color:'#003791', cost:20000},
+  {id:'psn_25', name:'$25 PSN', icon:'fa-playstation', iconType:'brand', color:'#003791', cost:45000},
+  {id:'psn_50', name:'$50 PSN', icon:'fa-playstation', iconType:'brand', color:'#003791', cost:85000},
+  {id:'steam_10', name:'$10 Steam', icon:'fa-steam', iconType:'brand', color:'#1b2838', cost:20000},
+  {id:'steam_20', name:'$20 Steam', icon:'fa-steam', iconType:'brand', color:'#1b2838', cost:38000},
+  {id:'steam_50', name:'$50 Steam', icon:'fa-steam', iconType:'brand', color:'#1b2838', cost:85000},
+  {id:'spotify_10', name:'$10 Spotify', icon:'fa-spotify', iconType:'brand', color:'#1db954', cost:20000},
+  {id:'spotify_15', name:'$15 Spotify', icon:'fa-spotify', iconType:'brand', color:'#1db954', cost:28000}
 ];
 
 const ONBOARDING_SLIDES = [
@@ -1079,35 +1115,127 @@ const ONBOARDING_SLIDES = [
 ];
 
 // ============================================================
-// STATE
+// STATE MANAGEMENT
 // ============================================================
 let S = {
-  username:'',coins:0,spinsLeft:3,offersCompleted:0,spinsUsed:0,totalSpins:0,
-  joinDate:null,history:[],processingOffers:{},completedOffers:[],
-  completedTasks:{},claimedTasks:{},selectedReward:null,lastLogin:null,currentFilter:'all',
-  loginStreak:0,loginDates:[],selectedAvatar:'av1',
-  bio:'',profilePic:null,freeSpinTickets:0,
-  currentlyProcessing:null,
-  processingTasks:{},
-  xp:0,level:1,
-  shareTaskProgress:{started:false,startTime:null,claimed:false},
-  offerCount:0,
-  seenOnboarding:false
+  username: '',
+  coins: 0,
+  spinsLeft: 3,
+  offersCompleted: 0,
+  spinsUsed: 0,
+  totalSpins: 0,
+  joinDate: null,
+  history: [],
+  processingOffers: {},
+  completedOffers: [],
+  completedTasks: {},
+  claimedTasks: {},
+  selectedReward: null,
+  lastLogin: null,
+  currentFilter: 'all',
+  loginStreak: 0,
+  loginDates: [],
+  selectedAvatar: 'av1',
+  bio: '',
+  profilePic: null,
+  freeSpinTickets: 0,
+  currentlyProcessing: null,
+  processingTasks: {},
+  xp: 0,
+  level: 1,
+  shareTaskProgress: {started: false, startTime: null, claimed: false},
+  offerCount: 0,
+  seenOnboarding: false
 };
 
+// Runtime variables
 let currentOfferId = null;
 let currentTaskId = null;
 let isSpinning = false;
 let wheelRotation = 0;
 let screenSeconds = 0;
 let screenTimeInterval = null;
-let lastActiveTime = Date.now();
 let claimCheckInterval = null;
 let expireCheckInterval = null;
 let currentSlide = 0;
 
 // ============================================================
-// INIT
+// UTILITY FUNCTIONS
+// ============================================================
+function sanitizeInput(input) {
+  const div = document.createElement('div');
+  div.textContent = input;
+  return div.innerHTML;
+}
+
+function isValidUsername(username) {
+  if (!username || username.length < 4 || username.length > 20) return false;
+  if (!/[a-zA-Z]/.test(username)) return false;
+  return /^[a-zA-Z0-9_]+$/.test(username);
+}
+
+function formatNumber(num) {
+  if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+  return num.toString();
+}
+
+function formatTime(ms) {
+  const secs = Math.ceil(ms / 1000);
+  const mins = Math.floor(secs / 60);
+  const displaySecs = secs % 60;
+  return `${mins}:${displaySecs.toString().padStart(2, '0')}`;
+}
+
+// ============================================================
+// STORAGE & STATE PERSISTENCE
+// ============================================================
+function loadState() {
+  try {
+    const raw = localStorage.getItem(CONFIG.STORAGE_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      S = Object.assign({}, S, p);
+      
+      // Ensure nested objects exist
+      if (!S.processingTasks) S.processingTasks = {};
+      if (!S.currentlyProcessing) S.currentlyProcessing = null;
+      if (!S.xp) S.xp = 0;
+      if (!S.level) S.level = 1;
+      if (!S.shareTaskProgress) S.shareTaskProgress = {started: false, startTime: null, claimed: false};
+      if (!S.seenOnboarding) S.seenOnboarding = false;
+      if (!S.offerCount) S.offerCount = 0;
+      
+      // Daily reset logic
+      const today = new Date().toDateString();
+      if (S.lastLogin !== today) {
+        S.spinsLeft = 3;
+        const keep = new Set(['streak_2','streak_3','streak_4','streak_7','streak_14','streak_30','tutorial','avatar_set','bio_add','push_enable','rate_app','social_follow','all_bonus','contact_support','complete_3_offers_progress','complete_5_offers','complete_10_offers','offer_master']);
+        const cleaned = {};
+        Object.keys(S.completedTasks).forEach(k => {
+          if (keep.has(k) || k.includes('_progress')) cleaned[k] = S.completedTasks[k];
+        });
+        S.completedTasks = cleaned;
+        S.claimedTasks = {};
+        S.currentlyProcessing = null;
+        updateLoginStreak(today);
+        S.lastLogin = today;
+      }
+    }
+  } catch(e) {
+    console.error('Failed to load state:', e);
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(S));
+  } catch(e) {
+    console.error('Failed to save state:', e);
+  }
+}
+
+// ============================================================
+// INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   loadState();
@@ -1126,32 +1254,46 @@ document.addEventListener('DOMContentLoaded', () => {
     showMainApp();
   }
 
+  // Setup intervals
   setInterval(checkAllProcessing, 3000);
   claimCheckInterval = setInterval(checkClaimWindows, 1000);
   expireCheckInterval = setInterval(updateExpireCountdowns, 1000);
   
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
-      lastActiveTime = Date.now();
       checkAllProcessing();
     }
   });
+  
+  // Setup input listeners
+  document.getElementById('usernameEditInput')?.addEventListener('input', updateUsernameCharCount);
+  document.getElementById('bioInput')?.addEventListener('input', updateBioCharCount);
 });
 
 // ============================================================
-// ONBOARDING
+// LOADER & ONBOARDING
 // ============================================================
 function startLoader() {
   const bar = document.getElementById('pgBar');
   const txt = document.getElementById('pgTxt');
-  const steps = [{p:30,t:'Loading assets...'},{p:60,t:'Preparing offers...'},{p:90,t:'Almost ready...'},{p:100,t:'Ready!'}];
-  let si=0, tick=0;
-  const TOTAL=50;
+  const steps = [
+    {p: 30, t: 'Loading assets...'},
+    {p: 60, t: 'Preparing offers...'},
+    {p: 90, t: 'Almost ready...'},
+    {p: 100, t: 'Ready!'}
+  ];
+  
+  let si = 0, tick = 0;
+  const TOTAL = 50;
+  
   const iv = setInterval(() => {
     tick++;
     const pct = Math.min(100, Math.round((tick/TOTAL)*100));
     bar.style.width = pct + '%';
-    if (si < steps.length && pct >= steps[si].p) { txt.textContent = steps[si].t; si++; }
+    if (si < steps.length && pct >= steps[si].p) {
+      txt.textContent = steps[si].t;
+      si++;
+    }
     if (tick >= TOTAL) {
       clearInterval(iv);
       setTimeout(() => {
@@ -1173,8 +1315,8 @@ function renderSlide() {
   const content = document.getElementById('onbContent');
   content.innerHTML = `
     <div class="onb-illustration">${slide.icon}</div>
-    <h2 class="onb-title">${slide.title}</h2>
-    <p class="onb-desc">${slide.desc}</p>
+    <h2 class="onb-title">${sanitizeInput(slide.title)}</h2>
+    <p class="onb-desc">${sanitizeInput(slide.desc)}</p>
   `;
   
   const dots = document.getElementById('onbDots');
@@ -1183,7 +1325,8 @@ function renderSlide() {
   ).join('');
   
   document.getElementById('prevBtn').style.display = currentSlide > 0 ? 'block' : 'none';
-  document.getElementById('nextBtn').innerHTML = currentSlide === ONBOARDING_SLIDES.length - 1 ? 'Get Started <i class="fa-solid fa-arrow-right"></i>' : 'Next';
+  document.getElementById('nextBtn').innerHTML = currentSlide === ONBOARDING_SLIDES.length - 1 ? 
+    'Get Started <i class="fa-solid fa-arrow-right"></i>' : 'Next';
 }
 
 function nextSlide() {
@@ -1220,16 +1363,89 @@ function finishOnboarding() {
 }
 
 // ============================================================
-// USERNAME VALIDATION
+// WELCOME & USER SETUP
 // ============================================================
-function isValidUsername(username) {
-  if (!username || username.length < 4 || username.length > 20) return false;
-  if (!/[a-zA-Z]/.test(username)) return false;
-  return true;
+function completeWelcome() {
+  const username = (document.getElementById('usernameInput').value || '').trim();
+  const errorEl = document.getElementById('usernameError');
+  const inputEl = document.getElementById('usernameInput');
+  
+  if (!isValidUsername(username)) {
+    errorEl.classList.add('show');
+    inputEl.classList.add('input-error');
+    showToast('Username must be 4-20 characters with at least one letter', 'error');
+    return;
+  }
+  
+  errorEl.classList.remove('show');
+  inputEl.classList.remove('input-error');
+
+  S.username = sanitizeInput(username);
+  S.joinDate = new Date().toISOString();
+  S.lastLogin = new Date().toDateString();
+  S.loginStreak = 1;
+  S.loginDates = [new Date().toDateString()];
+  S.freeSpinTickets = 0;
+  saveState();
+
+  document.getElementById('welcomeScreen').classList.remove('active');
+  showMainApp();
+  showToast('Welcome, ' + S.username + '!', 'success');
+
+  setTimeout(() => {
+    autoCompleteTask('daily_login');
+    checkTimeBasedTasks();
+  }, 500);
+}
+
+function showMainApp() {
+  document.getElementById('mainHeader').style.display = 'block';
+  document.getElementById('bottomNav').style.display = 'flex';
+  applyAvatar(S.selectedAvatar || 'av1');
+  switchTab('home');
+  updateUI();
+  updateXPBar();
+  renderOffers();
+  renderOffersTasks();
+  renderRewards();
+  renderHistory();
+  renderRecentActivity();
+  updateProfile();
+  updateStreakDisplay();
+  updateScreenTimeDisplay();
 }
 
 // ============================================================
-// XP SYSTEM
+// NAVIGATION
+// ============================================================
+function switchTab(tab) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nitem').forEach(n => n.classList.remove('active'));
+  
+  const map = {home:'homeSection', offers:'offersSection', games:'gamesSection', redeem:'redeemSection', profile:'profileSection'};
+  const sec = document.getElementById(map[tab]);
+  if (sec) sec.classList.add('active');
+  
+  const nav = document.getElementById('nav-' + tab);
+  if (nav) nav.classList.add('active');
+
+  if (tab === 'offers') {
+    renderOffers();
+    renderOffersTasks();
+  } else if (tab === 'redeem') {
+    updateRedeemStatus();
+    autoCompleteTask('first_redeem_attempt');
+  } else if (tab === 'profile') {
+    updateProfile();
+  } else if (tab === 'home') {
+    renderRecentActivity();
+    updateStreakDisplay();
+    updateXPBar();
+  }
+}
+
+// ============================================================
+// XP & LEVELING SYSTEM
 // ============================================================
 function getLevelThreshold(level) {
   return level * 100;
@@ -1251,6 +1467,7 @@ function addXP(amount) {
 function updateXPBar() {
   const threshold = getLevelThreshold(S.level);
   const pct = (S.xp / threshold) * 100;
+  
   document.getElementById('xpProgressBar').style.width = pct + '%';
   document.getElementById('xpLevel').textContent = S.level;
   document.getElementById('xpLevelText').textContent = S.level;
@@ -1277,11 +1494,13 @@ function updateScreenTimeDisplay() {
   const hours = Math.floor(mins / 60);
   const displayMins = mins % 60;
   let text = '';
+  
   if (hours > 0) {
     text = `Screen time: ${hours}h ${displayMins}m`;
   } else {
     text = `Screen time: ${mins}m`;
   }
+  
   const el = document.getElementById('screenTimeText');
   if (el) el.textContent = text;
 }
@@ -1289,18 +1508,10 @@ function updateScreenTimeDisplay() {
 function checkScreenTimeTasks() {
   const mins = Math.floor(screenSeconds / 60);
   
-  if (mins >= 5 && !S.completedTasks['screen_time_5']) {
-    markTaskReady('screen_time_5');
-  }
-  if (mins >= 15 && !S.completedTasks['screen_time_15']) {
-    markTaskReady('screen_time_15');
-  }
-  if (mins >= 30 && !S.completedTasks['screen_time_30']) {
-    markTaskReady('screen_time_30');
-  }
-  if (mins >= 60 && !S.completedTasks['screen_time_60']) {
-    markTaskReady('screen_time_60');
-  }
+  if (mins >= 5 && !S.completedTasks['screen_time_5']) markTaskReady('screen_time_5');
+  if (mins >= 15 && !S.completedTasks['screen_time_15']) markTaskReady('screen_time_15');
+  if (mins >= 30 && !S.completedTasks['screen_time_30']) markTaskReady('screen_time_30');
+  if (mins >= 60 && !S.completedTasks['screen_time_60']) markTaskReady('screen_time_60');
 }
 
 function markTaskReady(taskId) {
@@ -1312,129 +1523,15 @@ function markTaskReady(taskId) {
 }
 
 // ============================================================
-// SWIPEABLE FILTER TABS
+// STREAK MANAGEMENT
 // ============================================================
-function initFilterTabs() {
-  const el = document.getElementById('filterTabs');
-  if (!el) return;
-  let isDown = false, startX = 0, scrollLeft = 0;
-
-  el.addEventListener('mousedown', e => { isDown=true; el.classList.add('grabbing'); startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft; });
-  el.addEventListener('mouseleave', () => { isDown=false; el.classList.remove('grabbing'); });
-  el.addEventListener('mouseup', () => { isDown=false; el.classList.remove('grabbing'); });
-  el.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); const x=e.pageX-el.offsetLeft; el.scrollLeft=scrollLeft-(x-startX); });
-
-  el.addEventListener('touchstart', e => { startX=e.touches[0].pageX-el.offsetLeft; scrollLeft=el.scrollLeft; }, {passive:true});
-  el.addEventListener('touchmove', e => { const x=e.touches[0].pageX-el.offsetLeft; el.scrollLeft=scrollLeft-(x-startX); }, {passive:true});
-
-  el.querySelectorAll('.ftab').forEach(btn => {
-    btn.addEventListener('click', () => {
-      el.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      S.currentFilter = btn.dataset.cat;
-      renderOffers();
-    });
-  });
-}
-
-// ============================================================
-// WELCOME
-// ============================================================
-function completeWelcome() {
-  const username = (document.getElementById('usernameInput').value||'').trim();
-  const errorEl = document.getElementById('usernameError');
-  const inputEl = document.getElementById('usernameInput');
-  
-  if (!isValidUsername(username)) {
-    errorEl.classList.add('show');
-    inputEl.classList.add('input-error');
-    showToast('Username must be 4-20 characters with at least one letter', 'error');
-    return;
-  }
-  
-  errorEl.classList.remove('show');
-  inputEl.classList.remove('input-error');
-
-  S.username = username;
-  S.joinDate = new Date().toISOString();
-  S.lastLogin = new Date().toDateString();
-  S.loginStreak = 1;
-  S.loginDates = [new Date().toDateString()];
-  S.freeSpinTickets = 0;
-  saveState();
-
-  document.getElementById('welcomeScreen').classList.remove('active');
-  showMainApp();
-  showToast('Welcome, ' + username + '!', 'success');
-
-  setTimeout(() => {
-    autoCompleteTask('daily_login');
-    checkTimeBasedTasks();
-  }, 500);
-}
-
-function showMainApp() {
-  document.getElementById('mainHeader').style.display = 'block';
-  document.getElementById('bottomNav').style.display = 'flex';
-  applyAvatar(S.selectedAvatar || 'av1');
-  switchTab('home');
-  updateUI();
-  updateXPBar();
-  renderOffers();
-  renderOffersTasks();
-  renderRewards();
-  renderHistory();
-  renderRecentActivity();
-  updateProfile();
-  updateStreakDisplay();
-  updateScreenTimeDisplay();
-}
-
-// ============================================================
-// STATE
-// ============================================================
-function loadState() {
-  try {
-    const raw = localStorage.getItem('sillyPrize_v7');
-    if (raw) {
-      const p = JSON.parse(raw);
-      S = Object.assign({}, S, p);
-      if (!S.processingTasks) S.processingTasks = {};
-      if (!S.currentlyProcessing) S.currentlyProcessing = null;
-      if (!S.xp) S.xp = 0;
-      if (!S.level) S.level = 1;
-      if (!S.shareTaskProgress) S.shareTaskProgress = {started:false,startTime:null,claimed:false};
-      if (!S.seenOnboarding) S.seenOnboarding = false;
-      if (!S.offerCount) S.offerCount = 0;
-      
-      const today = new Date().toDateString();
-      if (S.lastLogin !== today) {
-        S.spinsLeft = 3;
-        const keep = new Set(['streak_2','streak_3','streak_4','streak_7','streak_14','streak_30','tutorial','avatar_set','bio_add','push_enable','rate_app','social_follow','all_bonus','contact_support','complete_3_offers_progress','complete_5_offers','complete_10_offers','offer_master']);
-        const cleaned = {};
-        Object.keys(S.completedTasks).forEach(k => {
-          if (keep.has(k) || k.includes('_progress')) cleaned[k] = S.completedTasks[k];
-        });
-        S.completedTasks = cleaned;
-        S.claimedTasks = {};
-        S.currentlyProcessing = null;
-        updateLoginStreak(today);
-        S.lastLogin = today;
-      }
-    }
-  } catch(e) {}
-}
-
-function saveState() {
-  try { localStorage.setItem('sillyPrize_v7', JSON.stringify(S)); } catch(e) {}
-}
-
 function updateLoginStreak(today) {
   if (!S.loginDates) S.loginDates = [];
-  const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
   
   if (S.loginDates.includes(yesterday.toDateString())) {
-    S.loginStreak = (S.loginStreak||0) + 1;
+    S.loginStreak = (S.loginStreak || 0) + 1;
   } else if (!S.loginDates.includes(today)) {
     S.loginStreak = 1;
   }
@@ -1443,54 +1540,16 @@ function updateLoginStreak(today) {
   if (S.loginDates.length > 30) S.loginDates = S.loginDates.slice(-30);
   
   setTimeout(() => {
-    if ((S.loginStreak||0) >= 2) autoCompleteTask('streak_2');
-    if ((S.loginStreak||0) >= 3) autoCompleteTask('streak_3');
-    if ((S.loginStreak||0) >= 4) autoCompleteTask('streak_4');
-    if ((S.loginStreak||0) >= 5) autoCompleteTask('daily_streak_5');
-    if ((S.loginStreak||0) >= 7) autoCompleteTask('streak_7');
-    if ((S.loginStreak||0) >= 14) autoCompleteTask('streak_14');
-    if ((S.loginStreak||0) >= 30) autoCompleteTask('streak_30');
+    if ((S.loginStreak || 0) >= 2) autoCompleteTask('streak_2');
+    if ((S.loginStreak || 0) >= 3) autoCompleteTask('streak_3');
+    if ((S.loginStreak || 0) >= 4) autoCompleteTask('streak_4');
+    if ((S.loginStreak || 0) >= 5) autoCompleteTask('daily_streak_5');
+    if ((S.loginStreak || 0) >= 7) autoCompleteTask('streak_7');
+    if ((S.loginStreak || 0) >= 14) autoCompleteTask('streak_14');
+    if ((S.loginStreak || 0) >= 30) autoCompleteTask('streak_30');
   }, 800);
 }
 
-// ============================================================
-// NAVIGATION
-// ============================================================
-function switchTab(tab) {
-  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nitem').forEach(n => n.classList.remove('active'));
-  const map = {home:'homeSection',offers:'offersSection',games:'gamesSection',redeem:'redeemSection',profile:'profileSection'};
-  const sec = document.getElementById(map[tab]);
-  if (sec) sec.classList.add('active');
-  const nav = document.getElementById('nav-'+tab);
-  if (nav) nav.classList.add('active');
-
-  if (tab==='offers') { renderOffers(); renderOffersTasks(); }
-  if (tab==='games') {/* games tab */};
-  if (tab==='redeem') { updateRedeemStatus(); autoCompleteTask('first_redeem_attempt'); }
-  if (tab==='profile') { updateProfile(); }
-  if (tab==='home') { renderRecentActivity(); updateStreakDisplay(); updateXPBar(); }
-}
-
-// ============================================================
-// GAMES
-// ============================================================
-function openGame(gameId) {
-  const gameNames = {
-    'coin-clicker': 'Coin Clicker',
-    'memory-match': 'Memory Match',
-    'color-match': 'Color Match',
-    'math-rush': 'Math Rush',
-    'reaction-time': 'Reaction Time',
-    'puzzle-solve': 'Puzzle Solve'
-  };
-  autoCompleteTask('play_game_1');
-  showToast(`${gameNames[gameId]} coming soon!`, 'info');
-}
-
-// ============================================================
-// STREAK DISPLAY
-// ============================================================
 function updateStreakDisplay() {
   const streak = S.loginStreak || 0;
   const text = streak === 1 ? '1 Day Streak' : `${streak} Day Streak`;
@@ -1501,7 +1560,7 @@ function updateStreakDisplay() {
 }
 
 // ============================================================
-// CLASSIC CANVAS WHEEL
+// WHEEL SPIN SYSTEM
 // ============================================================
 function drawWheel() {
   const canvas = document.getElementById('wheelCanvas');
@@ -1511,7 +1570,6 @@ function drawWheel() {
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
   const radius = Math.min(centerX, centerY) - 10;
-  
   const numSegments = WHEEL_SEGMENTS.length;
   const anglePerSegment = (2 * Math.PI) / numSegments;
   
@@ -1558,21 +1616,18 @@ function spinWheel() {
   const hasFreeTicket = (S.freeSpinTickets || 0) > 0;
   const needPaidSpin = S.spinsLeft <= 0 && !hasFreeTicket;
   
-  if (needPaidSpin) {
-    if (S.coins < SPIN_COST) {
-      showToast(`Need ${SPIN_COST} coins for a spin!`,'error');
-      return;
-    }
+  if (needPaidSpin && S.coins < CONFIG.SPIN_COST) {
+    showToast(`Need ${CONFIG.SPIN_COST} coins for a spin!`, 'error');
+    return;
   }
   
   isSpinning = true;
   const btn = document.getElementById('spinBtn');
-  const canvas = document.getElementById('wheelCanvas');
   
   if (needPaidSpin) {
-    S.coins -= SPIN_COST;
-    addToHistory(SPIN_COST, 'Paid Spin', 'wheel', true);
-    showToast(`-${SPIN_COST} coins for spin`, 'info');
+    S.coins -= CONFIG.SPIN_COST;
+    addToHistory(CONFIG.SPIN_COST, 'Paid Spin', 'wheel', true);
+    showToast(`-${CONFIG.SPIN_COST} coins for spin`, 'info');
   } else if (hasFreeTicket) {
     S.freeSpinTickets--;
     showToast('Free spin ticket used!', 'success');
@@ -1582,17 +1637,20 @@ function spinWheel() {
   
   S.totalSpins = (S.totalSpins || 0) + 1;
   
-  if (btn) { btn.disabled=true; btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Spinning...'; }
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Spinning...';
+  }
 
   const winningIndex = Math.floor(Math.random() * WHEEL_SEGMENTS.length);
   const numSegments = WHEEL_SEGMENTS.length;
   const anglePerSegment = 360 / numSegments;
-  
   const targetAngle = 360 - (winningIndex * anglePerSegment) - (anglePerSegment / 2);
   const spins = 5 + Math.floor(Math.random() * 3);
   
   wheelRotation += spins * 360 + targetAngle;
   
+  const canvas = document.getElementById('wheelCanvas');
   canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
   canvas.style.transform = `rotate(${wheelRotation}deg)`;
 
@@ -1600,7 +1658,8 @@ function spinWheel() {
     const reward = WHEEL_SEGMENTS[winningIndex];
     handleSpinResult(reward);
     S.spinsUsed++;
-    saveState(); updateUI();
+    saveState();
+    updateUI();
     autoCompleteTask('spin_wheel');
     autoCompleteTask('first_spin');
     if (S.spinsUsed >= 2) autoCompleteTask('wheel_2x');
@@ -1652,8 +1711,8 @@ function updateSpinButton() {
     btn.innerHTML = '<i class="fa-solid fa-ticket"></i> USE FREE SPIN';
     costDisplay.style.display = 'none';
   } else {
-    btn.disabled = S.coins < SPIN_COST;
-    btn.innerHTML = `<i class="fa-solid fa-coins"></i> SPIN (${SPIN_COST})`;
+    btn.disabled = S.coins < CONFIG.SPIN_COST;
+    btn.innerHTML = `<i class="fa-solid fa-coins"></i> SPIN (${CONFIG.SPIN_COST})`;
     costDisplay.style.display = 'flex';
   }
 }
@@ -1665,7 +1724,7 @@ function showWinCelebration(amount, icon) {
   popup.className = 'win-popup';
   popup.innerHTML = `
     <div class="win-amount">${icon}</div>
-    <div class="win-text">${amount}</div>
+    <div class="win-text">${sanitizeInput(amount)}</div>
     <div class="win-coins">${amount === 'TRY AGAIN' ? 'Spin again!' : amount === 'FREE SPIN' ? 'Ticket Added!' : 'COINS WON!'}</div>
   `;
   document.body.appendChild(popup);
@@ -1703,126 +1762,72 @@ function createConfetti() {
 }
 
 // ============================================================
-// CHECK IF ANYTHING IS PROCESSING
+// OFFER SYSTEM WITH COOLDOWN
 // ============================================================
-function isSomethingProcessing() {
-  return S.currentlyProcessing !== null;
-}
-
-function getProcessingItem() {
-  return S.currentlyProcessing;
-}
-
-// ============================================================
-// CLAIM WINDOW & EXPIRE COUNTDOWN
-// ============================================================
-function checkClaimWindows() {
-  const now = Date.now();
-  let updated = false;
+function initFilterTabs() {
+  const el = document.getElementById('filterTabs');
+  if (!el) return;
   
-  Object.keys(S.processingOffers).forEach(id => {
-    const p = S.processingOffers[id];
-    if (p.readyToClaim && !p.claimed && !p.expired) {
-      const claimElapsed = now - p.readyTime;
-      if (claimElapsed >= CLAIM_WINDOW_TIME) {
-        p.expired = true;
-        updated = true;
-        
-        if (S.currentlyProcessing?.type === 'offer' && S.currentlyProcessing?.id === id) {
-          S.currentlyProcessing = null;
-        }
-        
-        if (document.getElementById('offersSection')?.classList.contains('active')) {
-          showToast('Offer claim window expired!', 'error');
-        }
-      }
-    }
+  let isDown = false, startX = 0, scrollLeft = 0;
+
+  el.addEventListener('mousedown', e => {
+    isDown = true;
+    el.classList.add('grabbing');
+    startX = e.pageX - el.offsetLeft;
+    scrollLeft = el.scrollLeft;
   });
   
-  Object.keys(S.processingTasks).forEach(id => {
-    const p = S.processingTasks[id];
-    if (p.readyToClaim && !p.claimed && !p.expired) {
-      const claimElapsed = now - p.readyTime;
-      if (claimElapsed >= CLAIM_WINDOW_TIME) {
-        p.expired = true;
-        updated = true;
-        
-        if (S.currentlyProcessing?.type === 'task' && S.currentlyProcessing?.id === id) {
-          S.currentlyProcessing = null;
-        }
-        
-        if (document.getElementById('offersSection')?.classList.contains('active')) {
-          const t = TASKS.find(x=>x.id===id);
-          showToast(`${t?.title || 'Task'} claim window expired!`, 'error');
-        }
-      }
-    }
+  el.addEventListener('mouseleave', () => {
+    isDown = false;
+    el.classList.remove('grabbing');
   });
   
-  if (S.shareTaskProgress.started && !S.shareTaskProgress.claimed) {
-    const elapsed = now - S.shareTaskProgress.startTime;
-    if (elapsed >= SHARE_TASK_TIME) {
-      S.shareTaskProgress.readyToClaim = true;
-      updated = true;
-      if (document.getElementById('offersSection')?.classList.contains('active')) {
-        renderOffersTasks();
-        showToast('Share task ready to claim! +500 coins!', 'success');
-      }
-    }
-  }
+  el.addEventListener('mouseup', () => {
+    isDown = false;
+    el.classList.remove('grabbing');
+  });
   
-  if (updated) {
-    saveState();
-    renderOffers();
-    renderOffersTasks();
-  }
-}
+  el.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    el.scrollLeft = scrollLeft - (x - startX);
+  });
 
-function updateExpireCountdowns() {
-  // Update offer expire timers
-  document.querySelectorAll('[data-offer-expire]').forEach(el => {
-    const id = el.dataset.offerExpire;
-    const p = S.processingOffers[id];
-    if (p && p.readyToClaim && !p.claimed && !p.expired) {
-      const remaining = Math.max(0, CLAIM_WINDOW_TIME - (Date.now() - p.readyTime));
-      const secs = Math.ceil(remaining / 1000);
-      const mins = Math.floor(secs / 60);
-      const displaySecs = secs % 60;
-      const timeText = mins > 0 ? `${mins}:${displaySecs.toString().padStart(2,'0')}` : `${secs}s`;
-      el.querySelector('.expire-countdown-text').textContent = `Expires in: ${timeText}`;
-    }
-  });
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].pageX - el.offsetLeft;
+    scrollLeft = el.scrollLeft;
+  }, {passive: true});
   
-  // Update task expire timers
-  document.querySelectorAll('[data-task-expire]').forEach(el => {
-    const id = el.dataset.taskExpire;
-    const p = S.processingTasks[id];
-    if (p && p.readyToClaim && !p.claimed && !p.expired) {
-      const remaining = Math.max(0, CLAIM_WINDOW_TIME - (Date.now() - p.readyTime));
-      const secs = Math.ceil(remaining / 1000);
-      const mins = Math.floor(secs / 60);
-      const displaySecs = secs % 60;
-      const timeText = mins > 0 ? `${mins}:${displaySecs.toString().padStart(2,'0')}` : `${secs}s`;
-      el.querySelector('.expire-countdown-text').textContent = `Expires in: ${timeText}`;
-    }
+  el.addEventListener('touchmove', e => {
+    const x = e.touches[0].pageX - el.offsetLeft;
+    el.scrollLeft = scrollLeft - (x - startX);
+  }, {passive: true});
+
+  el.querySelectorAll('.ftab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      el.querySelectorAll('.ftab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      S.currentFilter = btn.dataset.cat;
+      renderOffers();
+    });
   });
 }
 
-// ============================================================
-// OFFERS
-// ============================================================
 function renderOffers() {
   const c = document.getElementById('offersList');
   if (!c) return;
+  
   let list = OFFERS;
-  if (S.currentFilter==='hot') list = OFFERS.filter(o=>o.hot);
-  else if (S.currentFilter!=='all') list = OFFERS.filter(o=>o.category===S.currentFilter);
+  if (S.currentFilter === 'hot') list = OFFERS.filter(o => o.hot);
+  else if (S.currentFilter !== 'all') list = OFFERS.filter(o => o.category === S.currentFilter);
+  
   c.innerHTML = list.map(buildOfferCard).join('');
 }
 
 function buildOfferCard(o) {
   const processing = S.processingOffers[o.id];
-  const isProc = processing && !processing.completed && !processing.readyToClaim;
+  const isProc = processing && !processing.completed && !processing.readyToClaim && !processing.expired;
   const isReady = processing && processing.readyToClaim && !processing.claimed && !processing.expired;
   const isExpired = processing && processing.expired;
   const isClaimed = processing && processing.claimed;
@@ -1830,43 +1835,63 @@ function buildOfferCard(o) {
   const somethingElseProcessing = isSomethingProcessing() && 
     !(S.currentlyProcessing?.type === 'offer' && S.currentlyProcessing?.id === o.id);
   
-  let cls='', status, btn, timerHtml = '';
+  let cls = '', status, btn, timerHtml = '';
   
   if (isClaimed) {
-    cls='completed';
-    status=`<div class="sbadge completed"><i class="fa-solid fa-check"></i> Claimed</div>`;
-    btn=`<button class="obtn" disabled><i class="fa-solid fa-check"></i> Done</button>`;
+    cls = 'completed';
+    status = `<div class="sbadge completed"><i class="fa-solid fa-check"></i> Claimed</div>`;
+    btn = `<button class="obtn" disabled><i class="fa-solid fa-check"></i> Done</button>`;
   } else if (isExpired) {
-    cls='';
-    status=`<div class="sbadge expired"><i class="fa-solid fa-clock"></i> Expired</div>`;
-    btn=`<button class="obtn" disabled>Expired</button>`;
-  } else if (isReady) {
-    cls='ready';
-    status=`<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>`;
-    btn=`<button class="obtn obtn-claim" onclick="claimOffer('${o.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
-    timerHtml=`<div class="expire-countdown" data-offer-expire="${o.id}"><i class="fa-solid fa-clock"></i><span class="expire-countdown-text">Expires in: 2:00</span></div>`;
-  } else if (isProc) {
-    cls='processing';
-    status=`<div class="sbadge processing"><i class="fa-solid fa-spinner fa-spin"></i> Verifying</div>`;
-    btn=`<button class="obtn obtn-p" onclick="reopenOffer('${o.id}')">Go to Site <i class="fa-solid fa-arrow-up-right-from-square"></i></button>`;
-  } else {
-    status=`<div class="sbadge available"> Available</div>`;
-    if (somethingElseProcessing) {
-      btn=`<button class="obtn" disabled>Wait...</button>`;
+    // Check if still in cooldown period
+    const now = Date.now();
+    const cooldownElapsed = now - (processing.expiredAt || 0);
+    const cooldownRemaining = CONFIG.EXPIRED_COOLDOWN - cooldownElapsed;
+    
+    if (cooldownRemaining > 0) {
+      // In cooldown period - show countdown
+      cls = 'cooldown';
+      const timeText = formatTime(cooldownRemaining);
+      status = `<div class="sbadge cooldown"><i class="fa-solid fa-lock"></i> Locked</div>`;
+      btn = `<button class="obtn" disabled>Wait ${timeText}</button>`;
+      timerHtml = `<div class="cooldown-countdown" data-offer-cooldown="${o.id}"><i class="fa-solid fa-clock"></i><span class="cooldown-countdown-text">Available in: ${timeText}</span></div>`;
     } else {
-      btn=`<button class="obtn obtn-p" onclick="startOffer('${o.id}')">Start <i class="fa-solid fa-arrow-right"></i></button>`;
+      // Cooldown finished - should have been deleted, but fallback to available
+      cls = '';
+      status = `<div class="sbadge available"> Available</div>`;
+      if (somethingElseProcessing) {
+        btn = `<button class="obtn" disabled>Wait...</button>`;
+      } else {
+        btn = `<button class="obtn obtn-p" onclick="startOffer('${o.id}')">Start <i class="fa-solid fa-arrow-right"></i></button>`;
+      }
+    }
+  } else if (isReady) {
+    cls = 'ready';
+    status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>`;
+    btn = `<button class="obtn obtn-claim" onclick="claimOffer('${o.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
+    timerHtml = `<div class="expire-countdown" data-offer-expire="${o.id}"><i class="fa-solid fa-clock"></i><span class="expire-countdown-text">Expires in: 2:00</span></div>`;
+  } else if (isProc) {
+    cls = 'processing';
+    status = `<div class="sbadge processing"><i class="fa-solid fa-spinner fa-spin"></i> Verifying</div>`;
+    btn = `<button class="obtn obtn-p" onclick="reopenOffer('${o.id}')">Go to Site <i class="fa-solid fa-arrow-up-right-from-square"></i></button>`;
+  } else {
+    status = `<div class="sbadge available"> Available</div>`;
+    if (somethingElseProcessing) {
+      btn = `<button class="obtn" disabled>Wait...</button>`;
+    } else {
+      btn = `<button class="obtn obtn-p" onclick="startOffer('${o.id}')">Start <i class="fa-solid fa-arrow-right"></i></button>`;
     }
   }
   
   const hot = o.hot ? `<div class="hot-badge"><i class="fa-solid fa-fire"></i> HOT</div>` : '';
+  
   return `
     <div class="offer-card ${cls}">
       ${hot}
       <div class="offer-hdr">
         <div class="offer-img" style="background:${o.color}20;color:${o.color};"><i class="fa-solid ${o.icon}"></i></div>
         <div class="offer-info">
-          <div class="offer-title">${o.title}</div>
-          <div class="offer-desc">${o.description}</div>
+          <div class="offer-title">${sanitizeInput(o.title)}</div>
+          <div class="offer-desc">${sanitizeInput(o.description)}</div>
           <div class="rating"><div class="stars">${buildStars(o.rating)}</div><span class="rating-text">${o.rating} (${formatNumber(o.reviews)})</span></div>
           <div class="offer-rew"><i class="fa-solid fa-coins"></i> +${o.reward.toLocaleString()} coins</div>
         </div>
@@ -1876,30 +1901,19 @@ function buildOfferCard(o) {
     </div>`;
 }
 
-function formatNumber(num) {
-  if (num >= 1000) {
-    return (num / 1000).toFixed(1) + 'k';
-  }
-  return num.toString();
-}
-
 function buildStars(r) {
-  const f=Math.floor(r), h=r%1>=.5;
-  let s='';
-  for(let i=0;i<f;i++) s+='<i class="fa-solid fa-star"></i>';
-  if(h) s+='<i class="fa-solid fa-star-half-stroke"></i>';
-  for(let i=f+(h?1:0);i<5;i++) s+='<i class="fa-regular fa-star"></i>';
+  const f = Math.floor(r), h = r % 1 >= .5;
+  let s = '';
+  for (let i = 0; i < f; i++) s += '<i class="fa-solid fa-star"></i>';
+  if (h) s += '<i class="fa-solid fa-star-half-stroke"></i>';
+  for (let i = f + (h ? 1 : 0); i < 5; i++) s += '<i class="fa-regular fa-star"></i>';
   return s;
 }
 
 function startOffer(id) {
   if (isSomethingProcessing()) {
     const item = getProcessingItem();
-    if (item.type === 'offer') {
-      showToast('You already have an offer processing. Please wait or claim it first!', 'warning');
-    } else {
-      showToast('You already have a task processing. Please wait or claim it first!', 'warning');
-    }
+    showToast(`You already have a ${item.type} processing. Please wait or claim it first!`, 'warning');
     return;
   }
   
@@ -1909,11 +1923,10 @@ function startOffer(id) {
 
 function openOfferLink() {
   if (!currentOfferId) return;
-  const o = OFFERS.find(x=>x.id===currentOfferId);
+  const o = OFFERS.find(x => x.id === currentOfferId);
   if (!o) return;
   
   S.currentlyProcessing = { type: 'offer', id: currentOfferId };
-  
   S.processingOffers[currentOfferId] = {
     startTime: Date.now(),
     url: o.url,
@@ -1921,6 +1934,7 @@ function openOfferLink() {
     readyToClaim: false,
     claimed: false,
     expired: false,
+    expiredAt: null,
     reward: o.reward
   };
   
@@ -1947,13 +1961,11 @@ function closeProcessingModal() {
 function claimOffer(id) {
   const p = S.processingOffers[id];
   if (!p || !p.readyToClaim || p.claimed || p.expired) {
-    if (p?.expired) {
-      showToast('Claim window expired! You missed your reward.', 'error');
-    }
+    if (p?.expired) showToast('Offer claim window expired!', 'error');
     return;
   }
   
-  const o = OFFERS.find(x=>x.id===id);
+  const o = OFFERS.find(x => x.id === id);
   if (!o) return;
   
   p.claimed = true;
@@ -1968,23 +1980,12 @@ function claimOffer(id) {
   S.offersCompleted++;
   S.offerCount = (S.offerCount || 0) + 1;
   
-  // Check completion milestones
-  if (S.offerCount >= 3 && !S.completedTasks['complete_3_offers']) {
-    autoCompleteTask('complete_3_offers');
-  }
-  if (S.offerCount >= 5 && !S.completedTasks['complete_5_offers']) {
-    autoCompleteTask('complete_5_offers');
-  }
-  if (S.offerCount >= 10 && !S.completedTasks['complete_10_offers']) {
-    autoCompleteTask('complete_10_offers');
-  }
-  if (S.offerCount >= 20 && !S.completedTasks['offer_master']) {
-    autoCompleteTask('offer_master');
-  }
+  if (S.offerCount >= 3 && !S.completedTasks['complete_3_offers']) autoCompleteTask('complete_3_offers');
+  if (S.offerCount >= 5 && !S.completedTasks['complete_5_offers']) autoCompleteTask('complete_5_offers');
+  if (S.offerCount >= 10 && !S.completedTasks['complete_10_offers']) autoCompleteTask('complete_10_offers');
+  if (S.offerCount >= 20 && !S.completedTasks['offer_master']) autoCompleteTask('offer_master');
   
-  if (o.category === 'social') {
-    autoCompleteTask('social_follow');
-  }
+  if (o.category === 'social') autoCompleteTask('social_follow');
   autoCompleteTask('complete_offer');
   
   saveState();
@@ -1994,33 +1995,61 @@ function claimOffer(id) {
 }
 
 // ============================================================
-// TASKS - Now rendered in Offers section
+// TASK SYSTEM
 // ============================================================
 function renderOffersTasks() {
   const c = document.getElementById('offersTasksList');
   if (!c) return;
+  
   const done = countDone();
   const disp = document.getElementById('taskCountDisplay');
-  if (disp) disp.textContent = done+'/'+TOTAL_TASKS;
-  c.innerHTML = TASKS.map(buildTaskCard).join('');
-  const pct = (done/TOTAL_TASKS)*100;
+  if (disp) disp.textContent = done + '/' + CONFIG.TOTAL_TASKS;
+  
+  let html = TASKS.map(buildTaskCard).join('');
+  
+  // Add bonus card if all tasks completed but not claimed
+  if (done === CONFIG.TOTAL_TASKS && !S.claimedTasks['all_bonus']) {
+    html += `
+      <div class="offer-card ready" id="all-bonus-card">
+        <div class="offer-hdr">
+          <div class="offer-img" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#fff;"><i class="fa-solid fa-trophy"></i></div>
+          <div class="offer-info">
+            <div class="offer-title">All Tasks Complete Bonus</div>
+            <div class="offer-desc">Complete all 60 daily tasks</div>
+            <div class="offer-rew"><i class="fa-solid fa-coins"></i> +100 coins</div>
+          </div>
+        </div>
+        <div class="offer-status">
+          <div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>
+          <button class="obtn obtn-claim" onclick="claimAllBonus()">Claim <i class="fa-solid fa-coins"></i></button>
+        </div>
+      </div>`;
+  }
+  
+  c.innerHTML = html;
+  
+  const pct = (done / CONFIG.TOTAL_TASKS) * 100;
   const bar = document.getElementById('taskProgressBar');
   const txt = document.getElementById('taskProgressText');
-  if (bar) bar.style.width = pct+'%';
-  if (txt) txt.textContent = done+'/'+TOTAL_TASKS+' completed';
-  if (done===TOTAL_TASKS && !S.completedTasks['all_bonus']) {
-    S.completedTasks['all_bonus'] = true;
-    addCoins(2000,'bonus');
-    addXP(200);
-    showToast('All 60 tasks done! +2000 bonus coins!','success');
-    saveState();
-  }
+  if (bar) bar.style.width = pct + '%';
+  if (txt) txt.textContent = done + '/' + CONFIG.TOTAL_TASKS + ' completed';
+}
+
+function claimAllBonus() {
+  if (S.claimedTasks['all_bonus']) return;
+  S.claimedTasks['all_bonus'] = true;
+  S.completedTasks['all_bonus'] = true;
+  addCoins(100, 'bonus');
+  addXP(50);
+  saveState();
+  renderOffersTasks();
+  updateUI();
+  showToast('All tasks bonus claimed! +100 coins', 'success');
 }
 
 function buildTaskCard(t) {
   const done = !!S.completedTasks[t.id];
   const claimed = !!S.claimedTasks[t.id];
-  const isReady = isTaskReady(t);
   
   const processing = S.processingTasks[t.id];
   const isProc = processing && !processing.completed && !processing.readyToClaim;
@@ -2049,16 +2078,14 @@ function buildTaskCard(t) {
   } else if (isProc) {
     status = `<div class="sbadge processing"><i class="fa-solid fa-spinner fa-spin"></i> Verifying</div>`;
     btn = `<button class="obtn" disabled>Processing...</button>`;
-  } else if (isReady) {
+  } else if (isTaskReady(t)) {
     status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready to Claim</div>`;
     btn = `<button class="obtn obtn-claim" onclick="claimTask('${t.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
   } else if (t.type === 'action') {
     status = `<div class="sbadge"><i class="fa-solid fa-circle" style="font-size:8px;"></i> Do it</div>`;
-    if (somethingElseProcessing) {
-      btn = `<button class="obtn" disabled>Wait...</button>`;
-    } else {
-      btn = `<button class="obtn obtn-p" onclick="doTask('${t.id}')">Do It <i class="fa-solid fa-arrow-right"></i></button>`;
-    }
+    btn = somethingElseProcessing ? 
+      `<button class="obtn" disabled>Wait...</button>` : 
+      `<button class="obtn obtn-p" onclick="doTask('${t.id}')">Do It <i class="fa-solid fa-arrow-right"></i></button>`;
   } else {
     status = `<div class="sbadge"><i class="fa-solid fa-circle" style="font-size:8px;"></i> In Progress</div>`;
     btn = `<button class="obtn" disabled>Pending</button>`;
@@ -2069,8 +2096,8 @@ function buildTaskCard(t) {
       <div class="offer-hdr">
         <div class="offer-img" style="background:${t.color}20;color:${t.color};"><i class="fa-solid ${t.icon}"></i></div>
         <div class="offer-info">
-          <div class="offer-title">${t.title}</div>
-          <div class="offer-desc">${t.description}</div>
+          <div class="offer-title">${sanitizeInput(t.title)}</div>
+          <div class="offer-desc">${sanitizeInput(t.description)}</div>
           <div class="offer-rew"><i class="fa-solid fa-coins"></i> +${t.reward} coins</div>
         </div>
       </div>
@@ -2090,7 +2117,7 @@ function buildShareTaskCard(t) {
     status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>`;
     btn = `<button class="obtn obtn-claim" onclick="claimShareTask()">Claim <i class="fa-solid fa-coins"></i></button>`;
   } else if (progress.started) {
-    const remaining = Math.max(0, SHARE_TASK_TIME - (Date.now() - progress.startTime));
+    const remaining = Math.max(0, CONFIG.SHARE_TASK_TIME - (Date.now() - progress.startTime));
     const hours = Math.floor(remaining / 3600000);
     const mins = Math.floor((remaining % 3600000) / 60000);
     const timeText = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
@@ -2108,8 +2135,8 @@ function buildShareTaskCard(t) {
       <div class="offer-hdr">
         <div class="offer-img" style="background:${t.color}20;color:${t.color};"><i class="fa-solid ${t.icon}"></i></div>
         <div class="offer-info">
-          <div class="offer-title">${t.title}</div>
-          <div class="offer-desc">${t.description}</div>
+          <div class="offer-title">${sanitizeInput(t.title)}</div>
+          <div class="offer-desc">${sanitizeInput(t.description)}</div>
           <div class="offer-rew"><i class="fa-solid fa-coins"></i> +${t.reward} coins</div>
         </div>
       </div>
@@ -2118,9 +2145,179 @@ function buildShareTaskCard(t) {
     </div>`;
 }
 
+function isTaskReady(t) {
+  if (S.claimedTasks[t.id] || S.completedTasks[t.id]) return false;
+  if (t.timeReq) {
+    const mins = Math.floor(screenSeconds / 60);
+    return mins >= t.timeReq;
+  }
+  if (t.countRequired) {
+    return (S.offerCount || 0) >= t.countRequired;
+  }
+  if (t.auto) return false;
+  return false;
+}
+
+function doTask(id) {
+  if (S.completedTasks[id] || S.claimedTasks[id]) return;
+  
+  if (isSomethingProcessing()) {
+    const item = getProcessingItem();
+    showToast(`You already have a ${item.type} processing. Please wait or claim it first!`, 'warning');
+    return;
+  }
+  
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  
+  if (t.type === 'action') {
+    startActionTask(id);
+  } else if (t.type === 'profile') {
+    doProfileTask(id);
+  } else if (t.type === 'counted') {
+    doCountedTask(id);
+  } else {
+    autoCompleteTask(id);
+  }
+}
+
+function startActionTask(id) {
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  
+  document.getElementById('taskProcessingModal').classList.add('active');
+  currentTaskId = id;
+  
+  S.currentlyProcessing = { type: 'task', id: id };
+  S.processingTasks[id] = {
+    startTime: Date.now(),
+    completed: false,
+    readyToClaim: false,
+    claimed: false,
+    expired: false,
+    reward: t.reward
+  };
+  
+  saveState();
+  renderOffersTasks();
+  
+  setTimeout(() => {
+    executeTaskAction(id);
+  }, 500);
+}
+
+function executeTaskAction(id) {
+  switch(id) {
+    case 'social_follow':
+      window.open('https://instagram.com/sillyprize', '_blank');
+      break;
+    case 'social_share':
+      window.open('https://twitter.com/intent/tweet?text=Check%20out%20Silly%20Prize!', '_blank');
+      break;
+    case 'contact_support':
+      window.location.href = 'mailto:support@sillyprize.com';
+      break;
+    default:
+      break;
+  }
+}
+
+function closeTaskProcessingModal() {
+  document.getElementById('taskProcessingModal').classList.remove('active');
+  currentTaskId = null;
+}
+
+function doProfileTask(id) {
+  if (id === 'bio_add') editBio();
+  else autoCompleteTask(id);
+}
+
+function doCountedTask(id) {
+  if (id === 'big_spender') {
+    if (S.coins >= 1000) autoCompleteTask(id);
+    else showToast('Save up 1000 coins first! You have ' + S.coins.toLocaleString(), 'warning');
+  } else if (id === 'high_roller') {
+    if (S.coins >= 5000) autoCompleteTask(id);
+    else showToast('Reach 5000 coins! You have ' + S.coins.toLocaleString(), 'warning');
+  } else if (id === 'super_saver') {
+    if (S.coins >= 10000) autoCompleteTask(id);
+    else showToast('Reach 10000 coins! You have ' + S.coins.toLocaleString(), 'warning');
+  } else {
+    autoCompleteTask(id);
+  }
+}
+
+function autoCompleteTask(id) {
+  if (S.completedTasks[id] || S.claimedTasks[id]) return;
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  
+  if (t.auto && t.timeReq) return;
+  if (t.countRequired && (S.offerCount || 0) < t.countRequired) return;
+  
+  // Don't auto-complete, instead set as ready to claim in processingTasks
+  S.processingTasks[id] = {
+    startTime: Date.now(),
+    completed: false,
+    readyToClaim: true,
+    claimed: false,
+    expired: false,
+    reward: t.reward
+  };
+  
+  saveState();
+  renderOffersTasks();
+  // No toast message, no coins added automatically
+}
+
+function claimTask(id) {
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  
+  S.claimedTasks[id] = true;
+  S.completedTasks[id] = true;
+  addCoins(t.reward, 'task');
+  addXP(Math.floor(t.reward / 5));
+  
+  const done = countDone();
+  if (done >= 30 && !S.completedTasks['task_master']) autoCompleteTask('task_master');
+  
+  saveState();
+  renderOffersTasks();
+  updateUI();
+  showToast(`${t.title} claimed! +${t.reward} coins`, 'success');
+}
+
+function claimTaskReward(id) {
+  const p = S.processingTasks[id];
+  if (!p || !p.readyToClaim || p.claimed || p.expired) {
+    if (p?.expired) showToast('Claim window expired! You missed your reward.', 'error');
+    return;
+  }
+  
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  
+  p.claimed = true;
+  p.completed = true;
+  
+  if (S.currentlyProcessing?.type === 'task' && S.currentlyProcessing?.id === id) {
+    S.currentlyProcessing = null;
+  }
+  
+  S.claimedTasks[id] = true;
+  S.completedTasks[id] = true;
+  addCoins(t.reward, 'task');
+  addXP(Math.floor(t.reward / 5));
+  
+  saveState();
+  renderOffersTasks();
+  updateUI();
+  showToast(`${t.title} completed! +${t.reward} coins`, 'success');
+}
+
 function startShareTask(taskId) {
   document.getElementById('shareTaskModal').classList.add('active');
-  
   S.shareTaskProgress = {
     started: true,
     startTime: Date.now(),
@@ -2128,7 +2325,6 @@ function startShareTask(taskId) {
     readyToClaim: false,
     taskId: taskId
   };
-  
   saveState();
   renderOffersTasks();
 }
@@ -2156,213 +2352,9 @@ function claimShareTask() {
   showToast('Share task completed! +' + (t ? t.reward : 500) + ' coins', 'success');
 }
 
-function isTaskReady(t) {
-  if (S.claimedTasks[t.id] || S.completedTasks[t.id]) return false;
-  
-  if (t.timeReq) {
-    const mins = Math.floor(screenSeconds / 60);
-    return mins >= t.timeReq;
-  }
-  
-  if (t.countRequired) {
-    return (S.offerCount || 0) >= t.countRequired;
-  }
-  
-  if (t.auto) {
-    return false;
-  }
-  
-  return false;
-}
-
-function claimTask(id) {
-  const t = TASKS.find(x=>x.id===id);
-  if (!t) return;
-  
-  S.claimedTasks[id] = true;
-  S.completedTasks[id] = true;
-  addCoins(t.reward, 'task');
-  addXP(Math.floor(t.reward / 5));
-  
-  // Check task milestones
-  const done = countDone();
-  if (done >= 30 && !S.completedTasks['task_master']) {
-    autoCompleteTask('task_master');
-  }
-  
-  saveState();
-  renderOffersTasks();
-  updateUI();
-  showToast(`${t.title} claimed! +${t.reward} coins`, 'success');
-}
-
-function claimTaskReward(id) {
-  const p = S.processingTasks[id];
-  if (!p || !p.readyToClaim || p.claimed || p.expired) {
-    if (p?.expired) {
-      showToast('Claim window expired! You missed your reward.', 'error');
-    }
-    return;
-  }
-  
-  const t = TASKS.find(x=>x.id===id);
-  if (!t) return;
-  
-  p.claimed = true;
-  p.completed = true;
-  
-  if (S.currentlyProcessing?.type === 'task' && S.currentlyProcessing?.id === id) {
-    S.currentlyProcessing = null;
-  }
-  
-  S.claimedTasks[id] = true;
-  S.completedTasks[id] = true;
-  addCoins(t.reward, 'task');
-  addXP(Math.floor(t.reward / 5));
-  
-  saveState();
-  renderOffersTasks();
-  updateUI();
-  showToast(`${t.title} completed! +${t.reward} coins`, 'success');
-}
-
 function countDone() {
-  return Object.keys(S.claimedTasks).length + Object.keys(S.completedTasks).filter(k=>!k.includes('_progress')&&!k.includes('_bonus')).length;
-}
-
-function doTask(id) {
-  if (S.completedTasks[id] || S.claimedTasks[id]) return;
-  
-  if (isSomethingProcessing()) {
-    const item = getProcessingItem();
-    if (item.type === 'offer') {
-      showToast('You already have an offer processing. Please wait or claim it first!', 'warning');
-    } else {
-      showToast('You already have a task processing. Please wait or claim it first!', 'warning');
-    }
-    return;
-  }
-  
-  const t = TASKS.find(x=>x.id===id);
-  if (!t) return;
-  
-  if (t.type==='action') {
-    startActionTask(id);
-  } else if (t.type==='profile') {
-    doProfileTask(id);
-  } else if (t.type==='counted') {
-    doCountedTask(id);
-  } else {
-    autoCompleteTask(id);
-  }
-}
-
-function startActionTask(id) {
-  const t = TASKS.find(x=>x.id===id);
-  if (!t) return;
-  
-  document.getElementById('taskProcessingModal').classList.add('active');
-  currentTaskId = id;
-  
-  S.currentlyProcessing = { type: 'task', id: id };
-  
-  S.processingTasks[id] = {
-    startTime: Date.now(),
-    completed: false,
-    readyToClaim: false,
-    claimed: false,
-    expired: false,
-    reward: t.reward
-  };
-  
-  saveState();
-  renderOffersTasks();
-  
-  setTimeout(() => {
-    executeTaskAction(id);
-  }, 500);
-}
-
-function executeTaskAction(id) {
-  switch(id) {
-    case 'share_app': case 'share_app_2':
-      break;
-    case 'ad_watch_1': case 'ad_watch_2': case 'ad_watch_3': case 'ad_watch_4': case 'ad_watch_5':
-      break;
-    case 'social_follow':
-      window.open('https://instagram.com/sillyprize','_blank');
-      break;
-    case 'social_share':
-      window.open('https://twitter.com/intent/tweet?text=Check%20out%20Silly%20Prize!','_blank');
-      break;
-    case 'rate_app':
-      break;
-    case 'feedback': case 'feedback_2':
-      break;
-    case 'push_enable':
-      break;
-    case 'contact_support':
-      window.location.href = 'mailto:support@sillyprize.com';
-      break;
-    case 'invite_friend_1': case 'invite_friend_2': case 'invite_friend_3':
-      break;
-    case 'watch_video_1': case 'watch_video_2':
-      break;
-    case 'download_app_1': case 'download_app_2':
-      break;
-    case 'play_game_1': case 'play_game_2':
-      break;
-    default: 
-      break;
-  }
-}
-
-function closeTaskProcessingModal() {
-  document.getElementById('taskProcessingModal').classList.remove('active');
-  currentTaskId = null;
-}
-
-function doProfileTask(id) {
-  if (id==='bio_add') editBio();
-  else autoCompleteTask(id);
-}
-
-function doCountedTask(id) {
-  if (id==='big_spender') {
-    if (S.coins>=1000) autoCompleteTask(id);
-    else showToast('Save up 1000 coins first! You have '+S.coins.toLocaleString(),'warning');
-  } else if (id==='high_roller') {
-    if (S.coins>=5000) autoCompleteTask(id);
-    else showToast('Reach 5000 coins! You have '+S.coins.toLocaleString(),'warning');
-  } else if (id==='super_saver') {
-    if (S.coins>=10000) autoCompleteTask(id);
-    else showToast('Reach 10000 coins! You have '+S.coins.toLocaleString(),'warning');
-  } else if (id==='coin_collector') {
-    // Check if earned 1000 today - simplified check
-    autoCompleteTask(id);
-  } else {
-    autoCompleteTask(id);
-  }
-}
-
-function autoCompleteTask(id) {
-  if (S.completedTasks[id] || S.claimedTasks[id]) return;
-  const t = TASKS.find(x=>x.id===id);
-  if (!t) return;
-  
-  if (t.auto && t.timeReq) {
-    return;
-  }
-  
-  if (t.countRequired && (S.offerCount || 0) < t.countRequired) {
-    return;
-  }
-  
-  S.completedTasks[id] = true;
-  addCoins(t.reward,'task');
-  addXP(Math.floor(t.reward / 5));
-  saveState(); renderOffersTasks(); updateUI();
-  showToast(t.title+' done! +'+t.reward+' coins','success');
+  return Object.keys(S.claimedTasks).length + 
+    Object.keys(S.completedTasks).filter(k => !k.includes('_progress') && !k.includes('_bonus')).length;
 }
 
 function checkTimeBasedTasks() {
@@ -2371,22 +2363,41 @@ function checkTimeBasedTasks() {
   if (h >= 20) autoCompleteTask('night_check');
   if (h >= 23) autoCompleteTask('night_owl_late');
   if (h < 6) autoCompleteTask('early_bird_early');
-  if (new Date().getDay()===0) autoCompleteTask('lucky_day');
-  if (new Date().getDay()===6) autoCompleteTask('weekend_warrior');
+  if (new Date().getDay() === 0) autoCompleteTask('lucky_day');
+  if (new Date().getDay() === 6) autoCompleteTask('weekend_warrior');
 }
 
 // ============================================================
-// CHECK ALL PROCESSING
+// PROCESSING CHECKS & COOLDOWN MANAGEMENT
 // ============================================================
+function isSomethingProcessing() {
+  return S.currentlyProcessing !== null;
+}
+
+function getProcessingItem() {
+  return S.currentlyProcessing;
+}
+
 function checkAllProcessing() {
   const now = Date.now();
   let updated = false;
   
+  // Check offers - processing to ready
   Object.keys(S.processingOffers).forEach(id => {
     const p = S.processingOffers[id];
-    if (!p.completed && !p.readyToClaim) {
-      const elapsed = now - p.startTime;
-      if (elapsed >= OFFER_PROCESSING_TIME) {
+    
+    // Check if cooldown is over (expired and 5 minutes passed)
+    if (p.expired && p.expiredAt) {
+      const cooldownElapsed = now - p.expiredAt;
+      if (cooldownElapsed >= CONFIG.EXPIRED_COOLDOWN) {
+        delete S.processingOffers[id];
+        updated = true;
+        return; // Continue to next iteration
+      }
+    }
+    
+    if (!p.completed && !p.readyToClaim && !p.expired) {
+      if (now - p.startTime >= CONFIG.OFFER_PROCESSING_TIME) {
         p.readyToClaim = true;
         p.readyTime = Date.now();
         updated = true;
@@ -2394,19 +2405,15 @@ function checkAllProcessing() {
         if (S.currentlyProcessing?.type === 'offer' && S.currentlyProcessing?.id === id) {
           S.currentlyProcessing = null;
         }
-        
-        if (document.getElementById('offersSection')?.classList.contains('active')) {
-          showToast('An offer is ready to claim! You have 2 minutes!', 'success');
-        }
       }
     }
   });
   
+  // Check tasks
   Object.keys(S.processingTasks).forEach(id => {
     const p = S.processingTasks[id];
-    if (!p.completed && !p.readyToClaim) {
-      const elapsed = now - p.startTime;
-      if (elapsed >= TASK_PROCESSING_TIME) {
+    if (!p.completed && !p.readyToClaim && !p.expired) {
+      if (now - p.startTime >= CONFIG.TASK_PROCESSING_TIME) {
         p.readyToClaim = true;
         p.readyTime = Date.now();
         updated = true;
@@ -2414,10 +2421,51 @@ function checkAllProcessing() {
         if (S.currentlyProcessing?.type === 'task' && S.currentlyProcessing?.id === id) {
           S.currentlyProcessing = null;
         }
-        
-        if (document.getElementById('offersSection')?.classList.contains('active')) {
-          const t = TASKS.find(x=>x.id===id);
-          showToast(`${t?.title || 'Task'} is ready to claim! You have 2 minutes!`, 'success');
+      }
+    }
+  });
+  
+  // Check share task
+  if (S.shareTaskProgress.started && !S.shareTaskProgress.claimed) {
+    if (now - S.shareTaskProgress.startTime >= CONFIG.SHARE_TASK_TIME) {
+      S.shareTaskProgress.readyToClaim = true;
+      updated = true;
+    }
+  }
+  
+  if (updated) {
+    saveState();
+    renderOffers();
+    renderOffersTasks();
+  }
+}
+
+function checkClaimWindows() {
+  const now = Date.now();
+  let updated = false;
+  
+  Object.keys(S.processingOffers).forEach(id => {
+    const p = S.processingOffers[id];
+    if (p.readyToClaim && !p.claimed && !p.expired) {
+      if (now - p.readyTime >= CONFIG.CLAIM_WINDOW_TIME) {
+        p.expired = true;
+        p.expiredAt = Date.now(); // Record when it expired for cooldown
+        updated = true;
+        if (S.currentlyProcessing?.type === 'offer' && S.currentlyProcessing?.id === id) {
+          S.currentlyProcessing = null;
+        }
+      }
+    }
+  });
+  
+  Object.keys(S.processingTasks).forEach(id => {
+    const p = S.processingTasks[id];
+    if (p.readyToClaim && !p.claimed && !p.expired) {
+      if (now - p.readyTime >= CONFIG.CLAIM_WINDOW_TIME) {
+        p.expired = true;
+        updated = true;
+        if (S.currentlyProcessing?.type === 'task' && S.currentlyProcessing?.id === id) {
+          S.currentlyProcessing = null;
         }
       }
     }
@@ -2430,12 +2478,50 @@ function checkAllProcessing() {
   }
 }
 
+function updateExpireCountdowns() {
+  // Update offer claim expiration timers
+  document.querySelectorAll('[data-offer-expire]').forEach(el => {
+    const id = el.dataset.offerExpire;
+    const p = S.processingOffers[id];
+    if (p && p.readyToClaim && !p.claimed && !p.expired) {
+      const remaining = Math.max(0, CONFIG.CLAIM_WINDOW_TIME - (Date.now() - p.readyTime));
+      el.querySelector('.expire-countdown-text').textContent = `Expires in: ${formatTime(remaining)}`;
+    }
+  });
+  
+  // Update offer cooldown timers (the 5-minute lock after expire)
+  document.querySelectorAll('[data-offer-cooldown]').forEach(el => {
+    const id = el.dataset.offerCooldown;
+    const p = S.processingOffers[id];
+    if (p && p.expired && p.expiredAt) {
+      const remaining = Math.max(0, CONFIG.EXPIRED_COOLDOWN - (Date.now() - p.expiredAt));
+      if (remaining > 0) {
+        el.querySelector('.cooldown-countdown-text').textContent = `Available in: ${formatTime(remaining)}`;
+      } else {
+        // Time's up, re-render to unlock
+        renderOffers();
+      }
+    }
+  });
+  
+  // Update task expire timers
+  document.querySelectorAll('[data-task-expire]').forEach(el => {
+    const id = el.dataset.taskExpire;
+    const p = S.processingTasks[id];
+    if (p && p.readyToClaim && !p.claimed && !p.expired) {
+      const remaining = Math.max(0, CONFIG.CLAIM_WINDOW_TIME - (Date.now() - p.readyTime));
+      el.querySelector('.expire-countdown-text').textContent = `Expires in: ${formatTime(remaining)}`;
+    }
+  });
+}
+
 // ============================================================
 // AVATAR SYSTEM
 // ============================================================
 function renderAvatarGrid() {
   const grid = document.getElementById('avatarGrid');
   if (!grid) return;
+  
   grid.innerHTML = AVATARS.map(av => `
     <div class="av-option ${S.selectedAvatar===av.id?'selected':''}"
          style="background:${av.bg};"
@@ -2452,11 +2538,11 @@ function selectAvatar(id) {
   saveState();
   renderAvatarGrid();
   if (wasFirst) autoCompleteTask('avatar_set');
-  else showToast('Avatar updated!','success');
+  else showToast('Avatar updated!', 'success');
 }
 
 function applyAvatar(id) {
-  const av = AVATARS.find(a=>a.id===id);
+  const av = AVATARS.find(a => a.id === id);
   if (!av) return;
   
   const emojiEl = document.getElementById('profileAvatarEmoji');
@@ -2490,9 +2576,6 @@ function applyAvatar(id) {
   }
 }
 
-// ============================================================
-// PROFILE PICTURE UPLOAD
-// ============================================================
 function handleProfilePicUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -2513,7 +2596,7 @@ function handleProfilePicUpload(event) {
 }
 
 // ============================================================
-// NAME EDIT - PROFESSIONAL MODAL
+// PROFILE MANAGEMENT
 // ============================================================
 function editName() {
   const modal = document.getElementById('usernameModal');
@@ -2547,26 +2630,19 @@ function saveUsername() {
   errorEl.classList.remove('show');
   input.classList.remove('input-error');
   
-  S.username = newName;
+  S.username = sanitizeInput(newName);
   saveState();
   updateProfile();
   closeUsernameModal();
-  showToast('Username updated to ' + newName + '!', 'success');
+  showToast('Username updated to ' + S.username + '!', 'success');
 }
-
-document.getElementById('usernameEditInput')?.addEventListener('input', updateUsernameCharCount);
 
 function updateUsernameCharCount() {
   const input = document.getElementById('usernameEditInput');
   const count = document.getElementById('usernameCharCount');
-  if (input && count) {
-    count.textContent = input.value.length;
-  }
+  if (input && count) count.textContent = input.value.length;
 }
 
-// ============================================================
-// BIO EDIT
-// ============================================================
 function editBio() {
   const modal = document.getElementById('bioModal');
   const input = document.getElementById('bioInput');
@@ -2581,31 +2657,283 @@ function closeBioModal() {
 
 function saveBio() {
   const bio = document.getElementById('bioInput').value.trim();
-  S.bio = bio;
+  S.bio = sanitizeInput(bio);
   saveState();
   updateProfile();
   closeBioModal();
   
-  if (bio && !S.completedTasks['bio_add']) {
-    autoCompleteTask('bio_add');
-  } else {
-    showToast('Bio saved!', 'success');
-  }
+  if (bio && !S.completedTasks['bio_add']) autoCompleteTask('bio_add');
+  else showToast('Bio saved!', 'success');
 }
-
-document.getElementById('bioInput')?.addEventListener('input', updateBioCharCount);
 
 function updateBioCharCount() {
   const input = document.getElementById('bioInput');
   const count = document.getElementById('bioCharCount');
-  if (input && count) {
-    count.textContent = input.value.length;
+  if (input && count) count.textContent = input.value.length;
+}
+
+function updateProfile() {
+  const n = document.getElementById('profileNameDisplay');
+  const d = document.getElementById('profileJoinDate');
+  const bioText = document.getElementById('bioText');
+  const bioEditText = document.getElementById('bioEditText');
+  
+  if (n) n.textContent = S.username || 'User';
+  if (d) d.textContent = S.joinDate ? 'Joined ' + new Date(S.joinDate).toLocaleDateString() : 'Joined today';
+  
+  if (bioText) {
+    if (S.bio) {
+      bioText.textContent = S.bio;
+      bioText.classList.remove('empty');
+    } else {
+      bioText.textContent = 'No bio yet. Tell us about yourself!';
+      bioText.classList.add('empty');
+    }
+  }
+  if (bioEditText) bioEditText.textContent = S.bio ? 'Edit' : 'Add';
+  
+  applyAvatar(S.selectedAvatar || 'av1');
+  renderAvatarGrid();
+}
+
+// ============================================================
+// REDEEM SYSTEM
+// ============================================================
+function renderRewards() {
+  const c = document.getElementById('redeemGrid');
+  if (!c) return;
+  
+  const canWithdraw = canWithdrawFunds();
+  c.innerHTML = REWARDS.map(r => {
+    const afford = S.coins >= r.cost;
+    const locked = !canWithdraw;
+    const ic = (r.iconType === 'brand' ? 'fa-brands ' : 'fa-solid ') + r.icon;
+    return `
+      <div class="rdm-card ${(!afford||locked)?'disabled':''}" onclick="${(!afford||locked)?'':`openRedeemModal('${r.id}')`}">
+        ${locked?'<div class="lock-ov"><i class="fa-solid fa-lock"></i></div>':''}
+        <div class="rdm-ico" style="background:${r.color};"><i class="${ic}"></i></div>
+        <div class="rdm-name">${sanitizeInput(r.name)}</div>
+        <div class="rdm-cost"><i class="fa-solid fa-coins" style="color:var(--warning);"></i> ${r.cost.toLocaleString()}</div>
+      </div>`;
+  }).join('');
+}
+
+function canWithdrawFunds() {
+  if (!S.joinDate) return false;
+  const days = Math.floor((Date.now() - new Date(S.joinDate).getTime()) / 86400000);
+  return days >= CONFIG.WITHDRAWAL_DAYS && countDone() >= CONFIG.TOTAL_TASKS;
+}
+
+function updateRedeemStatus() {
+  const days = S.joinDate ? Math.floor((Date.now() - new Date(S.joinDate).getTime()) / 86400000) : 0;
+  const done = countDone();
+  
+  document.getElementById('daysActive').textContent = days + ' days';
+  document.getElementById('tasksCompletedCount').textContent = done + '/' + CONFIG.TOTAL_TASKS;
+
+  const tReq = document.getElementById('reqTime');
+  const tkReq = document.getElementById('reqTasks');
+  const wReq = document.getElementById('reqWithdraw');
+  
+  if (tReq && days >= CONFIG.WITHDRAWAL_DAYS) {
+    tReq.classList.remove('locked');
+    const ic = tReq.querySelector('i');
+    if (ic) { ic.className = 'fa-solid fa-circle-check'; ic.style.color = 'var(--success)'; }
+  }
+  if (tkReq && done >= CONFIG.TOTAL_TASKS) {
+    tkReq.classList.remove('locked');
+    const ic = tkReq.querySelector('i');
+    if (ic) { ic.className = 'fa-solid fa-circle-check'; ic.style.color = 'var(--success)'; }
+  }
+  if (wReq && canWithdrawFunds()) {
+    wReq.classList.remove('locked');
+    wReq.innerHTML = '<i class="fa-solid fa-lock-open" style="color:var(--success);width:24px;flex-shrink:0;"></i><span>Withdrawal unlocked!</span>';
+  }
+  renderRewards();
+}
+
+function openRedeemModal(id) {
+  if (!canWithdrawFunds()) {
+    showToast('Complete all requirements first!', 'error');
+    return;
+  }
+  const r = REWARDS.find(x => x.id === id);
+  if (!r) return;
+  
+  S.selectedReward = r;
+  const iEl = document.getElementById('redeemModalIcon');
+  const nEl = document.getElementById('redeemModalName');
+  const cEl = document.getElementById('redeemModalCost');
+  
+  if (iEl) {
+    iEl.style.background = r.color;
+    const ic = (r.iconType === 'brand' ? 'fa-brands ' : 'fa-solid ') + r.icon;
+    iEl.innerHTML = `<i class="${ic}"></i>`;
+  }
+  if (nEl) nEl.textContent = r.name;
+  if (cEl) cEl.textContent = r.cost.toLocaleString();
+  
+  document.getElementById('redeemModal').classList.add('active');
+}
+
+function closeRedeemModal() {
+  document.getElementById('redeemModal').classList.remove('active');
+  S.selectedReward = null;
+}
+
+function confirmRedeem() {
+  const email = document.getElementById('redeemEmail')?.value || '';
+  if (!email || !email.includes('@')) {
+    showToast('Please enter a valid email', 'error');
+    return;
+  }
+  if (!S.selectedReward) return;
+  if (S.coins < S.selectedReward.cost) {
+    showToast('Insufficient coins!', 'error');
+    return;
+  }
+  
+  S.coins -= S.selectedReward.cost;
+  addToHistory(S.selectedReward.cost, 'Redeemed: ' + S.selectedReward.name, 'redeem', true);
+  showToast('Redemption submitted! Check ' + email + ' soon.', 'success');
+  closeRedeemModal();
+  saveState();
+  updateUI();
+}
+
+// ============================================================
+// COINS & HISTORY
+// ============================================================
+function addCoins(amt, src) {
+  S.coins += amt;
+  const labels = {wheel: 'Daily Spin', offer: 'Offer Reward', task: 'Task Complete', bonus: 'Bonus'};
+  addToHistory(amt, labels[src] || src, src);
+  
+  if (S.coins >= 1000 && !S.completedTasks['big_spender']) autoCompleteTask('big_spender');
+  if (S.coins >= 5000 && !S.completedTasks['high_roller']) autoCompleteTask('high_roller');
+  if (S.coins >= 10000 && !S.completedTasks['super_saver']) autoCompleteTask('super_saver');
+  
+  saveState();
+  updateUI();
+}
+
+function addToHistory(amt, title, type, neg = false) {
+  S.history.unshift({
+    id: Date.now(),
+    amount: amt,
+    title: title,
+    type: type,
+    isNegative: neg,
+    time: new Date().toISOString()
+  });
+  if (S.history.length > 50) S.history.pop();
+  saveState();
+  renderHistory();
+  renderRecentActivity();
+}
+
+const HICONS = {offer: 'fa-fire', task: 'fa-circle-check', wheel: 'fa-dharmachakra', bonus: 'fa-gift', redeem: 'fa-gift'};
+const HCOLORS = {offer: '#6366f1', task: '#10b981', wheel: '#f59e0b', bonus: '#ec4899', redeem: '#ef4444'};
+
+function updateUI() {
+  const f = n => (n || 0).toLocaleString();
+  const headerCoins = document.getElementById('headerCoins');
+  const totalCoins = document.getElementById('totalCoins');
+  const spinsLeft = document.getElementById('spinsLeft');
+  const statOffers = document.getElementById('statOffers');
+  const statTasks = document.getElementById('statTasks');
+  const statSpins = document.getElementById('statSpins');
+  
+  if (headerCoins) headerCoins.textContent = f(S.coins);
+  if (totalCoins) totalCoins.textContent = f(S.coins);
+  if (spinsLeft) spinsLeft.textContent = S.spinsLeft || 0;
+  if (statOffers) statOffers.textContent = S.offersCompleted || 0;
+  if (statTasks) statTasks.textContent = countDone();
+  if (statSpins) statSpins.textContent = S.totalSpins || 0;
+  
+  updateSpinButton();
+}
+
+function renderHistory() {
+  const c = document.getElementById('historyList');
+  if (!c) return;
+  
+  if (!S.history.length) {
+    c.innerHTML = '<div class="empty-s"><i class="fa-solid fa-receipt"></i><div>No transactions yet</div></div>';
+    return;
+  }
+  
+  c.innerHTML = S.history.slice(0, 20).map(item => {
+    const d = new Date(item.time);
+    const ts = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+    return `
+      <div class="hist-item">
+        <div class="hist-ico" style="background:${HCOLORS[item.type]||'#6366f1'};"><i class="fa-solid ${HICONS[item.type]||'fa-coins'}"></i></div>
+        <div class="hist-con">
+          <div class="hist-ttl">${sanitizeInput(item.title)}</div>
+          <div class="hist-time">${ts}</div>
+        </div>
+        <div class="hist-amt ${item.isNegative?'neg':''}">${item.isNegative?'-':'+'} ${item.amount.toLocaleString()}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderRecentActivity() {
+  const c = document.getElementById('recentActivity');
+  if (!c) return;
+  
+  const recent = S.history.slice(0, 3);
+  if (!recent.length) return;
+  
+  c.innerHTML = recent.map(item => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-light);">
+      <div style="width:40px;height:40px;background:var(--primary-soft);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--primary);">
+        <i class="fa-solid ${HICONS[item.type]||'fa-coins'}"></i>
+      </div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:.9375rem;">${sanitizeInput(item.title)}</div>
+        <div style="font-size:.75rem;color:var(--gray);">Recently</div>
+      </div>
+      <div style="font-weight:700;color:${item.isNegative?'var(--danger)':'var(--success)'}">
+        ${item.isNegative?'-':'+'} ${item.amount.toLocaleString()}
+      </div>
+    </div>`).join('');
+}
+
+function clearHistory() {
+  if (confirm('Clear all history?')) {
+    S.history = [];
+    saveState();
+    renderHistory();
+    showToast('History cleared', 'info');
   }
 }
 
 // ============================================================
-// DELETE ACCOUNT
+// MISC FUNCTIONS
 // ============================================================
+function openGame(gameId) {
+  const gameNames = {
+    'coin-clicker': 'Coin Clicker',
+    'memory-match': 'Memory Match',
+    'color-match': 'Color Match',
+    'math-rush': 'Math Rush',
+    'reaction-time': 'Reaction Time',
+    'puzzle-solve': 'Puzzle Solve'
+  };
+  autoCompleteTask('play_game_1');
+  showToast(`${gameNames[gameId]} coming soon!`, 'info');
+}
+
+function contactSupport() {
+  showActLoader('fa-envelope', 'Opening Support', 'Preparing email to support...');
+  setTimeout(() => {
+    hideActLoader();
+    window.location.href = 'mailto:support@sillyprize.com?subject=Support%20Request&body=Hi%20Silly%20Prize%20Team%2C';
+    showToast('Opening email app...', 'info');
+  }, 1200);
+}
+
 function showDeleteModal() {
   document.getElementById('deleteModal').classList.add('active');
   document.getElementById('deleteConfirmInput').value = '';
@@ -2622,207 +2950,9 @@ function confirmDeleteAccount() {
     return;
   }
   
-  localStorage.removeItem('sillyPrize_v7');
+  localStorage.removeItem(CONFIG.STORAGE_KEY);
   showToast('Account deleted. Goodbye!', 'info');
-  
-  setTimeout(() => {
-    location.reload();
-  }, 1500);
-}
-
-// ============================================================
-// SUPPORT
-// ============================================================
-function contactSupport() {
-  showActLoader('fa-envelope','Opening Support','Preparing email to support...');
-  setTimeout(()=>{
-    hideActLoader();
-    window.location.href = 'mailto:support@sillyprize.com?subject=Support%20Request&body=Hi%20Silly%20Prize%20Team%2C';
-    showToast('Opening email app...','info');
-  }, 1200);
-}
-
-// ============================================================
-// REDEEM
-// ============================================================
-function renderRewards() {
-  const c = document.getElementById('redeemGrid');
-  if (!c) return;
-  const cw = canWithdrawFunds();
-  c.innerHTML = REWARDS.map(r => {
-    const afford = S.coins >= r.cost;
-    const locked = !cw;
-    const ic = (r.iconType==='brand'?'fa-brands ':'fa-solid ') + r.icon;
-    return `
-      <div class="rdm-card ${(!afford||locked)?'disabled':''}" onclick="${(!afford||locked)?'':`openRedeemModal('${r.id}')`}">
-        ${locked?'<div class="lock-ov"><i class="fa-solid fa-lock"></i></div>':''}
-        <div class="rdm-ico" style="background:${r.color};"><i class="${ic}"></i></div>
-        <div class="rdm-name">${r.name}</div>
-        <div class="rdm-cost"><i class="fa-solid fa-coins" style="color:var(--warning);"></i> ${r.cost.toLocaleString()}</div>
-      </div>`;
-  }).join('');
-}
-
-function canWithdrawFunds() {
-  if (!S.joinDate) return false;
-  const days = Math.floor((Date.now()-new Date(S.joinDate).getTime())/86400000);
-  return days >= WITHDRAWAL_DAYS && countDone() >= TOTAL_TASKS;
-}
-
-function updateRedeemStatus() {
-  const days = S.joinDate ? Math.floor((Date.now()-new Date(S.joinDate).getTime())/86400000) : 0;
-  const done = countDone();
-  const dEl = document.getElementById('daysActive');
-  const tEl = document.getElementById('tasksCompletedCount');
-  if (dEl) dEl.textContent = days+' days';
-  if (tEl) tEl.textContent = done+'/'+TOTAL_TASKS;
-
-  const tReq = document.getElementById('reqTime');
-  const tkReq = document.getElementById('reqTasks');
-  const wReq = document.getElementById('reqWithdraw');
-  if (tReq && days>=WITHDRAWAL_DAYS) {
-    tReq.classList.remove('locked');
-    const ic=tReq.querySelector('i'); if(ic){ic.className='fa-solid fa-circle-check';ic.style.color='var(--success)';}
-  }
-  if (tkReq && done>=TOTAL_TASKS) {
-    tkReq.classList.remove('locked');
-    const ic=tkReq.querySelector('i'); if(ic){ic.className='fa-solid fa-circle-check';ic.style.color='var(--success)';}
-  }
-  if (wReq && canWithdrawFunds()) {
-    wReq.classList.remove('locked');
-    wReq.innerHTML='<i class="fa-solid fa-lock-open" style="color:var(--success);width:24px;flex-shrink:0;"></i><span>Withdrawal unlocked!</span>';
-  }
-  renderRewards();
-}
-
-function openRedeemModal(id) {
-  if (!canWithdrawFunds()) { showToast('Complete all requirements first!','error'); return; }
-  const r = REWARDS.find(x=>x.id===id);
-  if (!r) return;
-  S.selectedReward = r;
-  const iEl=document.getElementById('redeemModalIcon');
-  const nEl=document.getElementById('redeemModalName');
-  const cEl=document.getElementById('redeemModalCost');
-  if (iEl) {
-    iEl.style.background = r.color;
-    const ic=(r.iconType==='brand'?'fa-brands ':'fa-solid ')+r.icon;
-    iEl.innerHTML = `<i class="${ic}"></i>`;
-  }
-  if (nEl) nEl.textContent = r.name;
-  if (cEl) cEl.textContent = r.cost.toLocaleString();
-  document.getElementById('redeemModal').classList.add('active');
-}
-
-function closeRedeemModal() {
-  document.getElementById('redeemModal').classList.remove('active');
-  S.selectedReward = null;
-}
-
-function confirmRedeem() {
-  const email = (document.getElementById('redeemEmail')||{}).value || '';
-  if (!email||!email.includes('@')) { showToast('Please enter a valid email','error'); return; }
-  if (!S.selectedReward) return;
-  if (S.coins < S.selectedReward.cost) { showToast('Insufficient coins!','error'); return; }
-  S.coins -= S.selectedReward.cost;
-  addToHistory(S.selectedReward.cost,'Redeemed: '+S.selectedReward.name,'redeem',true);
-  showToast('Redemption submitted! Check '+email+' soon.','success');
-  closeRedeemModal(); saveState(); updateUI();
-}
-
-// ============================================================
-// COINS & HISTORY
-// ============================================================
-function addCoins(amt, src) {
-  S.coins += amt;
-  const labels = {wheel:'Daily Spin',offer:'Offer Reward',task:'Task Complete',bonus:'Bonus'};
-  addToHistory(amt, labels[src]||src, src);
-  
-  // Check coin-based tasks
-  if (S.coins >= 1000 && !S.completedTasks['big_spender']) autoCompleteTask('big_spender');
-  if (S.coins >= 5000 && !S.completedTasks['high_roller']) autoCompleteTask('high_roller');
-  if (S.coins >= 10000 && !S.completedTasks['super_saver']) autoCompleteTask('super_saver');
-  
-  saveState(); updateUI();
-}
-
-function addToHistory(amt, title, type, neg=false) {
-  S.history.unshift({id:Date.now(),amount:amt,title,type,isNegative:neg,time:new Date().toISOString()});
-  if (S.history.length > 50) S.history.pop();
-  saveState(); renderHistory(); renderRecentActivity();
-}
-
-const HICONS = {offer:'fa-fire',task:'fa-circle-check',wheel:'fa-dharmachakra',bonus:'fa-gift',redeem:'fa-gift'};
-const HCOLORS = {offer:'#6366f1',task:'#10b981',wheel:'#f59e0b',bonus:'#ec4899',redeem:'#ef4444'};
-
-function updateUI() {
-  const $=id=>document.getElementById(id);
-  const f=n=>(n||0).toLocaleString();
-  if($('headerCoins')) $('headerCoins').textContent=f(S.coins);
-  if($('totalCoins')) $('totalCoins').textContent=f(S.coins);
-  if($('spinsLeft')) $('spinsLeft').textContent=S.spinsLeft||0;
-  if($('statOffers')) $('statOffers').textContent=S.offersCompleted||0;
-  if($('statTasks')) $('statTasks').textContent=countDone();
-  if($('statSpins')) $('statSpins').textContent=S.totalSpins||0;
-  updateSpinButton();
-}
-
-function updateProfile() {
-  const n=document.getElementById('profileNameDisplay');
-  const d=document.getElementById('profileJoinDate');
-  const bioText=document.getElementById('bioText');
-  const bioEditText=document.getElementById('bioEditText');
-  
-  if(n) n.textContent=S.username||'User';
-  if(d) d.textContent=S.joinDate?'Joined '+new Date(S.joinDate).toLocaleDateString():'Joined today';
-  
-  if (bioText) {
-    if (S.bio) {
-      bioText.textContent = S.bio;
-      bioText.classList.remove('empty');
-    } else {
-      bioText.textContent = 'No bio yet. Tell us about yourself!';
-      bioText.classList.add('empty');
-    }
-  }
-  if (bioEditText) bioEditText.textContent = S.bio ? 'Edit' : 'Add';
-  
-  applyAvatar(S.selectedAvatar||'av1');
-  renderAvatarGrid();
-}
-
-function renderHistory() {
-  const c=document.getElementById('historyList');
-  if (!c) return;
-  if (!S.history.length) { c.innerHTML='<div class="empty-s"><i class="fa-solid fa-receipt"></i><div>No transactions yet</div></div>'; return; }
-  c.innerHTML = S.history.slice(0,20).map(item => {
-    const d=new Date(item.time);
-    const ts=d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    return `
-      <div class="hist-item">
-        <div class="hist-ico" style="background:${HCOLORS[item.type]||'#6366f1'};"><i class="fa-solid ${HICONS[item.type]||'fa-coins'}"></i></div>
-        <div class="hist-con"><div class="hist-ttl">${item.title}</div><div class="hist-time">${ts}</div></div>
-        <div class="hist-amt ${item.isNegative?'neg':''}">${item.isNegative?'-':'+'} ${item.amount.toLocaleString()}</div>
-      </div>`;
-  }).join('');
-}
-
-function renderRecentActivity() {
-  const c=document.getElementById('recentActivity');
-  if (!c) return;
-  const recent=S.history.slice(0,3);
-  if (!recent.length) return;
-  c.innerHTML = recent.map(item => `
-    <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-light);">
-      <div style="width:40px;height:40px;background:var(--primary-soft);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--primary);">
-        <i class="fa-solid ${HICONS[item.type]||'fa-coins'}"></i>
-      </div>
-      <div style="flex:1;"><div style="font-weight:600;font-size:.9375rem;">${item.title}</div><div style="font-size:.75rem;color:var(--gray);">Recently</div></div>
-      <div style="font-weight:700;color:${item.isNegative?'var(--danger)':'var(--success)'}">${item.isNegative?'-':'+'} ${item.amount.toLocaleString()}</div>
-    </div>`).join('');
-}
-
-function clearHistory() {
-  if (confirm('Clear all history?')) { S.history=[]; saveState(); renderHistory(); showToast('History cleared','info'); }
+  setTimeout(() => location.reload(), 1500);
 }
 
 function logout() {
@@ -2830,39 +2960,46 @@ function logout() {
 }
 
 // ============================================================
-// ACTION LOADER
+// UI HELPERS
 // ============================================================
 function showActLoader(icon, title, sub) {
-  const ov=document.getElementById('actLoader');
-  const ic=document.getElementById('actLoaderIco');
-  const tl=document.getElementById('actLoaderTitle');
-  const sb=document.getElementById('actLoaderSub');
-  if(ic) ic.className='fa-solid '+icon;
-  if(tl) tl.textContent=title;
-  if(sb) sb.textContent=sub;
-  if(ov) ov.classList.add('active');
-}
-function hideActLoader() {
-  const ov=document.getElementById('actLoader');
-  if(ov) ov.classList.remove('active');
+  const ov = document.getElementById('actLoader');
+  const ic = document.getElementById('actLoaderIco');
+  const tl = document.getElementById('actLoaderTitle');
+  const sb = document.getElementById('actLoaderSub');
+  
+  if (ic) ic.className = 'fa-solid ' + icon;
+  if (tl) tl.textContent = title;
+  if (sb) sb.textContent = sub;
+  if (ov) ov.classList.add('active');
 }
 
-// ============================================================
-// TOAST
-// ============================================================
-function showToast(msg, type='info') {
-  const c=document.getElementById('toastContainer');
+function hideActLoader() {
+  const ov = document.getElementById('actLoader');
+  if (ov) ov.classList.remove('active');
+}
+
+function showToast(msg, type = 'info') {
+  const c = document.getElementById('toastContainer');
   if (!c) return;
-  const icons={success:'fa-circle-check',error:'fa-circle-exclamation',warning:'fa-triangle-exclamation',info:'fa-circle-info'};
-  const t=document.createElement('div');
-  t.className='toast '+type;
-  t.innerHTML=`<i class="fa-solid ${icons[type]||icons.info}"></i><span>${msg}</span>`;
+  
+  const icons = {
+    success: 'fa-circle-check',
+    error: 'fa-circle-exclamation',
+    warning: 'fa-triangle-exclamation',
+    info: 'fa-circle-info'
+  };
+  
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = `<i class="fa-solid ${icons[type]||icons.info}"></i><span>${sanitizeInput(msg)}</span>`;
   c.appendChild(t);
-  setTimeout(()=>{
-    t.style.transition='opacity .3s,transform .3s';
-    t.style.opacity='0';
-    t.style.transform='translateY(-10px)';
-    setTimeout(()=>t.remove(),320);
+  
+  setTimeout(() => {
+    t.style.transition = 'opacity .3s,transform .3s';
+    t.style.opacity = '0';
+    t.style.transform = 'translateY(-10px)';
+    setTimeout(() => t.remove(), 320);
   }, 3000);
 }
 </script>
