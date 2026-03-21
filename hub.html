@@ -655,7 +655,10 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:.875rem;font-weight:600;">
         <span style="color:var(--gray);" id="taskProgressText">0/60 completed</span>
-        <span style="color:var(--success);">+100 bonus</span>
+        <span style="color:var(--success);" id="bonusStatusText">+100 bonus</span>
+      </div>
+      <div id="bonusClaimContainer" style="margin-top:12px;display:none;">
+        <button class="obtn obtn-claim" onclick="claimAllBonus()" style="width:100%;">Claim 100 Coins Bonus <i class="fa-solid fa-coins"></i></button>
       </div>
     </div>
   </div>
@@ -744,7 +747,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
   <div class="card">
     <div class="card-title" style="margin-bottom:16px;"><i class="fa-solid fa-image-portrait"></i> Choose Avatar</div>
     <div class="avatar-grid" id="avatarGrid"></div>
-    <div style="font-size:.8rem;color:var(--gray);text-align:center;margin-top:4px;">Tap an avatar to select it. You'll earn <strong>+60 coins</strong> on first selection.</div>
+    <div style="font-size:.8rem;color:var(--gray);text-align:center;margin-top:4px;">Tap an avatar to select it.</div>
   </div>
 
   <div class="card">
@@ -804,7 +807,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
       <div class="proc-text">Share with 20 Friends</div>
       <div class="share-info">
         <i class="fa-solid fa-circle-info"></i>
-        <p>You will receive your 500 coins when you share the app with your friends without any problems!</p>
+        <p>You will receive your 200 coins when you share the app with your friends without any problems!</p>
       </div>
       <div class="share-timer" id="shareTimer">
         <i class="fa-solid fa-clock"></i>
@@ -971,102 +974,101 @@ const WHEEL_SEGMENTS = [
 ];
 
 const TASKS = [
-  // Daily & Time-based
-  {id:'daily_login', title:'Daily Login', description:'Open the app today', reward:50, icon:'fa-calendar-check', color:'#3b82f6', type:'auto', auto:true},
-  {id:'spin_wheel', title:'Daily Spin', description:'Use your daily spin', reward:100, icon:'fa-dharmachakra', color:'#f59e0b', type:'auto', auto:true},
-  {id:'share_app', title:'Share with 20', description:'Share the app with 20 friends', reward:500, icon:'fa-share-nodes', color:'#10b981', type:'share'},
-  {id:'screen_time_5', title:'5 Min Active', description:'Stay active for 5 minutes', reward:30, icon:'fa-mobile-screen', color:'#6366f1', type:'auto', auto:true, timeReq:5},
-  {id:'screen_time_15', title:'15 Min Active', description:'Stay active for 15 minutes', reward:75, icon:'fa-clock', color:'#8b5cf6', type:'auto', auto:true, timeReq:15},
-  {id:'screen_time_30', title:'30 Min Active', description:'Stay active for 30 minutes', reward:150, icon:'fa-hourglass-half', color:'#ec4899', type:'auto', auto:true, timeReq:30},
-  {id:'screen_time_60', title:'1 Hour Active', description:'Stay active for 1 hour', reward:300, icon:'fa-hourglass', color:'#f59e0b', type:'auto', auto:true, timeReq:60},
+  // Daily & Time-based (Silly - max 10)
+  {id:'daily_login', title:'Daily Login', description:'Open the app today', reward:10, icon:'fa-calendar-check', color:'#3b82f6', type:'auto', auto:true},
+  {id:'spin_wheel', title:'Daily Spin', description:'Use your daily spin', reward:10, icon:'fa-dharmachakra', color:'#f59e0b', type:'auto', auto:true},
+  {id:'share_app', title:'Share with 20', description:'Share the app with 20 friends', reward:200, icon:'fa-share-nodes', color:'#10b981', type:'share'},
+  {id:'screen_time_5', title:'5 Min Active', description:'Stay active for 5 minutes', reward:10, icon:'fa-mobile-screen', color:'#6366f1', type:'auto', auto:true, timeReq:5},
+  {id:'screen_time_15', title:'15 Min Active', description:'Stay active for 15 minutes', reward:50, icon:'fa-clock', color:'#8b5cf6', type:'auto', auto:true, timeReq:15},
+  {id:'screen_time_30', title:'30 Min Active', description:'Stay active for 30 minutes', reward:50, icon:'fa-hourglass-half', color:'#ec4899', type:'auto', auto:true, timeReq:30},
+  {id:'screen_time_60', title:'1 Hour Active', description:'Stay active for 1 hour', reward:50, icon:'fa-hourglass', color:'#f59e0b', type:'auto', auto:true, timeReq:60},
   
-  // Streak Tasks
-  {id:'streak_2', title:'2-Day Streak', description:'Login 2 days in a row', reward:100, icon:'fa-fire', color:'#f97316', type:'auto', auto:true},
-  {id:'streak_3', title:'3-Day Streak', description:'Login 3 days in a row', reward:300, icon:'fa-fire-flame-curved', color:'#ef4444', type:'auto', auto:true},
-  {id:'streak_4', title:'4-Day Streak', description:'Login 4 days in a row', reward:500, icon:'fa-fire-flame-simple', color:'#dc2626', type:'auto', auto:true},
-  {id:'streak_7', title:'Week Warrior', description:'Login 7 days in a row', reward:1000, icon:'fa-trophy', color:'#f59e0b', type:'auto', auto:true},
-  {id:'streak_14', title:'2-Week Streak', description:'Login 14 days in a row', reward:1500, icon:'fa-calendar-check', color:'#f59e0b', type:'auto', auto:true},
-  {id:'streak_30', title:'Month Streak', description:'Login 30 days in a row', reward:3000, icon:'fa-calendar-days', color:'#f59e0b', type:'auto', auto:true},
+  // Streak Tasks (Regular - max 50)
+  {id:'streak_2', title:'2-Day Streak', description:'Login 2 days in a row', reward:50, icon:'fa-fire', color:'#f97316', type:'auto', auto:true},
+  {id:'streak_3', title:'3-Day Streak', description:'Login 3 days in a row', reward:50, icon:'fa-fire-flame-curved', color:'#ef4444', type:'auto', auto:true},
+  {id:'streak_4', title:'4-Day Streak', description:'Login 4 days in a row', reward:50, icon:'fa-fire-flame-simple', color:'#dc2626', type:'auto', auto:true},
+  {id:'streak_7', title:'Week Warrior', description:'Login 7 days in a row', reward:50, icon:'fa-trophy', color:'#f59e0b', type:'auto', auto:true},
+  {id:'streak_14', title:'2-Week Streak', description:'Login 14 days in a row', reward:50, icon:'fa-calendar-check', color:'#f59e0b', type:'auto', auto:true},
+  {id:'streak_30', title:'Month Streak', description:'Login 30 days in a row', reward:50, icon:'fa-calendar-days', color:'#f59e0b', type:'auto', auto:true},
   
-  // Ad Tasks
-  {id:'ad_watch_1', title:'Watch Ad #1', description:'Watch a short advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
-  {id:'ad_watch_2', title:'Watch Ad #2', description:'Watch another advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
-  {id:'ad_watch_3', title:'Watch Ad #3', description:'Watch third advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
-  {id:'ad_watch_4', title:'Watch Ad #4', description:'Watch another advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
-  {id:'ad_watch_5', title:'Watch Ad #5', description:'Watch fifth advertisement', reward:50, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  // Ad Tasks (Watch ads - 300)
+  {id:'ad_watch_1', title:'Watch Ad #1', description:'Watch a short advertisement', reward:300, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_2', title:'Watch Ad #2', description:'Watch another advertisement', reward:300, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_3', title:'Watch Ad #3', description:'Watch third advertisement', reward:300, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_4', title:'Watch Ad #4', description:'Watch another advertisement', reward:300, icon:'fa-circle-play', color:'#ef4444', type:'action'},
+  {id:'ad_watch_5', title:'Watch Ad #5', description:'Watch fifth advertisement', reward:300, icon:'fa-circle-play', color:'#ef4444', type:'action'},
   
-  // Offer Tasks
-  {id:'complete_offer', title:'Complete Any Offer', description:'Finish any hot offer', reward:100, icon:'fa-check-double', color:'#6366f1', type:'auto', auto:true},
-  {id:'complete_3_offers', title:'Complete 3 Offers', description:'Finish 3 offers successfully', reward:300, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:3},
-  {id:'complete_5_offers', title:'Complete 5 Offers', description:'Finish 5 offers successfully', reward:500, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:5},
-  {id:'complete_10_offers', title:'Complete 10 Offers', description:'Finish 10 offers successfully', reward:1000, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:10},
-  {id:'offer_master', title:'Offer Master', description:'Complete 20 offers total', reward:1500, icon:'fa-crown', color:'#f59e0b', type:'auto', auto:true},
+  // Offer Tasks (Regular - max 50)
+  {id:'complete_offer', title:'Complete Any Offer', description:'Finish any hot offer', reward:50, icon:'fa-check-double', color:'#6366f1', type:'auto', auto:true},
+  {id:'complete_3_offers', title:'Complete 3 Offers', description:'Finish 3 offers successfully', reward:50, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:3},
+  {id:'complete_5_offers', title:'Complete 5 Offers', description:'Finish 5 offers successfully', reward:50, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:5},
+  {id:'complete_10_offers', title:'Complete 10 Offers', description:'Finish 10 offers successfully', reward:50, icon:'fa-fire', color:'#f97316', type:'auto', auto:true, countRequired:10},
+  {id:'offer_master', title:'Offer Master', description:'Complete 20 offers total', reward:50, icon:'fa-crown', color:'#f59e0b', type:'auto', auto:true},
   
-  // Time-based
-  {id:'morning_check', title:'Early Bird', description:'Open app before 9 AM', reward:40, icon:'fa-sun', color:'#fbbf24', type:'auto', auto:true},
-  {id:'night_check', title:'Night Owl', description:'Open app after 8 PM', reward:40, icon:'fa-moon', color:'#4c1d95', type:'auto', auto:true},
-  {id:'night_owl_late', title:'Midnight Owl', description:'Open app after 11 PM', reward:50, icon:'fa-moon', color:'#1e1b4b', type:'auto', auto:true},
-  {id:'early_bird_early', title:'Rise & Shine', description:'Open app before 6 AM', reward:50, icon:'fa-sun', color:'#fbbf24', type:'auto', auto:true},
-  {id:'lucky_day', title:'Lucky Sunday', description:'Open app on Sunday', reward:100, icon:'fa-clover', color:'#22c55e', type:'auto', auto:true},
-  {id:'weekend_warrior', title:'Weekend Warrior', description:'Open app on Saturday', reward:75, icon:'fa-calendar-day', color:'#ec4899', type:'auto', auto:true},
+  // Time-based (Silly - max 10)
+  {id:'morning_check', title:'Early Bird', description:'Open app before 9 AM', reward:10, icon:'fa-sun', color:'#fbbf24', type:'auto', auto:true},
+  {id:'night_check', title:'Night Owl', description:'Open app after 8 PM', reward:10, icon:'fa-moon', color:'#4c1d95', type:'auto', auto:true},
+  {id:'night_owl_late', title:'Midnight Owl', description:'Open app after 11 PM', reward:10, icon:'fa-moon', color:'#1e1b4b', type:'auto', auto:true},
+  {id:'early_bird_early', title:'Rise & Shine', description:'Open app before 6 AM', reward:10, icon:'fa-sun', color:'#fbbf24', type:'auto', auto:true},
+  {id:'lucky_day', title:'Lucky Sunday', description:'Open app on Sunday', reward:10, icon:'fa-clover', color:'#22c55e', type:'auto', auto:true},
+  {id:'weekend_warrior', title:'Weekend Warrior', description:'Open app on Saturday', reward:10, icon:'fa-calendar-day', color:'#ec4899', type:'auto', auto:true},
   
-  // Spin Tasks
-  {id:'first_spin', title:'First Spin', description:'Spin the wheel for first time', reward:25, icon:'fa-dharmachakra', color:'#f59e0b', type:'auto', auto:true},
-  {id:'wheel_2x', title:'Double Spin', description:'Spin the wheel twice', reward:60, icon:'fa-rotate', color:'#f59e0b', type:'auto', auto:true},
-  {id:'spin_master', title:'Spin Master', description:'Spin the wheel 10 times', reward:150, icon:'fa-rotate', color:'#f59e0b', type:'auto', auto:true},
+  // Spin Tasks (Regular - max 50)
+  {id:'first_spin', title:'First Spin', description:'Spin the wheel for first time', reward:10, icon:'fa-dharmachakra', color:'#f59e0b', type:'auto', auto:true},
+  {id:'wheel_2x', title:'Double Spin', description:'Spin the wheel twice', reward:50, icon:'fa-rotate', color:'#f59e0b', type:'auto', auto:true},
+  {id:'spin_master', title:'Spin Master', description:'Spin the wheel 10 times', reward:50, icon:'fa-rotate', color:'#f59e0b', type:'auto', auto:true},
   
-  // Social Tasks
-  {id:'social_follow', title:'Follow Us', description:'Follow us on social media', reward:80, icon:'fa-hashtag', color:'#0ea5e9', type:'action'},
-  {id:'social_share', title:'Social Share', description:'Share on your social media', reward:100, icon:'fa-share', color:'#0ea5e9', type:'action'},
-  {id:'share_app_2', title:'Share Again', description:'Share the app with more friends', reward:300, icon:'fa-share-nodes', color:'#10b981', type:'share'},
-  {id:'rate_app', title:'Rate App', description:'Give us 5 stars rating', reward:120, icon:'fa-star', color:'#fbbf24', type:'action'},
-  {id:'feedback', title:'Send Feedback', description:'Submit your feedback', reward:90, icon:'fa-comment-dots', color:'#8b5cf6', type:'action'},
-  {id:'feedback_2', title:'Detailed Feedback', description:'Send detailed suggestions', reward:150, icon:'fa-comments', color:'#8b5cf6', type:'action'},
+  // Social Tasks (Regular - max 50)
+  {id:'social_follow', title:'Follow Us', description:'Follow us on social media', reward:50, icon:'fa-hashtag', color:'#0ea5e9', type:'action'},
+  {id:'social_share', title:'Social Share', description:'Share on your social media', reward:50, icon:'fa-share', color:'#0ea5e9', type:'action'},
+  {id:'share_app_2', title:'Share Again', description:'Share the app with more friends', reward:200, icon:'fa-share-nodes', color:'#10b981', type:'share'},
+  {id:'rate_app', title:'Rate App', description:'Give us 5 stars rating', reward:50, icon:'fa-star', color:'#fbbf24', type:'action'},
+  {id:'feedback', title:'Send Feedback', description:'Submit your feedback', reward:50, icon:'fa-comment-dots', color:'#8b5cf6', type:'action'},
+  {id:'feedback_2', title:'Detailed Feedback', description:'Send detailed suggestions', reward:50, icon:'fa-comments', color:'#8b5cf6', type:'action'},
   
-  // Profile Tasks
-  {id:'tutorial', title:'Complete Tutorial', description:'Finish the onboarding', reward:50, icon:'fa-graduation-cap', color:'#10b981', type:'auto', auto:true},
-  {id:'avatar_set', title:'Set Avatar', description:'Choose a profile avatar', reward:60, icon:'fa-image-portrait', color:'#8b5cf6', type:'auto', auto:true},
-  {id:'bio_add', title:'Add Bio', description:'Write a short bio', reward:40, icon:'fa-pen', color:'#64748b', type:'auto', auto:true},
-  {id:'contact_support', title:'Contact Support', description:'Reach out to our support team', reward:20, icon:'fa-headset', color:'#6366f1', type:'action'},
-  {id:'first_redeem_attempt', title:'Check Rewards', description:'Visit redeem page', reward:25, icon:'fa-eye', color:'#6366f1', type:'auto', auto:true},
-  {id:'push_enable', title:'Enable Notifications', description:'Turn on push notifications', reward:75, icon:'fa-bell', color:'#f59e0b', type:'action'},
+  // Profile Tasks (Silly - max 10)
+  {id:'tutorial', title:'Complete Tutorial', description:'Finish the onboarding', reward:10, icon:'fa-graduation-cap', color:'#10b981', type:'auto', auto:true},
+  {id:'bio_add', title:'Add Bio', description:'Write a short bio', reward:10, icon:'fa-pen', color:'#64748b', type:'auto', auto:true},
+  {id:'contact_support', title:'Contact Support', description:'Reach out to our support team', reward:10, icon:'fa-headset', color:'#6366f1', type:'action'},
+  {id:'first_redeem_attempt', title:'Check Rewards', description:'Visit redeem page', reward:10, icon:'fa-eye', color:'#6366f1', type:'auto', auto:true},
+  {id:'push_enable', title:'Enable Notifications', description:'Turn on push notifications', reward:50, icon:'fa-bell', color:'#f59e0b', type:'action'},
   
-  // Game Tasks
-  {id:'play_game_1', title:'Play Mini Game', description:'Play any mini game', reward:40, icon:'fa-gamepad', color:'#8b5cf6', type:'action'},
-  {id:'play_game_2', title:'Game Master', description:'Play 5 different mini games', reward:200, icon:'fa-gamepad', color:'#8b5cf6', type:'action'},
+  // Game Tasks (Regular - max 50)
+  {id:'play_game_1', title:'Play Mini Game', description:'Play any mini game', reward:10, icon:'fa-gamepad', color:'#8b5cf6', type:'action'},
+  {id:'play_game_2', title:'Game Master', description:'Play 5 different mini games', reward:50, icon:'fa-gamepad', color:'#8b5cf6', type:'action'},
   
-  // Coin Tasks
+  // Coin Tasks (Regular - max 50)
   {id:'big_spender', title:'Save Coins', description:'Have 1000+ coins', reward:50, icon:'fa-piggy-bank', color:'#ec4899', type:'counted'},
-  {id:'high_roller', title:'High Roller', description:'Have 5000+ coins', reward:100, icon:'fa-coins', color:'#fbbf24', type:'counted'},
-  {id:'super_saver', title:'Super Saver', description:'Have 10000+ coins', reward:200, icon:'fa-vault', color:'#fbbf24', type:'counted'},
-  {id:'coin_collector', title:'Coin Collector', description:'Earn 1000 coins in one day', reward:100, icon:'fa-coins', color:'#fbbf24', type:'auto', auto:true},
-  {id:'daily_streak_5', title:'5-Day Streak', description:'Login 5 days straight', reward:200, icon:'fa-fire', color:'#f97316', type:'auto', auto:true},
-  {id:'task_master', title:'Task Master', description:'Complete 30 tasks', reward:500, icon:'fa-list-check', color:'#10b981', type:'auto', auto:true},
+  {id:'high_roller', title:'High Roller', description:'Have 5000+ coins', reward:50, icon:'fa-coins', color:'#fbbf24', type:'counted'},
+  {id:'super_saver', title:'Super Saver', description:'Have 10000+ coins', reward:50, icon:'fa-vault', color:'#fbbf24', type:'counted'},
+  {id:'coin_collector', title:'Coin Collector', description:'Earn 1000 coins in one day', reward:50, icon:'fa-coins', color:'#fbbf24', type:'auto', auto:true},
+  {id:'daily_streak_5', title:'5-Day Streak', description:'Login 5 days straight', reward:50, icon:'fa-fire', color:'#f97316', type:'auto', auto:true},
+  {id:'task_master', title:'Task Master', description:'Complete 30 tasks', reward:50, icon:'fa-list-check', color:'#10b981', type:'auto', auto:true},
   
-  // Invite Tasks
-  {id:'invite_friend_1', title:'Invite Friend #1', description:'Invite a friend to join', reward:200, icon:'fa-user-plus', color:'#10b981', type:'action'},
-  {id:'invite_friend_2', title:'Invite Friend #2', description:'Invite another friend', reward:200, icon:'fa-user-plus', color:'#10b981', type:'action'},
-  {id:'invite_friend_3', title:'Invite Friend #3', description:'Invite third friend', reward:200, icon:'fa-user-plus', color:'#10b981', type:'action'},
+  // Invite Tasks (Regular - max 50)
+  {id:'invite_friend_1', title:'Invite Friend #1', description:'Invite a friend to join', reward:50, icon:'fa-user-plus', color:'#10b981', type:'action'},
+  {id:'invite_friend_2', title:'Invite Friend #2', description:'Invite another friend', reward:50, icon:'fa-user-plus', color:'#10b981', type:'action'},
+  {id:'invite_friend_3', title:'Invite Friend #3', description:'Invite third friend', reward:50, icon:'fa-user-plus', color:'#10b981', type:'action'},
   
-  // Content Tasks
-  {id:'watch_video_1', title:'Watch Video #1', description:'Watch video content', reward:40, icon:'fa-film', color:'#f59e0b', type:'action'},
-  {id:'watch_video_2', title:'Watch Video #2', description:'Watch another video', reward:40, icon:'fa-film', color:'#f59e0b', type:'action'},
-  {id:'download_app_1', title:'Download App #1', description:'Download partner app', reward:300, icon:'fa-download', color:'#6366f1', type:'action'},
-  {id:'download_app_2', title:'Download App #2', description:'Download another app', reward:300, icon:'fa-download', color:'#6366f1', type:'action'},
-  {id:'survey_master', title:'Survey Master', description:'Complete 5 surveys', reward:500, icon:'fa-poll', color:'#3b82f6', type:'auto', auto:true}
+  // Content Tasks (Regular - max 50)
+  {id:'watch_video_1', title:'Watch Video #1', description:'Watch video content', reward:50, icon:'fa-film', color:'#f59e0b', type:'action'},
+  {id:'watch_video_2', title:'Watch Video #2', description:'Watch another video', reward:50, icon:'fa-film', color:'#f59e0b', type:'action'},
+  {id:'download_app_1', title:'Download App #1', description:'Download partner app', reward:50, icon:'fa-download', color:'#6366f1', type:'action'},
+  {id:'download_app_2', title:'Download App #2', description:'Download another app', reward:50, icon:'fa-download', color:'#6366f1', type:'action'},
+  {id:'survey_master', title:'Survey Master', description:'Complete 5 surveys', reward:50, icon:'fa-poll', color:'#3b82f6', type:'auto', auto:true}
 ];
 
 const OFFERS = [
-  {id:'offer_1', title:'Premium Survey', description:'Complete detailed consumer survey (10 mins)', reward:1500, icon:'fa-poll', color:'#6366f1', url:'https://forms.gle/example1', hot:true, rating:4.8, reviews:234, category:'survey'},
-  {id:'offer_2', title:'Gaming App Install', description:'Download and play RPG game for 5 minutes', reward:2500, icon:'fa-gamepad', color:'#10b981', url:'https://play.google.com/store/apps/example', hot:true, rating:4.9, reviews:892, category:'app'},
-  {id:'offer_3', title:'Watch Video Ads', description:'Watch 3 video advertisements (30 sec each)', reward:600, icon:'fa-circle-play', color:'#f59e0b', url:'#', hot:false, rating:4.2, reviews:1205, category:'video'},
-  {id:'offer_4', title:'Casino App', description:'Install slots app and reach level 5', reward:5000, icon:'fa-dice', color:'#ec4899', url:'https://example.com/casino', hot:true, rating:4.7, reviews:567, category:'app'},
-  {id:'offer_5', title:'Shopping Sign Up', description:'Create account on fashion store', reward:1800, icon:'fa-bag-shopping', color:'#8b5cf6', url:'https://example.com/shop', hot:false, rating:4.5, reviews:340, category:'survey'},
-  {id:'offer_6', title:'Streaming Trial', description:'Start free trial of music streaming', reward:3000, icon:'fa-music', color:'#ef4444', url:'https://example.com/music', hot:true, rating:4.6, reviews:780, category:'app'},
-  {id:'offer_7', title:'Quick Survey', description:'2-minute opinion poll', reward:400, icon:'fa-circle-question', color:'#0ea5e9', url:'https://forms.gle/quick', hot:false, rating:4.3, reviews:1500, category:'survey'},
-  {id:'offer_8', title:'Fitness App', description:'Track workout for 3 days', reward:2200, icon:'fa-person-running', color:'#10b981', url:'https://example.com/fitness', hot:false, rating:4.4, reviews:445, category:'app'},
-  {id:'offer_9', title:'Movie Trailer', description:'Watch upcoming movie trailer', reward:350, icon:'fa-film', color:'#f59e0b', url:'#', hot:false, rating:4.1, reviews:2100, category:'video'},
-  {id:'offer_10', title:'Investment App', description:'Deposit $5 and get bonus', reward:8000, icon:'fa-chart-line', color:'#6366f1', url:'https://example.com/invest', hot:true, rating:4.9, reviews:320, category:'app'},
+  {id:'offer_1', title:'Premium Survey', description:'Complete detailed consumer survey (10 mins)', reward:750, icon:'fa-poll', color:'#6366f1', url:'https://forms.gle/example1', hot:true, rating:4.8, reviews:234, category:'survey'},
+  {id:'offer_2', title:'Gaming App Install', description:'Download and play RPG game for 5 minutes', reward:850, icon:'fa-gamepad', color:'#10b981', url:'https://play.google.com/store/apps/example', hot:true, rating:4.9, reviews:892, category:'app'},
+  {id:'offer_3', title:'Watch Video Ads', description:'Watch 3 video advertisements (30 sec each)', reward:300, icon:'fa-circle-play', color:'#f59e0b', url:'#', hot:false, rating:4.2, reviews:1205, category:'video'},
+  {id:'offer_4', title:'Casino App', description:'Install slots app and reach level 5', reward:900, icon:'fa-dice', color:'#ec4899', url:'https://example.com/casino', hot:true, rating:4.7, reviews:567, category:'app'},
+  {id:'offer_5', title:'Shopping Sign Up', description:'Create account on fashion store', reward:300, icon:'fa-bag-shopping', color:'#8b5cf6', url:'https://example.com/shop', hot:false, rating:4.5, reviews:340, category:'survey'},
+  {id:'offer_6', title:'Streaming Trial', description:'Start free trial of music streaming', reward:800, icon:'fa-music', color:'#ef4444', url:'https://example.com/music', hot:true, rating:4.6, reviews:780, category:'app'},
+  {id:'offer_7', title:'Quick Survey', description:'2-minute opinion poll', reward:300, icon:'fa-circle-question', color:'#0ea5e9', url:'https://forms.gle/quick', hot:false, rating:4.3, reviews:1500, category:'survey'},
+  {id:'offer_8', title:'Fitness App', description:'Track workout for 3 days', reward:300, icon:'fa-person-running', color:'#10b981', url:'https://example.com/fitness', hot:false, rating:4.4, reviews:445, category:'app'},
+  {id:'offer_9', title:'Movie Trailer', description:'Watch upcoming movie trailer', reward:300, icon:'fa-film', color:'#f59e0b', url:'#', hot:false, rating:4.1, reviews:2100, category:'video'},
+  {id:'offer_10', title:'Investment App', description:'Deposit $5 and get bonus', reward:900, icon:'fa-chart-line', color:'#6366f1', url:'https://example.com/invest', hot:true, rating:4.9, reviews:320, category:'app'},
   {id:'offer_11', title:'Follow Us', description:'Follow our official social media accounts', reward:300, icon:'fa-hashtag', color:'#e4405f', url:'https://instagram.com/sillyprize', hot:false, rating:5.0, reviews:5000, category:'social'}
 ];
 
@@ -1130,6 +1132,7 @@ let S = {
   completedOffers: [],
   completedTasks: {},
   claimedTasks: {},
+  readyTasks: {},
   selectedReward: null,
   lastLogin: null,
   currentFilter: 'all',
@@ -1196,7 +1199,6 @@ function loadState() {
       const p = JSON.parse(raw);
       S = Object.assign({}, S, p);
       
-      // Ensure nested objects exist
       if (!S.processingTasks) S.processingTasks = {};
       if (!S.currentlyProcessing) S.currentlyProcessing = null;
       if (!S.xp) S.xp = 0;
@@ -1204,18 +1206,19 @@ function loadState() {
       if (!S.shareTaskProgress) S.shareTaskProgress = {started: false, startTime: null, claimed: false};
       if (!S.seenOnboarding) S.seenOnboarding = false;
       if (!S.offerCount) S.offerCount = 0;
+      if (!S.readyTasks) S.readyTasks = {};
       
-      // Daily reset logic
       const today = new Date().toDateString();
       if (S.lastLogin !== today) {
         S.spinsLeft = 3;
-        const keep = new Set(['streak_2','streak_3','streak_4','streak_7','streak_14','streak_30','tutorial','avatar_set','bio_add','push_enable','rate_app','social_follow','all_bonus','contact_support','complete_3_offers_progress','complete_5_offers','complete_10_offers','offer_master']);
+        const keep = new Set(['streak_2','streak_3','streak_4','streak_7','streak_14','streak_30','tutorial','bio_add','push_enable','rate_app','social_follow','all_bonus','contact_support','complete_3_offers_progress','complete_5_offers','complete_10_offers','offer_master']);
         const cleaned = {};
         Object.keys(S.completedTasks).forEach(k => {
           if (keep.has(k) || k.includes('_progress')) cleaned[k] = S.completedTasks[k];
         });
         S.completedTasks = cleaned;
         S.claimedTasks = {};
+        S.readyTasks = {};
         S.currentlyProcessing = null;
         updateLoginStreak(today);
         S.lastLogin = today;
@@ -1254,7 +1257,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showMainApp();
   }
 
-  // Setup intervals
   setInterval(checkAllProcessing, 3000);
   claimCheckInterval = setInterval(checkClaimWindows, 1000);
   expireCheckInterval = setInterval(updateExpireCountdowns, 1000);
@@ -1265,7 +1267,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  // Setup input listeners
   document.getElementById('usernameEditInput')?.addEventListener('input', updateUsernameCharCount);
   document.getElementById('bioInput')?.addEventListener('input', updateBioCharCount);
 });
@@ -1508,14 +1509,16 @@ function updateScreenTimeDisplay() {
 function checkScreenTimeTasks() {
   const mins = Math.floor(screenSeconds / 60);
   
-  if (mins >= 5 && !S.completedTasks['screen_time_5']) markTaskReady('screen_time_5');
-  if (mins >= 15 && !S.completedTasks['screen_time_15']) markTaskReady('screen_time_15');
-  if (mins >= 30 && !S.completedTasks['screen_time_30']) markTaskReady('screen_time_30');
-  if (mins >= 60 && !S.completedTasks['screen_time_60']) markTaskReady('screen_time_60');
+  if (mins >= 5 && !S.completedTasks['screen_time_5'] && !S.readyTasks['screen_time_5']) markTaskReady('screen_time_5');
+  if (mins >= 15 && !S.completedTasks['screen_time_15'] && !S.readyTasks['screen_time_15']) markTaskReady('screen_time_15');
+  if (mins >= 30 && !S.completedTasks['screen_time_30'] && !S.readyTasks['screen_time_30']) markTaskReady('screen_time_30');
+  if (mins >= 60 && !S.completedTasks['screen_time_60'] && !S.readyTasks['screen_time_60']) markTaskReady('screen_time_60');
 }
 
 function markTaskReady(taskId) {
-  if (!S.completedTasks[taskId] && !S.claimedTasks[taskId]) {
+  if (!S.completedTasks[taskId] && !S.claimedTasks[taskId] && !S.readyTasks[taskId]) {
+    S.readyTasks[taskId] = true;
+    saveState();
     if (document.getElementById('offersSection')?.classList.contains('active')) {
       renderOffersTasks();
     }
@@ -1540,13 +1543,15 @@ function updateLoginStreak(today) {
   if (S.loginDates.length > 30) S.loginDates = S.loginDates.slice(-30);
   
   setTimeout(() => {
-    if ((S.loginStreak || 0) >= 2) autoCompleteTask('streak_2');
-    if ((S.loginStreak || 0) >= 3) autoCompleteTask('streak_3');
-    if ((S.loginStreak || 0) >= 4) autoCompleteTask('streak_4');
-    if ((S.loginStreak || 0) >= 5) autoCompleteTask('daily_streak_5');
-    if ((S.loginStreak || 0) >= 7) autoCompleteTask('streak_7');
-    if ((S.loginStreak || 0) >= 14) autoCompleteTask('streak_14');
-    if ((S.loginStreak || 0) >= 30) autoCompleteTask('streak_30');
+    if ((S.loginStreak || 0) >= 2 && !S.completedTasks['streak_2'] && !S.readyTasks['streak_2']) S.readyTasks['streak_2'] = true;
+    if ((S.loginStreak || 0) >= 3 && !S.completedTasks['streak_3'] && !S.readyTasks['streak_3']) S.readyTasks['streak_3'] = true;
+    if ((S.loginStreak || 0) >= 4 && !S.completedTasks['streak_4'] && !S.readyTasks['streak_4']) S.readyTasks['streak_4'] = true;
+    if ((S.loginStreak || 0) >= 5 && !S.completedTasks['daily_streak_5'] && !S.readyTasks['daily_streak_5']) S.readyTasks['daily_streak_5'] = true;
+    if ((S.loginStreak || 0) >= 7 && !S.completedTasks['streak_7'] && !S.readyTasks['streak_7']) S.readyTasks['streak_7'] = true;
+    if ((S.loginStreak || 0) >= 14 && !S.completedTasks['streak_14'] && !S.readyTasks['streak_14']) S.readyTasks['streak_14'] = true;
+    if ((S.loginStreak || 0) >= 30 && !S.completedTasks['streak_30'] && !S.readyTasks['streak_30']) S.readyTasks['streak_30'] = true;
+    saveState();
+    renderOffersTasks();
   }, 800);
 }
 
@@ -1660,10 +1665,13 @@ function spinWheel() {
     S.spinsUsed++;
     saveState();
     updateUI();
-    autoCompleteTask('spin_wheel');
-    autoCompleteTask('first_spin');
-    if (S.spinsUsed >= 2) autoCompleteTask('wheel_2x');
-    if (S.totalSpins >= 10) autoCompleteTask('spin_master');
+    
+    if (!S.completedTasks['spin_wheel'] && !S.readyTasks['spin_wheel']) S.readyTasks['spin_wheel'] = true;
+    if (!S.completedTasks['first_spin'] && !S.readyTasks['first_spin']) S.readyTasks['first_spin'] = true;
+    if (S.spinsUsed >= 2 && !S.completedTasks['wheel_2x'] && !S.readyTasks['wheel_2x']) S.readyTasks['wheel_2x'] = true;
+    if (S.totalSpins >= 10 && !S.completedTasks['spin_master'] && !S.readyTasks['spin_master']) S.readyTasks['spin_master'] = true;
+    saveState();
+    renderOffersTasks();
     
     isSpinning = false;
     updateSpinButton();
@@ -1673,10 +1681,8 @@ function spinWheel() {
 function handleSpinResult(reward) {
   if (reward.type === 'free') {
     S.freeSpinTickets = (S.freeSpinTickets || 0) + 1;
-    showToast('🎉 You won a FREE SPIN ticket!', 'success');
     showWinCelebration('FREE SPIN', '🎟️');
   } else if (reward.type === 'again') {
-    showToast('😅 Try Again! Better luck next time!', 'warning');
     showWinCelebration('TRY AGAIN', '🔄');
   } else {
     addCoins(reward.value, 'wheel');
@@ -1728,10 +1734,6 @@ function showWinCelebration(amount, icon) {
     <div class="win-coins">${amount === 'TRY AGAIN' ? 'Spin again!' : amount === 'FREE SPIN' ? 'Ticket Added!' : 'COINS WON!'}</div>
   `;
   document.body.appendChild(popup);
-  
-  if (amount !== 'TRY AGAIN') {
-    showToast(`You won ${amount} coins!`, 'success');
-  }
   
   setTimeout(() => {
     popup.style.animation = 'none';
@@ -1842,20 +1844,17 @@ function buildOfferCard(o) {
     status = `<div class="sbadge completed"><i class="fa-solid fa-check"></i> Claimed</div>`;
     btn = `<button class="obtn" disabled><i class="fa-solid fa-check"></i> Done</button>`;
   } else if (isExpired) {
-    // Check if still in cooldown period
     const now = Date.now();
     const cooldownElapsed = now - (processing.expiredAt || 0);
     const cooldownRemaining = CONFIG.EXPIRED_COOLDOWN - cooldownElapsed;
     
     if (cooldownRemaining > 0) {
-      // In cooldown period - show countdown
       cls = 'cooldown';
       const timeText = formatTime(cooldownRemaining);
       status = `<div class="sbadge cooldown"><i class="fa-solid fa-lock"></i> Locked</div>`;
       btn = `<button class="obtn" disabled>Wait ${timeText}</button>`;
       timerHtml = `<div class="cooldown-countdown" data-offer-cooldown="${o.id}"><i class="fa-solid fa-clock"></i><span class="cooldown-countdown-text">Available in: ${timeText}</span></div>`;
     } else {
-      // Cooldown finished - should have been deleted, but fallback to available
       cls = '';
       status = `<div class="sbadge available"> Available</div>`;
       if (somethingElseProcessing) {
@@ -1942,14 +1941,12 @@ function openOfferLink() {
   window.open(o.url, '_blank');
   closeProcessingModal();
   renderOffers();
-  showToast('Offer started! Return to claim when ready.', 'info');
 }
 
 function reopenOffer(id) {
   const p = S.processingOffers[id];
   if (p && p.url) {
     window.open(p.url, '_blank');
-    showToast('Reopening offer site...', 'info');
   }
 }
 
@@ -1980,18 +1977,17 @@ function claimOffer(id) {
   S.offersCompleted++;
   S.offerCount = (S.offerCount || 0) + 1;
   
-  if (S.offerCount >= 3 && !S.completedTasks['complete_3_offers']) autoCompleteTask('complete_3_offers');
-  if (S.offerCount >= 5 && !S.completedTasks['complete_5_offers']) autoCompleteTask('complete_5_offers');
-  if (S.offerCount >= 10 && !S.completedTasks['complete_10_offers']) autoCompleteTask('complete_10_offers');
-  if (S.offerCount >= 20 && !S.completedTasks['offer_master']) autoCompleteTask('offer_master');
+  if (S.offerCount >= 3 && !S.completedTasks['complete_3_offers'] && !S.readyTasks['complete_3_offers']) S.readyTasks['complete_3_offers'] = true;
+  if (S.offerCount >= 5 && !S.completedTasks['complete_5_offers'] && !S.readyTasks['complete_5_offers']) S.readyTasks['complete_5_offers'] = true;
+  if (S.offerCount >= 10 && !S.completedTasks['complete_10_offers'] && !S.readyTasks['complete_10_offers']) S.readyTasks['complete_10_offers'] = true;
+  if (S.offerCount >= 20 && !S.completedTasks['offer_master'] && !S.readyTasks['offer_master']) S.readyTasks['offer_master'] = true;
   
-  if (o.category === 'social') autoCompleteTask('social_follow');
-  autoCompleteTask('complete_offer');
+  if (o.category === 'social' && !S.completedTasks['social_follow'] && !S.readyTasks['social_follow']) S.readyTasks['social_follow'] = true;
+  if (!S.completedTasks['complete_offer'] && !S.readyTasks['complete_offer']) S.readyTasks['complete_offer'] = true;
   
   saveState();
   renderOffers();
   updateUI();
-  showToast(`Claimed! +${o.reward.toLocaleString()} coins`, 'success');
 }
 
 // ============================================================
@@ -2005,51 +2001,51 @@ function renderOffersTasks() {
   const disp = document.getElementById('taskCountDisplay');
   if (disp) disp.textContent = done + '/' + CONFIG.TOTAL_TASKS;
   
-  let html = TASKS.map(buildTaskCard).join('');
-  
-  // Add bonus card if all tasks completed but not claimed
-  if (done === CONFIG.TOTAL_TASKS && !S.claimedTasks['all_bonus']) {
-    html += `
-      <div class="offer-card ready" id="all-bonus-card">
-        <div class="offer-hdr">
-          <div class="offer-img" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#fff;"><i class="fa-solid fa-trophy"></i></div>
-          <div class="offer-info">
-            <div class="offer-title">All Tasks Complete Bonus</div>
-            <div class="offer-desc">Complete all 60 daily tasks</div>
-            <div class="offer-rew"><i class="fa-solid fa-coins"></i> +100 coins</div>
-          </div>
-        </div>
-        <div class="offer-status">
-          <div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>
-          <button class="obtn obtn-claim" onclick="claimAllBonus()">Claim <i class="fa-solid fa-coins"></i></button>
-        </div>
-      </div>`;
-  }
-  
-  c.innerHTML = html;
-  
+  c.innerHTML = TASKS.map(buildTaskCard).join('');
   const pct = (done / CONFIG.TOTAL_TASKS) * 100;
+  
   const bar = document.getElementById('taskProgressBar');
   const txt = document.getElementById('taskProgressText');
   if (bar) bar.style.width = pct + '%';
   if (txt) txt.textContent = done + '/' + CONFIG.TOTAL_TASKS + ' completed';
+  
+  const bonusContainer = document.getElementById('bonusClaimContainer');
+  const bonusStatus = document.getElementById('bonusStatusText');
+  
+  if (done === CONFIG.TOTAL_TASKS) {
+    if (S.readyTasks['all_bonus']) {
+      if (bonusContainer) bonusContainer.style.display = 'block';
+      if (bonusStatus) bonusStatus.textContent = 'Ready to claim!';
+    } else if (S.completedTasks['all_bonus']) {
+      if (bonusContainer) bonusContainer.style.display = 'none';
+      if (bonusStatus) bonusStatus.textContent = 'Claimed!';
+    } else {
+      S.readyTasks['all_bonus'] = true;
+      saveState();
+      if (bonusContainer) bonusContainer.style.display = 'block';
+      if (bonusStatus) bonusStatus.textContent = 'Ready to claim!';
+    }
+  } else {
+    if (bonusContainer) bonusContainer.style.display = 'none';
+    if (bonusStatus) bonusStatus.textContent = '+100 bonus';
+  }
 }
 
 function claimAllBonus() {
-  if (S.claimedTasks['all_bonus']) return;
-  S.claimedTasks['all_bonus'] = true;
+  if (!S.readyTasks['all_bonus'] || S.completedTasks['all_bonus']) return;
+  
+  delete S.readyTasks['all_bonus'];
   S.completedTasks['all_bonus'] = true;
   addCoins(100, 'bonus');
-  addXP(50);
   saveState();
   renderOffersTasks();
   updateUI();
-  showToast('All tasks bonus claimed! +100 coins', 'success');
 }
 
 function buildTaskCard(t) {
   const done = !!S.completedTasks[t.id];
   const claimed = !!S.claimedTasks[t.id];
+  const isReady = !!S.readyTasks[t.id];
   
   const processing = S.processingTasks[t.id];
   const isProc = processing && !processing.completed && !processing.readyToClaim;
@@ -2075,6 +2071,9 @@ function buildTaskCard(t) {
     status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>`;
     btn = `<button class="obtn obtn-claim" onclick="claimTaskReward('${t.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
     timerHtml = `<div class="expire-countdown" data-task-expire="${t.id}"><i class="fa-solid fa-clock"></i><span class="expire-countdown-text">Expires in: 2:00</span></div>`;
+  } else if (isReady) {
+    status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready to Claim</div>`;
+    btn = `<button class="obtn obtn-claim" onclick="claimReadyTask('${t.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
   } else if (isProc) {
     status = `<div class="sbadge processing"><i class="fa-solid fa-spinner fa-spin"></i> Verifying</div>`;
     btn = `<button class="obtn" disabled>Processing...</button>`;
@@ -2146,7 +2145,7 @@ function buildShareTaskCard(t) {
 }
 
 function isTaskReady(t) {
-  if (S.claimedTasks[t.id] || S.completedTasks[t.id]) return false;
+  if (S.claimedTasks[t.id] || S.completedTasks[t.id] || S.readyTasks[t.id]) return false;
   if (t.timeReq) {
     const mins = Math.floor(screenSeconds / 60);
     return mins >= t.timeReq;
@@ -2159,7 +2158,7 @@ function isTaskReady(t) {
 }
 
 function doTask(id) {
-  if (S.completedTasks[id] || S.claimedTasks[id]) return;
+  if (S.completedTasks[id] || S.claimedTasks[id] || S.readyTasks[id]) return;
   
   if (isSomethingProcessing()) {
     const item = getProcessingItem();
@@ -2177,7 +2176,7 @@ function doTask(id) {
   } else if (t.type === 'counted') {
     doCountedTask(id);
   } else {
-    autoCompleteTask(id);
+    markTaskReady(id);
   }
 }
 
@@ -2229,45 +2228,22 @@ function closeTaskProcessingModal() {
 
 function doProfileTask(id) {
   if (id === 'bio_add') editBio();
-  else autoCompleteTask(id);
+  else markTaskReady(id);
 }
 
 function doCountedTask(id) {
   if (id === 'big_spender') {
-    if (S.coins >= 1000) autoCompleteTask(id);
+    if (S.coins >= 1000) markTaskReady(id);
     else showToast('Save up 1000 coins first! You have ' + S.coins.toLocaleString(), 'warning');
   } else if (id === 'high_roller') {
-    if (S.coins >= 5000) autoCompleteTask(id);
+    if (S.coins >= 5000) markTaskReady(id);
     else showToast('Reach 5000 coins! You have ' + S.coins.toLocaleString(), 'warning');
   } else if (id === 'super_saver') {
-    if (S.coins >= 10000) autoCompleteTask(id);
+    if (S.coins >= 10000) markTaskReady(id);
     else showToast('Reach 10000 coins! You have ' + S.coins.toLocaleString(), 'warning');
   } else {
-    autoCompleteTask(id);
+    markTaskReady(id);
   }
-}
-
-function autoCompleteTask(id) {
-  if (S.completedTasks[id] || S.claimedTasks[id]) return;
-  const t = TASKS.find(x => x.id === id);
-  if (!t) return;
-  
-  if (t.auto && t.timeReq) return;
-  if (t.countRequired && (S.offerCount || 0) < t.countRequired) return;
-  
-  // Don't auto-complete, instead set as ready to claim in processingTasks
-  S.processingTasks[id] = {
-    startTime: Date.now(),
-    completed: false,
-    readyToClaim: true,
-    claimed: false,
-    expired: false,
-    reward: t.reward
-  };
-  
-  saveState();
-  renderOffersTasks();
-  // No toast message, no coins added automatically
 }
 
 function claimTask(id) {
@@ -2279,13 +2255,43 @@ function claimTask(id) {
   addCoins(t.reward, 'task');
   addXP(Math.floor(t.reward / 5));
   
-  const done = countDone();
-  if (done >= 30 && !S.completedTasks['task_master']) autoCompleteTask('task_master');
+  checkTaskMilestones();
   
   saveState();
   renderOffersTasks();
   updateUI();
-  showToast(`${t.title} claimed! +${t.reward} coins`, 'success');
+}
+
+function claimReadyTask(id) {
+  if (id === 'all_bonus') {
+    claimAllBonus();
+    return;
+  }
+  
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  
+  delete S.readyTasks[id];
+  S.claimedTasks[id] = true;
+  S.completedTasks[id] = true;
+  addCoins(t.reward, 'task');
+  addXP(Math.floor(t.reward / 5));
+  
+  checkTaskMilestones();
+  
+  saveState();
+  renderOffersTasks();
+  updateUI();
+}
+
+function checkTaskMilestones() {
+  const done = countDone();
+  if (done >= 30 && !S.completedTasks['task_master'] && !S.readyTasks['task_master']) {
+    S.readyTasks['task_master'] = true;
+  }
+  if (done >= 60 && !S.completedTasks['all_bonus'] && !S.readyTasks['all_bonus']) {
+    S.readyTasks['all_bonus'] = true;
+  }
 }
 
 function claimTaskReward(id) {
@@ -2310,10 +2316,11 @@ function claimTaskReward(id) {
   addCoins(t.reward, 'task');
   addXP(Math.floor(t.reward / 5));
   
+  checkTaskMilestones();
+  
   saveState();
   renderOffersTasks();
   updateUI();
-  showToast(`${t.title} completed! +${t.reward} coins`, 'success');
 }
 
 function startShareTask(taskId) {
@@ -2343,13 +2350,12 @@ function claimShareTask() {
   S.shareTaskProgress.readyToClaim = false;
   S.shareTaskProgress.started = false;
   
-  addCoins(t ? t.reward : 500, 'task');
+  addCoins(t ? t.reward : 200, 'task');
   addXP(50);
   
   saveState();
   renderOffersTasks();
   updateUI();
-  showToast('Share task completed! +' + (t ? t.reward : 500) + ' coins', 'success');
 }
 
 function countDone() {
@@ -2359,12 +2365,27 @@ function countDone() {
 
 function checkTimeBasedTasks() {
   const h = new Date().getHours();
-  if (h < 9) autoCompleteTask('morning_check');
-  if (h >= 20) autoCompleteTask('night_check');
-  if (h >= 23) autoCompleteTask('night_owl_late');
-  if (h < 6) autoCompleteTask('early_bird_early');
-  if (new Date().getDay() === 0) autoCompleteTask('lucky_day');
-  if (new Date().getDay() === 6) autoCompleteTask('weekend_warrior');
+  if (h < 9 && !S.completedTasks['morning_check'] && !S.readyTasks['morning_check']) S.readyTasks['morning_check'] = true;
+  if (h >= 20 && !S.completedTasks['night_check'] && !S.readyTasks['night_check']) S.readyTasks['night_check'] = true;
+  if (h >= 23 && !S.completedTasks['night_owl_late'] && !S.readyTasks['night_owl_late']) S.readyTasks['night_owl_late'] = true;
+  if (h < 6 && !S.completedTasks['early_bird_early'] && !S.readyTasks['early_bird_early']) S.readyTasks['early_bird_early'] = true;
+  if (new Date().getDay() === 0 && !S.completedTasks['lucky_day'] && !S.readyTasks['lucky_day']) S.readyTasks['lucky_day'] = true;
+  if (new Date().getDay() === 6 && !S.completedTasks['weekend_warrior'] && !S.readyTasks['weekend_warrior']) S.readyTasks['weekend_warrior'] = true;
+  
+  if (Object.keys(S.readyTasks).length > 0) saveState();
+}
+
+function autoCompleteTask(id) {
+  if (S.completedTasks[id] || S.claimedTasks[id] || S.readyTasks[id]) return;
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  
+  if (t.auto && t.timeReq) return;
+  if (t.countRequired && (S.offerCount || 0) < t.countRequired) return;
+  
+  S.readyTasks[id] = true;
+  saveState();
+  renderOffersTasks();
 }
 
 // ============================================================
@@ -2382,17 +2403,15 @@ function checkAllProcessing() {
   const now = Date.now();
   let updated = false;
   
-  // Check offers - processing to ready
   Object.keys(S.processingOffers).forEach(id => {
     const p = S.processingOffers[id];
     
-    // Check if cooldown is over (expired and 5 minutes passed)
     if (p.expired && p.expiredAt) {
       const cooldownElapsed = now - p.expiredAt;
       if (cooldownElapsed >= CONFIG.EXPIRED_COOLDOWN) {
         delete S.processingOffers[id];
         updated = true;
-        return; // Continue to next iteration
+        return;
       }
     }
     
@@ -2409,7 +2428,6 @@ function checkAllProcessing() {
     }
   });
   
-  // Check tasks
   Object.keys(S.processingTasks).forEach(id => {
     const p = S.processingTasks[id];
     if (!p.completed && !p.readyToClaim && !p.expired) {
@@ -2425,7 +2443,6 @@ function checkAllProcessing() {
     }
   });
   
-  // Check share task
   if (S.shareTaskProgress.started && !S.shareTaskProgress.claimed) {
     if (now - S.shareTaskProgress.startTime >= CONFIG.SHARE_TASK_TIME) {
       S.shareTaskProgress.readyToClaim = true;
@@ -2449,7 +2466,7 @@ function checkClaimWindows() {
     if (p.readyToClaim && !p.claimed && !p.expired) {
       if (now - p.readyTime >= CONFIG.CLAIM_WINDOW_TIME) {
         p.expired = true;
-        p.expiredAt = Date.now(); // Record when it expired for cooldown
+        p.expiredAt = Date.now();
         updated = true;
         if (S.currentlyProcessing?.type === 'offer' && S.currentlyProcessing?.id === id) {
           S.currentlyProcessing = null;
@@ -2479,7 +2496,6 @@ function checkClaimWindows() {
 }
 
 function updateExpireCountdowns() {
-  // Update offer claim expiration timers
   document.querySelectorAll('[data-offer-expire]').forEach(el => {
     const id = el.dataset.offerExpire;
     const p = S.processingOffers[id];
@@ -2489,7 +2505,6 @@ function updateExpireCountdowns() {
     }
   });
   
-  // Update offer cooldown timers (the 5-minute lock after expire)
   document.querySelectorAll('[data-offer-cooldown]').forEach(el => {
     const id = el.dataset.offerCooldown;
     const p = S.processingOffers[id];
@@ -2498,13 +2513,11 @@ function updateExpireCountdowns() {
       if (remaining > 0) {
         el.querySelector('.cooldown-countdown-text').textContent = `Available in: ${formatTime(remaining)}`;
       } else {
-        // Time's up, re-render to unlock
         renderOffers();
       }
     }
   });
   
-  // Update task expire timers
   document.querySelectorAll('[data-task-expire]').forEach(el => {
     const id = el.dataset.taskExpire;
     const p = S.processingTasks[id];
@@ -2532,13 +2545,11 @@ function renderAvatarGrid() {
 }
 
 function selectAvatar(id) {
-  const wasFirst = !S.completedTasks['avatar_set'];
   S.selectedAvatar = id;
   applyAvatar(id);
   saveState();
   renderAvatarGrid();
-  if (wasFirst) autoCompleteTask('avatar_set');
-  else showToast('Avatar updated!', 'success');
+  showToast('Avatar updated!', 'success');
 }
 
 function applyAvatar(id) {
@@ -2662,8 +2673,7 @@ function saveBio() {
   updateProfile();
   closeBioModal();
   
-  if (bio && !S.completedTasks['bio_add']) autoCompleteTask('bio_add');
-  else showToast('Bio saved!', 'success');
+  if (bio && !S.completedTasks['bio_add'] && !S.readyTasks['bio_add']) markTaskReady('bio_add');
 }
 
 function updateBioCharCount() {
@@ -2809,12 +2819,11 @@ function addCoins(amt, src) {
   const labels = {wheel: 'Daily Spin', offer: 'Offer Reward', task: 'Task Complete', bonus: 'Bonus'};
   addToHistory(amt, labels[src] || src, src);
   
-  if (S.coins >= 1000 && !S.completedTasks['big_spender']) autoCompleteTask('big_spender');
-  if (S.coins >= 5000 && !S.completedTasks['high_roller']) autoCompleteTask('high_roller');
-  if (S.coins >= 10000 && !S.completedTasks['super_saver']) autoCompleteTask('super_saver');
+  if (S.coins >= 1000 && !S.completedTasks['big_spender'] && !S.readyTasks['big_spender']) S.readyTasks['big_spender'] = true;
+  if (S.coins >= 5000 && !S.completedTasks['high_roller'] && !S.readyTasks['high_roller']) S.readyTasks['high_roller'] = true;
+  if (S.coins >= 10000 && !S.completedTasks['super_saver'] && !S.readyTasks['super_saver']) S.readyTasks['super_saver'] = true;
   
   saveState();
-  updateUI();
 }
 
 function addToHistory(amt, title, type, neg = false) {
@@ -2921,7 +2930,11 @@ function openGame(gameId) {
     'reaction-time': 'Reaction Time',
     'puzzle-solve': 'Puzzle Solve'
   };
-  autoCompleteTask('play_game_1');
+  if (!S.completedTasks['play_game_1'] && !S.readyTasks['play_game_1']) {
+    S.readyTasks['play_game_1'] = true;
+    saveState();
+    renderOffersTasks();
+  }
   showToast(`${gameNames[gameId]} coming soon!`, 'info');
 }
 
