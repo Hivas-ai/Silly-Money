@@ -106,6 +106,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .header-stat {
@@ -131,6 +132,10 @@
 
         .header-stat.coins i {
             color: #fff;
+        }
+
+        .header-stat.lives i {
+            color: #ef4444;
         }
 
         /* Level Section */
@@ -321,16 +326,20 @@
             z-index: 10;
             animation: float-icon 3s ease-in-out infinite;
             cursor: pointer;
-            transition: var(--transition);
+            transition: transform 0.2s;
         }
 
         .preview-icon:hover {
             transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 15px 50px rgba(234, 179, 8, 0.6);
         }
 
         .preview-icon:active {
             transform: translate(-50%, -50%) scale(0.95);
+        }
+
+        .preview-icon:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         @keyframes float-icon {
@@ -577,6 +586,11 @@
         /* Progress Section */
         .progress-section {
             padding: 0 20px 20px;
+            display: none;
+        }
+
+        .progress-section.active {
+            display: block;
         }
 
         .progress-header {
@@ -597,11 +611,14 @@
         .progress-dots {
             display: flex;
             gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            max-width: 60%;
         }
 
         .progress-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: var(--gray-light);
             transition: var(--transition);
@@ -615,11 +632,12 @@
         .progress-dot.current {
             background: var(--primary);
             animation: pulse-dot 1.5s infinite;
+            transform: scale(1.2);
         }
 
         @keyframes pulse-dot {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.8; }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
         /* Stats Grid */
@@ -672,18 +690,6 @@
             font-size: 0.7rem;
             color: var(--gray);
             font-weight: 600;
-        }
-
-        /* Win animation */
-        .stat-card.win-active {
-            border-color: var(--success);
-            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
-            animation: winPulse 1s ease;
-        }
-
-        @keyframes winPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         /* Upgrades */
@@ -781,8 +787,6 @@
         /* Professional Light Blur Overlays */
         .level-up-overlay,
         .verification-overlay,
-        .game-over-overlay,
-        .win-overlay,
         .wrong-overlay {
             position: fixed;
             top: 0;
@@ -801,16 +805,12 @@
 
         .level-up-overlay.active,
         .verification-overlay.active,
-        .game-over-overlay.active,
-        .win-overlay.active,
         .wrong-overlay.active {
             display: flex;
         }
 
         .level-up-content,
         .verification-content,
-        .game-over-content,
-        .win-content,
         .wrong-content {
             background: rgba(255, 255, 255, 0.95);
             border-radius: var(--border-radius);
@@ -914,91 +914,6 @@
             cursor: not-allowed;
         }
 
-        .level-up-btn {
-            width: 100%;
-            padding: 14px 28px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(234, 179, 8, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .level-up-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(234, 179, 8, 0.4);
-        }
-
-        /* Win Overlay Specifics */
-        .win-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--success), #16a34a);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
-            animation: winBounce 0.6s ease;
-        }
-
-        @keyframes winBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .win-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .win-text {
-            color: var(--gray);
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .win-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .win-stat {
-            background: var(--primary-soft);
-            padding: 15px;
-            border-radius: 12px;
-        }
-
-        .win-stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        .win-stat-label {
-            font-size: 0.8rem;
-            color: var(--gray);
-            font-weight: 600;
-        }
-
         /* Wrong Answer Overlay */
         .wrong-icon {
             width: 70px;
@@ -1032,6 +947,28 @@
             color: var(--gray);
             margin-bottom: 25px;
             font-size: 0.95rem;
+        }
+
+        .retry-btn {
+            width: 100%;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
         /* Verification Overlay Specifics */
@@ -1117,10 +1054,6 @@
             gap: 8px;
         }
 
-        .captcha-header i {
-            color: var(--info);
-        }
-
         /* Human Verification Loading Section */
         .human-verification-wrapper {
             display: none;
@@ -1166,23 +1099,12 @@
             animation: bounce 1.4s ease-in-out infinite both;
         }
 
-        .loading-dot:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .loading-dot:nth-child(2) {
-            animation-delay: -0.16s;
-        }
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
 
         @keyframes bounce {
-            0%, 80%, 100% { 
-                transform: scale(0);
-                opacity: 0.5;
-            }
-            40% { 
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
         }
 
         .verification-loading-text {
@@ -1190,11 +1112,6 @@
             color: var(--dark);
             font-weight: 600;
             margin-bottom: 8px;
-        }
-
-        .verification-loading-subtext {
-            font-size: 0.8rem;
-            color: var(--gray);
         }
 
         /* Success message for verification */
@@ -1386,22 +1303,10 @@
         }
 
         @keyframes coinsFloat {
-            0% { 
-                transform: translate(-50%, -50%) scale(0.5); 
-                opacity: 0; 
-            }
-            20% { 
-                transform: translate(-50%, -50%) scale(1.1); 
-                opacity: 1; 
-            }
-            80% { 
-                transform: translate(-50%, -150%) scale(1); 
-                opacity: 1; 
-            }
-            100% { 
-                transform: translate(-50%, -200%) scale(0.8); 
-                opacity: 0; 
-            }
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            20% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            80% { transform: translate(-50%, -150%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -200%) scale(0.8); opacity: 0; }
         }
 
         /* Difficulty Badge */
@@ -1418,7 +1323,7 @@
             margin-top: 10px;
         }
 
-        /* Spacer for bottom padding */
+        /* Spacer */
         .bottom-spacer {
             height: 40px;
         }
@@ -1440,6 +1345,10 @@
             </div>
             <!-- Right Aligned Stats -->
             <div class="header-stats">
+                <div class="header-stat lives" id="livesStat" style="display: none;">
+                    <i class="fas fa-heart"></i>
+                    <span id="livesDisplay">3</span>
+                </div>
                 <div class="header-stat wallet">
                     <i class="fas fa-wallet"></i>
                     <span id="mainBalance">0</span>
@@ -1475,10 +1384,10 @@
 
         <!-- Score Section -->
         <div class="score-section">
-            <div class="total-earned-display">Total Earned This Session</div>
+            <div class="total-earned-display">Level Coins</div>
             <div class="total-earned-value" id="totalEarnedDisplay">0</div>
             
-            <div class="current-score-label">Current Score</div>
+            <div class="current-score-label">Round Reward</div>
             <div class="current-score" id="currentScore">0</div>
             
             <div class="multiplier-badge">
@@ -1495,27 +1404,25 @@
         <!-- Game Preview -->
         <div class="game-preview" id="gamePreview">
             <div class="preview-container">
-                <div class="preview-grid" id="previewGrid">
-                    <!-- Generated by JS -->
-                </div>
-                <div class="preview-icon" onclick="startGame()">
+                <div class="preview-grid" id="previewGrid"></div>
+                <div class="preview-icon" id="startIcon" onclick="startGame()">
                     <i class="fas fa-eye"></i>
                 </div>
             </div>
-            <div class="preview-text">Test Your Color Vision!</div>
-            <div class="preview-subtext">Tap the eye to start! Identify the dominant color in the pixel grid. Choose correctly from 33 options to advance!</div>
+            <div class="preview-text">Click the Eye to Start!</div>
+            <div class="preview-subtext">Identify the dominant color. You have 3 lives per level. Complete all rounds to advance!</div>
             <div class="preview-stats">
                 <div class="preview-stat">
                     <div class="preview-stat-value" id="previewGridSize">8×8</div>
                     <div class="preview-stat-label">Grid Size</div>
                 </div>
                 <div class="preview-stat">
-                    <div class="preview-stat-value" id="previewTime">60s</div>
-                    <div class="preview-stat-label">Time Limit</div>
-                </div>
-                <div class="preview-stat">
                     <div class="preview-stat-value" id="previewRounds">3</div>
                     <div class="preview-stat-label">Rounds</div>
+                </div>
+                <div class="preview-stat">
+                    <div class="preview-stat-value" id="previewTime">60s</div>
+                    <div class="preview-stat-label">Per Round</div>
                 </div>
             </div>
             <div class="difficulty-badge">
@@ -1532,7 +1439,7 @@
             </div>
             <div class="round-display">
                 <i class="fas fa-flag-checkered"></i>
-                <span>Round <span id="currentRound">1</span>/3</span>
+                <span id="roundProgress">Round 1/3</span>
             </div>
         </div>
 
@@ -1558,13 +1465,9 @@
             <div class="progress-header">
                 <div class="progress-title">
                     <i class="fas fa-tasks"></i>
-                    Progress
+                    Level Progress
                 </div>
-                <div class="progress-dots" id="progressDots">
-                    <div class="progress-dot"></div>
-                    <div class="progress-dot"></div>
-                    <div class="progress-dot"></div>
-                </div>
+                <div class="progress-dots" id="progressDots"></div>
             </div>
         </div>
 
@@ -1576,21 +1479,21 @@
                         <i class="fas fa-gamepad"></i>
                     </div>
                     <div class="stat-value" id="gamesPlayed">0</div>
-                    <div class="stat-label">Games Played</div>
+                    <div class="stat-label">Levels Played</div>
                 </div>
                 <div class="stat-card" id="winsCard">
                     <div class="stat-icon" style="background: var(--success);">
                         <i class="fas fa-trophy"></i>
                     </div>
                     <div class="stat-value" id="gamesWon">0</div>
-                    <div class="stat-label">Games Won</div>
+                    <div class="stat-label">Levels Won</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: var(--warning);">
-                        <i class="fas fa-percentage"></i>
+                    <div class="stat-icon" style="background: var(--info);">
+                        <i class="fas fa-layer-group"></i>
                     </div>
-                    <div class="stat-value" id="winRate">0%</div>
-                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value" id="currentRoundDisplay">1</div>
+                    <div class="stat-label">Current Round</div>
                 </div>
             </div>
         </div>
@@ -1604,7 +1507,6 @@
             <div id="upgradesList"></div>
         </div>
 
-        <!-- Spacer -->
         <div class="bottom-spacer"></div>
     </div>
 
@@ -1619,16 +1521,16 @@
         <span id="floatingCoinsText">+50</span>
     </div>
 
-    <!-- Level Up Overlay - Collect Coins Here (Same as Coin Clicker) -->
+    <!-- Level Up Overlay -->
     <div class="level-up-overlay" id="levelUpOverlay">
         <div class="level-up-content">
             <div class="level-up-icon">
                 <i class="fas fa-star"></i>
             </div>
-            <div class="level-up-title">Level Up!</div>
+            <div class="level-up-title">Level Complete!</div>
             <div class="level-up-text">
-                You reached <strong>Level <span id="newLevel">2</span></strong>!<br>
-                Grid size increased and colors more challenging!
+                You passed all rounds in <strong>Level <span id="completedLevelNum">1</span></strong>!<br>
+                Ready for the next challenge?
             </div>
             
             <div class="level-coins-display">
@@ -1642,7 +1544,7 @@
         </div>
     </div>
 
-    <!-- Verification Overlay - Only every 3 levels (3, 6, 9...) -->
+    <!-- Verification Overlay - Every 3 levels -->
     <div class="verification-overlay" id="verificationOverlay">
         <div class="verification-content">
             <div class="verification-icon">
@@ -1673,7 +1575,6 @@
                 <div class="verification-loading-text">Verifying your humanity...</div>
                 <div class="verification-loading-subtext">Please complete the task in the opened window</div>
                 
-                <!-- Button to go to site during loading -->
                 <button class="verify-btn" style="margin-top: 20px;" onclick="window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank')">
                     <i class="fas fa-external-link-alt"></i> Go to Verification Site
                 </button>
@@ -1699,52 +1600,18 @@
         </div>
     </div>
 
-    <!-- Win Overlay -->
-    <div class="win-overlay" id="winOverlay">
-        <div class="win-content">
-            <div class="win-icon">
-                <i class="fas fa-trophy"></i>
-            </div>
-            <div class="win-title">Level Complete!</div>
-            <div class="win-text">
-                Amazing color recognition! You passed all 3 rounds!
-            </div>
-            <div class="win-stats">
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winRounds">3</div>
-                    <div class="win-stat-label">Rounds Passed</div>
-                </div>
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winTime">0s</div>
-                    <div class="win-stat-label">Time Left</div>
-                </div>
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winBaseCoins">0</div>
-                    <div class="win-stat-label">Match Coins</div>
-                </div>
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winBonus">0</div>
-                    <div class="win-stat-label">Win Bonus</div>
-                </div>
-            </div>
-            <button class="level-up-btn" onclick="closeWinOverlay()">
-                <i class="fas fa-check"></i> Collect Rewards
-            </button>
-        </div>
-    </div>
-
-    <!-- Wrong Answer Overlay -->
+    <!-- Wrong Answer / Fail Overlay -->
     <div class="wrong-overlay" id="wrongOverlay">
         <div class="wrong-content">
             <div class="wrong-icon">
                 <i class="fas fa-times"></i>
             </div>
-            <div class="wrong-title">Wrong Color!</div>
-            <div class="wrong-text">
-                That wasn't the dominant color. You lost your collected coins!
+            <div class="wrong-title" id="failTitle">Wrong Color!</div>
+            <div class="wrong-text" id="failText">
+                You lost 1 life. Try again!
             </div>
-            <button class="level-up-btn" onclick="closeWrongOverlay()" style="background: linear-gradient(135deg, var(--danger), #dc2626);">
-                <i class="fas fa-redo"></i> Try Again
+            <button class="retry-btn" id="failBtn" onclick="handleFailContinue()">
+                <i class="fas fa-redo"></i> Continue
             </button>
         </div>
     </div>
@@ -1756,28 +1623,23 @@
     <script type="text/javascript" src="https://confirmapp.online/cp/js/joy6y"></script>
 
     <script>
-        // Color Matcher Pro - Game State with Coin Clicker Pro System
+        // Color Matcher Pro - 250 Rounds System with Lives
         const GameState = {
             currentScore: 0,
-            totalEarnedSession: 0,
             totalEarned: 0,
             matches: 0,
-            sessionMatches: 0,
             
             // Persistent stats
             totalGamesPlayed: 0,
             totalGamesWon: 0,
-            totalGamesLost: 0,
             
-            // Combo tracking
-            currentCombo: 0,
-            comboMultiplier: 1,
-            
-            // Level system - Same as Coin Clicker Pro
+            // Level system - 250 rounds total
             level: 1,
+            currentRound: 1, // Current round within the level (1 to roundsPerLevel)
+            lives: 3,
             xp: 0,
             xpToNext: 100,
-            maxLevel: 50,
+            maxLevel: 50, // 50 levels total = 250 rounds
             pendingLevel: null,
             isLocked: false,
             
@@ -1785,13 +1647,8 @@
             scoreMultiplier: 1,
             timeBonus: 0,
             
-            gameEnded: false,
-            canRestart: false,
             gameActive: false,
             gameWon: false,
-            
-            maxCoins: 30000,
-            claimed: false,
             
             // Timer
             timeRemaining: 0,
@@ -1799,16 +1656,14 @@
             timerInterval: null,
             
             // Game specific
-            currentRound: 1,
-            totalRounds: 3,
             targetColor: null,
             colors: [],
             gridSize: { rows: 8, cols: 8 },
-            dominantPercentage: 0,
+            currentCombo: 0,
             
             baseMatchReward: 50,
             
-            // Verification tracking (Same as Coin Clicker)
+            // Verification tracking
             verificationStartTime: null,
             verificationTabOpen: false,
             
@@ -1816,9 +1671,7 @@
             upgrades: {
                 timeBonus: { level: 0, maxLevel: 10, baseCost: 800, cost: 800, effect: 5 },
                 scoreMult: { level: 0, maxLevel: 10, baseCost: 1000, cost: 1000, effect: 0.2 }
-            },
-            
-            mainAppCoins: 0
+            }
         };
 
         const XP_TABLE = [];
@@ -1826,7 +1679,7 @@
             XP_TABLE.push(Math.floor(100 * Math.pow(1.15, i - 1)));
         }
 
-        // 33 distinct colors for the game
+        // 33 distinct colors
         const COLOR_PALETTE = [
             '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16', '#22c55e',
             '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9', '#3b82f6', '#6366f1',
@@ -1836,35 +1689,17 @@
             '#7c3aed', '#9333ea', '#c026d3'
         ];
 
-        // NEW TRACKING SYSTEM - Compatible with main app (Same as Coin Clicker)
+        // Sync with main app
         function syncWithMainApp(coins, gamesPlayed = 1) {
-            const data = {
-                type: 'GAME_REWARD',
-                gameId: 'color',
-                coins: coins,
-                gamesPlayed: gamesPlayed,
-                timestamp: Date.now()
-            };
-            
-            // Try to use opener if available
-            if (window.opener && window.opener.reportGameEarnings) {
-                window.opener.reportGameEarnings(coins, gamesPlayed);
-                return true;
-            }
-            
-            // Fallback: localStorage method for cross-tab sync
             try {
-                // Use the main app's key
                 const mainKey = 'sillyPrize_v9';
                 const saved = localStorage.getItem(mainKey);
                 let mainData = saved ? JSON.parse(saved) : {};
                 
-                // Update coins
                 mainData.coins = (mainData.coins || 0) + coins;
                 mainData.gamesPlayed = (mainData.gamesPlayed || 0) + gamesPlayed;
                 mainData.gamesCoins = (mainData.gamesCoins || 0) + coins;
                 
-                // Add to history
                 if (!mainData.history) mainData.history = [];
                 mainData.history.unshift({
                     id: Date.now(),
@@ -1876,10 +1711,8 @@
                 });
                 if (mainData.history.length > 50) mainData.history.pop();
                 
-                // Save back
                 localStorage.setItem(mainKey, JSON.stringify(mainData));
                 
-                // Broadcast change
                 localStorage.setItem('sillyPrize_sync', JSON.stringify({
                     timestamp: Date.now(),
                     data: {
@@ -1890,9 +1723,7 @@
                     }
                 }));
                 
-                // Cleanup sync key
                 setTimeout(() => localStorage.removeItem('sillyPrize_sync'), 100);
-                
                 return true;
             } catch (e) {
                 console.error('Sync error:', e);
@@ -1901,13 +1732,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Clear old saves
-            for (let i = 1; i <= 8; i++) {
-                localStorage.removeItem(`colorMatcher_v${i}_save`);
-            }
-            localStorage.removeItem('colorMatcher_save');
-            
-            // Listen for verification completion from other tabs
             window.addEventListener('storage', handleStorageChange);
             document.addEventListener('visibilitychange', handleVisibilityChange);
             
@@ -1944,9 +1768,14 @@
             }
         }
 
+        function getRoundsForLevel(level) {
+            if (level <= 10) return 3;
+            if (level <= 20) return 4;
+            return 6;
+        }
+
         function generatePreviewGrid() {
             const grid = document.getElementById('previewGrid');
-            if (!grid) return;
             grid.innerHTML = '';
             for (let i = 0; i < 64; i++) {
                 const pixel = document.createElement('div');
@@ -1961,7 +1790,6 @@
                 const saved = localStorage.getItem('sillyPrize_v9');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    GameState.mainAppCoins = data.coins || 0;
                     document.getElementById('mainBalance').textContent = (data.coins || 0).toLocaleString();
                 }
             } catch (e) {
@@ -1974,33 +1802,23 @@
                 const saved = localStorage.getItem('colorMatcher_PRO_save');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    
                     GameState.level = data.level || 1;
+                    GameState.currentRound = data.currentRound || 1;
+                    GameState.lives = data.lives || 3;
                     GameState.xp = data.xp || 0;
                     GameState.xpToNext = XP_TABLE[GameState.level - 1] || 100;
                     GameState.totalGamesPlayed = data.totalGamesPlayed || 0;
                     GameState.totalGamesWon = data.totalGamesWon || 0;
-                    GameState.totalGamesLost = data.totalGamesLost || 0;
-                    GameState.matches = data.matches || 0;
                     GameState.totalEarned = data.totalEarned || 0;
                     GameState.currentScore = data.currentScore || 0;
                     GameState.upgrades = data.upgrades || GameState.upgrades;
                     GameState.isLocked = data.isLocked || false;
                     GameState.pendingLevel = data.pendingLevel || null;
-                    GameState.gameEnded = data.gameEnded || false;
-                    GameState.canRestart = data.canRestart || false;
-                    GameState.claimed = data.claimed || false;
-                    GameState.gameWon = data.gameWon || false;
                     
                     applyUpgradeEffects();
                     
-                    // If was locked, show appropriate overlay
                     if (GameState.isLocked && GameState.pendingLevel) {
-                        if (GameState.pendingLevel % 3 === 0) {
-                            showVerificationOverlay();
-                        } else {
-                            GameState.isLocked = false;
-                        }
+                        showVerificationOverlay();
                     }
                 }
             } catch (e) {
@@ -2012,20 +1830,16 @@
             try {
                 const data = {
                     level: GameState.level,
+                    currentRound: GameState.currentRound,
+                    lives: GameState.lives,
                     xp: GameState.xp,
                     totalGamesPlayed: GameState.totalGamesPlayed,
                     totalGamesWon: GameState.totalGamesWon,
-                    totalGamesLost: GameState.totalGamesLost,
-                    matches: GameState.matches,
                     totalEarned: GameState.totalEarned,
                     currentScore: GameState.currentScore,
                     upgrades: GameState.upgrades,
                     isLocked: GameState.isLocked,
                     pendingLevel: GameState.pendingLevel,
-                    gameEnded: GameState.gameEnded,
-                    gameWon: GameState.gameWon,
-                    canRestart: GameState.canRestart,
-                    claimed: GameState.claimed,
                     lastSave: Date.now()
                 };
                 localStorage.setItem('colorMatcher_PRO_save', JSON.stringify(data));
@@ -2042,58 +1856,51 @@
             const dims = getGridDimensions(GameState.level);
             const maxTime = getTimeForLevel(GameState.level);
             const difficulty = getDifficultyText(GameState.level);
+            const rounds = getRoundsForLevel(GameState.level);
 
             document.getElementById('previewGridSize').textContent = `${dims.cols}×${dims.rows}`;
             document.getElementById('previewTime').textContent = `${Math.floor(maxTime)}s`;
-            document.getElementById('previewRounds').textContent = '3';
+            document.getElementById('previewRounds').textContent = rounds;
             document.getElementById('difficultyText').textContent = difficulty;
         }
 
         function getGridDimensions(level) {
-            if (level <= 3) return { rows: 8, cols: 8 };
-            if (level <= 6) return { rows: 10, cols: 10 };
-            if (level <= 10) return { rows: 12, cols: 12 };
-            if (level <= 15) return { rows: 14, cols: 14 };
+            if (level <= 10) return { rows: 8, cols: 8 };
+            if (level <= 20) return { rows: 10, cols: 10 };
+            if (level <= 30) return { rows: 12, cols: 12 };
+            if (level <= 40) return { rows: 14, cols: 14 };
             return { rows: 16, cols: 16 };
         }
 
         function getTimeForLevel(level) {
             const baseTime = 60;
-            const reduction = (level - 1) * 2;
+            const reduction = (level - 1) * 1;
             const timeBonus = GameState.upgrades.timeBonus.level * GameState.upgrades.timeBonus.effect;
-            return Math.max(baseTime - reduction + timeBonus, 20);
+            return Math.max(baseTime - reduction + timeBonus, 15);
         }
 
         function getDifficultyText(level) {
-            if (level <= 3) return 'Easy Mode';
-            if (level <= 6) return 'Medium Mode';
-            if (level <= 10) return 'Hard Mode';
-            if (level <= 15) return 'Expert Mode';
-            return 'Master Mode';
+            if (level <= 10) return 'Easy (3 Rounds)';
+            if (level <= 20) return 'Medium (4 Rounds)';
+            if (level <= 30) return 'Hard (6 Rounds)';
+            if (level <= 40) return 'Expert (6 Rounds)';
+            return 'Master (6 Rounds)';
         }
 
         function startGame() {
             if (GameState.isLocked) {
-                showToast('Level up pending! Collect your coins first.', 'warning');
+                showToast('Level locked! Complete verification first.', 'warning');
                 return;
             }
 
-            if (GameState.gameEnded) {
-                if (GameState.canRestart) {
-                    attemptRestart();
-                }
-                return;
-            }
-
-            // Reset game state for new game
+            // Reset for level start
+            GameState.lives = 3;
+            GameState.currentRound = 1;
+            GameState.currentScore = 0;
+            GameState.currentCombo = 0;
             GameState.gameActive = true;
             GameState.gameWon = false;
-            GameState.gameEnded = false;
-            GameState.currentRound = 1;
-            GameState.currentCombo = 0;
-            GameState.comboMultiplier = 1;
-            GameState.sessionMatches = 0;
-
+            
             GameState.gridSize = getGridDimensions(GameState.level);
             GameState.maxTime = getTimeForLevel(GameState.level);
             GameState.timeRemaining = GameState.maxTime;
@@ -2103,44 +1910,35 @@
             document.getElementById('timerSection').classList.add('active');
             document.getElementById('colorDisplaySection').classList.add('active');
             document.getElementById('optionsSection').classList.add('active');
-            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('progressSection').classList.add('active');
+            document.getElementById('livesStat').style.display = 'flex';
 
             updateProgressDots();
             startTimer();
             generateRound();
-
             updateUI();
             saveGameData();
 
-            showToast(`Level ${GameState.level} - Find the dominant color!`, 'info');
+            showToast(`Level ${GameState.level} Started! ${getRoundsForLevel(GameState.level)} rounds to complete!`, 'info');
         }
 
         function generateRound() {
             const totalPixels = GameState.gridSize.rows * GameState.gridSize.cols;
             const grid = document.getElementById('colorGrid');
-            if (!grid) return;
-
             grid.innerHTML = '';
             grid.style.setProperty('--grid-cols', GameState.gridSize.cols);
 
-            // Select target color (dominant)
+            // Select target color
             const targetColorIndex = Math.floor(Math.random() * COLOR_PALETTE.length);
             GameState.targetColor = COLOR_PALETTE[targetColorIndex];
 
-            // Calculate dominance based on level (harder = less dominant)
-            let dominance = Math.max(0.35 - (GameState.level * 0.01), 0.15);
-            GameState.dominantPercentage = Math.floor(dominance * 100);
-
+            // Calculate dominance
+            let dominance = Math.max(0.35 - (GameState.level * 0.005), 0.12);
             const dominantCount = Math.floor(totalPixels * dominance);
             const otherCount = totalPixels - dominantCount;
 
-            // Generate pixel array
             let pixels = [];
-            for (let i = 0; i < dominantCount; i++) {
-                pixels.push(GameState.targetColor);
-            }
-
-            // Fill rest with random other colors
+            for (let i = 0; i < dominantCount; i++) pixels.push(GameState.targetColor);
             for (let i = 0; i < otherCount; i++) {
                 let randomColor;
                 do {
@@ -2148,11 +1946,8 @@
                 } while (randomColor === GameState.targetColor);
                 pixels.push(randomColor);
             }
-
-            // Shuffle
             pixels.sort(() => Math.random() - 0.5);
 
-            // Render grid
             pixels.forEach(color => {
                 const pixel = document.createElement('div');
                 pixel.className = 'color-pixel';
@@ -2160,44 +1955,38 @@
                 grid.appendChild(pixel);
             });
 
-            // Update target indicator
             document.getElementById('targetColorBox').style.backgroundColor = GameState.targetColor;
+            
+            // Update round display
+            const totalRounds = getRoundsForLevel(GameState.level);
+            document.getElementById('roundProgress').innerHTML = `Round ${GameState.currentRound}/${totalRounds}`;
+            document.getElementById('currentRoundDisplay').textContent = GameState.currentRound;
 
-            // Generate 33 options including target
+            // Reset timer for this round
+            GameState.timeRemaining = GameState.maxTime;
+            updateTimerDisplay();
+
             generateOptions();
-
-            document.getElementById('currentRound').textContent = GameState.currentRound;
         }
 
         function generateOptions() {
             const optionsGrid = document.getElementById('optionsGrid');
-            if (!optionsGrid) return;
-
             optionsGrid.innerHTML = '';
 
-            // Ensure target is in options
             let options = [GameState.targetColor];
-
-            // Add 32 random other colors
             while (options.length < 33) {
                 const randomColor = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
-                if (!options.includes(randomColor)) {
-                    options.push(randomColor);
-                }
+                if (!options.includes(randomColor)) options.push(randomColor);
             }
-
-            // Shuffle options
             options.sort(() => Math.random() - 0.5);
-
             GameState.colors = options;
 
             options.forEach((color, index) => {
                 const option = document.createElement('div');
                 option.className = 'color-option';
                 option.style.backgroundColor = color;
-                option.dataset.index = index;
                 option.dataset.color = color;
-
+                
                 const number = document.createElement('div');
                 number.className = 'option-number';
                 number.textContent = index + 1;
@@ -2209,387 +1998,168 @@
         }
 
         function handleColorSelect(selectedColor, element) {
-            if (!GameState.gameActive || GameState.isLocked) return;
+            if (!GameState.gameActive) return;
 
-            // Disable all options
             document.querySelectorAll('.color-option').forEach(opt => {
                 opt.classList.add('disabled');
                 opt.style.pointerEvents = 'none';
             });
 
             if (selectedColor === GameState.targetColor) {
-                // Correct!
                 element.classList.add('correct');
                 handleCorrectAnswer();
             } else {
-                // Wrong!
                 element.classList.add('wrong');
-                // Highlight correct answer
                 document.querySelectorAll('.color-option').forEach(opt => {
-                    if (opt.dataset.color === GameState.targetColor) {
-                        opt.classList.add('correct');
-                    }
+                    if (opt.dataset.color === GameState.targetColor) opt.classList.add('correct');
                 });
                 setTimeout(() => handleWrongAnswer(), 800);
             }
         }
 
         function handleCorrectAnswer() {
-            GameState.sessionMatches++;
             GameState.matches++;
-
-            // Base reward: 50 coins per correct match
-            let baseReward = GameState.baseMatchReward;
-
-            // Time bonus
-            const timeBonus = Math.min(Math.floor(GameState.timeRemaining / 5), 20);
-
-            // Combo multiplier
             GameState.currentCombo++;
+            
+            let comboMult = 1;
             if (GameState.currentCombo >= 3) {
-                GameState.comboMultiplier = 2;
+                comboMult = 2;
                 showComboIndicator('x2 COMBO!');
             }
 
-            let totalReward = (baseReward + timeBonus) * GameState.comboMultiplier;
-            totalReward = Math.floor(totalReward * GameState.baseMultiplier);
+            const timeBonus = Math.min(Math.floor(GameState.timeRemaining / 5), 20);
+            let reward = (GameState.baseMatchReward + timeBonus) * comboMult;
+            reward = Math.floor(reward * GameState.baseMultiplier * GameState.scoreMultiplier);
 
-            // Check max coins
-            const remaining = GameState.maxCoins - GameState.totalEarned;
-            if (totalReward > remaining) totalReward = remaining;
-
-            GameState.currentScore += totalReward;
-            GameState.totalEarned += totalReward;
-
-            addXP(Math.floor(totalReward * 0.3) + 10);
-
-            showFloatingCoins(totalReward);
-
+            GameState.currentScore += reward;
+            GameState.totalEarned += reward;
+            
+            addXP(Math.floor(reward * 0.3) + 5);
+            showFloatingCoins(reward);
+            
             setTimeout(() => {
-                if (GameState.currentRound >= 3) {
-                    gameWin();
+                const totalRounds = getRoundsForLevel(GameState.level);
+                
+                if (GameState.currentRound >= totalRounds) {
+                    // Level Complete!
+                    levelComplete();
                 } else {
                     GameState.currentRound++;
                     updateProgressDots();
                     generateRound();
-                    // Re-enable options
-                    document.querySelectorAll('.color-option').forEach(opt => {
-                        opt.classList.remove('disabled', 'correct', 'wrong');
-                        opt.style.pointerEvents = 'auto';
-                    });
                 }
                 updateUI();
                 saveGameData();
             }, 1000);
-
-            showToast(`Correct! +${totalReward} coins`, 'success');
+            
+            showToast(`Correct! +${reward} coins`, 'success');
         }
 
         function handleWrongAnswer() {
-            // Lose all collected coins in this session
-            const lostCoins = GameState.currentScore;
-            GameState.currentScore = 0;
-            GameState.totalEarned = 0;
-            GameState.gameActive = false;
+            GameState.lives--;
             GameState.currentCombo = 0;
-
-            // Increment games played and lost
-            GameState.totalGamesPlayed++;
-            GameState.totalGamesLost++;
-
-            saveGameData();
             updateUI();
-
-            // Show wrong overlay
-            document.getElementById('wrongOverlay').classList.add('active');
-
-            showToast(`Wrong! You lost ${lostCoins} coins!`, 'error');
+            
+            const totalRounds = getRoundsForLevel(GameState.level);
+            
+            if (GameState.lives <= 0) {
+                // Fail level - restart from round 1
+                document.getElementById('failTitle').textContent = 'Level Failed!';
+                document.getElementById('failText').textContent = `You ran out of lives on Round ${GameState.currentRound}/${totalRounds}. Restarting level...`;
+                document.getElementById('failBtn').innerHTML = '<i class="fas fa-redo"></i> Restart Level';
+                document.getElementById('wrongOverlay').classList.add('active');
+            } else {
+                // Lose life but continue
+                document.getElementById('failTitle').textContent = 'Wrong Color!';
+                document.getElementById('failText').textContent = `You lost 1 life. ${GameState.lives} remaining. Retry this round!`;
+                document.getElementById('failBtn').innerHTML = '<i class="fas fa-redo"></i> Try Again';
+                document.getElementById('wrongOverlay').classList.add('active');
+            }
         }
 
-        function showComboIndicator(text) {
-            document.getElementById('comboText').textContent = text;
-            document.getElementById('comboIndicator').classList.add('active');
-            setTimeout(() => document.getElementById('comboIndicator').classList.remove('active'), 1500);
+        function handleFailContinue() {
+            document.getElementById('wrongOverlay').classList.remove('active');
+            
+            if (GameState.lives <= 0) {
+                // Restart level from round 1
+                startGame();
+            } else {
+                // Retry same round
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.remove('disabled', 'correct', 'wrong');
+                    opt.style.pointerEvents = 'auto';
+                });
+                generateRound();
+            }
         }
 
-        function updateProgressDots() {
-            const dots = document.querySelectorAll('.progress-dot');
-            dots.forEach((dot, index) => {
-                dot.classList.remove('completed', 'current');
-                if (index < GameState.currentRound - 1) {
-                    dot.classList.add('completed');
-                } else if (index === GameState.currentRound - 1) {
-                    dot.classList.add('current');
-                }
-            });
-        }
-
-        function startTimer() {
-            if (GameState.timerInterval) clearInterval(GameState.timerInterval);
-
-            GameState.timerInterval = setInterval(() => {
-                GameState.timeRemaining--;
-                updateTimerDisplay();
-
-                if (GameState.timeRemaining <= 10) {
-                    document.getElementById('timerDisplay').classList.add('warning');
-                }
-
-                if (GameState.timeRemaining <= 0) {
-                    gameLoss();
-                }
-            }, 1000);
-        }
-
-        function updateTimerDisplay() {
-            const minutes = Math.floor(GameState.timeRemaining / 60);
-            const seconds = GameState.timeRemaining % 60;
-            document.getElementById('timerValue').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        function gameWin() {
+        function levelComplete() {
             clearInterval(GameState.timerInterval);
             GameState.gameActive = false;
             GameState.gameWon = true;
-            GameState.gameEnded = true;
-
-            // Increment games played and won
             GameState.totalGamesPlayed++;
             GameState.totalGamesWon++;
-
-            const baseMatchCoins = GameState.sessionMatches * GameState.baseMatchReward;
+            
             const winBonus = 100 * GameState.level;
-
             GameState.currentScore += winBonus;
             GameState.totalEarned += winBonus;
-
+            
             addXP(Math.floor(winBonus * 0.5));
-
-            // Update win overlay
-            document.getElementById('winRounds').textContent = '3';
-            document.getElementById('winTime').textContent = `${GameState.timeRemaining}s`;
-            document.getElementById('winBaseCoins').textContent = baseMatchCoins;
-            document.getElementById('winBonus').textContent = `+${winBonus}`;
-
-            document.getElementById('winOverlay').classList.add('active');
-
-            // Animate win card
-            document.getElementById('winsCard').classList.add('win-active');
-            setTimeout(() => document.getElementById('winsCard').classList.remove('win-active'), 1000);
-
-            createConfetti();
-            updateUI();
-            saveGameData();
-
-            showToast(`Victory! Win bonus: +${winBonus} coins!`, 'success');
-        }
-
-        function closeWinOverlay() {
-            document.getElementById('winOverlay').classList.remove('active');
-
-            if (GameState.totalEarned >= GameState.maxCoins) {
-                endGame();
-            } else {
-                showPreviewState();
-            }
-        }
-
-        function closeWrongOverlay() {
-            document.getElementById('wrongOverlay').classList.remove('active');
-
-            GameState.gameEnded = false;
-            GameState.gameWon = false;
-            saveGameData();
-            showPreviewState();
-        }
-
-        function gameLoss() {
-            clearInterval(GameState.timerInterval);
-            GameState.gameActive = false;
-            GameState.gameWon = false;
-            GameState.gameEnded = true;
-            GameState.currentCombo = 0;
-
-            // Lose all coins
-            const lostCoins = GameState.currentScore;
-            GameState.currentScore = 0;
-            GameState.totalEarned = 0;
-
-            // Increment stats
-            GameState.totalGamesPlayed++;
-            GameState.totalGamesLost++;
-
-            showToast(`Time's up! You lost ${lostCoins} coins!`, 'error');
-
-            updateUI();
-            saveGameData();
-
-            // Show game over state
-            showPreviewState();
-        }
-
-        function showPreviewState() {
-            document.getElementById('gamePreview').style.display = 'block';
-            document.getElementById('timerSection').classList.remove('active');
-            document.getElementById('colorDisplaySection').classList.remove('active');
-            document.getElementById('optionsSection').classList.remove('active');
-            document.getElementById('progressSection').style.display = 'none';
-
-            updatePreviewStats();
-            updateUI();
-        }
-
-        function endGame() {
-            clearInterval(GameState.timerInterval);
-            GameState.gameActive = false;
-            GameState.gameEnded = true;
-
-            showPreviewState();
-            showToast('Session ended!', 'info');
-        }
-
-        function attemptRestart() {
-            if (GameState.mainAppCoins < 30) {
-                showToast('Not enough coins! Need 30 to restart.', 'error');
-                return;
-            }
-
-            // Deduct coins via sync system
-            try {
-                const mainKey = 'sillyPrize_v9';
-                const saved = localStorage.getItem(mainKey);
-                if (saved) {
-                    let mainData = JSON.parse(saved);
-                    mainData.coins = (mainData.coins || 0) - 30;
-                    
-                    // Add negative history
-                    if (!mainData.history) mainData.history = [];
-                    mainData.history.unshift({
-                        id: Date.now(),
-                        amount: 30,
-                        title: 'Color Matcher Pro - Restart',
-                        type: 'game',
-                        isNegative: true,
-                        time: new Date().toISOString()
-                    });
-                    
-                    localStorage.setItem(mainKey, JSON.stringify(mainData));
-                }
-            } catch (e) {
-                console.error('Error deducting restart cost:', e);
-            }
-
-            // Reset game state
-            GameState.currentScore = 0;
-            GameState.totalEarned = 0;
-            GameState.matches = 0;
-            GameState.sessionMatches = 0;
-            GameState.currentCombo = 0;
-            GameState.gameEnded = false;
-            GameState.canRestart = false;
-            GameState.claimed = false;
-            GameState.gameWon = false;
-
-            saveGameData();
-            updateUI();
-            loadMainAppData();
-            showPreviewState();
-            showToast('Game restarted! -30 coins', 'success');
-        }
-
-        // LEVEL UP SYSTEM - Same as Coin Clicker Pro
-        function addXP(amount) {
-            if (GameState.level >= GameState.maxLevel || GameState.isLocked) return;
             
-            GameState.xp += amount;
-            
-            while (GameState.xp >= GameState.xpToNext && GameState.level < GameState.maxLevel && !GameState.isLocked) {
-                GameState.xp -= GameState.xpToNext;
-                prepareLevelUp();
-            }
-        }
-
-        function prepareLevelUp() {
-            GameState.pendingLevel = GameState.level + 1;
-            
-            // Check if verification needed (every 3 levels: 3, 6, 9...)
-            const needsVerification = GameState.pendingLevel % 3 === 0;
-            
-            if (needsVerification) {
-                GameState.isLocked = true;
-                saveGameData();
-                showLevelUpOverlay(true); // true = will need verification after
-            } else {
-                // Just show collect screen, no verification
-                GameState.isLocked = true; // Temp lock until collected
-                saveGameData();
-                showLevelUpOverlay(false); // false = no verification needed
-            }
-        }
-
-        function showLevelUpOverlay(needsVerification) {
-            document.getElementById('newLevel').textContent = GameState.pendingLevel;
+            // Show level up overlay
+            document.getElementById('completedLevelNum').textContent = GameState.level;
             document.getElementById('levelCoinsValue').textContent = Math.floor(GameState.currentScore).toLocaleString();
             document.getElementById('levelUpOverlay').classList.add('active');
             document.getElementById('pendingBadge').style.display = 'inline-flex';
             
             createConfetti();
+            updateUI();
+            saveGameData();
+            
+            showToast(`Level ${GameState.level} Complete! Bonus: +${winBonus} coins!`, 'success');
         }
 
         function collectLevelCoins() {
             const coinsToCollect = Math.floor(GameState.currentScore);
             
-            if (coinsToCollect <= 0) {
-                // Just continue without collecting
-                proceedAfterCollection();
-                return;
+            if (coinsToCollect > 0) {
+                const synced = syncWithMainApp(coinsToCollect, 0);
+                if (synced) {
+                    showToast(`Collected ${coinsToCollect} coins!`, 'success');
+                    loadMainAppData();
+                }
             }
             
-            // Sync with main app
-            const synced = syncWithMainApp(coinsToCollect, 0);
+            GameState.currentScore = 0;
+            const nextLevel = GameState.level + 1;
             
-            if (synced) {
-                showToast(`Collected ${coinsToCollect} coins!`, 'success');
-                
-                // Reset current score for next level
-                GameState.currentScore = 0;
-                GameState.level = GameState.pendingLevel;
+            // Check if verification needed (every 3 levels: 3, 6, 9...)
+            if (nextLevel % 3 === 0 && nextLevel <= 50) {
+                GameState.level = nextLevel;
                 GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
                 GameState.baseMultiplier = 1 + (GameState.level * 0.05);
+                GameState.isLocked = true;
+                GameState.pendingLevel = nextLevel;
+                saveGameData();
                 
-                // Check if verification needed after collection
-                const needsVerification = GameState.level % 3 === 0;
+                document.getElementById('levelUpOverlay').classList.remove('active');
+                setTimeout(() => showVerificationOverlay(), 300);
+            } else if (nextLevel <= 50) {
+                GameState.level = nextLevel;
+                GameState.currentRound = 1;
+                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.level * 0.05);
+                saveGameData();
                 
-                if (needsVerification) {
-                    // Show verification overlay
-                    document.getElementById('levelUpOverlay').classList.remove('active');
-                    setTimeout(() => {
-                        showVerificationOverlay();
-                    }, 300);
-                } else {
-                    // Just continue
-                    proceedAfterCollection();
-                }
-                
-                loadMainAppData();
+                document.getElementById('levelUpOverlay').classList.remove('active');
+                document.getElementById('pendingBadge').style.display = 'none';
+                showPreviewState();
+                showToast(`Level ${GameState.level} Unlocked!`, 'success');
             } else {
-                showToast('Error syncing coins. Please try again.', 'error');
+                // Game Complete - All 250 rounds done!
+                showToast('Congratulations! You completed all 250 rounds!', 'success');
+                setTimeout(() => goBack(), 2000);
             }
-        }
-
-        function proceedAfterCollection() {
-            GameState.isLocked = false;
-            GameState.pendingLevel = null;
-            saveGameData();
-            
-            document.getElementById('levelUpOverlay').classList.remove('active');
-            document.getElementById('pendingBadge').style.display = 'none';
-            
-            updateUI();
-            updatePreviewStats();
-            createConfetti();
-            showPreviewState();
         }
 
         function showVerificationOverlay() {
@@ -2630,39 +2200,72 @@
             document.getElementById('humanVerificationWrapper').classList.remove('active');
             document.getElementById('captchaContainer').classList.remove('active');
             document.getElementById('verificationSuccess').classList.add('active');
-            
             document.getElementById('pendingBadge').style.display = 'none';
-            
-            showToast('Verification complete! Continue playing!', 'success');
-            createConfetti();
             
             setTimeout(() => {
                 document.getElementById('verificationOverlay').classList.remove('active');
                 document.getElementById('verificationSuccess').classList.remove('active');
                 document.getElementById('verificationButtons').style.display = 'flex';
-                
                 showPreviewState();
             }, 2000);
         }
 
+        function updateProgressDots() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = '';
+            const totalRounds = getRoundsForLevel(GameState.level);
+            
+            for (let i = 1; i <= totalRounds; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i < GameState.currentRound) dot.classList.add('completed');
+                else if (i === GameState.currentRound) dot.classList.add('current');
+                container.appendChild(dot);
+            }
+        }
+
+        function startTimer() {
+            if (GameState.timerInterval) clearInterval(GameState.timerInterval);
+            
+            GameState.timerInterval = setInterval(() => {
+                GameState.timeRemaining--;
+                updateTimerDisplay();
+                
+                if (GameState.timeRemaining <= 10) {
+                    document.getElementById('timerDisplay').classList.add('warning');
+                }
+                
+                if (GameState.timeRemaining <= 0) {
+                    // Time out = Wrong answer
+                    handleWrongAnswer();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(GameState.timeRemaining / 60);
+            const seconds = GameState.timeRemaining % 60;
+            document.getElementById('timerValue').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function addXP(amount) {
+            if (GameState.level >= GameState.maxLevel) return;
+            GameState.xp += amount;
+            
+            // XP doesn't trigger level up anymore - rounds do
+            // But we keep XP for display and upgrades
+            if (GameState.xp >= GameState.xpToNext) {
+                GameState.xp = GameState.xpToNext; // Cap at max
+            }
+            updateUI();
+        }
+
         function renderUpgrades() {
             const container = document.getElementById('upgradesList');
-            
             const upgrades = [
-                { 
-                    id: 'timeBonus', 
-                    name: 'Time Bonus', 
-                    icon: 'fa-clock', 
-                    desc: '+5s per level', 
-                    color: '#3b82f6' 
-                },
-                { 
-                    id: 'scoreMult', 
-                    name: 'Score Multiplier', 
-                    icon: 'fa-times', 
-                    desc: '+0.2x per level', 
-                    color: '#ec4899' 
-                }
+                { id: 'timeBonus', name: 'Time Bonus', icon: 'fa-clock', desc: '+5s per level', color: '#3b82f6' },
+                { id: 'scoreMult', name: 'Score Multiplier', icon: 'fa-times', desc: '+0.2x per level', color: '#ec4899' }
             ];
             
             container.innerHTML = upgrades.map(up => {
@@ -2701,37 +2304,51 @@
             updateUI();
             saveGameData();
             updatePreviewStats();
-            
             showToast(`Upgraded ${type}!`, 'success');
         }
 
         function updateUI() {
             document.getElementById('levelValue').textContent = GameState.level;
             document.getElementById('currentXp').textContent = GameState.xp;
-            document.getElementById('targetXp').textContent = GameState.xpToNext === 0 ? 'MAX' : GameState.xpToNext.toLocaleString();
+            document.getElementById('targetXp').textContent = GameState.xpToNext.toLocaleString();
+            document.getElementById('xpBar').style.width = Math.min((GameState.xp / GameState.xpToNext) * 100, 100) + '%';
             
-            const xpPercent = GameState.xpToNext > 0 ? (GameState.xp / GameState.xpToNext) * 100 : 100;
-            document.getElementById('xpBar').style.width = xpPercent + '%';
+            document.getElementById('maxBadge').style.display = GameState.level >= 50 ? 'inline-flex' : 'none';
+            document.getElementById('pendingBadge').style.display = GameState.isLocked ? 'inline-flex' : 'none';
             
-            if (GameState.level >= GameState.maxLevel) {
-                document.getElementById('maxBadge').style.display = 'inline-flex';
-            }
-            
-            document.getElementById('totalEarnedDisplay').textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            document.getElementById('totalEarnedDisplay').textContent = Math.floor(GameState.currentScore).toLocaleString();
             document.getElementById('currentScore').textContent = Math.floor(GameState.currentScore).toLocaleString();
-            
             document.getElementById('gamesPlayed').textContent = GameState.totalGamesPlayed.toLocaleString();
             document.getElementById('gamesWon').textContent = GameState.totalGamesWon.toLocaleString();
-            
-            const winRateValue = GameState.totalGamesPlayed > 0 
-                ? Math.round((GameState.totalGamesWon / GameState.totalGamesPlayed) * 100) 
-                : 0;
-            document.getElementById('winRate').textContent = `${winRateValue}%`;
+            document.getElementById('currentRoundDisplay').textContent = GameState.currentRound;
+            document.getElementById('livesDisplay').textContent = GameState.lives;
+            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
             
             const totalMult = (GameState.scoreMultiplier * GameState.baseMultiplier).toFixed(1);
             document.getElementById('multiplierText').textContent = `x${totalMult}`;
-            
-            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
+        }
+
+        function showPreviewState() {
+            document.getElementById('gamePreview').style.display = 'block';
+            document.getElementById('timerSection').classList.remove('active');
+            document.getElementById('colorDisplaySection').classList.remove('active');
+            document.getElementById('optionsSection').classList.remove('active');
+            document.getElementById('progressSection').classList.remove('active');
+            document.getElementById('livesStat').style.display = 'none';
+            updatePreviewStats();
+            updateUI();
+        }
+
+        function showComboIndicator(text) {
+            document.getElementById('comboText').textContent = text;
+            document.getElementById('comboIndicator').classList.add('active');
+            setTimeout(() => document.getElementById('comboIndicator').classList.remove('active'), 1500);
+        }
+
+        function showFloatingCoins(amount) {
+            document.getElementById('floatingCoinsText').textContent = `+${amount}`;
+            document.getElementById('floatingCoins').classList.add('active');
+            setTimeout(() => document.getElementById('floatingCoins').classList.remove('active'), 1000);
         }
 
         function createConfetti() {
@@ -2748,19 +2365,10 @@
             }
         }
 
-        function showFloatingCoins(amount) {
-            document.getElementById('floatingCoinsText').textContent = `+${amount}`;
-            document.getElementById('floatingCoins').classList.add('active');
-            setTimeout(() => document.getElementById('floatingCoins').classList.remove('active'), 1000);
-        }
-
         function goBack() {
             saveGameData();
-            if (window.opener) {
-                window.close();
-            } else {
-                window.history.back();
-            }
+            if (window.opener) window.close();
+            else window.history.back();
         }
 
         function showToast(message, type) {
@@ -2784,11 +2392,8 @@
             }, 3000);
         }
 
-        // Save on exit
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                saveGameData();
-            }
+            if (document.hidden) saveGameData();
         });
     </script>
 </body>
