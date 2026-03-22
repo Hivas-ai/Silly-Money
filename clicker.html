@@ -34,9 +34,7 @@
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
+            touch-action: manipulation;
         }
 
         body {
@@ -209,23 +207,6 @@
             border-bottom: 2px solid rgba(37, 99, 235, 0.1);
         }
 
-        .total-earned-display {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .total-earned-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--success);
-            margin-bottom: 15px;
-        }
-
         .current-score-label {
             font-size: 0.8rem;
             color: var(--gray);
@@ -274,12 +255,13 @@
                 0 20px 60px rgba(245, 158, 11, 0.4),
                 inset 0 -10px 20px rgba(0,0,0,0.1),
                 inset 0 10px 20px rgba(255,255,255,0.5);
-            transition: var(--transition);
+            transition: transform 0.1s;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 4rem;
             color: #92400e;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .clicker-btn::before {
@@ -298,11 +280,11 @@
             position: relative;
             z-index: 2;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            transition: var(--transition);
+            pointer-events: none;
         }
 
         .clicker-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
         }
 
         .clicker-btn:disabled {
@@ -506,95 +488,13 @@
             color: var(--warning);
         }
 
-        /* Restart Cost Display */
-        .restart-info {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-left: 4px solid var(--warning);
-            padding: 12px 15px;
-            margin: 0 20px 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* Spacer for bottom */
+        .bottom-spacer {
+            height: 40px;
         }
 
-        .restart-text {
-            font-size: 0.9rem;
-            color: var(--dark);
-            font-weight: 600;
-        }
-
-        .restart-cost {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: var(--warning);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-
-        /* Claim Section */
-        .claim-section {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            z-index: 1000;
-        }
-
-        .claim-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .claim-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .claim-btn:disabled {
-            background: var(--gray);
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .claim-btn.restart {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        }
-
-        .claim-info {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        /* Professional Light Blur Overlays */
-        .level-up-overlay,
-        .verification-overlay {
+        /* Level Up Overlay - Shows First */
+        .level-up-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -605,21 +505,19 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(8px) saturate(180%);
             -webkit-backdrop-filter: blur(8px) saturate(180%);
         }
 
-        .level-up-overlay.active,
-        .verification-overlay.active {
+        .level-up-overlay.active {
             display: flex;
         }
 
-        .level-up-content,
-        .verification-content {
-            background: rgba(255, 255, 255, 0.95);
+        .level-up-content {
+            background: rgba(255, 255, 255, 0.98);
             border-radius: var(--border-radius);
-            padding: 40px;
+            padding: 40px 30px;
             text-align: center;
             max-width: 380px;
             width: 100%;
@@ -635,15 +533,15 @@
         }
 
         .level-up-icon {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: linear-gradient(135deg, #ffd700, #ffed4e);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 20px;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: #92400e;
             box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
             animation: starBounce 0.6s ease;
@@ -663,31 +561,117 @@
 
         .level-up-text {
             color: var(--gray);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-size: 0.95rem;
             line-height: 1.5;
         }
 
-        .level-up-btn {
+        .level-coins-display {
+            background: linear-gradient(135deg, #fef3c7, #fffbeb);
+            border: 2px solid #fcd34d;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .level-coins-label {
+            font-size: 0.85rem;
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .level-coins-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        .collect-btn {
             width: 100%;
-            padding: 14px 28px;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .collect-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .collect-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 14px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
             border-radius: 12px;
             font-weight: 700;
-            cursor: pointer;
             font-size: 1rem;
+            cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
             box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
         }
 
-        .level-up-btn:hover {
+        .continue-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         }
 
-        /* Verification Overlay Specifics */
+        /* Verification Overlay */
+        .verification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5600;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px) saturate(180%);
+        }
+
+        .verification-overlay.active {
+            display: flex;
+        }
+
+        .verification-content {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
         .verification-icon {
             width: 70px;
             height: 70px;
@@ -743,29 +727,6 @@
             background: var(--primary);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-
-        .verify-btn.captcha {
-            border-color: var(--info);
-            color: var(--info);
-        }
-
-        .verify-btn.captcha:hover {
-            background: var(--info);
-            color: white;
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
-        }
-
-        .verify-btn.human {
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .verify-btn.human:hover {
-            background: var(--success);
-            color: white;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
 
         /* Captcha Container */
@@ -792,11 +753,7 @@
             gap: 8px;
         }
 
-        .captcha-header i {
-            color: var(--info);
-        }
-
-        /* Human Verification Loading Section */
+        /* Verification Loading Section */
         .human-verification-wrapper {
             display: none;
             margin: 20px 0;
@@ -841,23 +798,12 @@
             animation: bounce 1.4s ease-in-out infinite both;
         }
 
-        .loading-dot:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .loading-dot:nth-child(2) {
-            animation-delay: -0.16s;
-        }
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
 
         @keyframes bounce {
-            0%, 80%, 100% { 
-                transform: scale(0);
-                opacity: 0.5;
-            }
-            40% { 
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
         }
 
         .verification-loading-text {
@@ -865,11 +811,6 @@
             color: var(--dark);
             font-weight: 600;
             margin-bottom: 8px;
-        }
-
-        .verification-loading-subtext {
-            font-size: 0.8rem;
-            color: var(--gray);
         }
 
         /* Success message for verification */
@@ -913,11 +854,6 @@
             margin-bottom: 5px;
         }
 
-        .success-subtext {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
         /* Toast */
         .toast-container {
             position: fixed;
@@ -934,13 +870,13 @@
         }
 
         .toast {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             color: var(--dark);
             padding: 14px 20px;
             border-radius: 12px;
             font-size: 0.9rem;
             font-weight: 600;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             border-left: 4px solid var(--primary);
             display: flex;
             align-items: center;
@@ -996,11 +932,12 @@
 
         /* Confetti */
         .confetti {
-            position: absolute;
+            position: fixed;
             width: 10px;
             height: 10px;
             background: var(--warning);
             animation: confetti-fall 3s linear forwards;
+            z-index: 6000;
         }
 
         @keyframes confetti-fall {
@@ -1008,7 +945,6 @@
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* CPS Counter Animation */
         .cps-active {
             animation: cpsPulse 0.1s ease;
         }
@@ -1071,9 +1007,6 @@
 
         <!-- Score Section -->
         <div class="score-section">
-            <div class="total-earned-display">Total Earned This Session</div>
-            <div class="total-earned-value" id="totalEarnedDisplay">0</div>
-            
             <div class="current-score-label">Current Score</div>
             <div class="current-score" id="currentScore">0</div>
             
@@ -1090,14 +1023,6 @@
             </button>
             <div class="streak-indicator" id="streakIndicator">
                 <i class="fas fa-fire"></i> <span id="streakCount">0</span>
-            </div>
-        </div>
-
-        <!-- Restart Cost Info -->
-        <div class="restart-info" id="restartInfo" style="display: none;">
-            <div class="restart-text">Play again?</div>
-            <div class="restart-cost">
-                <i class="fas fa-coins"></i> 30 coins
             </div>
         </div>
 
@@ -1137,22 +1062,10 @@
             <div id="upgradesList"></div>
         </div>
 
-        <!-- Spacer -->
-        <div style="height: 100px;"></div>
+        <div class="bottom-spacer"></div>
     </div>
 
-    <!-- Claim Section -->
-    <div class="claim-section">
-        <button class="claim-btn" id="claimBtn" onclick="claimEarnings()" disabled>
-            <i class="fas fa-check-circle"></i>
-            Claim <span id="claimAmount">0</span> Coins
-        </button>
-        <div class="claim-info">
-            Min 50 to claim • Max 30,000 per session
-        </div>
-    </div>
-
-    <!-- Level Up Overlay - Shows First -->
+    <!-- Level Up Overlay - Collect Coins Here -->
     <div class="level-up-overlay" id="levelUpOverlay">
         <div class="level-up-content">
             <div class="level-up-icon">
@@ -1163,13 +1076,19 @@
                 You reached <strong>Level <span id="newLevel">2</span></strong>!<br>
                 Click multiplier increased!
             </div>
-            <button class="level-up-btn" onclick="proceedToVerification()">
-                <i class="fas fa-arrow-right"></i> OK, Continue
+            
+            <div class="level-coins-display">
+                <div class="level-coins-label">Coins Earned This Level</div>
+                <div class="level-coins-value" id="levelCoinsValue">0</div>
+            </div>
+            
+            <button class="collect-btn" id="collectBtn" onclick="collectLevelCoins()">
+                <i class="fas fa-coins"></i> Collect Coins & Continue
             </button>
         </div>
     </div>
 
-    <!-- Verification Overlay - Shows After OK -->
+    <!-- Verification Overlay - Only every 3 levels -->
     <div class="verification-overlay" id="verificationOverlay">
         <div class="verification-content">
             <div class="verification-icon">
@@ -1177,7 +1096,7 @@
             </div>
             <div class="verification-title">Human Verification Required</div>
             <div class="verification-desc">
-                To unlock Level <span id="verifyLevel">2</span> and continue playing, please verify that you are human.
+                To unlock Level <span id="verifyLevel">3</span> and continue playing, please verify that you are human.
             </div>
             
             <!-- Captcha Container -->
@@ -1199,6 +1118,9 @@
                 </div>
                 <div class="verification-loading-text">Verifying your humanity...</div>
                 <div class="verification-loading-subtext">Please complete the task in the opened window</div>
+                <button class="verify-btn" style="margin-top: 20px;" onclick="window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> Go to Verification Site
+                </button>
             </div>
 
             <!-- Verification Success Message -->
@@ -1211,10 +1133,10 @@
             </div>
             
             <div class="verification-buttons" id="verificationButtons">
-                <button class="verify-btn captcha" onclick="showCaptcha()">
+                <button class="verify-btn" onclick="showCaptcha()">
                     <i class="fas fa-robot"></i> CAPTCHA Verification
                 </button>
-                <button class="verify-btn human" onclick="showHumanVerification()">
+                <button class="verify-btn" onclick="showHumanVerification()">
                     <i class="fas fa-user-check"></i> Human Action Verification
                 </button>
             </div>
@@ -1228,10 +1150,10 @@
     <script type="text/javascript" src="https://confirmapp.online/cp/js/joy6y"></script>
 
     <script>
-        // Game State - Auto-unlock verification edition (version 8)
+        // Game State
         const GameState = {
             currentScore: 0,
-            totalEarned: 0,
+            totalEarnedSession: 0,
             totalClicks: 0,
             bestStreak: 0,
             
@@ -1245,32 +1167,22 @@
             xpToNext: 100,
             maxLevel: 50,
             pendingLevel: null,
+            isLocked: false,
             
             baseMultiplier: 1,
             clickMultiplier: 1,
             criticalChance: 0,
             
-            gameEnded: false,
-            canRestart: false,
-            
             cps: 0,
             clickTimestamps: [],
-            
-            maxCoins: 30000,
-            claimed: false,
-            verified: false,
-            isLocked: false,
-            
-            // Verification tracking
-            verificationStartTime: null,
-            verificationTabOpen: false,
             
             upgrades: {
                 multiplier: { level: 0, maxLevel: 10, baseCost: 800, cost: 800, effect: 0.5 },
                 critical: { level: 0, maxLevel: 5, baseCost: 1250, cost: 1250, effect: 0.02 }
             },
             
-            mainAppCoins: 0
+            verificationStartTime: null,
+            verificationTabOpen: false
         };
 
         const XP_TABLE = [];
@@ -1281,17 +1193,80 @@
         let cpsInterval;
         let streakCheckInterval;
 
+        // NEW TRACKING SYSTEM - Compatible with main app
+        function syncWithMainApp(coins, gamesPlayed = 1) {
+            const data = {
+                type: 'GAME_REWARD',
+                gameId: 'clicker',
+                coins: coins,
+                gamesPlayed: gamesPlayed,
+                timestamp: Date.now()
+            };
+            
+            // Try to use opener if available
+            if (window.opener && window.opener.reportGameEarnings) {
+                window.opener.reportGameEarnings(coins, gamesPlayed);
+                return true;
+            }
+            
+            // Fallback: localStorage method for cross-tab sync
+            try {
+                // Use the main app's key
+                const mainKey = 'sillyPrize_v9';
+                const saved = localStorage.getItem(mainKey);
+                let mainData = saved ? JSON.parse(saved) : {};
+                
+                // Update coins
+                mainData.coins = (mainData.coins || 0) + coins;
+                mainData.gamesPlayed = (mainData.gamesPlayed || 0) + gamesPlayed;
+                mainData.gamesCoins = (mainData.gamesCoins || 0) + coins;
+                
+                // Add to history
+                if (!mainData.history) mainData.history = [];
+                mainData.history.unshift({
+                    id: Date.now(),
+                    amount: coins,
+                    title: 'Coin Clicker Pro',
+                    type: 'game',
+                    isNegative: false,
+                    time: new Date().toISOString()
+                });
+                if (mainData.history.length > 50) mainData.history.pop();
+                
+                // Save back
+                localStorage.setItem(mainKey, JSON.stringify(mainData));
+                
+                // Broadcast change
+                localStorage.setItem('sillyPrize_sync', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: {
+                        coins: mainData.coins,
+                        gamesPlayed: mainData.gamesPlayed,
+                        gamesCoins: mainData.gamesCoins,
+                        source: 'game'
+                    }
+                }));
+                
+                // Cleanup sync key
+                setTimeout(() => localStorage.removeItem('sillyPrize_sync'), 100);
+                
+                return true;
+            } catch (e) {
+                console.error('Sync error:', e);
+                return false;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Clear old saves
-            for (let i = 1; i <= 7; i++) {
+            for (let i = 1; i <= 8; i++) {
                 localStorage.removeItem(`clickerPro_v${i}_save`);
             }
             localStorage.removeItem('clickerPro_save');
+            localStorage.removeItem('gameCoinPro_v4');
             
             // Listen for verification completion from other tabs
             window.addEventListener('storage', handleStorageChange);
-            
-            // Listen for visibility change (when user returns to tab)
             document.addEventListener('visibilitychange', handleVisibilityChange);
             
             loadGameData();
@@ -1303,10 +1278,9 @@
         });
 
         function handleStorageChange(e) {
-            // Listen for verification completion from other tabs
             if (e.key === 'clickerPro_verification_complete') {
                 const data = JSON.parse(e.newValue);
-                if (data && data.verified && data.timestamp > GameState.verificationStartTime) {
+                if (data && data.verified && data.timestamp > (GameState.verificationStartTime || 0)) {
                     completeVerification();
                 }
             }
@@ -1314,22 +1288,16 @@
 
         function handleVisibilityChange() {
             if (!document.hidden && GameState.verificationTabOpen) {
-                // User returned to the tab after opening verification
                 GameState.verificationTabOpen = false;
-                
-                // Check if enough time has passed (minimum 5 seconds for "verification")
-                const timeAway = Date.now() - GameState.verificationStartTime;
-                
-                if (timeAway > 5000) { // 5 seconds minimum
-                    // Simulate verification completion
+                const timeAway = Date.now() - (GameState.verificationStartTime || 0);
+                if (timeAway > 5000) {
                     setTimeout(() => {
                         completeVerification();
-                        // Notify other tabs
                         localStorage.setItem('clickerPro_verification_complete', JSON.stringify({
                             verified: true,
                             timestamp: Date.now()
                         }));
-                    }, 1500); // Small delay for realism
+                    }, 1500);
                 }
             }
         }
@@ -1364,11 +1332,10 @@
 
         function loadMainAppData() {
             try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
+                const saved = localStorage.getItem('sillyPrize_v9');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    GameState.mainAppCoins = data.coins || 0;
-                    document.getElementById('mainBalance').textContent = GameState.mainAppCoins.toLocaleString();
+                    document.getElementById('mainBalance').textContent = (data.coins || 0).toLocaleString();
                 }
             } catch (e) {
                 console.error('Error loading main app data:', e);
@@ -1377,7 +1344,7 @@
 
         function loadGameData() {
             try {
-                const saved = localStorage.getItem('clickerPro_v8_save');
+                const saved = localStorage.getItem('clickerPro_v9_save');
                 if (saved) {
                     const data = JSON.parse(saved);
                     GameState.level = data.level || 1;
@@ -1385,12 +1352,22 @@
                     GameState.xpToNext = XP_TABLE[GameState.level - 1] || 100;
                     GameState.bestStreak = data.bestStreak || 0;
                     GameState.totalClicks = data.totalClicks || 0;
-                    GameState.totalEarned = data.totalEarned || 0;
+                    GameState.totalEarnedSession = data.totalEarnedSession || 0;
                     GameState.upgrades = data.upgrades || GameState.upgrades;
-                    GameState.verified = data.verified || false;
                     GameState.isLocked = data.isLocked || false;
                     GameState.pendingLevel = data.pendingLevel || null;
+                    GameState.currentScore = data.currentScore || 0;
                     applyUpgradeEffects();
+                    
+                    // If was locked, show appropriate overlay
+                    if (GameState.isLocked && GameState.pendingLevel) {
+                        if (GameState.pendingLevel % 3 === 0) {
+                            showVerificationOverlay();
+                        } else {
+                            // Should not happen, but unlock just in case
+                            GameState.isLocked = false;
+                        }
+                    }
                 }
             } catch (e) {
                 console.error('Error loading game data:', e);
@@ -1404,14 +1381,14 @@
                     xp: GameState.xp,
                     bestStreak: GameState.bestStreak,
                     totalClicks: GameState.totalClicks,
-                    totalEarned: GameState.totalEarned,
+                    totalEarnedSession: GameState.totalEarnedSession,
                     upgrades: GameState.upgrades,
-                    verified: GameState.verified,
                     isLocked: GameState.isLocked,
                     pendingLevel: GameState.pendingLevel,
+                    currentScore: GameState.currentScore,
                     lastSave: Date.now()
                 };
-                localStorage.setItem('clickerPro_v8_save', JSON.stringify(data));
+                localStorage.setItem('clickerPro_v9_save', JSON.stringify(data));
             } catch (e) {
                 console.error('Error saving game data:', e);
             }
@@ -1422,28 +1399,16 @@
             GameState.criticalChance = GameState.upgrades.critical.level * GameState.upgrades.critical.effect;
         }
 
+        // FIXED: Removed touch delay restrictions for spam clicking
         function handleClick(event) {
-            if (GameState.gameEnded) {
-                if (GameState.canRestart) {
-                    attemptRestart();
-                }
-                return;
-            }
-
             if (GameState.isLocked) {
-                showToast('Level up pending! Verify to continue.', 'warning');
-                showLevelUpOverlay();
-                return;
-            }
-
-            if (GameState.totalEarned >= GameState.maxCoins) {
-                showToast('Maximum coins reached for this session!', 'warning');
-                endGame();
+                showToast('Level up pending! Collect your coins first.', 'warning');
                 return;
             }
 
             const now = Date.now();
             
+            // Streak logic
             if (GameState.currentStreak === 0 || (now - GameState.lastClickTime) <= GameState.streakTimeout) {
                 GameState.currentStreak++;
                 showStreakIndicator();
@@ -1459,6 +1424,7 @@
             GameState.clickTimestamps.push(now);
             calculateCPS();
 
+            // Calculate earnings
             let isCritical = false;
             let earned = GameState.clickMultiplier * GameState.baseMultiplier;
             
@@ -1475,21 +1441,13 @@
                 isCritical = true;
             }
 
-            const remaining = GameState.maxCoins - GameState.totalEarned;
-            if (earned > remaining) earned = remaining;
-
             GameState.currentScore += earned;
-            GameState.totalEarned += earned;
+            GameState.totalEarnedSession += earned;
             GameState.totalClicks++;
 
             addXP(Math.floor(earned * 0.5) + 1);
             createClickEffect(event, earned, isCritical);
             updateUI();
-
-            if (GameState.totalEarned >= GameState.maxCoins) {
-                showToast('Maximum coins reached! Claim now!', 'success');
-                endGame();
-            }
         }
 
         function showStreakIndicator() {
@@ -1508,75 +1466,6 @@
             indicator.classList.remove('active');
         }
 
-        function endGame() {
-            if (GameState.currentStreak > GameState.bestStreak) {
-                GameState.bestStreak = GameState.currentStreak;
-                saveGameData();
-            }
-            
-            GameState.gameEnded = true;
-            document.getElementById('clickerBtn').disabled = true;
-            
-            if (GameState.mainAppCoins >= 30) {
-                GameState.canRestart = true;
-                document.getElementById('restartInfo').style.display = 'flex';
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
-                document.getElementById('claimBtn').classList.add('restart');
-                document.getElementById('claimBtn').disabled = false;
-            } else {
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim ' + Math.floor(GameState.currentScore).toLocaleString() + ' Coins';
-                if (GameState.currentScore >= 50) {
-                    document.getElementById('claimBtn').disabled = false;
-                }
-            }
-        }
-
-        function attemptRestart() {
-            if (GameState.mainAppCoins < 30) {
-                showToast('Not enough coins! Need 30 to restart.', 'error');
-                return;
-            }
-
-            GameState.mainAppCoins -= 30;
-            
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = GameState.mainAppCoins;
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error updating main app coins:', e);
-            }
-
-            if (GameState.currentStreak > GameState.bestStreak) {
-                GameState.bestStreak = GameState.currentStreak;
-            }
-            GameState.currentStreak = 0;
-            GameState.lastClickTime = 0;
-            hideStreakIndicator();
-
-            GameState.currentScore = 0;
-            GameState.totalEarned = 0;
-            GameState.totalClicks = 0;
-            GameState.gameEnded = false;
-            GameState.canRestart = false;
-            GameState.claimed = false;
-            GameState.clickTimestamps = [];
-            GameState.cps = 0;
-
-            document.getElementById('clickerBtn').disabled = GameState.isLocked;
-            document.getElementById('restartInfo').style.display = 'none';
-            document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim <span id="claimAmount">0</span> Coins';
-            document.getElementById('claimBtn').classList.remove('restart');
-            document.getElementById('claimBtn').disabled = true;
-
-            updateUI();
-            loadMainAppData();
-            showToast('Game restarted! -30 coins', 'success');
-        }
-
         function addXP(amount) {
             if (GameState.level >= GameState.maxLevel || GameState.isLocked) return;
             
@@ -1590,26 +1479,89 @@
 
         function prepareLevelUp() {
             GameState.pendingLevel = GameState.level + 1;
-            GameState.isLocked = true;
-            saveGameData();
-            showLevelUpOverlay();
+            
+            // Check if verification needed (every 3 levels: 3, 6, 9...)
+            const needsVerification = GameState.pendingLevel % 3 === 0;
+            
+            if (needsVerification) {
+                GameState.isLocked = true;
+                saveGameData();
+                showLevelUpOverlay(true); // true = will need verification after
+            } else {
+                // Just show collect screen, no verification
+                GameState.isLocked = true; // Temp lock until collected
+                saveGameData();
+                showLevelUpOverlay(false); // false = no verification needed
+            }
         }
 
-        function showLevelUpOverlay() {
-            if (GameState.pendingLevel) {
-                document.getElementById('newLevel').textContent = GameState.pendingLevel;
-            } else {
-                document.getElementById('newLevel').textContent = GameState.level + 1;
-                GameState.pendingLevel = GameState.level + 1;
-            }
+        function showLevelUpOverlay(needsVerification) {
+            document.getElementById('newLevel').textContent = GameState.pendingLevel;
+            document.getElementById('levelCoinsValue').textContent = Math.floor(GameState.currentScore).toLocaleString();
             document.getElementById('levelUpOverlay').classList.add('active');
             document.getElementById('pendingBadge').style.display = 'inline-flex';
+            
+            // Disable clicker
+            document.getElementById('clickerBtn').disabled = true;
+            
             createConfetti();
         }
 
-        function proceedToVerification() {
+        function collectLevelCoins() {
+            const coinsToCollect = Math.floor(GameState.currentScore);
+            
+            if (coinsToCollect <= 0) {
+                // Just continue without collecting
+                proceedAfterCollection();
+                return;
+            }
+            
+            // Sync with main app
+            const synced = syncWithMainApp(coinsToCollect, 0); // 0 games, just adding coins
+            
+            if (synced) {
+                showToast(`Collected ${coinsToCollect} coins!`, 'success');
+                
+                // Reset current score for next level
+                GameState.currentScore = 0;
+                GameState.level = GameState.pendingLevel;
+                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.level * 0.05);
+                
+                // Check if verification needed after collection
+                const needsVerification = GameState.level % 3 === 0;
+                
+                if (needsVerification) {
+                    // Show verification overlay
+                    document.getElementById('levelUpOverlay').classList.remove('active');
+                    setTimeout(() => {
+                        showVerificationOverlay();
+                    }, 300);
+                } else {
+                    // Just continue
+                    proceedAfterCollection();
+                }
+            } else {
+                showToast('Error syncing coins. Please try again.', 'error');
+            }
+        }
+
+        function proceedAfterCollection() {
+            GameState.isLocked = false;
+            GameState.pendingLevel = null;
+            saveGameData();
+            
             document.getElementById('levelUpOverlay').classList.remove('active');
-            document.getElementById('verifyLevel').textContent = GameState.pendingLevel;
+            document.getElementById('pendingBadge').style.display = 'none';
+            document.getElementById('clickerBtn').disabled = false;
+            
+            updateUI();
+            loadMainAppData();
+            createConfetti();
+        }
+
+        function showVerificationOverlay() {
+            document.getElementById('verifyLevel').textContent = GameState.level;
             document.getElementById('verificationOverlay').classList.add('active');
         }
 
@@ -1617,72 +1569,47 @@
             document.getElementById('verificationButtons').style.display = 'none';
             document.getElementById('captchaContainer').classList.add('active');
             showToast('Please complete the CAPTCHA below', 'info');
-            
-            // Start 4 minute countdown
             startVerificationCountdown();
         }
 
         function showHumanVerification() {
-            // Open verification link
             window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank');
-            
-            // Track verification start
             GameState.verificationStartTime = Date.now();
             GameState.verificationTabOpen = true;
             
-            // Show loading state
             document.getElementById('verificationButtons').style.display = 'none';
             document.getElementById('humanVerificationWrapper').classList.add('active');
             
             showToast('Complete the task in the new window', 'info');
-            
-            // Start 4 minute countdown
             startVerificationCountdown();
         }
 
         function startVerificationCountdown() {
-            // 4 minutes = 240000 milliseconds
             setTimeout(() => {
                 completeVerification();
             }, 240000); // 4 minutes
         }
 
         function completeVerification() {
-            // Apply the level up
-            if (GameState.pendingLevel) {
-                GameState.level = GameState.pendingLevel;
-                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
-                GameState.baseMultiplier = 1 + (GameState.level * 0.05);
-            }
-            
             GameState.isLocked = false;
             GameState.pendingLevel = null;
-            GameState.verified = true;
-            GameState.verificationTabOpen = false;
-            
             saveGameData();
             
-            // Show success UI
             document.getElementById('humanVerificationWrapper').classList.remove('active');
             document.getElementById('captchaContainer').classList.remove('active');
             document.getElementById('verificationSuccess').classList.add('active');
             
-            // Hide pending badge
             document.getElementById('pendingBadge').style.display = 'none';
-            
-            // Re-enable clicking
             document.getElementById('clickerBtn').disabled = false;
             
-            showToast('Verification complete! Level unlocked!', 'success');
+            showToast('Verification complete! Continue playing!', 'success');
             createConfetti();
-            updateUI();
             
-            // Close verification overlay after delay
             setTimeout(() => {
                 document.getElementById('verificationOverlay').classList.remove('active');
                 document.getElementById('verificationSuccess').classList.remove('active');
                 document.getElementById('verificationButtons').style.display = 'flex';
-            }, 2500);
+            }, 2000);
         }
 
         function renderUpgrades() {
@@ -1756,11 +1683,6 @@
                 document.getElementById('maxBadge').style.display = 'inline-flex';
             }
             
-            if (GameState.isLocked) {
-                document.getElementById('pendingBadge').style.display = 'inline-flex';
-            }
-            
-            document.getElementById('totalEarnedDisplay').textContent = Math.floor(GameState.totalEarned).toLocaleString();
             document.getElementById('currentScore').textContent = Math.floor(GameState.currentScore).toLocaleString();
             document.getElementById('totalClicks').textContent = GameState.totalClicks.toLocaleString();
             document.getElementById('bestStreak').textContent = GameState.bestStreak.toLocaleString();
@@ -1775,15 +1697,7 @@
             const totalMult = (GameState.clickMultiplier * GameState.baseMultiplier).toFixed(1);
             document.getElementById('multiplierText').textContent = `x${totalMult}`;
             
-            const claimBtn = document.getElementById('claimBtn');
-            const claimAmount = document.getElementById('claimAmount');
-            claimAmount.textContent = Math.floor(GameState.currentScore).toLocaleString();
-            
-            if (!GameState.gameEnded) {
-                claimBtn.disabled = GameState.currentScore < 50 || GameState.isLocked;
-            }
-            
-            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarnedSession).toLocaleString();
         }
 
         function createClickEffect(event, amount, isCritical) {
@@ -1807,83 +1721,28 @@
                 effect.textContent += ' 🔥';
             }
             
-            const x = (rect.left - containerRect.left) + rect.width / 2 + (Math.random() * 40 - 20);
-            const y = (rect.top - containerRect.top) + rect.height / 2;
+            // Handle both mouse and touch events
+            let clientX, clientY;
+            if (event && event.type.includes('touch')) {
+                clientX = event.touches[0].clientX;
+                clientY = event.touches[0].clientY;
+            } else if (event) {
+                clientX = event.clientX;
+                clientY = event.clientY;
+            } else {
+                // Center of button if no event
+                clientX = rect.left + rect.width / 2;
+                clientY = rect.top + rect.height / 2;
+            }
+            
+            const x = (clientX - containerRect.left) - 20;
+            const y = (clientY - containerRect.top) - 20;
             
             effect.style.left = x + 'px';
             effect.style.top = y + 'px';
             
             container.appendChild(effect);
             setTimeout(() => effect.remove(), 1000);
-        }
-
-        function claimEarnings() {
-            if (GameState.canRestart) {
-                attemptRestart();
-                return;
-            }
-            
-            if (GameState.currentScore < 50 || GameState.claimed || GameState.isLocked) return;
-            
-            if (GameState.currentStreak > GameState.bestStreak) {
-                GameState.bestStreak = GameState.currentStreak;
-                saveGameData();
-            }
-            
-            const amount = Math.floor(GameState.currentScore);
-            
-            if (window.opener) {
-                window.opener.postMessage({
-                    type: 'GAME_REWARD',
-                    gameId: 'clicker',
-                    coins: amount
-                }, '*');
-            }
-            
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = (data.coins || 0) + amount;
-                    data.gamesPlayed = (data.gamesPlayed || 0) + 1;
-                    data.todayEarned = (data.todayEarned || 0) + amount;
-                    data.totalEarned = (data.totalEarned || 0) + amount;
-                    
-                    const historyItem = {
-                        id: Date.now(),
-                        amount: amount,
-                        source: 'clicker',
-                        sourceId: 'clicker',
-                        isNegative: false,
-                        timestamp: new Date().toISOString()
-                    };
-                    data.history = data.history || [];
-                    data.history.unshift(historyItem);
-                    if (data.history.length > 100) data.history.pop();
-                    
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error saving to main app:', e);
-            }
-            
-            GameState.claimed = true;
-            GameState.currentScore = 0;
-            
-            saveGameData();
-            updateUI();
-            loadMainAppData();
-            
-            showToast(`Claimed ${amount} coins!`, 'success');
-            
-            const btn = document.getElementById('claimBtn');
-            btn.innerHTML = '<i class="fas fa-check"></i> Claimed!';
-            btn.disabled = true;
-            btn.style.background = 'var(--gray)';
-            
-            setTimeout(() => {
-                goBack();
-            }, 2000);
         }
 
         function createConfetti() {
@@ -1930,6 +1789,7 @@
             }, 3000);
         }
 
+        // Keyboard support
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space' || e.code === 'Enter') {
                 e.preventDefault();
@@ -1937,13 +1797,7 @@
             }
         });
 
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', (e) => {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) e.preventDefault();
-            lastTouchEnd = now;
-        }, false);
-
+        // Save on exit
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 saveGameData();
