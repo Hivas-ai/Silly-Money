@@ -437,6 +437,20 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .home-section-title{font-size:1.125rem;font-weight:700;margin:24px 0 16px;display:flex;align-items:center;gap:8px;}
 .home-section-title i{color:var(--primary);}
 
+/* ── TOP EARNERS ── */
+.top-earners-card{background:var(--surface);border-radius:var(--r);padding:20px;margin-bottom:24px;box-shadow:var(--sh);border:1px solid rgba(0,0,0,.05);}
+.top-earners-title{font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.top-earners-title i{color:var(--warning);}
+.earner-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gray-light);}
+.earner-item:last-child{border-bottom:none;}
+.earner-rank{width:28px;height:28px;background:var(--primary-soft);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.875rem;color:var(--primary);}
+.earner-rank.top-1{background:linear-gradient(135deg,#ffd700,#ffb700);color:#fff;}
+.earner-rank.top-2{background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#fff;}
+.earner-rank.top-3{background:linear-gradient(135deg,#cd7f32,#b87333);color:#fff;}
+.earner-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.25rem;}
+.earner-name{flex:1;font-weight:600;font-size:.875rem;}
+.earner-coins{font-weight:700;color:var(--success);font-size:.875rem;}
+
 /* ── TASKS SECTION IN OFFERS ── */
 .tasks-container{margin-top:40px;padding-top:32px;border-top:2px solid var(--gray-light);}
 .tasks-title{font-size:1.25rem;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:var(--dark);}
@@ -523,6 +537,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 
 <!-- HOME -->
 <section id="homeSection" class="sec">
+  <!-- 1. Balance -->
   <div class="bal-card">
     <div class="bal-lbl">Total Balance</div>
     <div class="bal-amt"><i class="fa-solid fa-coins"></i><span id="totalCoins">0</span></div>
@@ -532,7 +547,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
     </div>
   </div>
   
-  <!-- XP Progress Section -->
+  <!-- 2. Level (XP Progress) -->
   <div class="xp-section">
     <div class="xp-header">
       <div class="xp-level">
@@ -555,18 +570,105 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
     <div class="xp-bonus" id="xpBonus">Next level: +50 coins bonus!</div>
   </div>
   
-  <!-- Streak Display -->
+  <!-- 3. Streak -->
   <div class="streak-display" id="streakDisplay" style="margin-bottom:20px;">
     <i class="fa-solid fa-fire"></i>
     <span id="streakText">0 Day Streak</span>
   </div>
   
-  <!-- Screen Time Display -->
-  <div class="screen-time-display" id="screenTimeDisplay">
+  <!-- 4. Screen Time -->
+  <div class="screen-time-display" id="screenTimeDisplay" style="margin-bottom:20px;">
     <i class="fa-solid fa-clock"></i>
     <span id="screenTimeText">Screen time: 0m</span>
   </div>
-
+  
+  <!-- 5. Top Earners -->
+  <div class="top-earners-card">
+    <div class="top-earners-title"><i class="fa-solid fa-trophy"></i> Top Earners</div>
+    <div id="topEarnersList">
+      <div class="earner-item">
+        <div class="earner-rank top-1">1</div>
+        <div class="earner-avatar" style="background:linear-gradient(135deg,#ff6b35,#ff8f5a);">🦊</div>
+        <div class="earner-name">CryptoKing</div>
+        <div class="earner-coins">125.4k</div>
+      </div>
+      <div class="earner-item">
+        <div class="earner-rank top-2">2</div>
+        <div class="earner-avatar" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);">🦄</div>
+        <div class="earner-name">SpinMaster</div>
+        <div class="earner-coins">98.2k</div>
+      </div>
+      <div class="earner-item">
+        <div class="earner-rank top-3">3</div>
+        <div class="earner-avatar" style="background:linear-gradient(135deg,#10b981,#34d399);">🐸</div>
+        <div class="earner-name">TaskHunter</div>
+        <div class="earner-coins">87.6k</div>
+      </div>
+      <div class="earner-item">
+        <div class="earner-rank">4</div>
+        <div class="earner-avatar" style="background:linear-gradient(135deg,#3b82f6,#60a5fa);">🤖</div>
+        <div class="earner-name">DailyGrinder</div>
+        <div class="earner-coins">72.1k</div>
+      </div>
+      <div class="earner-item">
+        <div class="earner-rank">5</div>
+        <div class="earner-avatar" style="background:linear-gradient(135deg,#ec4899,#f472b6);">🎃</div>
+        <div class="earner-name">OfferQueen</div>
+        <div class="earner-coins">65.8k</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 6. Spinner (Lucky Spin) -->
+  <div class="wheel-sec">
+    <div class="card-hdr" style="margin-bottom:0;">
+      <div class="card-title"><i class="fa-solid fa-dharmachakra" style="color:var(--warning);"></i> Lucky Spin</div>
+      <span style="font-size:.875rem;color:var(--gray);font-weight:600;"><span id="spinsLeft">3</span> free left</span>
+    </div>
+    <div class="wheel-container">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheelCanvas" class="wheel-canvas" width="280" height="280"></canvas>
+      <div class="wheel-center"><i class="fa-solid fa-star"></i></div>
+    </div>
+    <div class="spin-btn-wrap">
+      <button class="spin-btn" id="spinBtn" onclick="spinWheel()"><i class="fa-solid fa-play"></i> SPIN NOW</button>
+    </div>
+    <div class="spin-cost" id="spinCost" style="display:none;">
+      <i class="fa-solid fa-coins"></i> 300 coins per spin
+    </div>
+  </div>
+  
+  <!-- 7. Offers/Tasks -->
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title"><i class="fa-solid fa-fire"></i> Hot Offers</div>
+      <button class="btn-w" onclick="switchTab('offers')" style="padding:8px 16px;font-size:.75rem;">View All</button>
+    </div>
+    <div id="homeOffersPreview">
+      <div class="offer-card" style="margin-bottom:12px;">
+        <div class="offer-hdr" style="padding-right:0;">
+          <div class="offer-img" style="background:#6366f120;color:#6366f1;"><i class="fa-solid fa-poll"></i></div>
+          <div class="offer-info">
+            <div class="offer-title">Premium Survey</div>
+            <div class="offer-desc">Complete detailed consumer survey</div>
+            <div class="offer-rew"><i class="fa-solid fa-coins"></i> +750 coins</div>
+          </div>
+        </div>
+      </div>
+      <div class="offer-card" style="margin-bottom:0;">
+        <div class="offer-hdr" style="padding-right:0;">
+          <div class="offer-img" style="background:#10b98120;color:#10b981;"><i class="fa-solid fa-gamepad"></i></div>
+          <div class="offer-info">
+            <div class="offer-title">Gaming App Install</div>
+            <div class="offer-desc">Download and play RPG game</div>
+            <div class="offer-rew"><i class="fa-solid fa-coins"></i> +850 coins</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 8. Quick Access -->
   <div class="home-section-title"><i class="fa-solid fa-compass"></i> Quick Access</div>
   <div class="home-grid">
     <div class="home-card" onclick="switchTab('offers')">
@@ -591,31 +693,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
     </div>
   </div>
   
-  <!-- Classic Wheel -->
-  <div class="wheel-sec">
-    <div class="card-hdr" style="margin-bottom:0;">
-      <div class="card-title"><i class="fa-solid fa-dharmachakra" style="color:var(--warning);"></i> Lucky Spin</div>
-      <span style="font-size:.875rem;color:var(--gray);font-weight:600;"><span id="spinsLeft">3</span> free left</span>
-    </div>
-    <div class="wheel-container">
-      <div class="wheel-pointer"></div>
-      <canvas id="wheelCanvas" class="wheel-canvas" width="280" height="280"></canvas>
-      <div class="wheel-center"><i class="fa-solid fa-star"></i></div>
-    </div>
-    <div class="spin-btn-wrap">
-      <button class="spin-btn" id="spinBtn" onclick="spinWheel()"><i class="fa-solid fa-play"></i> SPIN NOW</button>
-    </div>
-    <div class="spin-cost" id="spinCost" style="display:none;">
-      <i class="fa-solid fa-coins"></i> 300 coins per spin
-    </div>
-  </div>
-  
-  <div class="stats-grid" style="margin-top:20px;">
-    <div class="stat-item"><div class="stat-val" id="statOffers">0</div><div class="stat-lbl">Offers</div></div>
-    <div class="stat-item"><div class="stat-val" id="statTasks">0</div><div class="stat-lbl">Tasks</div></div>
-    <div class="stat-item"><div class="stat-val" id="statSpins">0</div><div class="stat-lbl">Spins</div></div>
-  </div>
-  
+  <!-- 9. Recent Activity -->
   <div class="card">
     <div class="card-hdr"><div class="card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Activity</div></div>
     <div id="recentActivity">
@@ -932,12 +1010,12 @@ const CONFIG = {
   OFFER_PROCESSING_TIME: 3 * 60 * 1000,    // 3 minutes
   TASK_PROCESSING_TIME: 90 * 1000,         // 90 seconds
   CLAIM_WINDOW_TIME: 2 * 60 * 1000,        // 2 minutes to claim
-  EXPIRED_COOLDOWN: 5 * 60 * 1000,         // 5 minutes cooldown after expire
+  EXPIRED_COOLDOWN: 15 * 60 * 1000,        // 15 minutes cooldown after expire (CHANGED FROM 5 TO 15)
   SHARE_TASK_TIME: 24 * 60 * 60 * 1000,    // 24 hours
   WITHDRAWAL_DAYS: 7,
   TOTAL_TASKS: 60,
   SPIN_COST: 300,
-  STORAGE_KEY: 'sillyPrize_v7'
+  STORAGE_KEY: 'sillyPrize_v8'
 };
 
 // ============================================================
@@ -1257,13 +1335,16 @@ document.addEventListener('DOMContentLoaded', () => {
     showMainApp();
   }
 
+  // Check processing every 3 seconds
   setInterval(checkAllProcessing, 3000);
-  claimCheckInterval = setInterval(checkClaimWindows, 1000);
-  expireCheckInterval = setInterval(updateExpireCountdowns, 1000);
+  
+  // Update countdowns every second
+  claimCheckInterval = setInterval(updateAllCountdowns, 1000);
   
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
       checkAllProcessing();
+      updateAllCountdowns();
     }
   });
   
@@ -1764,7 +1845,7 @@ function createConfetti() {
 }
 
 // ============================================================
-// OFFER SYSTEM WITH COOLDOWN
+// OFFER SYSTEM WITH BACKGROUND COUNTDOWN & 15-MIN COOLDOWN
 // ============================================================
 function initFilterTabs() {
   const el = document.getElementById('filterTabs');
@@ -1829,9 +1910,15 @@ function renderOffers() {
 
 function buildOfferCard(o) {
   const processing = S.processingOffers[o.id];
-  const isProc = processing && !processing.completed && !processing.readyToClaim && !processing.expired;
+  const now = Date.now();
+  
+  // Check if we're in cooldown period after expiry
+  const isInCooldown = processing && processing.expired && processing.expiredAt && 
+    (now - processing.expiredAt < CONFIG.EXPIRED_COOLDOWN);
+  
+  const isProc = processing && !processing.completed && !processing.readyToClaim && !processing.expired && !isInCooldown;
   const isReady = processing && processing.readyToClaim && !processing.claimed && !processing.expired;
-  const isExpired = processing && processing.expired;
+  const isExpired = processing && processing.expired && !isInCooldown;
   const isClaimed = processing && processing.claimed;
   
   const somethingElseProcessing = isSomethingProcessing() && 
@@ -1843,31 +1930,29 @@ function buildOfferCard(o) {
     cls = 'completed';
     status = `<div class="sbadge completed"><i class="fa-solid fa-check"></i> Claimed</div>`;
     btn = `<button class="obtn" disabled><i class="fa-solid fa-check"></i> Done</button>`;
+  } else if (isInCooldown) {
+    // 15-minute cooldown period
+    const cooldownRemaining = CONFIG.EXPIRED_COOLDOWN - (now - processing.expiredAt);
+    const timeText = formatTime(cooldownRemaining);
+    cls = 'cooldown';
+    status = `<div class="sbadge cooldown"><i class="fa-solid fa-lock"></i> Locked</div>`;
+    btn = `<button class="obtn" disabled>Wait ${timeText}</button>`;
+    timerHtml = `<div class="cooldown-countdown" data-offer-cooldown="${o.id}"><i class="fa-solid fa-clock"></i><span class="cooldown-countdown-text">Available in: ${timeText}</span></div>`;
   } else if (isExpired) {
-    const now = Date.now();
-    const cooldownElapsed = now - (processing.expiredAt || 0);
-    const cooldownRemaining = CONFIG.EXPIRED_COOLDOWN - cooldownElapsed;
-    
-    if (cooldownRemaining > 0) {
-      cls = 'cooldown';
-      const timeText = formatTime(cooldownRemaining);
-      status = `<div class="sbadge cooldown"><i class="fa-solid fa-lock"></i> Locked</div>`;
-      btn = `<button class="obtn" disabled>Wait ${timeText}</button>`;
-      timerHtml = `<div class="cooldown-countdown" data-offer-cooldown="${o.id}"><i class="fa-solid fa-clock"></i><span class="cooldown-countdown-text">Available in: ${timeText}</span></div>`;
+    // Expired but cooldown is over - reset to available
+    delete S.processingOffers[o.id];
+    cls = '';
+    status = `<div class="sbadge available"> Available</div>`;
+    if (somethingElseProcessing) {
+      btn = `<button class="obtn" disabled>Wait...</button>`;
     } else {
-      cls = '';
-      status = `<div class="sbadge available"> Available</div>`;
-      if (somethingElseProcessing) {
-        btn = `<button class="obtn" disabled>Wait...</button>`;
-      } else {
-        btn = `<button class="obtn obtn-p" onclick="startOffer('${o.id}')">Start <i class="fa-solid fa-arrow-right"></i></button>`;
-      }
+      btn = `<button class="obtn obtn-p" onclick="startOffer('${o.id}')">Start <i class="fa-solid fa-arrow-right"></i></button>`;
     }
   } else if (isReady) {
     cls = 'ready';
     status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>`;
     btn = `<button class="obtn obtn-claim" onclick="claimOffer('${o.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
-    timerHtml = `<div class="expire-countdown" data-offer-expire="${o.id}"><i class="fa-solid fa-clock"></i><span class="expire-countdown-text">Expires in: 2:00</span></div>`;
+    timerHtml = `<div class="expire-countdown" data-offer-expire="${o.id}"><i class="fa-solid fa-clock"></i><span class="expire-countdown-text">Expires in: ${formatTime(CONFIG.CLAIM_WINDOW_TIME - (now - processing.readyTime))}</span></div>`;
   } else if (isProc) {
     cls = 'processing';
     status = `<div class="sbadge processing"><i class="fa-solid fa-spinner fa-spin"></i> Verifying</div>`;
@@ -1934,6 +2019,7 @@ function openOfferLink() {
     claimed: false,
     expired: false,
     expiredAt: null,
+    readyTime: null,
     reward: o.reward
   };
   
@@ -2048,9 +2134,15 @@ function buildTaskCard(t) {
   const isReady = !!S.readyTasks[t.id];
   
   const processing = S.processingTasks[t.id];
-  const isProc = processing && !processing.completed && !processing.readyToClaim;
+  const now = Date.now();
+  
+  // Check task cooldown
+  const isInCooldown = processing && processing.expired && processing.expiredAt && 
+    (now - processing.expiredAt < CONFIG.EXPIRED_COOLDOWN);
+  
+  const isProc = processing && !processing.completed && !processing.readyToClaim && !processing.expired && !isInCooldown;
   const isTaskReadyToClaim = processing && processing.readyToClaim && !processing.claimed && !processing.expired;
-  const isExpired = processing && processing.expired;
+  const isExpired = processing && processing.expired && !isInCooldown;
   
   if (t.id === 'share_app' || t.id === 'share_app_2') {
     return buildShareTaskCard(t);
@@ -2064,13 +2156,26 @@ function buildTaskCard(t) {
   if (claimed || done) {
     status = `<div class="sbadge completed"><i class="fa-solid fa-check"></i> Completed</div>`;
     btn = `<button class="obtn" disabled><i class="fa-solid fa-check"></i></button>`;
+  } else if (isInCooldown) {
+    const cooldownRemaining = CONFIG.EXPIRED_COOLDOWN - (now - processing.expiredAt);
+    const timeText = formatTime(cooldownRemaining);
+    status = `<div class="sbadge cooldown"><i class="fa-solid fa-lock"></i> Locked</div>`;
+    btn = `<button class="obtn" disabled>Wait ${timeText}</button>`;
+    timerHtml = `<div class="cooldown-countdown" data-task-cooldown="${t.id}"><i class="fa-solid fa-clock"></i><span class="cooldown-countdown-text">Available in: ${timeText}</span></div>`;
   } else if (isExpired) {
-    status = `<div class="sbadge expired"><i class="fa-solid fa-clock"></i> Expired</div>`;
-    btn = `<button class="obtn" disabled>Expired</button>`;
+    delete S.processingTasks[t.id];
+    status = `<div class="sbadge available"> Available</div>`;
+    if (somethingElseProcessing) {
+      btn = `<button class="obtn" disabled>Wait...</button>`;
+    } else if (t.type === 'action') {
+      btn = `<button class="obtn obtn-p" onclick="doTask('${t.id}')">Do It <i class="fa-solid fa-arrow-right"></i></button>`;
+    } else {
+      btn = `<button class="obtn" disabled>Pending</button>`;
+    }
   } else if (isTaskReadyToClaim) {
     status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready!</div>`;
     btn = `<button class="obtn obtn-claim" onclick="claimTaskReward('${t.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
-    timerHtml = `<div class="expire-countdown" data-task-expire="${t.id}"><i class="fa-solid fa-clock"></i><span class="expire-countdown-text">Expires in: 2:00</span></div>`;
+    timerHtml = `<div class="expire-countdown" data-task-expire="${t.id}"><i class="fa-solid fa-clock"></i><span class="expire-countdown-text">Expires in: ${formatTime(CONFIG.CLAIM_WINDOW_TIME - (now - processing.readyTime))}</span></div>`;
   } else if (isReady) {
     status = `<div class="sbadge ready"><i class="fa-solid fa-gift"></i> Ready to Claim</div>`;
     btn = `<button class="obtn obtn-claim" onclick="claimReadyTask('${t.id}')">Claim <i class="fa-solid fa-coins"></i></button>`;
@@ -2194,6 +2299,8 @@ function startActionTask(id) {
     readyToClaim: false,
     claimed: false,
     expired: false,
+    expiredAt: null,
+    readyTime: null,
     reward: t.reward
   };
   
@@ -2389,7 +2496,7 @@ function autoCompleteTask(id) {
 }
 
 // ============================================================
-// PROCESSING CHECKS & COOLDOWN MANAGEMENT
+// PROCESSING CHECKS & BACKGROUND COUNTDOWN MANAGEMENT
 // ============================================================
 function isSomethingProcessing() {
   return S.currentlyProcessing !== null;
@@ -2403,22 +2510,20 @@ function checkAllProcessing() {
   const now = Date.now();
   let updated = false;
   
+  // Check offers
   Object.keys(S.processingOffers).forEach(id => {
     const p = S.processingOffers[id];
     
-    if (p.expired && p.expiredAt) {
-      const cooldownElapsed = now - p.expiredAt;
-      if (cooldownElapsed >= CONFIG.EXPIRED_COOLDOWN) {
-        delete S.processingOffers[id];
-        updated = true;
-        return;
-      }
+    // Skip if in cooldown
+    if (p.expired && p.expiredAt && (now - p.expiredAt < CONFIG.EXPIRED_COOLDOWN)) {
+      return;
     }
     
+    // Mark ready after processing time
     if (!p.completed && !p.readyToClaim && !p.expired) {
       if (now - p.startTime >= CONFIG.OFFER_PROCESSING_TIME) {
         p.readyToClaim = true;
-        p.readyTime = Date.now();
+        p.readyTime = now;
         updated = true;
         
         if (S.currentlyProcessing?.type === 'offer' && S.currentlyProcessing?.id === id) {
@@ -2428,12 +2533,19 @@ function checkAllProcessing() {
     }
   });
   
+  // Check tasks
   Object.keys(S.processingTasks).forEach(id => {
     const p = S.processingTasks[id];
+    
+    // Skip if in cooldown
+    if (p.expired && p.expiredAt && (now - p.expiredAt < CONFIG.EXPIRED_COOLDOWN)) {
+      return;
+    }
+    
     if (!p.completed && !p.readyToClaim && !p.expired) {
       if (now - p.startTime >= CONFIG.TASK_PROCESSING_TIME) {
         p.readyToClaim = true;
-        p.readyTime = Date.now();
+        p.readyTime = now;
         updated = true;
         
         if (S.currentlyProcessing?.type === 'task' && S.currentlyProcessing?.id === id) {
@@ -2443,6 +2555,7 @@ function checkAllProcessing() {
     }
   });
   
+  // Check share task
   if (S.shareTaskProgress.started && !S.shareTaskProgress.claimed) {
     if (now - S.shareTaskProgress.startTime >= CONFIG.SHARE_TASK_TIME) {
       S.shareTaskProgress.readyToClaim = true;
@@ -2457,34 +2570,53 @@ function checkAllProcessing() {
   }
 }
 
-function checkClaimWindows() {
+// Combined function to update all countdowns (works in background via timestamps)
+function updateAllCountdowns() {
   const now = Date.now();
   let updated = false;
   
+  // Update offer expire countdowns and check for expiry
   Object.keys(S.processingOffers).forEach(id => {
     const p = S.processingOffers[id];
+    
+    // Check if claim window expired
     if (p.readyToClaim && !p.claimed && !p.expired) {
       if (now - p.readyTime >= CONFIG.CLAIM_WINDOW_TIME) {
         p.expired = true;
-        p.expiredAt = Date.now();
+        p.expiredAt = now;
         updated = true;
         if (S.currentlyProcessing?.type === 'offer' && S.currentlyProcessing?.id === id) {
           S.currentlyProcessing = null;
         }
       }
     }
+    
+    // Check if cooldown is over and reset
+    if (p.expired && p.expiredAt && (now - p.expiredAt >= CONFIG.EXPIRED_COOLDOWN)) {
+      delete S.processingOffers[id];
+      updated = true;
+    }
   });
   
+  // Update task expire countdowns
   Object.keys(S.processingTasks).forEach(id => {
     const p = S.processingTasks[id];
+    
     if (p.readyToClaim && !p.claimed && !p.expired) {
       if (now - p.readyTime >= CONFIG.CLAIM_WINDOW_TIME) {
         p.expired = true;
+        p.expiredAt = now;
         updated = true;
         if (S.currentlyProcessing?.type === 'task' && S.currentlyProcessing?.id === id) {
           S.currentlyProcessing = null;
         }
       }
+    }
+    
+    // Check if cooldown is over
+    if (p.expired && p.expiredAt && (now - p.expiredAt >= CONFIG.EXPIRED_COOLDOWN)) {
+      delete S.processingTasks[id];
+      updated = true;
     }
   });
   
@@ -2493,23 +2625,30 @@ function checkClaimWindows() {
     renderOffers();
     renderOffersTasks();
   }
+  
+  // Update visible countdown displays
+  updateVisibleCountdowns();
 }
 
-function updateExpireCountdowns() {
+function updateVisibleCountdowns() {
+  const now = Date.now();
+  
+  // Update offer expire displays
   document.querySelectorAll('[data-offer-expire]').forEach(el => {
     const id = el.dataset.offerExpire;
     const p = S.processingOffers[id];
     if (p && p.readyToClaim && !p.claimed && !p.expired) {
-      const remaining = Math.max(0, CONFIG.CLAIM_WINDOW_TIME - (Date.now() - p.readyTime));
+      const remaining = Math.max(0, CONFIG.CLAIM_WINDOW_TIME - (now - p.readyTime));
       el.querySelector('.expire-countdown-text').textContent = `Expires in: ${formatTime(remaining)}`;
     }
   });
   
+  // Update offer cooldown displays
   document.querySelectorAll('[data-offer-cooldown]').forEach(el => {
     const id = el.dataset.offerCooldown;
     const p = S.processingOffers[id];
     if (p && p.expired && p.expiredAt) {
-      const remaining = Math.max(0, CONFIG.EXPIRED_COOLDOWN - (Date.now() - p.expiredAt));
+      const remaining = Math.max(0, CONFIG.EXPIRED_COOLDOWN - (now - p.expiredAt));
       if (remaining > 0) {
         el.querySelector('.cooldown-countdown-text').textContent = `Available in: ${formatTime(remaining)}`;
       } else {
@@ -2518,12 +2657,27 @@ function updateExpireCountdowns() {
     }
   });
   
+  // Update task expire displays
   document.querySelectorAll('[data-task-expire]').forEach(el => {
     const id = el.dataset.taskExpire;
     const p = S.processingTasks[id];
     if (p && p.readyToClaim && !p.claimed && !p.expired) {
-      const remaining = Math.max(0, CONFIG.CLAIM_WINDOW_TIME - (Date.now() - p.readyTime));
+      const remaining = Math.max(0, CONFIG.CLAIM_WINDOW_TIME - (now - p.readyTime));
       el.querySelector('.expire-countdown-text').textContent = `Expires in: ${formatTime(remaining)}`;
+    }
+  });
+  
+  // Update task cooldown displays
+  document.querySelectorAll('[data-task-cooldown]').forEach(el => {
+    const id = el.dataset.taskCooldown;
+    const p = S.processingTasks[id];
+    if (p && p.expired && p.expiredAt) {
+      const remaining = Math.max(0, CONFIG.EXPIRED_COOLDOWN - (now - p.expiredAt));
+      if (remaining > 0) {
+        el.querySelector('.cooldown-countdown-text').textContent = `Available in: ${formatTime(remaining)}`;
+      } else {
+        renderOffersTasks();
+      }
     }
   });
 }
@@ -2849,16 +3003,10 @@ function updateUI() {
   const headerCoins = document.getElementById('headerCoins');
   const totalCoins = document.getElementById('totalCoins');
   const spinsLeft = document.getElementById('spinsLeft');
-  const statOffers = document.getElementById('statOffers');
-  const statTasks = document.getElementById('statTasks');
-  const statSpins = document.getElementById('statSpins');
   
   if (headerCoins) headerCoins.textContent = f(S.coins);
   if (totalCoins) totalCoins.textContent = f(S.coins);
   if (spinsLeft) spinsLeft.textContent = S.spinsLeft || 0;
-  if (statOffers) statOffers.textContent = S.offersCompleted || 0;
-  if (statTasks) statTasks.textContent = countDone();
-  if (statSpins) statSpins.textContent = S.totalSpins || 0;
   
   updateSpinButton();
 }
@@ -2892,7 +3040,10 @@ function renderRecentActivity() {
   if (!c) return;
   
   const recent = S.history.slice(0, 3);
-  if (!recent.length) return;
+  if (!recent.length) {
+    c.innerHTML = '<div class="empty-s" style="padding:40px 20px;"><i class="fa-solid fa-clock-rotate-left"></i><div>No activity yet. Start earning!</div></div>';
+    return;
+  }
   
   c.innerHTML = recent.map(item => `
     <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-light);">
