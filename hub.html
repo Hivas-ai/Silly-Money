@@ -298,7 +298,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .game-stat-item.difficulty i{color:var(--danger);}
 
 .game-actions{display:flex;gap:12px;}
-.game-btn{flex:1;padding:14px 20px;border-radius:12px;font-weight:700;font-size:.9375rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:8px;border:none;}
+.game-btn{flex:1;padding:14px 20px;border-radius:12px;font-weight:700;font-size:.9375rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:8px;border:none;text-decoration:none;}
 .game-btn-primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 4px 15px rgba(99,102,241,.3);}
 .game-btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(99,102,241,.4);}
 .game-btn-secondary{background:var(--bg);color:var(--dark);border:1px solid var(--gray-light);}
@@ -323,7 +323,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .game-preview{width:100%;aspect-ratio:16/10;background:linear-gradient(135deg,var(--bg),#e2e8f0);border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-bottom:20px;position:relative;overflow:hidden;}
 .game-preview-icon{font-size:4rem;opacity:.3;}
 .game-preview-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;}
-.game-preview-btn{padding:16px 32px;background:linear-gradient(135deg,var(--success),#059669);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:8px;}
+.game-preview-btn{padding:16px 32px;background:linear-gradient(135deg,var(--success),#059669);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:8px;text-decoration:none;}
 .game-preview-btn:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(16,185,129,.4);}
 .game-instructions{background:var(--bg);border-radius:var(--r);padding:16px;margin-bottom:20px;}
 .game-instructions h4{font-size:.9375rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
@@ -527,6 +527,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
 .fa-spin{animation:spin .8s linear infinite;}
 @media(max-width:480px){.app{max-width:100%;}.wheel-container{width:260px;height:260px;}}
 </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -856,7 +857,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
       <div class="game-preview">
         <div class="game-preview-icon" id="gamePreviewIcon">🎮</div>
         <div class="game-preview-overlay" id="gamePreviewOverlay">
-          <button class="game-preview-btn" onclick="startGame()"><i class="fa-solid fa-play"></i> Start Game</button>
+          <a class="game-preview-btn" id="startGameLink" href="#"><i class="fa-solid fa-play"></i> Start Game</a>
         </div>
       </div>
       <div class="game-instructions">
@@ -868,7 +869,7 @@ body{background:var(--bg);color:var(--dark);overflow-x:hidden;min-height:100vh;f
         </ul>
       </div>
       <div class="game-modal-actions">
-        <button class="game-btn game-btn-primary" onclick="startGame()"><i class="fa-solid fa-play"></i> Play Now</button>
+        <a class="game-btn game-btn-primary" id="playNowLink" href="#"><i class="fa-solid fa-play"></i> Play Now</a>
         <button class="game-btn game-btn-secondary" onclick="closeGameModal()">Cancel</button>
       </div>
     </div>
@@ -1115,7 +1116,7 @@ const CONFIG = {
 };
 
 // ============================================================
-// GAMES DATA
+// GAMES DATA - With href links to game pages
 // ============================================================
 const GAMES = [
   {
@@ -1129,6 +1130,7 @@ const GAMES = [
     color: '#3b82f6',
     gradient: 'linear-gradient(135deg,#3b82f6,#1d4ed8)',
     icon: 'fa-coins',
+    href: './clicker.html',
     instructions: ['Tap the coin as fast as possible', 'Each click earns 1 point', 'More points = more coins!', 'You have 30 seconds']
   },
   {
@@ -1142,6 +1144,7 @@ const GAMES = [
     color: '#8b5cf6',
     gradient: 'linear-gradient(135deg,#8b5cf6,#6d28d9)',
     icon: 'fa-brain',
+    href: './memory.html',
     instructions: ['Flip cards to find matches', 'Match all pairs to win', 'Fewer moves = more coins', 'Test your memory skills!']
   },
   {
@@ -1155,6 +1158,7 @@ const GAMES = [
     color: '#f97316',
     gradient: 'linear-gradient(135deg,#f97316,#ea580c)',
     icon: 'fa-palette',
+    href: './color.html',
     instructions: ['Tap the color of the word', 'Not what the word says!', 'Be fast and accurate', 'Wrong answers cost time']
   },
   {
@@ -1168,6 +1172,7 @@ const GAMES = [
     color: '#10b981',
     gradient: 'linear-gradient(135deg,#10b981,#059669)',
     icon: 'fa-calculator',
+    href: './math.html',
     instructions: ['Solve math problems fast', 'Addition, subtraction, multiply', 'Correct answers earn points', 'Wrong answers lose points']
   },
   {
@@ -1181,6 +1186,7 @@ const GAMES = [
     color: '#ef4444',
     gradient: 'linear-gradient(135deg,#ef4444,#dc2626)',
     icon: 'fa-bolt',
+    href: './reaction.html',
     instructions: ['Wait for green screen', 'Tap as fast as possible', 'Don\'t tap on red!', 'Fastest reactions win big']
   },
   {
@@ -1194,6 +1200,7 @@ const GAMES = [
     color: '#ec4899',
     gradient: 'linear-gradient(135deg,#ec4899,#db2777)',
     icon: 'fa-puzzle-piece',
+    href: './puzzle.html',
     instructions: ['Slide tiles to solve puzzle', 'Arrange in correct order', 'Faster completion = more coins', 'Use logic and strategy']
   }
 ];
@@ -1498,7 +1505,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ============================================================
-// GAMES SECTION
+// GAMES SECTION - Modified to use href links
 // ============================================================
 function renderGames() {
   const grid = document.getElementById('gamesGrid');
@@ -1530,9 +1537,9 @@ function renderGames() {
           <div class="game-stat-item difficulty"><i class="fa-solid fa-chart-simple"></i> ${game.difficulty}</div>
         </div>
         <div class="game-actions">
-          <button class="game-btn game-btn-primary" onclick="openGameModal('${game.id}')">
+          <a class="game-btn game-btn-primary" href="${game.href}">
             <i class="fa-solid fa-play"></i> Play Now
-          </button>
+          </a>
           <button class="game-btn game-btn-secondary" onclick="openGameModal('${game.id}')">
             <i class="fa-solid fa-circle-info"></i> Info
           </button>
@@ -1558,6 +1565,10 @@ function openGameModal(gameId) {
   document.getElementById('gamePreviewIcon').textContent = game.emoji;
   document.getElementById('gamePreviewIcon').style.color = game.color;
   
+  // Set href for Start Game button and Play Now button
+  document.getElementById('startGameLink').href = game.href;
+  document.getElementById('playNowLink').href = game.href;
+  
   const instructionsList = document.getElementById('gameInstructions');
   instructionsList.innerHTML = game.instructions.map(inst => `<li>${sanitizeInput(inst)}</li>`).join('');
   
@@ -1567,61 +1578,6 @@ function openGameModal(gameId) {
 function closeGameModal() {
   document.getElementById('gameModal').classList.remove('active');
   currentGameId = null;
-}
-
-function startGame() {
-  if (!currentGameId) return;
-  
-  const game = GAMES.find(g => g.id === currentGameId);
-  if (!game) return;
-  
-  closeGameModal();
-  
-  // Simulate game play
-  showActLoader('fa-gamepad', `Starting ${game.name}...`, 'Get ready to play!');
-  
-  setTimeout(() => {
-    hideActLoader();
-    
-    // Simulate game result
-    const maxReward = parseInt(game.reward.split('-')[1]) || 50;
-    const minReward = parseInt(game.reward.split('-')[0]) || 10;
-    const earned = Math.floor(Math.random() * (maxReward - minReward + 1)) + minReward;
-    
-    S.gamesPlayed = (S.gamesPlayed || 0) + 1;
-    S.gamesCoins = (S.gamesCoins || 0) + earned;
-    S.gamesStreak = (S.gamesStreak || 0) + 1;
-    
-    addCoins(earned, 'game');
-    addXP(Math.floor(earned / 5));
-    
-    // Complete task on first game
-    if (!S.completedTasks['play_game_1'] && !S.readyTasks['play_game_1']) {
-      S.readyTasks['play_game_1'] = true;
-    }
-    
-    saveState();
-    renderGames();
-    
-    // Show win celebration
-    createConfetti();
-    const popup = document.createElement('div');
-    popup.className = 'win-popup';
-    popup.innerHTML = `
-      <div class="win-amount">🎮</div>
-      <div class="win-text">+${earned} Coins!</div>
-      <div class="win-coins">Great job playing ${game.name}!</div>
-    `;
-    document.body.appendChild(popup);
-    
-    setTimeout(() => {
-      popup.style.animation = 'none';
-      popup.style.opacity = '0';
-      popup.style.transition = 'opacity 0.3s';
-      setTimeout(() => popup.remove(), 300);
-    }, 2500);
-    
-  }, 1500);
 }
 
 // ============================================================
