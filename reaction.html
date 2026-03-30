@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- THEME VARIABLES: WHITE BACKGROUND --- */
         :root {
             --primary: #dc2626;
             --primary-dark: #991b1b;
@@ -126,13 +125,9 @@
             font-size: 0.9rem;
         }
 
-        .header-stat.wallet i {
-            color: #60a5fa;
-        }
-
-        .header-stat.coins i {
-            color: var(--warning);
-        }
+        .header-stat.wallet i { color: #fef08a; }
+        .header-stat.coins i { color: #fff; }
+        .header-stat.lives i { color: #fecaca; }
 
         /* Level Section */
         .level-section {
@@ -157,9 +152,7 @@
             color: var(--primary);
         }
 
-        .level-badge i {
-            color: var(--warning);
-        }
+        .level-badge i { color: var(--warning); }
 
         .xp-text {
             font-family: 'JetBrains Mono', monospace;
@@ -189,10 +182,7 @@
         .xp-bar-fill::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             animation: shimmer 2s infinite;
         }
@@ -200,51 +190,6 @@
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
-        }
-
-        /* Verification Warning Banner */
-        .verification-warning {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-left: 4px solid var(--warning);
-            padding: 12px 15px;
-            margin: 10px 20px;
-            border-radius: 8px;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
-        }
-
-        .verification-warning.active {
-            display: flex;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        .verification-warning i {
-            color: var(--warning);
-            font-size: 1.2rem;
-        }
-
-        .verification-warning-text {
-            font-size: 0.9rem;
-            color: var(--dark);
-            font-weight: 600;
-        }
-
-        .verify-now-btn {
-            margin-left: auto;
-            padding: 6px 12px;
-            background: var(--warning);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
         }
 
         /* Score Section */
@@ -300,50 +245,58 @@
             font-size: 0.9rem;
         }
 
-        /* --- GAME AREA --- */
+        .match-reward-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .match-reward-info i { color: var(--warning); }
+
+        /* Game Area */
         .game-area {
-            padding: 40px 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            min-height: 450px;
             background: #ffffff;
+            border-bottom: 1px solid var(--gray-light);
         }
 
-        /* Live Timer - Big */
         .live-timer {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 6rem;
+            font-size: 5rem;
             font-weight: 800;
             color: var(--dark);
-            margin-bottom: 10px;
-            min-height: 100px;
+            margin-bottom: 5px;
+            min-height: 80px;
             display: flex;
             align-items: center;
             justify-content: center;
             line-height: 1;
         }
 
-        .live-timer.running {
-            color: var(--primary);
-        }
+        .live-timer.running { color: var(--primary); }
 
         .timer-label {
             font-size: 0.9rem;
             color: var(--gray);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
 
-        /* Goal Display - Near the button */
         .goal-display {
             background: linear-gradient(135deg, #fef2f2, #fee2e2);
             border: 2px solid var(--primary-light);
             border-radius: 16px;
-            padding: 20px 40px;
-            margin-bottom: 30px;
+            padding: 15px 30px;
+            margin-bottom: 25px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(220, 38, 38, 0.15);
         }
@@ -358,15 +311,22 @@
 
         .goal-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             color: var(--primary);
         }
 
-        /* Start/Stop Button */
+        .tolerance-badge {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        /* Reaction Button */
         .reaction-btn {
-            width: 180px;
-            height: 180px;
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, #ff4d4d, #990000);
             border: 4px solid #ff9999;
@@ -381,33 +341,26 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: white;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 2px;
+            margin-bottom: 20px;
         }
 
         .reaction-btn::before {
             content: '';
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
-            bottom: 15px;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000);
             box-shadow: inset 0 5px 15px rgba(0,0,0,0.2);
         }
 
-        .reaction-btn span {
-            position: relative;
-            z-index: 2;
-        }
+        .reaction-btn span { position: relative; z-index: 2; }
 
-        .reaction-btn:active {
-            transform: scale(0.95);
-        }
+        .reaction-btn:active { transform: scale(0.95); }
 
         .reaction-btn.stop-state {
             background: radial-gradient(circle at 30% 30%, #4ade80, #166534);
@@ -430,16 +383,16 @@
             top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 800;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border-radius: 12px;
             opacity: 0;
             transition: all 0.3s ease;
             pointer-events: none;
             z-index: 10;
             text-align: center;
-            min-width: 280px;
+            min-width: 260px;
         }
 
         .result-message.show {
@@ -459,38 +412,46 @@
             border: 2px solid #fca5a5;
         }
 
-        /* Level Progress */
-        .level-progress {
-            margin-top: 30px;
-            text-align: center;
-            width: 100%;
+        /* Progress Section */
+        .progress-section {
+            padding: 0 20px 20px;
+            display: none;
         }
 
-        .level-progress-text {
-            font-size: 0.9rem;
-            color: var(--gray);
+        .progress-section.active { display: block; }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
         }
 
-        .level-dots {
+        .progress-title {
+            font-weight: 700;
+            color: var(--dark);
             display: flex;
-            justify-content: center;
-            gap: 12px;
+            align-items: center;
+            gap: 8px;
         }
 
-        .level-dot {
-            width: 16px;
-            height: 16px;
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: var(--gray-light);
             transition: var(--transition);
         }
 
-        .level-dot.completed {
-            background: var(--success);
-        }
-
-        .level-dot.current {
+        .progress-dot.completed { background: var(--success); box-shadow: 0 0 10px var(--success); }
+        .progress-dot.current {
             background: var(--primary);
             animation: pulse-dot 1.5s infinite;
             transform: scale(1.2);
@@ -498,14 +459,11 @@
 
         @keyframes pulse-dot {
             0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+            50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
         }
 
         /* Stats Grid */
-        .stats-section {
-            padding: 0 20px 20px;
-            background: #ffffff;
-        }
+        .stats-section { padding: 0 20px 20px; }
 
         .stats-grid {
             display: grid;
@@ -523,10 +481,7 @@
             transition: var(--transition);
         }
 
-        .stat-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-        }
+        .stat-card:hover { border-color: var(--primary); transform: translateY(-2px); }
 
         .stat-icon {
             width: 40px;
@@ -555,10 +510,7 @@
         }
 
         /* Upgrades */
-        .upgrades-section {
-            padding: 0 20px 20px;
-            background: #ffffff;
-        }
+        .upgrades-section { padding: 0 20px 20px; }
 
         .section-title {
             font-size: 1.1rem;
@@ -613,10 +565,7 @@
             flex-shrink: 0;
         }
 
-        .upgrade-info {
-            flex: 1;
-            min-width: 0;
-        }
+        .upgrade-info { flex: 1; min-width: 0; }
 
         .upgrade-name {
             font-weight: 700;
@@ -643,71 +592,15 @@
             flex-shrink: 0;
         }
 
-        .upgrade-cost i {
-            color: var(--warning);
-        }
+        .upgrade-cost i { color: var(--warning); }
 
-        /* Claim Section */
-        .claim-section {
+        /* Overlays */
+        .level-up-overlay,
+        .verification-overlay,
+        .wrong-overlay {
             position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: #ffffff;
-            padding: 20px;
-            box-shadow: 0 -5px 30px rgba(0,0,0,0.1);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            z-index: 1000;
-            border-top: 1px solid var(--gray-light);
-        }
-
-        .claim-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-        }
-
-        .claim-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
-        }
-
-        .claim-btn:disabled {
-            background: var(--gray-light);
-            color: var(--gray);
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .claim-info {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        /* Overlays - MODIFIED FOR BLUR BACKGROUND */
-        .verification-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 5500;
             display: none;
             align-items: center;
@@ -718,11 +611,13 @@
             -webkit-backdrop-filter: blur(8px);
         }
 
-        .verification-overlay.active {
-            display: flex;
-        }
+        .level-up-overlay.active,
+        .verification-overlay.active,
+        .wrong-overlay.active { display: flex; }
 
-        .verification-content {
+        .level-up-content,
+        .verification-content,
+        .wrong-content {
             background: #ffffff;
             border-radius: var(--border-radius);
             padding: 40px;
@@ -737,6 +632,141 @@
         @keyframes modalPop {
             0% { transform: scale(0.9) translateY(20px); opacity: 0; }
             100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .level-up-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.5rem;
+            color: #92400e;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            animation: starBounce 0.6s ease;
+        }
+
+        @keyframes starBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .level-up-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .level-up-text {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .level-coins-display {
+            background: linear-gradient(135deg, #fef3c7, #fffbeb);
+            border: 2px solid #fcd34d;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .level-coins-label {
+            font-size: 0.85rem;
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .level-coins-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+
+        .collect-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .collect-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .wrong-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .wrong-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .wrong-text {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .retry-btn {
+            width: 100%;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
         .verification-icon {
@@ -793,29 +823,10 @@
         .verify-btn:hover {
             background: var(--primary);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
         }
 
-        .verify-btn.captcha {
-            border-color: var(--info);
-            color: var(--info);
-        }
-
-        .verify-btn.captcha:hover {
-            background: var(--info);
-            color: white;
-        }
-
-        .verify-btn.human {
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .verify-btn.human:hover {
-            background: var(--success);
-            color: white;
-        }
-
-        /* Captcha Container */
         .captcha-wrapper {
             display: none;
             margin: 20px 0;
@@ -825,9 +836,7 @@
             border: 2px dashed var(--gray-light);
         }
 
-        .captcha-wrapper.active {
-            display: block;
-        }
+        .captcha-wrapper.active { display: block; }
 
         .captcha-header {
             font-size: 0.9rem;
@@ -839,11 +848,6 @@
             gap: 8px;
         }
 
-        .captcha-header i {
-            color: var(--info);
-        }
-
-        /* Human Verification Loading Section */
         .human-verification-wrapper {
             display: none;
             margin: 20px 0;
@@ -854,9 +858,7 @@
             text-align: center;
         }
 
-        .human-verification-wrapper.active {
-            display: block;
-        }
+        .human-verification-wrapper.active { display: block; }
 
         .loading-spinner {
             width: 50px;
@@ -888,23 +890,12 @@
             animation: bounce 1.4s ease-in-out infinite both;
         }
 
-        .loading-dot:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .loading-dot:nth-child(2) {
-            animation-delay: -0.16s;
-        }
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
 
         @keyframes bounce {
-            0%, 80%, 100% { 
-                transform: scale(0);
-                opacity: 0.5;
-            }
-            40% { 
-                transform: scale(1);
-                opacity: 1;
-            }
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
         }
 
         .verification-loading-text {
@@ -914,12 +905,6 @@
             margin-bottom: 8px;
         }
 
-        .verification-loading-subtext {
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        /* Success message for verification */
         .verification-success {
             display: none;
             margin: 20px 0;
@@ -931,9 +916,7 @@
             animation: successPop 0.5s ease;
         }
 
-        .verification-success.active {
-            display: block;
-        }
+        .verification-success.active { display: block; }
 
         @keyframes successPop {
             0% { transform: scale(0.8); opacity: 0; }
@@ -1002,10 +985,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .toast-icon {
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
+        .toast-icon { font-size: 1.2rem; color: var(--primary); }
 
         /* Badges */
         .max-badge {
@@ -1032,10 +1012,10 @@
             font-size: 0.75rem;
             font-weight: 700;
             margin-left: 8px;
-            animation: pulse 1.5s infinite;
+            animation: pulse-badge 1.5s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes pulse-badge {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
@@ -1055,87 +1035,63 @@
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Game Complete Overlay - MODIFIED FOR BLUR BACKGROUND */
-        .game-complete-overlay {
+        /* Combo */
+        .combo-indicator {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5500;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .game-complete-overlay.active {
-            display: flex;
-        }
-
-        .game-complete-content {
-            background: #ffffff;
-            border-radius: var(--border-radius);
-            padding: 40px;
-            text-align: center;
-            max-width: 380px;
-            width: 100%;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--gray-light);
-            animation: modalPop 0.4s ease;
-        }
-
-        .game-complete-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: linear-gradient(135deg, var(--warning), #d97706);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 2rem;
             color: white;
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
-            animation: starBounce 0.6s ease;
-        }
-
-        .game-complete-title {
-            font-size: 1.8rem;
+            padding: 20px 40px;
+            border-radius: 20px;
             font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 8px;
+            font-size: 1.5rem;
+            z-index: 3000;
+            display: none;
+            animation: comboPop 0.5s ease;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
         }
 
-        .game-complete-text {
-            color: var(--gray);
-            margin-bottom: 25px;
-            font-size: 0.95rem;
-            line-height: 1.5;
+        .combo-indicator.active { display: block; }
+
+        @keyframes comboPop {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        .game-complete-btn {
-            width: 100%;
-            padding: 14px 28px;
+        .floating-coins {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: linear-gradient(135deg, var(--warning), #d97706);
             color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            z-index: 3000;
+            display: none;
+            animation: coinsFloat 1s ease-out forwards;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
         }
 
-        .game-complete-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+        .floating-coins.active {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
+        @keyframes coinsFloat {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            20% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+            80% { transform: translate(-50%, -150%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -200%) scale(0.8); opacity: 0; }
+        }
+
+        .bottom-spacer { height: 40px; }
     </style>
 </head>
 <body>
@@ -1153,6 +1109,10 @@
                 <div style="width: 40px;"></div>
             </div>
             <div class="header-stats">
+                <div class="header-stat lives" id="livesStat" style="display: none;">
+                    <i class="fas fa-heart"></i>
+                    <span id="livesDisplay">3</span>
+                </div>
                 <div class="header-stat wallet">
                     <i class="fas fa-wallet"></i>
                     <span id="mainBalance">0</span>
@@ -1186,53 +1146,51 @@
             </div>
         </div>
 
-        <!-- Verification Warning Banner - Shows when pending -->
-        <div class="verification-warning" id="verificationWarning">
-            <i class="fas fa-lock"></i>
-            <span class="verification-warning-text">
-                You're in Level <span id="warningLevel">1</span>. Complete verification to continue!
-            </span>
-            <button class="verify-now-btn" onclick="showVerificationFromWarning()">Verify Now</button>
-        </div>
-
         <!-- Score Section -->
         <div class="score-section">
-            <div class="total-earned-display">Total Earned This Session</div>
+            <div class="total-earned-display">Level Coins</div>
             <div class="total-earned-value" id="totalEarnedDisplay">0</div>
             
-            <div class="current-score-label">Current Score</div>
+            <div class="current-score-label">Round Reward</div>
             <div class="current-score" id="currentScore">0</div>
             
             <div class="multiplier-badge">
                 <i class="fas fa-bolt"></i>
                 <span id="multiplierText">x1.0</span>
             </div>
+            
+            <div class="match-reward-info">
+                <i class="fas fa-bullseye"></i>
+                <span>Stop at <strong id="targetDisplay">5.00s</strong> • Tolerance: <strong id="toleranceDisplay">±0.50s</strong></span>
+            </div>
         </div>
 
         <!-- Game Area -->
         <div class="game-area" id="gameArea">
-            <!-- Result Message -->
             <div class="result-message" id="resultMessage"></div>
             
-            <!-- Live Timer -->
             <div class="live-timer" id="liveTimer">0.00</div>
             <div class="timer-label">Seconds</div>
 
-            <!-- Goal Display -->
             <div class="goal-display">
-                <div class="goal-label">Stop at exactly</div>
-                <div class="goal-value" id="goalTime">2.00s</div>
+                <div class="goal-label">Target Time</div>
+                <div class="goal-value" id="goalTime">5.00s</div>
+                <div class="tolerance-badge" id="toleranceBadge">±0.50s tolerance</div>
             </div>
 
-            <!-- Start/Stop Button -->
             <button class="reaction-btn" id="reactionBtn" onclick="handleButtonClick()">
                 <span id="btnText">START</span>
             </button>
+        </div>
 
-            <!-- Level Progress -->
-            <div class="level-progress">
-                <div class="level-progress-text">Progress</div>
-                <div class="level-dots" id="levelDots"></div>
+        <!-- Progress Section -->
+        <div class="progress-section" id="progressSection">
+            <div class="progress-header">
+                <div class="progress-title">
+                    <i class="fas fa-tasks"></i>
+                    Level Progress
+                </div>
+                <div class="progress-dots" id="progressDots"></div>
             </div>
         </div>
 
@@ -1241,24 +1199,24 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon" style="background: var(--primary);">
-                        <i class="fas fa-bullseye"></i>
+                        <i class="fas fa-gamepad"></i>
                     </div>
-                    <div class="stat-value" id="totalAttempts">0</div>
-                    <div class="stat-label">Attempts</div>
+                    <div class="stat-value" id="gamesPlayed">0</div>
+                    <div class="stat-label">Levels Played</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: var(--success);">
-                        <i class="fas fa-check"></i>
+                        <i class="fas fa-trophy"></i>
                     </div>
-                    <div class="stat-value" id="successRate">0%</div>
-                    <div class="stat-label">Accuracy</div>
+                    <div class="stat-value" id="gamesWon">0</div>
+                    <div class="stat-label">Levels Won</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon" style="background: var(--warning);">
-                        <i class="fas fa-trophy"></i>
+                        <i class="fas fa-bullseye"></i>
                     </div>
-                    <div class="stat-value" id="bestStreak">0</div>
-                    <div class="stat-label">Streak</div>
+                    <div class="stat-value" id="currentRoundDisplay">1</div>
+                    <div class="stat-label">Round</div>
                 </div>
             </div>
         </div>
@@ -1272,17 +1230,40 @@
             <div id="upgradesList"></div>
         </div>
 
-        <div style="height: 100px;"></div>
+        <div class="bottom-spacer"></div>
     </div>
 
-    <!-- Claim Section -->
-    <div class="claim-section">
-        <button class="claim-btn" id="claimBtn" onclick="claimEarnings()" disabled>
-            <i class="fas fa-check-circle"></i>
-            Claim <span id="claimAmount">0</span> Coins
-        </button>
-        <div class="claim-info">
-            Min 50 to claim • Max 30,000 per session
+    <!-- Combo Indicator -->
+    <div class="combo-indicator" id="comboIndicator">
+        <i class="fas fa-fire"></i> <span id="comboText">Combo x2!</span>
+    </div>
+
+    <!-- Floating Coins -->
+    <div class="floating-coins" id="floatingCoins">
+        <i class="fas fa-coins"></i>
+        <span id="floatingCoinsText">+50</span>
+    </div>
+
+    <!-- Level Up Overlay -->
+    <div class="level-up-overlay" id="levelUpOverlay">
+        <div class="level-up-content">
+            <div class="level-up-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="level-up-title">Level Complete!</div>
+            <div class="level-up-text">
+                Perfect timing! You passed all rounds in <strong>Level <span id="completedLevelNum">1</span></strong>!<br>
+                Ready for faster speeds?
+            </div>
+            
+            <div class="level-coins-display">
+                <div class="level-coins-label">Coins Earned This Level</div>
+                <div class="level-coins-value" id="levelCoinsValue">0</div>
+            </div>
+            
+            <button class="collect-btn" id="collectBtnOverlay" onclick="collectLevelCoins()">
+                <i class="fas fa-coins"></i> Collect Coins & Continue
+            </button>
         </div>
     </div>
 
@@ -1294,10 +1275,9 @@
             </div>
             <div class="verification-title">Human Verification Required</div>
             <div class="verification-desc">
-                To unlock Level <span id="verifyLevel">2</span> and continue playing, please verify that you are human.
+                To unlock Level <span id="verifyLevel">3</span> and continue playing, please verify that you are human.
             </div>
             
-            <!-- Captcha Container -->
             <div class="captcha-wrapper" id="captchaContainer">
                 <div class="captcha-header">
                     <i class="fas fa-robot"></i>
@@ -1306,7 +1286,6 @@
                 <div data-captcha-enable="true"></div>
             </div>
             
-            <!-- Human Verification Loading Section -->
             <div class="human-verification-wrapper" id="humanVerificationWrapper">
                 <div class="loading-spinner"></div>
                 <div class="loading-dots">
@@ -1316,9 +1295,12 @@
                 </div>
                 <div class="verification-loading-text">Verifying your humanity...</div>
                 <div class="verification-loading-subtext">Please complete the task in the opened window</div>
+                
+                <button class="verify-btn" style="margin-top: 20px;" onclick="window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> Go to Verification Site
+                </button>
             </div>
 
-            <!-- Verification Success Message -->
             <div class="verification-success" id="verificationSuccess">
                 <div class="success-icon">
                     <i class="fas fa-check"></i>
@@ -1328,29 +1310,28 @@
             </div>
             
             <div class="verification-buttons" id="verificationButtons">
-                <button class="verify-btn captcha" onclick="showCaptcha()">
+                <button class="verify-btn" onclick="showCaptcha()">
                     <i class="fas fa-robot"></i> CAPTCHA Verification
                 </button>
-                <button class="verify-btn human" onclick="showHumanVerification()">
+                <button class="verify-btn" onclick="showHumanVerification()">
                     <i class="fas fa-user-check"></i> Human Action Verification
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Game Complete Overlay -->
-    <div class="game-complete-overlay" id="gameCompleteOverlay">
-        <div class="game-complete-content">
-            <div class="game-complete-icon">
-                <i class="fas fa-trophy"></i>
+    <!-- Wrong Answer / Fail Overlay -->
+    <div class="wrong-overlay" id="wrongOverlay">
+        <div class="wrong-content">
+            <div class="wrong-icon">
+                <i class="fas fa-times"></i>
             </div>
-            <div class="game-complete-title">🎉 Game Complete! 🎉</div>
-            <div class="game-complete-text">
-                Congratulations! You've mastered all levels!<br>
-                <strong>Final Score: <span id="finalScore">0</span> coins</strong>
+            <div class="wrong-title" id="failTitle">Too Slow!</div>
+            <div class="wrong-text" id="failText">
+                You lost 1 life. Try again!
             </div>
-            <button class="game-complete-btn" onclick="closeGameComplete()">
-                <i class="fas fa-check"></i> Claim Rewards
+            <button class="retry-btn" id="failBtn" onclick="handleFailContinue()">
+                <i class="fas fa-redo"></i> Continue
             </button>
         </div>
     </div>
@@ -1358,36 +1339,32 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Captcha Script -->
     <script type="text/javascript" src="https://confirmapp.online/cp/js/joy6y"></script>
 
     <script>
-        // Game State - 5 HIDDEN LEVELS with Verification Gate
+        // Reaction Time Pro - Level Based with Lives
         const GameState = {
             currentScore: 0,
             totalEarned: 0,
-            totalAttempts: 0,
-            successfulHits: 0,
-            bestStreak: 0,
-            currentStreak: 0,
+            matches: 0,
+            
+            totalGamesPlayed: 0,
+            totalGamesWon: 0,
             
             level: 1,
+            currentRound: 1,
+            lives: 3,
             xp: 0,
             xpToNext: 100,
-            maxLevel: 5,  // 5 levels total (hidden)
-            pendingLevel: null,  // Level waiting for verification
+            maxLevel: 50,
+            pendingLevel: null,
+            isLocked: false,
             
             baseMultiplier: 1,
-            clickMultiplier: 1,
+            scoreMultiplier: 1,
             
-            gameEnded: false,
-            canRestart: false,
-            gameComplete: false,
-            
-            maxCoins: 30000,
-            claimed: false,
-            verified: false,
-            isLocked: false,  // True when waiting for verification
+            gameActive: false,
+            gameWon: false,
             
             // Timer State
             timerRunning: false,
@@ -1395,51 +1372,130 @@
             elapsedTime: 0,
             timerInterval: null,
             
-            // Level Config
-            targetTime: 2.00,
-            tolerance: 0.20,
+            // Reaction specific
+            targetTime: 5.00,
+            tolerance: 0.50,
+            currentCombo: 0,
+            
+            baseMatchReward: 50,
+            
+            verificationStartTime: null,
+            verificationTabOpen: false,
             
             upgrades: {
-                multiplier: { level: 0, maxLevel: 10, baseCost: 800, cost: 800, effect: 0.5 },
-                tolerance: { level: 0, maxLevel: 10, baseCost: 1000, cost: 1000, effect: 0.02 }
-            },
-            
-            mainAppCoins: 0
+                tolerance: { level: 0, maxLevel: 10, baseCost: 800, cost: 800, effect: 0.02 },
+                scoreMult: { level: 0, maxLevel: 10, baseCost: 1000, cost: 1000, effect: 0.2 }
+            }
         };
 
-        // XP Table for 5 levels
-        const XP_TABLE = [100, 150, 220, 320, 500];
+        const XP_TABLE = [];
+        for (let i = 1; i <= 50; i++) {
+            XP_TABLE.push(Math.floor(100 * Math.pow(1.15, i - 1)));
+        }
 
-        // Difficulty Scaling for 5 levels
-        function updateLevelConfig() {
-            // Level 1: 2.00s, Level 5: 0.50s
-            const progress = (GameState.level - 1) / (GameState.maxLevel - 1);
-            GameState.targetTime = 2.00 - (progress * 1.50);
-            // Tolerance: Level 1: 0.20s, Level 5: 0.05s
-            GameState.tolerance = 0.20 - (progress * 0.15);
+        // Sync with main app (Silly Money)
+        function syncWithMainApp(coins, gamesPlayed = 1) {
+            try {
+                const mainKey = 'sillyPrize_v9';
+                const saved = localStorage.getItem(mainKey);
+                let mainData = saved ? JSON.parse(saved) : {};
+                
+                mainData.coins = (mainData.coins || 0) + coins;
+                mainData.gamesPlayed = (mainData.gamesPlayed || 0) + gamesPlayed;
+                mainData.gamesCoins = (mainData.gamesCoins || 0) + coins;
+                
+                if (!mainData.history) mainData.history = [];
+                mainData.history.unshift({
+                    id: Date.now(),
+                    amount: coins,
+                    title: 'Reaction Time Pro',
+                    type: 'game',
+                    isNegative: false,
+                    time: new Date().toISOString()
+                });
+                if (mainData.history.length > 50) mainData.history.pop();
+                
+                localStorage.setItem(mainKey, JSON.stringify(mainData));
+                
+                localStorage.setItem('sillyPrize_sync', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: {
+                        coins: mainData.coins,
+                        gamesPlayed: mainData.gamesPlayed,
+                        gamesCoins: mainData.gamesCoins,
+                        source: 'game'
+                    }
+                }));
+                
+                setTimeout(() => localStorage.removeItem('sillyPrize_sync'), 100);
+                return true;
+            } catch (e) {
+                console.error('Sync error:', e);
+                return false;
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('storage', handleStorageChange);
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+            
             loadGameData();
             loadMainAppData();
             updateLevelConfig();
             renderUpgrades();
             updateUI();
-            renderLevelDots();
-            
-            // Check if stuck in verification on load
-            if (GameState.isLocked && GameState.pendingLevel) {
-                showVerificationWarning();
-            }
+            updateProgressDots();
         });
+
+        function handleStorageChange(e) {
+            if (e.key === 'reactionTime_verification_complete') {
+                const data = JSON.parse(e.newValue);
+                if (data && data.verified && data.timestamp > (GameState.verificationStartTime || 0)) {
+                    completeVerification();
+                }
+            }
+        }
+
+        function handleVisibilityChange() {
+            if (!document.hidden && GameState.verificationTabOpen) {
+                GameState.verificationTabOpen = false;
+                const timeAway = Date.now() - (GameState.verificationStartTime || 0);
+                if (timeAway > 5000) {
+                    setTimeout(() => {
+                        completeVerification();
+                        localStorage.setItem('reactionTime_verification_complete', JSON.stringify({
+                            verified: true,
+                            timestamp: Date.now()
+                        }));
+                    }, 1500);
+                }
+            }
+        }
+
+        function getRoundsForLevel(level) {
+            if (level <= 10) return 3;
+            if (level <= 20) return 4;
+            return 6;
+        }
+
+        // Key change: Start SLOW (5.0s) and get FASTER (0.5s)
+        function updateLevelConfig() {
+            const progress = (GameState.level - 1) / (GameState.maxLevel - 1);
+            // Level 1: 5.00s, Level 50: 0.50s
+            GameState.targetTime = 5.00 - (progress * 4.50);
+            // Tolerance: Level 1: 0.50s, Level 50: 0.05s
+            GameState.tolerance = 0.50 - (progress * 0.45);
+            
+            document.getElementById('targetDisplay').textContent = GameState.targetTime.toFixed(2) + 's';
+            document.getElementById('toleranceDisplay').textContent = '±' + GameState.tolerance.toFixed(2) + 's';
+        }
 
         function loadMainAppData() {
             try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
+                const saved = localStorage.getItem('sillyPrize_v9');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    GameState.mainAppCoins = data.coins || 0;
-                    document.getElementById('mainBalance').textContent = GameState.mainAppCoins.toLocaleString();
+                    document.getElementById('mainBalance').textContent = (data.coins || 0).toLocaleString();
                 }
             } catch (e) {
                 console.error('Error loading main app data:', e);
@@ -1448,30 +1504,27 @@
 
         function loadGameData() {
             try {
-                const saved = localStorage.getItem('reactionPro_v7_save');
+                const saved = localStorage.getItem('reactionTime_PRO_save');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    
-                    // Load all saved data, defaulting to initial values if not present
-                    GameState.level = Math.min(parseInt(data.level) || 1, 5);
-                    GameState.xp = parseInt(data.xp) || 0;
-                    GameState.xpToNext = XP_TABLE[GameState.level - 1] || 500;
-                    GameState.bestStreak = parseInt(data.bestStreak) || 0;
-                    GameState.totalAttempts = parseInt(data.totalAttempts) || 0;
-                    GameState.successfulHits = parseInt(data.successfulHits) || 0;
-                    GameState.totalEarned = parseInt(data.totalEarned) || 0;
+                    GameState.level = data.level || 1;
+                    GameState.currentRound = data.currentRound || 1;
+                    GameState.lives = data.lives || 3;
+                    GameState.xp = data.xp || 0;
+                    GameState.xpToNext = XP_TABLE[GameState.level - 1] || 100;
+                    GameState.totalGamesPlayed = data.totalGamesPlayed || 0;
+                    GameState.totalGamesWon = data.totalGamesWon || 0;
+                    GameState.totalEarned = data.totalEarned || 0;
+                    GameState.currentScore = data.currentScore || 0;
                     GameState.upgrades = data.upgrades || GameState.upgrades;
-                    GameState.verified = data.verified || false;
                     GameState.isLocked = data.isLocked || false;
                     GameState.pendingLevel = data.pendingLevel || null;
-                    GameState.gameComplete = data.gameComplete || false;
-                    
-                    // Restore current score if game not ended
-                    if (!data.gameEnded) {
-                        GameState.currentScore = parseInt(data.currentScore) || 0;
-                    }
                     
                     applyUpgradeEffects();
+                    
+                    if (GameState.isLocked && GameState.pendingLevel) {
+                        showVerificationOverlay();
+                    }
                 }
             } catch (e) {
                 console.error('Error loading game data:', e);
@@ -1482,41 +1535,61 @@
             try {
                 const data = {
                     level: GameState.level,
+                    currentRound: GameState.currentRound,
+                    lives: GameState.lives,
                     xp: GameState.xp,
-                    currentScore: GameState.currentScore,
-                    bestStreak: GameState.bestStreak,
-                    totalAttempts: GameState.totalAttempts,
-                    successfulHits: GameState.successfulHits,
+                    totalGamesPlayed: GameState.totalGamesPlayed,
+                    totalGamesWon: GameState.totalGamesWon,
                     totalEarned: GameState.totalEarned,
+                    currentScore: GameState.currentScore,
                     upgrades: GameState.upgrades,
-                    verified: GameState.verified,
                     isLocked: GameState.isLocked,
                     pendingLevel: GameState.pendingLevel,
-                    gameComplete: GameState.gameComplete,
-                    gameEnded: GameState.gameEnded,
                     lastSave: Date.now()
                 };
-                localStorage.setItem('reactionPro_v7_save', JSON.stringify(data));
+                localStorage.setItem('reactionTime_PRO_save', JSON.stringify(data));
             } catch (e) {
                 console.error('Error saving game data:', e);
             }
         }
 
         function applyUpgradeEffects() {
-            GameState.clickMultiplier = 1 + (GameState.upgrades.multiplier.level * GameState.upgrades.multiplier.effect);
+            GameState.scoreMultiplier = 1 + (GameState.upgrades.scoreMult.level * GameState.upgrades.scoreMult.effect);
         }
 
-        // --- TIMER LOGIC ---
-
-        function handleButtonClick() {
-            // Check if locked (needs verification)
+        function startGame() {
             if (GameState.isLocked) {
-                showVerificationOverlay();
+                showToast('Level locked! Complete verification first.', 'warning');
                 return;
             }
 
-            if (GameState.gameEnded || GameState.gameComplete) {
-                if (GameState.canRestart) attemptRestart();
+            GameState.lives = 3;
+            GameState.currentRound = 1;
+            GameState.currentScore = 0;
+            GameState.currentCombo = 0;
+            GameState.gameActive = true;
+            GameState.gameWon = false;
+            
+            updateLevelConfig();
+            
+            document.getElementById('livesStat').style.display = 'flex';
+            document.getElementById('progressSection').classList.add('active');
+            
+            updateProgressDots();
+            updateUI();
+            saveGameData();
+            
+            showToast(`Level ${GameState.level} Started! ${getRoundsForLevel(GameState.level)} rounds. Target: ${GameState.targetTime.toFixed(2)}s`, 'info');
+        }
+
+        function handleButtonClick() {
+            if (GameState.isLocked) {
+                showToast('Level locked! Complete verification first.', 'warning');
+                return;
+            }
+
+            if (!GameState.gameActive) {
+                startGame();
                 return;
             }
 
@@ -1574,105 +1647,170 @@
             const diff = Math.abs(elapsed - GameState.targetTime);
             const isSuccess = diff <= tolerance;
             
-            GameState.totalAttempts++;
-            
             const resultMsg = document.getElementById('resultMessage');
             
             if (isSuccess) {
-                GameState.successfulHits++;
-                GameState.currentStreak++;
-                if (GameState.currentStreak > GameState.bestStreak) GameState.bestStreak = GameState.currentStreak;
-                
-                const accuracy = 1 - (diff / tolerance);
-                const rewardMultiplier = 0.5 + (accuracy * 0.5);
-                const baseReward = 100 * GameState.level * GameState.clickMultiplier;
-                const reward = Math.floor(baseReward * rewardMultiplier);
-                
-                GameState.currentScore += reward;
-                GameState.totalEarned += reward;
-                
-                // Add XP and check for level up
-                const xpGain = Math.floor(reward * 0.5);
-                addXP(xpGain);
-                
-                resultMsg.innerHTML = `
-                    <i class="fas fa-check-circle"></i> CONGRATS!<br>
-                    <span style="font-size: 0.9rem;">Perfect! ${elapsed.toFixed(2)}s | +${reward} coins | +${xpGain} XP</span>
-                `;
-                resultMsg.className = "result-message success show";
-                
-                createConfetti();
+                handleCorrectAnswer(diff, tolerance, elapsed);
             } else {
-                GameState.currentStreak = 0;
-                
-                const tooFast = elapsed < GameState.targetTime;
-                const diffSec = diff.toFixed(3);
-                
-                resultMsg.innerHTML = `
-                    <i class="fas fa-times-circle"></i> MISSED!<br>
-                    <span style="font-size: 0.9rem;">
-                        ${elapsed.toFixed(2)}s - ${tooFast ? 'Too fast!' : 'Too slow!'}<br>
-                        Off by ${diffSec}s
-                    </span>
-                `;
-                resultMsg.className = "result-message fail show";
-                
-                setTimeout(() => {
-                    if (!GameState.timerRunning) {
-                        document.getElementById('liveTimer').textContent = "0.00";
-                        resultMsg.classList.remove('show');
-                    }
-                }, 2000);
+                handleWrongAnswer(elapsed, diff);
             }
+        }
+
+        function handleCorrectAnswer(diff, tolerance, elapsed) {
+            GameState.matches++;
+            GameState.currentCombo++;
             
+            let comboMult = 1;
+            if (GameState.currentCombo >= 3) {
+                comboMult = 2;
+                showComboIndicator('x2 COMBO!');
+            }
+
+            const accuracy = 1 - (diff / tolerance);
+            const rewardMultiplier = 0.5 + (accuracy * 0.5);
+            const baseReward = GameState.baseMatchReward * GameState.level * GameState.scoreMultiplier;
+            const reward = Math.floor(baseReward * rewardMultiplier * comboMult);
+            
+            GameState.currentScore += reward;
+            GameState.totalEarned += reward;
+            
+            addXP(Math.floor(reward * 0.3) + 5);
+            showFloatingCoins(reward);
+            
+            resultMsg.innerHTML = `
+                <i class="fas fa-check-circle"></i> PERFECT!<br>
+                <span style="font-size: 0.8rem;">${elapsed.toFixed(2)}s | +${reward} coins</span>
+            `;
+            resultMsg.className = "result-message success show";
+            
+            setTimeout(() => {
+                const totalRounds = getRoundsForLevel(GameState.level);
+                
+                if (GameState.currentRound >= totalRounds) {
+                    levelComplete();
+                } else {
+                    GameState.currentRound++;
+                    updateProgressDots();
+                    updateUI();
+                    resultMsg.classList.remove('show');
+                    document.getElementById('liveTimer').textContent = "0.00";
+                }
+                saveGameData();
+            }, 1500);
+            
+            showToast(`Perfect timing! +${reward} coins`, 'success');
+        }
+
+        function handleWrongAnswer(elapsed, diff) {
+            GameState.lives--;
+            GameState.currentCombo = 0;
+            updateUI();
+            
+            const tooFast = elapsed < GameState.targetTime;
+            const totalRounds = getRoundsForLevel(GameState.level);
+            
+            document.getElementById('failTitle').textContent = tooFast ? 'Too Fast!' : 'Too Slow!';
+            
+            if (GameState.lives <= 0) {
+                document.getElementById('failText').innerHTML = `
+                    You ran out of lives on Round ${GameState.currentRound}/${totalRounds}.<br>
+                    You were ${diff.toFixed(3)}s ${tooFast ? 'early' : 'late'}.<br>
+                    Restarting level...
+                `;
+                document.getElementById('failBtn').innerHTML = '<i class="fas fa-redo"></i> Restart Level';
+                document.getElementById('wrongOverlay').classList.add('active');
+            } else {
+                document.getElementById('failText').innerHTML = `
+                    ${elapsed.toFixed(2)}s - You were ${diff.toFixed(3)}s ${tooFast ? 'early' : 'late'}.<br>
+                    ${GameState.lives} lives remaining. Try again!
+                `;
+                document.getElementById('failBtn').innerHTML = '<i class="fas fa-redo"></i> Try Again';
+                document.getElementById('wrongOverlay').classList.add('active');
+            }
+        }
+
+        function handleFailContinue() {
+            document.getElementById('wrongOverlay').classList.remove('active');
+            document.getElementById('resultMessage').classList.remove('show');
+            document.getElementById('liveTimer').textContent = "0.00";
+            
+            if (GameState.lives <= 0) {
+                startGame();
+            } else {
+                updateUI();
+            }
+        }
+
+        function levelComplete() {
+            GameState.gameActive = false;
+            GameState.gameWon = true;
+            GameState.totalGamesPlayed++;
+            GameState.totalGamesWon++;
+            
+            const winBonus = 100 * GameState.level;
+            GameState.currentScore += winBonus;
+            GameState.totalEarned += winBonus;
+            
+            addXP(Math.floor(winBonus * 0.5));
+            
+            document.getElementById('completedLevelNum').textContent = GameState.level;
+            document.getElementById('levelCoinsValue').textContent = Math.floor(GameState.currentScore).toLocaleString();
+            document.getElementById('levelUpOverlay').classList.add('active');
+            document.getElementById('pendingBadge').style.display = 'inline-flex';
+            
+            createConfetti();
             updateUI();
             saveGameData();
             
-            if (GameState.totalEarned >= GameState.maxCoins) {
-                endGame();
-            }
+            showToast(`Level ${GameState.level} Complete! Speed increases!`, 'success');
         }
 
-        function addXP(amount) {
-            // Don't add XP if at max level or locked
-            if (GameState.level >= GameState.maxLevel || GameState.isLocked) return;
+        function collectLevelCoins() {
+            const coinsToCollect = Math.floor(GameState.currentScore);
             
-            GameState.xp += amount;
-            
-            // Check if enough XP to level up
-            if (GameState.xp >= GameState.xpToNext) {
-                GameState.xp -= GameState.xpToNext;
-                // Don't auto level up - set pending and show verification
-                prepareLevelUp();
+            if (coinsToCollect > 0) {
+                const synced = syncWithMainApp(coinsToCollect, 0);
+                if (synced) {
+                    showToast(`Collected ${coinsToCollect} coins!`, 'success');
+                    loadMainAppData();
+                }
             }
-        }
-
-        function prepareLevelUp() {
-            GameState.pendingLevel = GameState.level + 1;
-            GameState.isLocked = true;
-            saveGameData();
             
-            // Show verification overlay immediately
-            showVerificationOverlay();
+            GameState.currentScore = 0;
+            const nextLevel = GameState.level + 1;
+            
+            if (nextLevel % 3 === 0 && nextLevel <= 50) {
+                GameState.level = nextLevel;
+                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.level * 0.05);
+                GameState.isLocked = true;
+                GameState.pendingLevel = nextLevel;
+                saveGameData();
+                
+                document.getElementById('levelUpOverlay').classList.remove('active');
+                setTimeout(() => showVerificationOverlay(), 300);
+            } else if (nextLevel <= 50) {
+                GameState.level = nextLevel;
+                GameState.currentRound = 1;
+                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.level * 0.05);
+                saveGameData();
+                
+                document.getElementById('levelUpOverlay').classList.remove('active');
+                document.getElementById('pendingBadge').style.display = 'none';
+                updateLevelConfig();
+                updateUI();
+                updateProgressDots();
+                showToast(`Level ${GameState.level} Unlocked! Target: ${GameState.targetTime.toFixed(2)}s`, 'success');
+            } else {
+                showToast('Congratulations! You mastered all 50 levels!', 'success');
+                setTimeout(() => goBack(), 2000);
+            }
         }
 
         function showVerificationOverlay() {
-            const targetLevel = GameState.pendingLevel || (GameState.level + 1);
-            document.getElementById('verifyLevel').textContent = targetLevel;
+            document.getElementById('verifyLevel').textContent = GameState.level;
             document.getElementById('verificationOverlay').classList.add('active');
-            document.getElementById('pendingBadge').style.display = 'inline-flex';
-            showVerificationWarning();
-            createConfetti();
-        }
-
-        function showVerificationFromWarning() {
-            showVerificationOverlay();
-        }
-
-        function showVerificationWarning() {
-            const displayLevel = GameState.pendingLevel || GameState.level;
-            document.getElementById('warningLevel').textContent = displayLevel;
-            document.getElementById('verificationWarning').classList.add('active');
         }
 
         function showCaptcha() {
@@ -1684,7 +1822,6 @@
 
         function showHumanVerification() {
             window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank');
-            
             GameState.verificationStartTime = Date.now();
             GameState.verificationTabOpen = true;
             
@@ -1698,137 +1835,57 @@
         function startVerificationCountdown() {
             setTimeout(() => {
                 completeVerification();
-            }, 240000); // 4 minutes
+            }, 240000);
         }
 
         function completeVerification() {
-            if (GameState.pendingLevel) {
-                GameState.level = GameState.pendingLevel;
-                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 500;
-                GameState.baseMultiplier = 1 + (GameState.level * 0.2);
-                updateLevelConfig();
-            }
-            
             GameState.isLocked = false;
             GameState.pendingLevel = null;
-            GameState.verified = true;
-            GameState.verificationTabOpen = false;
-            
             saveGameData();
             
             document.getElementById('humanVerificationWrapper').classList.remove('active');
             document.getElementById('captchaContainer').classList.remove('active');
             document.getElementById('verificationSuccess').classList.add('active');
-            document.getElementById('verificationWarning').classList.remove('active');
             document.getElementById('pendingBadge').style.display = 'none';
             
-            showToast('Verification complete! Level unlocked!', 'success');
-            createConfetti();
+            setTimeout(() => {
+                document.getElementById('verificationOverlay').classList.remove('active');
+                document.getElementById('verificationSuccess').classList.remove('active');
+                document.getElementById('verificationButtons').style.display = 'flex';
+                updateLevelConfig();
+                updateUI();
+                updateProgressDots();
+            }, 2000);
+        }
+
+        function updateProgressDots() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = '';
+            const totalRounds = getRoundsForLevel(GameState.level);
+            
+            for (let i = 1; i <= totalRounds; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i < GameState.currentRound) dot.classList.add('completed');
+                else if (i === GameState.currentRound) dot.classList.add('current');
+                container.appendChild(dot);
+            }
+        }
+
+        function addXP(amount) {
+            if (GameState.level >= GameState.maxLevel) return;
+            GameState.xp += amount;
+            if (GameState.xp >= GameState.xpToNext) {
+                GameState.xp = GameState.xpToNext;
+            }
             updateUI();
-            renderLevelDots();
-            
-            // Check if game complete (level 5)
-            if (GameState.level >= GameState.maxLevel) {
-                setTimeout(() => {
-                    document.getElementById('verificationOverlay').classList.remove('active');
-                    document.getElementById('verificationSuccess').classList.remove('active');
-                    document.getElementById('verificationButtons').style.display = 'flex';
-                    showGameComplete();
-                }, 1500);
-            } else {
-                setTimeout(() => {
-                    document.getElementById('verificationOverlay').classList.remove('active');
-                    document.getElementById('verificationSuccess').classList.remove('active');
-                    document.getElementById('verificationButtons').style.display = 'flex';
-                }, 2500);
-            }
-        }
-
-        function showGameComplete() {
-            GameState.gameComplete = true;
-            document.getElementById('finalScore').textContent = Math.floor(GameState.currentScore).toLocaleString();
-            document.getElementById('gameCompleteOverlay').classList.add('active');
-            createConfetti();
-            createConfetti();
-            createConfetti();
-            saveGameData();
-        }
-
-        function closeGameComplete() {
-            document.getElementById('gameCompleteOverlay').classList.remove('active');
-            endGame();
-        }
-
-        function endGame() {
-            GameState.gameEnded = true;
-            document.getElementById('reactionBtn').disabled = true;
-            document.getElementById('btnText').textContent = "DONE";
-            
-            if (GameState.mainAppCoins >= 30) {
-                GameState.canRestart = true;
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
-                document.getElementById('claimBtn').disabled = false;
-            } else {
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim ' + Math.floor(GameState.currentScore).toLocaleString() + ' Coins';
-                if (GameState.currentScore >= 50) {
-                    document.getElementById('claimBtn').disabled = false;
-                }
-            }
-            saveGameData();
-        }
-
-        function attemptRestart() {
-            if (GameState.mainAppCoins < 30) {
-                showToast('Not enough coins! Need 30 to restart.', 'error');
-                return;
-            }
-
-            GameState.mainAppCoins -= 30;
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = GameState.mainAppCoins;
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error updating main app coins:', e);
-            }
-
-            // Reset game progress but keep level progress
-            GameState.currentScore = 0;
-            GameState.totalEarned = 0;
-            GameState.totalAttempts = 0;
-            GameState.successfulHits = 0;
-            GameState.currentStreak = 0;
-            GameState.gameEnded = false;
-            GameState.canRestart = false;
-            GameState.claimed = false;
-            GameState.gameComplete = false;
-            
-            // Don't reset level, xp, or verification status
-            // GameState.level stays the same
-            // GameState.isLocked stays the same
-            // GameState.pendingLevel stays the same
-
-            document.getElementById('reactionBtn').disabled = false;
-            document.getElementById('btnText').textContent = "START";
-            document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim <span id="claimAmount">0</span> Coins';
-            document.getElementById('claimBtn').disabled = true;
-            document.getElementById('resultMessage').classList.remove('show');
-            document.getElementById('liveTimer').textContent = "0.00";
-
-            updateUI();
-            renderLevelDots();
-            loadMainAppData();
-            showToast('Game restarted! -30 coins', 'success');
         }
 
         function renderUpgrades() {
             const container = document.getElementById('upgradesList');
             const upgrades = [
-                { id: 'multiplier', name: 'Coin Multiplier', icon: 'fa-coins', desc: '+50% coins per level', color: '#3b82f6' },
-                { id: 'tolerance', name: 'Precision Boost', icon: 'fa-crosshairs', desc: '+20ms tolerance window', color: '#10b981' }
+                { id: 'tolerance', name: 'Precision Boost', icon: 'fa-crosshairs', desc: '+20ms tolerance', color: '#10b981' },
+                { id: 'scoreMult', name: 'Score Multiplier', icon: 'fa-coins', desc: '+0.2x per level', color: '#3b82f6' }
             ];
             
             container.innerHTML = upgrades.map(up => {
@@ -1854,21 +1911,6 @@
             }).join('');
         }
 
-        function renderLevelDots() {
-            const container = document.getElementById('levelDots');
-            // Show 5 dots without numbers
-            let html = '';
-            for (let i = 1; i <= 5; i++) {
-                let status = '';
-                if (i < GameState.level) status = 'completed';
-                else if (i === GameState.level && !GameState.isLocked) status = 'current';
-                else if (i === GameState.level && GameState.isLocked) status = 'pending';
-                
-                html += `<div class="level-dot ${status}"></div>`;
-            }
-            container.innerHTML = html;
-        }
-
         function buyUpgrade(type) {
             const upgrade = GameState.upgrades[type];
             if (GameState.currentScore < upgrade.cost || upgrade.level >= upgrade.maxLevel) return;
@@ -1881,121 +1923,47 @@
             renderUpgrades();
             updateUI();
             saveGameData();
-            
             showToast(`Upgraded ${type}!`, 'success');
         }
 
         function updateUI() {
             document.getElementById('levelValue').textContent = GameState.level;
             document.getElementById('currentXp').textContent = GameState.xp;
-            document.getElementById('targetXp').textContent = GameState.xpToNext === 0 ? 'MAX' : GameState.xpToNext.toLocaleString();
+            document.getElementById('targetXp').textContent = GameState.xpToNext.toLocaleString();
+            document.getElementById('xpBar').style.width = Math.min((GameState.xp / GameState.xpToNext) * 100, 100) + '%';
             
-            const xpPercent = GameState.xpToNext > 0 ? (GameState.xp / GameState.xpToNext) * 100 : 100;
-            document.getElementById('xpBar').style.width = xpPercent + '%';
+            document.getElementById('maxBadge').style.display = GameState.level >= 50 ? 'inline-flex' : 'none';
+            document.getElementById('pendingBadge').style.display = GameState.isLocked ? 'inline-flex' : 'none';
             
-            if (GameState.level >= GameState.maxLevel && GameState.gameComplete) {
-                document.getElementById('maxBadge').style.display = 'inline-flex';
-            } else {
-                document.getElementById('maxBadge').style.display = 'none';
-            }
-            
-            if (GameState.isLocked) {
-                document.getElementById('pendingBadge').style.display = 'inline-flex';
-            } else {
-                document.getElementById('pendingBadge').style.display = 'none';
-            }
-            
-            document.getElementById('totalEarnedDisplay').textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            document.getElementById('totalEarnedDisplay').textContent = Math.floor(GameState.currentScore).toLocaleString();
             document.getElementById('currentScore').textContent = Math.floor(GameState.currentScore).toLocaleString();
+            document.getElementById('gamesPlayed').textContent = GameState.totalGamesPlayed.toLocaleString();
+            document.getElementById('gamesWon').textContent = GameState.totalGamesWon.toLocaleString();
+            document.getElementById('currentRoundDisplay').textContent = GameState.currentRound;
+            document.getElementById('livesDisplay').textContent = GameState.lives;
+            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
             
-            document.getElementById('totalAttempts').textContent = GameState.totalAttempts.toLocaleString();
-            const rate = GameState.totalAttempts > 0 ? Math.floor((GameState.successfulHits / GameState.totalAttempts) * 100) : 0;
-            document.getElementById('successRate').textContent = rate + '%';
-            document.getElementById('bestStreak').textContent = GameState.bestStreak.toLocaleString();
-            
-            document.getElementById('goalTime').textContent = GameState.targetTime.toFixed(2) + 's';
-            
-            const totalMult = (GameState.clickMultiplier * GameState.baseMultiplier).toFixed(1);
+            const totalMult = (GameState.scoreMultiplier * GameState.baseMultiplier).toFixed(1);
             document.getElementById('multiplierText').textContent = `x${totalMult}`;
             
-            const claimBtn = document.getElementById('claimBtn');
-            const claimAmount = document.getElementById('claimAmount');
-            claimAmount.textContent = Math.floor(GameState.currentScore).toLocaleString();
-            
-            if (!GameState.gameEnded) {
-                claimBtn.disabled = GameState.currentScore < 50 || GameState.isLocked;
-            }
-            
-            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            document.getElementById('goalTime').textContent = GameState.targetTime.toFixed(2) + 's';
+            document.getElementById('toleranceBadge').textContent = '±' + (GameState.tolerance + (GameState.upgrades.tolerance.level * 0.02)).toFixed(2) + 's tolerance';
         }
 
-        function claimEarnings() {
-            if (GameState.canRestart) {
-                attemptRestart();
-                return;
-            }
-            
-            if (GameState.currentScore < 50 || GameState.claimed || GameState.isLocked) return;
-            
-            const amount = Math.floor(GameState.currentScore);
-            
-            if (window.opener) {
-                window.opener.postMessage({
-                    type: 'GAME_REWARD',
-                    gameId: 'reaction',
-                    coins: amount
-                }, '*');
-            }
-            
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = (data.coins || 0) + amount;
-                    data.gamesPlayed = (data.gamesPlayed || 0) + 1;
-                    data.todayEarned = (data.todayEarned || 0) + amount;
-                    data.totalEarned = (data.totalEarned || 0) + amount;
-                    
-                    const historyItem = {
-                        id: Date.now(),
-                        amount: amount,
-                        source: 'Reaction Time',
-                        sourceId: 'reaction',
-                        isNegative: false,
-                        timestamp: new Date().toISOString()
-                    };
-                    data.history = data.history || [];
-                    data.history.unshift(historyItem);
-                    if (data.history.length > 100) data.history.pop();
-                    
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error saving to main app:', e);
-            }
-            
-            GameState.claimed = true;
-            GameState.currentScore = 0;
-            
-            saveGameData();
-            updateUI();
-            loadMainAppData();
-            
-            showToast(`Claimed ${amount} coins!`, 'success');
-            
-            const btn = document.getElementById('claimBtn');
-            btn.innerHTML = '<i class="fas fa-check"></i> Claimed!';
-            btn.disabled = true;
-            btn.style.background = '#e2e8f0';
-            btn.style.color = '#64748b';
-            
-            setTimeout(() => {
-                goBack();
-            }, 2000);
+        function showComboIndicator(text) {
+            document.getElementById('comboText').textContent = text;
+            document.getElementById('comboIndicator').classList.add('active');
+            setTimeout(() => document.getElementById('comboIndicator').classList.remove('active'), 1500);
+        }
+
+        function showFloatingCoins(amount) {
+            document.getElementById('floatingCoinsText').textContent = `+${amount}`;
+            document.getElementById('floatingCoins').classList.add('active');
+            setTimeout(() => document.getElementById('floatingCoins').classList.remove('active'), 1000);
         }
 
         function createConfetti() {
-            const colors = ['#ef4444', '#f87171', '#fca5a5', '#fecaca', '#fee2e2', '#fbbf24', '#f59e0b'];
+            const colors = ['#ef4444', '#f87171', '#fca5a5', '#fbbf24', '#f59e0b'];
             for (let i = 0; i < 30; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
@@ -2010,11 +1978,8 @@
 
         function goBack() {
             saveGameData();
-            if (window.opener) {
-                window.close();
-            } else {
-                window.history.back();
-            }
+            if (window.opener) window.close();
+            else window.history.back();
         }
 
         function showToast(message, type) {
