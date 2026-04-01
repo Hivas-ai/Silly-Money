@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deletion FAQ | Silly Money Help Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --danger: #ef4444;
+            --danger-light: #fef2f2;
+            --warning: #f59e0b;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --border: #e5e7eb;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+        }
+
+        .warning-banner {
+            background: linear-gradient(135deg, #fff5f5, var(--danger-light));
+            border-left: 4px solid var(--danger);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: start;
+            gap: 16px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .warning-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--danger);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .warning-content h3 {
+            color: #dc2626;
+            font-size: 1.125rem;
+            margin-bottom: 8px;
+        }
+
+        .warning-content p {
+            color: #7f1d1d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .faq-section {
+            background: var(--bg-primary);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .faq-question.active {
+            background-color: var(--bg-secondary);
+            color: var(--primary);
+        }
+
+        .icon-chevron {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
+            color: var(--text-secondary);
+        }
+
+        .faq-question.active .icon-chevron {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s;
+        }
+
+        .faq-answer.active {
+            max-height: 1000px;
+            padding: 0 24px 24px 24px;
+        }
+
+        .step-container {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 16px;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: linear-gradient(to bottom, var(--border), transparent);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .step-content {
+            flex: 1;
+            padding-top: 8px;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .step-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .visual-hint {
+            background: white;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        .visual-hint.danger-zone {
+            border-color: var(--danger);
+            background: var(--danger-light);
+            color: #991b1b;
+        }
+
+        .btn-mock {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--danger);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-top: 8px;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+        }
+
+        .input-mock {
+            display: inline-block;
+            padding: 6px 12px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            background: white;
+            font-weight: 600;
+            color: var(--danger);
+            margin: 0 4px;
+            letter-spacing: 1px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .info-card {
+            background: var(--bg-secondary);
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .info-card h4 {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card p {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .contact-box h3 {
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .contact-box p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 4px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 1.875rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-question {
+                font-size: 1rem;
+                padding: 20px;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Account Management FAQ</h1>
+            <p>Everything you need to know about managing your Silly Money account</p>
+        </div>
+
+        <div class="warning-banner">
+            <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <div class="warning-content">
+                <h3>Important Notice</h3>
+                <p>Deleting your Silly Money account is permanent and irreversible. All your reward points, transaction history, and personal data will be permanently removed from our systems within 30 days. Please ensure you've withdrawn any remaining balance before proceeding.</p>
+            </div>
+        </div>
+
+        <div class="faq-section">
+            <!-- FAQ Item 1: Main Deletion Process -->
+            <div class="faq-item">
+                <div class="faq-question active" onclick="toggleFaq(this)">
+                    <span>How do I delete my Silly Money account?</span>
+                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="faq-answer active">
+                    <p>We've designed the deletion process with multiple confirmation steps to prevent accidental account loss. Here's exactly what happens:</p>
+                    
+                    <div class="step-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <div class="step-title">Navigate to Settings</div>
+                                <div class="step-desc">Log into your account and click on your profile picture in the top right corner, then select <span class="highlight">"Account Settings"</span> from the dropdown menu.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <div class="step-title">Find the Danger Zone</div>
+                                <div class="step-desc">Scroll to the bottom of the settings page to the <span class="highlight">"Danger Zone"</span> section. Click the red <span class="btn-mock">DELETE ACCOUNT</span> button.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <div class="step-title">Type "DELETE" to Confirm</div>
+                                <div class="step-desc">A modal window will appear asking you to type <span class="input-mock">DELETE</span> in capital letters to verify your intention. This prevents accidental clicks.</div>
+                                <div class="visual-hint danger-zone">
+                                    <strong>Confirmation Screen:</strong><br>
+                                    To confirm deletion, type: DELETE<br>
+                                    [________________] <span style="color: #999;">← Type here</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <div class="step-title">Final Confirmation</div>
+                                <div class="step-desc">After typing DELETE, the <span class="highlight">"Permanently Delete Account"</span> button becomes active. Click it to complete the process. You'll receive a confirmation email within 5 minutes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2: Data Retention -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>What happens to my data after deletion?</span>
+                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">
+                    <p>We take data privacy seriously. Here's our deletion timeline:</p>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h4>Immediate (0-24 hours)</h4>
+                            <p>Account deactivated, login blocked</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>7 Days</h4>
+                            <p>Personal data removed from active systems</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>30 Days</h4>
+                            <p>Complete removal from backup systems</p>
+                        </div>
+                        <div class="info-card">
+                            <h4>90 Days</h4>
+                            <p>Anonymized transaction records only</p>
+                        </div>
+                    </div>
+                    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 0.9rem;">
+                        <strong>Note:</strong> Financial transaction records are retained for 7 years as required by law, but anonymized and dissociated from your identity after 90 days.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3: Recovery -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Can I recover my account after deletion?</span>
+                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>No.</strong> Once you complete the deletion process and confirm via email (if required), account recovery is impossible. This includes:</p>
+                    <ul style="margin-left: 20px; margin-top: 12px; color: var(--text-secondary);">
+                        <li>All reward points and balances (forfeited)</li>
+                        <li>Task history and achievements</li>
+                        <li>Referral codes and bonuses</li>
+                        <li>Connected payment methods</li>
+                        <li>KYC verification status (you'll need to re-verify)</li>
+                    </ul>
+                    <p style="margin-top: 16px;">If you're unsure, we recommend <span class="highlight">deactivating your account temporarily</span> instead. Contact support for temporary deactivation options.</p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4: Prerequisites -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>What should I do before deleting?</span>
+                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">
+                    <p>Before clicking that DELETE button, complete this checklist:</p>
+                    <div class="step-container" style="background: #fffbeb; border-left: 4px solid var(--warning);">
+                        <div class="step" style="margin-bottom: 12px;">
+                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
+                            <div class="step-content">
+                                <div class="step-title">Withdraw Your Balance</div>
+                                <div class="step-desc">Ensure your wallet balance is $0.00. Any remaining funds will be forfeited and cannot be recovered.</div>
+                            </div>
+                        </div>
+                        <div class="step" style="margin-bottom: 12px;">
+                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
+                            <div class="step-content">
+                                <div class="step-title">Complete Pending Withdrawals</div>
+                                <div class="step-desc">Wait for any pending withdrawals to complete (usually 1-3 business days).</div>
+                            </div>
+                        </div>
+                        <div class="step" style="margin-bottom: 12px;">
+                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
+                            <div class="step-content">
+                                <div class="step-title">Export Tax Documents</div>
+                                <div class="step-desc">Download any tax forms or transaction history you may need for your records.</div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
+                            <div class="step-content">
+                                <div class="step-title">Cancel Active Tasks</div>
+                                <div class="step-desc">Complete or forfeit any active tasks to avoid penalties.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Item 5: Issues -->
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>What if the DELETE button doesn't work?</span>
+                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="faq-answer">
+                    <p>If you're experiencing issues with account deletion:</p>
+                    <ol style="margin-left: 20px; margin-top: 12px; color: var(--text-secondary);">
+                        <li><strong>Check for pending withdrawals:</strong> You cannot delete an account with pending transactions.</li>
+                        <li><strong>Clear browser cache:</strong> Try using an incognito/private window.</li>
+                        <li><strong>Disable VPN:</strong> Sometimes location restrictions prevent account changes.</li>
+                        <li><strong>Contact support:</strong> If the button is greyed out, there may be a hold on your account.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-box">
+            <h3>Need Help With Deletion?</h3>
+            <p>Our support team can guide you through the process or help with temporary deactivation if you're not ready for permanent deletion.</p>
+            <a href="#" class="btn-primary">Contact Support Team</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const isActive = element.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.faq-question').forEach(q => q.classList.remove('active'));
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('active'));
+            
+            // Open clicked if it wasn't active
+            if (!isActive) {
+                element.classList.add('active');
+                answer.classList.add('active');
+            }
+        }
+
+        // Auto-expand first item on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstQuestion = document.querySelector('.faq-question');
+            if (firstQuestion) {
+                firstQuestion.classList.add('active');
+                firstQuestion.nextElementSibling.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
