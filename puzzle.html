@@ -8,24 +8,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* PINK THEME OVERRIDE */
-            --primary: #ec4899; /* Pink 500 */
-            --primary-dark: #be185d; /* Pink 700 */
-            --primary-light: #f472b6; /* Pink 400 */
+            --primary: #ec4899;
+            --primary-dark: #be185d;
+            --primary-light: #f472b6;
             --primary-soft: rgba(236, 72, 153, 0.1);
-            
-            --secondary: #fdf2f8; /* Pink 50 */
-            --dark: #831843; /* Pink 900 */
+            --secondary: #fdf2f8;
+            --dark: #831843;
             --light: #ffffff;
-            --gray: #9d174d; /* Pink 800 */
-            --gray-light: #fbcfe8; /* Pink 200 */
-            
+            --gray: #9d174d;
+            --gray-light: #fbcfe8;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
             --info: #0ea5e9;
             --accent: #f472b6;
-            
             --shadow: 0 4px 20px rgba(236, 72, 153, 0.15);
             --shadow-lg: 0 10px 40px rgba(236, 72, 153, 0.25);
             --border-radius: 16px;
@@ -56,11 +52,10 @@
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
-            background: #fff0f5; /* Lavender Blush */
+            background: #fff0f5;
             box-shadow: 0 0 60px rgba(190, 24, 93, 0.15);
         }
 
-        /* Header */
         .game-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
@@ -109,6 +104,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         .header-stat {
@@ -124,14 +120,11 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .header-stat i {
-            font-size: 0.9rem;
-        }
-
+        .header-stat i { font-size: 0.9rem; }
         .header-stat.wallet i { color: #fbcfe8; }
         .header-stat.coins i { color: #fde047; }
+        .header-stat.lives i { color: #ef4444; }
 
-        /* Level Section */
         .level-section {
             background: white;
             padding: 20px;
@@ -194,7 +187,6 @@
             100% { transform: translateX(100%); }
         }
 
-        /* Score Section */
         .score-section {
             background: linear-gradient(135deg, var(--primary-soft) 0%, white 100%);
             padding: 25px;
@@ -247,7 +239,19 @@
             font-size: 0.9rem;
         }
 
-        /* Puzzle Preview */
+        .game-type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--primary-soft);
+            color: var(--primary-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
         .game-preview {
             padding: 30px 20px;
             background: white;
@@ -258,7 +262,7 @@
         .preview-container {
             position: relative;
             max-width: 300px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
             padding: 20px;
         }
 
@@ -275,7 +279,12 @@
             color: white;
             box-shadow: 0 10px 30px rgba(236, 72, 153, 0.3);
             animation: float-icon 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
+
+        .preview-icon-large:hover { transform: scale(1.1); }
+        .preview-icon-large:active { transform: scale(0.95); }
 
         @keyframes float-icon {
             0%, 100% { transform: translateY(0); }
@@ -318,7 +327,19 @@
             text-transform: uppercase;
         }
 
-        /* Timer Section */
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--primary-soft);
+            color: var(--primary-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
         .timer-section {
             background: white;
             padding: 15px 20px;
@@ -348,16 +369,15 @@
             50% { opacity: 0.7; }
         }
 
-        .streak-display {
+        .round-display {
             display: flex;
             align-items: center;
             gap: 8px;
             font-weight: 600;
             color: var(--gray);
         }
-        .streak-display i { color: var(--warning); }
+        .round-display i { color: var(--primary); }
 
-        /* Puzzle Game Area */
         .game-board {
             padding: 20px;
             display: none;
@@ -367,38 +387,258 @@
 
         .game-board.active { display: flex; }
 
-        .puzzle-card {
+        /* RIDDLE GAME STYLES */
+        .riddle-card {
             background: white;
             border-radius: var(--border-radius);
             padding: 25px;
             box-shadow: var(--shadow);
             border: 2px solid transparent;
-            transition: var(--transition);
             text-align: center;
         }
 
-        .puzzle-question {
-            font-size: 1.4rem;
+        .riddle-question {
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--dark);
             margin-bottom: 20px;
             line-height: 1.4;
         }
 
-        .puzzle-hint {
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-top: 10px;
-            font-style: italic;
-        }
-
-        /* Options Grid */
-        .options-grid {
+        .riddle-options {
             display: grid;
             grid-template-columns: 1fr;
             gap: 12px;
         }
 
+        /* PATH FINDER GAME STYLES */
+        .path-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            max-width: 280px;
+            margin: 0 auto;
+            background: var(--gray-light);
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .path-cell {
+            aspect-ratio: 1;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .path-cell:hover:not(.blocked):not(.start):not(.end) {
+            background: var(--primary-soft);
+            border-color: var(--primary);
+        }
+
+        .path-cell.start {
+            background: var(--success);
+            color: white;
+            cursor: default;
+        }
+
+        .path-cell.end {
+            background: var(--warning);
+            color: white;
+            cursor: default;
+        }
+
+        .path-cell.blocked {
+            background: #374151;
+            cursor: not-allowed;
+        }
+
+        .path-cell.correct {
+            background: var(--success);
+            color: white;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .path-cell.wrong {
+            background: var(--danger);
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .path-cell.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* WORD SEARCH STYLES */
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2px;
+            max-width: 320px;
+            margin: 0 auto;
+            background: var(--gray-light);
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .word-cell {
+            aspect-ratio: 1;
+            background: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .word-cell:hover {
+            background: var(--primary-soft);
+        }
+
+        .word-cell.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .word-cell.found {
+            background: var(--success);
+            color: white;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .word-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .word-item {
+            background: var(--primary-soft);
+            color: var(--primary-dark);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .word-item.found {
+            background: var(--success);
+            color: white;
+            text-decoration: line-through;
+        }
+
+        /* MEMORY GAME STYLES */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            transform-style: preserve-3d;
+        }
+
+        .memory-card:hover:not(.flipped):not(.matched) {
+            transform: scale(1.05);
+            box-shadow: var(--shadow);
+        }
+
+        .memory-card.flipped {
+            background: white;
+            border: 2px solid var(--primary);
+        }
+
+        .memory-card.matched {
+            background: var(--success);
+            color: white;
+            animation: correctPulse 0.5s ease;
+        }
+
+        .memory-card.wrong {
+            background: var(--danger);
+            animation: shake 0.5s ease;
+        }
+
+        /* MATH PUZZLE STYLES */
+        .math-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .math-problem {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 25px;
+        }
+
+        .math-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        /* PATTERN GAME STYLES */
+        .pattern-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .pattern-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .pattern-item {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--primary-soft);
+        }
+
+        .pattern-item.missing {
+            background: var(--gray-light);
+            border: 3px dashed var(--primary);
+        }
+
+        /* COMMON STYLES */
         .option-btn {
             width: 100%;
             padding: 18px;
@@ -466,39 +706,60 @@
         .option-btn.correct .option-icon.check { opacity: 1; color: var(--success); }
         .option-btn.wrong .option-icon.times { opacity: 1; color: var(--danger); }
 
-        /* Restart Info */
-        .restart-info {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-left: 4px solid var(--warning);
-            padding: 12px 15px;
-            margin: 0 20px 15px;
-            border-radius: 8px;
+        .progress-section {
+            padding: 0 20px 20px;
             display: none;
-            align-items: center;
+        }
+
+        .progress-section.active { display: block; }
+
+        .progress-header {
+            display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
-        .restart-info.active { display: flex; }
-
-        .restart-text {
-            font-size: 0.9rem;
+        .progress-title {
+            font-weight: 700;
             color: var(--dark);
-            font-weight: 600;
-        }
-
-        .restart-cost {
             display: flex;
             align-items: center;
-            gap: 5px;
-            background: var(--warning);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
+            gap: 8px;
         }
 
-        /* Stats Grid */
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            max-width: 60%;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .progress-dot.completed {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .progress-dot.current {
+            background: var(--primary);
+            animation: pulse-dot 1.5s infinite;
+            transform: scale(1.2);
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
         .stats-section { padding: 0 20px 20px; }
 
         .stats-grid {
@@ -548,18 +809,6 @@
             font-weight: 600;
         }
 
-        .stat-card.win-active {
-            border-color: var(--success);
-            background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
-            animation: winPulse 1s ease;
-        }
-
-        @keyframes winPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        /* Upgrades */
         .upgrades-section { padding: 0 20px 20px; }
 
         .section-title {
@@ -644,64 +893,6 @@
 
         .upgrade-cost i { color: var(--warning); }
 
-        /* Claim Section */
-        .claim-section {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 -5px 30px rgba(190, 24, 93, 0.1);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            z-index: 1000;
-        }
-
-        .claim-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-        }
-
-        .claim-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .claim-btn:disabled {
-            background: var(--gray-light);
-            color: var(--gray);
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .claim-btn.restart {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-        }
-
-        .claim-info {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-
-        /* Start Game Button */
         .start-game-container {
             padding: 0 20px 20px;
             text-align: center;
@@ -736,8 +927,7 @@
             box-shadow: none;
         }
 
-        /* Overlays */
-        .level-up-overlay, .verification-overlay, .game-over-overlay, .win-overlay {
+        .level-up-overlay, .verification-overlay, .wrong-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 5500;
@@ -750,9 +940,9 @@
             -webkit-backdrop-filter: blur(8px) saturate(180%);
         }
 
-        .level-up-overlay.active, .verification-overlay.active, .game-over-overlay.active, .win-overlay.active { display: flex; }
+        .level-up-overlay.active, .verification-overlay.active, .wrong-overlay.active { display: flex; }
 
-        .level-up-content, .verification-content, .game-over-content, .win-content {
+        .level-up-content, .verification-content, .wrong-content {
             background: rgba(255, 255, 255, 0.95);
             border-radius: var(--border-radius);
             padding: 40px;
@@ -770,12 +960,12 @@
         }
 
         .level-up-icon {
-            width: 70px; height: 70px;
+            width: 80px; height: 80px;
             border-radius: 50%;
             background: linear-gradient(135deg, #f472b6, #ec4899);
             display: flex; align-items: center; justify-content: center;
             margin: 0 auto 20px;
-            font-size: 2rem; color: white;
+            font-size: 2.5rem; color: white;
             box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
             animation: starBounce 0.6s ease;
         }
@@ -786,64 +976,76 @@
         }
 
         .level-up-title { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
-        .level-up-text { color: var(--gray); margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5; }
+        .level-up-text { color: var(--gray); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; }
 
-        .level-up-btn {
-            width: 100%; padding: 14px 28px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; border: none; border-radius: 12px;
-            font-weight: 700; cursor: pointer; font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
-        }
-
-        .level-up-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
-        }
-
-        /* Win Overlay */
-        .win-icon {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--success), #059669);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px; font-size: 2rem; color: white;
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-            animation: winBounce 0.6s ease;
-        }
-
-        @keyframes winBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        .win-title { font-size: 1.8rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
-        .win-text { color: var(--gray); margin-bottom: 25px; font-size: 0.95rem; line-height: 1.5; }
-
-        .win-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .win-stat {
-            background: var(--primary-soft);
-            padding: 15px;
+        .level-coins-display {
+            background: linear-gradient(135deg, #fce7f3, #fdf2f8);
+            border: 2px solid #f9a8d4;
             border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
         }
 
-        .win-stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
+        .level-coins-label {
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            font-weight: 600;
             margin-bottom: 5px;
         }
 
-        .win-stat-label { font-size: 0.8rem; color: var(--gray); font-weight: 600; }
+        .level-coins-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--success);
+        }
 
-        /* Verification Overlay */
+        .collect-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .wrong-icon {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 2rem; color: white;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+            animation: shakeIcon 0.5s ease;
+        }
+
+        @keyframes shakeIcon {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .wrong-title { font-size: 1.5rem; font-weight: 800; color: var(--dark); margin-bottom: 8px; }
+        .wrong-text { color: var(--gray); margin-bottom: 25px; font-size: 0.95rem; }
+
+        .retry-btn {
+            width: 100%; padding: 14px 28px;
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white; border: none; border-radius: 12px;
+            font-weight: 700; cursor: pointer; font-size: 1rem;
+            transition: var(--transition);
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px;
+        }
+
         .verification-icon {
             width: 70px; height: 70px; border-radius: 50%;
             background: linear-gradient(135deg, var(--warning), #d97706);
@@ -873,12 +1075,6 @@
             box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
         }
 
-        .verify-btn.captcha { border-color: var(--info); color: var(--info); }
-        .verify-btn.captcha:hover { background: var(--info); color: white; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
-        .verify-btn.human { border-color: var(--success); color: var(--success); }
-        .verify-btn.human:hover { background: var(--success); color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-
-        /* Captcha & Loading */
         .captcha-wrapper, .human-verification-wrapper, .verification-success {
             display: none;
             margin: 20px 0; padding: 20px;
@@ -894,7 +1090,6 @@
             font-weight: 600; margin-bottom: 15px;
             display: flex; align-items: center; gap: 8px;
         }
-        .captcha-header i { color: var(--info); }
 
         .loading-spinner {
             width: 50px; height: 50px;
@@ -928,28 +1123,6 @@
         }
 
         .verification-loading-text { font-size: 0.9rem; color: var(--dark); font-weight: 600; margin-bottom: 8px; }
-        .verification-loading-subtext { font-size: 0.8rem; color: var(--gray); }
-
-        .verification-progress {
-            width: 100%; height: 8px;
-            background: var(--gray-light);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .verification-progress.active { display: block; }
-
-        .verification-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), #34d399);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .verification-progress-text { font-size: 0.8rem; color: var(--gray); margin-top: 8px; font-weight: 600; }
 
         .success-icon {
             width: 60px; height: 60px; border-radius: 50%;
@@ -961,50 +1134,23 @@
         .success-text { font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 5px; }
         .success-subtext { font-size: 0.9rem; color: var(--gray); }
 
-        /* Task Reminder */
-        .task-reminder {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border-left: 4px solid var(--warning);
-            padding: 15px; border-radius: 8px;
-            margin-bottom: 20px; text-align: left;
-            display: none;
+        .max-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: linear-gradient(135deg, var(--warning), #d97706);
+            color: white; padding: 4px 12px;
+            border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;
         }
 
-        .task-reminder.active { display: block; animation: slideIn 0.3s ease; }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .pending-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: linear-gradient(135deg, var(--info), #0284c7);
+            color: white; padding: 4px 12px;
+            border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;
+            animation: pulse-badge 1.5s infinite;
         }
 
-        .task-reminder-title {
-            font-weight: 700; color: var(--dark);
-            margin-bottom: 5px; display: flex; align-items: center; gap: 8px;
-        }
-        .task-reminder-title i { color: var(--warning); }
-        .task-reminder-text { font-size: 0.85rem; color: var(--gray); line-height: 1.4; }
+        @keyframes pulse-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
 
-        /* Status Indicators */
-        .status-indicator {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 6px 12px; border-radius: 20px;
-            font-size: 0.8rem; font-weight: 600; margin-top: 10px;
-        }
-
-        .status-indicator.processing { background: #fce7f3; color: var(--primary); }
-        .status-indicator.completed { background: #d1fae5; color: var(--success); }
-
-        .status-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            animation: blink 1.5s infinite;
-        }
-
-        .status-indicator.processing .status-dot { background: var(--primary); }
-        .status-indicator.completed .status-dot { background: var(--success); animation: none; }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-        /* Toast */
         .toast-container {
             position: fixed; top: 100px; left: 50%;
             transform: translateX(-50%); z-index: 4000;
@@ -1030,25 +1176,6 @@
 
         .toast-icon { font-size: 1.2rem; color: var(--primary); }
 
-        /* Badges */
-        .max-badge {
-            display: inline-flex; align-items: center; gap: 5px;
-            background: linear-gradient(135deg, var(--warning), #d97706);
-            color: white; padding: 4px 12px;
-            border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;
-        }
-
-        .pending-badge {
-            display: inline-flex; align-items: center; gap: 5px;
-            background: linear-gradient(135deg, var(--info), #0284c7);
-            color: white; padding: 4px 12px;
-            border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-left: 8px;
-            animation: pulse-badge 1.5s infinite;
-        }
-
-        @keyframes pulse-badge { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
-        /* Confetti */
         .confetti {
             position: absolute; width: 10px; height: 10px;
             background: var(--warning);
@@ -1060,41 +1187,19 @@
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Locked Message */
-        .locked-message {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border: 2px solid var(--warning);
-            border-radius: 12px; padding: 20px;
-            margin: 20px; text-align: center;
+        .bottom-spacer { height: 40px; }
+
+        .game-instruction {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-style: italic;
         }
-
-        .locked-message-title {
-            font-weight: 800; color: var(--dark);
-            margin-bottom: 8px; display: flex;
-            align-items: center; justify-content: center; gap: 8px;
-        }
-
-        .locked-message-text { font-size: 0.9rem; color: var(--gray); margin-bottom: 15px; }
-
-        .locked-message-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; border: none; padding: 12px 24px;
-            border-radius: 8px; font-weight: 700;
-            cursor: pointer; transition: var(--transition);
-        }
-
-        .locked-message-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
-        }
-
-        /* Spacer */
-        div[style="height: 100px;"] { height: 100px; }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <!-- Header -->
         <header class="game-header">
             <div class="header-top">
                 <button class="back-btn" onclick="goBack()">
@@ -1107,6 +1212,10 @@
                 <div style="width: 40px;"></div>
             </div>
             <div class="header-stats">
+                <div class="header-stat lives" id="livesStat" style="display: none;">
+                    <i class="fas fa-heart"></i>
+                    <span id="livesDisplay">3</span>
+                </div>
                 <div class="header-stat wallet">
                     <i class="fas fa-wallet"></i>
                     <span id="mainBalance">0</span>
@@ -1118,7 +1227,6 @@
             </div>
         </header>
 
-        <!-- Level Section -->
         <div class="level-section">
             <div class="level-header">
                 <div class="level-badge">
@@ -1140,12 +1248,11 @@
             </div>
         </div>
 
-        <!-- Score Section -->
         <div class="score-section">
-            <div class="total-earned-display">Total Earned This Session</div>
+            <div class="total-earned-display">Level Coins</div>
             <div class="total-earned-value" id="totalEarnedDisplay">0</div>
             
-            <div class="current-score-label">Current Score</div>
+            <div class="current-score-label">Round Reward</div>
             <div class="current-score" id="currentScore">0</div>
             
             <div class="multiplier-badge">
@@ -1153,95 +1260,65 @@
                 <span id="multiplierText">x1.0</span>
             </div>
             
-            <div class="match-reward-info" style="margin-top: 10px; font-size: 0.85rem; color: var(--gray);">
-                <i class="fas fa-coins" style="color: var(--warning);"></i>
-                <span>Earn <strong>20 coins</strong> per correct answer + streak bonus!</span>
+            <div class="game-type-badge" id="gameTypeBadge" style="display: none;">
+                <i class="fas fa-gamepad"></i>
+                <span id="gameTypeText">Riddle</span>
             </div>
         </div>
 
-        <!-- Locked State Message -->
-        <div class="locked-message" id="lockedMessage" style="display: none;">
-            <div class="locked-message-title">
-                <i class="fas fa-lock"></i>
-                Level <span id="lockedLevelNum">2</span> Locked
-            </div>
-            <div class="locked-message-text">
-                You completed Level <span id="completedLevelNum">1</span>! Verify to unlock Level <span id="nextLevelNum">2</span>.
-            </div>
-            <button class="locked-message-btn" onclick="showLevelUpOverlay()">
-                <i class="fas fa-unlock"></i> Verify Now
-            </button>
-        </div>
-
-        <!-- Game Preview -->
         <div class="game-preview" id="gamePreview">
             <div class="preview-container">
-                <div class="preview-icon-large">
+                <div class="preview-icon-large" id="startIcon" onclick="startGame()">
                     <i class="fas fa-brain"></i>
                 </div>
-                <div class="preview-text">Ready to Challenge Your Brain?</div>
-                <div class="preview-subtext">Solve puzzles to earn coins. Keep your streak alive for bigger rewards!</div>
+                <div class="preview-text">Click to Start!</div>
+                <div class="preview-subtext">Multiple puzzle types await! Riddles, Word Search, Path Finder, Memory & More!</div>
                 <div class="preview-stats">
                     <div class="preview-stat">
-                        <div class="preview-stat-value" id="previewQuestions">10</div>
-                        <div class="preview-stat-label">Questions</div>
+                        <div class="preview-stat-value" id="previewQuestions">3</div>
+                        <div class="preview-stat-label">Rounds</div>
                     </div>
                     <div class="preview-stat">
                         <div class="preview-stat-value" id="previewTime">60s</div>
-                        <div class="preview-stat-label">Time Limit</div>
+                        <div class="preview-stat-label">Per Round</div>
                     </div>
                     <div class="preview-stat">
-                        <div class="preview-stat-value" id="previewReward">20</div>
-                        <div class="preview-stat-label">Coins/Q</div>
+                        <div class="preview-stat-value" id="previewReward">50</div>
+                        <div class="preview-stat-label">Coins</div>
                     </div>
+                </div>
+                <div class="difficulty-badge">
+                    <i class="fas fa-layer-group"></i>
+                    <span id="difficultyText">Easy Mode</span>
                 </div>
             </div>
         </div>
 
-        <!-- Timer Section -->
         <div class="timer-section" id="timerSection">
             <div class="timer-display" id="timerDisplay">
                 <i class="fas fa-clock"></i>
                 <span id="timerValue">00:00</span>
             </div>
-            <div class="streak-display">
-                <i class="fas fa-fire"></i>
-                <span>Streak: <span id="streakValue">0</span></span>
+            <div class="round-display">
+                <i class="fas fa-flag-checkered"></i>
+                <span id="roundProgress">Round 1/3</span>
             </div>
         </div>
 
-        <!-- Game Board (Puzzle Area) -->
         <div class="game-board" id="gameBoard">
-            <div class="puzzle-card">
-                <div class="puzzle-question" id="puzzleQuestion">
-                    Loading puzzle...
+            <!-- Dynamic game content will be injected here -->
+        </div>
+
+        <div class="progress-section" id="progressSection">
+            <div class="progress-header">
+                <div class="progress-title">
+                    <i class="fas fa-tasks"></i>
+                    Level Progress
                 </div>
-                <div class="puzzle-hint" id="puzzleHint">
-                    Select the correct answer below
-                </div>
-            </div>
-            
-            <div class="options-grid" id="optionsGrid">
-                <!-- Options injected by JS -->
+                <div class="progress-dots" id="progressDots"></div>
             </div>
         </div>
 
-        <!-- Start Game Button -->
-        <div class="start-game-container" id="startGameContainer">
-            <button class="start-game-btn" id="startGameBtn" onclick="startGame()">
-                <i class="fas fa-play"></i> Start Quiz
-            </button>
-        </div>
-
-        <!-- Restart Cost Info -->
-        <div class="restart-info" id="restartInfo">
-            <div class="restart-text">Play again?</div>
-            <div class="restart-cost">
-                <i class="fas fa-coins"></i> 30 coins
-            </div>
-        </div>
-
-        <!-- Stats Grid -->
         <div class="stats-section">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -1249,26 +1326,25 @@
                         <i class="fas fa-gamepad"></i>
                     </div>
                     <div class="stat-value" id="gamesPlayed">0</div>
-                    <div class="stat-label">Games Played</div>
+                    <div class="stat-label">Levels Played</div>
                 </div>
                 <div class="stat-card" id="winsCard">
                     <div class="stat-icon" style="background: var(--success);">
                         <i class="fas fa-trophy"></i>
                     </div>
                     <div class="stat-value" id="gamesWon">0</div>
-                    <div class="stat-label">Games Won</div>
+                    <div class="stat-label">Levels Won</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: var(--warning);">
-                        <i class="fas fa-percentage"></i>
+                    <div class="stat-icon" style="background: var(--info);">
+                        <i class="fas fa-layer-group"></i>
                     </div>
-                    <div class="stat-value" id="winRate">0%</div>
-                    <div class="stat-label">Win Rate</div>
+                    <div class="stat-value" id="currentRoundDisplay">1</div>
+                    <div class="stat-label">Current Round</div>
                 </div>
             </div>
         </div>
 
-        <!-- Upgrades -->
         <div class="upgrades-section">
             <div class="section-title">
                 <i class="fas fa-arrow-up" style="color: var(--primary);"></i>
@@ -1277,38 +1353,29 @@
             <div id="upgradesList"></div>
         </div>
 
-        <div style="height: 100px;"></div>
+        <div class="bottom-spacer"></div>
     </div>
 
-    <!-- Claim Section -->
-    <div class="claim-section">
-        <button class="claim-btn" id="claimBtn" onclick="claimEarnings()" disabled>
-            <i class="fas fa-check-circle"></i>
-            Claim <span id="claimAmount">0</span> Coins
-        </button>
-        <div class="claim-info">
-            Min 50 to claim • Max 30,000 per session
-        </div>
-    </div>
-
-    <!-- Level Up Overlay -->
     <div class="level-up-overlay" id="levelUpOverlay">
         <div class="level-up-content">
             <div class="level-up-icon">
                 <i class="fas fa-star"></i>
             </div>
-            <div class="level-up-title">Level Up!</div>
+            <div class="level-up-title">Level Complete!</div>
             <div class="level-up-text">
-                You reached <strong>Level <span id="newLevel">2</span></strong>!<br>
-                Time bonus and score multiplier increased!
+                You passed all rounds in <strong>Level <span id="completedLevelNum">1</span></strong>!<br>
+                Ready for the next challenge?
             </div>
-            <button class="level-up-btn" onclick="proceedToVerification()">
-                <i class="fas fa-arrow-right"></i> OK, Continue
+            <div class="level-coins-display">
+                <div class="level-coins-label">Coins Earned This Level</div>
+                <div class="level-coins-value" id="levelCoinsValue">0</div>
+            </div>
+            <button class="collect-btn" id="collectBtnOverlay" onclick="collectLevelCoins()">
+                <i class="fas fa-coins"></i> Collect Coins & Continue
             </button>
         </div>
     </div>
 
-    <!-- Verification Overlay -->
     <div class="verification-overlay" id="verificationOverlay">
         <div class="verification-content">
             <div class="verification-icon">
@@ -1316,19 +1383,8 @@
             </div>
             <div class="verification-title">Human Verification Required</div>
             <div class="verification-desc">
-                To unlock Level <span id="verifyLevel">2</span> and continue playing, please verify that you are human.
+                To unlock Level <span id="verifyLevel">3</span> and continue playing, please verify that you are human.
             </div>
-
-            <div class="task-reminder" id="taskReminder">
-                <div class="task-reminder-title">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Important: Complete Tasks on the Site
-                </div>
-                <div class="task-reminder-text">
-                    You must complete tasks on the verification website to avoid account problems. The timer will continue even if you leave this page.
-                </div>
-            </div>
-            
             <div class="captcha-wrapper" id="captchaContainer">
                 <div class="captcha-header">
                     <i class="fas fa-robot"></i>
@@ -1336,7 +1392,6 @@
                 </div>
                 <div data-captcha-enable="true"></div>
             </div>
-            
             <div class="human-verification-wrapper" id="humanVerificationWrapper">
                 <div class="loading-spinner"></div>
                 <div class="loading-dots">
@@ -1346,18 +1401,10 @@
                 </div>
                 <div class="verification-loading-text">Verifying your humanity...</div>
                 <div class="verification-loading-subtext">Please complete the task in the opened window</div>
-                
-                <div class="verification-progress active" id="verificationProgress">
-                    <div class="verification-progress-fill" id="progressFill" style="width: 0%"></div>
-                </div>
-                <div class="verification-progress-text" id="progressText">Initializing verification...</div>
-                
-                <div class="status-indicator processing" id="statusIndicator">
-                    <span class="status-dot"></span>
-                    <span id="statusText">Processing verification...</span>
-                </div>
+                <button class="verify-btn" style="margin-top: 20px;" onclick="window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> Go to Verification Site
+                </button>
             </div>
-
             <div class="verification-success" id="verificationSuccess">
                 <div class="success-icon">
                     <i class="fas fa-check"></i>
@@ -1365,268 +1412,285 @@
                 <div class="success-text">Verification Successful!</div>
                 <div class="success-subtext">Level unlocked. Redirecting...</div>
             </div>
-            
             <div class="verification-buttons" id="verificationButtons">
-                <button class="verify-btn captcha" onclick="startCaptchaVerification()">
+                <button class="verify-btn" onclick="showCaptcha()">
                     <i class="fas fa-robot"></i> CAPTCHA Verification
                 </button>
-                <button class="verify-btn human" onclick="startHumanVerification()">
+                <button class="verify-btn" onclick="showHumanVerification()">
                     <i class="fas fa-user-check"></i> Human Action Verification
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Win Overlay -->
-    <div class="win-overlay" id="winOverlay">
-        <div class="win-content">
-            <div class="win-icon">
-                <i class="fas fa-trophy"></i>
+    <div class="wrong-overlay" id="wrongOverlay">
+        <div class="wrong-content">
+            <div class="wrong-icon">
+                <i class="fas fa-times"></i>
             </div>
-            <div class="win-title">Quiz Complete!</div>
-            <div class="win-text">
-                Amazing brain power! You solved all the puzzles!
-            </div>
-            <div class="win-stats">
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winCorrect">0</div>
-                    <div class="win-stat-label">Correct Answers</div>
-                </div>
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winTime">0s</div>
-                    <div class="win-stat-label">Time Left</div>
-                </div>
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winBaseCoins">0</div>
-                    <div class="win-stat-label">Answer Coins</div>
-                </div>
-                <div class="win-stat">
-                    <div class="win-stat-value" id="winBonus">0</div>
-                    <div class="win-stat-label">Streak Bonus</div>
-                </div>
-            </div>
-            <button class="level-up-btn" onclick="closeWinOverlay()">
-                <i class="fas fa-check"></i> Collect Rewards
+            <div class="wrong-title" id="failTitle">Wrong Answer!</div>
+            <div class="wrong-text" id="failText">You lost 1 life. Try again!</div>
+            <button class="retry-btn" id="failBtn" onclick="handleFailContinue()">
+                <i class="fas fa-redo"></i> Continue
             </button>
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script type="text/javascript" src="https://confirmapp.online/cp/js/joy6y"></script>
 
     <script>
-        // Game State - Pink Brain Teasers
         const GameState = {
             currentScore: 0,
             totalEarned: 0,
-            correctAnswers: 0,
-            sessionCorrect: 0,
-            
+            matches: 0,
             totalGamesPlayed: 0,
             totalGamesWon: 0,
-            
-            currentStreak: 0,
-            maxStreak: 0,
-            streakMultiplier: 1,
-            
-            displayLevel: 1,
-            actualLevel: 1,
+            level: 1,
+            currentRound: 1,
+            lives: 3,
             xp: 0,
             xpToNext: 100,
             maxLevel: 50,
             pendingLevel: null,
-            
+            isLocked: false,
             baseMultiplier: 1,
             scoreMultiplier: 1,
-            
-            gameEnded: false,
-            canRestart: false,
             gameActive: false,
             gameWon: false,
-            
-            maxCoins: 30000,
-            claimed: false,
-            verified: false,
-            isLocked: false,
-            
             timeRemaining: 0,
             maxTime: 0,
             timerInterval: null,
-            
-            currentPuzzleIndex: 0,
-            puzzles: [],
-            totalPuzzles: 10,
-            
-            baseReward: 20,
-            
+            currentCombo: 0,
+            baseMatchReward: 50,
             verificationStartTime: null,
             verificationTabOpen: false,
-            verificationTimer: null,
-            verificationProgress: 0,
-            isVerifying: false,
-            
-            currentScreen: 'preview',
-            
+            currentGameType: null,
+            usedGames: [],
             upgrades: {
                 timeBonus: { level: 0, maxLevel: 10, baseCost: 800, cost: 800, effect: 5 },
                 scoreMult: { level: 0, maxLevel: 10, baseCost: 1000, cost: 1000, effect: 0.2 }
-            },
-            
-            mainAppCoins: 0
+            }
         };
-
-        const VERIFICATION_DURATION = 4 * 60 * 1000;
-        const UPDATE_INTERVAL = 1000;
 
         const XP_TABLE = [];
         for (let i = 1; i <= 50; i++) {
             XP_TABLE.push(Math.floor(100 * Math.pow(1.15, i - 1)));
         }
 
-        // Puzzle Database
-        const PUZZLE_DB = [
-            { q: "What has keys but no locks?", options: ["A Piano", "A Map", "A Computer", "A Car"], correct: 0 },
-            { q: "What gets wet while drying?", options: ["A Towel", "Rain", "A River", "Sand"], correct: 0 },
-            { q: "I have branches, but no fruit, trunk or leaves. What am I?", options: ["A Bank", "A Tree", "A Library", "A River"], correct: 0 },
-            { q: "David's parents have three sons: Snap, Crackle, and what's the name of the third son?", options: ["David", "Pop", "Snap", "Crackle"], correct: 0 },
-            { q: "What can travel around the world while staying in a corner?", options: ["A Stamp", "A Bird", "A Plane", "The Internet"], correct: 0 },
-            { q: "What has a head and a tail but no body?", options: ["A Coin", "A Snake", "A Comet", "A Shadow"], correct: 0 },
-            { q: "What has an eye but cannot see?", options: ["A Needle", "A Potato", "A Storm", "A Hurricane"], correct: 0 },
-            { q: "What can you catch, but not throw?", options: ["A Cold", "A Ball", "A Fish", "A Bus"], correct: 0 },
-            { q: "What is full of holes but still holds water?", options: ["A Sponge", "A Net", "A Bucket", "A Sieve"], correct: 0 },
-            { q: "What goes up but never comes down?", options: ["Your Age", "A Balloon", "Smoke", "The Sun"], correct: 0 },
-            { q: "What has hands, but can't clap?", options: ["A Clock", "A Baby", "A Statue", "A Robot"], correct: 0 },
-            { q: "What has a neck but no head?", options: ["A Bottle", "A Shirt", "A Giraffe", "A Guitar"], correct: 0 },
-            { q: "What belongs to you, but other people use it more than you?", options: ["Your Name", "Your Money", "Your Car", "Your House"], correct: 0 },
-            { q: "What has one eye, but can't see?", options: ["A Needle", "A Cyclops", "A Camera", "A Storm"], correct: 0 },
-            { q: "What has many teeth, but can't bite?", options: ["A Comb", "A Saw", "A Zipper", "A Gear"], correct: 0 },
-            { q: "What is always in front of you but can't be seen?", options: ["The Future", "Air", "Your Nose", "Glass"], correct: 0 },
-            { q: "What can you break, even if you never pick it up or touch it?", options: ["A Promise", "Silence", "A Record", "A Habit"], correct: 0 },
-            { q: "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?", options: ["A Map", "A Dream", "A Painting", "A Globe"], correct: 0 },
-            { q: "What runs but never walks, has a mouth but never talks?", options: ["A River", "Time", "A Car", "A Shoe"], correct: 0 },
-            { q: "The more of this there is, the less you see. What is it?", options: ["Darkness", "Fog", "Light", "Distance"], correct: 0 },
-            { q: "What has words, but never speaks?", options: ["A Book", "A Poem", "A Letter", "A Sign"], correct: 0 },
-            { q: "What has a thumb and four fingers, but is not a hand?", options: ["A Glove", "A Mitten", "A Sock", "A Puppet"], correct: 0 },
-            { q: "What building has the most stories?", options: ["A Library", "A Skyscraper", "A Hotel", "A Bookstore"], correct: 0 },
-            { q: "What has legs, but does not walk?", options: ["A Table", "A Chair", "A Bed", "All of the above"], correct: 3 },
-            { q: "What can fill a room but takes up no space?", options: ["Light", "Air", "Sound", "Shadow"], correct: 0 },
-            { q: "If you drop me I'm sure to crack, but give me a smile and I'll always smile back. What am I?", options: ["A Mirror", "A Glass", "An Egg", "Ice"], correct: 0 },
-            { q: "The more you take, the more you leave behind. What are they?", options: ["Footsteps", "Memories", "Breaths", "Photos"], correct: 0 },
-            { q: "What has a bottom at the top?", options: ["Your Legs", "A Mountain", "A Bottle", "A Shoe"], correct: 0 },
-            { q: "What is black when it's clean and white when it's dirty?", options: ["A Chalkboard", "A Newspaper", "A Panda", "Coal"], correct: 0 },
-            { q: "What has to be broken before you can use it?", options: ["An Egg", "A Seal", "Silence", "A Habit"], correct: 0 }
+        const GAME_TYPES = ['riddle', 'path', 'wordsearch', 'memory', 'math', 'pattern'];
+
+        const RIDDLE_DB = [
+            { q: "What has keys but no locks?", a: "A Piano", options: ["A Piano", "A Map", "A Computer", "A Car"] },
+            { q: "What gets wet while drying?", a: "A Towel", options: ["A Towel", "Rain", "A River", "Sand"] },
+            { q: "I have branches, but no fruit. What am I?", a: "A Bank", options: ["A Bank", "A Tree", "A Library", "A River"] },
+            { q: "David's parents have 3 sons: Snap, Crackle, and?", a: "David", options: ["David", "Pop", "Snap", "Crackle"] },
+            { q: "What travels around the world in a corner?", a: "A Stamp", options: ["A Stamp", "A Bird", "A Plane", "The Internet"] },
+            { q: "What has a head and tail but no body?", a: "A Coin", options: ["A Coin", "A Snake", "A Comet", "A Shadow"] },
+            { q: "What has an eye but cannot see?", a: "A Needle", options: ["A Needle", "A Potato", "A Storm", "A Hurricane"] },
+            { q: "What can you catch but not throw?", a: "A Cold", options: ["A Cold", "A Ball", "A Fish", "A Bus"] },
+            { q: "What is full of holes but holds water?", a: "A Sponge", options: ["A Sponge", "A Net", "A Bucket", "A Sieve"] },
+            { q: "What goes up but never comes down?", a: "Your Age", options: ["Your Age", "A Balloon", "Smoke", "The Sun"] },
+            { q: "What has hands but can't clap?", a: "A Clock", options: ["A Clock", "A Baby", "A Statue", "A Robot"] },
+            { q: "What has a neck but no head?", a: "A Bottle", options: ["A Bottle", "A Shirt", "A Giraffe", "A Guitar"] },
+            { q: "What belongs to you but others use more?", a: "Your Name", options: ["Your Name", "Your Money", "Your Car", "Your House"] },
+            { q: "What has many teeth but can't bite?", a: "A Comb", options: ["A Comb", "A Saw", "A Zipper", "A Gear"] },
+            { q: "What's always in front of you but unseen?", a: "The Future", options: ["The Future", "Air", "Your Nose", "Glass"] },
+            { q: "What can you break without touching?", a: "A Promise", options: ["A Promise", "Silence", "A Record", "A Habit"] },
+            { q: "I have cities but no houses. What am I?", a: "A Map", options: ["A Map", "A Dream", "A Painting", "A Globe"] },
+            { q: "What runs but never walks?", a: "A River", options: ["A River", "Time", "A Car", "A Shoe"] },
+            { q: "The more there is, the less you see?", a: "Darkness", options: ["Darkness", "Fog", "Light", "Distance"] },
+            { q: "What has words but never speaks?", a: "A Book", options: ["A Book", "A Poem", "A Letter", "A Sign"] },
+            { q: "What has a thumb and 4 fingers but no hand?", a: "A Glove", options: ["A Glove", "A Mitten", "A Sock", "A Puppet"] },
+            { q: "What building has the most stories?", a: "A Library", options: ["A Library", "A Skyscraper", "A Hotel", "A Bookstore"] },
+            { q: "What has legs but doesn't walk?", a: "A Table", options: ["A Table", "A Chair", "A Bed", "All of these"] },
+            { q: "What fills a room but takes no space?", a: "Light", options: ["Light", "Air", "Sound", "Shadow"] },
+            { q: "Drop me and I crack. Smile and I smile back?", a: "A Mirror", options: ["A Mirror", "A Glass", "An Egg", "Ice"] },
+            { q: "The more you take, the more you leave?", a: "Footsteps", options: ["Footsteps", "Memories", "Breaths", "Photos"] },
+            { q: "What has a bottom at the top?", a: "Your Legs", options: ["Your Legs", "A Mountain", "A Bottle", "A Shoe"] },
+            { q: "Black when clean, white when dirty?", a: "A Chalkboard", options: ["A Chalkboard", "A Newspaper", "A Panda", "Coal"] },
+            { q: "What must be broken to use?", a: "An Egg", options: ["An Egg", "A Seal", "Silence", "A Habit"] },
+            { q: "I speak without a mouth. What am I?", a: "An Echo", options: ["An Echo", "A Phone", "A Radio", "Wind"] },
+            { q: "What gets bigger the more you take away?", a: "A Hole", options: ["A Hole", "Debt", "Time", "Space"] },
+            { q: "What can you hold in your right hand only?", a: "Your Left Hand", options: ["Your Left Hand", "Nothing", "Air", "Water"] },
+            { q: "What has 88 keys but opens no locks?", a: "A Piano", options: ["A Piano", "A Keyboard", "A Map", "A Code"] },
+            { q: "What has a face and 2 hands but no arms?", a: "A Clock", options: ["A Clock", "A Watch", "A Coin", "A Card"] },
+            { q: "5-letter word shorter with 2 letters?", a: "Short", options: ["Short", "Small", "Little", "Brief"] },
+            { q: "What can you make that no one sees?", a: "Noise", options: ["Noise", "Air", "Shadow", "Time"] },
+            { q: "What has a bed but never sleeps?", a: "A River", options: ["A River", "A Garden", "A Truck", "A Floor"] },
+            { q: "Once in a minute, twice in a moment?", a: "The Letter M", options: ["The Letter M", "Time", "A Second", "Breath"] },
+            { q: "What has 4 wheels and flies?", a: "A Garbage Truck", options: ["A Garbage Truck", "A Plane", "A Car", "A Bird"] },
+            { q: "Room with no doors or windows?", a: "A Mushroom", options: ["A Mushroom", "A Storage Room", "A Dark Room", "A Closet"] },
+            { q: "Starts with E, ends with E, one letter?", a: "An Envelope", options: ["An Envelope", "Eye", "Eve", "Edge"] },
+            { q: "What has a spine but no bones?", a: "A Book", options: ["A Book", "A Snake", "A Plant", "A Shell"] },
+            { q: "What flies without wings?", a: "Time", options: ["Time", "A Plane", "A Bird", "Wind"] },
+            { q: "What has a heart that doesn't beat?", a: "An Artichoke", options: ["An Artichoke", "A Card", "A Robot", "A Stone"] },
+            { q: "What can you serve but not eat?", a: "A Tennis Ball", options: ["A Tennis Ball", "A Meal", "Justice", "A Drink"] },
+            { q: "What has a tongue but cannot talk?", a: "A Shoe", options: ["A Shoe", "A Bell", "A Snake", "A River"] },
+            { q: "So fragile, saying its name breaks it?", a: "Silence", options: ["Silence", "Glass", "Ice", "A Promise"] },
+            { q: "What is always coming but never arrives?", a: "Tomorrow", options: ["Tomorrow", "The Future", "Time", "Yesterday"] },
+            { q: "What can be cracked, made, told, played?", a: "A Joke", options: ["A Joke", "An Egg", "A Game", "A Record"] },
+            { q: "Lighter than a feather, strongest man can't hold?", a: "Breath", options: ["Breath", "Air", "Smoke", "Shadow"] },
+            { q: "What goes up and down but doesn't move?", a: "Stairs", options: ["Stairs", "Temperature", "A Yo-Yo", "An Elevator"] },
+            { q: "What has a bank but no money?", a: "A River", options: ["A River", "A Card", "A Phone", "A Building"] }
         ];
 
-        let progressInterval;
+        const WORD_LIST = ['PUZZLE', 'BRAIN', 'THINK', 'SMART', 'LOGIC', 'QUEST', 'MAGIC', 'POWER', 'DREAM', 'LIGHT'];
+
+        function syncWithMainApp(coins, gamesPlayed = 1) {
+            try {
+                const mainKey = 'sillyPrize_v9';
+                const saved = localStorage.getItem(mainKey);
+                let mainData = saved ? JSON.parse(saved) : {};
+                
+                mainData.coins = (mainData.coins || 0) + coins;
+                mainData.gamesPlayed = (mainData.gamesPlayed || 0) + gamesPlayed;
+                mainData.gamesCoins = (mainData.gamesCoins || 0) + coins;
+                
+                if (!mainData.history) mainData.history = [];
+                mainData.history.unshift({
+                    id: Date.now(),
+                    amount: coins,
+                    title: 'Pink Brain Teasers',
+                    type: 'game',
+                    isNegative: false,
+                    time: new Date().toISOString()
+                });
+                if (mainData.history.length > 50) mainData.history.pop();
+                
+                localStorage.setItem(mainKey, JSON.stringify(mainData));
+                
+                localStorage.setItem('sillyPrize_sync', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: {
+                        coins: mainData.coins,
+                        gamesPlayed: mainData.gamesPlayed,
+                        gamesCoins: mainData.gamesCoins,
+                        source: 'game'
+                    }
+                }));
+                
+                setTimeout(() => localStorage.removeItem('sillyPrize_sync'), 100);
+                return true;
+            } catch (e) {
+                console.error('Sync error:', e);
+                return false;
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
-            for (let i = 1; i <= 7; i++) {
-                localStorage.removeItem(`memoryMatch_v${i}_save`);
-            }
-            localStorage.removeItem('memoryMatch_save');
-            localStorage.removeItem('memoryMatch_v5_save');
-            localStorage.removeItem('brainTeasers_v1_save');
-            
             window.addEventListener('storage', handleStorageChange);
             document.addEventListener('visibilitychange', handleVisibilityChange);
-            
             loadGameData();
             loadMainAppData();
             renderUpgrades();
-            restoreGameState();
+            updatePreviewStats();
+            updateUI();
         });
 
-        function restoreGameState() {
-            updateUI();
-            updatePreviewStats();
-            
-            if (GameState.isLocked && GameState.pendingLevel) {
-                showLockedState();
-                return;
-            }
-            
-            if (GameState.gameActive && !GameState.gameEnded) {
-                showPreviewState();
-                showToast('Game was interrupted. You can start a new game!', 'info');
-                return;
-            }
-            
-            if (GameState.gameEnded) {
-                showGameEndedState();
-                return;
-            }
-            
-            showPreviewState();
-        }
-
-        function showLockedState() {
-            GameState.currentScreen = 'locked';
-            saveGameData();
-            
-            document.getElementById('lockedMessage').style.display = 'block';
-            document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
-            
-            document.getElementById('lockedLevelNum').textContent = GameState.displayLevel;
-            document.getElementById('completedLevelNum').textContent = GameState.actualLevel;
-            document.getElementById('nextLevelNum').textContent = GameState.displayLevel;
-            
-            const startBtn = document.getElementById('startGameBtn');
-            startBtn.disabled = true;
-            startBtn.innerHTML = '<i class="fas fa-lock"></i> Level Locked';
-            
-            document.getElementById('pendingBadge').style.display = 'inline-flex';
-            
-            updateUI();
-        }
-
-        function showPreviewState() {
-            GameState.currentScreen = 'preview';
-            saveGameData();
-            
-            document.getElementById('gamePreview').style.display = 'block';
-            document.getElementById('startGameContainer').style.display = 'block';
-            document.getElementById('lockedMessage').style.display = 'none';
-            document.getElementById('timerSection').classList.remove('active');
-            document.getElementById('gameBoard').classList.remove('active');
-            
-            const startBtn = document.getElementById('startGameBtn');
-            startBtn.disabled = false;
-            startBtn.innerHTML = '<i class="fas fa-play"></i> Start Quiz';
-            
-            updatePreviewStats();
-            updateUI();
-        }
-
-        function showGameEndedState() {
-            GameState.currentScreen = 'ended';
-            
-            document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
-            document.getElementById('lockedMessage').style.display = 'none';
-            
-            if (GameState.canRestart && GameState.mainAppCoins >= 30) {
-                document.getElementById('restartInfo').classList.add('active');
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
-                document.getElementById('claimBtn').classList.add('restart');
-                document.getElementById('claimBtn').disabled = false;
-            } else {
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim ' + Math.floor(GameState.currentScore).toLocaleString() + ' Coins';
-                if (GameState.currentScore >= 50) {
-                    document.getElementById('claimBtn').disabled = false;
+        function handleStorageChange(e) {
+            if (e.key === 'brainTeasers_verification_complete') {
+                const data = JSON.parse(e.newValue);
+                if (data && data.verified && data.timestamp > (GameState.verificationStartTime || 0)) {
+                    completeVerification();
                 }
             }
-            
-            updateUI();
+        }
+
+        function handleVisibilityChange() {
+            if (!document.hidden && GameState.verificationTabOpen) {
+                GameState.verificationTabOpen = false;
+                const timeAway = Date.now() - (GameState.verificationStartTime || 0);
+                if (timeAway > 5000) {
+                    setTimeout(() => {
+                        completeVerification();
+                        localStorage.setItem('brainTeasers_verification_complete', JSON.stringify({
+                            verified: true,
+                            timestamp: Date.now()
+                        }));
+                    }, 1500);
+                }
+            }
+        }
+
+        function getRoundsForLevel(level) {
+            if (level <= 10) return 3;
+            if (level <= 20) return 4;
+            return 5;
+        }
+
+        function loadMainAppData() {
+            try {
+                const saved = localStorage.getItem('sillyPrize_v9');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    document.getElementById('mainBalance').textContent = (data.coins || 0).toLocaleString();
+                }
+            } catch (e) {
+                console.error('Error loading main app data:', e);
+            }
+        }
+
+        function loadGameData() {
+            try {
+                const saved = localStorage.getItem('brainTeasers_PRO_save');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    GameState.level = data.level || 1;
+                    GameState.currentRound = data.currentRound || 1;
+                    GameState.lives = data.lives || 3;
+                    GameState.xp = data.xp || 0;
+                    GameState.xpToNext = XP_TABLE[GameState.level - 1] || 100;
+                    GameState.totalGamesPlayed = data.totalGamesPlayed || 0;
+                    GameState.totalGamesWon = data.totalGamesWon || 0;
+                    GameState.totalEarned = data.totalEarned || 0;
+                    GameState.currentScore = data.currentScore || 0;
+                    GameState.upgrades = data.upgrades || GameState.upgrades;
+                    GameState.isLocked = data.isLocked || false;
+                    GameState.pendingLevel = data.pendingLevel || null;
+                    applyUpgradeEffects();
+                    if (GameState.isLocked && GameState.pendingLevel) {
+                        showVerificationOverlay();
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading game data:', e);
+            }
+        }
+
+        function saveGameData() {
+            try {
+                const data = {
+                    level: GameState.level,
+                    currentRound: GameState.currentRound,
+                    lives: GameState.lives,
+                    xp: GameState.xp,
+                    totalGamesPlayed: GameState.totalGamesPlayed,
+                    totalGamesWon: GameState.totalGamesWon,
+                    totalEarned: GameState.totalEarned,
+                    currentScore: GameState.currentScore,
+                    upgrades: GameState.upgrades,
+                    isLocked: GameState.isLocked,
+                    pendingLevel: GameState.pendingLevel,
+                    lastSave: Date.now()
+                };
+                localStorage.setItem('brainTeasers_PRO_save', JSON.stringify(data));
+            } catch (e) {
+                console.error('Error saving game data:', e);
+            }
+        }
+
+        function applyUpgradeEffects() {
+            GameState.scoreMultiplier = 1 + (GameState.upgrades.scoreMult.level * GameState.upgrades.scoreMult.effect);
         }
 
         function updatePreviewStats() {
-            const maxTime = getTimeForLevel(GameState.actualLevel);
+            const maxTime = getTimeForLevel(GameState.level);
+            const rounds = getRoundsForLevel(GameState.level);
             document.getElementById('previewTime').textContent = `${Math.floor(maxTime)}s`;
-            document.getElementById('previewQuestions').textContent = GameState.totalPuzzles;
-            document.getElementById('previewReward').textContent = GameState.baseReward;
+            document.getElementById('previewQuestions').textContent = rounds;
+            document.getElementById('previewReward').textContent = GameState.baseMatchReward;
         }
 
         function getTimeForLevel(level) {
@@ -1636,149 +1700,642 @@
             return Math.max(baseTime - reduction + timeBonus, 20);
         }
 
+        function getDifficultyText(level) {
+            if (level <= 10) return 'Easy (3 Rounds)';
+            if (level <= 20) return 'Medium (4 Rounds)';
+            if (level <= 30) return 'Hard (5 Rounds)';
+            if (level <= 40) return 'Expert (5 Rounds)';
+            return 'Master (5 Rounds)';
+        }
+
         function startGame() {
             if (GameState.isLocked) {
-                showToast('Level up pending! Verify to continue.', 'warning');
-                showLockedState();
+                showToast('Level locked! Complete verification first.', 'warning');
                 return;
             }
-
-            if (GameState.gameEnded) {
-                if (GameState.canRestart) {
-                    attemptRestart();
-                }
-                return;
-            }
-
+            GameState.lives = 3;
+            GameState.currentRound = 1;
+            GameState.currentScore = 0;
+            GameState.currentCombo = 0;
             GameState.gameActive = true;
             GameState.gameWon = false;
-            GameState.gameEnded = false;
-            GameState.currentStreak = 0;
-            GameState.maxStreak = 0;
-            GameState.sessionCorrect = 0;
-            GameState.currentPuzzleIndex = 0;
-            GameState.currentScreen = 'playing';
-            
-            GameState.maxTime = getTimeForLevel(GameState.actualLevel);
+            GameState.usedGames = [];
+            GameState.maxTime = getTimeForLevel(GameState.level);
             GameState.timeRemaining = GameState.maxTime;
-            
-            generatePuzzles();
-            
             document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
-            document.getElementById('lockedMessage').style.display = 'none';
             document.getElementById('timerSection').classList.add('active');
             document.getElementById('gameBoard').classList.add('active');
-            
-            loadPuzzle();
-            updateTimerDisplay();
+            document.getElementById('progressSection').classList.add('active');
+            document.getElementById('livesStat').style.display = 'flex';
+            document.getElementById('gameTypeBadge').style.display = 'inline-flex';
+            updateProgressDots();
+            startTimer();
+            generateRound();
             updateUI();
             saveGameData();
-            
-            startTimer();
-            
-            showToast(`Level ${GameState.actualLevel} - Answer ${GameState.totalPuzzles} puzzles!`, 'info');
+            showToast(`Level ${GameState.level} Started! ${getRoundsForLevel(GameState.level)} rounds!`, 'info');
         }
 
-        function generatePuzzles() {
-            // Shuffle and pick puzzles
-            const shuffled = [...PUZZLE_DB].sort(() => 0.5 - Math.random());
-            GameState.puzzles = shuffled.slice(0, GameState.totalPuzzles);
+        function getRandomGameType() {
+            const available = GAME_TYPES.filter(type => !GameState.usedGames.includes(type));
+            if (available.length === 0) {
+                GameState.usedGames = [];
+                return GAME_TYPES[Math.floor(Math.random() * GAME_TYPES.length)];
+            }
+            const type = available[Math.floor(Math.random() * available.length)];
+            GameState.usedGames.push(type);
+            return type;
         }
 
-        function loadPuzzle() {
-            if (GameState.currentPuzzleIndex >= GameState.totalPuzzles) {
-                gameWin();
-                return;
+        function generateRound() {
+            GameState.currentGameType = getRandomGameType();
+            const gameBoard = document.getElementById('gameBoard');
+            gameBoard.innerHTML = '';
+            
+            const typeNames = {
+                'riddle': 'Riddle Master',
+                'path': 'Path Finder',
+                'wordsearch': 'Word Hunt',
+                'memory': 'Memory Match',
+                'math': 'Math Challenge',
+                'pattern': 'Pattern Genius'
+            };
+            
+            document.getElementById('gameTypeText').textContent = typeNames[GameState.currentGameType];
+            
+            switch(GameState.currentGameType) {
+                case 'riddle':
+                    generateRiddleGame(gameBoard);
+                    break;
+                case 'path':
+                    generatePathGame(gameBoard);
+                    break;
+                case 'wordsearch':
+                    generateWordSearch(gameBoard);
+                    break;
+                case 'memory':
+                    generateMemoryGame(gameBoard);
+                    break;
+                case 'math':
+                    generateMathGame(gameBoard);
+                    break;
+                case 'pattern':
+                    generatePatternGame(gameBoard);
+                    break;
             }
             
-            const puzzle = GameState.puzzles[GameState.currentPuzzleIndex];
-            document.getElementById('puzzleQuestion').textContent = puzzle.q;
-            
-            const grid = document.getElementById('optionsGrid');
-            grid.innerHTML = '';
-            
-            puzzle.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerHTML = `
-                    ${opt}
-                    <i class="fas fa-check option-icon check"></i>
-                    <i class="fas fa-times option-icon times"></i>
-                `;
-                btn.onclick = () => handleAnswer(idx, puzzle.correct, btn);
-                grid.appendChild(btn);
-            });
+            const totalRounds = getRoundsForLevel(GameState.level);
+            document.getElementById('roundProgress').innerHTML = `Round ${GameState.currentRound}/${totalRounds}`;
+            document.getElementById('currentRoundDisplay').textContent = GameState.currentRound;
+            GameState.timeRemaining = GameState.maxTime;
+            updateTimerDisplay();
         }
 
-        function handleAnswer(selectedIndex, correctIndex, btnElement) {
-            if (!GameState.gameActive) return;
+        function generateRiddleGame(container) {
+            const riddle = RIDDLE_DB[Math.floor(Math.random() * RIDDLE_DB.length)];
+            const shuffledOptions = [...riddle.options].sort(() => Math.random() - 0.5);
             
+            const card = document.createElement('div');
+            card.className = 'riddle-card';
+            card.innerHTML = `
+                <div class="game-instruction"><i class="fas fa-lightbulb"></i> Solve the riddle!</div>
+                <div class="riddle-question">${riddle.q}</div>
+                <div class="riddle-options"></div>
+            `;
+            
+            const optionsContainer = card.querySelector('.riddle-options');
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `${opt}<i class="fas fa-check option-icon check"></i><i class="fas fa-times option-icon times"></i>`;
+                btn.onclick = () => handleRiddleAnswer(opt === riddle.a, btn, riddle.a, shuffledOptions);
+                optionsContainer.appendChild(btn);
+            });
+            
+            container.appendChild(card);
+        }
+
+        function generatePathGame(container) {
+            const gridSize = 5;
+            const card = document.createElement('div');
+            card.className = 'riddle-card';
+            card.innerHTML = `
+                <div class="game-instruction"><i class="fas fa-route"></i> Click the path from 🟢 to 🟡 (avoid black cells!)</div>
+                <div class="path-grid"></div>
+            `;
+            
+            const grid = card.querySelector('.path-grid');
+            const correctPath = [];
+            let currentRow = 0;
+            let currentCol = 0;
+            correctPath.push([0, 0]);
+            
+            while (currentRow < gridSize - 1 || currentCol < gridSize - 1) {
+                if (currentRow === gridSize - 1) {
+                    currentCol++;
+                } else if (currentCol === gridSize - 1) {
+                    currentRow++;
+                } else {
+                    if (Math.random() > 0.5) currentCol++;
+                    else currentRow++;
+                }
+                correctPath.push([currentRow, currentCol]);
+            }
+            
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'path-cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    
+                    const isPath = correctPath.some(p => p[0] === row && p[1] === col);
+                    const isStart = row === 0 && col === 0;
+                    const isEnd = row === gridSize - 1 && col === gridSize - 1;
+                    
+                    if (isStart) {
+                        cell.classList.add('start');
+                        cell.textContent = '🟢';
+                    } else if (isEnd) {
+                        cell.classList.add('end');
+                        cell.textContent = '🟡';
+                    } else if (!isPath && Math.random() > 0.6) {
+                        cell.classList.add('blocked');
+                    }
+                    
+                    if (!isStart && !cell.classList.contains('blocked')) {
+                        cell.onclick = () => handlePathClick(cell, isPath);
+                    }
+                    
+                    grid.appendChild(cell);
+                }
+            }
+            
+            container.appendChild(card);
+        }
+
+        function generateWordSearch(container) {
+            const card = document.createElement('div');
+            card.className = 'riddle-card';
+            card.innerHTML = `
+                <div class="game-instruction"><i class="fas fa-search"></i> Find the hidden word!</div>
+                <div class="word-grid"></div>
+                <div class="word-list"></div>
+            `;
+            
+            const targetWord = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+            const grid = card.querySelector('.word-grid');
+            const wordList = card.querySelector('.word-list');
+            
+            const wordItem = document.createElement('div');
+            wordItem.className = 'word-item';
+            wordItem.textContent = targetWord;
+            wordItem.dataset.word = targetWord;
+            wordList.appendChild(wordItem);
+            
+            const gridSize = 8;
+            const direction = Math.random() > 0.5 ? 'horizontal' : 'vertical';
+            const startRow = Math.floor(Math.random() * (gridSize - (direction === 'vertical' ? targetWord.length : 0)));
+            const startCol = Math.floor(Math.random() * (gridSize - (direction === 'horizontal' ? targetWord.length : 0)));
+            
+            const wordCells = [];
+            
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'word-cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    
+                    let letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                    
+                    if (direction === 'horizontal' && row === startRow && col >= startCol && col < startCol + targetWord.length) {
+                        letter = targetWord[col - startCol];
+                        wordCells.push(cell);
+                    } else if (direction === 'vertical' && col === startCol && row >= startRow && row < startRow + targetWord.length) {
+                        letter = targetWord[row - startRow];
+                        wordCells.push(cell);
+                    }
+                    
+                    cell.textContent = letter;
+                    cell.onclick = () => handleWordCellClick(cell, wordCells, targetWord, wordItem);
+                    grid.appendChild(cell);
+                }
+            }
+            
+            container.appendChild(card);
+        }
+
+        function generateMemoryGame(container) {
+            const card = document.createElement('div');
+            card.className = 'riddle-card';
+            card.innerHTML = `
+                <div class="game-instruction"><i class="fas fa-brain"></i> Find the matching pairs!</div>
+                <div class="memory-grid"></div>
+            `;
+            
+            const icons = ['🌸', '🎀', '💖', '🌺', '🦋', '⭐', '🍓', '🎈'];
+            const pairs = [...icons, ...icons].sort(() => Math.random() - 0.5);
+            const grid = card.querySelector('.memory-grid');
+            
+            let flippedCards = [];
+            let matchedPairs = 0;
+            
+            pairs.forEach((icon, index) => {
+                const cell = document.createElement('div');
+                cell.className = 'memory-card';
+                cell.dataset.icon = icon;
+                cell.dataset.index = index;
+                cell.innerHTML = '<i class="fas fa-question"></i>';
+                
+                cell.onclick = () => {
+                    if (flippedCards.length < 2 && !cell.classList.contains('flipped') && !cell.classList.contains('matched')) {
+                        cell.classList.add('flipped');
+                        cell.textContent = icon;
+                        flippedCards.push(cell);
+                        
+                        if (flippedCards.length === 2) {
+                            if (flippedCards[0].dataset.icon === flippedCards[1].dataset.icon) {
+                                flippedCards.forEach(c => {
+                                    c.classList.add('matched');
+                                    c.classList.remove('flipped');
+                                });
+                                matchedPairs++;
+                                flippedCards = [];
+                                
+                                if (matchedPairs === icons.length) {
+                                    setTimeout(() => handleCorrectAnswer(), 500);
+                                }
+                            } else {
+                                setTimeout(() => {
+                                    flippedCards.forEach(c => {
+                                        c.classList.remove('flipped');
+                                        c.innerHTML = '<i class="fas fa-question"></i>';
+                                    });
+                                    flippedCards = [];
+                                }, 1000);
+                            }
+                        }
+                    }
+                };
+                
+                grid.appendChild(cell);
+            });
+            
+            container.appendChild(card);
+        }
+
+        function generateMathGame(container) {
+            const card = document.createElement('div');
+            card.className = 'math-card';
+            
+            const operations = ['+', '-', '*'];
+            const op = operations[Math.floor(Math.random() * operations.length)];
+            let num1, num2, answer;
+            
+            switch(op) {
+                case '+':
+                    num1 = Math.floor(Math.random() * 50) + 10;
+                    num2 = Math.floor(Math.random() * 50) + 10;
+                    answer = num1 + num2;
+                    break;
+                case '-':
+                    num1 = Math.floor(Math.random() * 50) + 20;
+                    num2 = Math.floor(Math.random() * num1);
+                    answer = num1 - num2;
+                    break;
+                case '*':
+                    num1 = Math.floor(Math.random() * 12) + 2;
+                    num2 = Math.floor(Math.random() * 10) + 2;
+                    answer = num1 * num2;
+                    break;
+            }
+            
+            const wrongAnswers = [];
+            while (wrongAnswers.length < 3) {
+                const wrong = answer + Math.floor(Math.random() * 20) - 10;
+                if (wrong !== answer && wrong > 0 && !wrongAnswers.includes(wrong)) {
+                    wrongAnswers.push(wrong);
+                }
+            }
+            
+            const options = [answer, ...wrongAnswers].sort(() => Math.random() - 0.5);
+            
+            card.innerHTML = `
+                <div class="game-instruction"><i class="fas fa-calculator"></i> Solve the math problem!</div>
+                <div class="math-problem">${num1} ${op} ${num2} = ?</div>
+                <div class="math-options"></div>
+            `;
+            
+            const optionsContainer = card.querySelector('.math-options');
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => {
+                    if (opt === answer) {
+                        btn.classList.add('correct');
+                        setTimeout(() => handleCorrectAnswer(), 500);
+                    } else {
+                        btn.classList.add('wrong');
+                        setTimeout(() => handleWrongAnswer(), 500);
+                    }
+                };
+                optionsContainer.appendChild(btn);
+            });
+            
+            container.appendChild(card);
+        }
+
+        function generatePatternGame(container) {
+            const card = document.createElement('div');
+            card.className = 'pattern-card';
+            
+            const patterns = [
+                { seq: ['🔴', '🔵', '🔴', '🔵', '🔴'], missing: '🔵' },
+                { seq: ['⭐', '⭐', '🌙', '⭐', '⭐'], missing: '🌙' },
+                { seq: ['🔺', '🔻', '🔺', '🔻', '🔺'], missing: '🔻' },
+                { seq: ['1', '2', '3', '4', '?'], missing: '5' },
+                { seq: ['2', '4', '6', '8', '?'], missing: '10' },
+                { seq: ['🌸', '🌺', '🌸', '🌺', '🌸'], missing: '🌺' }
+            ];
+            
+            const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+            const wrongOptions = ['🟢', '🔶', '💜', '7', '9', '🌻'].filter(x => x !== pattern.missing).slice(0, 3);
+            const options = [pattern.missing, ...wrongOptions].sort(() => Math.random() - 0.5);
+            
+            card.innerHTML = `
+                <div class="game-instruction"><i class="fas fa-shapes"></i> Complete the pattern!</div>
+                <div class="pattern-display"></div>
+                <div class="math-options" style="margin-top: 20px;"></div>
+            `;
+            
+            const display = card.querySelector('.pattern-display');
+            pattern.seq.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'pattern-item';
+                if (item === '?') {
+                    div.classList.add('missing');
+                    div.innerHTML = '<i class="fas fa-question"></i>';
+                } else {
+                    div.textContent = item;
+                }
+                display.appendChild(div);
+            });
+            
+            const optionsContainer = card.querySelector('.math-options');
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => {
+                    if (opt === pattern.missing) {
+                        btn.classList.add('correct');
+                        setTimeout(() => handleCorrectAnswer(), 500);
+                    } else {
+                        btn.classList.add('wrong');
+                        setTimeout(() => handleWrongAnswer(), 500);
+                    }
+                };
+                optionsContainer.appendChild(btn);
+            });
+            
+            container.appendChild(card);
+        }
+
+        function handleRiddleAnswer(isCorrect, btn, correctAnswer, options) {
             const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach(btn => btn.disabled = true);
+            buttons.forEach(b => {
+                b.disabled = true;
+                if (b.textContent.includes(correctAnswer)) {
+                    b.classList.add('correct');
+                }
+            });
             
-            if (selectedIndex === correctIndex) {
-                // Correct
-                btnElement.classList.add('correct');
-                GameState.sessionCorrect++;
-                GameState.correctAnswers++;
-                GameState.currentStreak++;
-                if (GameState.currentStreak > GameState.maxStreak) GameState.maxStreak = GameState.currentStreak;
-                
-                // Calculate reward
-                let reward = GameState.baseReward;
-                const streakBonus = Math.min(GameState.currentStreak * 2, 20); // Max 20 bonus
-                reward += streakBonus;
-                
-                // Multipliers
-                reward = Math.floor(reward * GameState.baseMultiplier * GameState.scoreMultiplier);
-                
-                const remaining = GameState.maxCoins - GameState.totalEarned;
-                if (reward > remaining) reward = remaining;
-                
-                GameState.currentScore += reward;
-                GameState.totalEarned += reward;
-                
-                addXP(Math.floor(reward * 0.3));
-                
-                showToast(`Correct! +${reward} coins (Streak: ${GameState.currentStreak})`, 'success');
-                
-                setTimeout(() => {
-                    GameState.currentPuzzleIndex++;
-                    loadPuzzle();
-                    updateUI();
-                    saveGameData();
-                }, 1000);
+            if (isCorrect) {
+                handleCorrectAnswer();
             } else {
-                // Wrong
-                btnElement.classList.add('wrong');
-                buttons[correctIndex].classList.add('correct');
-                GameState.currentStreak = 0;
-                
-                showToast('Wrong answer! Streak reset.', 'error');
-                
-                setTimeout(() => {
-                    GameState.currentPuzzleIndex++;
-                    loadPuzzle();
-                    updateUI();
-                    saveGameData();
-                }, 1500);
+                btn.classList.add('wrong');
+                setTimeout(() => handleWrongAnswer(), 800);
+            }
+        }
+
+        function handlePathClick(cell, isCorrect) {
+            if (isCorrect) {
+                cell.classList.add('correct');
+                handleCorrectAnswer();
+            } else {
+                cell.classList.add('wrong');
+                setTimeout(() => handleWrongAnswer(), 500);
+            }
+        }
+
+        function handleWordCellClick(cell, wordCells, targetWord, wordItem) {
+            cell.classList.add('selected');
+            
+            const selected = document.querySelectorAll('.word-cell.selected');
+            const selectedText = Array.from(selected).map(c => c.textContent).join('');
+            
+            if (selectedText === targetWord) {
+                wordCells.forEach(c => c.classList.add('found'));
+                wordItem.classList.add('found');
+                handleCorrectAnswer();
+            } else if (selected.length >= targetWord.length) {
+                selected.forEach(c => c.classList.remove('selected'));
+            }
+        }
+
+        function handleCorrectAnswer() {
+            GameState.matches++;
+            GameState.currentCombo++;
+            
+            let comboMult = 1;
+            if (GameState.currentCombo >= 3) {
+                comboMult = 2;
+                showToast('Combo x2!', 'success');
+            }
+
+            const timeBonus = Math.min(Math.floor(GameState.timeRemaining / 5), 20);
+            let reward = (GameState.baseMatchReward + timeBonus) * comboMult;
+            reward = Math.floor(reward * GameState.baseMultiplier * GameState.scoreMultiplier);
+
+            GameState.currentScore += reward;
+            GameState.totalEarned += reward;
+            addXP(Math.floor(reward * 0.3) + 5);
+            
+            setTimeout(() => {
+                const totalRounds = getRoundsForLevel(GameState.level);
+                if (GameState.currentRound >= totalRounds) {
+                    levelComplete();
+                } else {
+                    GameState.currentRound++;
+                    updateProgressDots();
+                    generateRound();
+                }
+                updateUI();
+                saveGameData();
+            }, 1000);
+            
+            showToast(`Correct! +${reward} coins`, 'success');
+        }
+
+        function handleWrongAnswer() {
+            GameState.lives--;
+            GameState.currentCombo = 0;
+            updateUI();
+            
+            const totalRounds = getRoundsForLevel(GameState.level);
+            
+            if (GameState.lives <= 0) {
+                document.getElementById('failTitle').textContent = 'Level Failed!';
+                document.getElementById('failText').textContent = `You ran out of lives on Round ${GameState.currentRound}/${totalRounds}. Restarting level...`;
+                document.getElementById('failBtn').innerHTML = '<i class="fas fa-redo"></i> Restart Level';
+                document.getElementById('wrongOverlay').classList.add('active');
+            } else {
+                document.getElementById('failTitle').textContent = 'Wrong Answer!';
+                document.getElementById('failText').textContent = `You lost 1 life. ${GameState.lives} remaining. New game!`;
+                document.getElementById('failBtn').innerHTML = '<i class="fas fa-redo"></i> Try New Game';
+                document.getElementById('wrongOverlay').classList.add('active');
+            }
+        }
+
+        function handleFailContinue() {
+            document.getElementById('wrongOverlay').classList.remove('active');
+            if (GameState.lives <= 0) {
+                startGame();
+            } else {
+                generateRound();
+            }
+        }
+
+        function levelComplete() {
+            clearInterval(GameState.timerInterval);
+            GameState.gameActive = false;
+            GameState.gameWon = true;
+            GameState.totalGamesPlayed++;
+            GameState.totalGamesWon++;
+            
+            const winBonus = 100 * GameState.level;
+            GameState.currentScore += winBonus;
+            GameState.totalEarned += winBonus;
+            addXP(Math.floor(winBonus * 0.5));
+            
+            document.getElementById('completedLevelNum').textContent = GameState.level;
+            document.getElementById('levelCoinsValue').textContent = Math.floor(GameState.currentScore).toLocaleString();
+            document.getElementById('levelUpOverlay').classList.add('active');
+            document.getElementById('pendingBadge').style.display = 'inline-flex';
+            
+            createConfetti();
+            updateUI();
+            saveGameData();
+            showToast(`Level ${GameState.level} Complete! Bonus: +${winBonus} coins!`, 'success');
+        }
+
+        function collectLevelCoins() {
+            const coinsToCollect = Math.floor(GameState.currentScore);
+            if (coinsToCollect > 0) {
+                const synced = syncWithMainApp(coinsToCollect, 0);
+                if (synced) {
+                    showToast(`Collected ${coinsToCollect} coins!`, 'success');
+                    loadMainAppData();
+                }
+            }
+            
+            GameState.currentScore = 0;
+            const nextLevel = GameState.level + 1;
+            
+            if (nextLevel % 3 === 0 && nextLevel <= 50) {
+                GameState.level = nextLevel;
+                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.level * 0.05);
+                GameState.isLocked = true;
+                GameState.pendingLevel = nextLevel;
+                saveGameData();
+                document.getElementById('levelUpOverlay').classList.remove('active');
+                setTimeout(() => showVerificationOverlay(), 300);
+            } else if (nextLevel <= 50) {
+                GameState.level = nextLevel;
+                GameState.currentRound = 1;
+                GameState.xpToNext = XP_TABLE[GameState.level - 1] || 999999;
+                GameState.baseMultiplier = 1 + (GameState.level * 0.05);
+                saveGameData();
+                document.getElementById('levelUpOverlay').classList.remove('active');
+                document.getElementById('pendingBadge').style.display = 'none';
+                showPreviewState();
+                showToast(`Level ${GameState.level} Unlocked!`, 'success');
+            } else {
+                showToast('Congratulations! You completed all levels!', 'success');
+                setTimeout(() => goBack(), 2000);
+            }
+        }
+
+        function showVerificationOverlay() {
+            document.getElementById('verifyLevel').textContent = GameState.level;
+            document.getElementById('verificationOverlay').classList.add('active');
+        }
+
+        function showCaptcha() {
+            document.getElementById('verificationButtons').style.display = 'none';
+            document.getElementById('captchaContainer').classList.add('active');
+            showToast('Please complete the CAPTCHA below', 'info');
+            startVerificationCountdown();
+        }
+
+        function showHumanVerification() {
+            window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank');
+            GameState.verificationStartTime = Date.now();
+            GameState.verificationTabOpen = true;
+            document.getElementById('verificationButtons').style.display = 'none';
+            document.getElementById('humanVerificationWrapper').classList.add('active');
+            showToast('Complete the task in the new window', 'info');
+            startVerificationCountdown();
+        }
+
+        function startVerificationCountdown() {
+            setTimeout(() => completeVerification(), 240000);
+        }
+
+        function completeVerification() {
+            GameState.isLocked = false;
+            GameState.pendingLevel = null;
+            saveGameData();
+            document.getElementById('humanVerificationWrapper').classList.remove('active');
+            document.getElementById('captchaContainer').classList.remove('active');
+            document.getElementById('verificationSuccess').classList.add('active');
+            document.getElementById('pendingBadge').style.display = 'none';
+            
+            setTimeout(() => {
+                document.getElementById('verificationOverlay').classList.remove('active');
+                document.getElementById('verificationSuccess').classList.remove('active');
+                document.getElementById('verificationButtons').style.display = 'flex';
+                showPreviewState();
+            }, 2000);
+        }
+
+        function updateProgressDots() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = '';
+            const totalRounds = getRoundsForLevel(GameState.level);
+            
+            for (let i = 1; i <= totalRounds; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                if (i < GameState.currentRound) dot.classList.add('completed');
+                else if (i === GameState.currentRound) dot.classList.add('current');
+                container.appendChild(dot);
             }
         }
 
         function startTimer() {
             if (GameState.timerInterval) clearInterval(GameState.timerInterval);
-            
             GameState.timerInterval = setInterval(() => {
                 GameState.timeRemaining--;
                 updateTimerDisplay();
-                
                 if (GameState.timeRemaining <= 10) {
                     document.getElementById('timerDisplay').classList.add('warning');
                 }
-                
                 if (GameState.timeRemaining <= 0) {
-                    gameLoss();
+                    handleWrongAnswer();
                 }
             }, 1000);
         }
@@ -1788,299 +2345,19 @@
             const seconds = GameState.timeRemaining % 60;
             document.getElementById('timerValue').textContent = 
                 `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            document.getElementById('streakValue').textContent = GameState.currentStreak;
-        }
-
-        function gameWin() {
-            clearInterval(GameState.timerInterval);
-            GameState.gameActive = false;
-            GameState.gameWon = true;
-            GameState.currentScreen = 'ended';
-            
-            GameState.totalGamesPlayed++;
-            if (GameState.sessionCorrect >= GameState.totalPuzzles * 0.7) { // 70% to win
-                GameState.totalGamesWon++;
-            }
-            
-            const baseCoins = GameState.sessionCorrect * GameState.baseReward;
-            const streakBonus = GameState.maxStreak * 10;
-            const winBonus = 50 * GameState.actualLevel;
-            const totalWinReward = winBonus + streakBonus;
-            
-            GameState.currentScore += totalWinReward;
-            GameState.totalEarned += totalWinReward;
-            
-            addXP(Math.floor(totalWinReward * 0.3));
-            
-            document.getElementById('winCorrect').textContent = GameState.sessionCorrect;
-            document.getElementById('winTime').textContent = `${GameState.timeRemaining}s`;
-            document.getElementById('winBaseCoins').textContent = baseCoins;
-            document.getElementById('winBonus').textContent = `+${totalWinReward}`;
-            document.getElementById('winOverlay').classList.add('active');
-            
-            const winsCard = document.getElementById('winsCard');
-            winsCard.classList.add('win-active');
-            setTimeout(() => winsCard.classList.remove('win-active'), 1000);
-            
-            createConfetti();
-            updateUI();
-            saveGameData();
-            
-            showToast(`Quiz Complete! Bonus: +${totalWinReward} coins!`, 'success');
-        }
-
-        function closeWinOverlay() {
-            document.getElementById('winOverlay').classList.remove('active');
-            
-            if (GameState.totalEarned >= GameState.maxCoins) {
-                endGame();
-            } else {
-                showPreviewState();
-            }
-        }
-
-        function gameLoss() {
-            clearInterval(GameState.timerInterval);
-            GameState.gameActive = false;
-            GameState.gameWon = false;
-            GameState.currentScreen = 'preview';
-            
-            GameState.totalGamesPlayed++;
-            
-            showToast('Time\'s up! Game over!', 'error');
-            
-            updateUI();
-            saveGameData();
-            
-            showPreviewState();
-        }
-
-        function endGame() {
-            clearInterval(GameState.timerInterval);
-            GameState.gameActive = false;
-            GameState.gameEnded = true;
-            GameState.currentScreen = 'ended';
-            
-            if (GameState.mainAppCoins >= 30) {
-                GameState.canRestart = true;
-                document.getElementById('restartInfo').classList.add('active');
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-redo"></i> Pay 30 Coins to Restart';
-                document.getElementById('claimBtn').classList.add('restart');
-                document.getElementById('claimBtn').disabled = false;
-            } else {
-                document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim ' + Math.floor(GameState.currentScore).toLocaleString() + ' Coins';
-                if (GameState.currentScore >= 50) {
-                    document.getElementById('claimBtn').disabled = false;
-                }
-            }
-            
-            document.getElementById('gamePreview').style.display = 'none';
-            document.getElementById('startGameContainer').style.display = 'none';
-            saveGameData();
-            showToast('Session ended! Claim your earnings!', 'info');
-        }
-
-        function attemptRestart() {
-            if (GameState.mainAppCoins < 30) {
-                showToast('Not enough coins! Need 30 to restart.', 'error');
-                return;
-            }
-
-            GameState.mainAppCoins -= 30;
-            
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = GameState.mainAppCoins;
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error updating main app coins:', e);
-            }
-
-            GameState.currentScore = 0;
-            GameState.totalEarned = 0;
-            GameState.correctAnswers = 0;
-            GameState.sessionCorrect = 0;
-            GameState.gameEnded = false;
-            GameState.canRestart = false;
-            GameState.claimed = false;
-            GameState.currentScreen = 'preview';
-
-            document.getElementById('restartInfo').classList.remove('active');
-            document.getElementById('claimBtn').innerHTML = '<i class="fas fa-check-circle"></i> Claim <span id="claimAmount">0</span> Coins';
-            document.getElementById('claimBtn').classList.remove('restart');
-            document.getElementById('claimBtn').disabled = true;
-            
-            saveGameData();
-            updateUI();
-            loadMainAppData();
-            showPreviewState();
-            showToast('Game restarted! -30 coins', 'success');
         }
 
         function addXP(amount) {
-            if (GameState.actualLevel >= GameState.maxLevel || GameState.isLocked) return;
-            
+            if (GameState.level >= GameState.maxLevel) return;
             GameState.xp += amount;
-            
-            while (GameState.xp >= GameState.xpToNext && GameState.actualLevel < GameState.maxLevel && !GameState.isLocked) {
-                GameState.xp -= GameState.xpToNext;
-                prepareLevelUp();
+            if (GameState.xp >= GameState.xpToNext) {
+                GameState.xp = GameState.xpToNext;
             }
-        }
-
-        function prepareLevelUp() {
-            GameState.displayLevel = GameState.actualLevel + 1;
-            GameState.pendingLevel = GameState.displayLevel;
-            GameState.isLocked = true;
-            GameState.currentScreen = 'levelup';
-            saveGameData();
-            showLevelUpOverlay();
-        }
-
-        function showLevelUpOverlay() {
-            document.getElementById('newLevel').textContent = GameState.displayLevel;
-            document.getElementById('levelUpOverlay').classList.add('active');
-            document.getElementById('pendingBadge').style.display = 'inline-flex';
-            createConfetti();
-        }
-
-        function proceedToVerification() {
-            document.getElementById('levelUpOverlay').classList.remove('active');
-            document.getElementById('verifyLevel').textContent = GameState.displayLevel;
-            document.getElementById('verificationOverlay').classList.add('active');
-            GameState.currentScreen = 'verification';
-            saveGameData();
-        }
-
-        function startCaptchaVerification() {
-            document.getElementById('taskReminder').classList.add('active');
-            document.getElementById('verificationButtons').style.display = 'none';
-            document.getElementById('captchaContainer').classList.add('active');
-            initiateVerification('captcha');
-            showToast('Please complete the CAPTCHA below', 'info');
-        }
-
-        function startHumanVerification() {
-            document.getElementById('taskReminder').classList.add('active');
-            window.open('https://confirmapp.online/cl/i/5nn8m3', '_blank');
-            initiateVerification('human');
-            document.getElementById('verificationButtons').style.display = 'none';
-            document.getElementById('humanVerificationWrapper').classList.add('active');
-            showToast('Complete the task in the new window', 'info');
-        }
-
-        function initiateVerification(type) {
-            GameState.isVerifying = true;
-            GameState.verificationStartTime = Date.now();
-            GameState.verificationTabOpen = true;
-            saveVerificationProgress();
-            saveGameData();
-            startProgressTracking();
-        }
-
-        function startProgressTracking() {
-            if (progressInterval) clearInterval(progressInterval);
-            
-            progressInterval = setInterval(() => {
-                checkVerificationProgress();
-            }, UPDATE_INTERVAL);
-            
-            checkVerificationProgress();
-        }
-
-        function checkVerificationProgress() {
-            const elapsed = Date.now() - GameState.verificationStartTime;
-            const progress = Math.min((elapsed / VERIFICATION_DURATION) * 100, 100);
-            
-            GameState.verificationProgress = progress;
-            document.getElementById('progressFill').style.width = progress + '%';
-            
-            const statusTexts = [
-                { threshold: 0, text: 'Initializing verification...' },
-                { threshold: 10, text: 'Connecting to verification server...' },
-                { threshold: 25, text: 'Analyzing task completion...' },
-                { threshold: 40, text: 'Verifying human activity patterns...' },
-                { threshold: 55, text: 'Cross-referencing task data...' },
-                { threshold: 70, text: 'Performing security checks...' },
-                { threshold: 85, text: 'Finalizing verification process...' },
-                { threshold: 95, text: 'Almost complete...' }
-            ];
-            
-            const currentStatus = statusTexts.reverse().find(s => progress >= s.threshold);
-            if (currentStatus) {
-                document.getElementById('progressText').textContent = currentStatus.text;
-            }
-            
-            saveVerificationProgress();
-            
-            if (elapsed >= VERIFICATION_DURATION) {
-                clearInterval(progressInterval);
-                completeVerification();
-            }
-        }
-
-        function completeVerification() {
-            GameState.isVerifying = false;
-            clearInterval(progressInterval);
-            clearVerificationProgress();
-            
-            if (GameState.pendingLevel) {
-                GameState.actualLevel = GameState.pendingLevel;
-                GameState.displayLevel = GameState.actualLevel;
-                GameState.xpToNext = XP_TABLE[GameState.actualLevel - 1] || 999999;
-                GameState.baseMultiplier = 1 + (GameState.actualLevel * 0.05);
-            }
-            
-            GameState.isLocked = false;
-            GameState.pendingLevel = null;
-            GameState.verified = true;
-            GameState.verificationTabOpen = false;
-            GameState.currentScreen = 'preview';
-            
-            saveGameData();
-            
-            document.getElementById('humanVerificationWrapper').classList.remove('active');
-            document.getElementById('captchaContainer').classList.remove('active');
-            document.getElementById('taskReminder').classList.remove('active');
-            document.getElementById('verificationSuccess').classList.add('active');
-            
-            const statusIndicator = document.getElementById('statusIndicator');
-            statusIndicator.classList.remove('processing');
-            statusIndicator.classList.add('completed');
-            statusIndicator.innerHTML = '<span class="status-dot"></span><span>Verification completed!</span>';
-            
-            document.getElementById('pendingBadge').style.display = 'none';
-            
-            showToast('Verification complete! Level unlocked!', 'success');
-            createConfetti();
             updateUI();
-            
-            localStorage.setItem('brainTeasers_verification_complete', JSON.stringify({
-                verified: true,
-                timestamp: Date.now(),
-                level: GameState.actualLevel
-            }));
-            
-            setTimeout(() => {
-                document.getElementById('verificationOverlay').classList.remove('active');
-                document.getElementById('verificationSuccess').classList.remove('active');
-                document.getElementById('verificationButtons').style.display = 'flex';
-                
-                const indicator = document.getElementById('statusIndicator');
-                indicator.classList.remove('completed');
-                indicator.classList.add('processing');
-                indicator.innerHTML = '<span class="status-dot"></span><span id="statusText">Processing verification...</span>';
-                
-                showPreviewState();
-            }, 2500);
         }
 
         function renderUpgrades() {
             const container = document.getElementById('upgradesList');
-            
             const upgrades = [
                 { id: 'timeBonus', name: 'Time Bonus', icon: 'fa-clock', desc: '+5s per level', color: '#3b82f6' },
                 { id: 'scoreMult', name: 'Score Multiplier', icon: 'fa-times', desc: '+0.2x per level', color: '#ec4899' }
@@ -2122,211 +2399,39 @@
             updateUI();
             saveGameData();
             updatePreviewStats();
-            
             showToast(`Upgraded ${type}!`, 'success');
         }
 
-        function applyUpgradeEffects() {
-            GameState.scoreMultiplier = 1 + (GameState.upgrades.scoreMult.level * GameState.upgrades.scoreMult.effect);
-        }
-
         function updateUI() {
-            document.getElementById('levelValue').textContent = GameState.displayLevel;
+            document.getElementById('levelValue').textContent = GameState.level;
             document.getElementById('currentXp').textContent = GameState.xp;
-            document.getElementById('targetXp').textContent = GameState.xpToNext === 0 ? 'MAX' : GameState.xpToNext.toLocaleString();
+            document.getElementById('targetXp').textContent = GameState.xpToNext.toLocaleString();
+            document.getElementById('xpBar').style.width = Math.min((GameState.xp / GameState.xpToNext) * 100, 100) + '%';
             
-            const xpPercent = GameState.xpToNext > 0 ? (GameState.xp / GameState.xpToNext) * 100 : 100;
-            document.getElementById('xpBar').style.width = xpPercent + '%';
+            document.getElementById('maxBadge').style.display = GameState.level >= 50 ? 'inline-flex' : 'none';
+            document.getElementById('pendingBadge').style.display = GameState.isLocked ? 'inline-flex' : 'none';
             
-            if (GameState.displayLevel >= GameState.maxLevel) {
-                document.getElementById('maxBadge').style.display = 'inline-flex';
-            } else {
-                document.getElementById('maxBadge').style.display = 'none';
-            }
-            
-            if (GameState.isLocked) {
-                document.getElementById('pendingBadge').style.display = 'inline-flex';
-            } else {
-                document.getElementById('pendingBadge').style.display = 'none';
-            }
-            
-            document.getElementById('totalEarnedDisplay').textContent = Math.floor(GameState.totalEarned).toLocaleString();
+            document.getElementById('totalEarnedDisplay').textContent = Math.floor(GameState.currentScore).toLocaleString();
             document.getElementById('currentScore').textContent = Math.floor(GameState.currentScore).toLocaleString();
-            
             document.getElementById('gamesPlayed').textContent = GameState.totalGamesPlayed.toLocaleString();
             document.getElementById('gamesWon').textContent = GameState.totalGamesWon.toLocaleString();
-            
-            const winRate = GameState.totalGamesPlayed > 0 
-                ? Math.round((GameState.totalGamesWon / GameState.totalGamesPlayed) * 100) 
-                : 0;
-            document.getElementById('winRate').textContent = `${winRate}%`;
+            document.getElementById('currentRoundDisplay').textContent = GameState.currentRound;
+            document.getElementById('livesDisplay').textContent = GameState.lives;
+            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
             
             const totalMult = (GameState.scoreMultiplier * GameState.baseMultiplier).toFixed(1);
             document.getElementById('multiplierText').textContent = `x${totalMult}`;
-            
-            const claimBtn = document.getElementById('claimBtn');
-            const claimAmount = document.getElementById('claimAmount');
-            claimAmount.textContent = Math.floor(GameState.currentScore).toLocaleString();
-            
-            if (!GameState.gameEnded) {
-                claimBtn.disabled = GameState.currentScore < 50 || GameState.isLocked || GameState.gameActive;
-            }
-            
-            document.getElementById('sessionEarnings').textContent = Math.floor(GameState.totalEarned).toLocaleString();
         }
 
-        function loadMainAppData() {
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    GameState.mainAppCoins = data.coins || 0;
-                    document.getElementById('mainBalance').textContent = GameState.mainAppCoins.toLocaleString();
-                }
-            } catch (e) {
-                console.error('Error loading main app data:', e);
-            }
-        }
-
-        function loadGameData() {
-            try {
-                const saved = localStorage.getItem('brainTeasers_v1_save');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    
-                    GameState.totalGamesPlayed = data.totalGamesPlayed || 0;
-                    GameState.totalGamesWon = data.totalGamesWon || 0;
-                    GameState.displayLevel = data.displayLevel || data.level || 1;
-                    GameState.actualLevel = data.actualLevel || data.level || 1;
-                    GameState.xp = data.xp || 0;
-                    GameState.xpToNext = XP_TABLE[GameState.actualLevel - 1] || 100;
-                    GameState.correctAnswers = data.correctAnswers || 0;
-                    GameState.totalEarned = data.totalEarned || 0;
-                    GameState.currentScore = data.currentScore || 0;
-                    GameState.upgrades = data.upgrades || GameState.upgrades;
-                    GameState.verified = data.verified || false;
-                    GameState.isLocked = data.isLocked || false;
-                    GameState.pendingLevel = data.pendingLevel || null;
-                    GameState.gameEnded = data.gameEnded || false;
-                    GameState.canRestart = data.canRestart || false;
-                    GameState.claimed = data.claimed || false;
-                    GameState.currentScreen = data.currentScreen || 'preview';
-                    
-                    applyUpgradeEffects();
-                }
-            } catch (e) {
-                console.error('Error loading game data:', e);
-            }
-        }
-
-        function saveGameData() {
-            try {
-                const data = {
-                    totalGamesPlayed: GameState.totalGamesPlayed,
-                    totalGamesWon: GameState.totalGamesWon,
-                    displayLevel: GameState.displayLevel,
-                    actualLevel: GameState.actualLevel,
-                    xp: GameState.xp,
-                    correctAnswers: GameState.correctAnswers,
-                    totalEarned: GameState.totalEarned,
-                    currentScore: GameState.currentScore,
-                    upgrades: GameState.upgrades,
-                    verified: GameState.verified,
-                    isLocked: GameState.isLocked,
-                    pendingLevel: GameState.pendingLevel,
-                    gameEnded: GameState.gameEnded,
-                    canRestart: GameState.canRestart,
-                    claimed: GameState.claimed,
-                    currentScreen: GameState.currentScreen,
-                    lastSave: Date.now()
-                };
-                localStorage.setItem('brainTeasers_v1_save', JSON.stringify(data));
-            } catch (e) {
-                console.error('Error saving game data:', e);
-            }
-        }
-
-        function saveVerificationProgress() {
-            try {
-                const data = {
-                    isVerifying: GameState.isVerifying,
-                    startTime: GameState.verificationStartTime,
-                    pendingLevel: GameState.pendingLevel,
-                    lastUpdate: Date.now()
-                };
-                localStorage.setItem('brainTeasers_verification_progress', JSON.stringify(data));
-            } catch (e) {
-                console.error('Error saving verification progress:', e);
-            }
-        }
-
-        function clearVerificationProgress() {
-            localStorage.removeItem('brainTeasers_verification_progress');
-        }
-
-        function claimEarnings() {
-            if (GameState.canRestart) {
-                attemptRestart();
-                return;
-            }
-            
-            if (GameState.currentScore < 50 || GameState.claimed || GameState.isLocked) return;
-            
-            const amount = Math.floor(GameState.currentScore);
-            
-            if (window.opener) {
-                window.opener.postMessage({
-                    type: 'GAME_REWARD',
-                    gameId: 'brain',
-                    coins: amount
-                }, '*');
-            }
-            
-            try {
-                const saved = localStorage.getItem('gameCoinPro_v4');
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    data.coins = (data.coins || 0) + amount;
-                    data.gamesPlayed = (data.gamesPlayed || 0) + 1;
-                    data.todayEarned = (data.todayEarned || 0) + amount;
-                    data.totalEarned = (data.totalEarned || 0) + amount;
-                    
-                    const historyItem = {
-                        id: Date.now(),
-                        amount: amount,
-                        source: 'brain',
-                        sourceId: 'brain',
-                        isNegative: false,
-                        timestamp: new Date().toISOString()
-                    };
-                    data.history = data.history || [];
-                    data.history.unshift(historyItem);
-                    if (data.history.length > 100) data.history.pop();
-                    
-                    localStorage.setItem('gameCoinPro_v4', JSON.stringify(data));
-                }
-            } catch (e) {
-                console.error('Error saving to main app:', e);
-            }
-            
-            GameState.claimed = true;
-            GameState.currentScore = 0;
-            
-            saveGameData();
+        function showPreviewState() {
+            document.getElementById('gamePreview').style.display = 'block';
+            document.getElementById('timerSection').classList.remove('active');
+            document.getElementById('gameBoard').classList.remove('active');
+            document.getElementById('progressSection').classList.remove('active');
+            document.getElementById('livesStat').style.display = 'none';
+            document.getElementById('gameTypeBadge').style.display = 'none';
+            updatePreviewStats();
             updateUI();
-            loadMainAppData();
-            
-            showToast(`Claimed ${amount} coins!`, 'success');
-            
-            const btn = document.getElementById('claimBtn');
-            btn.innerHTML = '<i class="fas fa-check"></i> Claimed!';
-            btn.disabled = true;
-            btn.style.background = 'var(--gray-light)';
-            btn.style.color = 'var(--gray)';
-            
-            setTimeout(() => {
-                goBack();
-            }, 2000);
         }
 
         function createConfetti() {
@@ -2345,11 +2450,8 @@
 
         function goBack() {
             saveGameData();
-            if (window.opener) {
-                window.close();
-            } else {
-                window.history.back();
-            }
+            if (window.opener) window.close();
+            else window.history.back();
         }
 
         function showToast(message, type) {
@@ -2374,39 +2476,8 @@
         }
 
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                saveGameData();
-                if (GameState.isVerifying) {
-                    saveVerificationProgress();
-                }
-            }
+            if (document.hidden) saveGameData();
         });
-
-        window.addEventListener('beforeunload', () => {
-            saveGameData();
-            if (GameState.isVerifying) {
-                saveVerificationProgress();
-            }
-        });
-
-        setInterval(() => {
-            saveGameData();
-        }, 5000);
-
-        function handleStorageChange(e) {
-            if (e.key === 'brainTeasers_verification_complete') {
-                const data = JSON.parse(e.newValue);
-                if (data && data.verified && data.timestamp > (GameState.verificationStartTime || 0)) {
-                    completeVerification();
-                }
-            }
-        }
-
-        function handleVisibilityChange() {
-            if (!document.hidden && GameState.isVerifying) {
-                checkVerificationProgress();
-            }
-        }
     </script>
 </body>
 </html>
