@@ -78,11 +78,88 @@
             padding: 2rem;
         }
 
+        /* Action Banner */
+        .action-banner {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 1.25rem 2rem;
+            border-radius: 10px;
+            margin: 2rem auto;
+            max-width: 600px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .action-banner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+
+        .action-banner:active {
+            transform: translateY(0);
+        }
+
+        .action-banner.hidden {
+            display: none;
+        }
+
+        .action-banner-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-banner-sub {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-top: 0.25rem;
+        }
+
+        /* Timer Banner (after click) */
+        .timer-banner {
+            display: none;
+            background: #111;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            margin: 2rem auto;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .timer-banner.visible {
+            display: block;
+        }
+
+        .timer-banner-text {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .timer-banner-count {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #dc2626;
+            margin: 0.25rem 0;
+        }
+
+        .timer-banner-sub {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 4rem 0 3rem;
-            min-height: 500px;
+            padding: 2rem 0 3rem;
+            min-height: 400px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -113,6 +190,10 @@
             margin: 1.5rem auto;
             max-width: 500px;
             animation: fadeIn 0.6s ease;
+        }
+
+        .ad-prompt-box.hidden {
+            display: none;
         }
 
         .ad-prompt-text {
@@ -147,15 +228,15 @@
 
         /* Countdown in Hero */
         .hero-countdown {
-            display: flex;
+            display: none;
             flex-direction: column;
             align-items: center;
             gap: 1rem;
             animation: fadeIn 0.5s ease;
         }
 
-        .hero-countdown.hidden {
-            display: none;
+        .hero-countdown.visible {
+            display: flex;
         }
 
         .countdown-ring-container {
@@ -363,6 +444,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            text-decoration: none;
         }
 
         .continue-button:hover {
@@ -433,6 +515,15 @@
                 font-size: 1rem;
             }
 
+            .action-banner {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .action-banner-text {
+                font-size: 1rem;
+            }
+
             .ad-prompt-box {
                 padding: 1rem 1.5rem;
                 margin: 1rem;
@@ -474,13 +565,31 @@
     <!-- Main Content -->
     <main class="main-container">
 
+        <!-- Action Banner -->
+        <div class="action-banner" id="actionBanner">
+            <div class="action-banner-text">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                </svg>
+                Click on ad and back to get your link
+            </div>
+            <div class="action-banner-sub">Tap here to scroll to ads</div>
+        </div>
+
+        <!-- Timer Banner (shows after click) -->
+        <div class="timer-banner" id="timerBanner">
+            <div class="timer-banner-text">Checking ad engagement...</div>
+            <div class="timer-banner-count" id="timerBannerCount">10</div>
+            <div class="timer-banner-sub">Please wait while we verify</div>
+        </div>
+
         <!-- Hero Section -->
         <section class="hero" id="home">
             <h1>Transform Your Workflow with AI</h1>
             <p>Discover how artificial intelligence is revolutionizing industries and creating new opportunities for growth and innovation.</p>
 
             <!-- Ad Prompt Box -->
-            <div class="ad-prompt-box" id="adPromptBox">
+            <div class="ad-prompt-box hidden" id="adPromptBox">
                 <div class="ad-prompt-text">
                     <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle;">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
@@ -498,7 +607,7 @@
                         <circle class="countdown-ring-bg" cx="80" cy="80" r="70"/>
                         <circle class="countdown-ring-fill" id="countdownCircle" cx="80" cy="80" r="70"/>
                     </svg>
-                    <div class="countdown-number" id="countdownNumber">30</div>
+                    <div class="countdown-number" id="countdownNumber">15</div>
                 </div>
                 <div class="countdown-label">Access unlocks in...</div>
             </div>
@@ -511,7 +620,7 @@
         </section>
 
         <!-- Top Leaderboard Ad -->
-        <div class="ad-container ad-leaderboard">
+        <div class="ad-container ad-leaderboard" id="firstAd">
             <span class="ad-label">Advertisement</span>
             <span class="ad-placeholder-text">Google Ads - 728x90 Leaderboard</span>
         </div>
@@ -594,12 +703,12 @@
             <h2 style="font-size: 2rem; margin-bottom: 1rem; color: #111;">Welcome to Premium Access</h2>
             <p style="color: #666; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">You have successfully unlocked our advanced AI toolkit. Click below to proceed.</p>
 
-            <button class="continue-button" onclick="alert('Redirecting to platform...')">
+            <a href="https://hivas-ai.github.io/Silly-Money/step1" class="continue-button">
                 Continue
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
                 </svg>
-            </button>
+            </a>
 
             <!-- Post-Action Ads -->
             <div class="content-ad-row" style="margin-top: 3rem;">
@@ -626,46 +735,89 @@
     </footer>
 
     <script>
+        const actionBanner = document.getElementById('actionBanner');
+        const timerBanner = document.getElementById('timerBanner');
+        const timerBannerCount = document.getElementById('timerBannerCount');
         const heroCountdown = document.getElementById('heroCountdown');
+        const adPromptBox = document.getElementById('adPromptBox');
         const scrollPrompt = document.getElementById('scrollPrompt');
         const countdownNumber = document.getElementById('countdownNumber');
         const countdownCircle = document.getElementById('countdownCircle');
         const continueSection = document.getElementById('continueSection');
-        const adPromptBox = document.getElementById('adPromptBox');
+        const firstAd = document.getElementById('firstAd');
 
         // Circumference = 2 * PI * 70 ≈ 439.82
         const circumference = 2 * Math.PI * 70;
         countdownCircle.style.strokeDasharray = `${circumference} ${circumference}`;
         countdownCircle.style.strokeDashoffset = 0;
 
-        let count = 30;
-        const totalTime = 30;
+        // Step 1: Click banner → scroll to ad + 10s timer
+        actionBanner.addEventListener('click', function() {
+            // Scroll to first ad
+            firstAd.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-        const interval = setInterval(() => {
-            count -= 0.1;
+            // Hide action banner, show timer banner
+            actionBanner.classList.add('hidden');
+            timerBanner.classList.add('visible');
 
-            if (count <= 0) {
-                count = 0;
-                clearInterval(interval);
+            let count = 10;
 
-                // Hide countdown and prompt box, show scroll prompt
-                heroCountdown.classList.add('hidden');
-                adPromptBox.style.display = 'none';
-                scrollPrompt.classList.add('visible');
+            const interval = setInterval(() => {
+                count -= 0.1;
 
-                // Reveal continue section below
-                continueSection.classList.add('visible');
-            }
+                if (count <= 0) {
+                    count = 0;
+                    clearInterval(interval);
 
-            // Update number
-            countdownNumber.textContent = Math.ceil(count);
+                    // Hide timer banner
+                    timerBanner.classList.remove('visible');
 
-            // Update circular progress (reverse fill - empties as time goes down)
-            const progress = count / totalTime;
-            const offset = circumference - (progress * circumference);
-            countdownCircle.style.strokeDashoffset = offset;
+                    // Show hero countdown and ad prompt
+                    heroCountdown.classList.add('visible');
+                    adPromptBox.classList.remove('hidden');
 
-        }, 100);
+                    // Scroll back to hero
+                    document.getElementById('home').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    // Start 15s countdown
+                    startMainCountdown();
+                }
+
+                timerBannerCount.textContent = Math.ceil(count);
+            }, 100);
+        });
+
+        // Step 2: 15s countdown
+        function startMainCountdown() {
+            let count = 15;
+            const totalTime = 15;
+
+            const interval = setInterval(() => {
+                count -= 0.1;
+
+                if (count <= 0) {
+                    count = 0;
+                    clearInterval(interval);
+
+                    // Hide countdown and prompt box, show scroll prompt
+                    heroCountdown.classList.remove('visible');
+                    adPromptBox.classList.add('hidden');
+                    scrollPrompt.classList.add('visible');
+
+                    // Reveal continue section below
+                    continueSection.classList.add('visible');
+                }
+
+                // Update number
+                countdownNumber.textContent = Math.ceil(count);
+
+                // Update circular progress
+                const progress = count / totalTime;
+                const offset = circumference - (progress * circumference);
+                countdownCircle.style.strokeDashoffset = offset;
+
+            }, 100);
+        }
 
         // Smooth scroll for nav links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
