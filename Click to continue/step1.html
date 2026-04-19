@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skilled AI - Advanced Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #f0f0f0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #dc2626;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #dc2626;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 1rem;
+            color: #111;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Ad Prompt Box */
+        .ad-prompt-box {
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+            border: 2px solid #fecaca;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 1.5rem auto;
+            max-width: 500px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .ad-prompt-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .ad-prompt-sub {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .ad-prompt-arrow {
+            font-size: 1.5rem;
+            animation: bounceDown 1.5s infinite;
+            color: #dc2626;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes bounceDown {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(8px); }
+            60% { transform: translateY(4px); }
+        }
+
+        /* Countdown in Hero */
+        .hero-countdown {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .hero-countdown.hidden {
+            display: none;
+        }
+
+        .countdown-ring-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+        }
+
+        .countdown-ring {
+            transform: rotate(-90deg);
+        }
+
+        .countdown-ring-bg {
+            fill: none;
+            stroke: #f0f0f0;
+            stroke-width: 6;
+        }
+
+        .countdown-ring-fill {
+            fill: none;
+            stroke: #dc2626;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 502;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        .countdown-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #dc2626;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: #999;
+            font-weight: 500;
+        }
+
+        /* Scroll Prompt */
+        .scroll-prompt {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .scroll-prompt.visible {
+            display: flex;
+        }
+
+        .scroll-prompt-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .scroll-arrow {
+            font-size: 2rem;
+            color: #dc2626;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ad Placeholder Styles */
+        .ad-container {
+            background: #fafafa;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            margin: 2rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ad-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #e5e5e5;
+            color: #999;
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .ad-placeholder-text {
+            color: #ccc;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .ad-leaderboard {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+        }
+
+        .ad-medium-rectangle {
+            width: 100%;
+            max-width: 300px;
+            height: 250px;
+        }
+
+        .ad-half-page {
+            width: 100%;
+            max-width: 300px;
+            height: 600px;
+        }
+
+        .ad-large-rectangle {
+            width: 100%;
+            max-width: 336px;
+            height: 280px;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .blog-content {
+            max-width: 100%;
+        }
+
+        .blog-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #111;
+        }
+
+        .blog-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: #222;
+        }
+
+        .blog-content p {
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Continue Section */
+        .continue-section {
+            display: none;
+            text-align: center;
+            padding: 4rem 0;
+            animation: slideUp 0.6s ease;
+        }
+
+        .continue-section.visible {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .continue-button {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 1.25rem 3rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .continue-button:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+        }
+
+        .continue-button:active {
+            transform: translateY(0);
+        }
+
+        /* Inline Ads */
+        .inline-ad {
+            float: right;
+            margin: 0 0 1rem 2rem;
+        }
+
+        .content-ad-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #f0f0f0;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .inline-ad {
+                float: none;
+                margin: 2rem auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .ad-prompt-box {
+                padding: 1rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .ad-prompt-text {
+                font-size: 1rem;
+            }
+
+            .countdown-number {
+                font-size: 2.2rem;
+            }
+
+            .countdown-ring-container {
+                width: 130px;
+                height: 130px;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Skilled <span>AI</span></div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#solutions">Solutions</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Transform Your Workflow with AI</h1>
+            <p>Discover how artificial intelligence is revolutionizing industries and creating new opportunities for growth and innovation.</p>
+
+            <!-- Ad Prompt Box -->
+            <div class="ad-prompt-box" id="adPromptBox">
+                <div class="ad-prompt-text">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                    </svg>
+                    While you wait, check out offers below
+                </div>
+                <div class="ad-prompt-sub">Click ads to pass time faster & unlock access</div>
+                <div class="ad-prompt-arrow">↓</div>
+            </div>
+
+            <!-- Countdown -->
+            <div class="hero-countdown" id="heroCountdown">
+                <div class="countdown-ring-container">
+                    <svg class="countdown-ring" width="160" height="160" viewBox="0 0 160 160">
+                        <circle class="countdown-ring-bg" cx="80" cy="80" r="70"/>
+                        <circle class="countdown-ring-fill" id="countdownCircle" cx="80" cy="80" r="70"/>
+                    </svg>
+                    <div class="countdown-number" id="countdownNumber">30</div>
+                </div>
+                <div class="countdown-label">Access unlocks in...</div>
+            </div>
+
+            <!-- Scroll Prompt (hidden initially) -->
+            <div class="scroll-prompt" id="scrollPrompt">
+                <div class="scroll-prompt-text">Scroll down and click continue</div>
+                <div class="scroll-arrow">↓</div>
+            </div>
+        </section>
+
+        <!-- Top Leaderboard Ad -->
+        <div class="ad-container ad-leaderboard">
+            <span class="ad-label">Advertisement</span>
+            <span class="ad-placeholder-text">Google Ads - 728x90 Leaderboard</span>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+            <article class="blog-content" id="blog">
+                <h2>The Future of Artificial Intelligence in Modern Business</h2>
+
+                <p>Artificial intelligence has emerged as one of the most transformative technologies of the 21st century. From automated customer service to predictive analytics, businesses are leveraging AI to streamline operations and deliver enhanced value to their customers.</p>
+
+                <!-- Inline Medium Rectangle Ad -->
+                <div class="ad-container ad-medium-rectangle inline-ad">
+                    <span class="ad-label">Advertisement</span>
+                    <span class="ad-placeholder-text">Google Ads<br>300x250</span>
+                </div>
+
+                <p>The integration of machine learning algorithms into everyday business processes has shown remarkable results. Companies report up to 40% increase in operational efficiency when properly implementing AI-driven solutions. This isn't just about automation—it's about augmenting human capabilities to achieve outcomes previously thought impossible.</p>
+
+                <h3>Key Areas of Impact</h3>
+
+                <p>Healthcare, finance, and manufacturing stand at the forefront of AI adoption. In healthcare, diagnostic accuracy has improved significantly through computer vision technologies. Financial institutions utilize AI for fraud detection and risk assessment, processing millions of transactions in real-time with unprecedented precision.</p>
+
+                <p>Manufacturing sectors have embraced predictive maintenance, reducing downtime by anticipating equipment failures before they occur. This proactive approach saves billions annually across global supply chains.</p>
+
+                <h3>Ethical Considerations</h3>
+
+                <p>As AI capabilities expand, so does the responsibility to implement these technologies ethically. Transparency in algorithmic decision-making, data privacy protection, and bias mitigation remain critical challenges that industry leaders must address proactively.</p>
+
+                <p>The development of explainable AI (XAI) represents a significant step toward building trust between machines and humans. By understanding how AI reaches its conclusions, organizations can ensure accountability and fairness in automated systems.</p>
+
+                <!-- Content Row Ads -->
+                <div class="content-ad-row">
+                    <div class="ad-container ad-large-rectangle">
+                        <span class="ad-label">Advertisement</span>
+                        <span class="ad-placeholder-text">Google Ads<br>336x280 Large Rectangle</span>
+                    </div>
+                    <div class="ad-container ad-large-rectangle">
+                        <span class="ad-label">Advertisement</span>
+                        <span class="ad-placeholder-text">Google Ads<br>336x280 Large Rectangle</span>
+                    </div>
+                </div>
+
+                <h3>Looking Ahead</h3>
+
+                <p>The next decade promises even more radical transformations. Generative AI, multimodal learning, and edge computing are converging to create intelligent systems that operate seamlessly within our physical and digital environments.</p>
+
+                <p>Organizations that invest in AI literacy and infrastructure today will be positioned to lead their respective industries tomorrow. The question is no longer whether to adopt AI, but how quickly and effectively it can be integrated into existing frameworks.</p>
+
+                <p>As we stand at this technological inflection point, one thing remains clear: AI is not replacing human ingenuity—it's amplifying it. The future belongs to those who can harness this power responsibly and creatively.</p>
+            </article>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="ad-container ad-half-page">
+                    <span class="ad-label">Advertisement</span>
+                    <span class="ad-placeholder-text">Google Ads<br>300x600 Half Page</span>
+                </div>
+
+                <div class="ad-container ad-medium-rectangle">
+                    <span class="ad-label">Advertisement</span>
+                    <span class="ad-placeholder-text">Google Ads<br>300x250</span>
+                </div>
+
+                <div class="ad-container ad-medium-rectangle">
+                    <span class="ad-label">Advertisement</span>
+                    <span class="ad-placeholder-text">Google Ads<br>300x250</span>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Bottom Leaderboard Ad -->
+        <div class="ad-container ad-leaderboard">
+            <span class="ad-label">Advertisement</span>
+            <span class="ad-placeholder-text">Google Ads - 728x90 Leaderboard</span>
+        </div>
+
+        <!-- Continue Section -->
+        <section class="continue-section" id="continueSection">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: #111;">Welcome to Premium Access</h2>
+            <p style="color: #666; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">You have successfully unlocked our advanced AI toolkit. Click below to proceed.</p>
+
+            <button class="continue-button" onclick="alert('Redirecting to platform...')">
+                Continue
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            </button>
+
+            <!-- Post-Action Ads -->
+            <div class="content-ad-row" style="margin-top: 3rem;">
+                <div class="ad-container ad-large-rectangle">
+                    <span class="ad-label">Advertisement</span>
+                    <span class="ad-placeholder-text">Google Ads<br>336x280</span>
+                </div>
+                <div class="ad-container ad-large-rectangle">
+                    <span class="ad-label">Advertisement</span>
+                    <span class="ad-placeholder-text">Google Ads<br>336x280</span>
+                </div>
+                <div class="ad-container ad-large-rectangle">
+                    <span class="ad-label">Advertisement</span>
+                    <span class="ad-placeholder-text">Google Ads<br>336x280</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Skilled AI. All rights reserved. | Privacy Policy | Terms of Service</p>
+    </footer>
+
+    <script>
+        const heroCountdown = document.getElementById('heroCountdown');
+        const scrollPrompt = document.getElementById('scrollPrompt');
+        const countdownNumber = document.getElementById('countdownNumber');
+        const countdownCircle = document.getElementById('countdownCircle');
+        const continueSection = document.getElementById('continueSection');
+        const adPromptBox = document.getElementById('adPromptBox');
+
+        // Circumference = 2 * PI * 70 ≈ 439.82
+        const circumference = 2 * Math.PI * 70;
+        countdownCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+        countdownCircle.style.strokeDashoffset = 0;
+
+        let count = 30;
+        const totalTime = 30;
+
+        const interval = setInterval(() => {
+            count -= 0.1;
+
+            if (count <= 0) {
+                count = 0;
+                clearInterval(interval);
+
+                // Hide countdown and prompt box, show scroll prompt
+                heroCountdown.classList.add('hidden');
+                adPromptBox.style.display = 'none';
+                scrollPrompt.classList.add('visible');
+
+                // Reveal continue section below
+                continueSection.classList.add('visible');
+            }
+
+            // Update number
+            countdownNumber.textContent = Math.ceil(count);
+
+            // Update circular progress (reverse fill - empties as time goes down)
+            const progress = count / totalTime;
+            const offset = circumference - (progress * circumference);
+            countdownCircle.style.strokeDashoffset = offset;
+
+        }, 100);
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+    <!-- Google AdSense Placeholder Script -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+
+</body>
+</html>
