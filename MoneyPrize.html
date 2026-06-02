@@ -1003,6 +1003,13 @@
             resolve: function() {
                 let currentHash = window.location.hash || '#/';
                 if(currentHash.includes('?')) currentHash = currentHash.split('?')[0];
+                
+                // FIX: If already logged in, never show landing or auth pages again
+                if (appState.wallet && (currentHash === '#/' || currentHash === '#/auth')) {
+                    window.location.hash = '#/dashboard';
+                    return;
+                }
+                
                 const secureRoutes = ['#/dashboard', '#/tasks', '#/games', '#/daily', '#/wallet', '#/profile'];
                 if(secureRoutes.includes(currentHash) && !appState.wallet) {
                     window.location.hash = '#/auth';
@@ -1327,7 +1334,7 @@
                     <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
                         <input type="password" id="sys-k-2" class="mono" style="background:none; border:none; color:#fff; width:100%; font-size:12px;" value="${seedPhrase}" readonly />
                         <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px;" onclick="toggleFieldMask('sys-k-2')">VIEW</button>
-                        <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px;" onclick="copyValueToClipboard('sys-phrase')">COPY</button>
+                        <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px;" onclick="copyValueToClipboard('${seedPhrase}')">COPY</button>
                     </div>
                 </div>
                 <label style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); margin-bottom:16px; cursor:pointer;">
@@ -1346,6 +1353,10 @@
             spawnToast("📋 Text successfully stored to native clipboard.");
         };
         window.finalizeSystemInitialization = function(u, pid, sk, rk) {
+            if (appState.wallet) {
+                spawnToast("⚠️ Active session detected. Sign out first to create a new identity.");
+                return;
+            }
             appState.wallet = {
                 username: u,
                 profileId: pid,
@@ -1370,22 +1381,18 @@
                 spawnToast("⚠️ Access Denied: Field signature can't be empty.");
                 return;
             }
-            const recoveredMock = {
-                username: "RecoveredAccount",
-                profileId: makeRandomId(6, "MP-"),
-                securityKey: rawKey.length === 32 ? rawKey : makeRandomId(32),
-                recoveryKey: rawKey.length !== 32 ? rawKey : makeMnemonicPhrase(),
-                balance: 1420,
-                xp: 240,
-                level: 3,
-                tasksCompleted: 4,
-                cardUnlocked: true,
-                joinDate: new Date().toLocaleDateString()
-            };
-            appState.wallet = recoveredMock;
-            commitToDisk();
-            spawnToast("🔄 Identity array synced successfully.");
-            window.location.hash = '#/dashboard';
+            // FIX: Validate against existing stored wallet instead of overwriting with fake data
+            if (appState.wallet) {
+                if (rawKey === appState.wallet.securityKey || rawKey === appState.wallet.recoveryKey) {
+                    spawnToast("🔄 Identity array synced successfully.");
+                    window.location.hash = '#/dashboard';
+                    return;
+                } else {
+                    spawnToast("⚠️ Access Denied: Key signature mismatch.");
+                    return;
+                }
+            }
+            spawnToast("⚠️ No localized identity matrix found. Create a new wallet first.");
         };
 
         Router.add('#/dashboard', () => {
