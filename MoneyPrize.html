@@ -751,6 +751,10 @@
             pointer-events: none;
             border-color: var(--green) !important;
         }
+        .task-hot {
+            border-color: rgba(255,215,0,0.4) !important;
+            box-shadow: 0 0 14px rgba(255,165,0,0.2);
+        }
     </style>
 <base target="_blank">
 <base target="_blank">
@@ -818,6 +822,13 @@
         let completedOfferIds = new Set();
         let activeCategoryFilter = localStorage.getItem("mp-task-filter") || "All";
 
+        function makeAffiliateCode() {
+            const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            let code = "";
+            for(let i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
+            return code;
+        }
+
         function initStorageEngine() {
             const stored = localStorage.getItem("mp-state");
             if (stored) {
@@ -827,6 +838,11 @@
                     if(!appState.history) appState.history = [];
                     if(!appState.dailyLog) appState.dailyLog = {};
                     if(!appState.taskProgress) appState.taskProgress = null;
+                    if(appState.wallet && !appState.wallet.affiliateCode) {
+                        appState.wallet.affiliateCode = makeAffiliateCode();
+                        if(!appState.wallet.affiliateReferrals) appState.wallet.affiliateReferrals = [];
+                        commitToDisk();
+                    }
                     // Re-evaluate task progress timers on load
                     if (appState.taskProgress) {
                         const now = Date.now();
@@ -1078,12 +1094,17 @@
             return `
                 <header class="app-header">
                     <div class="logo-group">${SVGS.coin} <span>Money Prize</span></div>
-                    <a href="#/profile" style="text-decoration: none; color: inherit;">
-                        <div class="glass-card" style="padding: 6px 14px; border-radius:9999px; display:flex; align-items:center; gap:8px;">
-                            <span class="badge badge-green">LVL <span id="hdr-lvl">${appState.wallet.level || 1}</span></span>
-                            <div class="mono" style="font-weight:700; color:var(--green);" id="hdr-bal">${appState.wallet.balance.toLocaleString()} 🪙</div>
-                        </div>
-                    </a>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <a href="#/profile" style="text-decoration: none; color: inherit;">
+                            <div class="glass-card" style="padding: 6px 14px; border-radius:9999px; display:flex; align-items:center; gap:8px;">
+                                <span class="badge badge-green">LVL <span id="hdr-lvl">${appState.wallet.level || 1}</span></span>
+                                <div class="mono" style="font-weight:700; color:var(--green);" id="hdr-bal">${appState.wallet.balance.toLocaleString()} 🪙</div>
+                            </div>
+                        </a>
+                        <a href="#/profile" class="glass-btn" style="min-height:38px; width:38px; padding:0; border-radius:50%; display:flex; align-items:center; justify-content:center;" title="Settings">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        </a>
+                    </div>
                 </header>
                 <div class="vpn-banner">
                     ${SVGS.vpn}
@@ -1240,6 +1261,33 @@
                         <a href="https://t.me" target="_blank" class="glass-btn" style="min-height:36px; padding:0 12px; font-size:12px;">Join Protocol</a>
                     </div>
                 </div>
+                <div class="glass-card" style="margin-bottom:32px; background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,0,0,0)); border-color: rgba(255,215,0,0.25);">
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                        <span style="font-size:22px;">🤝</span>
+                        <div>
+                            <h4 style="margin-bottom:2px;">Affiliate Program</h4>
+                            <p style="font-size:12px; color:var(--muted);">Earn up to <b style="color:var(--gold);">5,000 Coins</b> per referral</p>
+                        </div>
+                    </div>
+                    <div class="grid-3" style="gap:10px; margin-bottom:16px;">
+                        <div class="glass-card" style="text-align:center; padding:12px 8px;">
+                            <div style="font-size:20px; margin-bottom:4px;">🔗</div>
+                            <div style="font-size:12px; font-weight:700; margin-bottom:2px;">Share Your Link</div>
+                            <div style="font-size:11px; color:var(--muted);">Send to 12+ friends</div>
+                        </div>
+                        <div class="glass-card" style="text-align:center; padding:12px 8px;">
+                            <div style="font-size:20px; margin-bottom:4px;">📲</div>
+                            <div style="font-size:12px; font-weight:700; margin-bottom:2px;">They Download</div>
+                            <div style="font-size:11px; color:var(--muted);">& use your code</div>
+                        </div>
+                        <div class="glass-card" style="text-align:center; padding:12px 8px;">
+                            <div style="font-size:20px; margin-bottom:4px;">⏳</div>
+                            <div style="font-size:12px; font-weight:700; margin-bottom:2px;">They Stay 15 Days</div>
+                            <div style="font-size:11px; color:var(--muted);">You get 5,000 🪙</div>
+                        </div>
+                    </div>
+                    <a href="#/auth" class="glass-btn" style="width:100%; border-color:var(--gold); color:var(--gold);">Get My Affiliate Code — Sign Up</a>
+                </div>
                 <div class="glass-card" style="padding: 12px 16px;">
                     <div style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Live Withdrawal Stream</div>
                     <div class="marquee-box">
@@ -1367,7 +1415,9 @@
                 level: 1,
                 tasksCompleted: 0,
                 cardUnlocked: false,
-                joinDate: new Date().toLocaleDateString()
+                joinDate: new Date().toLocaleDateString(),
+                affiliateCode: makeAffiliateCode(),
+                affiliateReferrals: []
             };
             commitToDisk();
             spawnToast("🎉 Identity authorized. Welcome to Money Prize Matrix.");
@@ -1525,9 +1575,32 @@
                 let extraContent = '';
                 let badgeHtml = '';
                 let clickAction = '';
-                
+
+                // Task popularity/tier banner
+                let tierBanner = '';
+                if (!isActive && !isCompleted) {
+                    if (offer.coins >= 430) {
+                        tierBanner = `<div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,#FFD700,#FF9500); color:#000; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 0; border-radius:16px 16px 0 0; text-transform:uppercase;">🔥 HOT · Top Reward</div>`;
+                        specialClass += ' task-hot';
+                    } else if (offer.views >= 3000) {
+                        tierBanner = `<div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,#3B82F6,#7C3AED); color:#fff; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 0; border-radius:16px 16px 0 0; text-transform:uppercase;">⭐ POPULAR</div>`;
+                    } else if (offer.coins >= 200) {
+                        tierBanner = `<div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,rgba(0,200,83,0.85),rgba(0,200,83,0.5)); color:#fff; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 0; border-radius:16px 16px 0 0; text-transform:uppercase;">✅ HIGH VALUE</div>`;
+                    }
+                }
+                const hasTierBanner = tierBanner !== '';
+
+                // SVG eye icon (not emoji)
+                const eyeSvg = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:3px; opacity:0.6;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+
+                // Star rating based on coins
+                const ratingStars = Math.min(5, Math.max(1, Math.round((offer.coins / 500) * 5)));
+                const starsHtml = Array.from({length:5}, (_,i) =>
+                    `<svg viewBox="0 0 24 24" width="10" height="10" fill="${i < ratingStars ? '#FFD700' : 'none'}" stroke="#FFD700" stroke-width="2" style="display:inline-block;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+                ).join('');
+
                 if (isActive) {
-                    specialClass = 'task-active-card';
+                    specialClass += ' task-active-card';
                     if (appState.taskProgress && appState.taskProgress.claimExpiry) {
                         const remaining = Math.max(0, Math.ceil((appState.taskProgress.claimExpiry - Date.now()) / 1000));
                         extraContent = `<button id="task-claim-btn" class="glass-btn glass-btn-green" style="min-height:28px; padding:0 10px; font-size:11px;" onclick="event.stopPropagation(); claimTaskReward();">Claim ${remaining}s</button>`;
@@ -1535,35 +1608,41 @@
                         extraContent = `<span class="loading-dots"><span></span><span></span><span></span></span>`;
                     }
                     badgeHtml = `
-                        <div style="position:absolute; top:10px; right:10px; background:var(--green); color:#000; padding:4px 8px; border-radius:12px; font-size:10px; font-weight:700;">IN PROGRESS</div>
-                        <button class="glass-btn" style="position:absolute; top:10px; right:100px; min-height:24px; padding:0 6px; font-size:12px; border-radius:8px;" onclick="event.stopPropagation(); window.open('${offer.url}', '_blank');" title="Resume Task">➔</button>
+                        <div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,var(--green),#00a844); color:#000; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.1em; padding:4px 0; border-radius:16px 16px 0 0; display:flex; align-items:center; justify-content:center; gap:6px;">
+                            <span class="loading-dots" style="display:inline-flex; gap:3px;"><span style="width:5px;height:5px;border-radius:50%;background:#000;"></span><span style="width:5px;height:5px;border-radius:50%;background:#000;"></span><span style="width:5px;height:5px;border-radius:50%;background:#000;"></span></span>
+                            IN PROGRESS
+                        </div>
+                        <button class="glass-btn" style="position:absolute; bottom:12px; right:12px; min-height:26px; padding:0 10px; font-size:11px; border-radius:8px; border-color:var(--green); color:var(--green);" onclick="event.stopPropagation(); window.open('${offer.url}', '_blank');" title="Resume Task">Resume ➔</button>
                     `;
                     clickAction = `window.open('${offer.url}','_blank')`;
                 } else if (isCompleted) {
-                    specialClass = 'completed-card';
+                    specialClass += ' completed-card';
                     extraContent = '✓ Done';
                     clickAction = '';
                 } else {
                     extraContent = `+${offer.coins} 🪙`;
                     if (hasActiveTask) {
-                        specialClass = 'locked';
+                        specialClass += ' locked';
                     }
                     clickAction = `openTaskDetailModal(${offer.id})`;
                 }
 
+                const topPad = (hasTierBanner || isActive) ? 'padding-top:28px;' : '';
                 return `
-                    <div class="glass-card glass-card-hover task-card ${specialClass}" style="display:flex; flex-direction:column; justify-content:between; cursor:${isActive || isCompleted ? 'default' : 'pointer'}; position:relative;" onclick="${clickAction}">
-                        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
+                    <div class="glass-card glass-card-hover task-card ${specialClass.trim()}" style="display:flex; flex-direction:column; justify-content:space-between; cursor:${isActive || isCompleted ? 'default' : 'pointer'}; position:relative; overflow:hidden; ${topPad}" onclick="${clickAction}">
+                        ${tierBanner}
+                        ${badgeHtml}
+                        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:6px;">
                             <span class="badge badge-blue" style="font-size:10px;">${offer.category}</span>
-                            <span style="font-size:11px; color:var(--muted); display:flex; align-items:center; gap:2px;">👁️ <span class="task-view-cnt">${offer.views}</span></span>
+                            <span style="font-size:11px; color:var(--muted); display:flex; align-items:center;">${eyeSvg}<span class="task-view-cnt">${offer.views}</span></span>
                         </div>
+                        <div style="margin-bottom:4px;">${starsHtml}</div>
                         <h4 style="font-size:14px; line-height:1.2; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${offer.title}</h4>
                         <p style="font-size:12px; color:var(--muted); margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${offer.desc}</p>
                         <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center;">
                             <span style="font-size:11px; color:var(--muted);">${offer.time}</span>
-                            <div class="mono" style="font-weight:700; color:var(--green); font-size:14px;">${extraContent}</div>
+                            <div class="mono" style="font-weight:700; color:${isCompleted ? 'var(--green)' : 'var(--green)'}; font-size:14px;">${extraContent}</div>
                         </div>
-                        ${badgeHtml}
                     </div>
                 `;
             };
@@ -1782,6 +1861,63 @@
                 <button class="glass-btn glass-btn-green" id="btn-claim-daily" style="width:100%; border-color:var(--green);" ${isClaimedToday ? 'disabled':''} onclick="dispatchDailyGiftClaim(${dailyRewards[evaluatedStreak]})">
                     ${isClaimedToday ? 'COME BACK TOMORROW' : 'CLAIM TODAY\'S BLOCK GIFT'}
                 </button>
+
+                <!-- Affiliate Program Section -->
+                <div style="margin-top:24px;">
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                        <div style="width:3px; height:20px; background:var(--gold); border-radius:2px;"></div>
+                        <h3 style="font-size:16px;">Affiliate Program</h3>
+                    </div>
+                    <div class="glass-card" style="background:linear-gradient(135deg,rgba(255,215,0,0.07),transparent); border-color:rgba(255,215,0,0.2); padding:0; overflow:hidden;">
+                        <div style="padding:16px 18px; border-bottom:1px solid rgba(255,215,0,0.12);">
+                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                                <div>
+                                    <div style="font-size:13px; font-weight:700; margin-bottom:2px;">Your Affiliate Code</div>
+                                    <div style="font-size:11px; color:var(--muted);">Share with friends to earn 5,000 🪙 each</div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:6px; background:rgba(0,0,0,0.2); border:1px solid rgba(255,215,0,0.3); border-radius:10px; padding:8px 14px;">
+                                    <span class="mono" style="font-size:20px; font-weight:800; letter-spacing:4px; color:var(--gold);">${appState.wallet.affiliateCode || 'N/A'}</span>
+                                    <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px; border-color:var(--gold); color:var(--gold);" onclick="copyValueToClipboard('${appState.wallet.affiliateCode || ''}'); spawnToast('📋 Code copied!')">COPY</button>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:8px;">
+                                <button class="glass-btn" style="flex:1; min-height:36px; font-size:12px; border-color:var(--gold); color:var(--gold);" onclick="copyValueToClipboard(window.location.href.split('#')[0]+'#/?ref=${appState.wallet.affiliateCode || ''}'); spawnToast('🔗 Referral link copied!')">
+                                    🔗 Copy Referral Link
+                                </button>
+                            </div>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid rgba(255,215,0,0.12);">
+                            <div style="text-align:center; padding:12px 8px; border-right:1px solid rgba(255,215,0,0.1);">
+                                <div style="font-size:18px; font-weight:800; color:var(--gold);" class="mono">${(appState.wallet.affiliateReferrals||[]).length}</div>
+                                <div style="font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Referrals</div>
+                            </div>
+                            <div style="text-align:center; padding:12px 8px; border-right:1px solid rgba(255,215,0,0.1);">
+                                <div style="font-size:18px; font-weight:800; color:var(--gold);" class="mono">${((appState.wallet.affiliateReferrals||[]).length*5000).toLocaleString()}</div>
+                                <div style="font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Coins Earned</div>
+                            </div>
+                            <div style="text-align:center; padding:12px 8px;">
+                                <div style="font-size:18px; font-weight:800; color:var(--green);" class="mono">12</div>
+                                <div style="font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Target</div>
+                            </div>
+                        </div>
+                        <div style="padding:12px 18px;">
+                            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; text-align:center;">
+                                <div style="padding:8px; background:rgba(0,0,0,0.1); border-radius:8px;">
+                                    <div style="font-size:16px; margin-bottom:4px;">🔗</div>
+                                    <div style="font-size:10px; color:var(--muted); font-weight:600;">Send 12+ links</div>
+                                </div>
+                                <div style="padding:8px; background:rgba(0,0,0,0.1); border-radius:8px;">
+                                    <div style="font-size:16px; margin-bottom:4px;">📲</div>
+                                    <div style="font-size:10px; color:var(--muted); font-weight:600;">They download & use code</div>
+                                </div>
+                                <div style="padding:8px; background:rgba(0,0,0,0.1); border-radius:8px;">
+                                    <div style="font-size:16px; margin-bottom:4px;">⏳</div>
+                                    <div style="font-size:10px; color:var(--muted); font-weight:600;">15 days → 5,000 🪙</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             `;
         });
         window.dispatchDailyGiftClaim = function(rewardAmt) {
@@ -2118,6 +2254,41 @@
                     </div>
                 </div>
 
+                <!-- Affiliate Program -->
+                <div class="glass-card settings-section" style="margin-bottom:16px; background: linear-gradient(135deg, rgba(255,215,0,0.06), transparent); border-color: rgba(255,215,0,0.2);">
+                    <div class="settings-section-header" style="color:var(--gold);">🤝 Affiliate Program</div>
+                    <div style="padding:16px 20px;">
+                        <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Share your unique code & link with friends. When they download the app, use your code, and stay active for 15 days — you earn <b style="color:var(--gold);">5,000 Coins</b> per referral!</p>
+                        <div style="margin-bottom:12px;">
+                            <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Your Secret Affiliate Code</div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div class="settings-key-box mono" style="font-size:18px; font-weight:800; letter-spacing:4px; color:var(--gold); flex:1;">${wallet.affiliateCode || 'N/A'}</div>
+                                <button class="glass-btn" style="min-height:36px; padding:0 12px; font-size:12px; border-color:var(--gold); color:var(--gold);" onclick="copyValueToClipboard('${wallet.affiliateCode || ''}'); spawnToast('📋 Affiliate code copied!')">COPY</button>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:14px;">
+                            <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Your Referral Link</div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div class="settings-key-box" style="flex:1; font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${window.location.href.split('#')[0]}#/?ref=${wallet.affiliateCode || ''}</div>
+                                <button class="glass-btn" style="min-height:36px; padding:0 12px; font-size:12px;" onclick="copyValueToClipboard('${window.location.href.split('#')[0]}#/?ref=${wallet.affiliateCode || ''}'); spawnToast('🔗 Referral link copied!')">COPY</button>
+                            </div>
+                        </div>
+                        <div style="background:rgba(0,0,0,0.15); border-radius:10px; padding:12px; border:1px solid var(--glass-border);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                                <span style="font-size:13px; color:var(--muted);">Total Referrals</span>
+                                <span class="mono" style="font-weight:700; color:var(--gold);">${(wallet.affiliateReferrals || []).length}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between;">
+                                <span style="font-size:13px; color:var(--muted);">Coins Earned via Affiliate</span>
+                                <span class="mono" style="font-weight:700; color:var(--gold);">${((wallet.affiliateReferrals || []).length * 5000).toLocaleString()} 🪙</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px; padding:10px 12px; background:rgba(255,215,0,0.06); border-radius:8px; border:1px solid rgba(255,215,0,0.15);">
+                            <div style="font-size:11px; color:var(--muted); line-height:1.5;">📌 How it works: Share your link or code → friend downloads the app → they use your code at signup → they stay active for 15 days → you receive <b style="color:var(--gold);">5,000 coins</b> automatically.</div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Danger Zone -->
                 <div class="glass-card" style="border-color: rgba(255,59,48,0.18); background: linear-gradient(135deg, rgba(255,59,48,0.04), transparent); margin-bottom:24px; padding:0; overflow:hidden;">
                     <div class="settings-section-header" style="color:var(--red); border-bottom-color:rgba(255,59,48,0.15);">🚨 Danger Zone</div>
@@ -2155,40 +2326,104 @@
             const elYield = document.getElementById("chart-yield");
             const elCat = document.getElementById("chart-categories");
             const textThemeColor = appState.theme === 'light' ? '#1C1C1E' : '#FFFFFF';
+            const mutedColor = appState.theme === 'light' ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.15)';
             if(elYield) {
                 const ctx = elYield.getContext("2d");
-                ctx.clearRect(0, 0, 400, 180);
+                const W = elYield.width, H = elYield.height;
+                ctx.clearRect(0, 0, W, H);
+                // Build 7-day dataset
                 let dataset = [];
+                const labels = [];
                 for(let i=6; i>=0; i--) {
                     const d = new Date();
                     d.setDate(d.getDate() - i);
                     const dStr = d.toISOString().split('T')[0];
-                    dataset.push(appState.dailyLog[dStr] || 0);
+                    const dayVal = appState.dailyLog[dStr] || 0;
+                    dataset.push(dayVal);
+                    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+                    labels.push(i === 0 ? 'Today' : dayNames[d.getDay()]);
                 }
-                const maxVal = Math.max(...dataset, 100);
-                const padding = 30;
-                const graphH = 180 - padding * 2;
-                const stepW = (400 - padding * 2) / 6;
-                ctx.strokeStyle = "#3B82F6";
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                for(let i=0; i<7; i++) {
-                    const x = padding + i * stepW;
-                    const y = 180 - padding - (dataset[i] / maxVal) * graphH;
-                    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-                    ctx.fillStyle = "#3B82F6";
-                    ctx.save();
+                const maxVal = Math.max(...dataset, 50);
+                const padL = 44, padR = 14, padT = 18, padB = 32;
+                const graphW = W - padL - padR;
+                const graphH = H - padT - padB;
+                const stepW = graphW / 6;
+
+                // Grid lines
+                const gridCount = 4;
+                ctx.strokeStyle = mutedColor;
+                ctx.lineWidth = 1;
+                for(let g=0; g<=gridCount; g++) {
+                    const gy = padT + (graphH / gridCount) * g;
                     ctx.beginPath();
-                    ctx.arc(x,y, 4, 0, Math.PI*2);
-                    ctx.fill();
-                    ctx.restore();
+                    ctx.setLineDash([4, 4]);
+                    ctx.moveTo(padL, gy);
+                    ctx.lineTo(W - padR, gy);
+                    ctx.stroke();
+                    // Y-axis labels
+                    const yVal = Math.round(maxVal - (maxVal / gridCount) * g);
+                    ctx.setLineDash([]);
+                    ctx.fillStyle = mutedColor;
+                    ctx.font = "9px 'JetBrains Mono'";
+                    ctx.textAlign = "right";
+                    ctx.fillText(yVal > 999 ? (yVal/1000).toFixed(1)+'k' : yVal, padL - 4, gy + 3);
                 }
+                ctx.setLineDash([]);
+
+                // Compute points
+                const pts = dataset.map((v, i) => ({
+                    x: padL + i * stepW,
+                    y: padT + graphH - (v / maxVal) * graphH
+                }));
+
+                // Gradient fill under line
+                const grad = ctx.createLinearGradient(0, padT, 0, padT + graphH);
+                grad.addColorStop(0, 'rgba(59,130,246,0.35)');
+                grad.addColorStop(1, 'rgba(59,130,246,0.00)');
+                ctx.beginPath();
+                ctx.moveTo(pts[0].x, padT + graphH);
+                pts.forEach(p => ctx.lineTo(p.x, p.y));
+                ctx.lineTo(pts[pts.length-1].x, padT + graphH);
+                ctx.closePath();
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                // Draw connected line
+                ctx.beginPath();
+                pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
+                ctx.strokeStyle = "#3B82F6";
+                ctx.lineWidth = 2.5;
+                ctx.lineJoin = 'round';
                 ctx.stroke();
-                ctx.fillStyle = textThemeColor;
-                ctx.font = "10px 'JetBrains Mono'";
-                ctx.fillText(`Max: ${maxVal}`, 10, padding - 5);
-                ctx.fillText("T-6d", padding, 180 - 10);
-                ctx.fillText("Now", 400 - padding - 15, 180 - 10);
+
+                // Dots + values
+                pts.forEach((p, i) => {
+                    // Dot glow
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
+                    ctx.fillStyle = 'rgba(59,130,246,0.2)';
+                    ctx.fill();
+                    // Dot core
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 3.5, 0, Math.PI*2);
+                    ctx.fillStyle = i === 6 ? '#FFD700' : '#3B82F6';
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                    // Value label above
+                    if(dataset[i] > 0) {
+                        ctx.fillStyle = textThemeColor;
+                        ctx.font = "bold 9px 'JetBrains Mono'";
+                        ctx.textAlign = 'center';
+                        ctx.fillText(dataset[i] > 999 ? (dataset[i]/1000).toFixed(1)+'k' : dataset[i], p.x, p.y - 8);
+                    }
+                    // X-axis label
+                    ctx.fillStyle = mutedColor;
+                    ctx.font = "9px 'DM Sans'";
+                    ctx.textAlign = 'center';
+                    ctx.fillText(labels[i], p.x, H - 4);
+                });
             }
             if(elCat) {
                 const ctx = elCat.getContext("2d");
