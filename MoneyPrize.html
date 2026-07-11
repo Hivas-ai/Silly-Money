@@ -205,7 +205,7 @@
                                         <template x-if="task.status === 'loading'">
                                             <span class="flex items-center gap-1.5">
                                                 <svg class="animate-spin h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                                Verifying Offer...
+                                                Loading Offer...
                                             </span>
                                         </template>
 
@@ -367,7 +367,7 @@
                         <div class="space-y-2">
                             <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
                             <div class="flex gap-2">
-                                <input type="text" readonly value="https://robuxprize.net/ref?id=78492" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none">
+                                <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none">
                                 <button @click="copyRefLink()" class="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-800 px-4 rounded-xl flex items-center justify-center transition active:scale-95">
                                     <i data-lucide="copy" class="w-4 h-4"></i>
                                 </button>
@@ -470,66 +470,12 @@
                     { id: 3, user: 'BuildBoy99', amount: 5000 }
                 ],
                 tasks: [
-                    { 
-                        id: 1, 
-                        title: 'Join Premium Telegram Hub', 
-                        desc: 'Secure entry to official verified network updates broadcast feed.', 
-                        reward: 15, 
-                        time: '1 min', 
-                        icon: 'send', 
-                        status: 'idle',
-                        url: 'https://t.me/+AP0Q8AnAfUEyZWQ0'
-                    },
-                    { 
-                        id: 2, 
-                        title: 'Sign Up With Email', 
-                        desc: 'Fulfill randomized high-priority secure web form verification criteria.', 
-                        reward: 20, 
-                        time: '3 mins', 
-                        icon: 'mail-check', 
-                        status: 'idle',
-                        url: 'https://appsave.store/cl/i/5nn8m3'
-                    },
-                    { 
-                        id: 3, 
-                        title: 'Install App', 
-                        desc: 'Download designated mobile ecosystem package files and open context sandbox.', 
-                        reward: 35, 
-                        time: '5 mins', 
-                        icon: 'download-cloud', 
-                        status: 'idle',
-                        url: 'https://appsave.store/cl/i/5nn8m3'
-                    },
-                    { 
-                        id: 4, 
-                        title: 'Complete Partner Platform Registry', 
-                        desc: 'Create a validated asset account profile with third-party networks.', 
-                        reward: 20, 
-                        time: '4 mins', 
-                        icon: 'user-plus', 
-                        status: 'idle',
-                        url: 'https://appsave.store/cl/i/5nn8m3'
-                    },
-                    { 
-                        id: 5, 
-                        title: 'Invite Loop: Add 5 Friends', 
-                        desc: 'Introduce 5 distinct friends into the platform structural referral hub.', 
-                        reward: 35, 
-                        time: '2 mins', 
-                        icon: 'users-2', 
-                        status: 'idle',
-                        url: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share'
-                    },
-                    { 
-                        id: 6, 
-                        title: 'Rate App Ecosystem 5 Stars', 
-                        desc: 'Leave an honest structural five-star operational assessment review.', 
-                        reward: 15, 
-                        time: '1 min', 
-                        icon: 'star', 
-                        status: 'idle',
-                        url: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share'
-                    }
+                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 15, time: '1 min', icon: 'send', status: 'idle', link: 'https://t.me/robux_prize' },
+                    { id: 2, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.', reward: 20, time: '3 mins', icon: 'mail-check', status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3' },
+                    { id: 3, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.', reward: 35, time: '5 mins', icon: 'download-cloud', status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3' },
+                    { id: 4, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.', reward: 20, time: '4 mins', icon: 'user-plus', status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3' },
+                    { id: 5, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.', reward: 35, time: '2 mins', icon: 'users-2', status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share' },
+                    { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, time: '1 min', icon: 'star', status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share' }
                 ],
                 init() {
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
@@ -554,24 +500,23 @@
                 
                 runTaskSequence(task) {
                     if (task.status === 'idle') {
-                        // Dynamically launch the specified objective destination page in a separate browser thread
-                        if (task.url) {
-                            window.open(task.url, '_blank');
+                        // Open destination link in new workspace tab window instantly
+                        if (task.link) {
+                            window.open(task.link, '_blank');
                         }
                         
                         task.status = 'loading';
-                        this.showToast(`Verification tracking activated for: "${task.title}".`);
+                        this.showToast(`Loading: "${task.title}" offer stream initialized.`);
                         
-                        // 2 Minutes programmatic background tracking timer logic matching original parameters
                         setTimeout(() => {
                             task.status = 'claimable';
-                            this.showToast(`Offer validation complete! "${task.title}" is ready to claim.`);
+                            this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
                         }, 120000);
                     } else if (task.status === 'claimable') {
                         task.status = 'completed';
                         this.tokens += task.reward;
                         this.completedTasksCount++;
-                        this.showToast(`Balance updated! Added +${task.reward} Token Papers.`);
+                        this.showToast(`Wallet synchronized! Added +${task.reward} Token Papers.`);
                     }
                 },
                 
@@ -613,7 +558,7 @@
                     }, 4000);
                 },
                 copyRefLink() {
-                    navigator.clipboard.writeText("https://robuxprize.net/ref?id=78492");
+                    navigator.clipboard.writeText("https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share");
                     this.showToast("Affiliate referral link stored to local clipboard.");
                 },
                 showToast(msg) {
