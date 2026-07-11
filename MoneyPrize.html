@@ -395,11 +395,31 @@
                             <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
                                 <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i> Redeem Promo / Activation Code
                             </label>
-                            <div class="flex gap-2">
-                                <input id="promoCodeInput" type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950 border border-zinc-800 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition">
-                                <button @click="applyPromoCode()" class="bg-red-600 hover:bg-red-700 text-white font-semibold text-xs px-5 rounded-xl transition active:scale-95 whitespace-nowrap">
-                                    Apply Code
-                                </button>
+                            
+                            <!-- Master Promotion Multi-stage Input Layout -->
+                            <div class="space-y-2">
+                                <div class="flex gap-2">
+                                    <input id="promoCodeInput" :disabled="showPromoPasswordForm" type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950 border border-zinc-800 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition disabled:opacity-50">
+                                    <template x-if="!showPromoPasswordForm">
+                                        <button @click="applyPromoCode()" class="bg-red-600 hover:bg-red-700 text-white font-semibold text-xs px-5 rounded-xl transition active:scale-95 whitespace-nowrap">
+                                            Apply Code
+                                        </button>
+                                    </template>
+                                </div>
+
+                                <!-- Dynamic Password Panel For Secured Infinite Override Codes -->
+                                <div x-show="showPromoPasswordForm" x-transition class="mt-2 p-3 bg-zinc-950 border border-red-500/20 rounded-xl space-y-2">
+                                    <label class="block text-[11px] font-bold text-red-400 uppercase tracking-wider">Secured Verification Key Required</label>
+                                    <div class="flex gap-2">
+                                        <input type="password" x-model="promoPassword" placeholder="Enter security password..." class="w-full bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition">
+                                        <button @click="submitPromoPassword()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] px-4 rounded-lg transition whitespace-nowrap">
+                                            Verify Key
+                                        </button>
+                                        <button @click="cancelPromoPassword()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 text-[11px] px-3 rounded-lg transition">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -510,6 +530,8 @@
                 selectedTier: 5000, 
                 robloxUser: '',
                 promoCode: '',
+                promoPassword: '',
+                showPromoPasswordForm: false,
                 withdrawStatus: 'idle', 
                 completedTasksCount: 0,
                 toasts: [],
@@ -529,6 +551,10 @@
                     { id: 5, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.', reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'users-2' },
                     { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'star' }
                 ],
+                
+                // Track already redeemed codes globally to lock out standard multi-use actions
+                usedPromoCodes: [],
+
                 init() {
                     this.loadSavedTasksState();
 
@@ -536,6 +562,7 @@
                     this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     this.$watch('showTelegramGuide', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('showPromoPasswordForm', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     
                     setInterval(() => {
                         let randomUser = this.poolUsernames[Math.floor(Math.random() * this.poolUsernames.length)];
@@ -558,10 +585,12 @@
                     const savedRunning = localStorage.getItem('robux_task_running');
                     const savedTokens = localStorage.getItem('robux_tokens_balance');
                     const savedCount = localStorage.getItem('robux_completed_count');
+                    const savedUsedPromos = localStorage.getItem('robux_used_promos');
                     
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
                     if (savedRunning === 'true') this.isTaskRunning = true;
+                    if (savedUsedPromos) this.usedPromoCodes = JSON.parse(savedUsedPromos);
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
@@ -598,6 +627,7 @@
                     localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
                     localStorage.setItem('robux_tokens_balance', this.tokens);
                     localStorage.setItem('robux_completed_count', this.completedTasksCount);
+                    localStorage.setItem('robux_used_promos', JSON.stringify(this.usedPromoCodes));
                 },
 
                 handleTaskInteraction(task) {
@@ -627,11 +657,9 @@
                             this.completedTasksCount++;
                             this.saveTasksState();
                             
-                            // Redirect user directly to the invite friends tab where the promo code structure sits
                             this.currentTab = 'referrals';
                             this.showToast("Redirecting to Promo Code redemption panel...");
                             
-                            // Focus code elements field programmatically after render sequence clears
                             setTimeout(() => {
                                 const input = document.getElementById('promoCodeInput');
                                 if (input) input.focus();
@@ -677,21 +705,62 @@
                 },
                 
                 applyPromoCode() {
-                    if (!this.promoCode.trim()) {
+                    let inputCode = this.promoCode.trim().toUpperCase();
+                    if (!inputCode) {
                         this.showToast("Error: Please input a valid activation code string.");
                         return;
                     }
                     
-                    // Simple demo check framework for logic extensions
-                    if (this.promoCode.trim().toUpperCase() === 'FREE50') {
-                        this.tokens += 50;
-                        this.showToast("Success! Code applied: +50 Tokens added.");
-                    } else {
-                        this.showToast("Success! Operational promo hash code registered successfully.");
+                    // Route 1: Infinite Special Vault Code System Activation
+                    if (inputCode === 'IYVKQ') {
+                        this.showPromoPasswordForm = true;
+                        this.showToast("Master code detected. Input authorization key.");
+                        return;
                     }
+
+                    // Route 2: Single-Use 50 Token Batch Code Verification Block
+                    const validBatchRegex = /^RBX50_[A-Z0-9]{4}$/;
+                    const allowedSuffixes = [
+                        'A1B2','C3D4','E5F6','G7H8','I9J0','K1L2','M3N4','O5P6','J0K1','L2M3',
+                        'N4O5','P6Q7','R8S9','T0U1','V2W3','X4Y5','S8T9','U0V1','W2X3','Y4Z5',
+                        'Q1W2','E3R4','T5Y6','U7I8','A2B3','C4D5','E6F7','G8H9','I0J1','T2U3'
+                    ];
                     
-                    this.promoCode = '';
-                    this.saveTasksState();
+                    let suffix = inputCode.replace('RBX50_', '');
+                    
+                    if (validBatchRegex.test(inputCode) && allowedSuffixes.includes(suffix)) {
+                        if (this.usedPromoCodes.includes(inputCode)) {
+                            this.showToast("Error: This single-use voucher has already been claimed.");
+                            return;
+                        }
+                        
+                        // Commit code to ledger and award balance points
+                        this.usedPromoCodes.push(inputCode);
+                        this.tokens += 50;
+                        this.showToast("Voucher verified! +50 Token Papers successfully credited.");
+                        this.promoCode = '';
+                        this.saveTasksState();
+                    } else {
+                        this.showToast("Error: Invalid or unrecognized promotional hash code.");
+                    }
+                },
+
+                submitPromoPassword() {
+                    if (this.promoPassword.trim() === '4482') {
+                        this.tokens += 500;
+                        this.showToast("Override complete! Master payload granted (+500 TKNS).");
+                        this.cancelPromoPassword();
+                        this.promoCode = '';
+                        this.saveTasksState();
+                    } else {
+                        this.showToast("Security Error: Invalid verification key password.");
+                        this.promoPassword = '';
+                    }
+                },
+
+                cancelPromoPassword() {
+                    this.showPromoPasswordForm = false;
+                    this.promoPassword = '';
                 },
 
                 processWithdraw() {
