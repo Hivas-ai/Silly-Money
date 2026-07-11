@@ -172,6 +172,12 @@
                         </div>
                     </div>
 
+                    <!-- Global Task Limitation Banner -->
+                    <div x-show="isTaskRunning" x-transition class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-400 font-medium">
+                        <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+                        <span>An active task sequence is already underway. You can only work on 1 task at a time.</span>
+                    </div>
+
                     <!-- Tasks Layout Map -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
@@ -185,33 +191,63 @@
                                     </div>
                                     <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
                                     <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
+                                    
+                                    <!-- Dynamic Label / Instruction Guide for Telegram Task -->
+                                    <template x-if="task.id === 1 && showTelegramGuide">
+                                        <div class="mt-4 p-4 rounded-xl border border-red-500/30 bg-gradient-to-b from-red-950/40 to-zinc-950 space-y-3 relative overflow-hidden">
+                                            <div class="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-wider border-b border-zinc-900 pb-2">
+                                                <i data-lucide="send" class="w-4 h-4 text-red-500"></i>
+                                                <span>Telegram Instruction Guide</span>
+                                            </div>
+                                            <ol class="space-y-2 text-xs text-zinc-300 list-decimal pl-4 font-medium">
+                                                <li>First check if you have Telegram installed, or download the app.</li>
+                                                <li>Copy this direct system link:<br>
+                                                    <div class="flex items-center gap-1.5 mt-1 bg-zinc-900 p-2 rounded-lg border border-zinc-800 text-[11px] text-zinc-400 select-all font-mono">
+                                                        <span x-text="task.link"></span>
+                                                    </div>
+                                                </li>
+                                                <li>Go to any web browser outside this application and paste the link.</li>
+                                                <li>Open the parsed link into Telegram and join the official channel.</li>
+                                            </ol>
+                                            <div class="pt-1 text-[11px] text-red-400 font-semibold flex items-center gap-1">
+                                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                                <span>You will get free tokens directly from there!</span>
+                                            </div>
+                                            <!-- Dedicated Start Task Trigger inside the Label Guide -->
+                                            <button @click.stop="startTelegramTaskSequence(task)" x-show="task.status === 'idle'" class="w-full mt-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2 rounded-xl transition duration-150 flex items-center justify-center gap-1 shadow-md shadow-red-600/10">
+                                                <i data-lucide="play" class="w-3.5 h-3.5"></i> Start Task
+                                            </button>
+                                        </div>
+                                    </template>
                                 </div>
+                                
                                 <div class="mt-4 pt-4 border-t border-zinc-900 flex items-center justify-between">
                                     <span class="text-[11px] text-zinc-500 flex items-center gap-1">
-                                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> <span x-text="'Est time: ' + task.time"></span>
+                                        <!-- Note stating that tokens must be claimed when done -->
+                                        <i data-lucide="info" class="w-3.5 h-3.5 text-zinc-500"></i> Note: Claim tokens manually when task is completed.
                                     </span>
                                     
                                     <!-- Dynamic Action Button Interaction Loop -->
-                                    <button @click="runTaskSequence(task)" :disabled="task.status === 'completed' || task.status === 'loading'" 
+                                    <button @click="handleTaskInteraction(task)" :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || task.status === 'loading'" 
                                         :class="{
                                             'bg-red-600 hover:bg-red-700 text-white cursor-pointer active:scale-95': task.status === 'idle',
-                                            'bg-zinc-900 border border-zinc-800 text-zinc-500 cursor-not-allowed': task.status === 'loading',
+                                            'bg-zinc-900 border border-zinc-800 text-zinc-500 cursor-not-allowed': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
                                             'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold tracking-wide shadow-lg shadow-emerald-600/20 active:scale-95 animate-pulse': task.status === 'claimable',
                                             'bg-zinc-900 border border-zinc-800 text-zinc-600 cursor-not-allowed': task.status === 'completed'
                                         }" 
                                         class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
                                         
-                                        <!-- State: Background Loader Active -->
+                                        <!-- State: Background Loader Active (Time remaining is fully hidden) -->
                                         <template x-if="task.status === 'loading'">
                                             <span class="flex items-center gap-1.5">
                                                 <svg class="animate-spin h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                                Loading Offer...
+                                                Processing Offer...
                                             </span>
                                         </template>
 
                                         <!-- State: Base Interaction Inactive -->
                                         <template x-if="task.status === 'idle'">
-                                            <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> Start Offer</span>
+                                            <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> <span x-text="task.id === 1 ? 'View Guide' : 'Start Offer'"></span></span>
                                         </template>
 
                                         <!-- State: Claim Interface -->
@@ -463,6 +499,8 @@
                 withdrawStatus: 'idle', 
                 completedTasksCount: 0,
                 toasts: [],
+                isTaskRunning: false, 
+                showTelegramGuide: false, 
                 poolUsernames: ['iGamer_Pro', 'BloxValk', 'BuildBoy99', 'RoboQueen_X', 'Xyz_Dev', 'Linkmon_Fan', 'RbxKing2026', 'ShadowNinja', 'VibeCheck_9', 'Alpha_Build', 'Luna_Blox', 'DevRBLX_'],
                 liveLogs: [
                     { id: 1, user: 'iGamer_Pro', amount: 5000 },
@@ -470,17 +508,18 @@
                     { id: 3, user: 'BuildBoy99', amount: 5000 }
                 ],
                 tasks: [
-                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 15, time: '1 min', icon: 'send', status: 'idle', link: 'https://t.me/robux_prize' },
-                    { id: 2, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.', reward: 20, time: '3 mins', icon: 'mail-check', status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3' },
-                    { id: 3, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.', reward: 35, time: '5 mins', icon: 'download-cloud', status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3' },
-                    { id: 4, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.', reward: 20, time: '4 mins', icon: 'user-plus', status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3' },
-                    { id: 5, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.', reward: 35, time: '2 mins', icon: 'users-2', status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share' },
-                    { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, time: '1 min', icon: 'star', status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share' }
+                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 15, status: 'idle', link: 'https://t.me/robux_prize', icon: 'send' },
+                    { id: 2, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check' },
+                    { id: 3, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.', reward: 35, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'download-cloud' },
+                    { id: 4, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus' },
+                    { id: 5, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.', reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'users-2' },
+                    { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'star' }
                 ],
                 init() {
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('showTelegramGuide', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     
                     setInterval(() => {
                         let randomUser = this.poolUsernames[Math.floor(Math.random() * this.poolUsernames.length)];
@@ -498,20 +537,56 @@
                     }, Math.floor(Math.random() * 4000) + 3000); 
                 },
                 
-                runTaskSequence(task) {
+                handleTaskInteraction(task) {
+                    // Block execution if another task is already locked in
+                    if (this.isTaskRunning && task.status === 'idle') {
+                        this.showToast("Error: You can only work on 1 task at a time.");
+                        return;
+                    }
+
+                    if (task.id === 1) {
+                        // Toggle guide view for Telegram task
+                        this.showTelegramGuide = !this.showTelegramGuide;
+                        return;
+                    }
+
+                    this.runStandardTask(task);
+                },
+
+                startTelegramTaskSequence(task) {
+                    if (this.isTaskRunning) {
+                        this.showToast("Error: You can only work on 1 task at a time.");
+                        return;
+                    }
+                    this.showTelegramGuide = false;
+                    this.isTaskRunning = true;
+                    task.status = 'loading';
+                    this.showToast(`Loading: "${task.title}" sequence initialized.`);
+
+                    // 3-minute stealth countdown processing delay loop
+                    setTimeout(() => {
+                        task.status = 'claimable';
+                        this.isTaskRunning = false; 
+                        this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
+                    }, 180000); 
+                },
+
+                runStandardTask(task) {
                     if (task.status === 'idle') {
-                        // Open destination link in new workspace tab window instantly
                         if (task.link) {
                             window.open(task.link, '_blank');
                         }
                         
+                        this.isTaskRunning = true;
                         task.status = 'loading';
                         this.showToast(`Loading: "${task.title}" offer stream initialized.`);
                         
+                        // Default hidden processing timer
                         setTimeout(() => {
                             task.status = 'claimable';
+                            this.isTaskRunning = false;
                             this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
-                        }, 120000);
+                        }, 60000);
                     } else if (task.status === 'claimable') {
                         task.status = 'completed';
                         this.tokens += task.reward;
