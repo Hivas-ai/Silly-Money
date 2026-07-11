@@ -1,2485 +1,629 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Prize — Earn Real Cash</title>
+    <title>RobuxPrize | Earn Robux Honestly</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Alpine.js for State and Transitions -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Sora:wght@100..800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root {
-            --green: #00C853;
-            --gold: #FFD700;
-            --blue: #3B82F6;
-            --red: #FF3B30;
-            --muted: #8E8E93;
-            
-            /* Theme Dependent Variables - Default Dark */
-            --bg-gradient: radial-gradient(circle at 50% 50%, #121214 0%, #000000 100%);
-            --text-main: #FFFFFF;
-            --text-sub: #EBF5FF;
-            --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-shadow: rgba(0, 0, 0, 0.4);
-            --glass-glow: rgba(255, 255, 255, 0.05);
-            --warning-bg: rgba(255, 149, 0, 0.15);
-            --warning-border: rgba(255, 149, 0, 0.3);
-            --warning-text: #FF9500;
-            --nav-bg: rgba(15, 15, 18, 0.7);
-        }
-
-        html.light {
-            --bg-gradient: radial-gradient(circle at 50% 50%, #F2F2F7 0%, #E5E5EA 100%);
-            --text-main: #1C1C1E;
-            --text-sub: #3A3A3C;
-            --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.45));
-            --glass-border: rgba(0, 0, 0, 0.08);
-            --glass-shadow: rgba(0, 0, 0, 0.06);
-            --glass-glow: rgba(255, 255, 255, 0.9);
-            --warning-bg: rgba(255, 149, 0, 0.2);
-            --warning-border: rgba(255, 149, 0, 0.4);
-            --warning-text: #C97000;
-            --nav-bg: rgba(235, 235, 245, 0.7);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'DM Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-attachment: fixed;
-            padding-bottom: 90px;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Glassmorphism Styles */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px var(--glass-shadow), inset 0 1px 0 var(--glass-glow);
-            border-radius: 16px;
-            padding: 20px;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .glass-card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px var(--glass-shadow), inset 0 1px 0 var(--glass-glow);
-        }
-
-        /* App Containers */
-        #app {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-            animation: pageEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes pageEnter {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Form Controls */
-        .glass-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 9999px;
-            min-height: 48px;
-            padding: 0 24px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-            font-family: 'Sora', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: transform 0.08s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-            text-decoration: none;
-            box-shadow: 0 4px 12px var(--glass-shadow);
-        }
-
-        .glass-btn:hover {
-            border-color: var(--blue);
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
-        }
-
-        .glass-btn-green:hover {
-            border-color: var(--green);
-            box-shadow: 0 0 12px rgba(0, 200, 83, 0.3);
-        }
-
-        .glass-btn-red:hover {
-            border-color: var(--red);
-            box-shadow: 0 0 12px rgba(255, 59, 48, 0.3);
-        }
-
-        .glass-btn:active {
-            transform: scale(0.97);
-        }
-
-        .glass-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .glass-input {
-            width: 100%;
-            min-height: 48px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: var(--text-main);
-            font-size: 16px;
-            transition: border-color 0.15s ease;
-            outline: none;
-        }
-        html.light .glass-input {
-            background: rgba(255, 255, 255, 0.5);
-        }
-
-        .glass-input:focus {
-            border-color: var(--green);
-        }
-
-        /* Top Warning Banner */
-        .vpn-banner {
-            background: var(--warning-bg);
-            border: 1px solid var(--warning-border);
-            color: var(--warning-text);
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* Floating Nav bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 500px;
-            background: var(--nav-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border);
-            border-radius: 9999px;
-            padding: 8px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 11px;
-            font-weight: 500;
-            padding: 6px 12px;
-            transition: color 0.2s ease;
-            position: relative;
-        }
-
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            margin-bottom: 2px;
-            transition: transform 0.2s ease;
-        }
-
-        .nav-item.active {
-            color: var(--green);
-        }
-
-        .nav-item.active svg {
-            transform: scale(1.1);
-        }
-
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            width: 4px;
-            height: 4px;
-            background: var(--green);
-            border-radius: 50%;
-        }
-
-        /* Global Header Component */
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            margin-bottom: 16px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .logo-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Sora', sans-serif;
-            font-weight: 800;
-            font-size: 18px;
-        }
-
-        /* Utilities */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            border-radius: 9999px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-        .badge-green { background: rgba(0, 200, 83, 0.15); color: var(--green); border: 1px solid rgba(0, 200, 83, 0.3); }
-        .badge-gold { background: rgba(255, 215, 0, 0.15); color: var(--gold); border: 1px solid rgba(255, 215, 0, 0.3); }
-        .badge-blue { background: rgba(59, 130, 246, 0.15); color: var(--blue); border: 1px solid rgba(59, 130, 246, 0.3); }
-
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        @media(max-width: 768px) {
-            .grid-3 { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-        }
-
-        /* Toasts */
-        .toast-container {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            pointer-events: none;
-        }
-
-        .toast {
-            background: rgba(0, 0, 0, 0.85);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 9999px;
-            font-weight: 600;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        html.light .toast {
-            background: rgba(255, 255, 255, 0.95);
-            color: #000;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Modals */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .modal-content {
-            width: 100%;
-            max-width: 400px;
-            animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        @keyframes modalIn {
-            from { transform: scale(0.9) translateY(20px); opacity: 0; }
-            to { transform: scale(1) translateY(0); opacity: 1; }
-        }
-
-        /* Custom Marquee */
-        .marquee-box {
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-            padding: 10px 0;
-        }
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 25s linear infinite;
-        }
-        @keyframes marquee {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
-        }
-
-        /* Progress Bar */
-        .progress-track {
-            background: rgba(255,255,255,0.1);
-            border-radius: 9999px;
-            height: 8px;
-            width: 100%;
-            overflow: hidden;
-        }
-        html.light .progress-track { background: rgba(0,0,0,0.1); }
-        .progress-fill {
-            height: 100%;
-            background: var(--green);
-            border-radius: 9999px;
-            transition: width 0.5s ease;
-        }
-
-        /* Virtual Card CSS styling — Premium Banking Card */
-        .virtual-card {
-            position: relative;
-            height: 220px;
-            border-radius: 20px;
-            padding: 28px;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-            box-shadow:
-                0 20px 50px rgba(0,0,0,0.6),
-                0 0 0 1px rgba(255,255,255,0.08),
-                inset 0 1px 0 rgba(255,255,255,0.15);
-            background:
-                radial-gradient(ellipse at top right, rgba(255,255,255,0.07) 0%, transparent 60%),
-                radial-gradient(ellipse at bottom left, rgba(0,200,83,0.04) 0%, transparent 60%),
-                linear-gradient(145deg, #0b0b0d 0%, #16161a 40%, #0f0f12 100%);
-            transform-style: preserve-3d;
-            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
-        }
-        .virtual-card:not(.locked):hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow:
-                0 30px 70px rgba(0,0,0,0.65),
-                0 0 0 1px rgba(255,255,255,0.12),
-                inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-        .virtual-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background:
-                linear-gradient(110deg,
-                    transparent 38%,
-                    rgba(255,255,255,0.04) 42%,
-                    rgba(255,255,255,0.10) 48%,
-                    rgba(255,255,255,0.04) 54%,
-                    transparent 58%);
-            pointer-events: none;
-            z-index: 2;
-            opacity: 0.7;
-        }
-        .virtual-card::after {
-            content: '';
-            position: absolute;
-            top: -40%; right: -25%;
-            width: 220px; height: 220px;
-            background: radial-gradient(circle, rgba(255,215,0,0.10) 0%, transparent 65%);
-            border-radius: 50%;
-            filter: blur(18px);
-            z-index: 1;
-        }
-        .virtual-card.locked {
-            background: linear-gradient(145deg, #131316 0%, #1a1a1e 100%);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
-        }
-        .virtual-card.locked::before {
-            background: rgba(10,10,12,0.55);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 4;
-        }
-        .virtual-card-locked-content {
-            position: absolute;
-            inset: 0;
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* EMV Chip */
-        .emv-chip {
-            width: 44px;
-            height: 34px;
-            background: linear-gradient(135deg, #e6c86e 0%, #d4af37 35%, #f0d878 55%, #b8941f 100%);
-            border-radius: 8px;
-            position: relative;
-            box-shadow:
-                inset 0 1px 1px rgba(255,255,255,0.45),
-                0 2px 6px rgba(0,0,0,0.35);
-            overflow: hidden;
-            border: 1px solid rgba(180, 150, 50, 0.45);
-        }
-        .emv-chip::before {
-            content: '';
-            position: absolute;
-            inset: 5px;
-            border: 1px solid rgba(120, 100, 20, 0.55);
-            border-radius: 4px;
-            background:
-                linear-gradient(90deg, transparent 31%, rgba(120,100,20,0.45) 32%, rgba(120,100,20,0.45) 34%, transparent 35%),
-                linear-gradient(0deg, transparent 31%, rgba(120,100,20,0.45) 32%, rgba(120,100,20,0.45) 34%, transparent 35%);
-        }
-        .emv-chip::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px; height: 10px;
-            border: 1px solid rgba(120, 100, 20, 0.55);
-            border-radius: 50%;
-            background: linear-gradient(135deg, #d4af37, #a08020);
-        }
-        .emv-chip-inner {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 14px; height: 10px;
-            border: 1px solid rgba(120,100,20,0.45);
-            border-radius: 2px;
-            background: linear-gradient(135deg, #d4af37, #a08020);
-            z-index: 2;
-        }
-
-        /* Card Typography & Details */
-        .card-number-display {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.35rem;
-            font-weight: 500;
-            letter-spacing: 3.5px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-            margin: 14px 0 6px 0;
-            z-index: 3;
-            position: relative;
-            word-spacing: 8px;
-        }
-        .card-label {
-            font-size: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            opacity: 0.45;
-            margin-bottom: 3px;
-            font-weight: 700;
-        }
-        .card-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 1.2px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-        }
-        .card-brand {
-            font-family: 'Sora', sans-serif;
-            font-weight: 800;
-            font-size: 20px;
-            letter-spacing: 1.5px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-            z-index: 3;
-            position: relative;
-            line-height: 1;
-        }
-        .card-brand-sub {
-            font-size: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.25em;
-            opacity: 0.5;
-            margin-bottom: 2px;
-            font-weight: 700;
-        }
-        .contactless-icon {
-            width: 22px;
-            height: 22px;
-            opacity: 0.55;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
-        }
-
-        /* Profile Settings Components */
-        .settings-section {
-            margin-bottom: 16px;
-            overflow: hidden;
-        }
-        .settings-section-header {
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--glass-border);
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-main);
-        }
-        .settings-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-            border-bottom: 1px solid var(--glass-border);
-            transition: background 0.15s ease;
-            gap: 12px;
-        }
-        .settings-row:last-child {
-            border-bottom: none;
-        }
-        .settings-row:hover {
-            background: rgba(255,255,255,0.03);
-        }
-        html.light .settings-row:hover {
-            background: rgba(0,0,0,0.02);
-        }
-        .settings-row-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .settings-row-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 2px;
-            color: var(--text-main);
-        }
-        .settings-row-desc {
-            font-size: 12px;
-            color: var(--muted);
-        }
-        .settings-stat-card {
-            text-align: center;
-            padding: 18px 12px;
-        }
-        .settings-stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .settings-stat-label {
-            font-size: 11px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 700;
-        }
-        .settings-avatar-wrap {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--green), var(--blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Sora', sans-serif;
-            font-size: 28px;
-            font-weight: 800;
-            color: #fff;
-            box-shadow: 0 8px 28px rgba(0,0,0,0.35);
-            flex-shrink: 0;
-            border: 3px solid rgba(255,255,255,0.1);
-        }
-        .settings-key-box {
-            font-size: 12px;
-            background: rgba(0,0,0,0.15);
-            padding: 10px 12px;
-            border-radius: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            border: 1px solid var(--glass-border);
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-main);
-        }
-        html.light .settings-key-box {
-            background: rgba(0,0,0,0.04);
-        }
-        .settings-payment-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .settings-payment-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        .settings-payment-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        /* Custom Toggle Switch */
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 52px;
-            height: 32px;
-        }
-        .toggle-switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            inset: 0;
-            background-color: rgba(255,255,255,0.2);
-            border-radius: 34px;
-            transition: .3s;
-        }
-        html.light .slider { background-color: rgba(0,0,0,0.2); }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            border-radius: 50%;
-            transition: .3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        input:checked + .slider { background-color: var(--green); }
-        input:checked + .slider:before { transform: translateX(20px); }
-
-        /* Canvas Styles */
-        .canvas-container {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        canvas { max-width: 100%; }
-
-        /* Task Card States */
-        .task-card.locked {
-            opacity: 0.5;
-            pointer-events: none;
-            position: relative;
-        }
-        .task-card.locked::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 24px;
-            height: 24px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2' ry='2'%3E%3C/rect%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'%3E%3C/path%3E%3C/svg%3E");
-            background-size: contain;
-            background-repeat: no-repeat;
-            z-index: 5;
-        }
-        .task-active-card {
-            border-color: var(--green) !important;
-            box-shadow: 0 0 12px rgba(0,200,83,0.4);
-            position: relative;
-        }
-        .task-active-card .loading-dots {
-            display: inline-flex;
-            gap: 4px;
-        }
-        .loading-dots span {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: dotPulse 1.2s infinite ease-in-out both;
-        }
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes dotPulse {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-        .completed-card {
-            opacity: 0.7;
-            pointer-events: none;
-            border-color: var(--green) !important;
-        }
-        .task-hot {
-            border-color: rgba(255,215,0,0.4) !important;
-            box-shadow: 0 0 14px rgba(255,165,0,0.2);
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #0b0b0c; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #121214; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 3px; }
+        [x-cloak] { display: none !important; }
     </style>
-<base target="_blank">
-<base target="_blank">
 </head>
-<body>
+<body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
 
-    <div id="toast-root" class="toast-container" aria-live="polite"></div>
-    <main id="app"></main>
-    <nav id="app-nav" class="bottom-nav" style="display: none;" aria-label="Main Navigation"></nav>
-    <canvas id="confetti-canvas" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:9999; display:none;"></canvas>
-
-    <script>
-        // ==========================================
-        // CONSTANTS & HARDCODED RECORDS
-        // ==========================================
-        const OFFERS_DATA = [
-            { id: 1, title: "Download Cashback App & make your first purchase", desc: "Install the app, sign up, and complete a purchase to earn.", category: "App Download", coins: 350, time: "~3 min", views: 2100, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 2, title: "Verify your email address with QuickVerify", desc: "Enter your email and confirm the verification link sent.", category: "Email Verify", coins: 75, time: "~1 min", views: 3400, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 3, title: "Join our official Telegram channel", desc: "Click through and join our Telegram community.", category: "Telegram", coins: 80, time: "~1 min", views: 1800, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 4, title: "Follow @MoneyPrize on Instagram", desc: "Open Instagram and follow our official account.", category: "Social Follow", coins: 50, time: "~1 min", views: 2900, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 5, title: "Sign up for a free Binance account", desc: "Create your Binance account and verify your identity.", category: "Sign Up", coins: 200, time: "~4 min", views: 3700, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 6, title: "Download Temu & create an account", desc: "Install Temu app and register a new account.", category: "App Download", coins: 500, time: "~5 min", views: 4100, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 7, title: "Complete a 3-question survey", desc: "Answer three quick survey questions to earn coins.", category: "Survey", coins: 40, time: "~2 min", views: 1500, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 8, title: "Subscribe to our YouTube channel", desc: "Visit YouTube and subscribe to Money Prize channel.", category: "Social Follow", coins: 35, time: "~1 min", views: 2600, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 9, title: "Sign up for Coinbase & verify email", desc: "Create a Coinbase account and confirm your email.", category: "Sign Up", coins: 300, time: "~5 min", views: 3200, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 10, title: "Download and open Robinhood app", desc: "Install Robinhood and open the app to explore.", category: "App Download", coins: 420, time: "~3 min", views: 2800, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 11, title: "Join our Discord server", desc: "Click to join the Money Prize Discord community.", category: "Telegram", coins: 60, time: "~1 min", views: 1300, url: "https://saveapp.store/cl/i/5nn8m3" },
-            { id: 12, title: "Verify phone number on TextNow", desc: "Sign up on TextNow and verify your phone number.", category: "Email Verify", coins: 90, time: "~2 min", views: 1900, url: "https://saveapp.store/cl/i/5nn8m3" }
-        ];
-
-        const SVGS = {
-            coin: `<svg viewBox="0 0 24 24" width="20" height="20" fill="var(--gold)"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>`,
-            vpn: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
-            lock: `<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`,
-            telegram: `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-1-.65-.35-1 .22-1.62.15-.15 2.7-2.48 2.76-2.72.01-.03.01-.14-.05-.2-.06-.06-.14-.04-.2-.03-.08.01-1.39.88-3.92 2.58-.37.25-.7.37-.99.36-.32 0-.94-.17-1.4-.32-.56-.18-1.01-.28-1-.59.01-.16.23-.33.68-.52 2.76-1.2 4.6-2 5.53-2.4 2.64-1.1 3.19-1.3 3.55-1.3.08 0 .26.02.38.12.1.08.13.19.14.27-.01.04.01.16 0 .24z"/></svg>`,
-            paypal: `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M20 7.5c0 .1-.01.2-.03.3-.4 2.1-1.9 3.6-4 3.6h-1.9c-.5 0-.9.4-1 1l-.9 5.7c0 .2-.2.4-.4.4H8.4c-.3 0-.5-.3-.4-.6l2.4-15c.1-.4.4-.7.8-.7h4.8c2.4 0 4.4 1.9 4.4 4.3z"/></svg>`,
-            apple: `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.21.67-2.93 1.49-.62.69-1.16 1.84-1.01 2.96 1.12.09 2.27-.56 2.95-1.39z"/></svg>`,
-            google: `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M21.35 11.1H12v2.7h5.3c-.22 1.22-.91 2.26-1.95 2.96v2.5h3.1c1.8-1.7 2.9-4.1 2.9-7.1 0-.7-.05-1.3-.15-2.0z" fill="#4285F4"/><path d="M12 20.5c2.3 0 4.2-.8 5.6-2.1l-3.1-2.5c-.9.6-2 .9-2.5.9-2.3 0-4.2-1.5-4.9-3.6H3.9v2.6c1.4 2.9 4.4 4.7 8.1 4.7z" fill="#34A853"/><path d="M7.1 13.2c-.2-.6-.3-1.2-.3-1.2s.1-.6.3-1.2V8.2H3.9c-.6 1.2-.9 2.5-.9 3.8s.3 2.6.9 3.8l3.2-2.6z" fill="#FBBC05"/><path d="M12 6.5c1.2 0 2.3.4 3.2 1.2l2.4-2.4C16.2 3.9 14.2 3.5 12 3.5 8.3 3.5 5.3 5.3 3.9 8.2l3.2 2.6c.7-2.1 2.6-4.3 4.9-4.3z" fill="#EA4335"/></svg>`,
-            amazon: `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M15.9 12.3c0 1.6-.9 2.6-2.5 2.6-1.4 0-2.1-.8-2.1-1.9 0-1.6 1.2-2.3 3.4-2.3v-.2c0-.6-.3-.9-1.1-.9-.8 0-1.5.3-2.1.8l-.8-1.2c1-.9 2.3-1.3 3.9-1.3 2.1 0 3.3 1.1 3.3 3.3v3.7c0 .9.4 1.3.7 1.3.2 0 .4-.1.6-.2v1.3c-.3.2-.8.3-1.4.3-1 0-1.5-.6-1.5-1.6v-.9zm-1.2-1.4c-1.1 0-1.8.3-1.8 1.1 0 .6.4.9 1.1.9.8 0 1.5-.5 1.5-1.3V10.9z"/><path d="M22 17.5c-4.3 2.4-10.4 3.5-15.3 3.5-3 0-5.5-.4-7.3-1.1-.3-.1-.3-.5 0-.6 2.3-1.1 5.4-1.7 8.6-1.7 4.2 0 9.1 1 13.7 3.3.3.2.3.5 0 .6z"/><path d="M22.7 15.6c-.2-.3-1.3-.2-2.8 0-1.4.2-2.7.5-2.5.8.2.3 1.6-.1 2.7-.3 1-.2 1.9-.2 2.1-.1.2.1.1 1-.2 1.9-.4 1.2-1.3 2.6-1.6 2.8-.2.2 0 .4.2.2 1-.8 2.5-3 2.6-4.2 0-.6-.2-1-.5-1.1z"/></svg>`,
-            xbox: `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M11.2 21.6c-3.6-.5-6.8-2.5-8.7-5.6 1.7-1.3 4.7-2.6 7.4-2.6 1.1 0 2.1.2 2.9.4.5-.7 1.3-1.3 1.5-2.2-.8-.2-1.8-.4-2.8-.4-3.1 0-6.6 1.3-8.6 2.9C1.7 12.8 1.5 11.4 2 10c2-1.8 5.8-3.1 9-3.1.6 0 1.2 0 1.8.1.3-.6.6-1.1.7-1.7-.8 0-1.7-.1-2.5-.1-3.6 0-7.4 1.4-9.3 3.4C3.8 4.7 7.7 2 12 2s8.2 2.7 10.3 6.6c-1.9-2-5.7-3.4-9.3-3.4-.8 0-1.7 0-2.5.1.1.6.4 1.1.7 1.7.6-.1 1.2-.1 1.8-.1 3.2 0 7 1.3 9 3.1.5 1.4.3 2.8-.4 4.1-2-1.6-5.5-2.9-8.6-2.9-1 0-2 .2-2.8.4.2.9 1 1.5 1.5 2.2.8-.2 1.8-.4 2.9-.4 2.7 0 5.7 1.3 7.4 2.6-1.9 3.1-5.1 5.1-8.7 5.6-.2-.3-.5-.7-.8-1.1-.3.4-.6.8-.8 1.1z"/></svg>`,
-            playstation: `<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M23.3 14c-.1-.5-.5-1-1.4-1.4-1-.5-2.6-.9-4.6-1.2-1.9-.3-4.3-.5-6.7-.5-1.1 0-2.2 0-3.3.1V8.2c1.3.1 2.6.2 3.8.4 1.5.2 2.8.5 3.7.8.9.3 1.4.7 1.5 1.2.1.5-.3 1-1.3 1.3-.7.3-1.9.5-3.3.6l-1.3.1c1 .2 2 .3 2.9.5 2 .3 3.5.7 4.3 1.2 1 .5 1.3 1 1.1 1.5-.2.5-.9.8-2.2 1-.9.1-2.3.1-3.9 0l-1.6-.1v2.5c1.4.2 2.7.3 3.9.3 1.9 0 3.5-.2 4.6-.5 1.4-.4 2-1 2.2-1.6.2-.6-.2-1.2-1.4-1.6zm-17.7.9V5.7L2.4 8c-.6.4-.9.9-.9 1.4v8.3l4.1-2.8z"/></svg>`,
-            usdt: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" fill="#26A17B" stroke="none"/><path d="M12 5v5.5m0 3V19m-5-4.5c-.7 0-1.3-.6-1.3-1.3V10.8c0-.7.6-1.3 1.3-1.3h10c.7 0 1.3.6 1.3 1.3v2.4c0 .7-.6 1.3-1.3 1.3H7z" fill="white" stroke="none"/><path d="M12 5v5.5m0 3V19" stroke="white" stroke-width="1.5"/></svg>`,
-            bank: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M3 12h18M8 7V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/></svg>`,
-            chip: `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#FFD700" fill="none"/><circle cx="9" cy="9" r="2" fill="#FFD700"/><circle cx="15" cy="9" r="2" fill="#FFD700"/><circle cx="9" cy="15" r="2" fill="#FFD700"/><circle cx="15" cy="15" r="2" fill="#FFD700"/></svg>`,
-            arrowRight: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`
-        };
-
-        // ==========================================
-        // LOCAL DATABASE ENGINE & APP ARCHITECTURE STATE
-        // ==========================================
-        let appState = {
-            wallet: null,
-            history: [],
-            dailyLog: {},
-            categoryLog: { "App Download": 0, "Email Verify": 0, "Telegram": 0, "Social Follow": 0, "Sign Up": 0, "Survey": 0 },
-            lastSpin: null,
-            dailyLast: null,
-            dailyStreak: 0,
-            theme: "dark",
-            taskLock: null,
-            taskProgress: null
-        };
-
-        // Completed tasks this session (not persisted, will reset on refresh)
-        let completedOfferIds = new Set();
-        let activeCategoryFilter = localStorage.getItem("mp-task-filter") || "All";
-
-        function makeAffiliateCode() {
-            const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-            let code = "";
-            for(let i = 0; i < 6; i++) code += chars.charAt(Math.floor(Math.random() * chars.length));
-            return code;
-        }
-
-        function initStorageEngine() {
-            const stored = localStorage.getItem("mp-state");
-            if (stored) {
-                try {
-                    appState = JSON.parse(stored);
-                    if(!appState.categoryLog) appState.categoryLog = { "App Download": 0, "Email Verify": 0, "Telegram": 0, "Social Follow": 0, "Sign Up": 0, "Survey": 0 };
-                    if(!appState.history) appState.history = [];
-                    if(!appState.dailyLog) appState.dailyLog = {};
-                    if(!appState.taskProgress) appState.taskProgress = null;
-                    if(appState.wallet && !appState.wallet.affiliateCode) {
-                        appState.wallet.affiliateCode = makeAffiliateCode();
-                        if(!appState.wallet.affiliateReferrals) appState.wallet.affiliateReferrals = [];
-                        commitToDisk();
-                    }
-                    // Re-evaluate task progress timers on load
-                    if (appState.taskProgress) {
-                        const now = Date.now();
-                        if (appState.taskProgress.claimExpiry) {
-                            if (now > appState.taskProgress.claimExpiry) {
-                                appState.taskProgress = null;
-                            } else {
-                                setTimeout(() => {
-                                    if (appState.taskProgress && appState.taskProgress.claimExpiry <= Date.now()) {
-                                        appState.taskProgress = null;
-                                        commitToDisk();
-                                        spawnToast("❌ Reward expired. Task lock released.");
-                                        if (window.location.hash === '#/tasks') Router.resolve();
-                                    }
-                                }, appState.taskProgress.claimExpiry - now + 1000);
-                            }
-                        } else {
-                            const elapsed = now - appState.taskProgress.startTime;
-                            const remaining = appState.taskProgress.hiddenDuration - elapsed;
-                            if (remaining <= 0) {
-                                appState.taskProgress.claimExpiry = now + 90000;
-                                setTimeout(() => {
-                                    if (appState.taskProgress && appState.taskProgress.claimExpiry <= Date.now()) {
-                                        appState.taskProgress = null;
-                                        commitToDisk();
-                                        spawnToast("❌ Reward expired. Task lock released.");
-                                        if (window.location.hash === '#/tasks') Router.resolve();
-                                    }
-                                }, 91000);
-                            } else {
-                                setTimeout(() => {
-                                    if (appState.taskProgress) {
-                                        appState.taskProgress.claimExpiry = Date.now() + 90000;
-                                        commitToDisk();
-                                        if (window.location.hash === '#/tasks') Router.resolve();
-                                        setTimeout(() => {
-                                            if (appState.taskProgress && appState.taskProgress.claimExpiry <= Date.now()) {
-                                                appState.taskProgress = null;
-                                                commitToDisk();
-                                                spawnToast("❌ Reward expired. Task lock released.");
-                                                if (window.location.hash === '#/tasks') Router.resolve();
-                                            }
-                                        }, 91000);
-                                    }
-                                }, remaining);
-                            }
-                        }
-                    }
-                } catch(e) {
-                    console.error("Storage corruption detected.", e);
-                }
-            }
-            applyThemeProperties(appState.theme || "dark");
-        }
-
-        function commitToDisk() {
-            localStorage.setItem("mp-state", JSON.stringify(appState));
-        }
-
-        function applyThemeProperties(theme) {
-            appState.theme = theme;
-            const html = document.documentElement;
-            if (theme === "light") {
-                html.classList.add("light");
-                html.classList.remove("dark");
-            } else {
-                html.classList.add("dark");
-                html.classList.remove("light");
-            }
-            commitToDisk();
-        }
-
-        // ==========================================
-        // EVENT EMITTERS & COMPONENT ENGINE
-        // ==========================================
-        function spawnToast(text) {
-            const container = document.getElementById("toast-root");
-            if(!container) return;
-            const el = document.createElement("div");
-            el.className = "toast";
-            el.innerText = text;
-            container.appendChild(el);
-            setTimeout(() => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(-10px)';
-                el.style.transition = 'all 0.3s ease';
-                setTimeout(() => el.remove(), 300);
-            }, 3000);
-        }
-
-        function executeCounterAnimation(targetId, startVal, endVal, prefix = "", postfix = "", divider = 1) {
-            const element = document.getElementById(targetId);
-            if (!element) return;
-            const duration = 600;
-            const startTime = performance.now();
-            function update(now) {
-                const elapsed = now - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const ease = 1 - Math.pow(1 - progress, 3);
-                const current = startVal + (endVal - startVal) * ease;
-                if(divider !== 1) {
-                    element.innerText = prefix + (current / divider).toFixed(2) + postfix;
-                } else {
-                    element.innerText = prefix + Math.floor(current).toLocaleString() + postfix;
-                }
-                if (progress < 1) requestAnimationFrame(update);
-            }
-            requestAnimationFrame(update);
-        }
-
-        function launchConfettiBurst() {
-            const canvas = document.getElementById("confetti-canvas");
-            if(!canvas) return;
-            const ctx = canvas.getContext("2d");
-            canvas.style.display = "block";
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            let particles = [];
-            for (let i = 0; i < 120; i++) {
-                particles.push({
-                    x: canvas.width / 2,
-                    y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 15,
-                    vy: (Math.random() - 0.7) * 18,
-                    size: Math.random() * 6 + 4,
-                    color: ["#00C853", "#FFD700", "#3B82F6", "#FF3B30", "#A855F7"][Math.floor(Math.random() * 5)],
-                    alpha: 1,
-                    decay: Math.random() * 0.015 + 0.01
-                });
-            }
-            function run() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                let alive = false;
-                particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vy += 0.4;
-                    p.alpha -= p.decay;
-                    if (p.alpha > 0) {
-                        alive = true;
-                        ctx.fillStyle = p.color;
-                        ctx.globalAlpha = p.alpha;
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                });
-                if (alive) requestAnimationFrame(run);
-                else canvas.style.display = "none";
-            }
-            requestAnimationFrame(run);
-        }
-
-        function makeMnemonicPhrase() {
-            const words = ["alpha", "bravo", "crypto", "delta", "echo", "foxtrot", "glory", "hazard", "indigo", "joker", "legacy", "matrix", "nexus", "omega", "phantom", "quantum", "radar", "shadow", "titan", "universe", "vector", "whisper", "zenith", "quantum"];
-            let out = [];
-            for(let i=0; i<12; i++) out.push(words[Math.floor(Math.random() * words.length)]);
-            return out.join(" ");
-        }
-
-        function makeRandomId(len, prefix="") {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            let out = prefix;
-            for(let i=0; i<len; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
-            return out;
-        }
-
-        // ==========================================
-        // ROUTER CORE & CONTROLLER ENGINE
-        // ==========================================
-        const Router = {
-            routes: {},
-            add: function(hash, templateFn) { this.routes[hash] = templateFn; },
-            resolve: function() {
-                let currentHash = window.location.hash || '#/';
-                if(currentHash.includes('?')) currentHash = currentHash.split('?')[0];
-                
-                // FIX: If already logged in, never show landing or auth pages again
-                if (appState.wallet && (currentHash === '#/' || currentHash === '#/auth')) {
-                    window.location.hash = '#/dashboard';
-                    return;
-                }
-                
-                const secureRoutes = ['#/dashboard', '#/tasks', '#/games', '#/daily', '#/wallet', '#/profile'];
-                if(secureRoutes.includes(currentHash) && !appState.wallet) {
-                    window.location.hash = '#/auth';
-                    return;
-                }
-                const renderView = this.routes[currentHash] || this.routes['#/'];
-                const appViewport = document.getElementById("app");
-                if (appViewport) {
-                    appViewport.style.animation = 'none';
-                    appViewport.offsetHeight; // trigger reflow
-                    appViewport.style.animation = 'pageEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-                    appViewport.innerHTML = renderView();
-                    this.postRender(currentHash);
-                }
-            },
-            postRender: function(hash) {
-                renderGlobalNavbar(hash);
-                window.scrollTo(0, 0);
-                if (hash === '#/dashboard' || hash === '#/profile') {
-                    renderSystemCharts();
-                }
-                if (hash === '#/games') {
-                    initSpinWheelGraphics();
-                }
-                if (hash === '#/tasks') {
-                    if (appState.taskProgress && appState.taskProgress.claimExpiry) {
-                        const interval = setInterval(() => {
-                            if (window.location.hash !== '#/tasks') { clearInterval(interval); return; }
-                            const btn = document.getElementById("task-claim-btn");
-                            if (btn) {
-                                const remaining = Math.max(0, Math.ceil((appState.taskProgress.claimExpiry - Date.now()) / 1000));
-                                btn.innerText = `Claim ${remaining}s`;
-                                if (remaining <= 0) { clearInterval(interval); Router.resolve(); }
-                            } else {
-                                clearInterval(interval);
-                            }
-                        }, 1000);
-                    }
-                }
-            }
-        };
-
-        function renderGlobalNavbar(currentHash) {
-            const nav = document.getElementById("app-nav");
-            if (!appState.wallet || currentHash === '#/' || currentHash === '#/auth') {
-                nav.style.display = 'none';
-                return;
-            }
-            nav.style.display = 'flex';
-            const schema = [
-                { h: '#/dashboard', n: 'Home', i: `<svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>` },
-                { h: '#/tasks', n: 'Tasks', i: `<svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>` },
-                { h: '#/games', n: 'Games', i: `<svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 10 19.5 10s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>` },
-                { h: '#/daily', n: 'Daily', i: `<svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>` },
-                { h: '#/wallet', n: 'Wallet', i: `<svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>` }
-            ];
-            nav.innerHTML = schema.map(item => `
-                <a href="${item.h}" class="nav-item ${currentHash === item.h ? 'active' : ''}">
-                    ${item.i}
-                    <span>${item.n}</span>
-                </a>
-            `).join("");
-        }
-
-        function getAuthenticatedHeaderFragment() {
-            return `
-                <header class="app-header">
-                    <div class="logo-group">${SVGS.coin} <span>Money Prize</span></div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <a href="#/profile" style="text-decoration: none; color: inherit;">
-                            <div class="glass-card" style="padding: 6px 14px; border-radius:9999px; display:flex; align-items:center; gap:8px;">
-                                <span class="badge badge-green">LVL <span id="hdr-lvl">${appState.wallet.level || 1}</span></span>
-                                <div class="mono" style="font-weight:700; color:var(--green);" id="hdr-bal">${appState.wallet.balance.toLocaleString()} 🪙</div>
-                            </div>
-                        </a>
-                        <a href="#/profile" class="glass-btn" style="min-height:38px; width:38px; padding:0; border-radius:50%; display:flex; align-items:center; justify-content:center;" title="Settings">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        </a>
-                    </div>
-                </header>
-                <div class="vpn-banner">
-                    ${SVGS.vpn}
-                    <span>Warning: Using proxy infrastructure or VPN tunnels will lead to instant termination of assets.</span>
+    <!-- TOP NAVIGATION BAR -->
+    <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 cursor-pointer" @click="currentTab = 'dashboard'">
+                <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20 animate-pulse">
+                    <i data-lucide="ticket" class="w-6 h-6"></i>
                 </div>
-            `;
-        }
+                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
+            </div>
 
-        function executeGlobalRewardCrediting(coinAmt, xpAmt, actionLogLabel, categoryName = null) {
-            if(!appState.wallet) return;
-            const originalBalance = appState.wallet.balance;
-            appState.wallet.balance += coinAmt;
-            appState.wallet.xp += xpAmt;
-            const xpRequirement = (appState.wallet.level || 1) * 500;
-            if(appState.wallet.xp >= xpRequirement) {
-                appState.wallet.xp -= xpRequirement;
-                appState.wallet.level = (appState.wallet.level || 1) + 1;
-                spawnToast(`🎉 Level Up! You reached Level ${appState.wallet.level}!`);
-            }
-            const dateStr = new Date().toISOString().split('T')[0];
-            appState.dailyLog[dateStr] = (appState.dailyLog[dateStr] || 0) + coinAmt;
-            if(categoryName) {
-                appState.categoryLog[categoryName] = (appState.categoryLog[categoryName] || 0) + 1;
-            }
-            appState.history.unshift({
-                type: coinAmt >= 0 ? "Credit" : "Debit",
-                amount: coinAmt,
-                timestamp: new Date().toLocaleTimeString(),
-                label: actionLogLabel
-            });
-            if(appState.history.length > 100) appState.history.pop();
-            commitToDisk();
-            executeCounterAnimation("hdr-bal", originalBalance, appState.wallet.balance, "", " 🪙");
-            const sideBal = document.getElementById("dash-bal-big");
-            if(sideBal) executeCounterAnimation("dash-bal-big", originalBalance, appState.wallet.balance, "");
-            const sideUsd = document.getElementById("dash-usd-big");
-            if(sideUsd) executeCounterAnimation("dash-usd-big", originalBalance, appState.wallet.balance, "$", "", 1000);
-            const lvlHdr = document.getElementById("hdr-lvl");
-            if(lvlHdr) lvlHdr.innerText = appState.wallet.level;
-        }
+            <!-- Global Balance Widget -->
+            <div class="flex items-center gap-4">
+                <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
+                    <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                    <span class="text-sm font-bold text-white tracking-wide" x-text="tokens + ' TKNS'"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        // ==========================================
-        // TASK PROGRESS SYSTEM
-        // ==========================================
-        window.startTask = function(offerId, rewardCoins, title, category, url) {
-            if (appState.taskProgress) {
-                spawnToast("⚠️ Complete your current task first.");
-                return;
-            }
-            const hiddenDuration = Math.floor(Math.random() * (300000 - 120000 + 1)) + 120000;
-            const startTime = Date.now();
-            appState.taskProgress = {
-                offerId,
-                startTime,
-                hiddenDuration,
-                claimExpiry: null
-            };
-            window.open(url, '_blank');
-            commitToDisk();
-            spawnToast("⏳ Task started — complete the required action.");
-            Router.resolve();
-            setTimeout(() => {
-                if (appState.taskProgress && appState.taskProgress.offerId === offerId) {
-                    appState.taskProgress.claimExpiry = Date.now() + 90000;
-                    commitToDisk();
-                    if (window.location.hash === '#/tasks') Router.resolve();
-                    setTimeout(() => {
-                        if (appState.taskProgress && appState.taskProgress.claimExpiry <= Date.now()) {
-                            appState.taskProgress = null;
-                            commitToDisk();
-                            spawnToast("❌ Reward expired. Task lock released.");
-                            if (window.location.hash === '#/tasks') Router.resolve();
-                        }
-                    }, 91000);
-                }
-            }, hiddenDuration);
-        };
-
-        window.claimTaskReward = function() {
-            if (!appState.taskProgress || !appState.taskProgress.claimExpiry) return;
-            const now = Date.now();
-            if (now > appState.taskProgress.claimExpiry) {
-                appState.taskProgress = null;
-                commitToDisk();
-                spawnToast("❌ Reward expired.");
-                Router.resolve();
-                return;
-            }
-            const offer = OFFERS_DATA.find(o => o.id === appState.taskProgress.offerId);
-            if (!offer) return;
-            executeGlobalRewardCrediting(offer.coins, 75, `Task Out: ${offer.title}`, offer.category);
-            appState.wallet.tasksCompleted += 1;
-            if(appState.wallet.tasksCompleted >= 3 && !appState.wallet.cardUnlocked) {
-                appState.wallet.cardUnlocked = true;
-                spawnToast("💳 Virtual Black Card unlocked on the asset ledger!");
-            }
-            // Move to completed
-            completedOfferIds.add(appState.taskProgress.offerId);
-            appState.taskProgress = null;
-            commitToDisk();
-            launchConfettiBurst();
-            spawnToast(`⚡ Success! +${offer.coins} Coins injected.`);
-            Router.resolve();
-        };
-
-        // ==========================================
-        // VIEW VIEWER FUNCTIONS
-        // ==========================================
-        Router.add('#/', () => {
-            return `
-                <header class="app-header">
-                    <div class="logo-group">${SVGS.coin} <span>Money Prize</span></div>
-                    <a href="#/auth" class="glass-btn" style="min-height:38px; padding:0 16px; font-size:14px;">Sign In</a>
-                </header>
-                <section style="text-align: center; padding: 60px 16px 40px 16px;">
-                    <h1 style="font-size: 42px; line-height: 1.1; margin-bottom: 16px;">Download Apps, Verify Emails — <span style="color: var(--green);">Earn Real Cash</span></h1>
-                    <p style="color: var(--muted); font-size: 16px; max-width: 600px; margin: 0 auto 32px auto;">The ultimate high-yield micro-task marketplace. Turn your spare minutes into instant wallet assets securely.</p>
-                    <a href="#/auth" class="glass-btn glass-btn-green" style="width: 100%; max-width: 320px; font-size: 18px; border-color: var(--green);">Start Earning Now</a>
-                </section>
-                <div class="grid-2" style="margin-bottom:32px;">
-                    <div class="glass-card" style="text-align:center;">
-                        <div class="mono" style="font-size:28px; font-weight:800; color:var(--green);">$47,230+</div>
-                        <div style="font-size:12px; color:var(--muted); margin-top:4px;">TOTAL PAID OUT</div>
-                    </div>
-                    <div class="glass-card" style="text-align:center;">
-                        <div class="mono" style="font-size:28px; font-weight:800; color:var(--blue);">12,400+</div>
-                        <div style="font-size:12px; color:var(--muted); margin-top:4px;">ACTIVE WALLETS</div>
-                    </div>
-                </div>
-                <h3 style="margin-bottom:16px;">How It Works</h3>
-                <div class="grid-3" style="margin-bottom: 32px;">
-                    <div class="glass-card">
-                        <div style="font-size:24px; margin-bottom:8px;">🔑</div>
-                        <h4 style="margin-bottom:4px;">1. Create Identity</h4>
-                        <p style="font-size:13px; color:var(--muted);">Deploy an anonymous decentralized secure key matrix wallet.</p>
-                    </div>
-                    <div class="glass-card">
-                        <div style="font-size:24px; margin-bottom:8px;">⚡</div>
-                        <h4 style="margin-bottom:4px;">2. Click Microtasks</h4>
-                        <p style="font-size:13px; color:var(--muted);">Complete app validation matrices or click instant out tasks.</p>
-                    </div>
-                    <div class="glass-card">
-                        <div style="font-size:24px; margin-bottom:8px;">💰</div>
-                        <h4 style="margin-bottom:4px;">3. Instant Cash Out</h4>
-                        <p style="font-size:13px; color:var(--muted);">Liquidate assets via verified financial gateways or crypto lines.</p>
-                    </div>
-                </div>
-                <div class="glass-card" style="margin-bottom:32px; background: linear-gradient(135deg, rgba(0,200,83,0.1), rgba(0,0,0,0)); border-color: rgba(0,200,83,0.2);">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <h4 style="display:flex; align-items:center; gap:8px;">${SVGS.telegram} Join Telegram Pipeline</h4>
-                            <p style="font-size:12px; color:var(--muted); margin-top:4px;">Claim exclusive keycodes, multipliers and server wide gifts.</p>
-                        </div>
-                        <a href="https://t.me" target="_blank" class="glass-btn" style="min-height:36px; padding:0 12px; font-size:12px;">Join Protocol</a>
-                    </div>
-                </div>
-                <div class="glass-card" style="margin-bottom:32px; background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,0,0,0)); border-color: rgba(255,215,0,0.25);">
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                        <span style="font-size:22px;">🤝</span>
-                        <div>
-                            <h4 style="margin-bottom:2px;">Affiliate Program</h4>
-                            <p style="font-size:12px; color:var(--muted);">Earn up to <b style="color:var(--gold);">5,000 Coins</b> per referral</p>
-                        </div>
-                    </div>
-                    <div class="grid-3" style="gap:10px; margin-bottom:16px;">
-                        <div class="glass-card" style="text-align:center; padding:12px 8px;">
-                            <div style="font-size:20px; margin-bottom:4px;">🔗</div>
-                            <div style="font-size:12px; font-weight:700; margin-bottom:2px;">Share Your Link</div>
-                            <div style="font-size:11px; color:var(--muted);">Send to 12+ friends</div>
-                        </div>
-                        <div class="glass-card" style="text-align:center; padding:12px 8px;">
-                            <div style="font-size:20px; margin-bottom:4px;">📲</div>
-                            <div style="font-size:12px; font-weight:700; margin-bottom:2px;">They Download</div>
-                            <div style="font-size:11px; color:var(--muted);">& use your code</div>
-                        </div>
-                        <div class="glass-card" style="text-align:center; padding:12px 8px;">
-                            <div style="font-size:20px; margin-bottom:4px;">⏳</div>
-                            <div style="font-size:12px; font-weight:700; margin-bottom:2px;">They Stay 15 Days</div>
-                            <div style="font-size:11px; color:var(--muted);">You get 5,000 🪙</div>
-                        </div>
-                    </div>
-                    <a href="#/auth" class="glass-btn" style="width:100%; border-color:var(--gold); color:var(--gold);">Get My Affiliate Code — Sign Up</a>
-                </div>
-                <div class="glass-card" style="padding: 12px 16px;">
-                    <div style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--muted); margin-bottom:8px;">Live Withdrawal Stream</div>
-                    <div class="marquee-box">
-                        <div class="marquee-content">
-                            <span style="margin-right:24px;" class="mono"><b style="color:var(--green);">MP-4a9f31</b> won +150 🪙</span>
-                            <span style="margin-right:24px;" class="mono"><b style="color:var(--green);">MP-90d2ef</b> liquidated $20.00 via PayPal</span>
-                            <span style="margin-right:24px;" class="mono"><b style="color:var(--green);">MP-bc21a8</b> won +500 🪙</span>
-                            <span style="margin-right:24px;" class="mono"><b style="color:var(--green);">MP-34721a</b> liquidated $50.00 via USDT</span>
-                            <span style="margin-right:24px;" class="mono"><b style="color:var(--green);">MP-4a9f31</b> won +150 🪙</span>
-                            <span style="margin-right:24px;" class="mono"><b style="color:var(--green);">MP-90d2ef</b> liquidated $20.00 via PayPal</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-
-        Router.add('#/auth', () => {
-            setTimeout(() => switchAuthTab('create'), 5);
-            return `
-                <header class="app-header">
-                    <div class="logo-group">${SVGS.coin} <span>Money Prize Protocol</span></div>
-                    <a href="#/" class="glass-btn" style="min-height:34px; padding:0 12px; font-size:12px;">Back</a>
-                </header>
-                <div class="glass-card" style="max-width: 450px; margin: 40px auto 0 auto;">
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:20px; background:rgba(0,0,0,0.2); padding:4px; border-radius:9999px;">
-                        <button class="glass-btn" id="btn-tab-create" style="box-shadow:none; border:none; min-height:38px;" onclick="switchAuthTab('create')">New Wallet</button>
-                        <button class="glass-btn" id="btn-tab-signin" style="box-shadow:none; border:none; min-height:38px;" onclick="switchAuthTab('signin')">Access Key</button>
-                    </div>
-                    <div id="auth-flow-target"></div>
-                </div>
-            `;
-        });
-
-        window.switchAuthTab = function(tabName) {
-            const flowBox = document.getElementById("auth-flow-target");
-            const btnCreate = document.getElementById("btn-tab-create");
-            const btnSignin = document.getElementById("btn-tab-signin");
-            if(!flowBox) return;
-            if(tabName === 'create') {
-                btnCreate.style.background = 'var(--glass-bg)';
-                btnCreate.style.borderColor = 'var(--glass-border)';
-                btnSignin.style.background = 'transparent';
-                flowBox.innerHTML = `
-                    <h3 style="margin-bottom:6px;">Initialize Identity Matrix</h3>
-                    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">No processing forms required. Enter a secure network alias.</p>
-                    <div style="margin-bottom:16px;">
-                        <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px; color:var(--muted);">USERNAME ALIAS</label>
-                        <input type="text" id="auth-username" class="glass-input" placeholder="Min 5 Alphanumerics...">
-                    </div>
-                    <button class="glass-btn glass-btn-green" style="width:100%; border-color:var(--green);" onclick="processIdentityCreation()">Generate Secure Ledger</button>
-                `;
-            } else {
-                btnSignin.style.background = 'var(--glass-bg)';
-                btnSignin.style.borderColor = 'var(--glass-border)';
-                btnCreate.style.background = 'transparent';
-                flowBox.innerHTML = `
-                    <h3 style="margin-bottom:6px;">Sync Secure Keys</h3>
-                    <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">Provide Security Key Matrix or Seed Mnemonic to restore.</p>
-                    <div style="margin-bottom:16px;">
-                        <label style="display:block; font-size:12px; font-weight:700; margin-bottom:6px; color:var(--muted);">KEY SYNC ARRAY</label>
-                        <textarea id="auth-key-input" class="glass-input" style="min-height:90px; resize:none;" placeholder="Paste private alphanumeric strings or 12 words seed..."></textarea>
-                    </div>
-                    <button class="glass-btn" style="width:100%;" onclick="processKeySynchronization()">Authorize Matrix Session</button>
-                `;
-            }
-        };
-        window.processIdentityCreation = function() {
-            const userBox = document.getElementById("auth-username");
-            if(!userBox) return;
-            const userVal = userBox.value.trim();
-            if(userVal.length < 5) {
-                spawnToast("⚠️ Security validation failed: Alias must be 5+ characters.");
-                return;
-            }
-            const profileId = makeRandomId(6, "MP-");
-            const secKey = makeRandomId(32);
-            const seedPhrase = makeMnemonicPhrase();
-            const flowBox = document.getElementById("auth-flow-target");
-            flowBox.innerHTML = `
-                <h3 style="color:var(--gold); margin-bottom:4px;">⚠️ Secure Ledger Generated</h3>
-                <p style="font-size:12px; color:var(--muted); margin-bottom:16px;">Backup these security tokens immediately. This node cannot reconstruct lost records.</p>
-                <div class="glass-card" style="padding:12px; margin-bottom:12px; background:rgba(0,0,0,0.3);">
-                    <div style="font-size:11px; font-weight:700; color:var(--muted);">SECURITY SYSTEM SHA-32 KEY</div>
-                    <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
-                        <input type="password" id="sys-k-1" class="mono" style="background:none; border:none; color:#fff; width:100%; font-size:12px;" value="${secKey}" readonly />
-                        <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px;" onclick="toggleFieldMask('sys-k-1')">VIEW</button>
-                        <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px;" onclick="copyValueToClipboard('${secKey}')">COPY</button>
-                    </div>
-                </div>
-                <div class="glass-card" style="padding:12px; margin-bottom:16px; background:rgba(0,0,0,0.3);">
-                    <div style="font-size:11px; font-weight:700; color:var(--muted);">12-WORDS RECOVERY PROTOCOL</div>
-                    <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
-                        <input type="password" id="sys-k-2" class="mono" style="background:none; border:none; color:#fff; width:100%; font-size:12px;" value="${seedPhrase}" readonly />
-                        <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px;" onclick="toggleFieldMask('sys-k-2')">VIEW</button>
-                        <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px;" onclick="copyValueToClipboard('${seedPhrase}')">COPY</button>
-                    </div>
-                </div>
-                <label style="display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); margin-bottom:16px; cursor:pointer;">
-                    <input type="checkbox" id="auth-confirm-chk" onchange="document.getElementById('btn-finalize-auth').disabled = !this.checked">
-                    I have physically written down my recovery arrays securely.
-                </label>
-                <button class="glass-btn glass-btn-green" id="btn-finalize-auth" style="width:100%; border-color:var(--green);" disabled onclick="finalizeSystemInitialization('${userVal}','${profileId}','${secKey}','${seedPhrase}')">Enter Core Dashboard</button>
-            `;
-        };
-        window.toggleFieldMask = function(id) {
-            const el = document.getElementById(id);
-            if(el) el.type = el.type === 'password' ? 'text' : 'password';
-        };
-        window.copyValueToClipboard = function(txt) {
-            navigator.clipboard.writeText(txt);
-            spawnToast("📋 Text successfully stored to native clipboard.");
-        };
-        window.finalizeSystemInitialization = function(u, pid, sk, rk) {
-            if (appState.wallet) {
-                spawnToast("⚠️ Active session detected. Sign out first to create a new identity.");
-                return;
-            }
-            appState.wallet = {
-                username: u,
-                profileId: pid,
-                securityKey: sk,
-                recoveryKey: rk,
-                balance: 80,
-                xp: 0,
-                level: 1,
-                tasksCompleted: 0,
-                cardUnlocked: false,
-                joinDate: new Date().toLocaleDateString(),
-                affiliateCode: makeAffiliateCode(),
-                affiliateReferrals: []
-            };
-            commitToDisk();
-            spawnToast("🎉 Identity authorized. Welcome to Money Prize Matrix.");
-            window.location.hash = '#/dashboard';
-        };
-        window.processKeySynchronization = function() {
-            const keyBox = document.getElementById("auth-key-input");
-            if(!keyBox) return;
-            const rawKey = keyBox.value.trim();
-            if(!rawKey) {
-                spawnToast("⚠️ Access Denied: Field signature can't be empty.");
-                return;
-            }
-            // FIX: Validate against existing stored wallet instead of overwriting with fake data
-            if (appState.wallet) {
-                if (rawKey === appState.wallet.securityKey || rawKey === appState.wallet.recoveryKey) {
-                    spawnToast("🔄 Identity array synced successfully.");
-                    window.location.hash = '#/dashboard';
-                    return;
-                } else {
-                    spawnToast("⚠️ Access Denied: Key signature mismatch.");
-                    return;
-                }
-            }
-            spawnToast("⚠️ No localized identity matrix found. Create a new wallet first.");
-        };
-
-        Router.add('#/dashboard', () => {
-            const wallet = appState.wallet;
-            const xpReq = wallet.level * 500;
-            const xpPct = Math.min((wallet.xp / xpReq) * 100, 100);
-            let activityRows = `<tr><td colspan="3" style="text-align:center; padding:12px; font-size:12px; color:var(--muted);">No execution records compiled yet.</td></tr>`;
-            if (appState.history && appState.history.length > 0) {
-                activityRows = appState.history.slice(0, 5).map(h => `
-                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                        <td style="padding:10px 0; font-size:13px;">${h.label}</td>
-                        <td style="padding:10px 0; font-size:11px; color:var(--muted);">${h.timestamp}</td>
-                        <td style="padding:10px 0; font-size:13px; text-align:right; font-weight:700; color:${h.amount >= 0 ? 'var(--green)':'var(--red)'}">${h.amount >= 0 ? '+':''}${h.amount}</td>
-                    </tr>
-                `).join("");
-            }
-            return `
-                ${getAuthenticatedHeaderFragment()}
-                <div class="glass-card" style="margin-bottom:20px; background:linear-gradient(135deg, rgba(59,130,246,0.1), rgba(0,0,0,0));">
-                    <div style="font-size:14px; color:var(--muted);">Operational Node</div>
-                    <h2 style="font-size:24px; margin-bottom:8px;">Welcome back, ${wallet.username}</h2>
-                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
-                        <span class="badge badge-blue">LEVEL ${wallet.level}</span>
-                        <span style="font-size:12px; color:var(--muted);">${wallet.xp} / ${xpReq} XP</span>
-                    </div>
-                    <div class="progress-track"><div class="progress-fill" style="width: ${xpPct}%; background:var(--blue);"></div></div>
-                </div>
-                <div class="glass-card" style="text-align:center; padding:32px 16px; margin-bottom:20px; position:relative; overflow:hidden;">
-                    <div style="position:absolute; top:-50px; left:-50px; width:150px; height:150px; background:var(--gold); opacity:0.05; filter:blur(40px); border-radius:50%;"></div>
-                    <div style="font-size:13px; font-weight:700; text-transform:uppercase; color:var(--muted); letter-spacing:0.05em;">Total Managed Balance</div>
-                    <h1 class="mono" style="font-size:48px; font-weight:800; color:var(--gold); margin:6px 0;" id="dash-bal-big">${wallet.balance.toLocaleString()}</h1>
-                    <div class="mono" style="font-size:16px; color:var(--muted);" id="dash-usd-big">$${(wallet.balance/1000).toFixed(2)} USD</div>
-                    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-top:24px;">
-                        <a href="#/tasks" class="glass-btn" style="padding:0; min-height:40px; font-size:11px;">Tasks</a>
-                        <a href="#/daily" class="glass-btn" style="padding:0; min-height:40px; font-size:11px;">Claim</a>
-                        <a href="#/games" class="glass-btn" style="padding:0; min-height:40px; font-size:11px;">Spin</a>
-                        <a href="#/wallet" class="glass-btn" style="padding:0; min-height:40px; font-size:11px;">Cash</a>
-                    </div>
-                </div>
-                <h3 style="margin-bottom:12px;">Performance Metrics</h3>
-                <div class="grid-3" style="margin-bottom:24px;">
-                    <div class="glass-card">
-                        <div style="font-size:12px; color:var(--muted);">Tasks Executed</div>
-                        <div class="mono" style="font-size:24px; font-weight:700; margin-top:4px;">${wallet.tasksCompleted}</div>
-                    </div>
-                    <div class="glass-card">
-                        <div style="font-size:12px; color:var(--muted);">System Security</div>
-                        <div style="font-size:14px; font-weight:700; margin-top:10px; color:var(--green); display:flex; align-items:center; gap:4px;">
-                            <span style="display:inline-block; width:8px; height:8px; background:var(--green); border-radius:50%;"></span> Active Node
-                        </div>
-                    </div>
-                    <div class="glass-card">
-                        <div style="font-size:12px; color:var(--muted);">Identity Signature</div>
-                        <div class="mono" style="font-size:14px; font-weight:700; margin-top:10px; overflow:hidden; text-overflow:ellipsis;">${wallet.profileId}</div>
-                    </div>
-                </div>
-                <div class="grid-2" style="margin-bottom:24px;">
-                    <div class="glass-card">
-                        <h4 style="font-size:14px; margin-bottom:10px;">Yield Velocity (Last 7 Days)</h4>
-                        <div class="canvas-container"><canvas id="chart-yield" width="400" height="180"></canvas></div>
-                    </div>
-                    <div class="glass-card">
-                        <h4 style="font-size:14px; margin-bottom:10px;">Category Asset Densities</h4>
-                        <div class="canvas-container"><canvas id="chart-categories" width="400" height="180"></canvas></div>
-                    </div>
-                </div>
-                <div class="glass-card" style="margin-bottom:16px;">
-                    <h4 style="margin-bottom:12px; font-size:15px;">Recent Node Mutations</h4>
-                    <table style="width:100%; border-collapse:collapse;">
-                        <thead>
-                            <tr style="border-bottom:1px solid var(--glass-border); text-align:left; font-size:11px; color:var(--muted);">
-                                <th style="padding-bottom:6px;">MUTATION DESCR</th>
-                                <th style="padding-bottom:6px;">TIMESTAMP</th>
-                                <th style="padding-bottom:6px; text-align:right;">ASSET REF</th>
-                            </tr>
-                        </thead>
-                        <tbody>${activityRows}</tbody>
-                    </table>
-                </div>
-                <h3 style="margin-bottom:12px;">Global Node Leaderboard</h3>
-                <div class="glass-card" style="padding:0 16px;">
-                    <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--glass-border); font-size:13px; font-weight:700; color:gold;">
-                        <span>👑 1. MP-x91f32</span><span class="mono">94,320 🪙</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--glass-border); font-size:13px; font-weight:700; color:silver;">
-                        <span>🥈 2. MP-84da12</span><span class="mono">81,100 🪙</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--glass-border); font-size:13px; font-weight:700; color:#CD7F32;">
-                        <span>🥉 3. MP-01e9bb</span><span class="mono">75,430 🪙</span>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; background:rgba(0,200,83,0.1); margin:4px -16px; padding:12px 16px;">
-                        <span>⭐ ${wallet.tasksCompleted >= 3 ? '🎖️' : ''} You (${wallet.username})</span><span class="mono" style="font-weight:700; color:var(--green);">${wallet.balance.toLocaleString()} 🪙</span>
-                    </div>
-                </div>
-            `;
-        });
-
-        // Tasks with progress/locking and completed section
-        Router.add('#/tasks', () => {
-            if(!window.viewTickerBound) {
-                window.viewTickerBound = true;
-                setInterval(() => {
-                    const viewBadges = document.querySelectorAll('.task-view-cnt');
-                    viewBadges.forEach(b => {
-                        let cur = parseInt(b.innerText);
-                        const deltas = [-1, 1, 3, 5];
-                        cur += deltas[Math.floor(Math.random() * deltas.length)];
-                        if(cur < 100) cur = 500;
-                        b.innerText = cur;
-                    });
-                }, 2000);
-            }
-            const categories = ["All", "App Download", "Email Verify", "Telegram", "Social Follow", "Sign Up", "Survey"];
-            const filterPills = categories.map(cat => `
-                <button class="glass-btn" style="min-height:34px; padding:0 14px; font-size:12px; flex-shrink:0; background:${activeCategoryFilter === cat ? 'var(--green)':'var(--glass-bg)'}; color:${activeCategoryFilter === cat ? '#fff':'var(--text-main)'}; border-color:${activeCategoryFilter === cat ? 'var(--green)':'var(--glass-border)'};" onclick="setTaskCategoryFilter('${cat}')">${cat}</button>
-            `).join("");
-
-            const activeOfferId = appState.taskProgress ? appState.taskProgress.offerId : null;
-            const dynamicFilteredOffers = OFFERS_DATA.filter(o => activeCategoryFilter === "All" || o.category === activeCategoryFilter);
+    <!-- MAIN APPS LAYOUT -->
+    <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-24 lg:pb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
-            // Keep active task in the list — only filter out completed tasks
-            const available = dynamicFilteredOffers.filter(o => !completedOfferIds.has(o.id));
-            const completed = dynamicFilteredOffers.filter(o => completedOfferIds.has(o.id));
-
-            const renderCard = (offer) => {
-                const isActive = offer.id === activeOfferId;
-                const isCompleted = completedOfferIds.has(offer.id);
-                const hasActiveTask = appState.taskProgress !== null;
-                let specialClass = '';
-                let extraContent = '';
-                let badgeHtml = '';
-                let clickAction = '';
-
-                // Task popularity/tier banner
-                let tierBanner = '';
-                if (!isActive && !isCompleted) {
-                    if (offer.coins >= 430) {
-                        tierBanner = `<div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,#FFD700,#FF9500); color:#000; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 0; border-radius:16px 16px 0 0; text-transform:uppercase;">🔥 HOT · Top Reward</div>`;
-                        specialClass += ' task-hot';
-                    } else if (offer.views >= 3000) {
-                        tierBanner = `<div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,#3B82F6,#7C3AED); color:#fff; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 0; border-radius:16px 16px 0 0; text-transform:uppercase;">⭐ POPULAR</div>`;
-                    } else if (offer.coins >= 200) {
-                        tierBanner = `<div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,rgba(0,200,83,0.85),rgba(0,200,83,0.5)); color:#fff; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.08em; padding:3px 0; border-radius:16px 16px 0 0; text-transform:uppercase;">✅ HIGH VALUE</div>`;
-                    }
-                }
-                const hasTierBanner = tierBanner !== '';
-
-                // SVG eye icon (not emoji)
-                const eyeSvg = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:3px; opacity:0.6;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-
-                // Star rating based on coins
-                const ratingStars = Math.min(5, Math.max(1, Math.round((offer.coins / 500) * 5)));
-                const starsHtml = Array.from({length:5}, (_,i) =>
-                    `<svg viewBox="0 0 24 24" width="10" height="10" fill="${i < ratingStars ? '#FFD700' : 'none'}" stroke="#FFD700" stroke-width="2" style="display:inline-block;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
-                ).join('');
-
-                if (isActive) {
-                    specialClass += ' task-active-card';
-                    if (appState.taskProgress && appState.taskProgress.claimExpiry) {
-                        const remaining = Math.max(0, Math.ceil((appState.taskProgress.claimExpiry - Date.now()) / 1000));
-                        extraContent = `<button id="task-claim-btn" class="glass-btn glass-btn-green" style="min-height:28px; padding:0 10px; font-size:11px;" onclick="event.stopPropagation(); claimTaskReward();">Claim ${remaining}s</button>`;
-                    } else {
-                        extraContent = `<span class="loading-dots"><span></span><span></span><span></span></span>`;
-                    }
-                    badgeHtml = `
-                        <div style="position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,var(--green),#00a844); color:#000; text-align:center; font-size:10px; font-weight:800; letter-spacing:0.1em; padding:4px 0; border-radius:16px 16px 0 0; display:flex; align-items:center; justify-content:center; gap:6px;">
-                            <span class="loading-dots" style="display:inline-flex; gap:3px;"><span style="width:5px;height:5px;border-radius:50%;background:#000;"></span><span style="width:5px;height:5px;border-radius:50%;background:#000;"></span><span style="width:5px;height:5px;border-radius:50%;background:#000;"></span></span>
-                            IN PROGRESS
-                        </div>
-                        <button class="glass-btn" style="position:absolute; bottom:12px; right:12px; min-height:26px; padding:0 10px; font-size:11px; border-radius:8px; border-color:var(--green); color:var(--green);" onclick="event.stopPropagation(); window.open('${offer.url}', '_blank');" title="Resume Task">Resume ➔</button>
-                    `;
-                    clickAction = `window.open('${offer.url}','_blank')`;
-                } else if (isCompleted) {
-                    specialClass += ' completed-card';
-                    extraContent = '✓ Done';
-                    clickAction = '';
-                } else {
-                    extraContent = `+${offer.coins} 🪙`;
-                    if (hasActiveTask) {
-                        specialClass += ' locked';
-                    }
-                    clickAction = `openTaskDetailModal(${offer.id})`;
-                }
-
-                const topPad = (hasTierBanner || isActive) ? 'padding-top:28px;' : '';
-                return `
-                    <div class="glass-card glass-card-hover task-card ${specialClass.trim()}" style="display:flex; flex-direction:column; justify-content:space-between; cursor:${isActive || isCompleted ? 'default' : 'pointer'}; position:relative; overflow:hidden; ${topPad}" onclick="${clickAction}">
-                        ${tierBanner}
-                        ${badgeHtml}
-                        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:6px;">
-                            <span class="badge badge-blue" style="font-size:10px;">${offer.category}</span>
-                            <span style="font-size:11px; color:var(--muted); display:flex; align-items:center;">${eyeSvg}<span class="task-view-cnt">${offer.views}</span></span>
-                        </div>
-                        <div style="margin-bottom:4px;">${starsHtml}</div>
-                        <h4 style="font-size:14px; line-height:1.2; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${offer.title}</h4>
-                        <p style="font-size:12px; color:var(--muted); margin-bottom:12px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${offer.desc}</p>
-                        <div style="margin-top:auto; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:11px; color:var(--muted);">${offer.time}</span>
-                            <div class="mono" style="font-weight:700; color:${isCompleted ? 'var(--green)' : 'var(--green)'}; font-size:14px;">${extraContent}</div>
-                        </div>
-                    </div>
-                `;
-            };
-
-            let availableCardsHtml = available.map(o => renderCard(o)).join('');
-            let completedCardsHtml = completed.length ? `
-                <h3 style="margin-top:24px; margin-bottom:12px;">✅ Completed Today</h3>
-                <div class="grid-2" style="gap:12px;">
-                    ${completed.map(o => renderCard(o)).join('')}
-                </div>
-            ` : '';
-
-            return `
-                ${getAuthenticatedHeaderFragment()}
-                <h3 style="margin-bottom:4px;">Complete Operational Microtasks</h3>
-                <p style="font-size:12px; color:var(--red); margin-bottom:12px;">⚠️ Complete tasks honestly. Using false information or bots may lead to suspension.</p>
-                <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; -webkit-overflow-scrolling:touch; scrollbar-width:none;">
-                    ${filterPills}
-                </div>
-                <div class="grid-2" style="gap:12px;">
-                    ${availableCardsHtml}
-                </div>
-                ${completedCardsHtml}
-            `;
-        });
-        window.setTaskCategoryFilter = function(cat) {
-            activeCategoryFilter = cat;
-            localStorage.setItem("mp-task-filter", cat);
-            Router.resolve();
-        };
-        window.openTaskDetailModal = function(offerId) {
-            const offer = OFFERS_DATA.find(o => o.id === offerId);
-            if (!offer) return;
-            const modalHtml = `
-                <div class="glass-card modal-content" style="background:var(--nav-bg); border-color:rgba(255,255,255,0.12);">
-                    <h3 style="margin-bottom:8px; font-size:18px;">${offer.title}</h3>
-                    <p style="font-size:14px; color:var(--text-sub); line-height:1.4; margin-bottom:12px;">${offer.desc}</p>
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                        <span class="badge badge-blue">${offer.category}</span>
-                        <span style="font-size:13px; color:var(--muted);">${offer.time}</span>
-                    </div>
-                    <p style="font-size:12px; color:var(--red); margin-bottom:16px;">⚠️ Complete the task honestly. Using false information or bots may lead to account suspension.</p>
-                    <div style="display:flex; justify-content:end; gap:8px;">
-                        <button class="glass-btn" onclick="this.closest('.modal-overlay').remove()" style="min-height:36px; padding:0 16px; font-size:12px;">Cancel</button>
-                        <button class="glass-btn glass-btn-green" style="min-height:36px; padding:0 16px; font-size:12px; border-color:var(--green);" onclick="startTask(${offer.id}, ${offer.coins}, '${offer.title.replace(/'/g,"\\'")}', '${offer.category}', '${offer.url}'); this.closest('.modal-overlay').remove();">Start Task</button>
-                    </div>
-                </div>`;
-            const overlay = document.createElement("div");
-            overlay.className = "modal-overlay";
-            overlay.innerHTML = modalHtml;
-            document.body.appendChild(overlay);
-        };
-
-        // Games
-        let wheelIsSpinning = false;
-        const SPIN_WHEEL_SEGMENTS = [5, 10, 25, 50, 100, 150, 200, 500];
-        Router.add('#/games', () => {
-            const lastSpinDate = appState.lastSpin;
-            const todayStr = new Date().toISOString().split('T')[0];
-            const isFree = lastSpinDate !== todayStr;
-            let spinHistoryRows = `<div><p style="text-align:center; font-size:12px; color:var(--muted); padding:10px;">No historical draw frames compiled yet.</p></div>`;
-            const spinHistories = appState.history.filter(h => h.label.startsWith("Lucky Spin Wheel"));
-            if(spinHistories.length > 0) {
-                spinHistoryRows = spinHistories.slice(0, 5).map(h => `
-                    <div style="display:flex; justify-content:space-between; font-size:13px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
-                        <span style="color:var(--muted);">${h.timestamp}</span>
-                        <span class="mono" style="font-weight:700; color:var(--green);">${h.amount >= 0 ? '+':''}${h.amount} Coins</span>
-                    </div>
-                `).join("");
-            }
-            return `
-                ${getAuthenticatedHeaderFragment()}
-                <h3 style="text-align:center; margin-bottom:4px;">Quantum Lucky Spin</h3>
-                <p style="text-align:center; font-size:12px; color:var(--muted); margin-bottom:16px;">1 Daily Free Allocation. Extra spins execution fee: 50 Coins.</p>
-                <div style="display:flex; flex-direction:column; align-items:center; margin-bottom:24px;">
-                    <div style="position:relative; width:280px; height:280px; margin-bottom:20px;">
-                        <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); z-index:100; width:0; height:0; border-left:14px solid transparent; border-right:14px solid transparent; border-top:18px solid var(--red); filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></div>
-                        <canvas id="wheel-canvas" width="280" height="280" style="border-radius:50%; box-shadow:0 10px 30px rgba(0,0,0,0.5); transform: rotate(0deg); transition: transform 4s cubic-bezier(0.1, 0.8, 0.25, 1);"></canvas>
-                    </div>
-                    <button class="glass-btn glass-btn-green" id="btn-spin-execution" style="width:100%; max-width:240px; border-color:var(--green);" onclick="triggerSpinWheelExecution()">
-                        ${isFree ? 'SPIN NOW (FREE)' : 'SPIN FOR 50 🪙'}
+            <!-- DESKTOP SIDEBAR NAVIGATION -->
+            <aside class="hidden lg:block space-y-2">
+                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl space-y-1">
+                    <p class="text-xs font-bold text-zinc-500 px-3 uppercase tracking-wider mb-3">Navigation</p>
+                    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                    </button>
+                    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                        <i data-lucide="clipboard-list" class="w-5 h-5"></i> Available Tasks
+                    </button>
+                    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                        <i data-lucide="coins" class="w-5 h-5"></i> Convert & Withdraw
+                    </button>
+                    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                        <i data-lucide="users" class="w-5 h-5"></i> Invite Friends
+                    </button>
+                    <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                        <i data-lucide="shield-alert" class="w-5 h-5"></i> Platform Rules
                     </button>
                 </div>
-                <div class="glass-card">
-                    <h4 style="font-size:14px; margin-bottom:10px;">Your Spin Activity Matrices</h4>
-                    ${spinHistoryRows}
-                </div>
-            `;
-        });
-        function initSpinWheelGraphics() {
-            const canvas = document.getElementById("wheel-canvas");
-            if(!canvas) return;
-            const ctx = canvas.getContext("2d");
-            const w = canvas.width;
-            const h = canvas.height;
-            const r = w / 2;
-            const segAngle = (Math.PI * 2) / 8;
-            const colors = ["#00C853", "#FFD700", "#3B82F6", "#FF3B30", "#00C853", "#FFD700", "#3B82F6", "#FF3B30"];
-            ctx.clearRect(0, 0, w, h);
-            for(let i=0; i<8; i++) {
-                const angle = i * segAngle;
-                ctx.fillStyle = colors[i];
-                ctx.beginPath();
-                ctx.moveTo(r, r);
-                ctx.arc(r, r, r - 4, angle, angle + segAngle);
-                ctx.closePath();
-                ctx.fill();
-                ctx.strokeStyle = "rgba(255,255,255,0.15)";
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-                ctx.save();
-                ctx.fillStyle = "#FFFFFF";
-                ctx.font = "bold 14px 'Sora', sans-serif";
-                ctx.textAlign = "right";
-                ctx.textBaseline = "middle";
-                ctx.translate(r, r);
-                ctx.rotate(angle + segAngle / 2);
-                ctx.fillText(SPIN_WHEEL_SEGMENTS[i].toString(), r - 25, 0);
-                ctx.restore();
-            }
-            ctx.fillStyle = "#121214";
-            ctx.beginPath();
-            ctx.arc(r, r, 20, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.strokeStyle = "rgba(255,255,255,0.2)";
-            ctx.stroke();
-        }
-        window.triggerSpinWheelExecution = function() {
-            if(wheelIsSpinning) return;
-            const todayStr = new Date().toISOString().split('T')[0];
-            const isFree = appState.lastSpin !== todayStr;
-            if(!isFree && appState.wallet.balance < 50) {
-                spawnToast("⚠️ Operations halted: Insufficient coin assets for spinning payload.");
-                return;
-            }
-            wheelIsSpinning = true;
-            const btn = document.getElementById("btn-spin-execution");
-            if(btn) btn.disabled = true;
-            if(!isFree) {
-                appState.wallet.balance -= 50;
-                appState.history.unshift({
-                    type: "Debit", amount: -50, timestamp: new Date().toLocaleTimeString(), label: "Lucky Spin Processing Overhaul Fee"
-                });
-                commitToDisk();
-            }
-            const targetSegmentIdx = Math.floor(Math.random() * 8);
-            const rewardValue = SPIN_WHEEL_SEGMENTS[targetSegmentIdx];
-            const segmentDegrees = 360 / 8;
-            const targetRotationOffset = 270 - (targetSegmentIdx * segmentDegrees) - (segmentDegrees / 2);
-            const completeRots = 360 * 5;
-            const absoluteFinalDegs = completeRots + targetRotationOffset;
-            const wheelCanvas = document.getElementById("wheel-canvas");
-            if(wheelCanvas) {
-                wheelCanvas.style.transform = `rotate(${absoluteFinalDegs}deg)`;
-            }
-            setTimeout(() => {
-                appState.lastSpin = todayStr;
-                executeGlobalRewardCrediting(rewardValue, 50, `Lucky Spin Wheel: ${rewardValue} Coins`);
-                renderModalPromptContainer(`🎉 Matrix Allocation Won`, `You landed on slot segment giving you <b style="color:var(--green); font-size:18px;">+${rewardValue} Coins</b> seamlessly.`, () => {
-                    wheelIsSpinning = false;
-                    window.location.reload();
-                });
-                launchConfettiBurst();
-            }, 4100);
-        };
 
-        Router.add('#/daily', () => {
-            const todayStr = new Date().toISOString().split('T')[0];
-            const lastClaim = appState.dailyLast;
-            const currentStreak = appState.dailyStreak || 0;
-            let isClaimedToday = lastClaim === todayStr;
-            const dailyRewards = [5, 10, 20, 35, 50, 75, 100];
-            let evaluatedStreak = currentStreak;
-            if(lastClaim) {
-                const lastClaimDate = new Date(lastClaim);
-                const todayDate = new Date(todayStr);
-                const diffTime = Math.abs(todayDate - lastClaimDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                if(diffDays > 1 && lastClaim !== todayStr) {
-                    evaluatedStreak = 0;
-                    appState.dailyStreak = 0;
-                    commitToDisk();
-                }
-            }
-            let calendarGridHtml = "";
-            for(let i=0; i<7; i++) {
-                let statusStyle = "";
-                let subText = `Day ${i+1}`;
-                let labelSymbol = `${dailyRewards[i]}🪙`;
-                if(i < evaluatedStreak) {
-                    statusStyle = "background:rgba(0,200,83,0.15); border-color:var(--green); color:var(--green);";
-                    labelSymbol = "✓";
-                } else if(i === evaluatedStreak && !isClaimedToday) {
-                    statusStyle = "border-color:var(--gold); box-shadow: 0 0 12px rgba(255,215,0,0.4); animation: pulse 1.5s infinite linear;";
-                } else {
-                    statusStyle = "opacity:0.4;";
-                }
-                calendarGridHtml += `
-                    <div class="glass-card" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 6px; ${statusStyle}">
-                        <span style="font-size:11px; font-weight:700; margin-bottom:4px; color:var(--muted);">${subText}</span>
-                        <span class="mono" style="font-size:13px; font-weight:800;">${labelSymbol}</span>
-                    </div>
-                `;
-            }
-            return `
-                ${getAuthenticatedHeaderFragment()}
-                <h3 style="margin-bottom:4px;">Daily Calendar Rewards</h3>
-                <p style="font-size:12px; color:var(--muted); margin-bottom:20px;">Maintain chronological sequential daily logins to maximize yield payouts.</p>
-                <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:10px; margin-bottom:20px;">
-                    ${calendarGridHtml}
+                <!-- Anti-Cheat Info Banner -->
+                <div class="bg-gradient-to-b from-zinc-950 to-zinc-900 border border-zinc-900 p-4 rounded-2xl text-center">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500 mx-auto mb-2"></i>
+                    <h4 class="text-sm font-semibold text-white">System Secure</h4>
+                    <p class="text-xs text-zinc-500 mt-1">VPN detection active. Play honest, get paid instantly.</p>
                 </div>
-                <div class="glass-card" style="text-align:center; margin-bottom:20px;">
-                    <div style="font-size:13px; color:var(--muted);">Active Verification Streak</div>
-                    <h2 class="mono" style="font-size:32px; color:var(--green);">${evaluatedStreak} Days</h2>
-                </div>
-                <button class="glass-btn glass-btn-green" id="btn-claim-daily" style="width:100%; border-color:var(--green);" ${isClaimedToday ? 'disabled':''} onclick="dispatchDailyGiftClaim(${dailyRewards[evaluatedStreak]})">
-                    ${isClaimedToday ? 'COME BACK TOMORROW' : 'CLAIM TODAY\'S BLOCK GIFT'}
-                </button>
+            </aside>
 
-                <!-- Affiliate Program Section -->
-                <div style="margin-top:24px;">
-                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                        <div style="width:3px; height:20px; background:var(--gold); border-radius:2px;"></div>
-                        <h3 style="font-size:16px;">Affiliate Program</h3>
+            <!-- PRIMARY DYNAMIC CONTENT REGION -->
+            <section class="lg:col-span-3 min-h-[60vh]">
+                
+                <!-- DASHBOARD VIEW -->
+                <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                    <!-- Hero Promo / Announcement Grid -->
+                    <div class="bg-gradient-to-r from-red-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                            <i data-lucide="ticket" class="w-48 h-48 text-red-500"></i>
+                        </div>
+                        <div class="max-w-md space-y-3 relative z-10">
+                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Active Event x2</span>
+                            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Turn simple modern micro-tasks into clean Robux.</h2>
+                            <p class="text-zinc-400 text-sm leading-relaxed">Complete verified offers, install applications, register securely, or join premium social hubs to bag Token Papers instantly.</p>
+                            <button @click="currentTab = 'tasks'" class="mt-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition duration-200 shadow-md shadow-red-600/10">Start Earning Now</button>
+                        </div>
                     </div>
-                    <div class="glass-card" style="background:linear-gradient(135deg,rgba(255,215,0,0.07),transparent); border-color:rgba(255,215,0,0.2); padding:0; overflow:hidden;">
-                        <div style="padding:16px 18px; border-bottom:1px solid rgba(255,215,0,0.12);">
-                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
-                                <div>
-                                    <div style="font-size:13px; font-weight:700; margin-bottom:2px;">Your Affiliate Code</div>
-                                    <div style="font-size:11px; color:var(--muted);">Share with friends to earn 5,000 🪙 each</div>
+
+                    <!-- Live Platform Metrics / Performance Analytics Grid -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                            <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                <span class="text-xs font-medium tracking-wider uppercase">Your Balance</span>
+                                <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                            </div>
+                            <p class="text-2xl font-black text-white tracking-tight" x-text="tokens"></p>
+                            <span class="text-[11px] text-zinc-500 font-medium">Token Papers Available</span>
+                        </div>
+                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                            <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                <span class="text-xs font-medium tracking-wider uppercase">Completed</span>
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+                            </div>
+                            <p class="text-2xl font-black text-white tracking-tight" x-text="completedTasksCount"></p>
+                            <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned' "></span>
+                        </div>
+                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                            <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                <span class="text-xs font-medium tracking-wider uppercase">Global Users</span>
+                                <i data-lucide="users" class="w-4 h-4 text-red-500"></i>
+                            </div>
+                            <p class="text-2xl font-black text-white tracking-tight">142,804</p>
+                            <span class="text-[11px] text-zinc-500 font-medium">Real-time active tracking</span>
+                        </div>
+                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                            <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                <span class="text-xs font-medium tracking-wider uppercase">Total Payouts</span>
+                                <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
+                            </div>
+                            <p class="text-2xl font-black text-white tracking-tight">849.2K</p>
+                            <span class="text-[11px] text-zinc-500 font-medium">Total Robux dispersed</span>
+                        </div>
+                    </div>
+
+                    <!-- Platform System Status Log -->
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
+                        <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
+                            <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                                <span class="flex h-2 w-2 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                </span>
+                                Real-Time Platform Dispersals
+                            </h3>
+                            <span class="text-xs text-zinc-500 font-medium font-mono">LIVE FEED</span>
+                        </div>
+                        <!-- Live Profit Ledger Container -->
+                        <div class="space-y-2.5 max-h-[220px] overflow-hidden relative custom-scrollbar">
+                            <template x-for="log in liveLogs" :key="log.id">
+                                <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="flex justify-between items-center text-xs bg-zinc-900/40 p-2.5 rounded-xl border border-zinc-900 hover:border-zinc-800 transition">
+                                    <div class="flex items-center gap-2">
+                                        <div class="p-1 bg-emerald-500/10 rounded-lg text-emerald-500 border border-emerald-500/10">
+                                            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                        <span class="text-zinc-300 font-medium">
+                                            Account <strong class="text-zinc-100 font-semibold" x-text="log.user"></strong> successfully withdrew profits
+                                        </span>
+                                    </div>
+                                    <span class="text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-md border border-emerald-500/10" x-text="'+' + log.amount + ' ROBUX'"></span>
                                 </div>
-                                <div style="display:flex; align-items:center; gap:6px; background:rgba(0,0,0,0.2); border:1px solid rgba(255,215,0,0.3); border-radius:10px; padding:8px 14px;">
-                                    <span class="mono" style="font-size:20px; font-weight:800; letter-spacing:4px; color:var(--gold);">${appState.wallet.affiliateCode || 'N/A'}</span>
-                                    <button class="glass-btn" style="min-height:28px; padding:0 8px; font-size:10px; border-color:var(--gold); color:var(--gold);" onclick="copyValueToClipboard('${appState.wallet.affiliateCode || ''}'); spawnToast('📋 Code copied!')">COPY</button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AVAILABLE TASKS VIEW -->
+                <div x-show="currentTab === 'tasks'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h2 class="text-xl font-bold tracking-tight text-white">Task Wall</h2>
+                            <p class="text-zinc-500 text-xs mt-0.5">Fulfill verification directives correctly to receive Token Paper tokens.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tasks Layout Map -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <template x-for="task in tasks" :key="task.id">
+                            <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between hover:border-zinc-800 transition duration-200 group">
+                                <div>
+                                    <div class="flex justify-between items-start gap-2 mb-3">
+                                        <div class="bg-zinc-900 p-2.5 rounded-xl text-zinc-300 border border-zinc-800 group-hover:border-red-500/30 transition">
+                                            <i :data-lucide="task.icon" class="w-5 h-5 text-red-500"></i>
+                                        </div>
+                                        <span class="text-xs font-bold text-red-400 bg-red-500/10 px-2.5 py-1 rounded-lg border border-red-500/20" x-text="'+' + task.reward + ' Tokens'"></span>
+                                    </div>
+                                    <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
+                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
+                                </div>
+                                <div class="mt-4 pt-4 border-t border-zinc-900 flex items-center justify-between">
+                                    <span class="text-[11px] text-zinc-500 flex items-center gap-1">
+                                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> <span x-text="'Est time: ' + task.time"></span>
+                                    </span>
+                                    
+                                    <!-- Dynamic Action Button Interaction Loop -->
+                                    <button @click="runTaskSequence(task)" :disabled="task.status === 'completed' || task.status === 'loading'" 
+                                        :class="{
+                                            'bg-red-600 hover:bg-red-700 text-white cursor-pointer active:scale-95': task.status === 'idle',
+                                            'bg-zinc-900 border border-zinc-800 text-zinc-500 cursor-not-allowed': task.status === 'loading',
+                                            'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold tracking-wide shadow-lg shadow-emerald-600/20 active:scale-95 animate-pulse': task.status === 'claimable',
+                                            'bg-zinc-900 border border-zinc-800 text-zinc-600 cursor-not-allowed': task.status === 'completed'
+                                        }" 
+                                        class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
+                                        
+                                        <!-- State: Background Loader Active -->
+                                        <template x-if="task.status === 'loading'">
+                                            <span class="flex items-center gap-1.5">
+                                                <svg class="animate-spin h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                                Verifying Offer...
+                                            </span>
+                                        </template>
+
+                                        <!-- State: Base Interaction Inactive -->
+                                        <template x-if="task.status === 'idle'">
+                                            <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> Start Offer</span>
+                                        </template>
+
+                                        <!-- State: Claim Interface -->
+                                        <template x-if="task.status === 'claimable'">
+                                            <span class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
+                                                <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-spin"></i> Claim Tokens
+                                            </span>
+                                        </template>
+
+                                        <!-- State: Complete Operational Verification Logged -->
+                                        <template x-if="task.status === 'completed'">
+                                            <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-zinc-600"></i> Completed</span>
+                                        </template>
+                                    </button>
                                 </div>
                             </div>
-                            <div style="display:flex; gap:8px;">
-                                <button class="glass-btn" style="flex:1; min-height:36px; font-size:12px; border-color:var(--gold); color:var(--gold);" onclick="copyValueToClipboard(window.location.href.split('#')[0]+'#/?ref=${appState.wallet.affiliateCode || ''}'); spawnToast('🔗 Referral link copied!')">
-                                    🔗 Copy Referral Link
+                        </template>
+                    </div>
+                </div>
+
+                <!-- CONVERT & WITHDRAW VIEW -->
+                <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                    <div>
+                        <h2 class="text-xl font-bold tracking-tight text-white">Token Exchange Portal</h2>
+                        <p class="text-zinc-500 text-xs mt-0.5">Convert your validated Token Paper balance securely into direct payout Robux.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Conversion Ratios Widget -->
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <i data-lucide="info" class="text-red-500 w-4 h-4"></i>
+                                    <h3 class="text-sm font-bold text-white">System Exchange Rate</h3>
+                                </div>
+                                <p class="text-xs text-zinc-400 leading-relaxed">Exchange parameters are normalized securely across our modern backend servers.</p>
+                                <div class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-900 mt-4 text-center">
+                                    <span class="text-xs font-mono tracking-wider text-zinc-300">10 Token Papers = <strong class="text-red-400">100 Robux</strong></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cashout Interaction Form -->
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 md:col-span-2 space-y-4">
+                            
+                            <!-- State 1: Active Validation Server Loading View -->
+                            <template x-if="withdrawStatus === 'loading'">
+                                <div class="py-8 text-center space-y-3">
+                                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600 mx-auto"></div>
+                                    <p class="text-sm font-medium text-zinc-300">Validating compliance variables & generating route parameters...</p>
+                                </div>
+                            </template>
+
+                            <!-- State 2: Prompt Explicit Profile Review Confirmation Step -->
+                            <template x-if="withdrawStatus === 'confirming'">
+                                <div class="py-6 text-center space-y-4 border border-red-500/20 bg-red-500/5 rounded-xl p-5">
+                                    <i data-lucide="user-check" class="w-10 h-10 text-red-500 mx-auto animate-bounce"></i>
+                                    <div>
+                                        <h4 class="text-base font-bold text-white">Account Parameter Verification</h4>
+                                        <p class="text-xs text-zinc-300 mt-1">Please make sure that the user is right:</p>
+                                        <p class="text-lg font-black text-red-500 tracking-wide mt-2 bg-zinc-950 inline-block px-4 py-1.5 border border-zinc-800 rounded-xl" x-text="robloxUser"></p>
+                                    </div>
+                                    <div class="flex gap-2 justify-center pt-2">
+                                        <button @click="withdrawStatus = 'idle'" class="text-xs bg-zinc-900 px-4 py-2 rounded-xl text-zinc-400 hover:text-white transition">Edit Name</button>
+                                        <button @click="confirmAndCompleteWithdraw()" class="text-xs bg-red-600 px-5 py-2 font-bold rounded-xl text-white hover:bg-red-700 transition">Yes, It's Correct</button>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- State 3: Finalized Dispatched Payout Notification Banner -->
+                            <template x-if="withdrawStatus === 'complete'">
+                                <div class="py-6 text-center space-y-3 border border-emerald-500/20 bg-emerald-500/5 rounded-xl p-4">
+                                    <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500 mx-auto"></i>
+                                    <h4 class="text-base font-bold text-white">Order Successfully Formed!</h4>
+                                    <p class="text-xs text-zinc-300 leading-relaxed">Verification protocol complete. You will receive your Robux in your designated Roblox account within <strong class="text-emerald-400">24h</strong>.</p>
+                                    <button @click="withdrawStatus = 'idle'" class="mt-2 text-xs bg-zinc-900 px-3 py-1.5 rounded-lg border border-zinc-800 hover:text-white transition">Form Another Payout</button>
+                                </div>
+                            </template>
+
+                            <!-- Default Idle Entry Form Structure -->
+                            <template x-if="withdrawStatus === 'idle'">
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Target Roblox Username / Account Address</label>
+                                        <div class="relative">
+                                            <input type="text" x-model="robloxUser" placeholder="e.g. username" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Select Your Bundle Package</label>
+                                        <div class="grid grid-cols-2 gap-2 max-h-[250px] overflow-y-auto pr-1 custom-scrollbar">
+                                            <button @click="selectedTier = 5000" :class="selectedTier === 5000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">5,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">500 TKNS</span>
+                                            </button>
+                                            <button @click="selectedTier = 10000" :class="selectedTier === 10000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">10,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">1,000 TKNS</span>
+                                            </button>
+                                            <button @click="selectedTier = 15000" :class="selectedTier === 15000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">15,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">1,500 TKNS</span>
+                                            </button>
+                                            <button @click="selectedTier = 25000" :class="selectedTier === 25000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">25,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">2,500 TKNS</span>
+                                            </button>
+                                            <button @click="selectedTier = 30000" :class="selectedTier === 30000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">30,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">3,000 TKNS</span>
+                                            </button>
+                                            <button @click="selectedTier = 35000" :class="selectedTier === 35000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">35,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">3,500 TKNS</span>
+                                            </button>
+                                            <button @click="selectedTier = 40000" :class="selectedTier === 40000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">40,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">4,000 TKNS</span>
+                                            </button>
+                                            <button @click="selectedTier = 45000" :class="selectedTier === 45000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
+                                                <span class="text-xs font-bold">45,000 Robux</span>
+                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">4,500 TKNS</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button @click="processWithdraw()" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold text-sm py-3 rounded-xl shadow-lg shadow-red-600/10 transition-all duration-150">
+                                        Transmit Payout Order
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INVITE FRIENDS VIEW -->
+                <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                    <div>
+                        <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
+                        <p class="text-zinc-500 text-xs mt-0.5">Leverage network loops to continuously spawn tokens passively.</p>
+                    </div>
+
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-900">
+                            <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
+                                <i data-lucide="gift" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Earn 15% Lifelong Royalties</h3>
+                                <p class="text-xs text-zinc-400 mt-0.5">Receive a processing commission bonus every single time your direct invited users clear an operational task.</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
+                            <div class="flex gap-2">
+                                <input type="text" readonly value="https://robuxprize.net/ref?id=78492" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none">
+                                <button @click="copyRefLink()" class="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-800 px-4 rounded-xl flex items-center justify-center transition active:scale-95">
+                                    <i data-lucide="copy" class="w-4 h-4"></i>
                                 </button>
                             </div>
                         </div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid rgba(255,215,0,0.12);">
-                            <div style="text-align:center; padding:12px 8px; border-right:1px solid rgba(255,215,0,0.1);">
-                                <div style="font-size:18px; font-weight:800; color:var(--gold);" class="mono">${(appState.wallet.affiliateReferrals||[]).length}</div>
-                                <div style="font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Referrals</div>
-                            </div>
-                            <div style="text-align:center; padding:12px 8px; border-right:1px solid rgba(255,215,0,0.1);">
-                                <div style="font-size:18px; font-weight:800; color:var(--gold);" class="mono">${((appState.wallet.affiliateReferrals||[]).length*5000).toLocaleString()}</div>
-                                <div style="font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Coins Earned</div>
-                            </div>
-                            <div style="text-align:center; padding:12px 8px;">
-                                <div style="font-size:18px; font-weight:800; color:var(--green);" class="mono">12</div>
-                                <div style="font-size:10px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Target</div>
-                            </div>
-                        </div>
-                        <div style="padding:12px 18px;">
-                            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; text-align:center;">
-                                <div style="padding:8px; background:rgba(0,0,0,0.1); border-radius:8px;">
-                                    <div style="font-size:16px; margin-bottom:4px;">🔗</div>
-                                    <div style="font-size:10px; color:var(--muted); font-weight:600;">Send 12+ links</div>
-                                </div>
-                                <div style="padding:8px; background:rgba(0,0,0,0.1); border-radius:8px;">
-                                    <div style="font-size:16px; margin-bottom:4px;">📲</div>
-                                    <div style="font-size:10px; color:var(--muted); font-weight:600;">They download & use code</div>
-                                </div>
-                                <div style="padding:8px; background:rgba(0,0,0,0.1); border-radius:8px;">
-                                    <div style="font-size:16px; margin-bottom:4px;">⏳</div>
-                                    <div style="font-size:10px; color:var(--muted); font-weight:600;">15 days → 5,000 🪙</div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            `;
-        });
-        window.dispatchDailyGiftClaim = function(rewardAmt) {
-            const todayStr = new Date().toISOString().split('T')[0];
-            appState.dailyLast = todayStr;
-            appState.dailyStreak = (appState.dailyStreak || 0) + 1;
-            if(appState.dailyStreak > 7) appState.dailyStreak = 1;
-            executeGlobalRewardCrediting(rewardAmt, 100, `Daily Ledger Check-In Base Gift Day ${appState.dailyStreak}`);
-            launchConfettiBurst();
-            spawnToast(`🎁 Daily prize asset sequence processed: +${rewardAmt} Coins added.`);
-            window.location.reload();
-        };
 
-        Router.add('#/wallet', () => {
-            const wallet = appState.wallet;
-            const isCardUnlocked = wallet.tasksCompleted >= 3;
-            let cardLayoutHtml = "";
-            if(!isCardUnlocked) {
-                cardLayoutHtml = `
-                    <div class="virtual-card locked">
-                        <div style="position:absolute; top:22px; left:28px; z-index:6;">
-                            <div class="card-brand-sub" style="color:rgba(255,255,255,0.35);">MONEY PRIZE</div>
-                            <div class="card-brand" style="color:rgba(255,255,255,0.45); font-size:16px; letter-spacing:2px;">BLACK</div>
-                        </div>
-                        <div class="virtual-card-locked-content">
-                            <div style="width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,0.04); display:flex; align-items:center; justify-content:center; margin-bottom:14px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-                                ${SVGS.lock}
-                            </div>
-                            <h4 style="margin:0 0 6px 0; font-size:16px; color:#fff; font-family:'Sora',sans-serif;">Virtual Card Interface Encrypted</h4>
-                            <p style="font-size:12px; color:var(--muted); margin-bottom:16px; max-width:240px; line-height:1.4;">Execute 3 microtasks to sign card ownership verification key and unlock premium withdrawal methods.</p>
-                            <div class="progress-track" style="width:200px; height:6px; margin-bottom:8px; background:rgba(255,255,255,0.08);"><div class="progress-fill" style="width:${(wallet.tasksCompleted/3)*100}%;"></div></div>
-                            <span style="font-size:11px; color:var(--muted); font-weight:600;">${wallet.tasksCompleted} / 3 Tasks Completed</span>
-                        </div>
+                <!-- RULES VIEW -->
+                <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                    <div>
+                        <h2 class="text-xl font-bold tracking-tight text-white">Compliance & Fraud Prevention</h2>
+                        <p class="text-zinc-500 text-xs mt-0.5">Review system rules to guarantee smooth token settlement and withdraw approvals.</p>
                     </div>
-                `;
-            } else {
-                cardLayoutHtml = `
-                    <div class="virtual-card">
-                        <div style="display:flex; justify-content:space-between; align-items:start; position:relative; z-index:3;">
+
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 divide-y divide-zinc-900">
+                        <div class="pb-4 flex gap-4 items-start">
+                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                <i data-lucide="shield-x" class="w-4 h-4"></i>
+                            </div>
                             <div>
-                                <div class="card-brand-sub">MONEY PRIZE</div>
-                                <div class="card-brand">BLACK</div>
-                            </div>
-                            <div style="display:flex; align-items:center; gap:10px; margin-top:4px;">
-                                <svg class="contactless-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:rgba(255,255,255,0.55);">
-                                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-                                </svg>
-                                <div style="font-size:22px; filter:drop-shadow(0 2px 3px rgba(0,0,0,0.4));">💳</div>
+                                <h3 class="text-sm font-bold text-white">Strict Anti-VPN Infrastructure</h3>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Proxy layers, VPN nodes, or data center routing environments are systematically flagged. Violations lead to automated account locks.</p>
                             </div>
                         </div>
-                        <div style="position:relative; z-index:3; margin-top:6px;">
-                            <div class="emv-chip"><div class="emv-chip-inner"></div></div>
-                        </div>
-                        <div class="card-number-display" style="position:relative; z-index:3;">
-                            <span style="opacity:0.7;">••••</span> <span style="opacity:0.7;">••••</span> <span style="opacity:0.7;">••••</span> <span style="color:#fff; font-weight:700;">${wallet.profileId.slice(-4)}</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; align-items:end; position:relative; z-index:3;">
-                            <div style="max-width:140px; overflow:hidden; text-overflow:ellipsis;">
-                                <div class="card-label">Cardholder</div>
-                                <div class="card-value">${wallet.username.toUpperCase()}</div>
+                        <div class="py-4 flex gap-4 items-start">
+                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
                             </div>
-                            <div style="text-align:right;">
-                                <div class="card-label">Valid Thru</div>
-                                <div class="card-value">12/28</div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Accurate Form Directives Only</h3>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Inputting invalid, temporary, or burner details during verification processes causes direct programmatic settlement failure.</p>
                             </div>
-                            <div style="text-align:right;">
-                                <div class="card-label">CVC</div>
-                                <div class="card-value">•••</div>
+                        </div>
+                        <div class="pt-4 flex gap-4 items-start">
+                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">One Account Limitation</h3>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Multi-accounting behavior to loop invite systems triggers hardware identity fingerprints and immediate systemic ban execution.</p>
                             </div>
                         </div>
                     </div>
-                `;
-            }
-
-                        const withdrawalMethods = [
-                { name: "USDT (TRC20)", icon: SVGS.usdt, field: "TRC20 Address", type: "crypto" },
-                { name: "PayPal", icon: SVGS.paypal, field: "PayPal Email", type: "email" },
-                { name: "Bank Transfer", icon: SVGS.bank, field: "IBAN / Account Details", type: "bank" }
-            ];
-            const withdrawalCardsHtml = withdrawalMethods.map(m => {
-                const min = 50000;
-                const enough = wallet.balance >= min;
-                return `
-                    <div class="glass-card" style="display:flex; flex-direction:column; justify-content:space-between;">
-                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-                            <div>${m.icon}</div>
-                            <h4 style="font-size:13px; line-height:1.2;">${m.name}</h4>
-                        </div>
-                        <div style="margin-top:auto;">
-                            <button class="glass-btn" style="width:100%; min-height:36px; font-size:12px; padding:0;" ${enough ? '' : 'disabled'} 
-                                onclick="openWithdrawalModal('${m.name.replace(/'/g,"\\'")}', '${m.field}', '${m.type}')">
-                                ${enough ? 'Withdraw' : `Need ${(min - wallet.balance).toLocaleString()} more coins`}
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join("");
-
-            const giftCardBrands = [
-                { name: "PayPal", icon: SVGS.paypal, denoms: [20000, 50000, 100000] },
-                { name: "Google Play", icon: SVGS.google, denoms: [20000, 50000, 100000] },
-                { name: "Apple", icon: SVGS.apple, denoms: [20000, 50000, 100000] },
-                { name: "Amazon", icon: SVGS.amazon, denoms: [20000, 50000, 100000] },
-                { name: "Xbox", icon: SVGS.xbox, denoms: [20000, 50000, 100000] },
-                { name: "PlayStation", icon: SVGS.playstation, denoms: [20000, 50000, 100000] }
-            ];
-            const giftCardsHtml = giftCardBrands.map(b => `
-                <div class="glass-card" style="display:flex; flex-direction:column; gap:8px;">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <div>${b.icon}</div>
-                        <h4 style="font-size:13px;">${b.name}</h4>
-                    </div>
-                    <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                        ${b.denoms.map(d => {
-                            const canAfford = wallet.balance >= d;
-                            return `<button class="glass-btn" style="min-height:32px; padding:0 8px; font-size:11px;" ${canAfford ? '' : 'disabled'} 
-                                onclick="redeemGiftCard('${b.name}', ${d})">$${d/1000}</button>`;
-                        }).join('')}
-                    </div>
                 </div>
-            `).join("");
 
-            return `
-                ${getAuthenticatedHeaderFragment()}
-                <h3 style="margin-bottom:12px;">Secured Ledger Liquidation</h3>
-                <div style="margin-bottom:24px;">
-                    ${cardLayoutHtml}
-                </div>
-                <h3 style="margin-bottom:12px;">Withdraw Funds</h3>
-                <div class="grid-3" style="margin-bottom:20px;">
-                    ${withdrawalCardsHtml}
-                </div>
-                <h3 style="margin-bottom:12px;">Gift Cards</h3>
-                <div class="grid-2" style="gap:12px; margin-bottom:20px;">
-                    ${giftCardsHtml}
-                </div>
-            `;
-        });
+            </section>
+        </div>
+    </main>
 
-        window.openWithdrawalModal = function(methodName, fieldLabel, type) {
-            renderModalPromptContainer(`Withdraw via ${methodName}`,
-                `<p style="font-size:13px; margin-bottom:12px;">Min withdrawal: 50,000 coins (~$50). Enter your ${fieldLabel}:</p>
-                 <input id="withdrawal-input" class="glass-input" placeholder="${fieldLabel}" style="margin-bottom:12px;">`,
-                () => {
-                    const val = document.getElementById("withdrawal-input").value.trim();
-                    if (!val) {
-                        spawnToast("Please fill in the required details.");
+    <!-- MOBILE SYSTEM TAB BAR -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-900 bg-zinc-950/90 backdrop-blur-md px-2 py-2 z-50 flex justify-around items-center">
+        <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Home</span>
+        </button>
+        <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+            <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Tasks</span>
+        </button>
+        <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+            <i data-lucide="coins" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Payout</span>
+        </button>
+        <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Invite</span>
+        </button>
+        <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+            <i data-lucide="shield-alert" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Rules</span>
+        </button>
+    </nav>
+
+    <!-- NOTIFICATION SYSTEM TOASTS -->
+    <div class="fixed top-5 right-5 z-50 pointer-events-none max-w-xs space-y-2">
+        <template x-for="toast in toasts" :key="toast.id">
+            <div x-transition class="bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs px-4 py-3 rounded-xl flex items-center gap-2.5 shadow-xl pointer-events-auto">
+                <i data-lucide="info" class="w-4 h-4 text-red-500 flex-shrink-0"></i>
+                <span x-text="toast.msg" class="font-medium"></span>
+            </div>
+        </template>
+    </div>
+
+    <!-- APPLICATION REACTION CONTROLLER -->
+    <script>
+        function appState() {
+            return {
+                currentTab: 'dashboard',
+                tokens: 5, 
+                selectedTier: 5000, 
+                robloxUser: '',
+                withdrawStatus: 'idle', 
+                completedTasksCount: 0,
+                toasts: [],
+                poolUsernames: ['iGamer_Pro', 'BloxValk', 'BuildBoy99', 'RoboQueen_X', 'Xyz_Dev', 'Linkmon_Fan', 'RbxKing2026', 'ShadowNinja', 'VibeCheck_9', 'Alpha_Build', 'Luna_Blox', 'DevRBLX_'],
+                liveLogs: [
+                    { id: 1, user: 'iGamer_Pro', amount: 5000 },
+                    { id: 2, user: 'BloxValk', amount: 10000 },
+                    { id: 3, user: 'BuildBoy99', amount: 5000 }
+                ],
+                tasks: [
+                    { 
+                        id: 1, 
+                        title: 'Join Premium Telegram Hub', 
+                        desc: 'Secure entry to official verified network updates broadcast feed.', 
+                        reward: 15, 
+                        time: '1 min', 
+                        icon: 'send', 
+                        status: 'idle',
+                        url: 'https://t.me/+AP0Q8AnAfUEyZWQ0'
+                    },
+                    { 
+                        id: 2, 
+                        title: 'Sign Up With Email', 
+                        desc: 'Fulfill randomized high-priority secure web form verification criteria.', 
+                        reward: 20, 
+                        time: '3 mins', 
+                        icon: 'mail-check', 
+                        status: 'idle',
+                        url: 'https://appsave.store/cl/i/5nn8m3'
+                    },
+                    { 
+                        id: 3, 
+                        title: 'Install App', 
+                        desc: 'Download designated mobile ecosystem package files and open context sandbox.', 
+                        reward: 35, 
+                        time: '5 mins', 
+                        icon: 'download-cloud', 
+                        status: 'idle',
+                        url: 'https://appsave.store/cl/i/5nn8m3'
+                    },
+                    { 
+                        id: 4, 
+                        title: 'Complete Partner Platform Registry', 
+                        desc: 'Create a validated asset account profile with third-party networks.', 
+                        reward: 20, 
+                        time: '4 mins', 
+                        icon: 'user-plus', 
+                        status: 'idle',
+                        url: 'https://appsave.store/cl/i/5nn8m3'
+                    },
+                    { 
+                        id: 5, 
+                        title: 'Invite Loop: Add 5 Friends', 
+                        desc: 'Introduce 5 distinct friends into the platform structural referral hub.', 
+                        reward: 35, 
+                        time: '2 mins', 
+                        icon: 'users-2', 
+                        status: 'idle',
+                        url: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share'
+                    },
+                    { 
+                        id: 6, 
+                        title: 'Rate App Ecosystem 5 Stars', 
+                        desc: 'Leave an honest structural five-star operational assessment review.', 
+                        reward: 15, 
+                        time: '1 min', 
+                        icon: 'star', 
+                        status: 'idle',
+                        url: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share'
+                    }
+                ],
+                init() {
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    
+                    setInterval(() => {
+                        let randomUser = this.poolUsernames[Math.floor(Math.random() * this.poolUsernames.length)];
+                        let highTiers = [5000, 10000, 15000, 25000, 30000, 35000, 40000, 45000];
+                        let randomAmount = highTiers[Math.floor(Math.random() * highTiers.length)];
+                        
+                        this.liveLogs.unshift({
+                            id: Date.now(),
+                            user: randomUser,
+                            amount: randomAmount
+                        });
+                        
+                        if (this.liveLogs.length > 5) this.liveLogs.pop();
+                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    }, Math.floor(Math.random() * 4000) + 3000); 
+                },
+                
+                runTaskSequence(task) {
+                    if (task.status === 'idle') {
+                        // Dynamically launch the specified objective destination page in a separate browser thread
+                        if (task.url) {
+                            window.open(task.url, '_blank');
+                        }
+                        
+                        task.status = 'loading';
+                        this.showToast(`Verification tracking activated for: "${task.title}".`);
+                        
+                        // 2 Minutes programmatic background tracking timer logic matching original parameters
+                        setTimeout(() => {
+                            task.status = 'claimable';
+                            this.showToast(`Offer validation complete! "${task.title}" is ready to claim.`);
+                        }, 120000);
+                    } else if (task.status === 'claimable') {
+                        task.status = 'completed';
+                        this.tokens += task.reward;
+                        this.completedTasksCount++;
+                        this.showToast(`Balance updated! Added +${task.reward} Token Papers.`);
+                    }
+                },
+                
+                processWithdraw() {
+                    if (!this.robloxUser.trim()) {
+                        this.showToast("Error: Account parameter field cannot be empty.");
                         return;
                     }
-                    executeGlobalRewardCrediting(-50000, 0, `Withdrawal request: ${methodName} (${val})`);
-                    spawnToast(`✅ Withdrawal of 50,000 coins via ${methodName} submitted.`);
-                    window.location.reload();
-                }
-            );
-        };
-
-        window.redeemGiftCard = function(brand, amount) {
-            renderModalPromptContainer(`Redeem ${brand} Gift Card`,
-                `You're about to exchange <b style="color:var(--gold);">${amount.toLocaleString()} Coins</b> for a $${amount/1000} ${brand} gift card.`,
-                () => {
-                    executeGlobalRewardCrediting(-amount, 0, `Redeemed ${brand} $${amount/1000} Gift Card`);
-                    spawnToast(`🎁 Gift card redeemed! Check your email for the code.`);
-                    window.location.reload();
-                }
-            );
-        };
-
-        Router.add('#/profile', () => {
-            const wallet = appState.wallet;
-            const xpReq = wallet.level * 500;
-            const xpPct = Math.min((wallet.xp / xpReq) * 100, 100);
-            return `
-                ${getAuthenticatedHeaderFragment()}
-
-                <!-- Profile Identity Header -->
-                <div style="display:flex; align-items:center; gap:18px; margin-bottom:24px;">
-                    <div class="settings-avatar-wrap">${wallet.username.substring(0,2).toUpperCase()}</div>
-                    <div style="flex:1; min-width:0;">
-                        <h2 style="margin-bottom:2px; font-size:22px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${wallet.username}</h2>
-                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                            <span class="mono" style="font-size:12px; color:var(--muted);">${wallet.profileId}</span>
-                            <span class="badge badge-green" style="font-size:10px; padding:2px 8px;">LVL ${wallet.level}</span>
-                        </div>
-                        <div style="margin-top:6px; font-size:12px; color:var(--muted);">Member since ${wallet.joinDate}</div>
-                    </div>
-                </div>
-
-                <!-- Quick Stats -->
-                <div class="grid-3" style="margin-bottom:20px;">
-                    <div class="glass-card settings-stat-card">
-                        <div class="settings-stat-value" style="color:var(--gold);">${wallet.balance.toLocaleString()}</div>
-                        <div class="settings-stat-label">Balance</div>
-                    </div>
-                    <div class="glass-card settings-stat-card">
-                        <div class="settings-stat-value" style="color:var(--blue);">${wallet.xp}</div>
-                        <div class="settings-stat-label">XP Points</div>
-                    </div>
-                    <div class="glass-card settings-stat-card">
-                        <div class="settings-stat-value" style="color:var(--green);">${wallet.tasksCompleted}</div>
-                        <div class="settings-stat-label">Tasks Done</div>
-                    </div>
-                </div>
-
-                <!-- Level Progress -->
-                <div class="glass-card" style="margin-bottom:20px; padding:16px 20px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span style="font-size:13px; font-weight:700;">Level Progress</span>
-                        <span style="font-size:12px; color:var(--muted);">${wallet.xp} / ${xpReq} XP</span>
-                    </div>
-                    <div class="progress-track" style="height:8px;"><div class="progress-fill" style="width:${xpPct}%; background:var(--blue);"></div></div>
-                </div>
-
-                <!-- Security & Keys -->
-                <div class="glass-card settings-section" style="margin-bottom:16px;">
-                    <div class="settings-section-header">🔐 Security & Keys</div>
-                    <div style="padding:16px 20px;">
-                        <div style="margin-bottom:16px;">
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                                <span style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em;">Private Security Key</span>
-                                <button class="glass-btn" style="min-height:28px; padding:0 10px; font-size:10px;" onclick="copyValueToClipboard('${wallet.securityKey}')">Copy</button>
-                            </div>
-                            <div class="settings-key-box">${wallet.securityKey}</div>
-                        </div>
-                        <div>
-                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                                <span style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em;">Recovery Phrase Matrix</span>
-                                <button class="glass-btn" style="min-height:28px; padding:0 10px; font-size:10px;" onclick="copyValueToClipboard('${wallet.recoveryKey}')">Copy</button>
-                            </div>
-                            <div class="settings-key-box">${wallet.recoveryKey}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Preferences -->
-                <div class="glass-card settings-section" style="margin-bottom:16px;">
-                    <div class="settings-section-header">⚙️ Preferences</div>
-                    <div>
-                        <div class="settings-row">
-                            <div class="settings-row-info">
-                                <div class="settings-row-title">Interface Theme</div>
-                                <div class="settings-row-desc">Toggle between dark and light mode</div>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" ${appState.theme === 'light' ? 'checked':''} onchange="applyThemeProperties(this.checked ? 'light' : 'dark')">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="settings-row">
-                            <div class="settings-row-info">
-                                <div class="settings-row-title">Push Notifications</div>
-                                <div class="settings-row-desc">Receive alerts for rewards and tasks</div>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked onchange="spawnToast(this.checked ? '🔔 Notifications enabled' : '🔕 Notifications disabled')">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="settings-row">
-                            <div class="settings-row-info">
-                                <div class="settings-row-title">Sound Effects</div>
-                                <div class="settings-row-desc">Play sounds for spins and rewards</div>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked onchange="spawnToast(this.checked ? '🔊 Sound enabled' : '🔇 Sound muted')">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="settings-row">
-                            <div class="settings-row-info">
-                                <div class="settings-row-title">Compact Task View</div>
-                                <div class="settings-row-desc">Show condensed task cards in lists</div>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" onchange="spawnToast(this.checked ? 'Compact view enabled' : 'Compact view disabled')">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Payment & Withdrawal -->
-                <div class="glass-card settings-section" style="margin-bottom:16px;">
-                    <div class="settings-section-header">💳 Payment & Withdrawal</div>
-                    <div style="padding:12px 20px;">
-                        <div class="settings-payment-row">
-                            <div class="settings-payment-icon" style="background:rgba(0,200,83,0.08);">${SVGS.usdt}</div>
-                            <div style="flex:1; min-width:0;">
-                                <div style="font-size:14px; font-weight:600; color:var(--text-main);">USDT (TRC20)</div>
-                                <div style="font-size:12px; color:var(--muted);">Primary crypto withdrawal pipeline</div>
-                            </div>
-                            <span class="badge badge-green" style="font-size:10px; padding:2px 8px; flex-shrink:0;">Active</span>
-                        </div>
-                        <div class="settings-payment-row">
-                            <div class="settings-payment-icon" style="background:rgba(59,130,246,0.08);">${SVGS.paypal}</div>
-                            <div style="flex:1; min-width:0;">
-                                <div style="font-size:14px; font-weight:600; color:var(--text-main);">PayPal</div>
-                                <div style="font-size:12px; color:var(--muted);">Linked for instant fiat transfers</div>
-                            </div>
-                            <span class="badge badge-blue" style="font-size:10px; padding:2px 8px; flex-shrink:0;">Linked</span>
-                        </div>
-                        <div class="settings-payment-row">
-                            <div class="settings-payment-icon" style="background:rgba(255,59,48,0.08);">${SVGS.bank}</div>
-                            <div style="flex:1; min-width:0;">
-                                <div style="font-size:14px; font-weight:600; color:var(--text-main);">Bank Transfer</div>
-                                <div style="font-size:12px; color:var(--muted);">IBAN / Wire transfer (2-3 days)</div>
-                            </div>
-                            <span class="badge" style="font-size:10px; padding:2px 8px; flex-shrink:0; background:rgba(255,255,255,0.08); color:var(--muted); border:1px solid var(--glass-border);">Standard</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Account Activity -->
-                <div class="glass-card settings-section" style="margin-bottom:16px;">
-                    <div class="settings-section-header">📊 Account Activity</div>
-                    <div style="padding:16px 20px;">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                            <span style="font-size:13px; color:var(--muted);">Total Tasks Completed</span>
-                            <span class="mono" style="font-weight:700; color:var(--text-main);">${wallet.tasksCompleted}</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                            <span style="font-size:13px; color:var(--muted);">Current Streak</span>
-                            <span class="mono" style="font-weight:700; color:var(--green);">${appState.dailyStreak || 0} days</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                            <span style="font-size:13px; color:var(--muted);">Virtual Card Status</span>
-                            <span style="font-weight:700; color:${wallet.cardUnlocked ? 'var(--green)' : 'var(--muted)'};">${wallet.cardUnlocked ? 'Unlocked' : 'Locked'}</span>
-                        </div>
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-size:13px; color:var(--muted);">Security Status</span>
-                            <span style="font-weight:700; color:var(--green); display:flex; align-items:center; gap:4px;">
-                                <span style="display:inline-block; width:7px; height:7px; background:var(--green); border-radius:50%;"></span> Secure
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Affiliate Program -->
-                <div class="glass-card settings-section" style="margin-bottom:16px; background: linear-gradient(135deg, rgba(255,215,0,0.06), transparent); border-color: rgba(255,215,0,0.2);">
-                    <div class="settings-section-header" style="color:var(--gold);">🤝 Affiliate Program</div>
-                    <div style="padding:16px 20px;">
-                        <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">Share your unique code & link with friends. When they download the app, use your code, and stay active for 15 days — you earn <b style="color:var(--gold);">5,000 Coins</b> per referral!</p>
-                        <div style="margin-bottom:12px;">
-                            <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Your Secret Affiliate Code</div>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <div class="settings-key-box mono" style="font-size:18px; font-weight:800; letter-spacing:4px; color:var(--gold); flex:1;">${wallet.affiliateCode || 'N/A'}</div>
-                                <button class="glass-btn" style="min-height:36px; padding:0 12px; font-size:12px; border-color:var(--gold); color:var(--gold);" onclick="copyValueToClipboard('${wallet.affiliateCode || ''}'); spawnToast('📋 Affiliate code copied!')">COPY</button>
-                            </div>
-                        </div>
-                        <div style="margin-bottom:14px;">
-                            <div style="font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Your Referral Link</div>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <div class="settings-key-box" style="flex:1; font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${window.location.href.split('#')[0]}#/?ref=${wallet.affiliateCode || ''}</div>
-                                <button class="glass-btn" style="min-height:36px; padding:0 12px; font-size:12px;" onclick="copyValueToClipboard('${window.location.href.split('#')[0]}#/?ref=${wallet.affiliateCode || ''}'); spawnToast('🔗 Referral link copied!')">COPY</button>
-                            </div>
-                        </div>
-                        <div style="background:rgba(0,0,0,0.15); border-radius:10px; padding:12px; border:1px solid var(--glass-border);">
-                            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                                <span style="font-size:13px; color:var(--muted);">Total Referrals</span>
-                                <span class="mono" style="font-weight:700; color:var(--gold);">${(wallet.affiliateReferrals || []).length}</span>
-                            </div>
-                            <div style="display:flex; justify-content:space-between;">
-                                <span style="font-size:13px; color:var(--muted);">Coins Earned via Affiliate</span>
-                                <span class="mono" style="font-weight:700; color:var(--gold);">${((wallet.affiliateReferrals || []).length * 5000).toLocaleString()} 🪙</span>
-                            </div>
-                        </div>
-                        <div style="margin-top:12px; padding:10px 12px; background:rgba(255,215,0,0.06); border-radius:8px; border:1px solid rgba(255,215,0,0.15);">
-                            <div style="font-size:11px; color:var(--muted); line-height:1.5;">📌 How it works: Share your link or code → friend downloads the app → they use your code at signup → they stay active for 15 days → you receive <b style="color:var(--gold);">5,000 coins</b> automatically.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Danger Zone -->
-                <div class="glass-card" style="border-color: rgba(255,59,48,0.18); background: linear-gradient(135deg, rgba(255,59,48,0.04), transparent); margin-bottom:24px; padding:0; overflow:hidden;">
-                    <div class="settings-section-header" style="color:var(--red); border-bottom-color:rgba(255,59,48,0.15);">🚨 Danger Zone</div>
-                    <div style="padding:12px 20px 16px 20px; display:flex; flex-direction:column; gap:10px;">
-                        <button class="glass-btn" style="width:100%; justify-content:flex-start; gap:10px;" onclick="dispatchIdentityLogout()">
-                            <span style="font-size:16px;">🔒</span>
-                            <span style="font-size:13px;">De-authorize Node Session (Sign Out)</span>
-                        </button>
-                        <button class="glass-btn glass-btn-red" style="width:100%; justify-content:flex-start; gap:10px; border-color:var(--red);" onclick="dispatchSystemPurgeDestruction()">
-                            <span style="font-size:16px;">🧨</span>
-                            <span style="font-size:13px;">Purge & Delete Localized Records Account</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-        });
-
-                window.dispatchIdentityLogout = function() {
-            appState.wallet = null;
-            appState.taskProgress = null;
-            commitToDisk();
-            spawnToast("🔒 Node disconnected. Matrix instance terminated safely.");
-            window.location.hash = '#/' ;
-        };
-        window.dispatchSystemPurgeDestruction = function() {
-            renderModalPromptContainer("🧨 EXTREME DANGER: ACCOUNT DESTRUCTION SYSTEM", "Are you absolutely confident you want to scrap this wallet key matrix completely from browser storage memory? Assets cannot be recovered without seed phrases.", () => {
-                localStorage.removeItem("mp-state");
-                appState = { wallet: null, history: [], dailyLog: {}, categoryLog: {}, theme: "dark", taskProgress: null };
-                spawnToast("💥 Local node storage records atomized completely.");
-                window.location.hash = '#/' ;
-            });
-        };
-
-        function renderSystemCharts() {
-            const elYield = document.getElementById("chart-yield");
-            const elCat = document.getElementById("chart-categories");
-            const textThemeColor = appState.theme === 'light' ? '#1C1C1E' : '#FFFFFF';
-            const mutedColor = appState.theme === 'light' ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.15)';
-            if(elYield) {
-                const ctx = elYield.getContext("2d");
-                const W = elYield.width, H = elYield.height;
-                ctx.clearRect(0, 0, W, H);
-                // Build 7-day dataset
-                let dataset = [];
-                const labels = [];
-                for(let i=6; i>=0; i--) {
-                    const d = new Date();
-                    d.setDate(d.getDate() - i);
-                    const dStr = d.toISOString().split('T')[0];
-                    const dayVal = appState.dailyLog[dStr] || 0;
-                    dataset.push(dayVal);
-                    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-                    labels.push(i === 0 ? 'Today' : dayNames[d.getDay()]);
-                }
-                const maxVal = Math.max(...dataset, 50);
-                const padL = 44, padR = 14, padT = 18, padB = 32;
-                const graphW = W - padL - padR;
-                const graphH = H - padT - padB;
-                const stepW = graphW / 6;
-
-                // Grid lines
-                const gridCount = 4;
-                ctx.strokeStyle = mutedColor;
-                ctx.lineWidth = 1;
-                for(let g=0; g<=gridCount; g++) {
-                    const gy = padT + (graphH / gridCount) * g;
-                    ctx.beginPath();
-                    ctx.setLineDash([4, 4]);
-                    ctx.moveTo(padL, gy);
-                    ctx.lineTo(W - padR, gy);
-                    ctx.stroke();
-                    // Y-axis labels
-                    const yVal = Math.round(maxVal - (maxVal / gridCount) * g);
-                    ctx.setLineDash([]);
-                    ctx.fillStyle = mutedColor;
-                    ctx.font = "9px 'JetBrains Mono'";
-                    ctx.textAlign = "right";
-                    ctx.fillText(yVal > 999 ? (yVal/1000).toFixed(1)+'k' : yVal, padL - 4, gy + 3);
-                }
-                ctx.setLineDash([]);
-
-                // Compute points
-                const pts = dataset.map((v, i) => ({
-                    x: padL + i * stepW,
-                    y: padT + graphH - (v / maxVal) * graphH
-                }));
-
-                // Gradient fill under line
-                const grad = ctx.createLinearGradient(0, padT, 0, padT + graphH);
-                grad.addColorStop(0, 'rgba(59,130,246,0.35)');
-                grad.addColorStop(1, 'rgba(59,130,246,0.00)');
-                ctx.beginPath();
-                ctx.moveTo(pts[0].x, padT + graphH);
-                pts.forEach(p => ctx.lineTo(p.x, p.y));
-                ctx.lineTo(pts[pts.length-1].x, padT + graphH);
-                ctx.closePath();
-                ctx.fillStyle = grad;
-                ctx.fill();
-
-                // Draw connected line
-                ctx.beginPath();
-                pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
-                ctx.strokeStyle = "#3B82F6";
-                ctx.lineWidth = 2.5;
-                ctx.lineJoin = 'round';
-                ctx.stroke();
-
-                // Dots + values
-                pts.forEach((p, i) => {
-                    // Dot glow
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, 6, 0, Math.PI*2);
-                    ctx.fillStyle = 'rgba(59,130,246,0.2)';
-                    ctx.fill();
-                    // Dot core
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, 3.5, 0, Math.PI*2);
-                    ctx.fillStyle = i === 6 ? '#FFD700' : '#3B82F6';
-                    ctx.fill();
-                    ctx.strokeStyle = '#fff';
-                    ctx.lineWidth = 1.5;
-                    ctx.stroke();
-                    // Value label above
-                    if(dataset[i] > 0) {
-                        ctx.fillStyle = textThemeColor;
-                        ctx.font = "bold 9px 'JetBrains Mono'";
-                        ctx.textAlign = 'center';
-                        ctx.fillText(dataset[i] > 999 ? (dataset[i]/1000).toFixed(1)+'k' : dataset[i], p.x, p.y - 8);
+                    let cost = this.selectedTier / 10;
+                    if(this.tokens < cost) {
+                        this.showToast(`Error: Insufficient token balances for target tier clearance. Requires ${cost} Tokens.`);
+                        return;
                     }
-                    // X-axis label
-                    ctx.fillStyle = mutedColor;
-                    ctx.font = "9px 'DM Sans'";
-                    ctx.textAlign = 'center';
-                    ctx.fillText(labels[i], p.x, H - 4);
-                });
-            }
-            if(elCat) {
-                const ctx = elCat.getContext("2d");
-                ctx.clearRect(0, 0, 400, 180);
-                const logs = appState.categoryLog || {};
-                const segments = Object.keys(logs).map(k => ({ label: k, count: logs[k] || 0 }));
-                const total = segments.reduce((a, b) => a + b.count, 0) || 1;
-                let startAng = 0;
-                const colors = ["#00C853", "#FFD700", "#3B82F6", "#FF3B30", "#A855F7", "#06B6D4"];
-                segments.forEach((seg, idx) => {
-                    const sliceAng = ((seg.count || (total === 1 ? 1 : 0)) / total) * Math.PI * 2;
-                    if(sliceAng === 0) return;
-                    ctx.fillStyle = colors[idx % colors.length];
-                    ctx.beginPath();
-                    ctx.moveTo(90, 90);
-                    ctx.arc(90, 90, 65, startAng, startAng + sliceAng);
-                    ctx.closePath();
-                    ctx.fill();
-                    startAng += sliceAng;
-                    ctx.fillRect(190, 25 + idx*22, 12, 12);
-                    ctx.fillStyle = textThemeColor;
-                    ctx.font = "11px 'DM Sans'";
-                    ctx.fillText(`${seg.label.substring(0,14)} (${seg.count})`, 210, 35 + idx*22);
-                });
+                    
+                    this.withdrawStatus = 'loading';
+                    
+                    setTimeout(() => {
+                        this.withdrawStatus = 'confirming';
+                    }, 3000);
+                },
+                confirmAndCompleteWithdraw() {
+                    let cost = this.selectedTier / 10;
+                    this.tokens -= cost;
+                    this.withdrawStatus = 'loading';
+                    this.showToast("Finalizing ledger encryption blocks...");
+                    
+                    setTimeout(() => {
+                        this.withdrawStatus = 'complete';
+                        this.completedTasksCount++;
+                        
+                        this.liveLogs.unshift({
+                            id: Date.now(),
+                            user: this.robloxUser.trim(),
+                            amount: this.selectedTier
+                        });
+                        if (this.liveLogs.length > 5) this.liveLogs.pop();
+                        
+                        this.showToast("Network protocol cleared! Delivery scheduled.");
+                    }, 4000);
+                },
+                copyRefLink() {
+                    navigator.clipboard.writeText("https://robuxprize.net/ref?id=78492");
+                    this.showToast("Affiliate referral link stored to local clipboard.");
+                },
+                showToast(msg) {
+                    let id = Date.now();
+                    this.toasts.push({ id, msg });
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    setTimeout(() => { this.toasts = this.toasts.filter(t => t.id !== id); }, 4500);
+                }
             }
         }
-
-        function renderModalPromptContainer(title, HTMLContent, confirmCallbackFn) {
-            const body = document.body;
-            const overlay = document.createElement("div");
-            overlay.className = "modal-overlay";
-            overlay.innerHTML = `
-                <div class="glass-card modal-content" style="background:var(--nav-bg); border-color:rgba(255,255,255,0.12);">
-                    <h3 style="margin-bottom:8px; font-size:18px;">${title}</h3>
-                    <p style="font-size:14px; color:var(--text-sub); line-height:1.4; margin-bottom:20px;">${HTMLContent}</p>
-                    <div style="display:flex; justify-content:end; gap:8px;">
-                        <button class="glass-btn" id="modal-cancel-act" style="min-height:36px; padding:0 16px; font-size:12px;">Abort</button>
-                        <button class="glass-btn glass-btn-green" id="modal-confirm-act" style="min-height:36px; padding:0 16px; font-size:12px; border-color:var(--green);">Sign Contract Confirmation</button>
-                    </div>
-                </div>
-            `;
-            body.appendChild(overlay);
-            const closeFn = () => overlay.remove();
-            overlay.querySelector("#modal-cancel-act").onclick = closeFn;
-            overlay.querySelector("#modal-confirm-act").onclick = () => {
-                confirmCallbackFn();
-                closeFn();
-            };
-        }
-
-        window.addEventListener('hashchange', () => Router.resolve());
-        window.addEventListener('DOMContentLoaded', () => {
-            activeCategoryFilter = localStorage.getItem("mp-task-filter") || "All";
-            initStorageEngine();
-            Router.resolve();
-        });
     </script>
 </body>
 </html>
