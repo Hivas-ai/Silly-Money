@@ -195,9 +195,15 @@
                                     <!-- Dynamic Label / Instruction Guide for Telegram Task -->
                                     <template x-if="task.id === 1 && showTelegramGuide">
                                         <div class="mt-4 p-4 rounded-xl border border-red-500/30 bg-gradient-to-b from-red-950/40 to-zinc-950 space-y-3 relative overflow-hidden">
-                                            <div class="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-wider border-b border-zinc-900 pb-2">
-                                                <i data-lucide="send" class="w-4 h-4 text-red-500"></i>
-                                                <span>Telegram Instruction Guide</span>
+                                            <div class="flex items-center justify-between border-b border-zinc-900 pb-2">
+                                                <div class="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-wider">
+                                                    <i data-lucide="send" class="w-4 h-4 text-red-500"></i>
+                                                    <span>Telegram Instruction Guide</span>
+                                                </div>
+                                                <!-- View Details button to easily recall details -->
+                                                <button @click.stop="triggerTelegramBrowserLink(task)" class="text-[10px] font-bold text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-md transition flex items-center gap-1">
+                                                    <i data-lucide="external-link" class="w-3 h-3"></i> Open Link
+                                                </button>
                                             </div>
                                             <ol class="space-y-2 text-xs text-zinc-300 list-decimal pl-4 font-medium">
                                                 <li>First check if you have Telegram installed, or download the app.</li>
@@ -213,10 +219,6 @@
                                                 <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
                                                 <span>You will get free tokens directly from there!</span>
                                             </div>
-                                            <!-- Dedicated Start Task Trigger inside the Label Guide -->
-                                            <button @click.stop="startTelegramTaskSequence(task)" x-show="task.status === 'idle'" class="w-full mt-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2 rounded-xl transition duration-150 flex items-center justify-center gap-1 shadow-md shadow-red-600/10">
-                                                <i data-lucide="play" class="w-3.5 h-3.5"></i> Start Task
-                                            </button>
                                         </div>
                                     </template>
                                 </div>
@@ -228,40 +230,49 @@
                                     </span>
                                     
                                     <!-- Dynamic Action Button Interaction Loop -->
-                                    <button @click="handleTaskInteraction(task)" :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || task.status === 'loading'" 
-                                        :class="{
-                                            'bg-red-600 hover:bg-red-700 text-white cursor-pointer active:scale-95': task.status === 'idle',
-                                            'bg-zinc-900 border border-zinc-800 text-zinc-500 cursor-not-allowed': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
-                                            'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold tracking-wide shadow-lg shadow-emerald-600/20 active:scale-95 animate-pulse': task.status === 'claimable',
-                                            'bg-zinc-900 border border-zinc-800 text-zinc-600 cursor-not-allowed': task.status === 'completed'
-                                        }" 
-                                        class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
-                                        
-                                        <!-- State: Background Loader Active (Time remaining is fully hidden) -->
-                                        <template x-if="task.status === 'loading'">
-                                            <span class="flex items-center gap-1.5">
-                                                <svg class="animate-spin h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                                Processing Offer...
-                                            </span>
+                                    <div class="flex items-center gap-2">
+                                        <!-- Persistent View Details / Guide toggle when running/claimable for Telegram -->
+                                        <template x-if="task.id === 1 && (task.status === 'loading' || task.status === 'claimable')">
+                                            <button @click.stop="showTelegramGuide = !showTelegramGuide" class="text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-3 py-2 rounded-xl transition flex items-center gap-1">
+                                                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Details
+                                            </button>
                                         </template>
 
-                                        <!-- State: Base Interaction Inactive -->
-                                        <template x-if="task.status === 'idle'">
-                                            <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> <span x-text="task.id === 1 ? 'View Guide' : 'Start Offer'"></span></span>
-                                        </template>
+                                        <button @click="handleTaskInteraction(task)" :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed'" 
+                                            :class="{
+                                                'bg-red-600 hover:bg-red-700 text-white cursor-pointer active:scale-95': task.status === 'idle',
+                                                'bg-zinc-900 border border-zinc-800 text-zinc-500 cursor-not-allowed': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
+                                                'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold tracking-wide shadow-lg shadow-emerald-600/20 active:scale-95 animate-pulse': task.status === 'claimable',
+                                                'bg-zinc-900 border border-zinc-800 text-zinc-600 cursor-not-allowed': task.status === 'completed'
+                                            }" 
+                                            class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
+                                            
+                                            <!-- State: Background Loader Active (Time remaining is fully hidden, session locked via localStorage state mechanics) -->
+                                            <template x-if="task.status === 'loading'">
+                                                <span class="flex items-center gap-1.5">
+                                                    <svg class="animate-spin h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                                    Processing Offer...
+                                                </span>
+                                            </template>
 
-                                        <!-- State: Claim Interface -->
-                                        <template x-if="task.status === 'claimable'">
-                                            <span class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
-                                                <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-spin"></i> Claim Tokens
-                                            </span>
-                                        </template>
+                                            <!-- State: Base Interaction Inactive -->
+                                            <template x-if="task.status === 'idle'">
+                                                <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> <span x-text="task.id === 1 ? 'See Guide' : 'Start Offer'"></span></span>
+                                            </template>
 
-                                        <!-- State: Complete Operational Verification Logged -->
-                                        <template x-if="task.status === 'completed'">
-                                            <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-zinc-600"></i> Completed</span>
-                                        </template>
-                                    </button>
+                                            <!-- State: Claim Interface -->
+                                            <template x-if="task.status === 'claimable'">
+                                                <span class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
+                                                    <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-spin"></i> Claim Tokens
+                                                </span>
+                                            </template>
+
+                                            <!-- State: Complete Operational Verification Logged -->
+                                            <template x-if="task.status === 'completed'">
+                                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-zinc-600"></i> Completed</span>
+                                            </template>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </template>
@@ -508,7 +519,7 @@
                     { id: 3, user: 'BuildBoy99', amount: 5000 }
                 ],
                 tasks: [
-                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 15, status: 'idle', link: 'https://t.me/robux_prize', icon: 'send' },
+                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 50, status: 'idle', link: 'https://t.me/robux_prize', icon: 'send' },
                     { id: 2, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check' },
                     { id: 3, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.', reward: 35, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'download-cloud' },
                     { id: 4, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus' },
@@ -516,6 +527,9 @@
                     { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'star' }
                 ],
                 init() {
+                    // Check and load state from localStorage so loading status persists across page visits
+                    this.loadSavedTasksState();
+
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
@@ -537,6 +551,55 @@
                     }, Math.floor(Math.random() * 4000) + 3000); 
                 },
                 
+                loadSavedTasksState() {
+                    const savedTasks = localStorage.getItem('robux_tasks_state');
+                    const savedRunning = localStorage.getItem('robux_task_running');
+                    const savedTokens = localStorage.getItem('robux_tokens_balance');
+                    const savedCount = localStorage.getItem('robux_completed_count');
+                    
+                    if (savedTokens) this.tokens = parseInt(savedTokens);
+                    if (savedCount) this.completedTasksCount = parseInt(savedCount);
+                    if (savedRunning === 'true') this.isTaskRunning = true;
+
+                    if (savedTasks) {
+                        const parsed = JSON.parse(savedTasks);
+                        this.tasks.forEach(t => {
+                            const match = parsed.find(x => x.id === t.id);
+                            if (match) {
+                                t.status = match.status;
+                                // If it was left loading, calculate if the 3 minutes have passed since then
+                                if (t.status === 'loading' && match.endTime) {
+                                    if (Date.now() >= match.endTime) {
+                                        t.status = 'claimable';
+                                        this.isTaskRunning = false;
+                                    } else {
+                                        // Still time left, restart the background execution timer loop
+                                        const remaining = match.endTime - Date.now();
+                                        setTimeout(() => {
+                                            t.status = 'claimable';
+                                            this.isTaskRunning = false;
+                                            this.saveTasksState();
+                                            this.showToast(`Verification verified! "${t.title}" is ready to claim.`);
+                                        }, remaining);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                },
+
+                saveTasksState() {
+                    const mapped = this.tasks.map(t => ({
+                        id: t.id,
+                        status: t.status,
+                        endTime: t.endTime || null
+                    }));
+                    localStorage.setItem('robux_tasks_state', JSON.stringify(mapped));
+                    localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
+                    localStorage.setItem('robux_tokens_balance', this.tokens);
+                    localStorage.setItem('robux_completed_count', this.completedTasksCount);
+                },
+
                 handleTaskInteraction(task) {
                     // Block execution if another task is already locked in
                     if (this.isTaskRunning && task.status === 'idle') {
@@ -545,30 +608,42 @@
                     }
 
                     if (task.id === 1) {
-                        // Toggle guide view for Telegram task
-                        this.showTelegramGuide = !this.showTelegramGuide;
+                        if (task.status === 'idle') {
+                            // First interaction: just show guide guidelines
+                            this.showTelegramGuide = true;
+                            // Change state directly to start loading process loops immediately
+                            this.isTaskRunning = true;
+                            task.status = 'loading';
+                            task.endTime = Date.now() + 180000; // 3 minutes structural duration
+                            this.saveTasksState();
+                            this.showToast(`Loading: "${task.title}" sequence initialized.`);
+
+                            // Direct redirect to follow external browser rule
+                            window.open(task.link, '_blank');
+
+                            setTimeout(() => {
+                                task.status = 'claimable';
+                                task.endTime = null;
+                                this.isTaskRunning = false; 
+                                this.saveTasksState();
+                                this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
+                            }, 180000);
+                        } else if (task.status === 'claimable') {
+                            task.status = 'completed';
+                            this.tokens += task.reward;
+                            this.completedTasksCount++;
+                            this.saveTasksState();
+                            this.showToast(`Wallet synchronized! Added +${task.reward} Token Papers.`);
+                        }
                         return;
                     }
 
                     this.runStandardTask(task);
                 },
 
-                startTelegramTaskSequence(task) {
-                    if (this.isTaskRunning) {
-                        this.showToast("Error: You can only work on 1 task at a time.");
-                        return;
-                    }
-                    this.showTelegramGuide = false;
-                    this.isTaskRunning = true;
-                    task.status = 'loading';
-                    this.showToast(`Loading: "${task.title}" sequence initialized.`);
-
-                    // 3-minute stealth countdown processing delay loop
-                    setTimeout(() => {
-                        task.status = 'claimable';
-                        this.isTaskRunning = false; 
-                        this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
-                    }, 180000); 
+                triggerTelegramBrowserLink(task) {
+                    window.open(task.link, '_blank');
+                    this.showToast("Opening link outside application environment...");
                 },
 
                 runStandardTask(task) {
@@ -579,18 +654,22 @@
                         
                         this.isTaskRunning = true;
                         task.status = 'loading';
+                        task.endTime = Date.now() + 60000; // Standard 1 min
+                        this.saveTasksState();
                         this.showToast(`Loading: "${task.title}" offer stream initialized.`);
                         
-                        // Default hidden processing timer
                         setTimeout(() => {
                             task.status = 'claimable';
+                            task.endTime = null;
                             this.isTaskRunning = false;
+                            this.saveTasksState();
                             this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
                         }, 60000);
                     } else if (task.status === 'claimable') {
                         task.status = 'completed';
                         this.tokens += task.reward;
                         this.completedTasksCount++;
+                        this.saveTasksState();
                         this.showToast(`Wallet synchronized! Added +${task.reward} Token Papers.`);
                     }
                 },
@@ -621,6 +700,7 @@
                     setTimeout(() => {
                         this.withdrawStatus = 'complete';
                         this.completedTasksCount++;
+                        this.saveTasksState();
                         
                         this.liveLogs.unshift({
                             id: Date.now(),
