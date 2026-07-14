@@ -20,6 +20,56 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: #121214; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 3px; }
         [x-cloak] { display: none !important; }
+        
+        /* Spin Wheel Animation Dynamics */
+        .wheel-transition {
+            transition: transform 5s cubic-bezier(0.2, 0.8, 0.1, 1);
+        }
+        
+        /* CSS Conic Gradient Wheel Slices */
+        .visual-wheel {
+            background: conic-gradient(
+                #dc2626 0deg 45deg, 
+                #18181b 45deg 90deg, 
+                #ef4444 90deg 135deg, 
+                #27272a 135deg 180deg, 
+                #dc2626 180deg 225deg, 
+                #18181b 225deg 270deg, 
+                #ef4444 270deg 315deg, 
+                #27272a 315deg 360deg
+            );
+        }
+
+        /* Shimmer animation for claimable button */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        .btn-shimmer {
+            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+            background-size: 200% auto;
+            animation: shimmer 2s linear infinite;
+        }
+        .btn-shimmer:hover {
+            animation-duration: 0.8s;
+        }
+
+        /* Glow pulse for open task button */
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 4px rgba(59,130,246,0.3); }
+            50% { box-shadow: 0 0 12px rgba(59,130,246,0.6); }
+        }
+        .btn-open-task {
+            border-color: #3b82f6;
+            color: #93c5fd;
+            transition: all 0.2s;
+        }
+        .btn-open-task:hover {
+            background: #1e293b;
+            border-color: #60a5fa;
+            color: #bfdbfe;
+            animation: glow-pulse 1.2s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -63,7 +113,7 @@
                         <i data-lucide="coins" class="w-5 h-5"></i> Convert & Withdraw
                     </button>
                     <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
-                        <i data-lucide="users" class="w-5 h-5"></i> Invite Friends
+                        <i data-lucide="users" class="w-5 h-5"></i> Invite & Promos
                     </button>
                     <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
                         <i data-lucide="shield-alert" class="w-5 h-5"></i> Platform Rules
@@ -83,6 +133,7 @@
                 
                 <!-- DASHBOARD VIEW -->
                 <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                    
                     <!-- Hero Promo Widget -->
                     <div class="bg-gradient-to-r from-red-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
@@ -130,6 +181,128 @@
                             <p class="text-2xl font-black text-white tracking-tight">849.2K</p>
                             <span class="text-[11px] text-zinc-500 font-medium">Total Robux dispersed</span>
                         </div>
+                    </div>
+
+                    <!-- UPDATED: REAL-TIME INTERACTIVE SPIN WHEEL & STREAK DAILY REWARDS ROW -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- Real-Time Consecutive Daily Reward Streak Hub -->
+                        <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Consecutive Daily Streak</span>
+                                    <span class="text-xs text-zinc-400 font-medium font-mono" x-text="'Day ' + currentStreak"></span>
+                                </div>
+                                <h3 class="text-lg font-bold text-white">Claim Your Daily Tokens</h3>
+                                <p class="text-zinc-400 text-xs leading-relaxed">Don't break your momentum! Log in every day to upgrade your token payout systematically up to Day 7.</p>
+                                
+                                <!-- Streak Days Grid Map -->
+                                <div class="grid grid-cols-4 gap-2 pt-2">
+                                    <template x-for="(reward, index) in streakDays" :key="index">
+                                        <div :class="{
+                                            'border-emerald-500/30 bg-emerald-950/20': index + 1 === currentStreak && isDailyGiftAvailable,
+                                            'border-zinc-800 bg-zinc-900/20 opacity-40': index + 1 > currentStreak || (index + 1 === currentStreak && !isDailyGiftAvailable),
+                                            'border-emerald-500 bg-emerald-500/10 text-emerald-400': index + 1 < currentStreak
+                                        }" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px] transition duration-200">
+                                            <span class="text-[9px] font-bold text-zinc-400 uppercase" x-text="'Day ' + (index + 1)"></span>
+                                            
+                                            <!-- Icon showing earned state vs locked/available state -->
+                                            <template x-if="index + 1 < currentStreak">
+                                                <i data-lucide="check-circle" class="w-3.5 h-3.5 mt-1 text-emerald-400"></i>
+                                            </template>
+                                            <template x-if="index + 1 >= currentStreak">
+                                                <span class="text-xs font-black mt-1 text-white" x-text="'+' + reward"></span>
+                                            </template>
+                                            
+                                            <span class="text-[8px] text-zinc-500 mt-0.5">Tokens</span>
+                                        </div>
+                                    </template>
+                                    
+                                    <!-- Day 8 Mystery Bonus Spot -->
+                                    <div :class="currentStreak === 8 && isDailyGiftAvailable ? 'border-amber-500/30 bg-amber-950/20' : 'border-zinc-800 bg-zinc-900/20 opacity-40'" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px]">
+                                        <span class="text-[9px] font-bold text-zinc-400 uppercase">Day 8</span>
+                                        <i data-lucide="gift" class="w-4 h-4 text-amber-400 mt-1"></i>
+                                        <span class="text-[8px] text-zinc-500 mt-0.5">Bonus</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-4 border-t border-zinc-900 flex items-center justify-between">
+                                <span class="text-xs text-zinc-500 font-medium" x-text="dailyGiftCooldownStr"></span>
+                                <button @click="claimDailyStreak()" :disabled="!isDailyGiftAvailable" :class="isDailyGiftAvailable ? 'bg-emerald-600 hover:bg-emerald-500 text-white active:scale-95' : 'bg-zinc-900 text-zinc-600 cursor-not-allowed border border-zinc-800'" class="text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-lg">
+                                    <span x-show="isDailyGiftAvailable" x-text="'Claim Day ' + currentStreak"></span>
+                                    <span x-show="!isDailyGiftAvailable">Claimed</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Real Visual Spin Wheel Hub (UPDATED with cooldown & cost) -->
+                        <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+                            <div class="flex items-center justify-between">
+                                <!-- Show "Free First Spin" if isFirstSpin, else show cost -->
+                                <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" x-text="isFirstSpin ? 'Free First Turn' : 'Cost: 5 TKNS'"></span>
+                                <span class="text-xs text-zinc-400 font-mono">Win up to 100 TKNS</span>
+                            </div>
+
+                            <!-- Interactive 3D/CSS Wheel Playground -->
+                            <div class="my-4 flex flex-col sm:flex-row items-center justify-center gap-6">
+                                <div class="relative">
+                                    <!-- Triangle Selector Pointer Pointer -->
+                                    <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-20 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[14px] border-t-amber-400 drop-shadow"></div>
+                                    
+                                    <!-- Actual Rotatable Visual Slices Wheel -->
+                                    <div class="w-36 h-36 rounded-full border-4 border-zinc-800 shadow-2xl relative overflow-hidden visual-wheel wheel-transition" :style="'transform: rotate(' + wheelAngle + 'deg)'">
+                                        <!-- Visual Labels Inner Overlay -->
+                                        <div class="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white pointer-events-none">
+                                            <!-- Top Slice (5) -->
+                                            <div class="absolute transform -translate-y-12 rotate-0">5</div>
+                                            <!-- Slice 2 (10) -->
+                                            <div class="absolute transform translate-x-8 -translate-y-8 rotate-45">10</div>
+                                            <!-- Slice 3 (20) -->
+                                            <div class="absolute transform translate-x-12 rotate-90">20</div>
+                                            <!-- Slice 4 (50) -->
+                                            <div class="absolute transform translate-x-8 translate-y-8 rotate-135">50</div>
+                                            <!-- Slice 5 (5) -->
+                                            <div class="absolute transform translate-y-12 rotate-180">5</div>
+                                            <!-- Slice 6 (10) -->
+                                            <div class="absolute transform -translate-x-8 translate-y-8 rotate-225">10</div>
+                                            <!-- Slice 7 (20) -->
+                                            <div class="absolute transform -translate-x-12 rotate-270">20</div>
+                                            <!-- Slice 8 (100) -->
+                                            <div class="absolute transform -translate-x-8 -translate-y-8 rotate-315">100</div>
+                                        </div>
+                                        <!-- Central Hub Cap -->
+                                        <div class="absolute inset-0 m-auto w-8 h-8 bg-zinc-950 border-2 border-zinc-800 rounded-full flex items-center justify-center shadow-md">
+                                            <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center sm:text-left space-y-2">
+                                    <h4 class="text-sm font-bold text-white">Wheel of Fortune</h4>
+                                    <p class="text-xs text-zinc-400 leading-relaxed">Spin the visual wheel to score high rewards instantly. Slices are weighted equally!</p>
+                                    
+                                    <!-- Button with cooldown awareness (now shows only hours & minutes) -->
+                                    <button @click="spinWheel()" 
+                                        :disabled="isSpinning || (spinCooldownUntil > Date.now()) || (!isFirstSpin && tokens < 5)"
+                                        :class="isSpinning ? 'opacity-50 cursor-not-allowed' : (spinCooldownUntil > Date.now() ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'active:scale-95')"
+                                        class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xs px-5 py-2.5 rounded-xl transition shadow-lg shadow-red-600/10">
+                                        <span x-show="!isSpinning && spinCooldownUntil <= Date.now()">
+                                            <span x-text="isFirstSpin ? 'Free Spin' : 'Spin (5 TKNS)'"></span>
+                                        </span>
+                                        <span x-show="!isSpinning && spinCooldownUntil > Date.now()">
+                                            ⏳ <span x-text="spinCooldownDisplay"></span>
+                                        </span>
+                                        <span x-show="isSpinning">Spinning...</span>
+                                    </button>
+                                    <!-- Show a "try again" hint when cooldown is active -->
+                                    <p x-show="spinCooldownUntil > Date.now()" class="text-[10px] text-amber-400 font-medium mt-1">
+                                        Try again after the cooldown ends.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Platform System Status Log -->
@@ -219,6 +392,13 @@
                                             </div>
                                         </div>
                                     </template>
+
+                                    <!-- Show cooldown timer for repeatable tasks (if completed and cooldown active) -->
+                                    <template x-if="task.isRepeatable && task.status === 'completed' && task.cooldownUntil && task.cooldownUntil > Date.now()">
+                                        <div class="mt-2 text-xs text-amber-400 font-medium">
+                                            ⏳ Available again in <span x-text="getCooldownDisplay(task.cooldownUntil)"></span>
+                                        </div>
+                                    </template>
                                 </div>
                                 
                                 <div class="mt-4 pt-4 border-t border-zinc-900 flex items-center justify-between">
@@ -227,6 +407,13 @@
                                     </span>
                                     
                                     <div class="flex items-center gap-2">
+                                        <!-- "Open Task" button appears when loading or claimable -->
+                                        <template x-if="task.status === 'loading' || task.status === 'claimable'">
+                                            <button @click.stop="openTaskLink(task)" class="btn-open-task text-xs bg-zinc-900/60 border border-blue-500/40 hover:bg-zinc-800 text-blue-300 px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-medium">
+                                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Task
+                                            </button>
+                                        </template>
+
                                         <!-- Persistent View Details toggle when running/claimable for Telegram -->
                                         <template x-if="task.id === 1 && (task.status === 'loading' || task.status === 'claimable')">
                                             <button @click.stop="showTelegramGuide = !showTelegramGuide" class="text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-3 py-2 rounded-xl transition flex items-center gap-1">
@@ -234,38 +421,39 @@
                                             </button>
                                         </template>
 
+                                        <!-- PROFESSIONAL TASK BUTTONS (no timer, just claim) -->
                                         <button @click="handleTaskInteraction(task)" :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed'" 
                                             :class="{
-                                                'bg-red-600 hover:bg-red-700 text-white cursor-pointer active:scale-95': task.status === 'idle',
-                                                'bg-zinc-900 border border-zinc-800 text-zinc-500 cursor-not-allowed': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
-                                                'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold tracking-wide shadow-lg shadow-emerald-600/20 active:scale-95 animate-pulse': task.status === 'claimable',
-                                                'bg-zinc-900 border border-zinc-800 text-zinc-600 cursor-not-allowed': task.status === 'completed'
+                                                'bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-md shadow-red-600/20 active:scale-95 border border-red-500/30': task.status === 'idle',
+                                                'bg-zinc-800/80 border border-zinc-700 text-zinc-400 cursor-not-allowed backdrop-blur-sm': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
+                                                'btn-shimmer text-white font-bold tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 active:scale-95 border border-emerald-400/30': task.status === 'claimable',
+                                                'bg-zinc-800/60 border border-zinc-700 text-zinc-500 cursor-not-allowed': task.status === 'completed'
                                             }" 
                                             class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
                                             
-                                            <!-- State: Background Loader Active -->
+                                            <!-- State: Loading -->
                                             <template x-if="task.status === 'loading'">
                                                 <span class="flex items-center gap-1.5">
-                                                    <svg class="animate-spin h-3.5 w-3.5 text-red-500" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                                                    Processing Offer...
+                                                    <svg class="animate-spin h-3.5 w-3.5 text-amber-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                                    Processing...
                                                 </span>
                                             </template>
 
-                                            <!-- State: Base Interaction Inactive -->
+                                            <!-- State: Idle -->
                                             <template x-if="task.status === 'idle'">
                                                 <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> <span x-text="task.id === 1 ? 'See Guide' : 'Start Offer'"></span></span>
                                             </template>
 
-                                            <!-- State: Claim Interface -->
+                                            <!-- State: Claimable (no timer) -->
                                             <template x-if="task.status === 'claimable'">
                                                 <span class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
                                                     <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Claim Tokens
                                                 </span>
                                             </template>
 
-                                            <!-- State: Complete Operational Verification Logged -->
+                                            <!-- State: Completed -->
                                             <template x-if="task.status === 'completed'">
-                                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-zinc-600"></i> Completed</span>
+                                                <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Completed</span>
                                             </template>
                                         </button>
                                     </div>
@@ -445,7 +633,7 @@
                     </div>
                 </div>
 
-                <!-- RULES VIEW -->
+                <!-- RULES VIEW (UPDATED: added honesty rule) -->
                 <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Compliance & Fraud Prevention</h2>
@@ -471,13 +659,23 @@
                                 <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Inputting invalid, temporary, or burner details during verification processes causes direct programmatic settlement failure.</p>
                             </div>
                         </div>
-                        <div class="pt-4 flex gap-4 items-start">
+                        <div class="py-4 flex gap-4 items-start">
                             <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
                                 <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">One Account Limitation</h3>
                                 <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Multi-accounting behavior to loop invite systems triggers hardware identity fingerprints and immediate systemic ban execution.</p>
+                            </div>
+                        </div>
+                        <!-- NEW RULE: Honest Task Completion -->
+                        <div class="pt-4 flex gap-4 items-start">
+                            <div class="bg-emerald-500/10 p-2 rounded-lg text-emerald-500 border border-emerald-500/10 mt-0.5">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-white">Honest Task Completion Required</h3>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">All tasks must be completed honestly and in accordance with the instructions. We verify your activity before approving any payout. Faking or automating tasks will result in permanent account suspension and forfeiture of all earned tokens.</p>
                             </div>
                         </div>
                     </div>
@@ -511,12 +709,19 @@
         </button>
     </nav>
 
-    <!-- NOTIFICATION SYSTEM TOASTS -->
-    <div class="fixed top-5 right-5 z-50 pointer-events-none max-w-xs space-y-2">
+    <!-- NOTIFICATION SYSTEM TOASTS (enhanced style) -->
+    <div class="fixed top-5 right-5 z-50 pointer-events-none max-w-sm w-full space-y-3">
         <template x-for="toast in toasts" :key="toast.id">
-            <div x-transition class="bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs px-4 py-3 rounded-xl flex items-center gap-2.5 shadow-xl pointer-events-auto">
-                <i data-lucide="info" class="w-4 h-4 text-red-500 flex-shrink-0"></i>
-                <span x-text="toast.msg" class="font-medium"></span>
+            <div x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 translate-x-6" x-transition:enter-end="opacity-100 translate-x-0" class="bg-zinc-900/95 backdrop-blur-sm border border-zinc-700/60 shadow-2xl shadow-black/40 rounded-xl flex items-start gap-3 p-4 pointer-events-auto max-w-sm">
+                <!-- Dynamic Icon based on message content -->
+                <div class="flex-shrink-0 mt-0.5">
+                    <i :data-lucide="getToastIcon(toast.msg)" class="w-5 h-5" :class="{
+                        'text-red-500': getToastIcon(toast.msg) === 'alert-circle',
+                        'text-emerald-500': getToastIcon(toast.msg) === 'check-circle',
+                        'text-blue-400': getToastIcon(toast.msg) === 'info'
+                    }"></i>
+                </div>
+                <span x-text="toast.msg" class="text-sm font-medium text-zinc-200 leading-relaxed"></span>
             </div>
         </template>
     </div>
@@ -537,6 +742,19 @@
                 toasts: [],
                 isTaskRunning: false, 
                 showTelegramGuide: false, 
+
+                // --- STREAK & REAL WHEEL STATE VARIABLES ---
+                isDailyGiftAvailable: true,
+                dailyGiftCooldownStr: 'Available Now',
+                nextDailyClaimTime: 0,
+                currentStreak: 1,
+                streakDays: [5, 10, 15, 20, 25, 30, 50],
+                isFirstSpin: true,
+                isSpinning: false,
+                wheelAngle: 0,
+                spinCooldownUntil: 0,
+                // -------------------------------------------
+
                 poolUsernames: ['iGamer_Pro', 'BloxValk', 'BuildBoy99', 'RoboQueen_X', 'Xyz_Dev', 'Linkmon_Fan', 'RbxKing2026', 'ShadowNinja', 'VibeCheck_9', 'Alpha_Build', 'Luna_Blox', 'DevRBLX_'],
                 liveLogs: [
                     { id: 1, user: 'iGamer_Pro', amount: 5000 },
@@ -544,25 +762,78 @@
                     { id: 3, user: 'BuildBoy99', amount: 5000 }
                 ],
                 tasks: [
-                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 50, status: 'idle', link: 'https://t.me/robux_prize', icon: 'send' },
-                    { id: 2, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check' },
-                    { id: 3, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.', reward: 35, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'download-cloud' },
-                    { id: 4, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus' },
-                    { id: 5, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.', reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'users-2' },
-                    { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'star' }
+                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 50, status: 'idle', link: 'https://t.me/robux_prize', icon: 'send', isRepeatable: false, cooldownUntil: null },
+                    { id: 2, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check', isRepeatable: true, cooldownUntil: null },
+                    { id: 3, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.', reward: 35, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'download-cloud', isRepeatable: true, cooldownUntil: null },
+                    { id: 4, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus', isRepeatable: true, cooldownUntil: null },
+                    { id: 5, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.', reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'users-2', isRepeatable: true, cooldownUntil: null },
+                    { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'star', isRepeatable: false, cooldownUntil: null }
                 ],
                 
-                // Track already redeemed codes globally to lock out standard multi-use actions
                 usedPromoCodes: [],
+
+                // --- Computed property for cooldown display (only hours & minutes) ---
+                get spinCooldownDisplay() {
+                    const now = Date.now();
+                    const diff = this.spinCooldownUntil - now;
+                    if (diff <= 0) return 'Ready!';
+                    const hours = Math.floor(diff / 3600000);
+                    const mins = Math.floor((diff % 3600000) / 60000);
+                    return `${hours}h ${mins}m`;
+                },
+
+                // --- Helper to format cooldown timer for tasks ---
+                getCooldownDisplay(cooldownUntil) {
+                    const now = Date.now();
+                    const diff = cooldownUntil - now;
+                    if (diff <= 0) return 'Ready!';
+                    const mins = Math.floor(diff / 60000);
+                    const secs = Math.floor((diff % 60000) / 1000);
+                    return `${mins}m ${secs}s`;
+                },
+
+                // --- Helper to choose toast icon based on message ---
+                getToastIcon(msg) {
+                    const lower = msg.toLowerCase();
+                    if (lower.includes('error')) return 'alert-circle';
+                    if (lower.includes('success') || lower.includes('congratulations') || lower.includes('verified') || lower.includes('claimed')) return 'check-circle';
+                    return 'info';
+                },
 
                 init() {
                     this.loadSavedTasksState();
+
+                    // Init daily gift countdown loops
+                    this.updateDailyGiftStatus();
+                    setInterval(() => { this.updateDailyGiftStatus(); }, 1000);
+
+                    // --- MAIN LIVE UPDATES LOOP ---
+                    setInterval(() => {
+                        // Force re‑render for spin cooldown and task cooldowns
+                        this.$forceUpdate();
+
+                        // Check for tasks that have completed their cooldown and reset to idle
+                        let anyReset = false;
+                        this.tasks.forEach(t => {
+                            if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
+                                t.status = 'idle';
+                                t.cooldownUntil = null;
+                                anyReset = true;
+                            }
+                        });
+                        if (anyReset) {
+                            this.saveTasksState();
+                            // Optionally show toast? Maybe not needed.
+                        }
+                    }, 1000);
+                    // ---------------------------------------------
 
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     this.$watch('showTelegramGuide', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     this.$watch('showPromoPasswordForm', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('toasts', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                     
                     setInterval(() => {
                         let randomUser = this.poolUsernames[Math.floor(Math.random() * this.poolUsernames.length)];
@@ -587,10 +858,21 @@
                     const savedCount = localStorage.getItem('robux_completed_count');
                     const savedUsedPromos = localStorage.getItem('robux_used_promos');
                     
+                    // Saved Daily/Spin parameters
+                    const savedNextClaim = localStorage.getItem('robux_next_daily_claim');
+                    const savedStreak = localStorage.getItem('robux_streak_day');
+                    const savedFirstSpin = localStorage.getItem('robux_first_spin_available');
+                    const savedSpinCooldown = localStorage.getItem('robux_spin_cooldown');
+
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
                     if (savedRunning === 'true') this.isTaskRunning = true;
                     if (savedUsedPromos) this.usedPromoCodes = JSON.parse(savedUsedPromos);
+                    
+                    if (savedNextClaim) this.nextDailyClaimTime = parseInt(savedNextClaim);
+                    if (savedStreak) this.currentStreak = parseInt(savedStreak);
+                    if (savedFirstSpin === 'false') this.isFirstSpin = false;
+                    if (savedSpinCooldown) this.spinCooldownUntil = parseInt(savedSpinCooldown);
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
@@ -598,6 +880,7 @@
                             const match = parsed.find(x => x.id === t.id);
                             if (match) {
                                 t.status = match.status;
+                                t.cooldownUntil = match.cooldownUntil || null;
                                 if (t.status === 'loading' && match.endTime) {
                                     if (Date.now() >= match.endTime) {
                                         t.status = 'claimable';
@@ -612,6 +895,11 @@
                                         }, remaining);
                                     }
                                 }
+                                // If completed but cooldown already passed, reset to idle
+                                if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
+                                    t.status = 'idle';
+                                    t.cooldownUntil = null;
+                                }
                             }
                         });
                     }
@@ -621,21 +909,142 @@
                     const mapped = this.tasks.map(t => ({
                         id: t.id,
                         status: t.status,
-                        endTime: t.endTime || null
+                        endTime: t.endTime || null,
+                        cooldownUntil: t.cooldownUntil || null
                     }));
                     localStorage.setItem('robux_tasks_state', JSON.stringify(mapped));
                     localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
                     localStorage.setItem('robux_tokens_balance', this.tokens);
                     localStorage.setItem('robux_completed_count', this.completedTasksCount);
                     localStorage.setItem('robux_used_promos', JSON.stringify(this.usedPromoCodes));
+                    
+                    localStorage.setItem('robux_next_daily_claim', this.nextDailyClaimTime);
+                    localStorage.setItem('robux_streak_day', this.currentStreak);
+                    localStorage.setItem('robux_first_spin_available', this.isFirstSpin ? 'true' : 'false');
+                    localStorage.setItem('robux_spin_cooldown', this.spinCooldownUntil);
                 },
 
+                // --- DAILY STREAK (unchanged) ---
+                updateDailyGiftStatus() {
+                    let now = Date.now();
+                    if (this.nextDailyClaimTime > 0 && (now - (this.nextDailyClaimTime - 86400000)) > 172800000) {
+                        this.currentStreak = 1;
+                        this.saveTasksState();
+                    }
+                    if (now >= this.nextDailyClaimTime) {
+                        this.isDailyGiftAvailable = true;
+                        this.dailyGiftCooldownStr = 'Available Now';
+                    } else {
+                        this.isDailyGiftAvailable = false;
+                        let diff = this.nextDailyClaimTime - now;
+                        let hours = Math.floor(diff / 3600000);
+                        let mins = Math.floor((diff % 3600000) / 60000);
+                        let secs = Math.floor((diff % 60000) / 1000);
+                        this.dailyGiftCooldownStr = `Next Day in: ${hours}h ${mins}m ${secs}s`;
+                    }
+                },
+
+                claimDailyStreak() {
+                    if (!this.isDailyGiftAvailable) return;
+                    let rewardAmount = 0;
+                    if (this.currentStreak <= 7) {
+                        rewardAmount = this.streakDays[this.currentStreak - 1];
+                    } else {
+                        rewardAmount = Math.floor(Math.random() * 51) + 25;
+                    }
+                    this.tokens += rewardAmount;
+                    if (this.currentStreak >= 8) {
+                        this.currentStreak = 1;
+                    } else {
+                        this.currentStreak++;
+                    }
+                    this.nextDailyClaimTime = Date.now() + 86400000;
+                    this.isDailyGiftAvailable = false;
+                    this.saveTasksState();
+                    this.updateDailyGiftStatus();
+                    this.showToast(`Success! You claimed your streak gift and earned +${rewardAmount} Tokens.`);
+                },
+
+                // --- SPIN WHEEL (unchanged) ---
+                spinWheel() {
+                    if (this.isSpinning) return;
+
+                    if (this.spinCooldownUntil > Date.now()) {
+                        this.showToast("Please wait for the cooldown to finish before spinning again.");
+                        return;
+                    }
+
+                    if (!this.isFirstSpin && this.tokens < 5) {
+                        this.showToast("Error: You need at least 5 Tokens to spin the wheel.");
+                        return;
+                    }
+
+                    this.isSpinning = true;
+                    
+                    if (!this.isFirstSpin) {
+                        this.tokens -= 5;
+                    } else {
+                        this.isFirstSpin = false;
+                    }
+
+                    this.spinCooldownUntil = Date.now() + 7200000;
+                    this.saveTasksState();
+
+                    const sliceWeights = [5, 5, 5, 5, 5, 5, 5, 1];
+                    const totalWeight = sliceWeights.reduce((a, b) => a + b, 0);
+                    let random = Math.random() * totalWeight;
+                    let winningIndex = 0;
+                    for (let i = 0; i < sliceWeights.length; i++) {
+                        random -= sliceWeights[i];
+                        if (random <= 0) {
+                            winningIndex = i;
+                            break;
+                        }
+                    }
+
+                    const slicesMap = [
+                        { prize: 5, angleMin: 0, angleMax: 45 },
+                        { prize: 10, angleMin: 45, angleMax: 90 },
+                        { prize: 20, angleMin: 90, angleMax: 135 },
+                        { prize: 50, angleMin: 135, angleMax: 180 },
+                        { prize: 5, angleMin: 180, angleMax: 225 },
+                        { prize: 10, angleMin: 225, angleMax: 270 },
+                        { prize: 20, angleMin: 270, angleMax: 315 },
+                        { prize: 100, angleMin: 315, angleMax: 360 }
+                    ];
+
+                    let selectedSlice = slicesMap[winningIndex];
+                    let targetSliceMid = (selectedSlice.angleMin + selectedSlice.angleMax) / 2;
+                    let baseRotations = 5;
+                    let calculatedStopAngle = (baseRotations * 360) + (360 - targetSliceMid);
+                    this.wheelAngle = calculatedStopAngle;
+
+                    setTimeout(() => {
+                        this.isSpinning = false;
+                        let winAmount = selectedSlice.prize;
+                        this.tokens += winAmount;
+                        this.saveTasksState();
+                        this.showToast(`Congratulations! The wheel landed on +${winAmount} Tokens.`);
+                    }, 5000);
+                },
+                // -----------------------------------------------
+
+                // --- Function to open task link ---
+                openTaskLink(task) {
+                    if (task.link) {
+                        window.open(task.link, '_blank');
+                        this.showToast(`Opening task: ${task.title}`);
+                    }
+                },
+
+                // --- TASK HANDLING (no expiry timer, repeatable with 10 min cooldown) ---
                 handleTaskInteraction(task) {
                     if (this.isTaskRunning && task.status === 'idle') {
                         this.showToast("Error: You can only work on 1 task at a time.");
                         return;
                     }
 
+                    // Special handling for Telegram task (id:1) – one-time only
                     if (task.id === 1) {
                         if (task.status === 'idle') {
                             this.showTelegramGuide = true;
@@ -653,7 +1062,9 @@
                                 this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
                             }, 180000);
                         } else if (task.status === 'claimable') {
+                            // Claim it (one-time)
                             task.status = 'completed';
+                            task.cooldownUntil = null; // never resets
                             this.completedTasksCount++;
                             this.saveTasksState();
                             
@@ -668,15 +1079,40 @@
                         return;
                     }
 
-                    this.runStandardTask(task);
-                },
+                    // For repeatable tasks (2,3,4,5) and also task 6 (rating) – we'll treat all others as repeatable with 10 min cooldown
+                    // Actually we set isRepeatable flag, so we can use that.
+                    if (task.isRepeatable) {
+                        if (task.status === 'idle') {
+                            if (task.link) {
+                                window.open(task.link, '_blank');
+                            }
+                            
+                            this.isTaskRunning = true;
+                            task.status = 'loading';
+                            task.endTime = Date.now() + 60000; // 1 min
+                            this.saveTasksState();
+                            this.showToast(`Loading: "${task.title}" offer stream initialized.`);
+                            
+                            setTimeout(() => {
+                                task.status = 'claimable';
+                                task.endTime = null;
+                                this.isTaskRunning = false;
+                                this.saveTasksState();
+                                this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
+                            }, 60000);
+                        } else if (task.status === 'claimable') {
+                            // Claim it, start 10‑min cooldown
+                            task.status = 'completed';
+                            task.cooldownUntil = Date.now() + 600000; // 10 minutes
+                            this.tokens += task.reward;
+                            this.completedTasksCount++;
+                            this.saveTasksState();
+                            this.showToast(`Wallet synchronized! Added +${task.reward} Token Papers. Task will be available again in 10 minutes.`);
+                        }
+                        return;
+                    }
 
-                triggerTelegramBrowserLink(task) {
-                    window.open(task.link, '_blank');
-                    this.showToast("Opening link outside application environment...");
-                },
-
-                runStandardTask(task) {
+                    // For non‑repeatable tasks (like rating? we have task 6 as non‑repeatable)
                     if (task.status === 'idle') {
                         if (task.link) {
                             window.open(task.link, '_blank');
@@ -684,7 +1120,7 @@
                         
                         this.isTaskRunning = true;
                         task.status = 'loading';
-                        task.endTime = Date.now() + 60000; // 1 min
+                        task.endTime = Date.now() + 60000;
                         this.saveTasksState();
                         this.showToast(`Loading: "${task.title}" offer stream initialized.`);
                         
@@ -697,13 +1133,20 @@
                         }, 60000);
                     } else if (task.status === 'claimable') {
                         task.status = 'completed';
+                        task.cooldownUntil = null; // never resets
                         this.tokens += task.reward;
                         this.completedTasksCount++;
                         this.saveTasksState();
                         this.showToast(`Wallet synchronized! Added +${task.reward} Token Papers.`);
                     }
                 },
-                
+
+                triggerTelegramBrowserLink(task) {
+                    window.open(task.link, '_blank');
+                    this.showToast("Opening link outside application environment...");
+                },
+
+                // --- PROMO CODE (unchanged) ---
                 applyPromoCode() {
                     let inputCode = this.promoCode.trim().toUpperCase();
                     if (!inputCode) {
@@ -711,14 +1154,12 @@
                         return;
                     }
                     
-                    // Route 1: Infinite Special Vault Code System Activation
                     if (inputCode === 'IYVKQ') {
                         this.showPromoPasswordForm = true;
                         this.showToast("Master code detected. Input authorization key.");
                         return;
                     }
 
-                    // Route 2: Single-Use 50 Token Batch Code Verification Block
                     const validBatchRegex = /^RBX50_[A-Z0-9]{4}$/;
                     const allowedSuffixes = [
                         'A1B2','C3D4','E5F6','G7H8','I9J0','K1L2','M3N4','O5P6','J0K1','L2M3',
@@ -734,7 +1175,6 @@
                             return;
                         }
                         
-                        // Commit code to ledger and award balance points
                         this.usedPromoCodes.push(inputCode);
                         this.tokens += 50;
                         this.showToast("Voucher verified! +50 Token Papers successfully credited.");
