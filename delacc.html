@@ -1,581 +1,390 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Deletion FAQ | Silly Money Help Center</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RobuxPrize · Account Deletion</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
+    </script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest">
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --danger: #ef4444;
-            --danger-light: #fef2f2;
-            --warning: #f59e0b;
-            --text-primary: #111827;
-            --text-secondary: #6b7280;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f9fafb;
-            --border: #e5e7eb;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            background: #0b0b0c;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #121214;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 3px;
+        }
+        [x-cloak] {
+            display: none !important;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 48px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--primary), #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .header p {
-            color: var(--text-secondary);
-            font-size: 1.125rem;
-        }
-
-        .warning-banner {
-            background: linear-gradient(135deg, #fff5f5, var(--danger-light));
-            border-left: 4px solid var(--danger);
-            border-radius: var(--radius);
-            padding: 24px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: start;
-            gap: 16px;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
+        /* Glow pulse for the delete button */
+        @keyframes glow-pulse-danger {
+            0%,
+            100% {
+                box-shadow: 0 0 6px rgba(220, 38, 38, 0.2);
             }
-            to {
+            50% {
+                box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+            }
+        }
+        .btn-danger-glow {
+            animation: glow-pulse-danger 2s ease-in-out infinite;
+        }
+
+        /* Shimmer for the support badge */
+        @keyframes shimmer-support {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        .support-shimmer {
+            background: linear-gradient(90deg, #1e293b, #334155, #1e293b);
+            background-size: 200% auto;
+            animation: shimmer-support 3s linear infinite;
+        }
+
+        /* Subtle entrance */
+        .fade-enter {
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-
-        .warning-icon {
-            width: 24px;
-            height: 24px;
-            color: var(--danger);
-            flex-shrink: 0;
-            margin-top: 2px;
+        .delay-1 {
+            animation-delay: 0.1s;
         }
-
-        .warning-content h3 {
-            color: #dc2626;
-            font-size: 1.125rem;
-            margin-bottom: 8px;
+        .delay-2 {
+            animation-delay: 0.2s;
         }
-
-        .warning-content p {
-            color: #7f1d1d;
-            font-size: 0.95rem;
-            line-height: 1.5;
+        .delay-3 {
+            animation-delay: 0.3s;
         }
-
-        .faq-section {
-            background: var(--bg-primary);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid var(--border);
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-question {
-            padding: 24px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background-color 0.2s;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .faq-question:hover {
-            background-color: var(--bg-secondary);
-        }
-
-        .faq-question.active {
-            background-color: var(--bg-secondary);
-            color: var(--primary);
-        }
-
-        .icon-chevron {
-            width: 20px;
-            height: 20px;
-            transition: transform 0.3s;
-            color: var(--text-secondary);
-        }
-
-        .faq-question.active .icon-chevron {
-            transform: rotate(180deg);
-            color: var(--primary);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s;
-        }
-
-        .faq-answer.active {
-            max-height: 1000px;
-            padding: 0 24px 24px 24px;
-        }
-
-        .step-container {
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            padding: 24px;
-            margin-top: 16px;
-        }
-
-        .step {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .step:last-child {
-            margin-bottom: 0;
-        }
-
-        .step:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            left: 20px;
-            top: 40px;
-            width: 2px;
-            height: calc(100% - 20px);
-            background: linear-gradient(to bottom, var(--border), transparent);
-        }
-
-        .step-number {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .step-content {
-            flex: 1;
-            padding-top: 8px;
-        }
-
-        .step-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-
-        .step-desc {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .visual-hint {
-            background: white;
-            border: 2px dashed var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            position: relative;
-        }
-
-        .visual-hint.danger-zone {
-            border-color: var(--danger);
-            background: var(--danger-light);
-            color: #991b1b;
-        }
-
-        .btn-mock {
-            display: inline-block;
-            padding: 8px 16px;
-            background: var(--danger);
-            color: white;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            margin-top: 8px;
-            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
-        }
-
-        .input-mock {
-            display: inline-block;
-            padding: 6px 12px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            background: white;
-            font-weight: 600;
-            color: var(--danger);
-            margin: 0 4px;
-            letter-spacing: 1px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .info-card {
-            background: var(--bg-secondary);
-            padding: 16px;
-            border-radius: 8px;
-            border-left: 3px solid var(--primary);
-        }
-
-        .info-card h4 {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-card p {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .contact-box {
-            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-            border-radius: var(--radius);
-            padding: 24px;
-            margin-top: 32px;
-            text-align: center;
-        }
-
-        .contact-box h3 {
-            color: var(--primary-dark);
-            margin-bottom: 8px;
-        }
-
-        .contact-box p {
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
-        }
-
-        .highlight {
-            background: linear-gradient(120deg, #fef08a 0%, #fef08a 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 40%;
-            background-position: 0 88%;
-            padding: 0 4px;
-            font-weight: 600;
-        }
-
-        @media (max-width: 640px) {
-            .header h1 {
-                font-size: 1.875rem;
-            }
-            
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .faq-question {
-                font-size: 1rem;
-                padding: 20px;
-            }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .delay-4 {
+            animation-delay: 0.4s;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Account Management FAQ</h1>
-            <p>Everything you need to know about managing your Silly Money account</p>
-        </div>
+<body class="text-gray-100 antialiased custom-scrollbar">
 
-        <div class="warning-banner">
-            <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-            </svg>
-            <div class="warning-content">
-                <h3>Important Notice</h3>
-                <p>Deleting your Silly Money account is permanent and irreversible. All your reward points, transaction history, and personal data will be permanently removed from our systems within 30 days. Please ensure you've withdrawn any remaining balance before proceeding.</p>
+    <!-- ====== TOP NAVIGATION ====== -->
+    <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 cursor-pointer">
+                <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20">
+                    <i data-lucide="ticket" class="w-6 h-6"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+                    Robux<span class="text-red-500">Prize</span>
+                </span>
+            </a>
+
+            <!-- Right side: back link + badge -->
+            <div class="flex items-center gap-4">
+                <a href="#" class="text-xs text-zinc-500 hover:text-zinc-300 transition flex items-center gap-1.5 border border-zinc-800 hover:border-zinc-700 px-3 py-1.5 rounded-full">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    Back to App
+                </a>
+                <div class="hidden sm:flex items-center gap-1.5 bg-zinc-900 border border-zinc-800 rounded-full px-3 py-1.5">
+                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                    <span class="text-[10px] font-medium text-zinc-400 uppercase tracking-wider">Secure</span>
+                </div>
             </div>
         </div>
+    </nav>
 
-        <div class="faq-section">
-            <!-- FAQ Item 1: Main Deletion Process -->
-            <div class="faq-item">
-                <div class="faq-question active" onclick="toggleFaq(this)">
-                    <span>How do I delete my Silly Money account?</span>
-                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
+    <!-- ====== MAIN CONTENT ====== -->
+    <main class="max-w-4xl mx-auto px-4 py-10 lg:py-16 pb-28">
+
+        <!-- HERO HEADER -->
+        <div class="text-center space-y-4 fade-enter">
+            <div class="inline-flex items-center gap-2 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full">
+                <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+                Account Deletion Portal
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                Delete Your <span class="text-red-500">RobuxPrize</span> Account
+            </h1>
+            <p class="text-zinc-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                We're sorry to see you go. Below you'll find everything you need to permanently remove your account and all associated data from our platform.
+            </p>
+        </div>
+
+        <!-- ====== MAIN CARD ====== -->
+        <div class="mt-10 bg-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 lg:p-10 space-y-10 fade-enter delay-1">
+
+            <!-- SECTION 1: WHAT HAPPENS -->
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-red-500/10 p-2.5 rounded-xl border border-red-500/20">
+                        <i data-lucide="info" class="w-5 h-5 text-red-500"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-white">What happens when you delete your account?</h2>
                 </div>
-                <div class="faq-answer active">
-                    <p>We've designed the deletion process with multiple confirmation steps to prevent accidental account loss. Here's exactly what happens:</p>
-                    
-                    <div class="step-container">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <div class="step-title">Navigate to Settings</div>
-                                <div class="step-desc">Log into your account and click on your profile picture in the top right corner, then select <span class="highlight">"Account Settings"</span> from the dropdown menu.</div>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-zinc-300">
+                    <li class="flex items-start gap-2.5 bg-zinc-900/40 border border-zinc-800/60 p-3.5 rounded-xl">
+                        <i data-lucide="x-circle" class="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5"></i>
+                        <span>All personal data, including email, username, and profile info, will be permanently erased.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 bg-zinc-900/40 border border-zinc-800/60 p-3.5 rounded-xl">
+                        <i data-lucide="x-circle" class="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5"></i>
+                        <span>Your token balance, task history, and any pending withdrawal requests will be voided.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 bg-zinc-900/40 border border-zinc-800/60 p-3.5 rounded-xl">
+                        <i data-lucide="x-circle" class="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5"></i>
+                        <span>Referral links, invites, and any affiliate credits you've earned will be deactivated.</span>
+                    </li>
+                    <li class="flex items-start gap-2.5 bg-zinc-900/40 border border-zinc-800/60 p-3.5 rounded-xl">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5"></i>
+                        <span>Your account will be removed from our system within <strong class="text-white">72 hours</strong> after confirmation.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- SECTION 2: STEP-BY-STEP INSTRUCTIONS -->
+            <div class="border-t border-zinc-900 pt-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
+                        <i data-lucide="list-checks" class="w-5 h-5 text-amber-400"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-white">How to delete your account – step by step</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Step 1 -->
+                    <div class="flex gap-4 items-start bg-zinc-900/30 border border-zinc-800/50 p-4 rounded-xl hover:border-zinc-700 transition">
+                        <div class="flex-shrink-0 w-7 h-7 rounded-full bg-red-600/20 text-red-400 flex items-center justify-center text-xs font-black border border-red-500/30">1</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-white">Send a deletion request via email</h4>
+                            <p class="text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                                Compose an email to our support address and include <strong class="text-white">"ACCOUNT DELETION REQUEST"</strong> in the subject line.
+                            </p>
+                            <div class="mt-2 flex items-center gap-2 flex-wrap">
+                                <span class="text-xs bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-lg font-mono text-zinc-300">
+                                    <i data-lucide="mail" class="inline w-3.5 h-3.5 mr-1.5 text-red-400"></i>
+                                    Nebsytechnologies@gmail.com
+                                </span>
+                                <button @click="copyEmail()" class="text-[11px] bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 px-3 py-1.5 rounded-lg text-zinc-400 hover:text-white transition flex items-center gap-1">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <div class="step-title">Find the Danger Zone</div>
-                                <div class="step-desc">Scroll to the bottom of the settings page to the <span class="highlight">"Danger Zone"</span> section. Click the red <span class="btn-mock">DELETE ACCOUNT</span> button.</div>
-                            </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flex gap-4 items-start bg-zinc-900/30 border border-zinc-800/50 p-4 rounded-xl hover:border-zinc-700 transition">
+                        <div class="flex-shrink-0 w-7 h-7 rounded-full bg-red-600/20 text-red-400 flex items-center justify-center text-xs font-black border border-red-500/30">2</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-white">Include the required details</h4>
+                            <p class="text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                                In your email, please provide the following information so we can verify your identity:
+                            </p>
+                            <ul class="mt-2 space-y-1.5 text-xs text-zinc-400 list-disc list-inside">
+                                <li>Your <strong class="text-white">RobuxPrize username</strong> or registered email address</li>
+                                <li>The <strong class="text-white">reason</strong> for leaving (optional, but helps us improve)</li>
+                                <li>A brief statement confirming you understand this action is <strong class="text-red-400">permanent</strong></li>
+                            </ul>
                         </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <div class="step-title">Type "DELETE" to Confirm</div>
-                                <div class="step-desc">A modal window will appear asking you to type <span class="input-mock">DELETE</span> in capital letters to verify your intention. This prevents accidental clicks.</div>
-                                <div class="visual-hint danger-zone">
-                                    <strong>Confirmation Screen:</strong><br>
-                                    To confirm deletion, type: DELETE<br>
-                                    [________________] <span style="color: #999;">← Type here</span>
-                                </div>
-                            </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flex gap-4 items-start bg-zinc-900/30 border border-zinc-800/50 p-4 rounded-xl hover:border-zinc-700 transition">
+                        <div class="flex-shrink-0 w-7 h-7 rounded-full bg-red-600/20 text-red-400 flex items-center justify-center text-xs font-black border border-red-500/30">3</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-white">Wait for our confirmation reply</h4>
+                            <p class="text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                                Our support team (Nebsy Technologies) will respond within <strong class="text-white">24–48 hours</strong> to confirm receipt and begin the deletion process. You may be asked for additional verification.
+                            </p>
                         </div>
-                        
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <div class="step-title">Final Confirmation</div>
-                                <div class="step-desc">After typing DELETE, the <span class="highlight">"Permanently Delete Account"</span> button becomes active. Click it to complete the process. You'll receive a confirmation email within 5 minutes.</div>
-                            </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flex gap-4 items-start bg-zinc-900/30 border border-zinc-800/50 p-4 rounded-xl hover:border-zinc-700 transition">
+                        <div class="flex-shrink-0 w-7 h-7 rounded-full bg-red-600/20 text-red-400 flex items-center justify-center text-xs font-black border border-red-500/30">4</div>
+                        <div>
+                            <h4 class="text-sm font-semibold text-white">Account permanently removed</h4>
+                            <p class="text-xs text-zinc-400 mt-0.5 leading-relaxed">
+                                Once we verify your request, your account will be scheduled for permanent deletion. You will receive a final confirmation email when the process is complete.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- FAQ Item 2: Data Retention -->
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What happens to my data after deletion?</span>
-                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                </div>
-                <div class="faq-answer">
-                    <p>We take data privacy seriously. Here's our deletion timeline:</p>
-                    <div class="info-grid">
-                        <div class="info-card">
-                            <h4>Immediate (0-24 hours)</h4>
-                            <p>Account deactivated, login blocked</p>
+            <!-- SECTION 3: SUPPORT & DEVELOPER INFO -->
+            <div class="border-t border-zinc-900 pt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Developer Card -->
+                    <div class="bg-gradient-to-br from-zinc-900/60 to-zinc-950 border border-zinc-800/60 rounded-2xl p-5 space-y-3">
+                        <div class="flex items-center gap-2.5">
+                            <div class="bg-red-500/10 p-2 rounded-xl border border-red-500/20">
+                                <i data-lucide="building-2" class="w-4 h-4 text-red-500"></i>
+                            </div>
+                            <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Developer</span>
                         </div>
-                        <div class="info-card">
-                            <h4>7 Days</h4>
-                            <p>Personal data removed from active systems</p>
-                        </div>
-                        <div class="info-card">
-                            <h4>30 Days</h4>
-                            <p>Complete removal from backup systems</p>
-                        </div>
-                        <div class="info-card">
-                            <h4>90 Days</h4>
-                            <p>Anonymized transaction records only</p>
+                        <h3 class="text-lg font-black text-white tracking-tight">Nebsy Technologies</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            RobuxPrize is proudly developed and maintained by <strong class="text-white">Nebsy Technologies</strong> — a small team dedicated to building honest, transparent earning platforms for the global Roblox community.
+                        </p>
+                        <div class="flex items-center gap-3 pt-1">
+                            <span class="text-[10px] bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-full text-zinc-500 font-mono">v2.4.1</span>
+                            <span class="text-[10px] bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full text-emerald-400 font-medium">Trusted</span>
                         </div>
                     </div>
-                    <p style="margin-top: 16px; color: var(--text-secondary); font-size: 0.9rem;">
-                        <strong>Note:</strong> Financial transaction records are retained for 7 years as required by law, but anonymized and dissociated from your identity after 90 days.
-                    </p>
+
+                    <!-- Support Card -->
+                    <div class="bg-gradient-to-br from-zinc-900/60 to-zinc-950 border border-zinc-800/60 rounded-2xl p-5 space-y-3 relative overflow-hidden">
+                        <div class="absolute -top-6 -right-6 w-24 h-24 bg-red-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="bg-blue-500/10 p-2 rounded-xl border border-blue-500/20">
+                                <i data-lucide="headphones" class="w-4 h-4 text-blue-400"></i>
+                            </div>
+                            <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider">Support</span>
+                        </div>
+                        <h3 class="text-lg font-black text-white tracking-tight">Contact Support</h3>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            For any questions regarding account deletion, data privacy, or general support, reach out to our dedicated team.
+                        </p>
+                        <div class="support-shimmer border border-zinc-800/60 rounded-xl p-3 flex items-center gap-3">
+                            <i data-lucide="mail" class="w-4 h-4 text-red-400 flex-shrink-0"></i>
+                            <a href="mailto:Nebsytechnologies@gmail.com" class="text-sm font-mono text-white hover:text-red-400 transition truncate">
+                                Nebsytechnologies@gmail.com
+                            </a>
+                        </div>
+                        <p class="text-[10px] text-zinc-500 mt-1">
+                            <i data-lucide="clock" class="inline w-3 h-3 mr-1"></i>
+                            Response within 24–48 hours
+                        </p>
+                    </div>
+
                 </div>
             </div>
 
-            <!-- FAQ Item 3: Recovery -->
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Can I recover my account after deletion?</span>
-                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                </div>
-                <div class="faq-answer">
-                    <p><strong>No.</strong> Once you complete the deletion process and confirm via email (if required), account recovery is impossible. This includes:</p>
-                    <ul style="margin-left: 20px; margin-top: 12px; color: var(--text-secondary);">
-                        <li>All reward points and balances (forfeited)</li>
-                        <li>Task history and achievements</li>
-                        <li>Referral codes and bonuses</li>
-                        <li>Connected payment methods</li>
-                        <li>KYC verification status (you'll need to re-verify)</li>
-                    </ul>
-                    <p style="margin-top: 16px;">If you're unsure, we recommend <span class="highlight">deactivating your account temporarily</span> instead. Contact support for temporary deactivation options.</p>
-                </div>
-            </div>
-
-            <!-- FAQ Item 4: Prerequisites -->
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What should I do before deleting?</span>
-                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                </div>
-                <div class="faq-answer">
-                    <p>Before clicking that DELETE button, complete this checklist:</p>
-                    <div class="step-container" style="background: #fffbeb; border-left: 4px solid var(--warning);">
-                        <div class="step" style="margin-bottom: 12px;">
-                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
-                            <div class="step-content">
-                                <div class="step-title">Withdraw Your Balance</div>
-                                <div class="step-desc">Ensure your wallet balance is $0.00. Any remaining funds will be forfeited and cannot be recovered.</div>
-                            </div>
+            <!-- SECTION 4: CONFIRMATION / FINAL WARNING -->
+            <div class="border-t border-zinc-900 pt-8">
+                <div class="bg-red-950/20 border border-red-500/20 rounded-2xl p-5 sm:p-6 space-y-4 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
+                        <i data-lucide="alert-triangle" class="w-32 h-32 text-red-500"></i>
+                    </div>
+                    <div class="flex items-start gap-3 relative z-10">
+                        <div class="bg-red-500/20 p-2 rounded-xl border border-red-500/30 flex-shrink-0">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 text-red-500"></i>
                         </div>
-                        <div class="step" style="margin-bottom: 12px;">
-                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
-                            <div class="step-content">
-                                <div class="step-title">Complete Pending Withdrawals</div>
-                                <div class="step-desc">Wait for any pending withdrawals to complete (usually 1-3 business days).</div>
-                            </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-white">Before you proceed — please read carefully</h4>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed max-w-2xl">
+                                Account deletion is <strong class="text-red-400">irreversible</strong>. Once your data is wiped, you cannot recover your account, tokens, or any progress. If you're sure about your decision, follow the steps above to submit your request. We truly appreciate you being part of the RobuxPrize community.
+                            </p>
                         </div>
-                        <div class="step" style="margin-bottom: 12px;">
-                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
-                            <div class="step-content">
-                                <div class="step-title">Export Tax Documents</div>
-                                <div class="step-desc">Download any tax forms or transaction history you may need for your records.</div>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number" style="background: var(--warning); width: 32px; height: 32px; font-size: 0.875rem;">✓</div>
-                            <div class="step-content">
-                                <div class="step-title">Cancel Active Tasks</div>
-                                <div class="step-desc">Complete or forfeit any active tasks to avoid penalties.</div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="relative z-10 flex flex-col sm:flex-row gap-3 pt-2">
+                        <a href="mailto:Nebsytechnologies@gmail.com?subject=ACCOUNT%20DELETION%20REQUEST&body=Hi%20Nebsy%20Technologies%20team%2C%0A%0AI%20would%20like%20to%20request%20permanent%20deletion%20of%20my%20RobuxPrize%20account.%0A%0AMy%20username%3A%20%5BINSERT%20USERNAME%5D%0ARegistered%20email%3A%20%5BINSERT%20EMAIL%5D%0A%0AI%20understand%20this%20action%20is%20permanent%20and%20cannot%20be%20undone.%0A%0AThank%20you." class="btn-danger-glow inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition active:scale-95 shadow-lg shadow-red-600/20">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            Send Deletion Request Now
+                        </a>
+                        <a href="#" class="inline-flex items-center justify-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white font-medium text-sm px-6 py-3 rounded-xl border border-zinc-800 transition">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            Return to Safety
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- FAQ Item 5: Issues -->
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What if the DELETE button doesn't work?</span>
-                    <svg class="icon-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                    </svg>
-                </div>
-                <div class="faq-answer">
-                    <p>If you're experiencing issues with account deletion:</p>
-                    <ol style="margin-left: 20px; margin-top: 12px; color: var(--text-secondary);">
-                        <li><strong>Check for pending withdrawals:</strong> You cannot delete an account with pending transactions.</li>
-                        <li><strong>Clear browser cache:</strong> Try using an incognito/private window.</li>
-                        <li><strong>Disable VPN:</strong> Sometimes location restrictions prevent account changes.</li>
-                        <li><strong>Contact support:</strong> If the button is greyed out, there may be a hold on your account.</li>
-                    </ol>
-                </div>
+            <!-- FOOTER DIVIDER -->
+            <div class="border-t border-zinc-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-600">
+                <span class="flex items-center gap-2">
+                    <i data-lucide="copyright" class="w-3.5 h-3.5"></i>
+                    2026 <strong class="text-zinc-400 font-semibold">Nebsy Technologies</strong> — All rights reserved.
+                </span>
+                <span class="flex items-center gap-3">
+                    <a href="#" class="hover:text-zinc-300 transition">Privacy Policy</a>
+                    <span class="w-px h-3 bg-zinc-800"></span>
+                    <a href="#" class="hover:text-zinc-300 transition">Terms of Service</a>
+                </span>
             </div>
-        </div>
 
-        <div class="contact-box">
-            <h3>Need Help With Deletion?</h3>
-            <p>Our support team can guide you through the process or help with temporary deactivation if you're not ready for permanent deletion.</p>
-            <a href="#" class="btn-primary">Contact Support Team</a>
         </div>
+        <!-- end main card -->
+
+    </main>
+
+    <!-- ====== TOAST NOTIFICATION ====== -->
+    <div class="fixed top-5 right-5 z-50 pointer-events-none max-w-sm w-full space-y-3">
+        <template x-for="toast in toasts" :key="toast.id">
+            <div x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 translate-x-6" x-transition:enter-end="opacity-100 translate-x-0" class="bg-zinc-900/95 backdrop-blur-sm border border-zinc-700/60 shadow-2xl shadow-black/40 rounded-xl flex items-start gap-3 p-4 pointer-events-auto max-w-sm">
+                <div class="flex-shrink-0 mt-0.5">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-500"></i>
+                </div>
+                <span x-text="toast.msg" class="text-sm font-medium text-zinc-200 leading-relaxed"></span>
+            </div>
+        </template>
     </div>
 
+    <!-- ====== ALPINE APP ====== -->
     <script>
-        function toggleFaq(element) {
-            const answer = element.nextElementSibling;
-            const isActive = element.classList.contains('active');
-            
-            // Close all
-            document.querySelectorAll('.faq-question').forEach(q => q.classList.remove('active'));
-            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('active'));
-            
-            // Open clicked if it wasn't active
-            if (!isActive) {
-                element.classList.add('active');
-                answer.classList.add('active');
-            }
-        }
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('deletionApp', () => ({
+                toasts: [],
 
-        // Auto-expand first item on load
-        document.addEventListener('DOMContentLoaded', function() {
-            const firstQuestion = document.querySelector('.faq-question');
-            if (firstQuestion) {
-                firstQuestion.classList.add('active');
-                firstQuestion.nextElementSibling.classList.add('active');
-            }
+                init() {
+                    this.$nextTick(() => {
+                        if (window.lucide) lucide.createIcons();
+                    });
+                },
+
+                copyEmail() {
+                    navigator.clipboard.writeText('Nebsytechnologies@gmail.com');
+                    this.showToast('Support email copied to clipboard.');
+                },
+
+                showToast(msg) {
+                    const id = Date.now();
+                    this.toasts.push({ id, msg });
+                    this.$nextTick(() => { if (window.lucide) lucide.createIcons(); });
+                    setTimeout(() => {
+                        this.toasts = this.toasts.filter(t => t.id !== id);
+                    }, 4000);
+                }
+            }));
         });
     </script>
+
+    <!-- Init Alpine & Lucide -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+
 </body>
 </html>
