@@ -89,63 +89,58 @@
             animation: glow-pulse 1.2s ease-in-out infinite;
         }
 
-        /* CENTERED TOAST – only for important messages */
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            pointer-events: none;
-            max-width: 440px;
-            width: 90%;
+        /* Important Modal – professional, dark, centered */
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
-        .toast-center .toast-inner {
-            pointer-events: auto;
-            background: #1c1c1e;
+        .modal-box {
+            background: #18181b;
             border: 1px solid #3f3f46;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-            border-radius: 1.25rem;
-            padding: 1.5rem 2rem;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+            border-radius: 1.5rem;
+            max-width: 420px;
+            width: 90%;
+            padding: 2rem 2rem 1.75rem;
             text-align: center;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.2s ease;
         }
-        .toast-center .toast-inner .toast-icon {
-            font-size: 2.25rem;
-            margin-bottom: 0.5rem;
+        .modal-box .modal-icon {
+            font-size: 2.75rem;
+            margin-bottom: 0.75rem;
         }
-        .toast-center .toast-inner .toast-msg {
-            font-size: 1rem;
-            font-weight: 600;
+        .modal-box .modal-msg {
+            font-size: 1.1rem;
+            font-weight: 700;
             color: #f1f1f1;
+            line-height: 1.4;
+        }
+        .modal-box .modal-sub {
+            font-size: 0.9rem;
+            color: #a1a1aa;
+            margin-top: 0.5rem;
             line-height: 1.5;
         }
-        .toast-center .toast-inner .toast-sub {
-            font-size: 0.8rem;
-            color: #a1a1aa;
-            margin-top: 0.25rem;
+        .modal-box .modal-ok-btn {
+            margin-top: 1.75rem;
+            background: #dc2626;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.6rem 2.5rem;
+            border-radius: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25);
+            letter-spacing: 0.5px;
         }
-
-        /* Notif badge pulse */
-        @keyframes notif-pulse {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.15);
-            }
+        .modal-box .modal-ok-btn:hover {
+            background: #b91c1c;
         }
-        .notif-badge {
-            animation: notif-pulse 1.8s ease-in-out infinite;
-        }
-
-        /* Rules overlay - full screen modal style */
-        .rules-modal-overlay {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+        .modal-box .modal-ok-btn:active {
+            transform: scale(0.96);
         }
 
         .checkbox-honest {
@@ -154,7 +149,6 @@
             height: 1.1rem;
             cursor: pointer;
         }
-        /* Custom scroll for rules list */
         .rules-scroll {
             max-height: 60vh;
             overflow-y: auto;
@@ -169,7 +163,6 @@
             background: #dc2626;
             border-radius: 2px;
         }
-        /* Invite reward progress */
         .progress-bar {
             height: 6px;
             background: #27272a;
@@ -660,7 +653,7 @@
                         <p class="text-zinc-500 text-xs mt-0.5">Leverage network loops to continuously spawn tokens passively.</p>
                     </div>
 
-                    <!-- NEW: Invite reward banner -->
+                    <!-- Invite reward banner -->
                     <div class="bg-gradient-to-r from-red-950/30 to-zinc-950 border border-red-900/30 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
                             <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
@@ -860,12 +853,13 @@
         </button>
     </nav>
 
-    <!-- ===== CENTERED TOAST (only important messages) ===== -->
-    <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
-        <div class="toast-inner pointer-events-auto">
-            <div class="toast-icon" x-text="importantToast.icon"></div>
-            <div class="toast-msg" x-text="importantToast.msg"></div>
-            <div class="toast-sub" x-show="importantToast.sub" x-text="importantToast.sub"></div>
+    <!-- ===== IMPORTANT MODAL (centered, with OK button) ===== -->
+    <div x-show="importantModal.show" x-cloak class="fixed inset-0 z-[9999] flex items-center justify-center modal-backdrop" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" @click.self="closeModal()">
+        <div class="modal-box" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
+            <div class="modal-icon" x-text="importantModal.icon"></div>
+            <div class="modal-msg" x-text="importantModal.msg"></div>
+            <div class="modal-sub" x-show="importantModal.sub" x-text="importantModal.sub"></div>
+            <button class="modal-ok-btn" @click="closeModal()">OK</button>
         </div>
     </div>
 
@@ -884,7 +878,7 @@
                 withdrawStatus: 'idle',
                 completedTasksCount: 0,
                 isTaskRunning: false,
-                showTelegramGuide: false, // still present but not used (removed Telegram task)
+                showTelegramGuide: false,
 
                 // ---- Rules Acceptance ----
                 rulesAccepted: false,
@@ -893,8 +887,9 @@
                 withdrawHonestConfirm: false,
 
                 // ---- Invite System ----
-                inviteCount: 0, // stored in localStorage
-                inviteRewardClaimed: false, // whether the current 12-invite reward has been claimed
+                inviteCount: 0,
+                inviteRewardClaimed: false,
+                inviteNextThreshold: 12, // used to track next reward
 
                 // ---- Streak & Wheel ----
                 isDailyGiftAvailable: true,
@@ -907,8 +902,8 @@
                 wheelAngle: 0,
                 spinCooldownUntil: 0,
 
-                // ---- Important Toast (centered, only for important events) ----
-                importantToast: {
+                // ---- Important Modal ----
+                importantModal: {
                     show: false,
                     icon: '✅',
                     msg: '',
@@ -923,7 +918,7 @@
                     { id: 3, user: 'BuildBoy99', amount: 5000 }
                 ],
 
-                // ---- Tasks (Telegram removed, re-indexed) ----
+                // ---- Tasks (Telegram removed) ----
                 tasks: [
                     { id: 1, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.',
                         reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check',
@@ -970,18 +965,18 @@
                     return `${secs}s`;
                 },
 
-                // ---- Important Toast (centered) ----
-                showImportantToast(msg, icon = '✅', sub = '') {
-                    this.importantToast.show = false;
+                // ---- Important Modal ----
+                showImportantModal(msg, icon = '✅', sub = '') {
+                    this.importantModal.show = false;
                     this.$nextTick(() => {
-                        this.importantToast.msg = msg;
-                        this.importantToast.icon = icon;
-                        this.importantToast.sub = sub;
-                        this.importantToast.show = true;
-                        setTimeout(() => {
-                            this.importantToast.show = false;
-                        }, 4000);
+                        this.importantModal.msg = msg;
+                        this.importantModal.icon = icon;
+                        this.importantModal.sub = sub;
+                        this.importantModal.show = true;
                     });
+                },
+                closeModal() {
+                    this.importantModal.show = false;
                 },
 
                 // ---- Init ----
@@ -997,16 +992,13 @@
                         this.$forceUpdate();
                         let anyReset = false;
                         this.tasks.forEach(t => {
-                            // Check for claim expiry
                             if (t.status === 'claimable' && t.claimExpiry && t.claimExpiry < Date.now()) {
-                                // Expired: reset to idle, clear honestConfirmed
                                 t.status = 'idle';
                                 t.claimExpiry = null;
                                 t.honestConfirmed = false;
-                                t.cooldownUntil = null; // also clear any cooldown
+                                t.cooldownUntil = null;
                                 anyReset = true;
                             }
-                            // Also handle cooldown expiry (for repeatable tasks)
                             if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
                                 t.status = 'idle';
                                 t.cooldownUntil = null;
@@ -1052,6 +1044,7 @@
                     const savedRulesAccepted = localStorage.getItem('robux_rules_accepted');
                     const savedInviteCount = localStorage.getItem('robux_invite_count');
                     const savedInviteRewardClaimed = localStorage.getItem('robux_invite_reward_claimed');
+                    const savedInviteThreshold = localStorage.getItem('robux_invite_threshold');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -1064,6 +1057,7 @@
                     if (savedRulesAccepted === 'true') this.rulesAccepted = true;
                     if (savedInviteCount) this.inviteCount = parseInt(savedInviteCount);
                     if (savedInviteRewardClaimed === 'true') this.inviteRewardClaimed = true;
+                    if (savedInviteThreshold) this.inviteNextThreshold = parseInt(savedInviteThreshold);
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
@@ -1076,7 +1070,6 @@
                                 t.claimExpiry = match.claimExpiry || null;
                                 if (t.status === 'loading' && match.endTime) {
                                     if (Date.now() >= match.endTime) {
-                                        // If loading timer ended, set to claimable with 60 sec expiry
                                         t.status = 'claimable';
                                         t.claimExpiry = Date.now() + 60000;
                                         this.isTaskRunning = false;
@@ -1087,7 +1080,7 @@
                                             t.claimExpiry = Date.now() + 60000;
                                             this.isTaskRunning = false;
                                             this.saveState();
-                                            this.showImportantToast(
+                                            this.showImportantModal(
                                                 `✅ "${t.title}" is ready to claim!`,
                                                 '🎯',
                                                 'You have 60 seconds to claim.'
@@ -1132,13 +1125,14 @@
                     localStorage.setItem('robux_rules_accepted', this.rulesAccepted ? 'true' : 'false');
                     localStorage.setItem('robux_invite_count', this.inviteCount);
                     localStorage.setItem('robux_invite_reward_claimed', this.inviteRewardClaimed ? 'true' : 'false');
+                    localStorage.setItem('robux_invite_threshold', this.inviteNextThreshold);
                 },
 
                 // ---- Rules Accept ----
                 acceptRules() {
                     this.rulesAccepted = true;
                     this.saveState();
-                    this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋', 'Thank you for reading carefully.');
+                    this.showImportantModal('✅ Rules accepted! You can now use the platform.', '📋', 'Thank you for reading carefully.');
                 },
 
                 // ---- Daily Streak ----
@@ -1179,7 +1173,7 @@
                     this.isDailyGiftAvailable = false;
                     this.saveState();
                     this.updateDailyGiftStatus();
-                    this.showImportantToast(`🎉 Streak claimed! +${rewardAmount} Tokens`, '🔥',
+                    this.showImportantModal(`🎉 Streak claimed! +${rewardAmount} Tokens`, '🔥',
                         `Day ${this.currentStreak - 1} → Day ${this.currentStreak}`);
                 },
 
@@ -1187,11 +1181,11 @@
                 spinWheel() {
                     if (this.isSpinning) return;
                     if (this.spinCooldownUntil > Date.now()) {
-                        this.showImportantToast('⏳ Cooldown active. Please wait.', '⏳', this.spinCooldownDisplay);
+                        this.showImportantModal('⏳ Cooldown active. Please wait.', '⏳', this.spinCooldownDisplay);
                         return;
                     }
                     if (!this.isFirstSpin && this.tokens < 5) {
-                        this.showImportantToast('❌ Need 5 Tokens to spin.', '❌', 'Complete tasks to earn more.');
+                        this.showImportantModal('❌ Need 5 Tokens to spin.', '❌', 'Complete tasks to earn more.');
                         return;
                     }
 
@@ -1235,7 +1229,7 @@
                         let winAmount = selectedSlice.prize;
                         this.tokens += winAmount;
                         this.saveState();
-                        this.showImportantToast(`🎰 You won +${winAmount} Tokens!`, '🎉',
+                        this.showImportantModal(`🎰 You won +${winAmount} Tokens!`, '🎉',
                             `The wheel landed on ${winAmount} TKNS.`);
                     }, 5000);
                 },
@@ -1249,69 +1243,62 @@
 
                 // ---- Main Task Interaction (no Telegram) ----
                 handleTaskInteraction(task) {
-                    // If task is claimable and honest not confirmed → toggle honest confirm via checkbox
                     if (task.status === 'claimable' && !task.honestConfirmed) {
-                        // The checkbox handles this via x-model
                         return;
                     }
-
-                    // If task is expired (claimable but claimExpiry passed), reset to idle
                     if (task.status === 'claimable' && task.claimExpiry && task.claimExpiry < Date.now()) {
                         task.status = 'idle';
                         task.claimExpiry = null;
                         task.honestConfirmed = false;
                         this.saveState();
-                        this.showImportantToast('⏳ Task expired. Please start again.', '⏳');
+                        this.showImportantModal('⏳ Task expired. Please start again.', '⏳');
                         return;
                     }
-
                     if (this.isTaskRunning && task.status === 'idle') {
-                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Complete your current task first.');
+                        this.showImportantModal('⏳ One task at a time.', '⏳', 'Complete your current task first.');
                         return;
                     }
 
-                    // ---- All tasks are now general (repeatable or not) ----
                     if (task.isRepeatable) {
                         if (task.status === 'idle') {
                             if (task.link) window.open(task.link, '_blank');
                             this.isTaskRunning = true;
                             task.status = 'loading';
-                            task.endTime = Date.now() + 60000; // 1 min loading
+                            task.endTime = Date.now() + 60000;
                             this.saveState();
-                            this.showImportantToast('📡 Starting task...', '📡', 'Please complete the offer.');
+                            this.showImportantModal('📡 Starting task...', '📡', 'Please complete the offer.');
 
                             setTimeout(() => {
                                 task.status = 'claimable';
-                                task.claimExpiry = Date.now() + 60000; // 60 sec to claim
+                                task.claimExpiry = Date.now() + 60000;
                                 task.endTime = null;
                                 this.isTaskRunning = false;
                                 this.saveState();
-                                this.showImportantToast(`✅ "${task.title}" ready!`, '🎯',
+                                this.showImportantModal(`✅ "${task.title}" ready!`, '🎯',
                                     'You have 60 seconds to claim.');
                             }, 60000);
                         } else if (task.status === 'claimable' && task.honestConfirmed && task.claimExpiry && task
                             .claimExpiry > Date.now()) {
-                            // Claim it
                             task.status = 'completed';
-                            task.cooldownUntil = Date.now() + 600000; // 10 min cooldown
+                            task.cooldownUntil = Date.now() + 600000;
                             task.claimExpiry = null;
                             this.tokens += task.reward;
                             this.completedTasksCount++;
                             this.saveState();
-                            this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰',
+                            this.showImportantModal(`💰 +${task.reward} Tokens claimed!`, '💰',
                                 'Task will be available again in 10 minutes.');
                         }
                         return;
                     }
 
-                    // ---- Non-repeatable (task 5) ----
+                    // Non-repeatable
                     if (task.status === 'idle') {
                         if (task.link) window.open(task.link, '_blank');
                         this.isTaskRunning = true;
                         task.status = 'loading';
                         task.endTime = Date.now() + 60000;
                         this.saveState();
-                        this.showImportantToast('📡 Starting task...', '📡', 'Please complete the offer.');
+                        this.showImportantModal('📡 Starting task...', '📡', 'Please complete the offer.');
 
                         setTimeout(() => {
                             task.status = 'claimable';
@@ -1319,7 +1306,7 @@
                             task.endTime = null;
                             this.isTaskRunning = false;
                             this.saveState();
-                            this.showImportantToast(`✅ "${task.title}" ready!`, '🎯',
+                            this.showImportantModal(`✅ "${task.title}" ready!`, '🎯',
                                 'You have 60 seconds to claim.');
                         }, 60000);
                     } else if (task.status === 'claimable' && task.honestConfirmed && task.claimExpiry && task
@@ -1330,48 +1317,40 @@
                         this.tokens += task.reward;
                         this.completedTasksCount++;
                         this.saveState();
-                        this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
+                        this.showImportantModal(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
                     }
                 },
 
                 // ---- Invite Reward ----
                 claimInviteReward() {
-                    if (this.inviteCount < 12 || this.inviteRewardClaimed) return;
+                    if (this.inviteCount < this.inviteNextThreshold) {
+                        this.showImportantModal('❌ Not enough invites.', '❌',
+                            `Need ${this.inviteNextThreshold - this.inviteCount} more invites.`);
+                        return;
+                    }
+                    if (this.inviteRewardClaimed) {
+                        this.showImportantModal('⏳ Already claimed this reward.', '⏳',
+                            'Invite more friends for the next reward.');
+                        return;
+                    }
                     this.tokens += 500;
                     this.inviteRewardClaimed = true;
-                    this.inviteCount = this.inviteCount % 12; // reset count for next cycle? Actually we keep count, but we can set claimed true. Next 12 invites will allow claiming again.
-                    // We'll keep the total invite count, and claim will reset the claimed flag only after we reach multiple of 12.
-                    // Better: when claimed, we subtract 12 from inviteCount? We want to keep track of total invites, but for reward we need to count multiples.
-                    // Let's implement: inviteCount total, and we can claim when inviteCount >= 12 and not claimed.
-                    // After claiming, we set inviteRewardClaimed = true and we will not allow claiming until inviteCount increments by another 12.
-                    // So we keep total inviteCount, and reward claimed flag. When inviteCount % 12 == 0 and not claimed, we can claim.
-                    // But we need to allow claiming again after 12 more invites.
-                    // We'll just use inviteCount and claim when (inviteCount % 12 == 0 && !inviteRewardClaimed)
-                    // After claiming, we set inviteRewardClaimed = true, but if user gets more invites, it becomes false again when (inviteCount % 12 == 0) ? Actually we want to allow claiming again when the next multiple is reached.
-                    // So we set inviteRewardClaimed = false when inviteCount % 12 == 0? Better: after claiming, we set a flag that we have claimed for this multiple. We'll store the last claimed multiple.
-                    // Let's simplify: store lastClaimedMultiple = Math.floor(inviteCount / 12) * 12.
-                    // When inviting, we increase count, and if inviteCount >= lastClaimedMultiple + 12, we can claim again.
-                    // We'll implement with a variable claimedThreshold.
-                    // But we'll just use inviteCount and inviteRewardClaimed, and when inviteCount % 12 == 0 and not claimed, allow claim. After claiming, set claimed true, but when inviteCount changes, we set claimed false if inviteCount % 12 != 0? That won't work.
-                    // We'll use a separate variable: nextRewardThreshold = Math.floor((inviteCount) / 12) * 12 + 12;
-                    // After claiming, we set nextRewardThreshold += 12.
-                    // Let's do that.
-                    // I'll add a property: inviteNextThreshold.
-                    // Initialize from localStorage.
-                    // In load, load inviteNextThreshold.
-                    // In claim, add 12 to threshold.
+                    this.inviteNextThreshold += 12;
+                    this.saveState();
+                    this.showImportantModal('🎉 +500 Tokens from invites!', '🎉',
+                        `Next reward at ${this.inviteNextThreshold} invites.`);
                 },
 
                 // ---- Promo ----
                 applyPromoCode() {
                     let inputCode = this.promoCode.trim().toUpperCase();
                     if (!inputCode) {
-                        this.showImportantToast('❌ Please enter a code.', '❌');
+                        this.showImportantModal('❌ Please enter a code.', '❌');
                         return;
                     }
                     if (inputCode === 'IYVKQ') {
                         this.showPromoPasswordForm = true;
-                        this.showImportantToast('🔐 Master code detected.', '🔐', 'Enter the security key.');
+                        this.showImportantModal('🔐 Master code detected.', '🔐', 'Enter the security key.');
                         return;
                     }
                     const validBatchRegex = /^RBX50_[A-Z0-9]{4}$/;
@@ -1383,28 +1362,28 @@
                     let suffix = inputCode.replace('RBX50_', '');
                     if (validBatchRegex.test(inputCode) && allowedSuffixes.includes(suffix)) {
                         if (this.usedPromoCodes.includes(inputCode)) {
-                            this.showImportantToast('❌ Code already used.', '❌');
+                            this.showImportantModal('❌ Code already used.', '❌');
                             return;
                         }
                         this.usedPromoCodes.push(inputCode);
                         this.tokens += 50;
-                        this.showImportantToast('🎁 +50 Tokens from promo!', '🎁', 'Code redeemed successfully.');
+                        this.showImportantModal('🎁 +50 Tokens from promo!', '🎁', 'Code redeemed successfully.');
                         this.promoCode = '';
                         this.saveState();
                     } else {
-                        this.showImportantToast('❌ Invalid promo code.', '❌', 'Please check and try again.');
+                        this.showImportantModal('❌ Invalid promo code.', '❌', 'Please check and try again.');
                     }
                 },
 
                 submitPromoPassword() {
                     if (this.promoPassword.trim() === '4482') {
                         this.tokens += 500;
-                        this.showImportantToast('🔓 Master unlock! +500 Tokens', '🔓', 'Override complete.');
+                        this.showImportantModal('🔓 Master unlock! +500 Tokens', '🔓', 'Override complete.');
                         this.cancelPromoPassword();
                         this.promoCode = '';
                         this.saveState();
                     } else {
-                        this.showImportantToast('❌ Wrong security key.', '❌');
+                        this.showImportantModal('❌ Wrong security key.', '❌');
                         this.promoPassword = '';
                     }
                 },
@@ -1417,17 +1396,17 @@
                 // ---- Withdraw ----
                 processWithdraw() {
                     if (!this.robloxUser.trim()) {
-                        this.showImportantToast('❌ Enter a Roblox username.', '❌');
+                        this.showImportantModal('❌ Enter a Roblox username.', '❌');
                         return;
                     }
                     if (!this.withdrawHonestConfirm) {
-                        this.showImportantToast('⚠️ Confirm honest task completion.', '⚠️',
+                        this.showImportantModal('⚠️ Confirm honest task completion.', '⚠️',
                             'You must confirm you completed all tasks honestly.');
                         return;
                     }
                     let cost = this.selectedTier / 10;
                     if (this.tokens < cost) {
-                        this.showImportantToast(`❌ Need ${cost} Tokens.`, '❌', 'Complete more tasks to earn.');
+                        this.showImportantModal(`❌ Need ${cost} Tokens.`, '❌', 'Complete more tasks to earn.');
                         return;
                     }
                     this.withdrawStatus = 'loading';
@@ -1440,7 +1419,7 @@
                     let cost = this.selectedTier / 10;
                     this.tokens -= cost;
                     this.withdrawStatus = 'loading';
-                    this.showImportantToast('📦 Processing payout...', '📦', 'Finalizing ledger encryption.');
+                    this.showImportantModal('📦 Processing payout...', '📦', 'Finalizing ledger encryption.');
 
                     setTimeout(() => {
                         this.withdrawStatus = 'complete';
@@ -1452,19 +1431,25 @@
                             amount: this.selectedTier
                         });
                         if (this.liveLogs.length > 5) this.liveLogs.pop();
-                        this.showImportantToast('✅ Payout confirmed!', '✅',
+                        this.showImportantModal('✅ Payout confirmed!', '✅',
                             `${this.selectedTier} Robux will arrive within 24h.`);
                     }, 4000);
                 },
 
-                // ---- Copy ----
+                // ---- Copy (simulate invite) ----
                 copyRefLink() {
-                    // Simulate invite count increase for demonstration (only when copy is clicked, for testing)
-                    // In real scenario, invite count would be incremented when someone uses the link.
-                    // For demo, we add an invite on copy.
+                    // Simulate an invite for demo
                     this.inviteCount += 1;
+                    // If we reached the threshold, allow claiming
+                    if (this.inviteCount >= this.inviteNextThreshold && !this.inviteRewardClaimed) {
+                        // Notify that they can claim
+                        this.showImportantModal('🎯 You reached the invite milestone!', '🎯',
+                            'Go to the Invite tab and claim your 500 Tokens.');
+                    } else {
+                        this.showImportantModal('📋 Link copied! +1 invite tracked.', '📋',
+                            `Need ${this.inviteNextThreshold - this.inviteCount} more invites for 500 TKNS.`);
+                    }
                     this.saveState();
-                    this.showImportantToast('📋 Link copied! +1 invite tracked.', '📋', 'Share with friends to earn 15% royalties and 500 TKNS per 12 invites.');
                 }
             }
         }
