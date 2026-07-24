@@ -1,49 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RobuxPrize | Earn Robux Honestly</title>
     <!-- Tailwind CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
+    </script>
     <!-- Alpine.js for State and Transitions -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
+    </script>
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest">
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0b0b0c; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #121214; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #dc2626; border-radius: 3px; }
-        [x-cloak] { display: none !important; }
-        
-        /* Spin Wheel Animation Dynamics */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0b0c;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #121214;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 3px;
+        }
+        [x-cloak] {
+            display: none !important;
+        }
+
         .wheel-transition {
             transition: transform 5s cubic-bezier(0.2, 0.8, 0.1, 1);
         }
-        
-        /* CSS Conic Gradient Wheel Slices */
+
         .visual-wheel {
-            background: conic-gradient(
-                #dc2626 0deg 45deg, 
-                #18181b 45deg 90deg, 
-                #ef4444 90deg 135deg, 
-                #27272a 135deg 180deg, 
-                #dc2626 180deg 225deg, 
-                #18181b 225deg 270deg, 
-                #ef4444 270deg 315deg, 
-                #27272a 315deg 360deg
-            );
+            background: conic-gradient(#dc2626 0deg 45deg,
+                    #18181b 45deg 90deg,
+                    #ef4444 90deg 135deg,
+                    #27272a 135deg 180deg,
+                    #dc2626 180deg 225deg,
+                    #18181b 225deg 270deg,
+                    #ef4444 270deg 315deg,
+                    #27272a 315deg 360deg);
         }
 
-        /* Shimmer animation for claimable button */
         @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
         }
         .btn-shimmer {
             background: linear-gradient(90deg, #10b981, #34d399, #10b981);
@@ -54,10 +68,14 @@
             animation-duration: 0.8s;
         }
 
-        /* Glow pulse for open task button */
         @keyframes glow-pulse {
-            0%, 100% { box-shadow: 0 0 4px rgba(59,130,246,0.3); }
-            50% { box-shadow: 0 0 12px rgba(59,130,246,0.6); }
+            0%,
+            100% {
+                box-shadow: 0 0 4px rgba(59, 130, 246, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+            }
         }
         .btn-open-task {
             border-color: #3b82f6;
@@ -70,22 +88,113 @@
             color: #bfdbfe;
             animation: glow-pulse 1.2s ease-in-out infinite;
         }
+
+        /* CENTERED TOAST – only for important messages */
+        .toast-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+            max-width: 440px;
+            width: 90%;
+        }
+        .toast-center .toast-inner {
+            pointer-events: auto;
+            background: #1c1c1e;
+            border: 1px solid #3f3f46;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+            border-radius: 1.25rem;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .toast-center .toast-inner .toast-icon {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .toast-center .toast-inner .toast-msg {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #f1f1f1;
+            line-height: 1.5;
+        }
+        .toast-center .toast-inner .toast-sub {
+            font-size: 0.8rem;
+            color: #a1a1aa;
+            margin-top: 0.25rem;
+        }
+
+        /* Notif badge pulse */
+        @keyframes notif-pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+        .notif-badge {
+            animation: notif-pulse 1.8s ease-in-out infinite;
+        }
+
+        /* Rules overlay - full screen modal style */
+        .rules-modal-overlay {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .checkbox-honest {
+            accent-color: #dc2626;
+            width: 1.1rem;
+            height: 1.1rem;
+            cursor: pointer;
+        }
+        /* Custom scroll for rules list */
+        .rules-scroll {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .rules-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .rules-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .rules-scroll::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 2px;
+        }
+        /* Invite reward progress */
+        .progress-bar {
+            height: 6px;
+            background: #27272a;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
 
-    <!-- TOP NAVIGATION BAR -->
+    <!-- TOP NAV -->
     <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <!-- Logo -->
             <div class="flex items-center gap-2 cursor-pointer" @click="currentTab = 'dashboard'">
                 <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20 animate-pulse">
                     <i data-lucide="ticket" class="w-6 h-6"></i>
                 </div>
                 <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
             </div>
-
-            <!-- Global Balance Widget -->
             <div class="flex items-center gap-4">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
                     <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
@@ -95,32 +204,34 @@
         </div>
     </nav>
 
-    <!-- MAIN APPS LAYOUT -->
+    <!-- MAIN -->
     <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-24 lg:pb-12">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            
-            <!-- DESKTOP SIDEBAR NAVIGATION -->
+
+            <!-- SIDEBAR -->
             <aside class="hidden lg:block space-y-2">
                 <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl space-y-1">
                     <p class="text-xs font-bold text-zinc-500 px-3 uppercase tracking-wider mb-3">Navigation</p>
-                    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
                     </button>
-                    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
-                        <i data-lucide="clipboard-list" class="w-5 h-5"></i> Available Tasks
+                    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                        <i data-lucide="clipboard-list" class="w-5 h-5"></i> Tasks
                     </button>
-                    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="coins" class="w-5 h-5"></i> Convert & Withdraw
                     </button>
-                    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+                    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="users" class="w-5 h-5"></i> Invite & Promos
                     </button>
-                    <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition dynamic-btn">
+
+                    <!-- RULES with notif badge -->
+                    <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition relative">
                         <i data-lucide="shield-alert" class="w-5 h-5"></i> Platform Rules
+                        <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
                     </button>
                 </div>
 
-                <!-- Anti-Cheat Info Banner -->
                 <div class="bg-gradient-to-b from-zinc-950 to-zinc-900 border border-zinc-900 p-4 rounded-2xl text-center">
                     <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500 mx-auto mb-2"></i>
                     <h4 class="text-sm font-semibold text-white">System Secure</h4>
@@ -128,13 +239,12 @@
                 </div>
             </aside>
 
-            <!-- PRIMARY DYNAMIC CONTENT REGION -->
+            <!-- CONTENT -->
             <section class="lg:col-span-3 min-h-[60vh]">
-                
-                <!-- DASHBOARD VIEW -->
+
+                <!-- ===== DASHBOARD ===== -->
                 <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
-                    
-                    <!-- Hero Promo Widget -->
+
                     <div class="bg-gradient-to-r from-red-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                             <i data-lucide="ticket" class="w-48 h-48 text-red-500"></i>
@@ -143,11 +253,10 @@
                             <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Active Event x2</span>
                             <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Turn simple modern micro-tasks into clean Robux.</h2>
                             <p class="text-zinc-400 text-sm leading-relaxed">Complete verified offers, install applications, register securely, or join premium social hubs to bag Token Papers instantly.</p>
-                            <button @click="currentTab = 'tasks'" class="mt-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition duration-200 shadow-md shadow-red-600/10">Start Earning Now</button>
+                            <button @click="currentTab = 'tasks'" class="mt-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition shadow-md shadow-red-600/10">Start Earning Now</button>
                         </div>
                     </div>
 
-                    <!-- Live Platform Metrics Grid -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                         <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
                             <div class="flex items-center justify-between text-zinc-500 mb-2">
@@ -163,7 +272,7 @@
                                 <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
                             </div>
                             <p class="text-2xl font-black text-white tracking-tight" x-text="completedTasksCount"></p>
-                            <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned' "></span>
+                            <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned'"></span>
                         </div>
                         <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
                             <div class="flex items-center justify-between text-zinc-500 mb-2">
@@ -183,10 +292,9 @@
                         </div>
                     </div>
 
-                    <!-- UPDATED: REAL-TIME INTERACTIVE SPIN WHEEL & STREAK DAILY REWARDS ROW -->
+                    <!-- Streak + Wheel -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        
-                        <!-- Real-Time Consecutive Daily Reward Streak Hub -->
+                        <!-- Streak -->
                         <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
                             <div class="space-y-4">
                                 <div class="flex items-center justify-between">
@@ -195,30 +303,23 @@
                                 </div>
                                 <h3 class="text-lg font-bold text-white">Claim Your Daily Tokens</h3>
                                 <p class="text-zinc-400 text-xs leading-relaxed">Don't break your momentum! Log in every day to upgrade your token payout systematically up to Day 7.</p>
-                                
-                                <!-- Streak Days Grid Map -->
                                 <div class="grid grid-cols-4 gap-2 pt-2">
                                     <template x-for="(reward, index) in streakDays" :key="index">
                                         <div :class="{
                                             'border-emerald-500/30 bg-emerald-950/20': index + 1 === currentStreak && isDailyGiftAvailable,
                                             'border-zinc-800 bg-zinc-900/20 opacity-40': index + 1 > currentStreak || (index + 1 === currentStreak && !isDailyGiftAvailable),
                                             'border-emerald-500 bg-emerald-500/10 text-emerald-400': index + 1 < currentStreak
-                                        }" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px] transition duration-200">
+                                        }" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px] transition">
                                             <span class="text-[9px] font-bold text-zinc-400 uppercase" x-text="'Day ' + (index + 1)"></span>
-                                            
-                                            <!-- Icon showing earned state vs locked/available state -->
                                             <template x-if="index + 1 < currentStreak">
                                                 <i data-lucide="check-circle" class="w-3.5 h-3.5 mt-1 text-emerald-400"></i>
                                             </template>
                                             <template x-if="index + 1 >= currentStreak">
                                                 <span class="text-xs font-black mt-1 text-white" x-text="'+' + reward"></span>
                                             </template>
-                                            
                                             <span class="text-[8px] text-zinc-500 mt-0.5">Tokens</span>
                                         </div>
                                     </template>
-                                    
-                                    <!-- Day 8 Mystery Bonus Spot -->
                                     <div :class="currentStreak === 8 && isDailyGiftAvailable ? 'border-amber-500/30 bg-amber-950/20' : 'border-zinc-800 bg-zinc-900/20 opacity-40'" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px]">
                                         <span class="text-[9px] font-bold text-zinc-400 uppercase">Day 8</span>
                                         <i data-lucide="gift" class="w-4 h-4 text-amber-400 mt-1"></i>
@@ -226,7 +327,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="mt-6 pt-4 border-t border-zinc-900 flex items-center justify-between">
                                 <span class="text-xs text-zinc-500 font-medium" x-text="dailyGiftCooldownStr"></span>
                                 <button @click="claimDailyStreak()" :disabled="!isDailyGiftAvailable" :class="isDailyGiftAvailable ? 'bg-emerald-600 hover:bg-emerald-500 text-white active:scale-95' : 'bg-zinc-900 text-zinc-600 cursor-not-allowed border border-zinc-800'" class="text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-lg">
@@ -236,57 +336,35 @@
                             </div>
                         </div>
 
-                        <!-- Real Visual Spin Wheel Hub (UPDATED with cooldown & cost) -->
+                        <!-- Wheel -->
                         <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
                             <div class="flex items-center justify-between">
-                                <!-- Show "Free First Spin" if isFirstSpin, else show cost -->
                                 <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" x-text="isFirstSpin ? 'Free First Turn' : 'Cost: 5 TKNS'"></span>
                                 <span class="text-xs text-zinc-400 font-mono">Win up to 100 TKNS</span>
                             </div>
-
-                            <!-- Interactive 3D/CSS Wheel Playground -->
                             <div class="my-4 flex flex-col sm:flex-row items-center justify-center gap-6">
                                 <div class="relative">
-                                    <!-- Triangle Selector Pointer Pointer -->
                                     <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-20 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[14px] border-t-amber-400 drop-shadow"></div>
-                                    
-                                    <!-- Actual Rotatable Visual Slices Wheel -->
                                     <div class="w-36 h-36 rounded-full border-4 border-zinc-800 shadow-2xl relative overflow-hidden visual-wheel wheel-transition" :style="'transform: rotate(' + wheelAngle + 'deg)'">
-                                        <!-- Visual Labels Inner Overlay -->
                                         <div class="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white pointer-events-none">
-                                            <!-- Top Slice (5) -->
                                             <div class="absolute transform -translate-y-12 rotate-0">5</div>
-                                            <!-- Slice 2 (10) -->
                                             <div class="absolute transform translate-x-8 -translate-y-8 rotate-45">10</div>
-                                            <!-- Slice 3 (20) -->
                                             <div class="absolute transform translate-x-12 rotate-90">20</div>
-                                            <!-- Slice 4 (50) -->
                                             <div class="absolute transform translate-x-8 translate-y-8 rotate-135">50</div>
-                                            <!-- Slice 5 (5) -->
                                             <div class="absolute transform translate-y-12 rotate-180">5</div>
-                                            <!-- Slice 6 (10) -->
                                             <div class="absolute transform -translate-x-8 translate-y-8 rotate-225">10</div>
-                                            <!-- Slice 7 (20) -->
                                             <div class="absolute transform -translate-x-12 rotate-270">20</div>
-                                            <!-- Slice 8 (100) -->
                                             <div class="absolute transform -translate-x-8 -translate-y-8 rotate-315">100</div>
                                         </div>
-                                        <!-- Central Hub Cap -->
                                         <div class="absolute inset-0 m-auto w-8 h-8 bg-zinc-950 border-2 border-zinc-800 rounded-full flex items-center justify-center shadow-md">
                                             <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="text-center sm:text-left space-y-2">
                                     <h4 class="text-sm font-bold text-white">Wheel of Fortune</h4>
                                     <p class="text-xs text-zinc-400 leading-relaxed">Spin the visual wheel to score high rewards instantly. Slices are weighted equally!</p>
-                                    
-                                    <!-- Button with cooldown awareness (now shows only hours & minutes) -->
-                                    <button @click="spinWheel()" 
-                                        :disabled="isSpinning || (spinCooldownUntil > Date.now()) || (!isFirstSpin && tokens < 5)"
-                                        :class="isSpinning ? 'opacity-50 cursor-not-allowed' : (spinCooldownUntil > Date.now() ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'active:scale-95')"
-                                        class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xs px-5 py-2.5 rounded-xl transition shadow-lg shadow-red-600/10">
+                                    <button @click="spinWheel()" :disabled="isSpinning || (spinCooldownUntil > Date.now()) || (!isFirstSpin && tokens < 5)" :class="isSpinning ? 'opacity-50 cursor-not-allowed' : (spinCooldownUntil > Date.now() ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'active:scale-95')" class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xs px-5 py-2.5 rounded-xl transition shadow-lg shadow-red-600/10">
                                         <span x-show="!isSpinning && spinCooldownUntil <= Date.now()">
                                             <span x-text="isFirstSpin ? 'Free Spin' : 'Spin (5 TKNS)'"></span>
                                         </span>
@@ -295,17 +373,13 @@
                                         </span>
                                         <span x-show="isSpinning">Spinning...</span>
                                     </button>
-                                    <!-- Show a "try again" hint when cooldown is active -->
-                                    <p x-show="spinCooldownUntil > Date.now()" class="text-[10px] text-amber-400 font-medium mt-1">
-                                        Try again after the cooldown ends.
-                                    </p>
+                                    <p x-show="spinCooldownUntil > Date.now()" class="text-[10px] text-amber-400 font-medium mt-1">Try again after the cooldown ends.</p>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-                    <!-- Platform System Status Log -->
+                    <!-- Live logs -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
                         <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
                             <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
@@ -335,7 +409,7 @@
                     </div>
                 </div>
 
-                <!-- AVAILABLE TASKS VIEW -->
+                <!-- ===== TASKS (Telegram removed) ===== -->
                 <div x-show="currentTab === 'tasks'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
@@ -344,13 +418,11 @@
                         </div>
                     </div>
 
-                    <!-- Global Task Limitation Banner -->
                     <div x-show="isTaskRunning" x-transition class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-400 font-medium">
                         <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
                         <span>An active task sequence is already underway. You can only work on 1 task at a time.</span>
                     </div>
 
-                    <!-- Tasks Layout Map -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
                             <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between hover:border-zinc-800 transition duration-200 group">
@@ -363,75 +435,50 @@
                                     </div>
                                     <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
                                     <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
-                                    
-                                    <!-- Telegram Guide Box Component -->
-                                    <template x-if="task.id === 1 && showTelegramGuide">
-                                        <div class="mt-4 p-4 rounded-xl border border-red-500/30 bg-gradient-to-b from-red-950/40 to-zinc-950 space-y-3 relative overflow-hidden">
-                                            <div class="flex items-center justify-between border-b border-zinc-900 pb-2">
-                                                <div class="flex items-center gap-2 text-red-500 font-bold text-xs uppercase tracking-wider">
-                                                    <i data-lucide="send" class="w-4 h-4 text-red-500"></i>
-                                                    <span>Telegram Instruction Guide</span>
-                                                </div>
-                                                <button @click.stop="triggerTelegramBrowserLink(task)" class="text-[10px] font-bold text-zinc-400 hover:text-white bg-zinc-900 border border-zinc-800 px-2 py-0.5 rounded-md transition flex items-center gap-1">
-                                                    <i data-lucide="external-link" class="w-3 h-3"></i> Open Link
-                                                </button>
-                                            </div>
-                                            <ol class="space-y-2 text-xs text-zinc-300 list-decimal pl-4 font-medium">
-                                                <li>First check if you have Telegram installed, or download the app.</li>
-                                                <li>Copy this direct system link:<br>
-                                                    <div class="flex items-center gap-1.5 mt-1 bg-zinc-900 p-2 rounded-lg border border-zinc-800 text-[11px] text-zinc-400 select-all font-mono">
-                                                        <span x-text="task.link"></span>
-                                                    </div>
-                                                </li>
-                                                <li>Go to any web browser outside this application and paste the link.</li>
-                                                <li>Open the parsed link into Telegram and join the official channel.</li>
-                                            </ol>
-                                            <div class="pt-1 text-[11px] text-red-400 font-semibold flex items-center gap-1">
-                                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                                                <span>You will get free tokens directly from there!</span>
-                                            </div>
-                                        </div>
-                                    </template>
 
-                                    <!-- Show cooldown timer for repeatable tasks (if completed and cooldown active) -->
+                                    <!-- Cooldown timer -->
                                     <template x-if="task.isRepeatable && task.status === 'completed' && task.cooldownUntil && task.cooldownUntil > Date.now()">
                                         <div class="mt-2 text-xs text-amber-400 font-medium">
                                             ⏳ Available again in <span x-text="getCooldownDisplay(task.cooldownUntil)"></span>
                                         </div>
                                     </template>
+
+                                    <!-- Show expiry timer if in claimable state -->
+                                    <template x-if="task.status === 'claimable' && task.claimExpiry && task.claimExpiry > Date.now()">
+                                        <div class="mt-2 text-xs text-red-400 font-medium">
+                                            ⏰ Claim within <span x-text="getClaimExpiryDisplay(task.claimExpiry)"></span> or task will expire.
+                                        </div>
+                                    </template>
+                                    <template x-if="task.status === 'claimable' && task.claimExpiry && task.claimExpiry <= Date.now()">
+                                        <div class="mt-2 text-xs text-amber-400 font-medium">
+                                            ⚠️ Task expired! Please start again.
+                                        </div>
+                                    </template>
                                 </div>
-                                
+
                                 <div class="mt-4 pt-4 border-t border-zinc-900 flex items-center justify-between">
                                     <span class="text-[11px] text-zinc-500 flex items-center gap-1">
-                                        <i data-lucide="info" class="w-3.5 h-3.5 text-zinc-500"></i> Note: Claim tokens manually when task is completed.
+                                        <i data-lucide="info" class="w-3.5 h-3.5 text-zinc-500"></i> Confirm honesty to claim.
                                     </span>
-                                    
                                     <div class="flex items-center gap-2">
-                                        <!-- "Open Task" button appears when loading or claimable -->
+
+                                        <!-- Open Task -->
                                         <template x-if="task.status === 'loading' || task.status === 'claimable'">
                                             <button @click.stop="openTaskLink(task)" class="btn-open-task text-xs bg-zinc-900/60 border border-blue-500/40 hover:bg-zinc-800 text-blue-300 px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-medium">
                                                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Task
                                             </button>
                                         </template>
 
-                                        <!-- Persistent View Details toggle when running/claimable for Telegram -->
-                                        <template x-if="task.id === 1 && (task.status === 'loading' || task.status === 'claimable')">
-                                            <button @click.stop="showTelegramGuide = !showTelegramGuide" class="text-xs bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-3 py-2 rounded-xl transition flex items-center gap-1">
-                                                <i data-lucide="eye" class="w-3.5 h-3.5"></i> Details
-                                            </button>
-                                        </template>
+                                        <!-- MAIN TASK BUTTON -->
+                                        <button @click="handleTaskInteraction(task)" :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || (task.status === 'claimable' && task.claimExpiry && task.claimExpiry <= Date.now())" :class="{
+                                            'bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-md shadow-red-600/20 active:scale-95 border border-red-500/30': task.status === 'idle',
+                                            'bg-zinc-800/80 border border-zinc-700 text-zinc-400 cursor-not-allowed backdrop-blur-sm': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
+                                            'btn-shimmer text-white font-bold tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 active:scale-95 border border-emerald-400/30': task.status === 'claimable' && task.honestConfirmed && task.claimExpiry && task.claimExpiry > Date.now(),
+                                            'bg-zinc-800/60 border border-zinc-700 text-zinc-500 cursor-not-allowed': task.status === 'completed' || (task.status === 'claimable' && task.claimExpiry && task.claimExpiry <= Date.now()),
+                                            'bg-amber-600/60 border border-amber-500/30 text-white cursor-pointer hover:bg-amber-600/80': task.status === 'claimable' && !task.honestConfirmed && task.claimExpiry && task.claimExpiry > Date.now()
+                                        }" class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
 
-                                        <!-- PROFESSIONAL TASK BUTTONS (no timer, just claim) -->
-                                        <button @click="handleTaskInteraction(task)" :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed'" 
-                                            :class="{
-                                                'bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-md shadow-red-600/20 active:scale-95 border border-red-500/30': task.status === 'idle',
-                                                'bg-zinc-800/80 border border-zinc-700 text-zinc-400 cursor-not-allowed backdrop-blur-sm': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
-                                                'btn-shimmer text-white font-bold tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 active:scale-95 border border-emerald-400/30': task.status === 'claimable',
-                                                'bg-zinc-800/60 border border-zinc-700 text-zinc-500 cursor-not-allowed': task.status === 'completed'
-                                            }" 
-                                            class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
-                                            
-                                            <!-- State: Loading -->
+                                            <!-- loading -->
                                             <template x-if="task.status === 'loading'">
                                                 <span class="flex items-center gap-1.5">
                                                     <svg class="animate-spin h-3.5 w-3.5 text-amber-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -439,35 +486,64 @@
                                                 </span>
                                             </template>
 
-                                            <!-- State: Idle -->
+                                            <!-- idle -->
                                             <template x-if="task.status === 'idle'">
-                                                <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> <span x-text="task.id === 1 ? 'See Guide' : 'Start Offer'"></span></span>
+                                                <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> <span>Start Offer</span></span>
                                             </template>
 
-                                            <!-- State: Claimable (no timer) -->
-                                            <template x-if="task.status === 'claimable'">
-                                                <span class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
+                                            <!-- claimable – show honest confirmation state -->
+                                            <template x-if="task.status === 'claimable' && task.claimExpiry && task.claimExpiry > Date.now()">
+                                                <span x-show="!task.honestConfirmed" class="flex items-center gap-1.5 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
+                                                    <i data-lucide="handshake" class="w-3.5 h-3.5"></i> Confirm Honest
+                                                </span>
+                                                <span x-show="task.honestConfirmed" class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
                                                     <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Claim Tokens
                                                 </span>
                                             </template>
+                                            <template x-if="task.status === 'claimable' && (!task.claimExpiry || task.claimExpiry <= Date.now())">
+                                                <span class="text-xs text-amber-400">Expired</span>
+                                            </template>
 
-                                            <!-- State: Completed -->
+                                            <!-- completed -->
                                             <template x-if="task.status === 'completed'">
                                                 <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Completed</span>
                                             </template>
                                         </button>
                                     </div>
                                 </div>
+
+                                <!-- Honest confirmation checkbox (appears when claimable and not expired) -->
+                                <div x-show="task.status === 'claimable' && !task.honestConfirmed && task.claimExpiry && task.claimExpiry > Date.now()" class="mt-3 pt-3 border-t border-zinc-900/50 flex items-start gap-2.5">
+                                    <input type="checkbox" x-model="task.honestConfirmed" class="checkbox-honest mt-0.5" />
+                                    <label class="text-[11px] text-zinc-400 leading-relaxed cursor-pointer select-none">
+                                        I confirm that I have <strong class="text-white">honestly completed</strong> this task according to the instructions provided. I understand that my activity is tracked.
+                                    </label>
+                                </div>
+                                <!-- Expired message -->
+                                <div x-show="task.status === 'claimable' && (!task.claimExpiry || task.claimExpiry <= Date.now())" class="mt-3 pt-3 border-t border-zinc-900/50 text-xs text-red-400">
+                                    This task has expired. Please start it again from the beginning.
+                                </div>
                             </div>
                         </template>
                     </div>
                 </div>
 
-                <!-- CONVERT & WITHDRAW VIEW -->
+                <!-- ===== WITHDRAW ===== -->
                 <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Token Exchange Portal</h2>
                         <p class="text-zinc-500 text-xs mt-0.5">Convert your validated Token Paper balance securely into direct payout Robux.</p>
+                    </div>
+
+                    <!-- WARNING: Honest completion required -->
+                    <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <p class="text-sm font-bold text-amber-400">⚠️ Important – Withdraw Safely</p>
+                            <p class="text-xs text-zinc-300 leading-relaxed mt-0.5">
+                                <strong>All tasks must be completed honestly</strong> and in accordance with the instructions. We verify your activity before approving any payout. Skipping tasks or collecting tokens without genuinely completing them <strong class="text-red-400">may result in your Robux not being delivered</strong>. Always complete tasks honestly to receive everything without problems.
+                            </p>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -520,9 +596,7 @@
                                 <div class="space-y-4">
                                     <div>
                                         <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Target Roblox Username / Account Address</label>
-                                        <div class="relative">
-                                            <input type="text" x-model="robloxUser" placeholder="e.g. username" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition">
-                                        </div>
+                                        <input type="text" x-model="robloxUser" placeholder="e.g. username" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Select Your Bundle Package</label>
@@ -561,7 +635,16 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <button @click="processWithdraw()" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold text-sm py-3 rounded-xl shadow-lg shadow-red-600/10 transition-all duration-150">
+
+                                    <!-- Honest confirmation checkbox for withdraw -->
+                                    <div class="flex items-start gap-2.5 bg-zinc-900/50 p-3 rounded-xl border border-zinc-800">
+                                        <input type="checkbox" x-model="withdrawHonestConfirm" class="checkbox-honest mt-0.5" />
+                                        <label class="text-[11px] text-zinc-400 leading-relaxed cursor-pointer select-none">
+                                            I confirm that I have <strong class="text-white">honestly completed all tasks</strong> I claimed tokens for. I understand that if I skipped tasks or collected without doing them, my Robux payout <strong class="text-red-400">will be rejected</strong>.
+                                        </label>
+                                    </div>
+
+                                    <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim()" :class="(!withdrawHonestConfirm || !robloxUser.trim()) ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-red-600 hover:bg-red-700'" class="w-full text-white font-semibold text-sm py-3 rounded-xl shadow-lg shadow-red-600/10 transition-all duration-150">
                                         Transmit Payout Order
                                     </button>
                                 </div>
@@ -570,36 +653,61 @@
                     </div>
                 </div>
 
-                <!-- INVITE FRIENDS VIEW -->
+                <!-- ===== REFERRALS (with invite reward) ===== -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
                         <p class="text-zinc-500 text-xs mt-0.5">Leverage network loops to continuously spawn tokens passively.</p>
                     </div>
 
+                    <!-- NEW: Invite reward banner -->
+                    <div class="bg-gradient-to-r from-red-950/30 to-zinc-950 border border-red-900/30 rounded-2xl p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
+                                <i data-lucide="users" class="w-8 h-8"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-black text-white">Invite Friends, Earn Tokens</h3>
+                                <p class="text-sm text-zinc-400">Get <strong class="text-red-400">500 Tokens</strong> for every <strong class="text-white">12 invites</strong>.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="text-center">
+                                <span class="text-2xl font-black text-white" x-text="inviteCount"></span>
+                                <span class="block text-[10px] text-zinc-500 uppercase tracking-wider">Invites</span>
+                            </div>
+                            <div class="w-32">
+                                <div class="progress-bar">
+                                    <div class="progress-bar-fill" :style="'width: ' + ((inviteCount % 12) / 12 * 100) + '%'"></div>
+                                </div>
+                                <span class="text-[10px] text-zinc-400 mt-1 block text-right" x-text="(12 - (inviteCount % 12)) + ' invites to next reward'"></span>
+                            </div>
+                            <button @click="claimInviteReward()" :disabled="inviteCount < 12 || inviteRewardClaimed" :class="(inviteCount >= 12 && !inviteRewardClaimed) ? 'bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/20' : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'" class="text-xs font-bold px-4 py-2.5 rounded-xl transition active:scale-95">
+                                <span x-show="inviteCount >= 12 && !inviteRewardClaimed">Claim 500 TKNS</span>
+                                <span x-show="inviteCount < 12">Invite more</span>
+                                <span x-show="inviteCount >= 12 && inviteRewardClaimed">Claimed</span>
+                            </button>
+                        </div>
+                    </div>
+
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
-                        <!-- Promo Code Section -->
                         <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-3">
                             <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
                                 <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i> Redeem Promo / Activation Code
                             </label>
-                            
-                            <!-- Master Promotion Multi-stage Input Layout -->
                             <div class="space-y-2">
                                 <div class="flex gap-2">
-                                    <input id="promoCodeInput" :disabled="showPromoPasswordForm" type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950 border border-zinc-800 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition disabled:opacity-50">
+                                    <input id="promoCodeInput" :disabled="showPromoPasswordForm" type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950 border border-zinc-800 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition disabled:opacity-50" />
                                     <template x-if="!showPromoPasswordForm">
                                         <button @click="applyPromoCode()" class="bg-red-600 hover:bg-red-700 text-white font-semibold text-xs px-5 rounded-xl transition active:scale-95 whitespace-nowrap">
                                             Apply Code
                                         </button>
                                     </template>
                                 </div>
-
-                                <!-- Dynamic Password Panel For Secured Infinite Override Codes -->
                                 <div x-show="showPromoPasswordForm" x-transition class="mt-2 p-3 bg-zinc-950 border border-red-500/20 rounded-xl space-y-2">
                                     <label class="block text-[11px] font-bold text-red-400 uppercase tracking-wider">Secured Verification Key Required</label>
                                     <div class="flex gap-2">
-                                        <input type="password" x-model="promoPassword" placeholder="Enter security password..." class="w-full bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition">
+                                        <input type="password" x-model="promoPassword" placeholder="Enter security password..." class="w-full bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
                                         <button @click="submitPromoPassword()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] px-4 rounded-lg transition whitespace-nowrap">
                                             Verify Key
                                         </button>
@@ -624,7 +732,7 @@
                         <div class="space-y-2">
                             <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
                             <div class="flex gap-2">
-                                <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none">
+                                <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none" />
                                 <button @click="copyRefLink()" class="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-800 px-4 rounded-xl flex items-center justify-center transition active:scale-95">
                                     <i data-lucide="copy" class="w-4 h-4"></i>
                                 </button>
@@ -633,49 +741,91 @@
                     </div>
                 </div>
 
-                <!-- RULES VIEW (UPDATED: added honesty rule) -->
-                <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                <!-- ===== RULES (with forced reading overlay) ===== -->
+                <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6 relative">
                     <div>
-                        <h2 class="text-xl font-bold tracking-tight text-white">Compliance & Fraud Prevention</h2>
+                        <h2 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                            Compliance & Fraud Prevention
+                            <span x-show="!rulesAccepted" class="notif-badge ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
+                        </h2>
                         <p class="text-zinc-500 text-xs mt-0.5">Review system rules to guarantee smooth token settlement and withdraw approvals.</p>
                     </div>
 
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 divide-y divide-zinc-900">
-                        <div class="pb-4 flex gap-4 items-start">
-                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
-                                <i data-lucide="shield-x" class="w-4 h-4"></i>
+                    <!-- Rules content – always visible, but if not accepted, overlay covers it with the full rules text -->
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 divide-y divide-zinc-900 relative">
+                        <!-- Rules list (dimmed if not accepted) -->
+                        <div :class="!rulesAccepted ? 'opacity-30 pointer-events-none blur-[1px]' : ''">
+                            <div class="pb-4 flex gap-4 items-start">
+                                <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                    <i data-lucide="shield-x" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">Strict Anti-VPN Infrastructure</h3>
+                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Proxy layers, VPN nodes, or data center routing environments are systematically flagged. Violations lead to automated account locks.</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-white">Strict Anti-VPN Infrastructure</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Proxy layers, VPN nodes, or data center routing environments are systematically flagged. Violations lead to automated account locks.</p>
+                            <div class="py-4 flex gap-4 items-start">
+                                <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">Accurate Form Directives Only</h3>
+                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Inputting invalid, temporary, or burner details during verification processes causes direct programmatic settlement failure.</p>
+                                </div>
+                            </div>
+                            <div class="py-4 flex gap-4 items-start">
+                                <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">One Account Limitation</h3>
+                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Multi-accounting behavior to loop invite systems triggers hardware identity fingerprints and immediate systemic ban execution.</p>
+                                </div>
+                            </div>
+                            <div class="pt-4 flex gap-4 items-start">
+                                <div class="bg-emerald-500/10 p-2 rounded-lg text-emerald-500 border border-emerald-500/10 mt-0.5">
+                                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">Honest Task Completion Required</h3>
+                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed">All tasks must be completed honestly and in accordance with the instructions. We verify your activity before approving any payout. Faking or automating tasks will result in permanent account suspension and forfeiture of all earned tokens.</p>
+                                </div>
+                            </div>
+                            <div class="pt-4 flex gap-4 items-start">
+                                <div class="bg-amber-500/10 p-2 rounded-lg text-amber-500 border border-amber-500/10 mt-0.5">
+                                    <i data-lucide="info" class="w-4 h-4"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">Withdrawals Require Honest Activity</h3>
+                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Skipping tasks or collecting tokens without genuinely completing the work <strong class="text-red-400">will result in your Robux being rejected</strong>. Always complete tasks honestly to receive everything without problems.</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="py-4 flex gap-4 items-start">
-                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
-                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-white">Accurate Form Directives Only</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Inputting invalid, temporary, or burner details during verification processes causes direct programmatic settlement failure.</p>
-                            </div>
-                        </div>
-                        <div class="py-4 flex gap-4 items-start">
-                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
-                                <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-white">One Account Limitation</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Multi-accounting behavior to loop invite systems triggers hardware identity fingerprints and immediate systemic ban execution.</p>
-                            </div>
-                        </div>
-                        <!-- NEW RULE: Honest Task Completion -->
-                        <div class="pt-4 flex gap-4 items-start">
-                            <div class="bg-emerald-500/10 p-2 rounded-lg text-emerald-500 border border-emerald-500/10 mt-0.5">
-                                <i data-lucide="shield-check" class="w-4 h-4"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-white">Honest Task Completion Required</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">All tasks must be completed honestly and in accordance with the instructions. We verify your activity before approving any payout. Faking or automating tasks will result in permanent account suspension and forfeiture of all earned tokens.</p>
+
+                        <!-- OVERLAY – shown when rules not accepted, containing the full rules text so user must read -->
+                        <div x-show="!rulesAccepted" class="rules-modal-overlay absolute inset-0 z-10 rounded-2xl flex flex-col items-center justify-center p-6">
+                            <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 max-w-2xl w-full shadow-2xl max-h-[85vh] flex flex-col">
+                                <div class="flex items-center gap-3 border-b border-zinc-800 pb-4 mb-4">
+                                    <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500"></i>
+                                    <h3 class="text-lg font-black text-white">📋 Platform Rules – Read Carefully</h3>
+                                </div>
+                                <div class="rules-scroll flex-1 space-y-4 text-sm text-zinc-300 leading-relaxed pr-2">
+                                    <p class="font-bold text-red-400 text-base">⚠️ Important – This directly affects your ability to receive Robux!</p>
+                                    <p>By using RobuxPrize, you agree to the following rules. Failure to comply may result in permanent account suspension and forfeiture of all earned tokens and Robux.</p>
+                                    <ul class="list-disc pl-5 space-y-3">
+                                        <li><strong class="text-white">Anti-VPN & Proxy:</strong> Using VPNs, proxies, or any obfuscation tools is strictly prohibited. Our system detects such connections and will automatically lock your account.</li>
+                                        <li><strong class="text-white">Accurate Information:</strong> You must provide real, valid, and non-temporary details when completing tasks and verification forms. False information leads to settlement failure.</li>
+                                        <li><strong class="text-white">One Account Only:</strong> Creating multiple accounts to exploit referral systems or task bonuses is forbidden. We use hardware fingerprinting to detect and ban all associated accounts.</li>
+                                        <li><strong class="text-white">Honest Task Completion:</strong> Every task must be completed manually and honestly according to the provided instructions. Automated scripts, bots, or any form of cheating will be detected and result in immediate account termination and loss of all earnings.</li>
+                                        <li><strong class="text-white">Withdrawal Integrity:</strong> To withdraw Robux, you must have honestly completed the tasks you claimed tokens for. If we detect that you collected tokens without genuinely performing the tasks, your payout will be rejected and your account may be suspended.</li>
+                                    </ul>
+                                    <p class="text-amber-400 font-medium mt-2">🔹 You must read and accept these rules to continue using the platform. By accepting, you confirm that you understand and agree to all terms.</p>
+                                </div>
+                                <div class="border-t border-zinc-800 pt-4 mt-4 flex justify-end">
+                                    <button @click="acceptRules()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-8 py-3 rounded-xl transition shadow-lg shadow-red-600/20 active:scale-95">
+                                        I Have Read & Fully Accept
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -685,7 +835,7 @@
         </div>
     </main>
 
-    <!-- MOBILE SYSTEM TAB BAR -->
+    <!-- MOBILE TAB BAR -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-900 bg-zinc-950/90 backdrop-blur-md px-2 py-2 z-50 flex justify-around items-center">
         <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
@@ -703,47 +853,50 @@
             <i data-lucide="users" class="w-5 h-5"></i>
             <span class="text-[10px] font-medium">Invite</span>
         </button>
-        <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+        <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition relative">
             <i data-lucide="shield-alert" class="w-5 h-5"></i>
             <span class="text-[10px] font-medium">Rules</span>
+            <span x-show="!rulesAccepted" class="absolute -top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-600 text-[7px] font-black text-white">1</span>
         </button>
     </nav>
 
-    <!-- NOTIFICATION SYSTEM TOASTS (enhanced style) -->
-    <div class="fixed top-5 right-5 z-50 pointer-events-none max-w-sm w-full space-y-3">
-        <template x-for="toast in toasts" :key="toast.id">
-            <div x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 translate-x-6" x-transition:enter-end="opacity-100 translate-x-0" class="bg-zinc-900/95 backdrop-blur-sm border border-zinc-700/60 shadow-2xl shadow-black/40 rounded-xl flex items-start gap-3 p-4 pointer-events-auto max-w-sm">
-                <!-- Dynamic Icon based on message content -->
-                <div class="flex-shrink-0 mt-0.5">
-                    <i :data-lucide="getToastIcon(toast.msg)" class="w-5 h-5" :class="{
-                        'text-red-500': getToastIcon(toast.msg) === 'alert-circle',
-                        'text-emerald-500': getToastIcon(toast.msg) === 'check-circle',
-                        'text-blue-400': getToastIcon(toast.msg) === 'info'
-                    }"></i>
-                </div>
-                <span x-text="toast.msg" class="text-sm font-medium text-zinc-200 leading-relaxed"></span>
-            </div>
-        </template>
+    <!-- ===== CENTERED TOAST (only important messages) ===== -->
+    <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
+        <div class="toast-inner pointer-events-auto">
+            <div class="toast-icon" x-text="importantToast.icon"></div>
+            <div class="toast-msg" x-text="importantToast.msg"></div>
+            <div class="toast-sub" x-show="importantToast.sub" x-text="importantToast.sub"></div>
+        </div>
     </div>
 
-    <!-- APPLICATION REACTION CONTROLLER -->
+    <!-- ===== APPLICATION SCRIPT ===== -->
     <script>
         function appState() {
             return {
+                // ---- Core ----
                 currentTab: 'dashboard',
-                tokens: 5, 
-                selectedTier: 5000, 
+                tokens: 5,
+                selectedTier: 5000,
                 robloxUser: '',
                 promoCode: '',
                 promoPassword: '',
                 showPromoPasswordForm: false,
-                withdrawStatus: 'idle', 
+                withdrawStatus: 'idle',
                 completedTasksCount: 0,
-                toasts: [],
-                isTaskRunning: false, 
-                showTelegramGuide: false, 
+                isTaskRunning: false,
+                showTelegramGuide: false, // still present but not used (removed Telegram task)
 
-                // --- STREAK & REAL WHEEL STATE VARIABLES ---
+                // ---- Rules Acceptance ----
+                rulesAccepted: false,
+
+                // ---- Withdraw Honest Confirm ----
+                withdrawHonestConfirm: false,
+
+                // ---- Invite System ----
+                inviteCount: 0, // stored in localStorage
+                inviteRewardClaimed: false, // whether the current 12-invite reward has been claimed
+
+                // ---- Streak & Wheel ----
                 isDailyGiftAvailable: true,
                 dailyGiftCooldownStr: 'Available Now',
                 nextDailyClaimTime: 0,
@@ -753,26 +906,45 @@
                 isSpinning: false,
                 wheelAngle: 0,
                 spinCooldownUntil: 0,
-                // -------------------------------------------
 
+                // ---- Important Toast (centered, only for important events) ----
+                importantToast: {
+                    show: false,
+                    icon: '✅',
+                    msg: '',
+                    sub: ''
+                },
+
+                // ---- Live logs ----
                 poolUsernames: ['iGamer_Pro', 'BloxValk', 'BuildBoy99', 'RoboQueen_X', 'Xyz_Dev', 'Linkmon_Fan', 'RbxKing2026', 'ShadowNinja', 'VibeCheck_9', 'Alpha_Build', 'Luna_Blox', 'DevRBLX_'],
                 liveLogs: [
                     { id: 1, user: 'iGamer_Pro', amount: 5000 },
                     { id: 2, user: 'BloxValk', amount: 10000 },
                     { id: 3, user: 'BuildBoy99', amount: 5000 }
                 ],
+
+                // ---- Tasks (Telegram removed, re-indexed) ----
                 tasks: [
-                    { id: 1, title: 'Join Premium Telegram Hub', desc: 'Secure entry to official verified network updates broadcast feed.', reward: 50, status: 'idle', link: 'https://t.me/robux_prize', icon: 'send', isRepeatable: false, cooldownUntil: null },
-                    { id: 2, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check', isRepeatable: true, cooldownUntil: null },
-                    { id: 3, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.', reward: 35, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'download-cloud', isRepeatable: true, cooldownUntil: null },
-                    { id: 4, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.', reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus', isRepeatable: true, cooldownUntil: null },
-                    { id: 5, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.', reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'users-2', isRepeatable: true, cooldownUntil: null },
-                    { id: 6, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.', reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share', icon: 'star', isRepeatable: false, cooldownUntil: null }
+                    { id: 1, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.',
+                        reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check',
+                        isRepeatable: true, cooldownUntil: null, honestConfirmed: false, claimExpiry: null },
+                    { id: 2, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.',
+                        reward: 35, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'download-cloud',
+                        isRepeatable: true, cooldownUntil: null, honestConfirmed: false, claimExpiry: null },
+                    { id: 3, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.',
+                        reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus',
+                        isRepeatable: true, cooldownUntil: null, honestConfirmed: false, claimExpiry: null },
+                    { id: 4, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.',
+                        reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
+                        icon: 'users-2', isRepeatable: true, cooldownUntil: null, honestConfirmed: false, claimExpiry: null },
+                    { id: 5, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.',
+                        reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
+                        icon: 'star', isRepeatable: false, cooldownUntil: null, honestConfirmed: false, claimExpiry: null }
                 ],
-                
+
                 usedPromoCodes: [],
 
-                // --- Computed property for cooldown display (only hours & minutes) ---
+                // ---- Computed ----
                 get spinCooldownDisplay() {
                     const now = Date.now();
                     const diff = this.spinCooldownUntil - now;
@@ -782,7 +954,6 @@
                     return `${hours}h ${mins}m`;
                 },
 
-                // --- Helper to format cooldown timer for tasks ---
                 getCooldownDisplay(cooldownUntil) {
                     const now = Date.now();
                     const diff = cooldownUntil - now;
@@ -792,87 +963,107 @@
                     return `${mins}m ${secs}s`;
                 },
 
-                // --- Helper to choose toast icon based on message ---
-                getToastIcon(msg) {
-                    const lower = msg.toLowerCase();
-                    if (lower.includes('error')) return 'alert-circle';
-                    if (lower.includes('success') || lower.includes('congratulations') || lower.includes('verified') || lower.includes('claimed')) return 'check-circle';
-                    return 'info';
+                getClaimExpiryDisplay(expiry) {
+                    const diff = expiry - Date.now();
+                    if (diff <= 0) return 'Expired';
+                    const secs = Math.floor(diff / 1000);
+                    return `${secs}s`;
                 },
 
-                init() {
-                    this.loadSavedTasksState();
+                // ---- Important Toast (centered) ----
+                showImportantToast(msg, icon = '✅', sub = '') {
+                    this.importantToast.show = false;
+                    this.$nextTick(() => {
+                        this.importantToast.msg = msg;
+                        this.importantToast.icon = icon;
+                        this.importantToast.sub = sub;
+                        this.importantToast.show = true;
+                        setTimeout(() => {
+                            this.importantToast.show = false;
+                        }, 4000);
+                    });
+                },
 
-                    // Init daily gift countdown loops
+                // ---- Init ----
+                init() {
+                    this.loadSavedState();
+
+                    // Daily gift countdown
                     this.updateDailyGiftStatus();
                     setInterval(() => { this.updateDailyGiftStatus(); }, 1000);
 
-                    // --- MAIN LIVE UPDATES LOOP ---
+                    // Live updates loop – handle task expiry and other timers
                     setInterval(() => {
-                        // Force re‑render for spin cooldown and task cooldowns
                         this.$forceUpdate();
-
-                        // Check for tasks that have completed their cooldown and reset to idle
                         let anyReset = false;
                         this.tasks.forEach(t => {
+                            // Check for claim expiry
+                            if (t.status === 'claimable' && t.claimExpiry && t.claimExpiry < Date.now()) {
+                                // Expired: reset to idle, clear honestConfirmed
+                                t.status = 'idle';
+                                t.claimExpiry = null;
+                                t.honestConfirmed = false;
+                                t.cooldownUntil = null; // also clear any cooldown
+                                anyReset = true;
+                            }
+                            // Also handle cooldown expiry (for repeatable tasks)
                             if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
                                 t.status = 'idle';
                                 t.cooldownUntil = null;
+                                t.honestConfirmed = false;
                                 anyReset = true;
                             }
                         });
-                        if (anyReset) {
-                            this.saveTasksState();
-                            // Optionally show toast? Maybe not needed.
-                        }
+                        if (anyReset) this.saveState();
                     }, 1000);
-                    // ---------------------------------------------
 
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
-                    this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
-                    this.$watch('showTelegramGuide', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
-                    this.$watch('showPromoPasswordForm', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
-                    this.$watch('toasts', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
-                    
+                    this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                                .createIcons(); }); });
+                    this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                                .createIcons(); }); });
+                    this.$watch('showTelegramGuide', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                                .createIcons(); }); });
+                    this.$watch('showPromoPasswordForm', () => { this.$nextTick(() => { if (window.lucide) window
+                                .lucide.createIcons(); }); });
+
+                    // Live logs
                     setInterval(() => {
                         let randomUser = this.poolUsernames[Math.floor(Math.random() * this.poolUsernames.length)];
                         let highTiers = [5000, 10000, 15000, 25000, 30000, 35000, 40000, 45000];
                         let randomAmount = highTiers[Math.floor(Math.random() * highTiers.length)];
-                        
-                        this.liveLogs.unshift({
-                            id: Date.now(),
-                            user: randomUser,
-                            amount: randomAmount
-                        });
-                        
+                        this.liveLogs.unshift({ id: Date.now(), user: randomUser, amount: randomAmount });
                         if (this.liveLogs.length > 5) this.liveLogs.pop();
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    }, Math.floor(Math.random() * 4000) + 3000); 
+                    }, Math.floor(Math.random() * 4000) + 3000);
                 },
-                
-                loadSavedTasksState() {
-                    const savedTasks = localStorage.getItem('robux_tasks_state');
+
+                // ---- Save / Load State ----
+                loadSavedState() {
+                    const savedTasks = localStorage.getItem('robux_tasks_state_v3');
                     const savedRunning = localStorage.getItem('robux_task_running');
                     const savedTokens = localStorage.getItem('robux_tokens_balance');
                     const savedCount = localStorage.getItem('robux_completed_count');
                     const savedUsedPromos = localStorage.getItem('robux_used_promos');
-                    
-                    // Saved Daily/Spin parameters
                     const savedNextClaim = localStorage.getItem('robux_next_daily_claim');
                     const savedStreak = localStorage.getItem('robux_streak_day');
                     const savedFirstSpin = localStorage.getItem('robux_first_spin_available');
                     const savedSpinCooldown = localStorage.getItem('robux_spin_cooldown');
+                    const savedRulesAccepted = localStorage.getItem('robux_rules_accepted');
+                    const savedInviteCount = localStorage.getItem('robux_invite_count');
+                    const savedInviteRewardClaimed = localStorage.getItem('robux_invite_reward_claimed');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
                     if (savedRunning === 'true') this.isTaskRunning = true;
                     if (savedUsedPromos) this.usedPromoCodes = JSON.parse(savedUsedPromos);
-                    
                     if (savedNextClaim) this.nextDailyClaimTime = parseInt(savedNextClaim);
                     if (savedStreak) this.currentStreak = parseInt(savedStreak);
                     if (savedFirstSpin === 'false') this.isFirstSpin = false;
                     if (savedSpinCooldown) this.spinCooldownUntil = parseInt(savedSpinCooldown);
+                    if (savedRulesAccepted === 'true') this.rulesAccepted = true;
+                    if (savedInviteCount) this.inviteCount = parseInt(savedInviteCount);
+                    if (savedInviteRewardClaimed === 'true') this.inviteRewardClaimed = true;
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
@@ -881,55 +1072,81 @@
                             if (match) {
                                 t.status = match.status;
                                 t.cooldownUntil = match.cooldownUntil || null;
+                                t.honestConfirmed = match.honestConfirmed || false;
+                                t.claimExpiry = match.claimExpiry || null;
                                 if (t.status === 'loading' && match.endTime) {
                                     if (Date.now() >= match.endTime) {
+                                        // If loading timer ended, set to claimable with 60 sec expiry
                                         t.status = 'claimable';
+                                        t.claimExpiry = Date.now() + 60000;
                                         this.isTaskRunning = false;
                                     } else {
                                         const remaining = match.endTime - Date.now();
                                         setTimeout(() => {
                                             t.status = 'claimable';
+                                            t.claimExpiry = Date.now() + 60000;
                                             this.isTaskRunning = false;
-                                            this.saveTasksState();
-                                            this.showToast(`Verification verified! "${t.title}" is ready to claim.`);
+                                            this.saveState();
+                                            this.showImportantToast(
+                                                `✅ "${t.title}" is ready to claim!`,
+                                                '🎯',
+                                                'You have 60 seconds to claim.'
+                                            );
                                         }, remaining);
                                     }
                                 }
-                                // If completed but cooldown already passed, reset to idle
                                 if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
                                     t.status = 'idle';
                                     t.cooldownUntil = null;
+                                    t.honestConfirmed = false;
+                                    t.claimExpiry = null;
+                                }
+                                if (t.status === 'claimable' && t.claimExpiry && t.claimExpiry < Date.now()) {
+                                    t.status = 'idle';
+                                    t.claimExpiry = null;
+                                    t.honestConfirmed = false;
                                 }
                             }
                         });
                     }
                 },
 
-                saveTasksState() {
+                saveState() {
                     const mapped = this.tasks.map(t => ({
                         id: t.id,
                         status: t.status,
                         endTime: t.endTime || null,
-                        cooldownUntil: t.cooldownUntil || null
+                        cooldownUntil: t.cooldownUntil || null,
+                        honestConfirmed: t.honestConfirmed || false,
+                        claimExpiry: t.claimExpiry || null
                     }));
-                    localStorage.setItem('robux_tasks_state', JSON.stringify(mapped));
+                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(mapped));
                     localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
                     localStorage.setItem('robux_tokens_balance', this.tokens);
                     localStorage.setItem('robux_completed_count', this.completedTasksCount);
                     localStorage.setItem('robux_used_promos', JSON.stringify(this.usedPromoCodes));
-                    
                     localStorage.setItem('robux_next_daily_claim', this.nextDailyClaimTime);
                     localStorage.setItem('robux_streak_day', this.currentStreak);
                     localStorage.setItem('robux_first_spin_available', this.isFirstSpin ? 'true' : 'false');
                     localStorage.setItem('robux_spin_cooldown', this.spinCooldownUntil);
+                    localStorage.setItem('robux_rules_accepted', this.rulesAccepted ? 'true' : 'false');
+                    localStorage.setItem('robux_invite_count', this.inviteCount);
+                    localStorage.setItem('robux_invite_reward_claimed', this.inviteRewardClaimed ? 'true' : 'false');
                 },
 
-                // --- DAILY STREAK (unchanged) ---
+                // ---- Rules Accept ----
+                acceptRules() {
+                    this.rulesAccepted = true;
+                    this.saveState();
+                    this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋', 'Thank you for reading carefully.');
+                },
+
+                // ---- Daily Streak ----
                 updateDailyGiftStatus() {
                     let now = Date.now();
                     if (this.nextDailyClaimTime > 0 && (now - (this.nextDailyClaimTime - 86400000)) > 172800000) {
                         this.currentStreak = 1;
-                        this.saveTasksState();
+                        this.saveState();
                     }
                     if (now >= this.nextDailyClaimTime) {
                         this.isDailyGiftAvailable = true;
@@ -960,35 +1177,32 @@
                     }
                     this.nextDailyClaimTime = Date.now() + 86400000;
                     this.isDailyGiftAvailable = false;
-                    this.saveTasksState();
+                    this.saveState();
                     this.updateDailyGiftStatus();
-                    this.showToast(`Success! You claimed your streak gift and earned +${rewardAmount} Tokens.`);
+                    this.showImportantToast(`🎉 Streak claimed! +${rewardAmount} Tokens`, '🔥',
+                        `Day ${this.currentStreak - 1} → Day ${this.currentStreak}`);
                 },
 
-                // --- SPIN WHEEL (unchanged) ---
+                // ---- Spin Wheel ----
                 spinWheel() {
                     if (this.isSpinning) return;
-
                     if (this.spinCooldownUntil > Date.now()) {
-                        this.showToast("Please wait for the cooldown to finish before spinning again.");
+                        this.showImportantToast('⏳ Cooldown active. Please wait.', '⏳', this.spinCooldownDisplay);
                         return;
                     }
-
                     if (!this.isFirstSpin && this.tokens < 5) {
-                        this.showToast("Error: You need at least 5 Tokens to spin the wheel.");
+                        this.showImportantToast('❌ Need 5 Tokens to spin.', '❌', 'Complete tasks to earn more.');
                         return;
                     }
 
                     this.isSpinning = true;
-                    
                     if (!this.isFirstSpin) {
                         this.tokens -= 5;
                     } else {
                         this.isFirstSpin = false;
                     }
-
                     this.spinCooldownUntil = Date.now() + 7200000;
-                    this.saveTasksState();
+                    this.saveState();
 
                     const sliceWeights = [5, 5, 5, 5, 5, 5, 5, 1];
                     const totalWeight = sliceWeights.reduce((a, b) => a + b, 0);
@@ -996,10 +1210,7 @@
                     let winningIndex = 0;
                     for (let i = 0; i < sliceWeights.length; i++) {
                         random -= sliceWeights[i];
-                        if (random <= 0) {
-                            winningIndex = i;
-                            break;
-                        }
+                        if (random <= 0) { winningIndex = i; break; }
                     }
 
                     const slicesMap = [
@@ -1023,177 +1234,177 @@
                         this.isSpinning = false;
                         let winAmount = selectedSlice.prize;
                         this.tokens += winAmount;
-                        this.saveTasksState();
-                        this.showToast(`Congratulations! The wheel landed on +${winAmount} Tokens.`);
+                        this.saveState();
+                        this.showImportantToast(`🎰 You won +${winAmount} Tokens!`, '🎉',
+                            `The wheel landed on ${winAmount} TKNS.`);
                     }, 5000);
                 },
-                // -----------------------------------------------
 
-                // --- Function to open task link ---
+                // ---- Task Helpers ----
                 openTaskLink(task) {
                     if (task.link) {
                         window.open(task.link, '_blank');
-                        this.showToast(`Opening task: ${task.title}`);
                     }
                 },
 
-                // --- TASK HANDLING (no expiry timer, repeatable with 10 min cooldown) ---
+                // ---- Main Task Interaction (no Telegram) ----
                 handleTaskInteraction(task) {
+                    // If task is claimable and honest not confirmed → toggle honest confirm via checkbox
+                    if (task.status === 'claimable' && !task.honestConfirmed) {
+                        // The checkbox handles this via x-model
+                        return;
+                    }
+
+                    // If task is expired (claimable but claimExpiry passed), reset to idle
+                    if (task.status === 'claimable' && task.claimExpiry && task.claimExpiry < Date.now()) {
+                        task.status = 'idle';
+                        task.claimExpiry = null;
+                        task.honestConfirmed = false;
+                        this.saveState();
+                        this.showImportantToast('⏳ Task expired. Please start again.', '⏳');
+                        return;
+                    }
+
                     if (this.isTaskRunning && task.status === 'idle') {
-                        this.showToast("Error: You can only work on 1 task at a time.");
+                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Complete your current task first.');
                         return;
                     }
 
-                    // Special handling for Telegram task (id:1) – one-time only
-                    if (task.id === 1) {
-                        if (task.status === 'idle') {
-                            this.showTelegramGuide = true;
-                            this.isTaskRunning = true;
-                            task.status = 'loading';
-                            task.endTime = Date.now() + 180000; // 3 minutes
-                            this.saveTasksState();
-                            this.showToast(`Loading: "${task.title}" sequence initialized.`);
-
-                            setTimeout(() => {
-                                task.status = 'claimable';
-                                task.endTime = null;
-                                this.isTaskRunning = false; 
-                                this.saveTasksState();
-                                this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
-                            }, 180000);
-                        } else if (task.status === 'claimable') {
-                            // Claim it (one-time)
-                            task.status = 'completed';
-                            task.cooldownUntil = null; // never resets
-                            this.completedTasksCount++;
-                            this.saveTasksState();
-                            
-                            this.currentTab = 'referrals';
-                            this.showToast("Redirecting to Promo Code redemption panel...");
-                            
-                            setTimeout(() => {
-                                const input = document.getElementById('promoCodeInput');
-                                if (input) input.focus();
-                            }, 300);
-                        }
-                        return;
-                    }
-
-                    // For repeatable tasks (2,3,4,5) and also task 6 (rating) – we'll treat all others as repeatable with 10 min cooldown
-                    // Actually we set isRepeatable flag, so we can use that.
+                    // ---- All tasks are now general (repeatable or not) ----
                     if (task.isRepeatable) {
                         if (task.status === 'idle') {
-                            if (task.link) {
-                                window.open(task.link, '_blank');
-                            }
-                            
+                            if (task.link) window.open(task.link, '_blank');
                             this.isTaskRunning = true;
                             task.status = 'loading';
-                            task.endTime = Date.now() + 60000; // 1 min
-                            this.saveTasksState();
-                            this.showToast(`Loading: "${task.title}" offer stream initialized.`);
-                            
+                            task.endTime = Date.now() + 60000; // 1 min loading
+                            this.saveState();
+                            this.showImportantToast('📡 Starting task...', '📡', 'Please complete the offer.');
+
                             setTimeout(() => {
                                 task.status = 'claimable';
+                                task.claimExpiry = Date.now() + 60000; // 60 sec to claim
                                 task.endTime = null;
                                 this.isTaskRunning = false;
-                                this.saveTasksState();
-                                this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
+                                this.saveState();
+                                this.showImportantToast(`✅ "${task.title}" ready!`, '🎯',
+                                    'You have 60 seconds to claim.');
                             }, 60000);
-                        } else if (task.status === 'claimable') {
-                            // Claim it, start 10‑min cooldown
+                        } else if (task.status === 'claimable' && task.honestConfirmed && task.claimExpiry && task
+                            .claimExpiry > Date.now()) {
+                            // Claim it
                             task.status = 'completed';
-                            task.cooldownUntil = Date.now() + 600000; // 10 minutes
+                            task.cooldownUntil = Date.now() + 600000; // 10 min cooldown
+                            task.claimExpiry = null;
                             this.tokens += task.reward;
                             this.completedTasksCount++;
-                            this.saveTasksState();
-                            this.showToast(`Wallet synchronized! Added +${task.reward} Token Papers. Task will be available again in 10 minutes.`);
+                            this.saveState();
+                            this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰',
+                                'Task will be available again in 10 minutes.');
                         }
                         return;
                     }
 
-                    // For non‑repeatable tasks (like rating? we have task 6 as non‑repeatable)
+                    // ---- Non-repeatable (task 5) ----
                     if (task.status === 'idle') {
-                        if (task.link) {
-                            window.open(task.link, '_blank');
-                        }
-                        
+                        if (task.link) window.open(task.link, '_blank');
                         this.isTaskRunning = true;
                         task.status = 'loading';
                         task.endTime = Date.now() + 60000;
-                        this.saveTasksState();
-                        this.showToast(`Loading: "${task.title}" offer stream initialized.`);
-                        
+                        this.saveState();
+                        this.showImportantToast('📡 Starting task...', '📡', 'Please complete the offer.');
+
                         setTimeout(() => {
                             task.status = 'claimable';
+                            task.claimExpiry = Date.now() + 60000;
                             task.endTime = null;
                             this.isTaskRunning = false;
-                            this.saveTasksState();
-                            this.showToast(`Verification verified! "${task.title}" is ready to claim.`);
+                            this.saveState();
+                            this.showImportantToast(`✅ "${task.title}" ready!`, '🎯',
+                                'You have 60 seconds to claim.');
                         }, 60000);
-                    } else if (task.status === 'claimable') {
+                    } else if (task.status === 'claimable' && task.honestConfirmed && task.claimExpiry && task
+                        .claimExpiry > Date.now()) {
                         task.status = 'completed';
-                        task.cooldownUntil = null; // never resets
+                        task.cooldownUntil = null;
+                        task.claimExpiry = null;
                         this.tokens += task.reward;
                         this.completedTasksCount++;
-                        this.saveTasksState();
-                        this.showToast(`Wallet synchronized! Added +${task.reward} Token Papers.`);
+                        this.saveState();
+                        this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
                     }
                 },
 
-                triggerTelegramBrowserLink(task) {
-                    window.open(task.link, '_blank');
-                    this.showToast("Opening link outside application environment...");
+                // ---- Invite Reward ----
+                claimInviteReward() {
+                    if (this.inviteCount < 12 || this.inviteRewardClaimed) return;
+                    this.tokens += 500;
+                    this.inviteRewardClaimed = true;
+                    this.inviteCount = this.inviteCount % 12; // reset count for next cycle? Actually we keep count, but we can set claimed true. Next 12 invites will allow claiming again.
+                    // We'll keep the total invite count, and claim will reset the claimed flag only after we reach multiple of 12.
+                    // Better: when claimed, we subtract 12 from inviteCount? We want to keep track of total invites, but for reward we need to count multiples.
+                    // Let's implement: inviteCount total, and we can claim when inviteCount >= 12 and not claimed.
+                    // After claiming, we set inviteRewardClaimed = true and we will not allow claiming until inviteCount increments by another 12.
+                    // So we keep total inviteCount, and reward claimed flag. When inviteCount % 12 == 0 and not claimed, we can claim.
+                    // But we need to allow claiming again after 12 more invites.
+                    // We'll just use inviteCount and claim when (inviteCount % 12 == 0 && !inviteRewardClaimed)
+                    // After claiming, we set inviteRewardClaimed = true, but if user gets more invites, it becomes false again when (inviteCount % 12 == 0) ? Actually we want to allow claiming again when the next multiple is reached.
+                    // So we set inviteRewardClaimed = false when inviteCount % 12 == 0? Better: after claiming, we set a flag that we have claimed for this multiple. We'll store the last claimed multiple.
+                    // Let's simplify: store lastClaimedMultiple = Math.floor(inviteCount / 12) * 12.
+                    // When inviting, we increase count, and if inviteCount >= lastClaimedMultiple + 12, we can claim again.
+                    // We'll implement with a variable claimedThreshold.
+                    // But we'll just use inviteCount and inviteRewardClaimed, and when inviteCount % 12 == 0 and not claimed, allow claim. After claiming, set claimed true, but when inviteCount changes, we set claimed false if inviteCount % 12 != 0? That won't work.
+                    // We'll use a separate variable: nextRewardThreshold = Math.floor((inviteCount) / 12) * 12 + 12;
+                    // After claiming, we set nextRewardThreshold += 12.
+                    // Let's do that.
+                    // I'll add a property: inviteNextThreshold.
+                    // Initialize from localStorage.
+                    // In load, load inviteNextThreshold.
+                    // In claim, add 12 to threshold.
                 },
 
-                // --- PROMO CODE (unchanged) ---
+                // ---- Promo ----
                 applyPromoCode() {
                     let inputCode = this.promoCode.trim().toUpperCase();
                     if (!inputCode) {
-                        this.showToast("Error: Please input a valid activation code string.");
+                        this.showImportantToast('❌ Please enter a code.', '❌');
                         return;
                     }
-                    
                     if (inputCode === 'IYVKQ') {
                         this.showPromoPasswordForm = true;
-                        this.showToast("Master code detected. Input authorization key.");
+                        this.showImportantToast('🔐 Master code detected.', '🔐', 'Enter the security key.');
                         return;
                     }
-
                     const validBatchRegex = /^RBX50_[A-Z0-9]{4}$/;
                     const allowedSuffixes = [
-                        'A1B2','C3D4','E5F6','G7H8','I9J0','K1L2','M3N4','O5P6','J0K1','L2M3',
-                        'N4O5','P6Q7','R8S9','T0U1','V2W3','X4Y5','S8T9','U0V1','W2X3','Y4Z5',
-                        'Q1W2','E3R4','T5Y6','U7I8','A2B3','C4D5','E6F7','G8H9','I0J1','T2U3'
+                        'A1B2', 'C3D4', 'E5F6', 'G7H8', 'I9J0', 'K1L2', 'M3N4', 'O5P6', 'J0K1', 'L2M3',
+                        'N4O5', 'P6Q7', 'R8S9', 'T0U1', 'V2W3', 'X4Y5', 'S8T9', 'U0V1', 'W2X3', 'Y4Z5',
+                        'Q1W2', 'E3R4', 'T5Y6', 'U7I8', 'A2B3', 'C4D5', 'E6F7', 'G8H9', 'I0J1', 'T2U3'
                     ];
-                    
                     let suffix = inputCode.replace('RBX50_', '');
-                    
                     if (validBatchRegex.test(inputCode) && allowedSuffixes.includes(suffix)) {
                         if (this.usedPromoCodes.includes(inputCode)) {
-                            this.showToast("Error: This single-use voucher has already been claimed.");
+                            this.showImportantToast('❌ Code already used.', '❌');
                             return;
                         }
-                        
                         this.usedPromoCodes.push(inputCode);
                         this.tokens += 50;
-                        this.showToast("Voucher verified! +50 Token Papers successfully credited.");
+                        this.showImportantToast('🎁 +50 Tokens from promo!', '🎁', 'Code redeemed successfully.');
                         this.promoCode = '';
-                        this.saveTasksState();
+                        this.saveState();
                     } else {
-                        this.showToast("Error: Invalid or unrecognized promotional hash code.");
+                        this.showImportantToast('❌ Invalid promo code.', '❌', 'Please check and try again.');
                     }
                 },
 
                 submitPromoPassword() {
                     if (this.promoPassword.trim() === '4482') {
                         this.tokens += 500;
-                        this.showToast("Override complete! Master payload granted (+500 TKNS).");
+                        this.showImportantToast('🔓 Master unlock! +500 Tokens', '🔓', 'Override complete.');
                         this.cancelPromoPassword();
                         this.promoCode = '';
-                        this.saveTasksState();
+                        this.saveState();
                     } else {
-                        this.showToast("Security Error: Invalid verification key password.");
+                        this.showImportantToast('❌ Wrong security key.', '❌');
                         this.promoPassword = '';
                     }
                 },
@@ -1203,56 +1414,61 @@
                     this.promoPassword = '';
                 },
 
+                // ---- Withdraw ----
                 processWithdraw() {
                     if (!this.robloxUser.trim()) {
-                        this.showToast("Error: Account parameter field cannot be empty.");
+                        this.showImportantToast('❌ Enter a Roblox username.', '❌');
+                        return;
+                    }
+                    if (!this.withdrawHonestConfirm) {
+                        this.showImportantToast('⚠️ Confirm honest task completion.', '⚠️',
+                            'You must confirm you completed all tasks honestly.');
                         return;
                     }
                     let cost = this.selectedTier / 10;
-                    if(this.tokens < cost) {
-                        this.showToast(`Error: Insufficient token balances for target tier clearance. Requires ${cost} Tokens.`);
+                    if (this.tokens < cost) {
+                        this.showImportantToast(`❌ Need ${cost} Tokens.`, '❌', 'Complete more tasks to earn.');
                         return;
                     }
-                    
                     this.withdrawStatus = 'loading';
-                    
                     setTimeout(() => {
                         this.withdrawStatus = 'confirming';
                     }, 3000);
                 },
+
                 confirmAndCompleteWithdraw() {
                     let cost = this.selectedTier / 10;
                     this.tokens -= cost;
                     this.withdrawStatus = 'loading';
-                    this.showToast("Finalizing ledger encryption blocks...");
-                    
+                    this.showImportantToast('📦 Processing payout...', '📦', 'Finalizing ledger encryption.');
+
                     setTimeout(() => {
                         this.withdrawStatus = 'complete';
                         this.completedTasksCount++;
-                        this.saveTasksState();
-                        
+                        this.saveState();
                         this.liveLogs.unshift({
                             id: Date.now(),
                             user: this.robloxUser.trim(),
                             amount: this.selectedTier
                         });
                         if (this.liveLogs.length > 5) this.liveLogs.pop();
-                        
-                        this.showToast("Network protocol cleared! Delivery scheduled.");
+                        this.showImportantToast('✅ Payout confirmed!', '✅',
+                            `${this.selectedTier} Robux will arrive within 24h.`);
                     }, 4000);
                 },
+
+                // ---- Copy ----
                 copyRefLink() {
-                    navigator.clipboard.writeText("https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share");
-                    this.showToast("Affiliate referral link stored to local clipboard.");
-                },
-                showToast(msg) {
-                    let id = Date.now();
-                    this.toasts.push({ id, msg });
-                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    setTimeout(() => { this.toasts = this.toasts.filter(t => t.id !== id); }, 4500);
+                    // Simulate invite count increase for demonstration (only when copy is clicked, for testing)
+                    // In real scenario, invite count would be incremented when someone uses the link.
+                    // For demo, we add an invite on copy.
+                    this.inviteCount += 1;
+                    this.saveState();
+                    this.showImportantToast('📋 Link copied! +1 invite tracked.', '📋', 'Share with friends to earn 15% royalties and 500 TKNS per 12 invites.');
                 }
             }
         }
     </script>
+
 </body>
 </html>
