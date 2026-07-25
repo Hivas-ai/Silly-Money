@@ -812,7 +812,7 @@
                     </div>
                 </div>
 
-                <!-- ===== REFERRALS (Invite + Promo + Telegram) ===== -->
+                <!-- ===== REFERRALS (Invite + Promo + Telegram - no "I have joined" button) ===== -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
@@ -848,7 +848,7 @@
                         </div>
                     </div>
 
-                    <!-- NEW: Telegram Join Section -->
+                    <!-- Telegram Section – no "I have joined" button -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
                         <div class="flex items-center gap-2">
                             <i data-lucide="send" class="w-5 h-5 text-blue-500"></i>
@@ -856,7 +856,7 @@
                         </div>
                         <p class="text-xs text-zinc-400">Join our official Telegram group and earn up to <strong class="text-emerald-400">100 TKNS</strong> every week!</p>
 
-                        <!-- Steps -->
+                        <!-- Steps with link display -->
                         <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-2 text-xs text-zinc-300">
                             <p class="font-bold text-white">How to join:</p>
                             <ol class="list-decimal pl-4 space-y-1.5">
@@ -869,24 +869,25 @@
                             </ol>
                         </div>
 
-                        <!-- Join & Claim actions -->
+                        <!-- Action buttons: only Copy Link -->
                         <div class="flex flex-wrap gap-3 items-center">
-                            <button @click="window.open('https://t.me/robux_prize', '_blank')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-2">
-                                <i data-lucide="external-link" class="w-4 h-4"></i> Join Telegram Group
-                            </button>
-                            <button @click="claimTelegramReward()" :disabled="!telegramJoined || telegramCooldown > Date.now()" :class="(!telegramJoined || telegramCooldown > Date.now()) ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20'" class="px-4 py-2 rounded-xl font-bold text-sm transition active:scale-95">
-                                <span x-show="telegramCooldown > Date.now()">
-                                    ⏳ <span x-text="telegramCooldownDisplay"></span>
-                                </span>
-                                <span x-show="telegramCooldown <= Date.now() && telegramJoined">Claim Weekly Reward</span>
-                                <span x-show="!telegramJoined">Join first</span>
+                            <button @click="copyTelegramLink()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-2">
+                                <i data-lucide="copy" class="w-4 h-4"></i> Copy Telegram Link
                             </button>
                         </div>
-                        <div x-show="telegramJoined && telegramCooldown <= Date.now()" class="text-xs text-emerald-400 font-medium">
-                            ✅ You're in! Claim your weekly tokens now.
+
+                        <!-- Claim button – always enabled, checks cooldown only -->
+                        <button @click="claimTelegramReward()" :disabled="telegramCooldown > Date.now()" :class="telegramCooldown > Date.now() ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20'" class="w-full px-4 py-2.5 rounded-xl font-bold text-sm transition active:scale-95">
+                            <span x-show="telegramCooldown > Date.now()">
+                                ⏳ <span x-text="telegramCooldownDisplay"></span>
+                            </span>
+                            <span x-show="telegramCooldown <= Date.now()">Claim Weekly Reward</span>
+                        </button>
+                        <div x-show="telegramCooldown > Date.now()" class="text-xs text-amber-400 font-medium">
+                            Next reward available in <span x-text="telegramCooldownDisplay"></span>
                         </div>
-                        <div x-show="telegramJoined && telegramCooldown > Date.now()" class="text-xs text-amber-400 font-medium">
-                            ⏳ Next reward available in <span x-text="telegramCooldownDisplay"></span>
+                        <div x-show="telegramCooldown <= Date.now()" class="text-xs text-emerald-400 font-medium">
+                            ✅ Ready to claim your weekly tokens!
                         </div>
                     </div>
 
@@ -1154,9 +1155,8 @@
                 // ---- Invite System ----
                 inviteCount: 0,
 
-                // ---- Telegram ----
-                telegramJoined: false,
-                telegramCooldown: 0, // timestamp when next reward available
+                // ---- Telegram (no joined flag) ----
+                telegramCooldown: 0,
 
                 // ---- Streak & Wheel ----
                 isDailyGiftAvailable: true,
@@ -1278,18 +1278,14 @@
                 init() {
                     this.loadSavedState();
 
-                    // Generate user ID if not exists
                     if (!this.userId) {
                         this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                     }
 
                     this.generateLeaderboard();
-
-                    // Daily gift countdown
                     this.updateDailyGiftStatus();
                     setInterval(() => { this.updateDailyGiftStatus(); }, 1000);
 
-                    // Live updates loop
                     setInterval(() => {
                         this.$forceUpdate();
                         let anyReset = false;
@@ -1322,7 +1318,7 @@
                                 .lucide.createIcons(); }); });
                 },
 
-                // ---- Generate leaderboard ----
+                // ---- Leaderboard ----
                 generateLeaderboard() {
                     const names = ['AlphaBlox', 'BetaBuilder', 'GammaGamer', 'DeltaDev', 'EpsilonElite', 'ZetaZen', 'EtaEagle', 'ThetaThunder', 'IotaInferno', 'KappaKing'];
                     const levels = [5, 12, 8, 15, 6, 9, 11, 7, 13, 10];
@@ -1395,7 +1391,6 @@
                     const savedUserId = localStorage.getItem('robux_user_id');
                     const savedTotalEarned = localStorage.getItem('robux_total_earned');
                     const savedLevel = localStorage.getItem('robux_user_level');
-                    const savedTelegramJoined = localStorage.getItem('robux_telegram_joined');
                     const savedTelegramCooldown = localStorage.getItem('robux_telegram_cooldown');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
@@ -1411,7 +1406,6 @@
                     if (savedUserId) this.userId = savedUserId;
                     if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
                     if (savedLevel) this.userLevel = parseInt(savedLevel);
-                    if (savedTelegramJoined === 'true') this.telegramJoined = true;
                     if (savedTelegramCooldown) this.telegramCooldown = parseInt(savedTelegramCooldown);
 
                     this.updateLevel();
@@ -1480,7 +1474,6 @@
                     localStorage.setItem('robux_user_id', this.userId);
                     localStorage.setItem('robux_total_earned', this.totalTokensEarned);
                     localStorage.setItem('robux_user_level', this.userLevel);
-                    localStorage.setItem('robux_telegram_joined', this.telegramJoined ? 'true' : 'false');
                     localStorage.setItem('robux_telegram_cooldown', this.telegramCooldown);
                 },
 
@@ -1510,8 +1503,7 @@
                             'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
                             'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
                             'robux_rules_accepted', 'robux_invite_count', 'robux_user_id',
-                            'robux_total_earned', 'robux_user_level', 'robux_telegram_joined',
-                            'robux_telegram_cooldown'
+                            'robux_total_earned', 'robux_user_level', 'robux_telegram_cooldown'
                         ];
                         keys.forEach(k => localStorage.removeItem(k));
 
@@ -1527,7 +1519,6 @@
                         this.inviteCount = 0;
                         this.totalTokensEarned = 0;
                         this.userLevel = 1;
-                        this.telegramJoined = false;
                         this.telegramCooldown = 0;
                         this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                         this.tasks.forEach(t => {
@@ -1799,20 +1790,21 @@
                     this.showImportantToast('🎉 You earned 500 Tokens!', '🎉', 'Invite more friends to earn again.');
                 },
 
-                // ---- Telegram Reward ----
+                // ---- Telegram Helpers ----
+                copyTelegramLink() {
+                    navigator.clipboard.writeText('https://t.me/robux_prize');
+                    this.showImportantToast('📋 Link copied!', '📋', 'Follow the steps above to join Telegram.');
+                },
+
+                // ---- Telegram Reward (no joined check) ----
                 claimTelegramReward() {
-                    if (!this.telegramJoined) {
-                        this.showImportantToast('⚠️ Join Telegram first.', '⚠️', 'Click "Join Telegram Group" above.');
-                        return;
-                    }
                     if (this.telegramCooldown > Date.now()) {
                         this.showImportantToast('⏳ Cooldown active.', '⏳', this.telegramCooldownDisplay);
                         return;
                     }
-                    // Reward: random between 50 and 100
                     const reward = Math.floor(Math.random() * 51) + 50;
                     this.addTokens(reward);
-                    this.telegramCooldown = Date.now() + 7 * 24 * 60 * 60 * 1000; // 1 week
+                    this.telegramCooldown = Date.now() + 7 * 24 * 60 * 60 * 1000;
                     this.saveState();
                     this.showImportantToast(`📲 Telegram reward claimed! +${reward} Tokens`, '🎉',
                         'Come back next week for more!');
