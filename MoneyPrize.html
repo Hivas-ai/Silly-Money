@@ -89,7 +89,7 @@
             animation: glow-pulse 1.2s ease-in-out infinite;
         }
 
-        /* CENTERED TOAST – dark style with OK button */
+        /* CENTERED TOAST – even smaller size */
         .toast-center {
             position: fixed;
             top: 50%;
@@ -97,47 +97,47 @@
             transform: translate(-50%, -50%);
             z-index: 9999;
             pointer-events: none;
-            max-width: 460px;
+            max-width: 300px;
             width: 90%;
         }
         .toast-center .toast-inner {
             pointer-events: auto;
             background: #0a0a0c;
             border: 1px solid #dc2626;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-            border-radius: 1.5rem;
-            padding: 1.8rem 2rem 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
+            border-radius: 1rem;
+            padding: 0.7rem 1rem 0.7rem;
             text-align: center;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
         .toast-center .toast-inner .toast-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 0.1rem;
         }
         .toast-center .toast-inner .toast-msg {
-            font-size: 1.1rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: #f1f1f1;
-            line-height: 1.5;
+            line-height: 1.3;
         }
         .toast-center .toast-inner .toast-sub {
-            font-size: 0.85rem;
+            font-size: 0.65rem;
             color: #a1a1aa;
-            margin-top: 0.25rem;
+            margin-top: 0.1rem;
         }
         .toast-center .toast-inner .toast-ok-btn {
-            margin-top: 1.25rem;
+            margin-top: 0.6rem;
             background: #dc2626;
             border: none;
-            padding: 0.6rem 2rem;
+            padding: 0.25rem 1.2rem;
             border-radius: 2rem;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             color: white;
             cursor: pointer;
             transition: background 0.2s;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
         }
         .toast-center .toast-inner .toast-ok-btn:hover {
             background: #b91c1c;
@@ -861,7 +861,7 @@
         </button>
     </nav>
 
-    <!-- ===== CENTERED TOAST (dark style with OK button) ===== -->
+    <!-- ===== CENTERED TOAST (dark style with OK button, even smaller) ===== -->
     <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
         <div class="toast-inner pointer-events-auto">
             <div class="toast-icon" x-text="importantToast.icon"></div>
