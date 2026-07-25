@@ -250,6 +250,47 @@
             color: white;
             text-transform: uppercase;
         }
+
+        /* Professional Withdraw Card */
+        .withdraw-tier-card {
+            transition: all 0.2s;
+            border: 1px solid #27272a;
+            background: #18181b;
+            border-radius: 1rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+        }
+        .withdraw-tier-card:hover {
+            border-color: #3f3f46;
+        }
+        .withdraw-tier-card.active {
+            border-color: #dc2626;
+            background: #1f1a1a;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.1);
+        }
+        .withdraw-tier-card .tier-amount {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+        }
+        .withdraw-tier-card .tier-cost {
+            font-size: 0.7rem;
+            color: #a1a1aa;
+            font-weight: 500;
+            background: #27272a;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+        }
+        .withdraw-tier-card .tier-badge {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #52525b;
+        }
+        .withdraw-tier-card.active .tier-badge {
+            color: #dc2626;
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -313,7 +354,7 @@
             <!-- CONTENT -->
             <section class="lg:col-span-3 min-h-[60vh]">
 
-                <!-- ===== DASHBOARD (with Leaderboard & Level) ===== -->
+                <!-- ===== DASHBOARD ===== -->
                 <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
 
                     <div class="bg-gradient-to-r from-red-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
@@ -479,7 +520,7 @@
                         </div>
                     </div>
 
-                    <!-- Live logs (now with IDs) -->
+                    <!-- Live logs (with IDs) -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
                         <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
                             <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
@@ -509,7 +550,7 @@
                     </div>
                 </div>
 
-                <!-- ===== TASKS (unchanged) ===== -->
+                <!-- ===== TASKS ===== -->
                 <div x-show="currentTab === 'tasks'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
@@ -612,10 +653,10 @@
                     </div>
                 </div>
 
-                <!-- ===== WITHDRAW (unchanged) ===== -->
+                <!-- ===== WITHDRAW (Professional style) ===== -->
                 <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
-                        <h2 class="text-xl font-bold tracking-tight text-white">Token Exchange Portal</h2>
+                        <h2 class="text-xl font-bold tracking-tight text-white">💳 Token Exchange Portal</h2>
                         <p class="text-zinc-500 text-xs mt-0.5">Convert your validated Token Paper balance securely into direct payout Robux.</p>
                     </div>
 
@@ -630,21 +671,27 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Exchange rate card -->
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between md:col-span-1">
                             <div>
                                 <div class="flex items-center gap-2 mb-2">
                                     <i data-lucide="info" class="text-red-500 w-4 h-4"></i>
-                                    <h3 class="text-sm font-bold text-white">System Exchange Rate</h3>
+                                    <h3 class="text-sm font-bold text-white">Exchange Rate</h3>
                                 </div>
-                                <p class="text-xs text-zinc-400 leading-relaxed">Exchange parameters are normalized securely across our modern backend servers.</p>
+                                <p class="text-xs text-zinc-400 leading-relaxed">Fixed rate, no hidden fees.</p>
                                 <div class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-900 mt-4 text-center">
-                                    <span class="text-xs font-mono tracking-wider text-zinc-300">10 Token Papers = <strong class="text-red-400">100 Robux</strong></span>
+                                    <span class="text-xs font-mono tracking-wider text-zinc-300">10 TKNS = <strong class="text-red-400">100 Robux</strong></span>
+                                </div>
+                                <div class="mt-3 text-center">
+                                    <span class="text-[10px] text-zinc-500">Current balance</span>
+                                    <p class="text-xl font-black text-white" x-text="tokens + ' TKNS'"></p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 md:col-span-2 space-y-4">
+                        <!-- Main withdraw form -->
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 md:col-span-3 space-y-4">
                             <template x-if="withdrawStatus === 'loading'">
                                 <div class="py-8 text-center space-y-3">
                                     <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600 mx-auto"></div>
@@ -678,49 +725,76 @@
 
                             <template x-if="withdrawStatus === 'idle'">
                                 <div class="space-y-4">
+                                    <!-- Roblox username -->
                                     <div>
-                                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Target Roblox Username / Account Address</label>
-                                        <input type="text" x-model="robloxUser" placeholder="e.g. username" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
+                                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Target Roblox Username</label>
+                                        <input type="text" x-model="robloxUser" placeholder="e.g. CoolPlayer123" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
                                     </div>
+
+                                    <!-- Tier selection -->
                                     <div>
-                                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Select Your Bundle Package</label>
-                                        <div class="grid grid-cols-2 gap-2 max-h-[250px] overflow-y-auto pr-1 custom-scrollbar">
-                                            <button @click="selectedTier = 5000" :class="selectedTier === 5000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">5,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">500 TKNS</span>
+                                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Select Bundle Package</label>
+                                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
+                                            <button @click="selectedTier = 5000" :class="selectedTier === 5000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">5,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">500 TKNS</span>
+                                                </div>
                                             </button>
-                                            <button @click="selectedTier = 10000" :class="selectedTier === 10000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">10,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">1,000 TKNS</span>
+                                            <button @click="selectedTier = 10000" :class="selectedTier === 10000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">10,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">1,000 TKNS</span>
+                                                </div>
                                             </button>
-                                            <button @click="selectedTier = 15000" :class="selectedTier === 15000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">15,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">1,500 TKNS</span>
+                                            <button @click="selectedTier = 15000" :class="selectedTier === 15000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">15,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">1,500 TKNS</span>
+                                                </div>
                                             </button>
-                                            <button @click="selectedTier = 25000" :class="selectedTier === 25000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">25,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">2,500 TKNS</span>
+                                            <button @click="selectedTier = 25000" :class="selectedTier === 25000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">25,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">2,500 TKNS</span>
+                                                </div>
                                             </button>
-                                            <button @click="selectedTier = 30000" :class="selectedTier === 30000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">30,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">3,000 TKNS</span>
+                                            <button @click="selectedTier = 30000" :class="selectedTier === 30000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">30,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">3,000 TKNS</span>
+                                                </div>
                                             </button>
-                                            <button @click="selectedTier = 35000" :class="selectedTier === 35000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">35,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">3,500 TKNS</span>
+                                            <button @click="selectedTier = 35000" :class="selectedTier === 35000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">35,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">3,500 TKNS</span>
+                                                </div>
                                             </button>
-                                            <button @click="selectedTier = 40000" :class="selectedTier === 40000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">40,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">4,000 TKNS</span>
+                                            <button @click="selectedTier = 40000" :class="selectedTier === 40000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">40,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">4,000 TKNS</span>
+                                                </div>
                                             </button>
-                                            <button @click="selectedTier = 45000" :class="selectedTier === 45000 ? 'border-red-600 bg-red-600/5 text-white' : 'border-zinc-800 bg-zinc-900 text-zinc-400'" class="border p-3 rounded-xl text-left transition flex justify-between items-center">
-                                                <span class="text-xs font-bold">45,000 Robux</span>
-                                                <span class="text-[10px] bg-zinc-800 px-2 py-0.5 rounded-md text-zinc-300 font-mono">4,500 TKNS</span>
+                                            <button @click="selectedTier = 45000" :class="selectedTier === 45000 ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="flex flex-col">
+                                                    <span class="tier-amount">45,000</span>
+                                                    <span class="tier-badge">Robux</span>
+                                                    <span class="tier-cost">4,500 TKNS</span>
+                                                </div>
                                             </button>
                                         </div>
                                     </div>
 
-                                    <!-- Honest confirmation checkbox for withdraw -->
+                                    <!-- Honest confirmation checkbox -->
                                     <div class="flex items-start gap-2.5 bg-zinc-900/50 p-3 rounded-xl border border-zinc-800">
                                         <input type="checkbox" x-model="withdrawHonestConfirm" class="checkbox-honest mt-0.5" />
                                         <label class="text-[11px] text-zinc-400 leading-relaxed cursor-pointer select-none">
@@ -728,8 +802,9 @@
                                         </label>
                                     </div>
 
+                                    <!-- Submit button -->
                                     <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim()" :class="(!withdrawHonestConfirm || !robloxUser.trim()) ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-red-600 hover:bg-red-700'" class="w-full text-white font-semibold text-sm py-3 rounded-xl shadow-lg shadow-red-600/10 transition-all duration-150">
-                                        Transmit Payout Order
+                                        <i data-lucide="send" class="w-4 h-4 inline mr-2"></i> Transmit Payout Order
                                     </button>
                                 </div>
                             </template>
@@ -737,7 +812,7 @@
                     </div>
                 </div>
 
-                <!-- ===== REFERRALS (unchanged) ===== -->
+                <!-- ===== REFERRALS (Invite + Promo + Telegram) ===== -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
@@ -773,7 +848,49 @@
                         </div>
                     </div>
 
-                    <!-- Promo code area -->
+                    <!-- NEW: Telegram Join Section -->
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="send" class="w-5 h-5 text-blue-500"></i>
+                            <h3 class="text-lg font-bold text-white">📲 Join Telegram – Weekly Rewards</h3>
+                        </div>
+                        <p class="text-xs text-zinc-400">Join our official Telegram group and earn up to <strong class="text-emerald-400">100 TKNS</strong> every week!</p>
+
+                        <!-- Steps -->
+                        <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-2 text-xs text-zinc-300">
+                            <p class="font-bold text-white">How to join:</p>
+                            <ol class="list-decimal pl-4 space-y-1.5">
+                                <li>First, check if you have the Telegram app installed on your device.</li>
+                                <li>Copy the link below: <br />
+                                    <span class="font-mono text-blue-400 select-all bg-zinc-950 px-2 py-1 rounded border border-zinc-800 block mt-1">https://t.me/robux_prize</span>
+                                </li>
+                                <li>Go to any web browser and paste the link to open it.</li>
+                                <li>Join the Telegram group and stay active!</li>
+                            </ol>
+                        </div>
+
+                        <!-- Join & Claim actions -->
+                        <div class="flex flex-wrap gap-3 items-center">
+                            <button @click="window.open('https://t.me/robux_prize', '_blank')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-2">
+                                <i data-lucide="external-link" class="w-4 h-4"></i> Join Telegram Group
+                            </button>
+                            <button @click="claimTelegramReward()" :disabled="!telegramJoined || telegramCooldown > Date.now()" :class="(!telegramJoined || telegramCooldown > Date.now()) ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20'" class="px-4 py-2 rounded-xl font-bold text-sm transition active:scale-95">
+                                <span x-show="telegramCooldown > Date.now()">
+                                    ⏳ <span x-text="telegramCooldownDisplay"></span>
+                                </span>
+                                <span x-show="telegramCooldown <= Date.now() && telegramJoined">Claim Weekly Reward</span>
+                                <span x-show="!telegramJoined">Join first</span>
+                            </button>
+                        </div>
+                        <div x-show="telegramJoined && telegramCooldown <= Date.now()" class="text-xs text-emerald-400 font-medium">
+                            ✅ You're in! Claim your weekly tokens now.
+                        </div>
+                        <div x-show="telegramJoined && telegramCooldown > Date.now()" class="text-xs text-amber-400 font-medium">
+                            ⏳ Next reward available in <span x-text="telegramCooldownDisplay"></span>
+                        </div>
+                    </div>
+
+                    <!-- Promo code area (unchanged) -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
                         <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-3">
                             <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -825,7 +942,7 @@
                     </div>
                 </div>
 
-                <!-- ===== ACCOUNT & PROFILE (new) ===== -->
+                <!-- ===== ACCOUNT & PROFILE ===== -->
                 <div x-show="currentTab === 'account'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Profile & Account</h2>
@@ -875,7 +992,7 @@
                     </div>
                 </div>
 
-                <!-- ===== RULES (unchanged) ===== -->
+                <!-- ===== RULES ===== -->
                 <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6 relative">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
@@ -1024,9 +1141,9 @@
 
                 // ---- User Identity ----
                 userId: '',
-                totalTokensEarned: 0, // total tokens earned (doesn't decrease)
+                totalTokensEarned: 0,
                 userLevel: 1,
-                levelXP: 100, // XP needed per level
+                levelXP: 100,
 
                 // ---- Rules Acceptance ----
                 rulesAccepted: false,
@@ -1036,6 +1153,10 @@
 
                 // ---- Invite System ----
                 inviteCount: 0,
+
+                // ---- Telegram ----
+                telegramJoined: false,
+                telegramCooldown: 0, // timestamp when next reward available
 
                 // ---- Streak & Wheel ----
                 isDailyGiftAvailable: true,
@@ -1056,12 +1177,12 @@
                     sub: ''
                 },
 
-                // ---- Leaderboard (fake users) ----
+                // ---- Leaderboard ----
                 leaderboardUsers: [],
 
-                // ---- Live logs (with IDs) ----
+                // ---- Live logs ----
                 liveLogs: [],
-                usedLiveIds: [], // to avoid immediate repeats
+                usedLiveIds: [],
 
                 // ---- Tasks ----
                 tasks: [
@@ -1111,6 +1232,15 @@
                     return `${secs}s`;
                 },
 
+                get telegramCooldownDisplay() {
+                    const now = Date.now();
+                    const diff = this.telegramCooldown - now;
+                    if (diff <= 0) return 'Ready!';
+                    const hours = Math.floor(diff / 3600000);
+                    const mins = Math.floor((diff % 3600000) / 60000);
+                    return `${hours}h ${mins}m`;
+                },
+
                 // ---- Level & XP ----
                 get levelProgress() {
                     const earned = this.totalTokensEarned;
@@ -1153,7 +1283,6 @@
                         this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                     }
 
-                    // Generate leaderboard users
                     this.generateLeaderboard();
 
                     // Daily gift countdown
@@ -1180,7 +1309,6 @@
                         if (anyReset) this.saveState();
                     }, 1000);
 
-                    // Live logs generation – with unique IDs
                     this.generateLiveLog();
 
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
@@ -1210,16 +1338,14 @@
                             avatar: names[(i + 1) % names.length].charAt(0)
                         });
                     }
-                    // Sort by tokens descending
                     this.leaderboardUsers.sort((a, b) => b.tokens - a.tokens);
                 },
 
-                // ---- Live logs with unique IDs ----
+                // ---- Live logs ----
                 generateLiveLog() {
                     const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
                     const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
 
-                    // Populate initial logs with unique IDs
                     for (let i = 0; i < 5; i++) {
                         let id;
                         do {
@@ -1233,14 +1359,12 @@
                         });
                     }
 
-                    // Schedule new logs
                     setInterval(() => {
                         let newId;
                         do {
                             newId = idPool[Math.floor(Math.random() * idPool.length)];
                         } while (this.usedLiveIds.includes(newId));
                         this.usedLiveIds.push(newId);
-                        // Keep usedIds list small
                         if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
 
                         const amount = amounts[Math.floor(Math.random() * amounts.length)];
@@ -1271,6 +1395,8 @@
                     const savedUserId = localStorage.getItem('robux_user_id');
                     const savedTotalEarned = localStorage.getItem('robux_total_earned');
                     const savedLevel = localStorage.getItem('robux_user_level');
+                    const savedTelegramJoined = localStorage.getItem('robux_telegram_joined');
+                    const savedTelegramCooldown = localStorage.getItem('robux_telegram_cooldown');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -1285,8 +1411,9 @@
                     if (savedUserId) this.userId = savedUserId;
                     if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
                     if (savedLevel) this.userLevel = parseInt(savedLevel);
+                    if (savedTelegramJoined === 'true') this.telegramJoined = true;
+                    if (savedTelegramCooldown) this.telegramCooldown = parseInt(savedTelegramCooldown);
 
-                    // Level calculation based on total earned
                     this.updateLevel();
 
                     if (savedTasks) {
@@ -1353,6 +1480,8 @@
                     localStorage.setItem('robux_user_id', this.userId);
                     localStorage.setItem('robux_total_earned', this.totalTokensEarned);
                     localStorage.setItem('robux_user_level', this.userLevel);
+                    localStorage.setItem('robux_telegram_joined', this.telegramJoined ? 'true' : 'false');
+                    localStorage.setItem('robux_telegram_cooldown', this.telegramCooldown);
                 },
 
                 // ---- Level update ----
@@ -1377,16 +1506,15 @@
                 // ---- Reset Account ----
                 resetAccount() {
                     if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
-                        // Clear all localStorage items
                         const keys = ['robux_tasks_state_v3', 'robux_task_running', 'robux_tokens_balance',
                             'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
                             'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
                             'robux_rules_accepted', 'robux_invite_count', 'robux_user_id',
-                            'robux_total_earned', 'robux_user_level'
+                            'robux_total_earned', 'robux_user_level', 'robux_telegram_joined',
+                            'robux_telegram_cooldown'
                         ];
                         keys.forEach(k => localStorage.removeItem(k));
 
-                        // Reset state to initial
                         this.tokens = 5;
                         this.completedTasksCount = 0;
                         this.isTaskRunning = false;
@@ -1399,6 +1527,8 @@
                         this.inviteCount = 0;
                         this.totalTokensEarned = 0;
                         this.userLevel = 1;
+                        this.telegramJoined = false;
+                        this.telegramCooldown = 0;
                         this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                         this.tasks.forEach(t => {
                             t.status = 'idle';
@@ -1410,12 +1540,10 @@
                         this.robloxUser = '';
                         this.saveState();
                         this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
-                        // Reload leaderboard and logs
                         this.generateLeaderboard();
                         this.liveLogs = [];
                         this.usedLiveIds = [];
                         this.generateLiveLog();
-                        // Switch to dashboard
                         this.currentTab = 'dashboard';
                     }
                 },
@@ -1671,6 +1799,25 @@
                     this.showImportantToast('🎉 You earned 500 Tokens!', '🎉', 'Invite more friends to earn again.');
                 },
 
+                // ---- Telegram Reward ----
+                claimTelegramReward() {
+                    if (!this.telegramJoined) {
+                        this.showImportantToast('⚠️ Join Telegram first.', '⚠️', 'Click "Join Telegram Group" above.');
+                        return;
+                    }
+                    if (this.telegramCooldown > Date.now()) {
+                        this.showImportantToast('⏳ Cooldown active.', '⏳', this.telegramCooldownDisplay);
+                        return;
+                    }
+                    // Reward: random between 50 and 100
+                    const reward = Math.floor(Math.random() * 51) + 50;
+                    this.addTokens(reward);
+                    this.telegramCooldown = Date.now() + 7 * 24 * 60 * 60 * 1000; // 1 week
+                    this.saveState();
+                    this.showImportantToast(`📲 Telegram reward claimed! +${reward} Tokens`, '🎉',
+                        'Come back next week for more!');
+                },
+
                 // ---- Withdraw ----
                 processWithdraw() {
                     if (!this.robloxUser.trim()) {
@@ -1703,7 +1850,6 @@
                         this.withdrawStatus = 'complete';
                         this.completedTasksCount++;
                         this.saveState();
-                        // Add to live logs with a random ID
                         const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
                         let newId;
                         do {
