@@ -89,91 +89,107 @@
             animation: glow-pulse 1.2s ease-in-out infinite;
         }
 
-        /* ===== MODERN CENTERED MODAL ===== */
+        /* ====== MODERN IMPORTANT MODAL ====== */
         .modal-backdrop {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(12px) saturate(1.2);
-            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
         .modal-box {
             background: #1c1c1f;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(220, 38, 38, 0.15) inset;
+            border: 1px solid #3f3f46;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(220, 38, 38, 0.08) inset;
             border-radius: 2rem;
             max-width: 440px;
             width: 90%;
-            padding: 2.2rem 2rem 1.8rem;
+            padding: 2.25rem 2.25rem 2rem;
             text-align: center;
-            transition: all 0.2s ease;
-            background: linear-gradient(145deg, #1f1f23, #17171a);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
-        .modal-box .modal-icon {
-            font-size: 3rem;
-            margin-bottom: 0.6rem;
-            filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.2));
+        .modal-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(220, 38, 38, 0.06), transparent 70%);
+            pointer-events: none;
+        }
+        .modal-box .modal-icon-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(220, 38, 38, 0.10);
+            border: 1px solid rgba(220, 38, 38, 0.15);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.08);
         }
         .modal-box .modal-msg {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #f1f1f1;
             line-height: 1.4;
+            letter-spacing: -0.01em;
         }
         .modal-box .modal-sub {
             font-size: 0.9rem;
             color: #a1a1aa;
             margin-top: 0.5rem;
             line-height: 1.5;
+            padding: 0 0.25rem;
         }
         .modal-box .modal-ok-btn {
-            margin-top: 1.8rem;
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            margin-top: 1.75rem;
+            background: #dc2626;
             color: white;
             font-weight: 700;
             font-size: 0.95rem;
-            padding: 0.7rem 2.8rem;
+            padding: 0.7rem 3rem;
             border-radius: 0.75rem;
             border: none;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
+            transition: background 0.2s, transform 0.12s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.30);
             letter-spacing: 0.3px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 2;
         }
         .modal-box .modal-ok-btn:hover {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            transform: scale(1.02);
-            box-shadow: 0 6px 28px rgba(220, 38, 38, 0.5);
+            background: #b91c1c;
+            box-shadow: 0 6px 28px rgba(220, 38, 38, 0.45);
         }
         .modal-box .modal-ok-btn:active {
-            transform: scale(0.96);
+            transform: scale(0.95);
+        }
+        .modal-box .modal-divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #dc2626, transparent);
+            margin: 0.75rem auto 0.25rem;
+            border-radius: 2px;
+            opacity: 0.4;
         }
 
-        /* ===== INVITE REWARD BUTTON PROFESSIONAL ===== */
-        .btn-invite-claim {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            color: white;
-            font-weight: 700;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.75rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.25);
-            font-size: 0.85rem;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
+        /* subtle glow on modal open */
+        @keyframes modalIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.92) translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
-        .btn-invite-claim:hover:not(:disabled) {
-            transform: scale(1.03);
-            box-shadow: 0 6px 24px rgba(220, 38, 38, 0.4);
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-        .btn-invite-claim:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            box-shadow: none;
-            background: #3f3f46;
-            transform: none;
+        .modal-box {
+            animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .checkbox-honest {
@@ -209,6 +225,9 @@
             transition: width 0.5s ease;
         }
         /* Notif badge pulse */
+        .notif-badge {
+            animation: notif-pulse 1.8s ease-in-out infinite;
+        }
         @keyframes notif-pulse {
             0%,
             100% {
@@ -217,9 +236,6 @@
             50% {
                 transform: scale(1.15);
             }
-        }
-        .notif-badge {
-            animation: notif-pulse 1.8s ease-in-out infinite;
         }
     </style>
 </head>
@@ -721,11 +737,11 @@
                                 </div>
                                 <span class="text-[10px] text-zinc-400 mt-1 block text-right" x-text="(12 - (inviteCount % 12)) + ' invites to next reward'"></span>
                             </div>
-                            <!-- PROFESSIONAL CLAIM BUTTON with text always visible -->
-                            <button @click="claimInviteReward()" :disabled="inviteCount < 12 || inviteRewardClaimed" class="btn-invite-claim">
-                                <span x-show="inviteCount >= 12 && !inviteRewardClaimed">Claim Reward (500 TKNS)</span>
-                                <span x-show="inviteCount < 12">Invite More</span>
-                                <span x-show="inviteCount >= 12 && inviteRewardClaimed">Reward Claimed</span>
+                            <!-- Improved claim button with proper text -->
+                            <button @click="claimInviteReward()" :disabled="inviteCount < 12 || inviteRewardClaimed" :class="(inviteCount >= 12 && !inviteRewardClaimed) ? 'bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/20' : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'" class="text-xs font-bold px-4 py-2.5 rounded-xl transition active:scale-95 min-w-[120px]">
+                                <span x-show="inviteCount >= 12 && !inviteRewardClaimed">🎁 Claim Reward</span>
+                                <span x-show="inviteCount < 12">Invite more</span>
+                                <span x-show="inviteCount >= 12 && inviteRewardClaimed">✅ Claimed</span>
                             </button>
                         </div>
                     </div>
@@ -900,11 +916,14 @@
         </button>
     </nav>
 
-    <!-- ===== IMPORTANT MODAL (Modern, centered, with OK button) ===== -->
+    <!-- ===== MODERN IMPORTANT MODAL (centered, with OK button) ===== -->
     <div x-show="importantModal.show" x-cloak class="fixed inset-0 z-[9999] flex items-center justify-center modal-backdrop" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" @click.self="closeModal()">
-        <div class="modal-box" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
-            <div class="modal-icon" x-text="importantModal.icon"></div>
+        <div class="modal-box" x-transition:enter="transition ease-out duration-250" x-transition:enter-start="opacity-0 scale-95 translate-y-3" x-transition:enter-end="opacity-100 scale-100 translate-y-0">
+            <div class="modal-icon-wrap">
+                <span x-text="importantModal.icon"></span>
+            </div>
             <div class="modal-msg" x-text="importantModal.msg"></div>
+            <div class="modal-divider"></div>
             <div class="modal-sub" x-show="importantModal.sub" x-text="importantModal.sub"></div>
             <button class="modal-ok-btn" @click="closeModal()">OK</button>
         </div>
@@ -965,7 +984,7 @@
                     { id: 3, user: 'BuildBoy99', amount: 5000 }
                 ],
 
-                // ---- Tasks (Telegram removed) ----
+                // ---- Tasks ----
                 tasks: [
                     { id: 1, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.',
                         reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check',
@@ -1285,7 +1304,7 @@
                     }
                 },
 
-                // ---- Main Task Interaction (no Telegram) ----
+                // ---- Main Task Interaction ----
                 handleTaskInteraction(task) {
                     if (task.status === 'claimable' && !task.honestConfirmed) {
                         return;
