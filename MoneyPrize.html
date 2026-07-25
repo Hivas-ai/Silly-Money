@@ -199,6 +199,57 @@
             border-radius: 9999px;
             transition: width 0.5s ease;
         }
+
+        /* Level progress */
+        .level-progress-bar {
+            background: #27272a;
+            border-radius: 9999px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .level-progress-fill {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        /* Leaderboard item */
+        .leaderboard-item {
+            transition: background 0.15s;
+        }
+        .leaderboard-item:hover {
+            background: #1c1c1e;
+        }
+        .leaderboard-rank {
+            font-weight: 800;
+            color: #52525b;
+            min-width: 1.5rem;
+        }
+        .leaderboard-rank.gold {
+            color: #fbbf24;
+        }
+        .leaderboard-rank.silver {
+            color: #a1a1aa;
+        }
+        .leaderboard-rank.bronze {
+            color: #d97706;
+        }
+
+        /* Profile avatar placeholder */
+        .profile-avatar {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -241,7 +292,10 @@
                     <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="users" class="w-5 h-5"></i> Invite & Promos
                     </button>
-
+                    <!-- Account Tab -->
+                    <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                        <i data-lucide="user" class="w-5 h-5"></i> Profile & Account
+                    </button>
                     <!-- RULES with notif badge -->
                     <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition relative">
                         <i data-lucide="shield-alert" class="w-5 h-5"></i> Platform Rules
@@ -259,7 +313,7 @@
             <!-- CONTENT -->
             <section class="lg:col-span-3 min-h-[60vh]">
 
-                <!-- ===== DASHBOARD ===== -->
+                <!-- ===== DASHBOARD (with Leaderboard & Level) ===== -->
                 <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
 
                     <div class="bg-gradient-to-r from-red-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
@@ -274,42 +328,71 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
-                            <div class="flex items-center justify-between text-zinc-500 mb-2">
-                                <span class="text-xs font-medium tracking-wider uppercase">Your Balance</span>
-                                <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                    <!-- Stats + Level + Leaderboard Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                        <!-- Left column: Stats and Level -->
+                        <div class="lg:col-span-2 grid grid-cols-2 gap-4">
+                            <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                                <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                    <span class="text-xs font-medium tracking-wider uppercase">Your Balance</span>
+                                    <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                                </div>
+                                <p class="text-2xl font-black text-white tracking-tight" x-text="tokens"></p>
+                                <span class="text-[11px] text-zinc-500 font-medium">Token Papers Available</span>
                             </div>
-                            <p class="text-2xl font-black text-white tracking-tight" x-text="tokens"></p>
-                            <span class="text-[11px] text-zinc-500 font-medium">Token Papers Available</span>
+                            <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                                <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                    <span class="text-xs font-medium tracking-wider uppercase">Level</span>
+                                    <i data-lucide="trending-up" class="w-4 h-4 text-amber-500"></i>
+                                </div>
+                                <p class="text-2xl font-black text-white tracking-tight" x-text="'Lv.' + userLevel"></p>
+                                <span class="text-[11px] text-zinc-500 font-medium" x-text="'Total Earned: ' + totalTokensEarned + ' TKNS'"></span>
+                                <!-- Level progress -->
+                                <div class="mt-2 level-progress-bar">
+                                    <div class="level-progress-fill" :style="'width: ' + levelProgress + '%'"></div>
+                                </div>
+                                <span class="text-[10px] text-zinc-500 mt-1 block" x-text="'Next level in ' + (nextLevelXP - totalTokensEarned) + ' TKNS'"></span>
+                            </div>
+                            <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl col-span-2">
+                                <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                    <span class="text-xs font-medium tracking-wider uppercase">Completed Tasks</span>
+                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+                                </div>
+                                <p class="text-2xl font-black text-white tracking-tight" x-text="completedTasksCount"></p>
+                                <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned'"></span>
+                            </div>
                         </div>
-                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
-                            <div class="flex items-center justify-between text-zinc-500 mb-2">
-                                <span class="text-xs font-medium tracking-wider uppercase">Completed</span>
-                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+
+                        <!-- Right: Leaderboard widget -->
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col">
+                            <div class="flex items-center justify-between border-b border-zinc-900 pb-2 mb-2">
+                                <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Leaderboard</h4>
+                                <span class="text-[10px] text-zinc-500 font-mono">Top 5</span>
                             </div>
-                            <p class="text-2xl font-black text-white tracking-tight" x-text="completedTasksCount"></p>
-                            <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned'"></span>
-                        </div>
-                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
-                            <div class="flex items-center justify-between text-zinc-500 mb-2">
-                                <span class="text-xs font-medium tracking-wider uppercase">Global Users</span>
-                                <i data-lucide="users" class="w-4 h-4 text-red-500"></i>
+                            <div class="space-y-1.5 flex-1">
+                                <template x-for="(user, idx) in leaderboardUsers" :key="user.id">
+                                    <div class="leaderboard-item flex items-center gap-2 px-1 py-1 rounded-lg text-xs">
+                                        <span class="leaderboard-rank" :class="{
+                                            'gold': idx === 0,
+                                            'silver': idx === 1,
+                                            'bronze': idx === 2
+                                        }" x-text="'#' + (idx+1)"></span>
+                                        <div class="w-5 h-5 rounded-full bg-zinc-800 flex items-center justify-center text-[9px] font-bold text-white">
+                                            <span x-text="user.avatar"></span>
+                                        </div>
+                                        <span class="text-zinc-300 font-medium" x-text="user.name"></span>
+                                        <span class="ml-auto text-zinc-400 font-mono" x-text="user.tokens + ' TKNS'"></span>
+                                        <span class="text-[9px] text-zinc-500" x-text="'Lv.' + user.level"></span>
+                                    </div>
+                                </template>
                             </div>
-                            <p class="text-2xl font-black text-white tracking-tight">142,804</p>
-                            <span class="text-[11px] text-zinc-500 font-medium">Real-time active tracking</span>
-                        </div>
-                        <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
-                            <div class="flex items-center justify-between text-zinc-500 mb-2">
-                                <span class="text-xs font-medium tracking-wider uppercase">Total Payouts</span>
-                                <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
+                            <div class="border-t border-zinc-900 pt-2 mt-2 text-[10px] text-zinc-500 text-center">
+                                Your ID: <span class="text-zinc-300 font-mono" x-text="userId"></span>
                             </div>
-                            <p class="text-2xl font-black text-white tracking-tight">849.2K</p>
-                            <span class="text-[11px] text-zinc-500 font-medium">Total Robux dispersed</span>
                         </div>
                     </div>
 
-                    <!-- Streak + Wheel -->
+                    <!-- Streak + Wheel (unchanged) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Streak -->
                         <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
@@ -396,7 +479,7 @@
                         </div>
                     </div>
 
-                    <!-- Live logs -->
+                    <!-- Live logs (now with IDs) -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
                         <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
                             <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
@@ -416,7 +499,7 @@
                                             <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
                                         </div>
                                         <span class="text-zinc-300 font-medium">
-                                            Account <strong class="text-zinc-100 font-semibold" x-text="log.user"></strong> successfully withdrew profits
+                                            Account <strong class="text-zinc-100 font-semibold font-mono" x-text="log.userId"></strong> successfully withdrew profits
                                         </span>
                                     </div>
                                     <span class="text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-md border border-emerald-500/10" x-text="'+' + log.amount + ' ROBUX'"></span>
@@ -426,7 +509,7 @@
                     </div>
                 </div>
 
-                <!-- ===== TASKS (Telegram removed, no honest confirmation, expiry after 1 min claimable) ===== -->
+                <!-- ===== TASKS (unchanged) ===== -->
                 <div x-show="currentTab === 'tasks'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
@@ -529,7 +612,7 @@
                     </div>
                 </div>
 
-                <!-- ===== WITHDRAW ===== -->
+                <!-- ===== WITHDRAW (unchanged) ===== -->
                 <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Token Exchange Portal</h2>
@@ -654,14 +737,14 @@
                     </div>
                 </div>
 
-                <!-- ===== REFERRALS (invites + promo) ===== -->
+                <!-- ===== REFERRALS (unchanged) ===== -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
                         <p class="text-zinc-500 text-xs mt-0.5">Leverage network loops to continuously spawn tokens passively.</p>
                     </div>
 
-                    <!-- NEW: Invite Rewards – 500 tokens per 12 invites -->
+                    <!-- Invite Rewards – 500 tokens per 12 invites -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
                         <div class="flex items-center justify-between">
                             <div>
@@ -690,7 +773,7 @@
                         </div>
                     </div>
 
-                    <!-- Promo code area (existing) -->
+                    <!-- Promo code area -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
                         <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-3">
                             <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
@@ -742,7 +825,57 @@
                     </div>
                 </div>
 
-                <!-- ===== RULES (with forced reading overlay) ===== -->
+                <!-- ===== ACCOUNT & PROFILE (new) ===== -->
+                <div x-show="currentTab === 'account'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                    <div>
+                        <h2 class="text-xl font-bold tracking-tight text-white">Profile & Account</h2>
+                        <p class="text-zinc-500 text-xs mt-0.5">View your profile details and manage your account.</p>
+                    </div>
+
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
+                        <!-- Profile header -->
+                        <div class="flex items-center gap-4">
+                            <div class="profile-avatar" x-text="userId ? userId.slice(0,2) : 'U'"></div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">User <span class="font-mono text-zinc-400" x-text="userId"></span></h3>
+                                <p class="text-xs text-zinc-500">Level <span x-text="userLevel"></span> · <span x-text="totalTokensEarned"></span> total TKNS earned</p>
+                            </div>
+                        </div>
+
+                        <!-- Account details -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-zinc-900 pt-4">
+                            <div>
+                                <p class="text-xs text-zinc-500">User ID</p>
+                                <p class="font-mono text-sm text-white" x-text="userId"></p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-zinc-500">Level</p>
+                                <p class="font-bold text-white" x-text="userLevel"></p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-zinc-500">Total Tokens Earned</p>
+                                <p class="font-bold text-white" x-text="totalTokensEarned"></p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-zinc-500">Tasks Completed</p>
+                                <p class="font-bold text-white" x-text="completedTasksCount"></p>
+                            </div>
+                        </div>
+
+                        <!-- Account actions -->
+                        <div class="border-t border-zinc-900 pt-4 flex flex-wrap gap-3">
+                            <button @click="resetAccount()" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-2">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i> Delete Account (Reset)
+                            </button>
+                            <button @click="resetAccount()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-2">
+                                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Start New Profile
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-zinc-500 italic">Resetting will clear all your progress, tokens, and tasks. This action is irreversible.</p>
+                    </div>
+                </div>
+
+                <!-- ===== RULES (unchanged) ===== -->
                 <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6 relative">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
@@ -752,9 +885,7 @@
                         <p class="text-zinc-500 text-xs mt-0.5">Review system rules to guarantee smooth token settlement and withdraw approvals.</p>
                     </div>
 
-                    <!-- Rules content – always visible, but if not accepted, overlay covers it with the full rules text -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 divide-y divide-zinc-900 relative">
-                        <!-- Rules list (dimmed if not accepted) -->
                         <div :class="!rulesAccepted ? 'opacity-30 pointer-events-none blur-[1px]' : ''">
                             <div class="pb-4 flex gap-4 items-start">
                                 <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
@@ -803,7 +934,6 @@
                             </div>
                         </div>
 
-                        <!-- OVERLAY – shown when rules not accepted -->
                         <div x-show="!rulesAccepted" class="rules-modal-overlay absolute inset-0 z-10 rounded-2xl flex flex-col items-center justify-center p-6">
                             <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 max-w-2xl w-full shadow-2xl max-h-[85vh] flex flex-col">
                                 <div class="flex items-center gap-3 border-b border-zinc-800 pb-4 mb-4">
@@ -854,6 +984,10 @@
             <i data-lucide="users" class="w-5 h-5"></i>
             <span class="text-[10px] font-medium">Invite</span>
         </button>
+        <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+            <i data-lucide="user" class="w-5 h-5"></i>
+            <span class="text-[10px] font-medium">Profile</span>
+        </button>
         <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition relative">
             <i data-lucide="shield-alert" class="w-5 h-5"></i>
             <span class="text-[10px] font-medium">Rules</span>
@@ -861,7 +995,7 @@
         </button>
     </nav>
 
-    <!-- ===== CENTERED TOAST (dark style with OK button, even smaller) ===== -->
+    <!-- ===== CENTERED TOAST ===== -->
     <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
         <div class="toast-inner pointer-events-auto">
             <div class="toast-icon" x-text="importantToast.icon"></div>
@@ -888,6 +1022,12 @@
                 isTaskRunning: false,
                 showTelegramGuide: false,
 
+                // ---- User Identity ----
+                userId: '',
+                totalTokensEarned: 0, // total tokens earned (doesn't decrease)
+                userLevel: 1,
+                levelXP: 100, // XP needed per level
+
                 // ---- Rules Acceptance ----
                 rulesAccepted: false,
 
@@ -908,7 +1048,7 @@
                 wheelAngle: 0,
                 spinCooldownUntil: 0,
 
-                // ---- Important Toast (centered, dark, with OK) ----
+                // ---- Important Toast ----
                 importantToast: {
                     show: false,
                     icon: '✅',
@@ -916,15 +1056,14 @@
                     sub: ''
                 },
 
-                // ---- Live logs ----
-                poolUsernames: ['iGamer_Pro', 'BloxValk', 'BuildBoy99', 'RoboQueen_X', 'Xyz_Dev', 'Linkmon_Fan', 'RbxKing2026', 'ShadowNinja', 'VibeCheck_9', 'Alpha_Build', 'Luna_Blox', 'DevRBLX_'],
-                liveLogs: [
-                    { id: 1, user: 'iGamer_Pro', amount: 5000 },
-                    { id: 2, user: 'BloxValk', amount: 10000 },
-                    { id: 3, user: 'BuildBoy99', amount: 5000 }
-                ],
+                // ---- Leaderboard (fake users) ----
+                leaderboardUsers: [],
 
-                // ---- Tasks (Telegram removed, no honestConfirmed, added claimableExpiry) ----
+                // ---- Live logs (with IDs) ----
+                liveLogs: [],
+                usedLiveIds: [], // to avoid immediate repeats
+
+                // ---- Tasks ----
                 tasks: [
                     { id: 1, title: 'Sign Up With Email', desc: 'Fulfill randomized high-priority secure web form verification criteria.',
                         reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'mail-check',
@@ -972,6 +1111,20 @@
                     return `${secs}s`;
                 },
 
+                // ---- Level & XP ----
+                get levelProgress() {
+                    const earned = this.totalTokensEarned;
+                    const level = this.userLevel;
+                    const xpPerLevel = this.levelXP;
+                    const currentLevelXP = (level - 1) * xpPerLevel;
+                    const nextLevelXP = level * xpPerLevel;
+                    const progress = (earned - currentLevelXP) / (nextLevelXP - currentLevelXP) * 100;
+                    return Math.min(Math.max(progress, 0), 100);
+                },
+                get nextLevelXP() {
+                    return this.userLevel * this.levelXP;
+                },
+
                 // ---- Important Toast ----
                 showImportantToast(msg, icon = '✅', sub = '') {
                     this.importantToast.show = false;
@@ -980,7 +1133,6 @@
                         this.importantToast.icon = icon;
                         this.importantToast.sub = sub;
                         this.importantToast.show = true;
-                        // Auto dismiss after 5s if not closed
                         if (this.toastTimeout) clearTimeout(this.toastTimeout);
                         this.toastTimeout = setTimeout(() => {
                             this.importantToast.show = false;
@@ -996,23 +1148,29 @@
                 init() {
                     this.loadSavedState();
 
+                    // Generate user ID if not exists
+                    if (!this.userId) {
+                        this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+                    }
+
+                    // Generate leaderboard users
+                    this.generateLeaderboard();
+
                     // Daily gift countdown
                     this.updateDailyGiftStatus();
                     setInterval(() => { this.updateDailyGiftStatus(); }, 1000);
 
-                    // Live updates loop – handles claimable expiry, cooldowns, etc.
+                    // Live updates loop
                     setInterval(() => {
                         this.$forceUpdate();
                         let anyReset = false;
                         this.tasks.forEach(t => {
-                            // Check claimable expiry
                             if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
                                 .now()) {
                                 t.status = 'idle';
                                 t.claimableExpiry = null;
                                 anyReset = true;
                             }
-                            // Check cooldown
                             if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
                                 t.status = 'idle';
                                 t.cooldownUntil = null;
@@ -1021,6 +1179,9 @@
                         });
                         if (anyReset) this.saveState();
                     }, 1000);
+
+                    // Live logs generation – with unique IDs
+                    this.generateLiveLog();
 
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide
@@ -1031,14 +1192,65 @@
                                 .createIcons(); }); });
                     this.$watch('showPromoPasswordForm', () => { this.$nextTick(() => { if (window.lucide) window
                                 .lucide.createIcons(); }); });
+                },
 
-                    // Live logs
+                // ---- Generate leaderboard ----
+                generateLeaderboard() {
+                    const names = ['AlphaBlox', 'BetaBuilder', 'GammaGamer', 'DeltaDev', 'EpsilonElite', 'ZetaZen', 'EtaEagle', 'ThetaThunder', 'IotaInferno', 'KappaKing'];
+                    const levels = [5, 12, 8, 15, 6, 9, 11, 7, 13, 10];
+                    const tokenAmounts = [1200, 3400, 2100, 5600, 1800, 2700, 3100, 1900, 4200, 2500];
+                    this.leaderboardUsers = [];
+                    for (let i = 0; i < 5; i++) {
+                        const idx = i % names.length;
+                        this.leaderboardUsers.push({
+                            id: 'RBLX-' + Math.floor(Math.random() * 900000 + 100000),
+                            name: names[(i + 3) % names.length],
+                            level: levels[(i + 2) % levels.length],
+                            tokens: tokenAmounts[(i + 1) % tokenAmounts.length],
+                            avatar: names[(i + 1) % names.length].charAt(0)
+                        });
+                    }
+                    // Sort by tokens descending
+                    this.leaderboardUsers.sort((a, b) => b.tokens - a.tokens);
+                },
+
+                // ---- Live logs with unique IDs ----
+                generateLiveLog() {
+                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
+                    const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
+
+                    // Populate initial logs with unique IDs
+                    for (let i = 0; i < 5; i++) {
+                        let id;
+                        do {
+                            id = idPool[Math.floor(Math.random() * idPool.length)];
+                        } while (this.usedLiveIds.includes(id));
+                        this.usedLiveIds.push(id);
+                        this.liveLogs.push({
+                            id: Date.now() + i,
+                            userId: id,
+                            amount: amounts[Math.floor(Math.random() * amounts.length)]
+                        });
+                    }
+
+                    // Schedule new logs
                     setInterval(() => {
-                        let randomUser = this.poolUsernames[Math.floor(Math.random() * this.poolUsernames.length)];
-                        let highTiers = [5000, 10000, 15000, 25000, 30000, 35000, 40000, 45000];
-                        let randomAmount = highTiers[Math.floor(Math.random() * highTiers.length)];
-                        this.liveLogs.unshift({ id: Date.now(), user: randomUser, amount: randomAmount });
-                        if (this.liveLogs.length > 5) this.liveLogs.pop();
+                        let newId;
+                        do {
+                            newId = idPool[Math.floor(Math.random() * idPool.length)];
+                        } while (this.usedLiveIds.includes(newId));
+                        this.usedLiveIds.push(newId);
+                        // Keep usedIds list small
+                        if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
+
+                        const amount = amounts[Math.floor(Math.random() * amounts.length)];
+                        this.liveLogs.unshift({
+                            id: Date.now(),
+                            userId: newId,
+                            amount: amount
+                        });
+                        if (this.liveLogs.length > 8) this.liveLogs.pop();
+
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     }, Math.floor(Math.random() * 4000) + 3000);
                 },
@@ -1056,6 +1268,9 @@
                     const savedSpinCooldown = localStorage.getItem('robux_spin_cooldown');
                     const savedRulesAccepted = localStorage.getItem('robux_rules_accepted');
                     const savedInvites = localStorage.getItem('robux_invite_count');
+                    const savedUserId = localStorage.getItem('robux_user_id');
+                    const savedTotalEarned = localStorage.getItem('robux_total_earned');
+                    const savedLevel = localStorage.getItem('robux_user_level');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -1067,6 +1282,12 @@
                     if (savedSpinCooldown) this.spinCooldownUntil = parseInt(savedSpinCooldown);
                     if (savedRulesAccepted === 'true') this.rulesAccepted = true;
                     if (savedInvites) this.inviteCount = parseInt(savedInvites);
+                    if (savedUserId) this.userId = savedUserId;
+                    if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
+                    if (savedLevel) this.userLevel = parseInt(savedLevel);
+
+                    // Level calculation based on total earned
+                    this.updateLevel();
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
@@ -1079,7 +1300,7 @@
                                 if (t.status === 'loading' && match.endTime) {
                                     if (Date.now() >= match.endTime) {
                                         t.status = 'claimable';
-                                        t.claimableExpiry = Date.now() + 60000; // 1 min to claim
+                                        t.claimableExpiry = Date.now() + 60000;
                                         this.isTaskRunning = false;
                                     } else {
                                         const remaining = match.endTime - Date.now();
@@ -1096,7 +1317,6 @@
                                         }, remaining);
                                     }
                                 }
-                                // If claimable but expired, reset
                                 if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
                                     .now()) {
                                     t.status = 'idle';
@@ -1130,6 +1350,74 @@
                     localStorage.setItem('robux_spin_cooldown', this.spinCooldownUntil);
                     localStorage.setItem('robux_rules_accepted', this.rulesAccepted ? 'true' : 'false');
                     localStorage.setItem('robux_invite_count', this.inviteCount);
+                    localStorage.setItem('robux_user_id', this.userId);
+                    localStorage.setItem('robux_total_earned', this.totalTokensEarned);
+                    localStorage.setItem('robux_user_level', this.userLevel);
+                },
+
+                // ---- Level update ----
+                updateLevel() {
+                    const earned = this.totalTokensEarned;
+                    const xpPerLevel = this.levelXP;
+                    let level = 1;
+                    while (earned >= level * xpPerLevel) {
+                        level++;
+                    }
+                    this.userLevel = level;
+                },
+
+                // ---- Add tokens with level update ----
+                addTokens(amount) {
+                    this.tokens += amount;
+                    this.totalTokensEarned += amount;
+                    this.updateLevel();
+                    this.saveState();
+                },
+
+                // ---- Reset Account ----
+                resetAccount() {
+                    if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
+                        // Clear all localStorage items
+                        const keys = ['robux_tasks_state_v3', 'robux_task_running', 'robux_tokens_balance',
+                            'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
+                            'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
+                            'robux_rules_accepted', 'robux_invite_count', 'robux_user_id',
+                            'robux_total_earned', 'robux_user_level'
+                        ];
+                        keys.forEach(k => localStorage.removeItem(k));
+
+                        // Reset state to initial
+                        this.tokens = 5;
+                        this.completedTasksCount = 0;
+                        this.isTaskRunning = false;
+                        this.usedPromoCodes = [];
+                        this.nextDailyClaimTime = 0;
+                        this.currentStreak = 1;
+                        this.isFirstSpin = true;
+                        this.spinCooldownUntil = 0;
+                        this.rulesAccepted = false;
+                        this.inviteCount = 0;
+                        this.totalTokensEarned = 0;
+                        this.userLevel = 1;
+                        this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+                        this.tasks.forEach(t => {
+                            t.status = 'idle';
+                            t.cooldownUntil = null;
+                            t.claimableExpiry = null;
+                        });
+                        this.withdrawStatus = 'idle';
+                        this.withdrawHonestConfirm = false;
+                        this.robloxUser = '';
+                        this.saveState();
+                        this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
+                        // Reload leaderboard and logs
+                        this.generateLeaderboard();
+                        this.liveLogs = [];
+                        this.usedLiveIds = [];
+                        this.generateLiveLog();
+                        // Switch to dashboard
+                        this.currentTab = 'dashboard';
+                    }
                 },
 
                 // ---- Rules Accept ----
@@ -1167,7 +1455,7 @@
                     } else {
                         rewardAmount = Math.floor(Math.random() * 51) + 25;
                     }
-                    this.tokens += rewardAmount;
+                    this.addTokens(rewardAmount);
                     if (this.currentStreak >= 8) {
                         this.currentStreak = 1;
                     } else {
@@ -1231,8 +1519,7 @@
                     setTimeout(() => {
                         this.isSpinning = false;
                         let winAmount = selectedSlice.prize;
-                        this.tokens += winAmount;
-                        this.saveState();
+                        this.addTokens(winAmount);
                         this.showImportantToast(`🎰 You won +${winAmount} Tokens!`, '🎉',
                             `The wheel landed on ${winAmount} TKNS.`);
                     }, 5000);
@@ -1245,14 +1532,13 @@
                     }
                 },
 
-                // ---- Main Task Interaction (no honest confirmation, with claimable expiry) ----
+                // ---- Main Task Interaction ----
                 handleTaskInteraction(task) {
                     if (this.isTaskRunning && task.status === 'idle') {
                         this.showImportantToast('⏳ One task at a time.', '⏳', 'Complete your current task first.');
                         return;
                     }
 
-                    // If task is claimable but expired, reset to idle
                     if (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) {
                         task.status = 'idle';
                         task.claimableExpiry = null;
@@ -1261,7 +1547,6 @@
                         return;
                     }
 
-                    // ---- Repeatable tasks ----
                     if (task.isRepeatable) {
                         if (task.status === 'idle') {
                             if (task.link) window.open(task.link, '_blank');
@@ -1273,7 +1558,7 @@
 
                             setTimeout(() => {
                                 task.status = 'claimable';
-                                task.claimableExpiry = Date.now() + 60000; // 1 min to claim
+                                task.claimableExpiry = Date.now() + 60000;
                                 task.endTime = null;
                                 this.isTaskRunning = false;
                                 this.saveState();
@@ -1281,11 +1566,10 @@
                                     'You have 1 minute to claim.');
                             }, 60000);
                         } else if (task.status === 'claimable') {
-                            // Claim it
                             task.status = 'completed';
-                            task.cooldownUntil = Date.now() + 600000; // 10 min cooldown
+                            task.cooldownUntil = Date.now() + 600000;
                             task.claimableExpiry = null;
-                            this.tokens += task.reward;
+                            this.addTokens(task.reward);
                             this.completedTasksCount++;
                             this.saveState();
                             this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰',
@@ -1294,7 +1578,7 @@
                         return;
                     }
 
-                    // ---- Non-repeatable (task 5 - rating) ----
+                    // Non-repeatable
                     if (task.status === 'idle') {
                         if (task.link) window.open(task.link, '_blank');
                         this.isTaskRunning = true;
@@ -1316,7 +1600,7 @@
                         task.status = 'completed';
                         task.cooldownUntil = null;
                         task.claimableExpiry = null;
-                        this.tokens += task.reward;
+                        this.addTokens(task.reward);
                         this.completedTasksCount++;
                         this.saveState();
                         this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
@@ -1348,7 +1632,7 @@
                             return;
                         }
                         this.usedPromoCodes.push(inputCode);
-                        this.tokens += 50;
+                        this.addTokens(50);
                         this.showImportantToast('🎁 +50 Tokens from promo!', '🎁', 'Code redeemed successfully.');
                         this.promoCode = '';
                         this.saveState();
@@ -1359,7 +1643,7 @@
 
                 submitPromoPassword() {
                     if (this.promoPassword.trim() === '4482') {
-                        this.tokens += 500;
+                        this.addTokens(500);
                         this.showImportantToast('🔓 Master unlock! +500 Tokens', '🔓', 'Override complete.');
                         this.cancelPromoPassword();
                         this.promoCode = '';
@@ -1381,7 +1665,7 @@
                         this.showImportantToast('❌ Need 12 invites.', '❌', `You have ${this.inviteCount} invites.`);
                         return;
                     }
-                    this.tokens += 500;
+                    this.addTokens(500);
                     this.inviteCount = 0;
                     this.saveState();
                     this.showImportantToast('🎉 You earned 500 Tokens!', '🎉', 'Invite more friends to earn again.');
@@ -1419,12 +1703,20 @@
                         this.withdrawStatus = 'complete';
                         this.completedTasksCount++;
                         this.saveState();
+                        // Add to live logs with a random ID
+                        const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
+                        let newId;
+                        do {
+                            newId = idPool[Math.floor(Math.random() * idPool.length)];
+                        } while (this.usedLiveIds.includes(newId));
+                        this.usedLiveIds.push(newId);
+                        if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
                         this.liveLogs.unshift({
                             id: Date.now(),
-                            user: this.robloxUser.trim(),
+                            userId: newId,
                             amount: this.selectedTier
                         });
-                        if (this.liveLogs.length > 5) this.liveLogs.pop();
+                        if (this.liveLogs.length > 8) this.liveLogs.pop();
                         this.showImportantToast('✅ Payout confirmed!', '✅',
                             `${this.selectedTier} Robux will arrive within 24h.`);
                     }, 4000);
