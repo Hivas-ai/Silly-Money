@@ -798,7 +798,7 @@
                     </div>
                 </div>
 
-                <!-- ===== REFERRALS (Simplified: copy link only, earn up to 200 TKNS) ===== -->
+                <!-- ===== REFERRALS (Telegram steps & copy, NO claiming) ===== -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
@@ -838,13 +838,13 @@
                         </div>
                     </div>
 
-                    <!-- Telegram Section -->
+                    <!-- Telegram Section – Steps + Copy, NO claiming -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
                         <div class="flex items-center gap-2">
                             <i data-lucide="send" class="w-5 h-5 text-blue-500"></i>
-                            <h3 class="text-lg font-bold text-white">📲 Join Telegram – Weekly Rewards</h3>
+                            <h3 class="text-lg font-bold text-white">📲 Join Telegram</h3>
                         </div>
-                        <p class="text-xs text-zinc-400">Join our official Telegram group and earn up to <strong class="text-emerald-400">100 TKNS</strong> every week!</p>
+                        <p class="text-xs text-zinc-400">Join our official Telegram group to stay updated and get exclusive news.</p>
 
                         <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-2 text-xs text-zinc-300">
                             <p class="font-bold text-white">How to join:</p>
@@ -862,19 +862,6 @@
                             <button @click="copyTelegramLink()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-2">
                                 <i data-lucide="copy" class="w-4 h-4"></i> Copy Telegram Link
                             </button>
-                        </div>
-
-                        <button @click="claimTelegramReward()" :disabled="telegramCooldown > Date.now()" :class="telegramCooldown > Date.now() ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-600/20'" class="w-full px-4 py-2.5 rounded-xl font-bold text-sm transition active:scale-95">
-                            <span x-show="telegramCooldown > Date.now()">
-                                ⏳ <span x-text="telegramCooldownDisplay"></span>
-                            </span>
-                            <span x-show="telegramCooldown <= Date.now()">Claim Weekly Reward</span>
-                        </button>
-                        <div x-show="telegramCooldown > Date.now()" class="text-xs text-amber-400 font-medium">
-                            Next reward available in <span x-text="telegramCooldownDisplay"></span>
-                        </div>
-                        <div x-show="telegramCooldown <= Date.now()" class="text-xs text-emerald-400 font-medium">
-                            ✅ Ready to claim your weekly tokens!
                         </div>
                     </div>
 
@@ -1126,9 +1113,6 @@
                 // ---- Withdraw Honest Confirm ----
                 withdrawHonestConfirm: false,
 
-                // ---- Telegram ----
-                telegramCooldown: 0,
-
                 // ---- Streak & Wheel ----
                 isDailyGiftAvailable: true,
                 dailyGiftCooldownStr: 'Available Now',
@@ -1207,15 +1191,6 @@
                     if (diff <= 0) return 'Expired';
                     const secs = Math.floor(diff / 1000);
                     return `${secs}s`;
-                },
-
-                get telegramCooldownDisplay() {
-                    const now = Date.now();
-                    const diff = this.telegramCooldown - now;
-                    if (diff <= 0) return 'Ready!';
-                    const hours = Math.floor(diff / 3600000);
-                    const mins = Math.floor((diff % 3600000) / 60000);
-                    return `${hours}h ${mins}m`;
                 },
 
                 // ---- Level & XP ----
@@ -1367,7 +1342,6 @@
                     const savedUserId = localStorage.getItem('robux_user_id');
                     const savedTotalEarned = localStorage.getItem('robux_total_earned');
                     const savedLevel = localStorage.getItem('robux_user_level');
-                    const savedTelegramCooldown = localStorage.getItem('robux_telegram_cooldown');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -1381,7 +1355,6 @@
                     if (savedUserId) this.userId = savedUserId;
                     if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
                     if (savedLevel) this.userLevel = parseInt(savedLevel);
-                    if (savedTelegramCooldown) this.telegramCooldown = parseInt(savedTelegramCooldown);
 
                     this.updateLevel();
 
@@ -1448,7 +1421,6 @@
                     localStorage.setItem('robux_user_id', this.userId);
                     localStorage.setItem('robux_total_earned', this.totalTokensEarned);
                     localStorage.setItem('robux_user_level', this.userLevel);
-                    localStorage.setItem('robux_telegram_cooldown', this.telegramCooldown);
                 },
 
                 // ---- Level update ----
@@ -1477,7 +1449,7 @@
                             'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
                             'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
                             'robux_rules_accepted', 'robux_user_id', 'robux_total_earned',
-                            'robux_user_level', 'robux_telegram_cooldown'
+                            'robux_user_level'
                         ];
                         keys.forEach(k => localStorage.removeItem(k));
 
@@ -1492,7 +1464,6 @@
                         this.rulesAccepted = false;
                         this.totalTokensEarned = 0;
                         this.userLevel = 1;
-                        this.telegramCooldown = 0;
                         this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                         this.tasks.forEach(t => {
                             t.status = 'idle';
@@ -1749,24 +1720,10 @@
                     this.promoPassword = '';
                 },
 
-                // ---- Telegram Helpers ----
+                // ---- Telegram Copy ----
                 copyTelegramLink() {
                     navigator.clipboard.writeText('https://t.me/robux_prize');
                     this.showImportantToast('📋 Link copied!', '📋', 'Follow the steps above to join Telegram.');
-                },
-
-                // ---- Telegram Reward ----
-                claimTelegramReward() {
-                    if (this.telegramCooldown > Date.now()) {
-                        this.showImportantToast('⏳ Cooldown active.', '⏳', this.telegramCooldownDisplay);
-                        return;
-                    }
-                    const reward = Math.floor(Math.random() * 51) + 50;
-                    this.addTokens(reward);
-                    this.telegramCooldown = Date.now() + 7 * 24 * 60 * 60 * 1000;
-                    this.saveState();
-                    this.showImportantToast(`📲 Telegram reward claimed! +${reward} Tokens`, '🎉',
-                        'Come back next week for more!');
                 },
 
                 // ---- Withdraw ----
