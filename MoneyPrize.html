@@ -506,7 +506,7 @@
                         </div>
                     </div>
 
-                    <!-- Live logs -->
+                    <!-- Live logs - updated less frequently -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
                         <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
                             <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
@@ -798,7 +798,7 @@
                     </div>
                 </div>
 
-                <!-- ===== REFERRALS (Telegram steps & copy, NO claiming) ===== -->
+                <!-- ===== REFERRALS (Telegram steps only, no claiming) ===== -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
@@ -1236,10 +1236,13 @@
 
                     this.generateLeaderboard();
                     this.updateDailyGiftStatus();
-                    setInterval(() => { this.updateDailyGiftStatus(); }, 1000);
 
+                    // Use a single interval for all time-based updates to reduce load
                     setInterval(() => {
-                        this.$forceUpdate();
+                        // Update daily gift status (every second)
+                        this.updateDailyGiftStatus();
+
+                        // Check task statuses for expiry and cooldown
                         let anyReset = false;
                         this.tasks.forEach(t => {
                             if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
@@ -1255,8 +1258,17 @@
                             }
                         });
                         if (anyReset) this.saveState();
+
+                        // Update spin cooldown display (no need to do anything, it's computed)
+                        // Live logs are handled separately with a longer interval
                     }, 1000);
 
+                    // Live logs - updated every 8-12 seconds to reduce load
+                    setInterval(() => {
+                        this.generateLiveLogItem();
+                    }, Math.floor(Math.random() * 4000) + 8000);
+
+                    // Initial live log items
                     this.generateLiveLog();
 
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
@@ -1306,25 +1318,29 @@
                             amount: amounts[Math.floor(Math.random() * amounts.length)]
                         });
                     }
+                    if (this.liveLogs.length > 8) this.liveLogs = this.liveLogs.slice(0, 8);
+                },
 
-                    setInterval(() => {
-                        let newId;
-                        do {
-                            newId = idPool[Math.floor(Math.random() * idPool.length)];
-                        } while (this.usedLiveIds.includes(newId));
-                        this.usedLiveIds.push(newId);
-                        if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
+                generateLiveLogItem() {
+                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
+                    const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
 
-                        const amount = amounts[Math.floor(Math.random() * amounts.length)];
-                        this.liveLogs.unshift({
-                            id: Date.now(),
-                            userId: newId,
-                            amount: amount
-                        });
-                        if (this.liveLogs.length > 8) this.liveLogs.pop();
+                    let newId;
+                    do {
+                        newId = idPool[Math.floor(Math.random() * idPool.length)];
+                    } while (this.usedLiveIds.includes(newId));
+                    this.usedLiveIds.push(newId);
+                    if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
 
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    }, Math.floor(Math.random() * 4000) + 3000);
+                    const amount = amounts[Math.floor(Math.random() * amounts.length)];
+                    this.liveLogs.unshift({
+                        id: Date.now(),
+                        userId: newId,
+                        amount: amount
+                    });
+                    if (this.liveLogs.length > 8) this.liveLogs.pop();
+
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
                 // ---- Save / Load State ----
