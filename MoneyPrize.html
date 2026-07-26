@@ -186,20 +186,6 @@
             border-radius: 2px;
         }
 
-        /* Progress bar for invites */
-        .invite-progress-bar {
-            background: #27272a;
-            border-radius: 9999px;
-            height: 8px;
-            overflow: hidden;
-        }
-        .invite-progress-fill {
-            background: linear-gradient(90deg, #dc2626, #ef4444);
-            height: 100%;
-            border-radius: 9999px;
-            transition: width 0.5s ease;
-        }
-
         /* Level progress */
         .level-progress-bar {
             background: #27272a;
@@ -290,31 +276,6 @@
         }
         .withdraw-tier-card.active .tier-badge {
             color: #dc2626;
-        }
-
-        /* Invite status badges */
-        .invite-status-badge {
-            font-size: 0.6rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            padding: 0.1rem 0.5rem;
-            border-radius: 9999px;
-        }
-        .invite-status-badge.completed {
-            background: #10b981/20;
-            color: #34d399;
-            border: 1px solid #10b981/30;
-        }
-        .invite-status-badge.pending {
-            background: #f59e0b/20;
-            color: #fbbf24;
-            border: 1px solid #f59e0b/30;
-        }
-        .invite-status-badge.inactive {
-            background: #3f3f46;
-            color: #a1a1aa;
-            border: 1px solid #3f3f46;
         }
     </style>
 </head>
@@ -575,7 +536,7 @@
                     </div>
                 </div>
 
-                <!-- ===== TASKS (Updated: "Sign Up" instead of "Sign Up With Email") ===== -->
+                <!-- ===== TASKS ===== -->
                 <div x-show="currentTab === 'tasks'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div class="flex justify-between items-center">
                         <div>
@@ -837,82 +798,44 @@
                     </div>
                 </div>
 
-                <!-- ===== REFERRALS (Updated: invites count only after 3 tasks completed) ===== -->
+                <!-- ===== REFERRALS (Simplified: copy link only, earn up to 200 TKNS) ===== -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
-                        <p class="text-zinc-500 text-xs mt-0.5">Leverage network loops to continuously spawn tokens passively.</p>
+                        <p class="text-zinc-500 text-xs mt-0.5">Share your link and earn passive rewards when friends join and complete tasks.</p>
                     </div>
 
-                    <!-- Invite Rewards – 500 tokens per 12 invites that completed 3+ tasks -->
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-5">
-                        <div class="flex items-center justify-between">
+                    <!-- Referral Info & Link -->
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
+                        <div class="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-900">
+                            <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
+                                <i data-lucide="gift" class="w-6 h-6"></i>
+                            </div>
                             <div>
-                                <h3 class="text-lg font-bold text-white flex items-center gap-2">
-                                    <i data-lucide="users" class="w-5 h-5 text-red-500"></i>
-                                    Referral Rewards
-                                </h3>
-                                <p class="text-xs text-zinc-400 leading-relaxed">
-                                    <span class="text-emerald-400 font-medium">500 TKNS</span> for every <strong class="text-white">12 friends</strong> who complete at least <span class="text-amber-400 font-medium">3 tasks</span> each.
-                                </p>
-                            </div>
-                            <span class="text-2xl font-black text-white" x-text="qualifiedInvites + '/12'"></span>
-                        </div>
-
-                        <!-- Progress bar for qualified invites -->
-                        <div>
-                            <div class="flex justify-between text-xs text-zinc-500 mb-1">
-                                <span>Qualified invites (<span x-text="qualifiedInvites"></span>/12)</span>
-                                <span x-text="Math.min(Math.round((qualifiedInvites / 12) * 100), 100) + '%'"></span>
-                            </div>
-                            <div class="invite-progress-bar">
-                                <div class="invite-progress-fill" :style="'width: ' + Math.min((qualifiedInvites / 12) * 100, 100) + '%'"></div>
+                                <h3 class="text-sm font-bold text-white">🎯 Earn Up to <span class="text-emerald-400 text-lg">200 TKNS</span> per Friend</h3>
+                                <p class="text-xs text-zinc-400 mt-0.5">Share your unique referral link. When friends join and complete tasks, you earn <strong class="text-emerald-400">bonus tokens</strong> automatically.</p>
                             </div>
                         </div>
 
-                        <!-- Invite list status -->
-                        <div class="bg-zinc-900/30 border border-zinc-800 rounded-xl p-4 space-y-2">
-                            <div class="flex items-center justify-between text-xs text-zinc-500 font-medium uppercase tracking-wider border-b border-zinc-800 pb-2">
-                                <span>Invited Users</span>
-                                <span>Status</span>
-                            </div>
-                            <template x-if="invitedUsers.length === 0">
-                                <p class="text-xs text-zinc-500 py-2 text-center">No invites yet. Share your link to start earning!</p>
-                            </template>
-                            <template x-for="invite in invitedUsers" :key="invite.id">
-                                <div class="flex items-center justify-between py-1.5 border-b border-zinc-800/50 last:border-0">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-[10px] font-bold text-zinc-300">
-                                            <span x-text="invite.name.charAt(0)"></span>
-                                        </div>
-                                        <div>
-                                            <span class="text-sm text-zinc-300 font-medium" x-text="invite.name"></span>
-                                            <span class="text-[10px] text-zinc-500 block" x-text="'Tasks: ' + invite.tasksCompleted + '/3'"></span>
-                                        </div>
-                                    </div>
-                                    <span class="invite-status-badge" :class="{
-                                        'completed': invite.tasksCompleted >= 3,
-                                        'pending': invite.tasksCompleted > 0 && invite.tasksCompleted < 3,
-                                        'inactive': invite.tasksCompleted === 0
-                                    }" x-text="invite.tasksCompleted >= 3 ? '✅ Qualified' : (invite.tasksCompleted > 0 ? invite.tasksCompleted + '/3 tasks' : '⏳ No tasks')">
-                                    </span>
-                                </div>
-                            </template>
+                        <!-- Royalties info -->
+                        <div class="bg-zinc-900/30 border border-zinc-800 rounded-xl p-4 flex items-center gap-3">
+                            <i data-lucide="trending-up" class="w-5 h-5 text-amber-500 flex-shrink-0"></i>
+                            <p class="text-xs text-zinc-400">
+                                <strong class="text-white">+15% Lifetime Royalties</strong> — You earn a commission every time your invited users complete tasks on the platform.
+                            </p>
                         </div>
 
-                        <!-- Action buttons -->
-                        <div class="flex items-center justify-between gap-4">
-                            <button @click="simulateInvite()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-4 py-2 rounded-xl text-sm font-medium transition active:scale-95 flex items-center gap-2">
-                                <i data-lucide="user-plus" class="w-4 h-4"></i> Simulate Invite
-                            </button>
-                            <button @click="claimInviteReward()" :disabled="qualifiedInvites < 12" :class="qualifiedInvites >= 12 ? 'bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-600/20 active:scale-95' : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'" class="px-5 py-2.5 rounded-xl font-bold text-sm transition">
-                                <span x-show="qualifiedInvites >= 12">Claim 500 TKNS</span>
-                                <span x-show="qualifiedInvites < 12">Need 12 qualified</span>
-                            </button>
+                        <!-- Referral link -->
+                        <div class="space-y-2">
+                            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
+                            <div class="flex gap-2">
+                                <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none" />
+                                <button @click="copyRefLink()" class="bg-red-600 hover:bg-red-700 text-white border border-red-600/30 px-4 rounded-xl flex items-center justify-center transition active:scale-95 font-medium text-sm gap-2">
+                                    <i data-lucide="copy" class="w-4 h-4"></i> Copy
+                                </button>
+                            </div>
+                            <p class="text-[10px] text-zinc-500 italic">Share this link with friends. Tokens are credited when they complete tasks.</p>
                         </div>
-                        <p class="text-[10px] text-zinc-500 italic">
-                            💡 An invite counts as <strong class="text-amber-400">qualified</strong> when the invited user completes at least 3 tasks.
-                        </p>
                     </div>
 
                     <!-- Telegram Section -->
@@ -992,16 +915,6 @@
                             <div>
                                 <h3 class="text-sm font-bold text-white">Earn 15% Lifelong Royalties</h3>
                                 <p class="text-xs text-zinc-400 mt-0.5">Receive a processing commission bonus every single time your direct invited users clear an operational task.</p>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
-                            <div class="flex gap-2">
-                                <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none" />
-                                <button @click="copyRefLink()" class="bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-800 px-4 rounded-xl flex items-center justify-center transition active:scale-95">
-                                    <i data-lucide="copy" class="w-4 h-4"></i>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -1213,10 +1126,6 @@
                 // ---- Withdraw Honest Confirm ----
                 withdrawHonestConfirm: false,
 
-                // ---- Invite System ----
-                invitedUsers: [], // { id, name, tasksCompleted }
-                qualifiedInvites: 0,
-
                 // ---- Telegram ----
                 telegramCooldown: 0,
 
@@ -1246,7 +1155,7 @@
                 liveLogs: [],
                 usedLiveIds: [],
 
-                // ---- Tasks (Updated: "Sign Up" instead of "Sign Up With Email") ----
+                // ---- Tasks ----
                 tasks: [
                     { id: 1, title: 'Sign Up', desc: 'Sign up or create an account on our partner platforms securely.',
                         reward: 20, status: 'idle', link: 'https://appsave.space/cl/i/l7mw56', icon: 'mail-check',
@@ -1323,7 +1232,7 @@
                     return this.userLevel * this.levelXP;
                 },
 
-                // ---- Important Toast (only for important events) ----
+                // ---- Important Toast ----
                 showImportantToast(msg, icon = '✅', sub = '') {
                     this.importantToast.show = false;
                     this.$nextTick(() => {
@@ -1459,8 +1368,6 @@
                     const savedTotalEarned = localStorage.getItem('robux_total_earned');
                     const savedLevel = localStorage.getItem('robux_user_level');
                     const savedTelegramCooldown = localStorage.getItem('robux_telegram_cooldown');
-                    const savedInvitedUsers = localStorage.getItem('robux_invited_users');
-                    const savedQualifiedInvites = localStorage.getItem('robux_qualified_invites');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -1475,11 +1382,8 @@
                     if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
                     if (savedLevel) this.userLevel = parseInt(savedLevel);
                     if (savedTelegramCooldown) this.telegramCooldown = parseInt(savedTelegramCooldown);
-                    if (savedInvitedUsers) this.invitedUsers = JSON.parse(savedInvitedUsers);
-                    if (savedQualifiedInvites) this.qualifiedInvites = parseInt(savedQualifiedInvites);
 
                     this.updateLevel();
-                    this.updateQualifiedInvites();
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
@@ -1545,8 +1449,6 @@
                     localStorage.setItem('robux_total_earned', this.totalTokensEarned);
                     localStorage.setItem('robux_user_level', this.userLevel);
                     localStorage.setItem('robux_telegram_cooldown', this.telegramCooldown);
-                    localStorage.setItem('robux_invited_users', JSON.stringify(this.invitedUsers));
-                    localStorage.setItem('robux_qualified_invites', this.qualifiedInvites);
                 },
 
                 // ---- Level update ----
@@ -1568,52 +1470,6 @@
                     this.saveState();
                 },
 
-                // ---- Qualified invites ----
-                updateQualifiedInvites() {
-                    this.qualifiedInvites = this.invitedUsers.filter(u => u.tasksCompleted >= 3).length;
-                    this.saveState();
-                },
-
-                // ---- Simulate Invite (for demo) ----
-                simulateInvite() {
-                    const names = ['GamerX', 'BloxMaster', 'BuildPro', 'RoboNinja', 'PixelKing', 'ShadowBlade', 'VibeCheck', 'DevRBLX', 'StarPlayer', 'CodeWizard'];
-                    const name = names[Math.floor(Math.random() * names.length)] + (Math.floor(Math.random() * 99) + 1);
-                    const tasksDone = Math.floor(Math.random() * 6); // 0-5 tasks
-                    this.invitedUsers.push({
-                        id: 'INV-' + Date.now() + '-' + Math.floor(Math.random() * 1000),
-                        name: name,
-                        tasksCompleted: tasksDone
-                    });
-                    this.updateQualifiedInvites();
-                    this.showImportantToast(
-                        `📨 ${name} joined! They have completed ${tasksDone} tasks.`,
-                        '👤',
-                        tasksDone >= 3 ? '✅ This invite is now qualified!' : '⏳ Needs 3 tasks to qualify.'
-                    );
-                },
-
-                // ---- Claim Invite Reward ----
-                claimInviteReward() {
-                    if (this.qualifiedInvites < 12) {
-                        this.showImportantToast('❌ Need 12 qualified invites.', '❌', `You have ${this.qualifiedInvites} qualified.`);
-                        return;
-                    }
-                    this.addTokens(500);
-                    // Reset qualified invites after claiming? Or keep? We'll subtract 12
-                    let count = 0;
-                    let removed = 0;
-                    this.invitedUsers = this.invitedUsers.filter(u => {
-                        if (u.tasksCompleted >= 3 && removed < 12) {
-                            removed++;
-                            return false;
-                        }
-                        return true;
-                    });
-                    this.updateQualifiedInvites();
-                    this.saveState();
-                    this.showImportantToast('🎉 You earned 500 Tokens from invites!', '🎉', 'Invite more friends to earn again.');
-                },
-
                 // ---- Reset Account ----
                 resetAccount() {
                     if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
@@ -1621,8 +1477,7 @@
                             'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
                             'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
                             'robux_rules_accepted', 'robux_user_id', 'robux_total_earned',
-                            'robux_user_level', 'robux_telegram_cooldown', 'robux_invited_users',
-                            'robux_qualified_invites'
+                            'robux_user_level', 'robux_telegram_cooldown'
                         ];
                         keys.forEach(k => localStorage.removeItem(k));
 
@@ -1638,8 +1493,6 @@
                         this.totalTokensEarned = 0;
                         this.userLevel = 1;
                         this.telegramCooldown = 0;
-                        this.invitedUsers = [];
-                        this.qualifiedInvites = 0;
                         this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                         this.tasks.forEach(t => {
                             t.status = 'idle';
@@ -1771,7 +1624,7 @@
                     }
                 },
 
-                // ---- Main Task Interaction (no toast on start) ----
+                // ---- Main Task Interaction ----
                 handleTaskInteraction(task) {
                     if (this.isTaskRunning && task.status === 'idle') {
                         this.showImportantToast('⏳ One task at a time.', '⏳', 'Complete your current task first.');
@@ -1793,7 +1646,6 @@
                             task.status = 'loading';
                             task.endTime = Date.now() + 60000;
                             this.saveState();
-                            // No toast for "starting task" - removed to reduce messages
 
                             setTimeout(() => {
                                 task.status = 'claimable';
@@ -1971,7 +1823,7 @@
                 copyRefLink() {
                     navigator.clipboard.writeText(
                         "https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share");
-                    this.showImportantToast('📋 Link copied!', '📋', 'Share with friends to earn 15% royalties.');
+                    this.showImportantToast('📋 Link copied!', '📋', 'Share with friends to earn rewards.');
                 }
             }
         }
