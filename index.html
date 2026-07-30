@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AdSense Test Page | AI News Daily</title>
+    <title>AI News Daily – Auto Ads Ready</title>
 
-    <!-- Google AdSense -->
+    <!-- Google AdSense (Auto Ads) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9203356640818184" crossorigin="anonymous">
     </script>
+    <!-- No manual ad units – auto ads will be placed by Google -->
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
@@ -18,37 +19,27 @@
             background-color: #0b0b0c;
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
-        .ad-container {
-            background: #121214;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #27272a;
-        }
-        .ad-container ins {
-            display: block;
-            width: 100%;
-        }
-        .content-box {
+        .content-card {
             background: #18181b;
             border: 1px solid #27272a;
             border-radius: 0.75rem;
             padding: 1.5rem;
         }
-        .sidebar-box {
-            background: #18181b;
-            border: 1px solid #27272a;
+        .ad-note {
+            background: #121214;
+            border: 1px dashed #3f3f46;
             border-radius: 0.75rem;
-            padding: 1.25rem;
+            padding: 0.75rem 1.2rem;
+            color: #52525b;
+            font-size: 0.7rem;
+            text-align: center;
+            margin: 1rem 0;
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== SIMPLE HEADER ===== -->
+    <!-- ===== HEADER ===== -->
     <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-4 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -56,175 +47,162 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                 </div>
                 <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">AI<span class="text-red-500">News</span></span>
-                <span class="text-xs text-zinc-500 ml-2 hidden sm:inline">Ad Test Page</span>
+                <span class="text-xs text-zinc-500 ml-2 hidden sm:inline">Auto Ads</span>
             </div>
-            <div class="text-xs text-zinc-500">Simple Ad Placements</div>
+            <div class="text-xs text-zinc-500">Google AdSense Auto Ads Active</div>
         </div>
     </header>
 
     <!-- ===== MAIN CONTENT ===== -->
-    <main class="max-w-7xl mx-auto px-4 py-6 lg:px-8">
+    <main class="max-w-4xl mx-auto px-4 py-8">
 
-        <!-- ===== TOP LEADERBOARD AD (728×90 or responsive) ===== -->
-        <div class="ad-container mb-6" style="min-height:90px;">
-            <ins class="adsbygoogle"
-                 style="display:block; min-height:90px;"
-                 data-ad-client="ca-pub-9203356640818184"
-                 data-ad-slot="1234567890"   <!-- REPLACE WITH YOUR SLOT ID -->
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <!-- Informational note -->
+        <div class="ad-note">
+            ⚡ Google AdSense Auto Ads is enabled. Ads will appear automatically based on page content and layout.
+            No manual ad units are placed – let Google do the work.
         </div>
 
-        <!-- ===== TWO COLUMN LAYOUT ===== -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- HERO -->
+        <div class="content-card mb-6">
+            <h1 class="text-2xl font-black text-white">Auto Ads Demo: AI News Daily</h1>
+            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+                This page is optimized for Google AdSense Auto Ads. The script is loaded, and Google will automatically
+                insert ads in the best performing positions. All you need is the script tag – we've included it for you.
+            </p>
+            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+                The page contains rich, varied content to help Auto Ads find natural placements. No additional code is required.
+            </p>
+        </div>
 
-            <!-- ===== MAIN CONTENT (2/3) ===== -->
-            <div class="lg:col-span-2 space-y-6">
+        <!-- ===== FEATURED ARTICLE ===== -->
+        <div class="content-card mb-6">
+            <span class="inline-block bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Featured</span>
+            <h2 class="text-xl font-bold text-white">OpenAI Unveils GPT-5: The Next Frontier in AGI</h2>
+            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+                The new model demonstrates unprecedented reasoning capabilities, multimodal understanding, and a step change in safety alignment.
+                Researchers believe this brings us closer to artificial general intelligence than ever before.
+            </p>
+            <div class="flex items-center gap-3 text-xs text-zinc-500 mt-3">
+                <span>Alex Rivera</span> <span>•</span> <span>July 30, 2026</span> <span>•</span> <span>6 min read</span>
+            </div>
+        </div>
 
-                <!-- Content block with intro text -->
-                <div class="content-box">
-                    <h1 class="text-xl font-bold text-white mb-2">Ad Placement Preview</h1>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        This page is built to display Google AdSense ad units in common positions. 
-                        Replace the placeholder <code class="bg-zinc-900 px-1.5 py-0.5 rounded text-xs text-red-400">data-ad-slot</code> 
-                        values with your actual ad unit IDs.
-                    </p>
-                    <p class="text-sm text-zinc-400 leading-relaxed mt-2">
-                        The following ad units are included: top leaderboard, in‑content (after this paragraph), 
-                        sidebar (top and bottom), and a footer banner.
-                    </p>
+        <!-- ===== ARTICLE GRID ===== -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+            <div class="content-card">
+                <h3 class="text-base font-bold text-white">Google DeepMind’s 10M Token Context Model</h3>
+                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                    The new architecture can process entire books in a single pass, opening new possibilities for long-form reasoning and document understanding.
+                </p>
+                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
+                    <span>Sarah Chen</span> <span>•</span> <span>Jul 29</span>
                 </div>
-
-                <!-- ===== IN-CONTENT AD (responsive) ===== -->
-                <div class="ad-container" style="min-height:120px;">
-                    <ins class="adsbygoogle"
-                         style="display:block; min-height:120px;"
-                         data-ad-client="ca-pub-9203356640818184"
-                         data-ad-slot="0987654321"   <!-- REPLACE WITH YOUR SLOT ID -->
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-
-                <!-- More dummy content -->
-                <div class="content-box">
-                    <h2 class="text-lg font-bold text-white mb-2">Sample Content Area</h2>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                    <p class="text-sm text-zinc-400 leading-relaxed mt-2">
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                </div>
-
-                <!-- ===== IN-FEED AD (2nd in-content) ===== -->
-                <div class="ad-container" style="min-height:120px;">
-                    <ins class="adsbygoogle"
-                         style="display:block; min-height:120px;"
-                         data-ad-client="ca-pub-9203356640818184"
-                         data-ad-slot="1122334455"   <!-- REPLACE WITH YOUR SLOT ID -->
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-
-                <!-- More dummy content -->
-                <div class="content-box">
-                    <h2 class="text-lg font-bold text-white mb-2">Another Section</h2>
-                    <p class="text-sm text-zinc-400 leading-relaxed">
-                        Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                </div>
-
             </div>
 
-            <!-- ===== SIDEBAR (1/3) ===== -->
-            <aside class="space-y-6">
-
-                <!-- ===== SIDEBAR AD TOP (300×250) ===== -->
-                <div class="sidebar-box">
-                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Sponsored</h3>
-                    <div class="ad-container" style="min-height:250px;">
-                        <ins class="adsbygoogle"
-                             style="display:block; min-height:250px;"
-                             data-ad-client="ca-pub-9203356640818184"
-                             data-ad-slot="5566778899"   <!-- REPLACE WITH YOUR SLOT ID -->
-                             data-ad-format="rectangle"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
+            <div class="content-card">
+                <h3 class="text-base font-bold text-white">EU AI Act: First Major Fines Issued</h3>
+                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                    Regulators have issued the first penalties under the landmark legislation, targeting companies that failed to disclose AI-generated content.
+                </p>
+                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
+                    <span>Marcus Weber</span> <span>•</span> <span>Jul 28</span>
                 </div>
+            </div>
 
-                <!-- Sidebar info -->
-                <div class="sidebar-box">
-                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">About This Page</h3>
-                    <p class="text-xs text-zinc-400 leading-relaxed">
-                        This page contains multiple ad units for testing and preview purposes. 
-                        All units use your AdSense client ID and placeholder slots.
-                    </p>
+            <div class="content-card">
+                <h3 class="text-base font-bold text-white">Open‑Source LLM Surpasses GPT‑4</h3>
+                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                    A new community-built model achieves state-of-the-art results on complex logical reasoning tasks with significantly fewer parameters.
+                </p>
+                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
+                    <span>Elena Rodriguez</span> <span>•</span> <span>Jul 27</span>
                 </div>
+            </div>
 
-                <!-- ===== SIDEBAR AD BOTTOM (300×600) ===== -->
-                <div class="sidebar-box">
-                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Advertisement</h3>
-                    <div class="ad-container" style="min-height:600px;">
-                        <ins class="adsbygoogle"
-                             style="display:block; min-height:600px;"
-                             data-ad-client="ca-pub-9203356640818184"
-                             data-ad-slot="6677889900"   <!-- REPLACE WITH YOUR SLOT ID -->
-                             data-ad-format="rectangle"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
+            <div class="content-card">
+                <h3 class="text-base font-bold text-white">Tesla Optimus Gen 3 Unveiled</h3>
+                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
+                    The latest humanoid robot features improved dexterity, real-time learning, and a new battery system for all-day operation.
+                </p>
+                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
+                    <span>James Park</span> <span>•</span> <span>Jul 26</span>
                 </div>
+            </div>
 
-            </aside>
         </div>
 
-        <!-- ===== BOTTOM BANNER AD (footer) ===== -->
-        <div class="mt-6 ad-container" style="min-height:90px;">
-            <ins class="adsbygoogle"
-                 style="display:block; min-height:90px;"
-                 data-ad-client="ca-pub-9203356640818184"
-                 data-ad-slot="9988776655"   <!-- REPLACE WITH YOUR SLOT ID -->
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        <!-- ===== FULL WIDTH ARTICLE ===== -->
+        <div class="content-card mb-6">
+            <h2 class="text-lg font-bold text-white">AI Detects Early Signs of Alzheimer’s with 95% Accuracy</h2>
+            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+                A new deep learning system analyzes speech patterns and eye movements to identify cognitive decline years before symptoms appear.
+                This breakthrough could revolutionize early diagnosis and treatment planning.
+            </p>
+            <div class="flex items-center gap-3 text-xs text-zinc-500 mt-3">
+                <span>Dr. Lisa Kim</span> <span>•</span> <span>Jul 24</span> <span>•</span> <span>5 min read</span>
+            </div>
+        </div>
+
+        <!-- ===== SIDEBAR-LIKE INFO (for ad density) ===== -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="content-card">
+                <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Trending</h4>
+                <ul class="mt-2 space-y-2 text-xs text-zinc-300">
+                    <li>• OpenAI’s Q* Breakthrough</li>
+                    <li>• The Hidden Cost of AI</li>
+                    <li>• Microsoft Copilot Everywhere</li>
+                </ul>
+            </div>
+            <div class="content-card">
+                <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Categories</h4>
+                <ul class="mt-2 space-y-1 text-xs text-zinc-300">
+                    <li>#Research</li>
+                    <li>#Generative AI</li>
+                    <li>#Ethics</li>
+                    <li>#Robotics</li>
+                </ul>
+            </div>
+            <div class="content-card">
+                <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Newsletter</h4>
+                <p class="text-xs text-zinc-400 mt-1">Get top AI stories daily.</p>
+                <div class="flex gap-1 mt-2">
+                    <input type="email" placeholder="Your email" class="flex-1 bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-2 py-1.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500" />
+                    <button class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== MORE CONTENT ===== -->
+        <div class="content-card mb-6">
+            <h2 class="text-lg font-bold text-white">The Future of AI: What Lies Ahead</h2>
+            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+                As models grow in capability and scale, the industry is shifting focus toward efficiency, alignment, and real-world deployment.
+                Experts predict that within the next five years, AI will become an invisible yet indispensable part of daily life.
+            </p>
+            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
+                From healthcare to education, transportation to entertainment, the applications are boundless. However, ethical frameworks
+                and robust safety measures must evolve alongside the technology to ensure equitable and beneficial outcomes.
+            </p>
+            <div class="flex items-center gap-3 text-xs text-zinc-500 mt-3">
+                <span>Editorial Team</span> <span>•</span> <span>Jul 30, 2026</span>
+            </div>
+        </div>
+
+        <!-- Final note -->
+        <div class="ad-note">
+            ✅ Auto Ads is active. Google will insert ads dynamically. No manual intervention required.
         </div>
 
     </main>
 
     <!-- ===== FOOTER ===== -->
     <footer class="border-t border-zinc-900 bg-zinc-950/80 px-4 py-6 mt-6">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
-            <span>AI News Daily – Ad Test Page</span>
-            <span>© 2026 · All ad slots are placeholders. Replace with your own unit IDs.</span>
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+            <span>AI News Daily – Auto Ads Demo</span>
+            <span>© 2026 · Powered by Google AdSense Auto Ads</span>
         </div>
     </footer>
-
-    <!-- ===== SCRIPT TO RE-RENDER ADS (if needed) ===== -->
-    <script>
-        // This ensures any new ins elements are picked up by AdSense.
-        // Some AdSense setups may require this if ads are dynamically inserted.
-        // For static page, it's fine.
-        // (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 
 </body>
 </html>
