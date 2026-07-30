@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI News Daily | Latest Artificial Intelligence Updates</title>
+    <title>AdSense Test Page | AI News Daily</title>
 
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9203356640818184" crossorigin="anonymous">
@@ -13,620 +13,217 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
     </script>
 
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
-    </script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest">
-    </script>
-
     <style>
         body {
-            font-family: 'Inter', sans-serif;
             background-color: #0b0b0c;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
+        .ad-container {
             background: #121214;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #dc2626;
-            border-radius: 3px;
-        }
-        [x-cloak] {
-            display: none !important;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: -200% center;
-            }
-            100% {
-                background-position: 200% center;
-            }
-        }
-        .btn-shimmer {
-            background: linear-gradient(90deg, #dc2626, #ef4444, #dc2626);
-            background-size: 200% auto;
-            animation: shimmer 2s linear infinite;
-        }
-
-        @keyframes glow-pulse {
-            0%,
-            100% {
-                box-shadow: 0 0 4px rgba(220, 38, 38, 0.15);
-            }
-            50% {
-                box-shadow: 0 0 16px rgba(220, 38, 38, 0.25);
-            }
-        }
-        .post-card {
-            transition: all 0.3s ease;
-            border: 1px solid #18181b;
-        }
-        .post-card:hover {
-            border-color: #dc2626;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .category-tag {
-            transition: all 0.2s;
-        }
-        .category-tag:hover {
-            background: #dc2626;
-            color: white;
-            border-color: #dc2626;
-        }
-
-        /* AdSense container styles – ensure ads are displayed */
-        .ads-container {
+            border-radius: 0.75rem;
+            overflow: hidden;
             min-height: 90px;
-            background: #121214;
-            border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            border: 1px solid #27272a;
         }
-        .ads-container ins {
+        .ad-container ins {
             display: block;
             width: 100%;
         }
-
-        .featured-badge {
-            background: linear-gradient(135deg, #dc2626, #991b1b);
+        .content-box {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
         }
-
-        /* Mobile bottom nav */
-        .mobile-nav-btn {
-            transition: all 0.2s;
-        }
-        .mobile-nav-btn.active {
-            color: #dc2626;
-        }
-        .mobile-nav-btn.active .nav-icon {
-            background: #dc2626/10;
+        .sidebar-box {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
         }
     </style>
 </head>
-<body class="text-gray-100 antialiased custom-scrollbar" x-data="blogState()">
+<body>
 
-    <!-- ===== TOP NAV ===== -->
-    <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
+    <!-- ===== SIMPLE HEADER ===== -->
+    <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-4 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" @click="currentTab = 'home'">
+            <div class="flex items-center gap-2">
                 <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20">
-                    <i data-lucide="bot" class="w-6 h-6"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
                 </div>
                 <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">AI<span class="text-red-500">News</span></span>
+                <span class="text-xs text-zinc-500 ml-2 hidden sm:inline">Ad Test Page</span>
             </div>
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium">
-                <a href="#" class="text-zinc-400 hover:text-white transition" @click.prevent="currentTab = 'home'">Home</a>
-                <a href="#" class="text-zinc-400 hover:text-white transition" @click.prevent="currentTab = 'trending'">Trending</a>
-                <a href="#" class="text-zinc-400 hover:text-white transition" @click.prevent="currentTab = 'categories'">Categories</a>
-                <a href="#" class="text-zinc-400 hover:text-white transition" @click.prevent="currentTab = 'about'">About</a>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="hidden md:flex bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-4 text-xs font-medium text-zinc-300 hover:border-red-500/50 transition">
-                    <i data-lucide="search" class="w-4 h-4 mr-1.5"></i> Search
-                </button>
-                <button class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-md shadow-red-600/10 active:scale-95">
-                    Subscribe
-                </button>
-            </div>
+            <div class="text-xs text-zinc-500">Simple Ad Placements</div>
         </div>
-    </nav>
+    </header>
 
     <!-- ===== MAIN CONTENT ===== -->
-    <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-28 lg:pb-12">
+    <main class="max-w-7xl mx-auto px-4 py-6 lg:px-8">
 
-        <!-- ===== HOME TAB ===== -->
-        <div x-show="currentTab === 'home'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+        <!-- ===== TOP LEADERBOARD AD (728×90 or responsive) ===== -->
+        <div class="ad-container mb-6" style="min-height:90px;">
+            <ins class="adsbygoogle"
+                 style="display:block; min-height:90px;"
+                 data-ad-client="ca-pub-9203356640818184"
+                 data-ad-slot="1234567890"   <!-- REPLACE WITH YOUR SLOT ID -->
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
 
-            <!-- HERO / FEATURED POST -->
-            <div class="relative bg-gradient-to-r from-red-950/30 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 mb-8 overflow-hidden">
-                <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                    <i data-lucide="sparkles" class="w-48 h-48 text-red-500"></i>
-                </div>
-                <div class="relative z-10 max-w-2xl space-y-3">
-                    <span class="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                        </span>
-                        Featured Story
-                    </span>
-                    <h1 class="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight">
-                        OpenAI Unveils GPT-5: The Next Frontier in Artificial General Intelligence
-                    </h1>
-                    <p class="text-zinc-400 text-sm leading-relaxed max-w-lg">
-                        The new model demonstrates unprecedented reasoning capabilities, multimodal understanding, and a step change in safety alignment.
+        <!-- ===== TWO COLUMN LAYOUT ===== -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- ===== MAIN CONTENT (2/3) ===== -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Content block with intro text -->
+                <div class="content-box">
+                    <h1 class="text-xl font-bold text-white mb-2">Ad Placement Preview</h1>
+                    <p class="text-sm text-zinc-400 leading-relaxed">
+                        This page is built to display Google AdSense ad units in common positions. 
+                        Replace the placeholder <code class="bg-zinc-900 px-1.5 py-0.5 rounded text-xs text-red-400">data-ad-slot</code> 
+                        values with your actual ad unit IDs.
                     </p>
-                    <div class="flex items-center gap-3 text-xs text-zinc-500 pt-1">
-                        <span class="flex items-center gap-1"><i data-lucide="user" class="w-3.5 h-3.5"></i> Alex Rivera</span>
-                        <span>•</span>
-                        <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> July 30, 2026</span>
-                        <span>•</span>
-                        <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 6 min read</span>
-                    </div>
-                    <button class="mt-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition shadow-md shadow-red-600/10 flex items-center gap-2">
-                        Read Full Story <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- ===== AD PLACEMENT – TOP BANNER (728×90 responsive) ===== -->
-            <div class="mb-8 ads-container">
-                <ins class="adsbygoogle"
-                     style="display:block; min-height:90px;"
-                     data-ad-client="ca-pub-9203356640818184"
-                     data-ad-slot="1234567890"  <!-- REPLACE WITH YOUR SLOT ID -->
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-
-            <!-- GRID: POSTS + SIDEBAR -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                <!-- MAIN POSTS COLUMN -->
-                <div class="lg:col-span-2 space-y-6">
-
-                    <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
-                        <h2 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
-                            <i data-lucide="flame" class="w-4 h-4 text-red-500"></i> Latest AI Developments
-                        </h2>
-                        <span class="text-[10px] text-zinc-500 font-medium">Updated hourly</span>
-                    </div>
-
-                    <!-- POST GRID -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <template x-for="post in posts" :key="post.id">
-                            <div class="post-card bg-zinc-950 rounded-2xl p-5 flex flex-col transition cursor-pointer" @click="openPost(post)">
-                                <div class="flex items-start justify-between gap-2 mb-3">
-                                    <span class="text-[10px] font-bold uppercase tracking-wider text-red-400 bg-red-500/10 px-2.5 py-1 rounded-lg border border-red-500/20" x-text="post.category"></span>
-                                    <span class="text-[10px] text-zinc-500 flex items-center gap-1">
-                                        <i data-lucide="clock" class="w-3 h-3"></i> <span x-text="post.readTime"></span>
-                                    </span>
-                                </div>
-                                <h3 class="text-sm font-bold text-white leading-snug hover:text-red-400 transition" x-text="post.title"></h3>
-                                <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed flex-1" x-text="post.excerpt"></p>
-                                <div class="mt-3 pt-3 border-t border-zinc-900 flex items-center justify-between">
-                                    <span class="text-[10px] text-zinc-500 flex items-center gap-1">
-                                        <i data-lucide="user" class="w-3 h-3"></i> <span x-text="post.author"></span>
-                                    </span>
-                                    <span class="text-[10px] text-zinc-500" x-text="post.date"></span>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-
-                    <!-- ===== AD PLACEMENT – IN-FEED (responsive) ===== -->
-                    <div class="py-3 ads-container" style="min-height:120px;">
-                        <ins class="adsbygoogle"
-                             style="display:block; min-height:120px;"
-                             data-ad-client="ca-pub-9203356640818184"
-                             data-ad-slot="0987654321"  <!-- REPLACE WITH YOUR SLOT ID -->
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-
-                    <!-- LOAD MORE -->
-                    <button class="w-full bg-zinc-950 border border-zinc-900 hover:border-red-500/40 text-zinc-400 hover:text-white text-sm font-medium py-3 rounded-xl transition">
-                        Load More Articles
-                    </button>
+                    <p class="text-sm text-zinc-400 leading-relaxed mt-2">
+                        The following ad units are included: top leaderboard, in‑content (after this paragraph), 
+                        sidebar (top and bottom), and a footer banner.
+                    </p>
                 </div>
 
-                <!-- SIDEBAR -->
-                <aside class="space-y-6">
+                <!-- ===== IN-CONTENT AD (responsive) ===== -->
+                <div class="ad-container" style="min-height:120px;">
+                    <ins class="adsbygoogle"
+                         style="display:block; min-height:120px;"
+                         data-ad-client="ca-pub-9203356640818184"
+                         data-ad-slot="0987654321"   <!-- REPLACE WITH YOUR SLOT ID -->
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
 
-                    <!-- ===== AD PLACEMENT – SIDEBAR TOP (300×250) ===== -->
-                    <div class="ads-container" style="min-height:250px;">
+                <!-- More dummy content -->
+                <div class="content-box">
+                    <h2 class="text-lg font-bold text-white mb-2">Sample Content Area</h2>
+                    <p class="text-sm text-zinc-400 leading-relaxed">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                    <p class="text-sm text-zinc-400 leading-relaxed mt-2">
+                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                </div>
+
+                <!-- ===== IN-FEED AD (2nd in-content) ===== -->
+                <div class="ad-container" style="min-height:120px;">
+                    <ins class="adsbygoogle"
+                         style="display:block; min-height:120px;"
+                         data-ad-client="ca-pub-9203356640818184"
+                         data-ad-slot="1122334455"   <!-- REPLACE WITH YOUR SLOT ID -->
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+                <!-- More dummy content -->
+                <div class="content-box">
+                    <h2 class="text-lg font-bold text-white mb-2">Another Section</h2>
+                    <p class="text-sm text-zinc-400 leading-relaxed">
+                        Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- ===== SIDEBAR (1/3) ===== -->
+            <aside class="space-y-6">
+
+                <!-- ===== SIDEBAR AD TOP (300×250) ===== -->
+                <div class="sidebar-box">
+                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Sponsored</h3>
+                    <div class="ad-container" style="min-height:250px;">
                         <ins class="adsbygoogle"
                              style="display:block; min-height:250px;"
                              data-ad-client="ca-pub-9203356640818184"
-                             data-ad-slot="1122334455"  <!-- REPLACE WITH YOUR SLOT ID -->
+                             data-ad-slot="5566778899"   <!-- REPLACE WITH YOUR SLOT ID -->
                              data-ad-format="rectangle"
                              data-full-width-responsive="true"></ins>
                         <script>
                             (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
                     </div>
+                </div>
 
-                    <!-- TRENDING -->
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5">
-                        <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 border-b border-zinc-900 pb-3 mb-3">
-                            <i data-lucide="trending-up" class="w-4 h-4 text-amber-500"></i> Trending Now
-                        </h3>
-                        <div class="space-y-3">
-                            <template x-for="(item, idx) in trending" :key="idx">
-                                <div class="flex items-start gap-3 cursor-pointer hover:bg-zinc-900/40 p-2 rounded-xl transition" @click="openPost(item)">
-                                    <span class="text-xs font-black text-zinc-600 min-w-[1.2rem]" x-text="'#' + (idx+1)"></span>
-                                    <div>
-                                        <h4 class="text-xs font-semibold text-white leading-snug hover:text-red-400 transition" x-text="item.title"></h4>
-                                        <span class="text-[10px] text-zinc-500" x-text="item.category + ' · ' + item.date"></span>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
+                <!-- Sidebar info -->
+                <div class="sidebar-box">
+                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-2">About This Page</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">
+                        This page contains multiple ad units for testing and preview purposes. 
+                        All units use your AdSense client ID and placeholder slots.
+                    </p>
+                </div>
 
-                    <!-- CATEGORIES -->
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5">
-                        <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 border-b border-zinc-900 pb-3 mb-3">
-                            <i data-lucide="tag" class="w-4 h-4 text-red-500"></i> Categories
-                        </h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#Research</span>
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#Generative AI</span>
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#Ethics</span>
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#Robotics</span>
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#NLP</span>
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#Computer Vision</span>
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#AGI</span>
-                            <span class="category-tag text-[10px] font-semibold text-zinc-400 bg-zinc-900 border border-zinc-800 px-3 py-1.5 rounded-full cursor-pointer">#Startups</span>
-                        </div>
-                    </div>
-
-                    <!-- NEWSLETTER -->
-                    <div class="bg-gradient-to-br from-red-950/20 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-2xl p-5">
-                        <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2 mb-2">
-                            <i data-lucide="mail" class="w-4 h-4 text-red-500"></i> Newsletter
-                        </h3>
-                        <p class="text-xs text-zinc-400 leading-relaxed mb-3">Get the top AI stories delivered to your inbox every morning.</p>
-                        <div class="flex gap-2">
-                            <input type="email" placeholder="Your email" class="flex-1 bg-zinc-900 border border-zinc-800 text-xs rounded-xl px-3 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
-                            <button class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-md shadow-red-600/10 active:scale-95 whitespace-nowrap">
-                                Subscribe
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- ===== AD PLACEMENT – SIDEBAR BOTTOM (300×600) ===== -->
-                    <div class="ads-container" style="min-height:600px;">
+                <!-- ===== SIDEBAR AD BOTTOM (300×600) ===== -->
+                <div class="sidebar-box">
+                    <h3 class="text-xs font-bold text-zinc-500 uppercase tracking-wider mb-3">Advertisement</h3>
+                    <div class="ad-container" style="min-height:600px;">
                         <ins class="adsbygoogle"
                              style="display:block; min-height:600px;"
                              data-ad-client="ca-pub-9203356640818184"
-                             data-ad-slot="5566778899"  <!-- REPLACE WITH YOUR SLOT ID -->
+                             data-ad-slot="6677889900"   <!-- REPLACE WITH YOUR SLOT ID -->
                              data-ad-format="rectangle"
                              data-full-width-responsive="true"></ins>
                         <script>
                             (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
                     </div>
+                </div>
 
-                </aside>
-            </div>
+            </aside>
         </div>
 
-        <!-- ===== TRENDING TAB ===== -->
-        <div x-show="currentTab === 'trending'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
-            <div>
-                <h2 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                    <i data-lucide="trending-up" class="w-5 h-5 text-amber-500"></i> Trending AI Stories
-                </h2>
-                <p class="text-zinc-500 text-xs mt-0.5">The most discussed artificial intelligence topics right now.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                <template x-for="item in trending" :key="item.id">
-                    <div class="post-card bg-zinc-950 rounded-2xl p-5 flex flex-col transition cursor-pointer" @click="openPost(item)">
-                        <div class="flex items-start justify-between gap-2 mb-3">
-                            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/20" x-text="item.category"></span>
-                            <span class="text-[10px] text-zinc-500 flex items-center gap-1">
-                                <i data-lucide="clock" class="w-3 h-3"></i> <span x-text="item.readTime"></span>
-                            </span>
-                        </div>
-                        <h3 class="text-sm font-bold text-white leading-snug hover:text-red-400 transition" x-text="item.title"></h3>
-                        <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed flex-1" x-text="item.excerpt"></p>
-                        <div class="mt-3 pt-3 border-t border-zinc-900 flex items-center justify-between">
-                            <span class="text-[10px] text-zinc-500 flex items-center gap-1">
-                                <i data-lucide="user" class="w-3 h-3"></i> <span x-text="item.author"></span>
-                            </span>
-                            <span class="text-[10px] text-zinc-500" x-text="item.date"></span>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <!-- ===== CATEGORIES TAB ===== -->
-        <div x-show="currentTab === 'categories'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
-            <div>
-                <h2 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                    <i data-lucide="grid" class="w-5 h-5 text-red-500"></i> All Categories
-                </h2>
-                <p class="text-zinc-500 text-xs mt-0.5">Explore AI news by topic.</p>
-            </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="microscope" class="w-8 h-8 text-red-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">Research</h4>
-                    <span class="text-[10px] text-zinc-500">24 articles</span>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="sparkles" class="w-8 h-8 text-amber-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">Generative AI</h4>
-                    <span class="text-[10px] text-zinc-500">18 articles</span>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="scale" class="w-8 h-8 text-emerald-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">Ethics</h4>
-                    <span class="text-[10px] text-zinc-500">12 articles</span>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="cpu" class="w-8 h-8 text-blue-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">Robotics</h4>
-                    <span class="text-[10px] text-zinc-500">9 articles</span>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="message-square" class="w-8 h-8 text-purple-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">NLP</h4>
-                    <span class="text-[10px] text-zinc-500">15 articles</span>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="eye" class="w-8 h-8 text-cyan-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">Computer Vision</h4>
-                    <span class="text-[10px] text-zinc-500">11 articles</span>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="brain" class="w-8 h-8 text-rose-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">AGI</h4>
-                    <span class="text-[10px] text-zinc-500">7 articles</span>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center hover:border-red-500/40 transition cursor-pointer">
-                    <i data-lucide="rocket" class="w-8 h-8 text-orange-400 mx-auto mb-2"></i>
-                    <h4 class="text-sm font-bold text-white">Startups</h4>
-                    <span class="text-[10px] text-zinc-500">14 articles</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== ABOUT TAB ===== -->
-        <div x-show="currentTab === 'about'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6 max-w-3xl">
-            <div>
-                <h2 class="text-xl font-bold tracking-tight text-white">About AI News Daily</h2>
-                <p class="text-zinc-500 text-xs mt-0.5">Your trusted source for artificial intelligence news and analysis.</p>
-            </div>
-
-            <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
-                <p class="text-sm text-zinc-300 leading-relaxed">
-                    <strong class="text-white">AI News Daily</strong> is an independent publication dedicated to bringing you the most important developments in artificial intelligence, machine learning, and the broader AI ecosystem.
-                </p>
-                <p class="text-sm text-zinc-300 leading-relaxed">
-                    Our team of experienced journalists and AI researchers cover everything from breakthrough research papers to ethical debates, startup news, and the real-world impact of AI on society.
-                </p>
-                <p class="text-sm text-zinc-300 leading-relaxed">
-                    We believe in <strong class="text-red-400">clear, honest reporting</strong> that cuts through the hype to deliver actionable insights for professionals, enthusiasts, and anyone curious about the future of intelligence.
-                </p>
-                <div class="border-t border-zinc-900 pt-4 flex flex-wrap gap-6 text-xs text-zinc-500">
-                    <span>📧 contact@ainews.daily</span>
-                    <span>🐦 @AINewsDaily</span>
-                    <span>📱 +1 (800) 555-AI01</span>
-                </div>
-            </div>
-
-            <!-- ===== AD PLACEMENT – ABOUT PAGE (responsive) ===== -->
-            <div class="ads-container" style="min-height:120px;">
-                <ins class="adsbygoogle"
-                     style="display:block; min-height:120px;"
-                     data-ad-client="ca-pub-9203356640818184"
-                     data-ad-slot="9988776655"  <!-- REPLACE WITH YOUR SLOT ID -->
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+        <!-- ===== BOTTOM BANNER AD (footer) ===== -->
+        <div class="mt-6 ad-container" style="min-height:90px;">
+            <ins class="adsbygoogle"
+                 style="display:block; min-height:90px;"
+                 data-ad-client="ca-pub-9203356640818184"
+                 data-ad-slot="9988776655"   <!-- REPLACE WITH YOUR SLOT ID -->
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
 
     </main>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="border-t border-zinc-900 bg-zinc-950/80 px-4 py-8 lg:px-8 mt-4">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-            <div class="flex items-center gap-2">
-                <div class="bg-red-600 p-1.5 rounded-lg text-white shadow-sm shadow-red-600/10">
-                    <i data-lucide="bot" class="w-4 h-4"></i>
-                </div>
-                <span class="font-bold text-white">AI<span class="text-red-500">News</span></span>
-                <span class="text-zinc-600">© 2026</span>
-            </div>
-            <div class="flex items-center gap-6">
-                <a href="#" class="hover:text-white transition" @click.prevent="currentTab = 'home'">Home</a>
-                <a href="#" class="hover:text-white transition" @click.prevent="currentTab = 'about'">About</a>
-                <a href="#" class="hover:text-white transition">Privacy</a>
-                <a href="#" class="hover:text-white transition">Terms</a>
-                <a href="#" class="hover:text-white transition">Contact</a>
-            </div>
-            <span class="text-[10px] text-zinc-600">Built with ❤️ &amp; ☕</span>
+    <footer class="border-t border-zinc-900 bg-zinc-950/80 px-4 py-6 mt-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
+            <span>AI News Daily – Ad Test Page</span>
+            <span>© 2026 · All ad slots are placeholders. Replace with your own unit IDs.</span>
         </div>
     </footer>
 
-    <!-- ===== MOBILE BOTTOM NAV ===== -->
-    <nav class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-900 bg-zinc-950/90 backdrop-blur-md px-2 py-2 z-50 flex justify-around items-center">
-        <button @click="currentTab = 'home'" :class="currentTab === 'home' ? 'text-red-500' : 'text-zinc-500'" class="mobile-nav-btn flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="home" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">Home</span>
-        </button>
-        <button @click="currentTab = 'trending'" :class="currentTab === 'trending' ? 'text-red-500' : 'text-zinc-500'" class="mobile-nav-btn flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="trending-up" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">Trending</span>
-        </button>
-        <button @click="currentTab = 'categories'" :class="currentTab === 'categories' ? 'text-red-500' : 'text-zinc-500'" class="mobile-nav-btn flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="grid" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">Topics</span>
-        </button>
-        <button @click="currentTab = 'about'" :class="currentTab === 'about' ? 'text-red-500' : 'text-zinc-500'" class="mobile-nav-btn flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="info" class="w-5 h-5"></i>
-            <span class="text-[9px] font-medium">About</span>
-        </button>
-    </nav>
-
-    <!-- ===== TOAST ===== -->
-    <div class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none md:bottom-8" x-show="toast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100">
-        <div class="pointer-events-auto bg-zinc-950 border border-zinc-800 shadow-2xl rounded-2xl px-5 py-3 flex items-center gap-3 backdrop-blur-md">
-            <span class="text-lg" x-text="toast.icon"></span>
-            <span class="text-sm font-medium text-white" x-text="toast.msg"></span>
-            <button @click="toast.show = false" class="text-zinc-500 hover:text-white transition text-xs font-bold ml-2">✕</button>
-        </div>
-    </div>
-
-    <!-- ===== SCRIPT ===== -->
+    <!-- ===== SCRIPT TO RE-RENDER ADS (if needed) ===== -->
     <script>
-        function blogState() {
-            return {
-                currentTab: 'home',
-                toast: { show: false, icon: '✅', msg: '' },
-
-                // ---- Posts ----
-                posts: [{
-                    id: 1,
-                    title: 'Google DeepMind Announces New AI Model with 10M Token Context',
-                    excerpt: 'The new architecture can process entire books in a single pass, opening new possibilities for long-form reasoning.',
-                    category: 'Research',
-                    author: 'Sarah Chen',
-                    date: 'Jul 29, 2026',
-                    readTime: '4 min read'
-                }, {
-                    id: 2,
-                    title: 'EU AI Act: Enforcement Begins with First Major Fines',
-                    excerpt: 'Regulators have issued the first penalties under the landmark legislation, targeting companies that failed to disclose AI-generated content.',
-                    category: 'Ethics',
-                    author: 'Marcus Weber',
-                    date: 'Jul 28, 2026',
-                    readTime: '5 min read'
-                }, {
-                    id: 3,
-                    title: 'Open-Source LLM Surpasses GPT-4 on Reasoning Benchmarks',
-                    excerpt: 'A new community-built model achieves state-of-the-art results on complex logical reasoning tasks with significantly fewer parameters.',
-                    category: 'Generative AI',
-                    author: 'Elena Rodriguez',
-                    date: 'Jul 27, 2026',
-                    readTime: '3 min read'
-                }, {
-                    id: 4,
-                    title: 'AI-Powered Robotics: Tesla Optimus Gen 3 Unveiled',
-                    excerpt: 'The latest humanoid robot features improved dexterity, real-time learning, and a new battery system for all-day operation.',
-                    category: 'Robotics',
-                    author: 'James Park',
-                    date: 'Jul 26, 2026',
-                    readTime: '6 min read'
-                }, {
-                    id: 5,
-                    title: 'NVIDIA Announces Next-Gen AI Chip with 8x Performance Leap',
-                    excerpt: 'The new Blackwell architecture delivers unprecedented compute density for training massive models.',
-                    category: 'Startups',
-                    author: 'Maya Patel',
-                    date: 'Jul 25, 2026',
-                    readTime: '4 min read'
-                }, {
-                    id: 6,
-                    title: 'AI Detects Early Signs of Alzheimer\'s with 95% Accuracy',
-                    excerpt: 'A new deep learning system analyzes speech patterns and eye movements to identify cognitive decline years before symptoms appear.',
-                    category: 'Research',
-                    author: 'Dr. Lisa Kim',
-                    date: 'Jul 24, 2026',
-                    readTime: '5 min read'
-                }],
-
-                // ---- Trending ----
-                trending: [{
-                    id: 7,
-                    title: 'OpenAI\'s Q* Breakthrough: What We Know So Far',
-                    excerpt: 'Reports suggest the company has achieved a major milestone in reasoning and planning capabilities.',
-                    category: 'AGI',
-                    author: 'Alex Rivera',
-                    date: 'Jul 30, 2026',
-                    readTime: '7 min read'
-                }, {
-                    id: 8,
-                    title: 'The Hidden Cost of AI: Energy Consumption Soars',
-                    excerpt: 'As models grow larger, the environmental impact of training and inference is becoming a critical concern.',
-                    category: 'Ethics',
-                    author: 'Nina Gupta',
-                    date: 'Jul 29, 2026',
-                    readTime: '5 min read'
-                }, {
-                    id: 9,
-                    title: 'Microsoft Integrates Copilot Across Entire Office Suite',
-                    excerpt: 'The AI assistant is now available in Word, Excel, PowerPoint, and Outlook with advanced agentic capabilities.',
-                    category: 'Startups',
-                    author: 'Tom Harrison',
-                    date: 'Jul 28, 2026',
-                    readTime: '4 min read'
-                }, {
-                    id: 10,
-                    title: 'New NLP Model Understands 100+ Languages Fluently',
-                    excerpt: 'A multilingual model achieves near-native performance across diverse language families with zero-shot transfer.',
-                    category: 'NLP',
-                    author: 'Sophia Lee',
-                    date: 'Jul 27, 2026',
-                    readTime: '4 min read'
-                }],
-
-                // ---- Methods ----
-                openPost(post) {
-                    this.toast.show = true;
-                    this.toast.icon = '📰';
-                    this.toast.msg = `Opening: ${post.title.substring(0, 40)}…`;
-                    setTimeout(() => { this.toast.show = false; }, 2500);
-                },
-
-                showToast(icon, msg) {
-                    this.toast.show = true;
-                    this.toast.icon = icon;
-                    this.toast.msg = msg;
-                    setTimeout(() => { this.toast.show = false; }, 2800);
-                },
-
-                init() {
-                    this.$nextTick(() => {
-                        if (window.lucide) lucide.createIcons();
-                    });
-                    this.$watch('currentTab', () => {
-                        this.$nextTick(() => {
-                            if (window.lucide) lucide.createIcons();
-                        });
-                    });
-                }
-            }
-        }
+        // This ensures any new ins elements are picked up by AdSense.
+        // Some AdSense setups may require this if ads are dynamically inserted.
+        // For static page, it's fine.
+        // (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
 
 </body>
