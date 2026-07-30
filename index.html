@@ -1,431 +1,1305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classic Blog - Your Daily Articles</title>
-    
-    <!-- ====== GOOGLE ADSENSE ====== -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9203356640818184"
-     crossorigin="anonymous"></script>
-    <!-- =========================== -->
-    
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Tools 2026 – The Ultimate AI Directory</title>
+
+    <!-- Google AdSense Auto Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9203356640818184" crossorigin="anonymous">
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Alpine.js for interactivity -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
+    </script>
+
     <style>
-        /* ===== OLD SCHOOL STYLE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Georgia', serif;
-            background: #f4f0e8;
-            color: #222;
-            line-height: 1.8;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0b0c;
         }
-        
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px 40px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            border-radius: 8px;
+        [x-cloak] {
+            display: none !important;
         }
-        
-        /* ===== HEADER ===== */
-        .site-header {
-            border-bottom: 3px double #c0392b;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-            text-align: center;
+        .tool-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #1c1c1e;
+            background: #121214;
         }
-        
-        .site-header h1 {
-            font-size: 42px;
-            color: #2c3e50;
-            letter-spacing: -1px;
+        .tool-card:hover {
+            border-color: #dc2626;
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(220, 38, 38, 0.05);
         }
-        
-        .site-header p {
-            color: #7f8c8d;
-            font-style: italic;
-            font-size: 16px;
+        .rating-star {
+            color: #fbbf24;
         }
-        
-        /* ===== ADS ===== */
-        .ad-container {
-            background: #fafafa;
-            border: 1px dashed #ccc;
-            padding: 10px;
-            margin: 25px 0;
-            border-radius: 4px;
-            min-height: 90px;
+        .rating-star-empty {
+            color: #3f3f46;
         }
-        
-        .ad-label {
-            font-size: 11px;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            margin-bottom: 5px;
+        .category-tag {
+            transition: all 0.3s;
+            background: #1c1c1e;
+            border: 1px solid #27272a;
         }
-        
-        /* ===== CONTENT ===== */
-        .article h2 {
-            color: #2c3e50;
-            font-size: 28px;
-            margin: 30px 0 15px 0;
-            border-left: 4px solid #c0392b;
-            padding-left: 15px;
+        .category-tag:hover,
+        .category-tag.active {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: white;
+            transform: scale(1.05);
         }
-        
-        .article p {
-            margin-bottom: 18px;
-            font-size: 17px;
-            text-align: justify;
+        .search-input {
+            background: #121214;
+            border: 1px solid #27272a;
+            transition: all 0.3s;
         }
-        
-        .article img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 6px;
-            margin: 15px 0;
-            border: 1px solid #ddd;
+        .search-input:focus {
+            border-color: #dc2626;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.08);
         }
-        
-        /* ===== SIDEBAR NOTE ===== */
-        .info-box {
-            background: #eef5f9;
-            border-left: 4px solid #3498db;
-            padding: 15px 20px;
-            margin: 25px 0;
-            border-radius: 0 4px 4px 0;
+        .chart-bar {
+            background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
+            border-radius: 9999px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        /* ===== FOOTER ===== */
-        .site-footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #eee;
-            text-align: center;
-            font-size: 14px;
-            color: #95a5a6;
+        .chart-bar.gold {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24, #fcd34d);
         }
-        
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 600px) {
-            .container { padding: 15px; }
-            .site-header h1 { font-size: 28px; }
-            .article p { font-size: 16px; }
+        .chart-bar.green {
+            background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7);
+        }
+        .chart-bar.purple {
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa, #c4b5fd);
+        }
+        .section-title {
+            border-bottom: 1px solid #1c1c1e;
+        }
+        .nav-link {
+            position: relative;
+            transition: all 0.3s;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #dc2626;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: white;
+        }
+        .page-transition {
+            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulse-glow {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(220, 38, 38, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(220, 38, 38, 0.2);
+            }
+        }
+        .glow-card {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .badge-new {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        .tool-icon {
+            transition: all 0.4s;
+        }
+        .tool-card:hover .tool-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: #121214;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 2px;
+        }
+        .feature-chip {
+            transition: all 0.2s;
+        }
+        .feature-chip:hover {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
         }
     </style>
 </head>
-
 <body>
 
-<div class="container">
+    <!-- ===== APP STATE ===== -->
+    <div x-data="appState()" x-init="init()">
 
-    <!-- ============================================ -->
-    <!-- HEADER -->
-    <!-- ============================================ -->
-    <header class="site-header">
-        <h1>📰 Classic Blog</h1>
-        <p>Timeless stories &amp; useful tips since 2009</p>
-    </header>
+        <!-- ===== NAV ===== -->
+        <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-xl px-4 py-3">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2 cursor-pointer" @click="currentPage = 'home'">
+                    <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/30">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.27A7 7 0 0 1 14 23h-4a7 7 0 0 1-6.73-4H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/><path d="M12 12v2"/></svg>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">AI<span class="text-red-500">Tools</span></span>
+                    <span class="text-[10px] text-zinc-500 ml-1 hidden sm:inline font-medium">2026</span>
+                </div>
 
-    <!-- ============================================ -->
-    <!-- AD UNIT #1 - Top Banner (Auto) -->
-    <!-- ============================================ -->
-    <div class="ad-container">
-        <div class="ad-label">— Sponsored —</div>
-        
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-9203356640818184"
-             data-ad-slot="9816172039"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center gap-1 text-sm">
+                    <button @click="currentPage = 'home'" :class="currentPage === 'home' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Home</button>
+                    <button @click="currentPage = 'llms'" :class="currentPage === 'llms' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">LLMs</button>
+                    <button @click="currentPage = 'image'" :class="currentPage === 'image' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Image AI</button>
+                    <button @click="currentPage = 'video'" :class="currentPage === 'video' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Video AI</button>
+                    <button @click="currentPage = 'audio'" :class="currentPage === 'audio' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Audio AI</button>
+                    <button @click="currentPage = 'code'" :class="currentPage === 'code' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Code AI</button>
+                    <button @click="currentPage = 'rankings'" :class="currentPage === 'rankings' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">📊 Rankings</button>
+                    <button @click="currentPage = 'about'" :class="currentPage === 'about' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">About</button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button class="hidden md:flex bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-4 text-xs font-medium text-zinc-300 hover:border-red-500/50 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        Search
+                    </button>
+                    <button class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-red-600/20 active:scale-95">
+                        Submit Tool
+                    </button>
+                    <!-- Mobile menu toggle -->
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-zinc-400 hover:text-white transition p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div x-show="mobileMenuOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="lg:hidden mt-3 pt-3 border-t border-zinc-800 flex flex-col gap-1">
+                <button @click="currentPage = 'home'; mobileMenuOpen = false" :class="currentPage === 'home' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🏠 Home</button>
+                <button @click="currentPage = 'llms'; mobileMenuOpen = false" :class="currentPage === 'llms' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🤖 LLMs</button>
+                <button @click="currentPage = 'image'; mobileMenuOpen = false" :class="currentPage === 'image' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🎨 Image AI</button>
+                <button @click="currentPage = 'video'; mobileMenuOpen = false" :class="currentPage === 'video' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🎬 Video AI</button>
+                <button @click="currentPage = 'audio'; mobileMenuOpen = false" :class="currentPage === 'audio' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🔊 Audio AI</button>
+                <button @click="currentPage = 'code'; mobileMenuOpen = false" :class="currentPage === 'code' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">💻 Code AI</button>
+                <button @click="currentPage = 'rankings'; mobileMenuOpen = false" :class="currentPage === 'rankings' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">📊 Rankings</button>
+                <button @click="currentPage = 'about'; mobileMenuOpen = false" :class="currentPage === 'about' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">ℹ️ About</button>
+            </div>
+        </nav>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="max-w-7xl mx-auto px-4 py-6">
+
+            <!-- ============================================ -->
+            <!-- HOME PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'home'" x-cloak class="page-transition">
+
+                <!-- HERO -->
+                <section class="bg-gradient-to-r from-red-950/30 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-8 md:p-10 mb-10 relative overflow-hidden glow-card">
+                    <div class="absolute top-0 right-0 opacity-5 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="0.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <div class="relative z-10 max-w-3xl">
+                        <span class="inline-block bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">2026 Edition</span>
+                        <h1 class="text-3xl md:text-5xl font-black text-white leading-tight">The Ultimate <span class="text-red-500">AI Tools</span> Directory</h1>
+                        <p class="text-zinc-400 text-sm md:text-base mt-4 leading-relaxed max-w-2xl">Discover, compare, and choose the best AI tools of 2026. From LLMs to image generators, video AI to automation – curated, rated, and reviewed by experts.</p>
+                        <div class="flex flex-wrap gap-4 mt-6">
+                            <div class="bg-zinc-900/80 border border-zinc-800 px-5 py-3 rounded-2xl text-center">
+                                <div class="text-2xl font-black text-white" x-text="formatNumber(totalTools)"></div>
+                                <span class="text-[10px] text-zinc-500 font-medium">AI Tools</span>
+                            </div>
+                            <div class="bg-zinc-900/80 border border-zinc-800 px-5 py-3 rounded-2xl text-center">
+                                <div class="text-2xl font-black text-white" x-text="totalCategories"></div>
+                                <span class="text-[10px] text-zinc-500 font-medium">Categories</span>
+                            </div>
+                            <div class="bg-zinc-900/80 border border-zinc-800 px-5 py-3 rounded-2xl text-center">
+                                <div class="text-2xl font-black text-white" x-text="totalReviews"></div>
+                                <span class="text-[10px] text-zinc-500 font-medium">Expert Reviews</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEARCH -->
+                <div class="mb-10">
+                    <div class="relative max-w-2xl mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#52525b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" x-model="searchQuery" placeholder="Search AI tools by name, category, use case..." class="search-input w-full text-white text-sm rounded-2xl py-4 pl-12 pr-4 placeholder-zinc-500" />
+                        <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-5 py-2 rounded-xl transition shadow-lg shadow-red-600/20">Search</button>
+                    </div>
+                </div>
+
+                <!-- Categories Quick Nav -->
+                <div class="flex flex-wrap gap-2 mb-10 justify-center">
+                    <button @click="activeCategory = 'all'" :class="activeCategory === 'all' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">All Tools</button>
+                    <button @click="activeCategory = 'llm'" :class="activeCategory === 'llm' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🤖 LLMs</button>
+                    <button @click="activeCategory = 'image'" :class="activeCategory === 'image' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🎨 Image</button>
+                    <button @click="activeCategory = 'video'" :class="activeCategory === 'video' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🎬 Video</button>
+                    <button @click="activeCategory = 'audio'" :class="activeCategory === 'audio' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🔊 Audio</button>
+                    <button @click="activeCategory = 'code'" :class="activeCategory === 'code' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">💻 Code</button>
+                    <button @click="activeCategory = 'automation'" :class="activeCategory === 'automation' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">⚡ Automation</button>
+                </div>
+
+                <!-- Featured Tools -->
+                <div class="flex items-center justify-between section-title pb-4 mb-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <span class="text-3xl">⭐</span> Featured AI Tools
+                        <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">Top Rated</span>
+                    </h2>
+                    <span class="text-xs text-zinc-500">Updated daily</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    <template x-for="tool in featuredTools" :key="tool.id">
+                        <div class="tool-card rounded-2xl p-6 cursor-pointer" @click="currentPage = tool.category; scrollToTop()">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
+                                        <span x-text="tool.initial"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
+                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <template x-for="i in 5">
+                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
+                                    </template>
+                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                <template x-for="tag in tool.tags" :key="tag">
+                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
+                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
+                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">Learn more →</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
+                        <div class="stat-number" x-text="formatNumber(1247)"></div>
+                        <p class="text-xs text-zinc-500 font-medium mt-1">Total AI Tools</p>
+                    </div>
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
+                        <div class="stat-number" x-text="formatNumber(892)"></div>
+                        <p class="text-xs text-zinc-500 font-medium mt-1">Verified Reviews</p>
+                    </div>
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
+                        <div class="stat-number" x-text="formatNumber(156)"></div>
+                        <p class="text-xs text-zinc-500 font-medium mt-1">Categories</p>
+                    </div>
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
+                        <div class="stat-number" x-text="formatNumber(98)"></div>
+                        <p class="text-xs text-zinc-500 font-medium mt-1">Countries Reached</p>
+                    </div>
+                </div>
+
+                <!-- Trending Section -->
+                <div class="flex items-center justify-between section-title pb-4 mb-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <span class="text-3xl">🔥</span> Trending Now
+                        <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">Popular</span>
+                    </h2>
+                    <span class="text-xs text-red-400 hover:text-red-300 cursor-pointer transition">View all →</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+                    <template x-for="tool in trendingTools" :key="tool.id">
+                        <div class="tool-card rounded-2xl p-5 cursor-pointer" @click="currentPage = tool.category">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-black text-sm" :style="'background:' + tool.gradient">
+                                    <span x-text="tool.initial"></span>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-bold text-white" x-text="tool.name"></h4>
+                                    <span class="text-[9px] text-zinc-500" x-text="tool.company"></span>
+                                </div>
+                            </div>
+                            <p class="text-[11px] text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
+                            <div class="mt-2 flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <template x-for="i in 5">
+                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-[10px]">★</span>
+                                    </template>
+                                    <span class="text-[10px] text-zinc-500 ml-1" x-text="tool.rating.toFixed(1)"></span>
+                                </div>
+                                <span class="text-[9px] font-bold text-red-400 hover:text-red-300 transition">Learn more →</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+
+            <!-- ============================================ -->
+            <!-- LLMs PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'llms'" x-cloak class="page-transition">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="text-3xl">🤖</span> Large Language Models
+                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
+                        </h2>
+                        <p class="text-sm text-zinc-500 mt-1">The most advanced LLMs for text generation, reasoning, and code</p>
+                    </div>
+                    <span class="text-xs text-zinc-500">12 tools</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <template x-for="tool in llmTools" :key="tool.id">
+                        <div class="tool-card rounded-2xl p-6">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
+                                        <span x-text="tool.initial"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
+                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <template x-for="i in 5">
+                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
+                                    </template>
+                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                <template x-for="tag in tool.tags" :key="tag">
+                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-zinc-900">
+                                <div class="text-center">
+                                    <div class="text-xs font-bold text-white" x-text="tool.context"></div>
+                                    <span class="text-[8px] text-zinc-500">Context</span>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-xs font-bold text-white" x-text="tool.speed"></div>
+                                    <span class="text-[8px] text-zinc-500">Speed</span>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-xs font-bold text-white" x-text="tool.price"></div>
+                                    <span class="text-[8px] text-zinc-500">Pricing</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-2 border-t border-zinc-900 flex items-center justify-between">
+                                <span class="text-[9px] text-zinc-500">⭐ <span x-text="tool.reviewCount"></span> reviews</span>
+                                <a href="#" class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</a>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- IMAGE AI PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'image'" x-cloak class="page-transition">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="text-3xl">🎨</span> AI Image Generation
+                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
+                        </h2>
+                        <p class="text-sm text-zinc-500 mt-1">Create stunning visuals with the best AI image generators</p>
+                    </div>
+                    <span class="text-xs text-zinc-500">8 tools</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <template x-for="tool in imageTools" :key="tool.id">
+                        <div class="tool-card rounded-2xl p-6">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
+                                        <span x-text="tool.initial"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
+                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <template x-for="i in 5">
+                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
+                                    </template>
+                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                <template x-for="tag in tool.tags" :key="tag">
+                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
+                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
+                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- VIDEO AI PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'video'" x-cloak class="page-transition">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="text-3xl">🎬</span> AI Video Generation
+                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
+                        </h2>
+                        <p class="text-sm text-zinc-500 mt-1">Generate cinematic videos from text and images</p>
+                    </div>
+                    <span class="text-xs text-zinc-500">6 tools</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <template x-for="tool in videoTools" :key="tool.id">
+                        <div class="tool-card rounded-2xl p-6">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
+                                        <span x-text="tool.initial"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
+                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <template x-for="i in 5">
+                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
+                                    </template>
+                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                <template x-for="tag in tool.tags" :key="tag">
+                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
+                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
+                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- AUDIO AI PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'audio'" x-cloak class="page-transition">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="text-3xl">🔊</span> AI Audio & Voice
+                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
+                        </h2>
+                        <p class="text-sm text-zinc-500 mt-1">Voice synthesis, music generation, and audio processing</p>
+                    </div>
+                    <span class="text-xs text-zinc-500">6 tools</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <template x-for="tool in audioTools" :key="tool.id">
+                        <div class="tool-card rounded-2xl p-6">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
+                                        <span x-text="tool.initial"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
+                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <template x-for="i in 5">
+                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
+                                    </template>
+                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                <template x-for="tag in tool.tags" :key="tag">
+                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
+                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
+                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- CODE AI PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'code'" x-cloak class="page-transition">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="text-3xl">💻</span> AI Code Assistants
+                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
+                        </h2>
+                        <p class="text-sm text-zinc-500 mt-1">Supercharge your development with AI coding tools</p>
+                    </div>
+                    <span class="text-xs text-zinc-500">5 tools</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <template x-for="tool in codeTools" :key="tool.id">
+                        <div class="tool-card rounded-2xl p-6">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
+                                        <span x-text="tool.initial"></span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
+                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <template x-for="i in 5">
+                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
+                                    </template>
+                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
+                            <div class="flex flex-wrap gap-1 mt-3">
+                                <template x-for="tag in tool.tags" :key="tag">
+                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
+                                </template>
+                            </div>
+                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
+                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
+                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- RANKINGS PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'rankings'" x-cloak class="page-transition">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="text-3xl">📊</span> AI Tool Rankings 2026
+                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">Performance</span>
+                        </h2>
+                        <p class="text-sm text-zinc-500 mt-1">Comprehensive benchmarks and leaderboards</p>
+                    </div>
+                </div>
+
+                <!-- Ranking Tabs -->
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <button @click="rankingTab = 'llm'" :class="rankingTab === 'llm' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🤖 LLMs</button>
+                    <button @click="rankingTab = 'image'" :class="rankingTab === 'image' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🎨 Image</button>
+                    <button @click="rankingTab = 'video'" :class="rankingTab === 'video' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🎬 Video</button>
+                    <button @click="rankingTab = 'audio'" :class="rankingTab === 'audio' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🔊 Audio</button>
+                    <button @click="rankingTab = 'code'" :class="rankingTab === 'code' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">💻 Code</button>
+                </div>
+
+                <!-- LLM Rankings -->
+                <div x-show="rankingTab === 'llm'" class="space-y-6">
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">LLM Performance Score</h3>
+                        <div class="space-y-4">
+                            <template x-for="item in llmRankings" :key="item.name">
+                                <div>
+                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
+                                        <span class="font-medium text-white flex items-center gap-2">
+                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
+                                            <span x-text="item.name"></span>
+                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
+                                        </span>
+                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
+                                    </div>
+                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <p class="text-[10px] text-zinc-500 mt-4">*Based on MMLU, GSM8K, HumanEval, and reasoning benchmarks</p>
+                    </div>
+
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">Cost Efficiency (per 1M tokens)</h3>
+                        <div class="space-y-4">
+                            <template x-for="item in llmCostRankings" :key="item.name">
+                                <div>
+                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
+                                        <span class="font-medium text-white flex items-center gap-2">
+                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
+                                            <span x-text="item.name"></span>
+                                        </span>
+                                        <span class="font-bold text-emerald-400" x-text="'$' + item.cost"></span>
+                                    </div>
+                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+                                        <div class="chart-bar green h-full" :style="'width:' + (100 - (item.cost / 30 * 100)) + '%'"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Rankings -->
+                <div x-show="rankingTab === 'image'" class="space-y-6">
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">Image Generation Quality</h3>
+                        <div class="space-y-4">
+                            <template x-for="item in imageRankings" :key="item.name">
+                                <div>
+                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
+                                        <span class="font-medium text-white flex items-center gap-2">
+                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
+                                            <span x-text="item.name"></span>
+                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
+                                        </span>
+                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
+                                    </div>
+                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <p class="text-[10px] text-zinc-500 mt-4">*Based on FID, CLIP score, and user preference studies</p>
+                    </div>
+                </div>
+
+                <!-- Video Rankings -->
+                <div x-show="rankingTab === 'video'" class="space-y-6">
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">Video Generation Quality</h3>
+                        <div class="space-y-4">
+                            <template x-for="item in videoRankings" :key="item.name">
+                                <div>
+                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
+                                        <span class="font-medium text-white flex items-center gap-2">
+                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
+                                            <span x-text="item.name"></span>
+                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
+                                        </span>
+                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
+                                    </div>
+                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audio Rankings -->
+                <div x-show="rankingTab === 'audio'" class="space-y-6">
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">Voice Synthesis Quality</h3>
+                        <div class="space-y-4">
+                            <template x-for="item in audioRankings" :key="item.name">
+                                <div>
+                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
+                                        <span class="font-medium text-white flex items-center gap-2">
+                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
+                                            <span x-text="item.name"></span>
+                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
+                                        </span>
+                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
+                                    </div>
+                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Code Rankings -->
+                <div x-show="rankingTab === 'code'" class="space-y-6">
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">Code Generation Accuracy</h3>
+                        <div class="space-y-4">
+                            <template x-for="item in codeRankings" :key="item.name">
+                                <div>
+                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
+                                        <span class="font-medium text-white flex items-center gap-2">
+                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
+                                            <span x-text="item.name"></span>
+                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
+                                        </span>
+                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
+                                    </div>
+                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
+                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <p class="text-[10px] text-zinc-500 mt-4">*Based on HumanEval, MBPP, and code completion benchmarks</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================ -->
+            <!-- ABOUT PAGE -->
+            <!-- ============================================ -->
+            <div x-show="currentPage === 'about'" x-cloak class="page-transition max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <span class="text-3xl">ℹ️</span> About AI Tools 2026
+                        </h2>
+                        <p class="text-sm text-zinc-500 mt-1">Your trusted source for AI tool discovery</p>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-8 space-y-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Our Mission</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed mt-2">AI Tools 2026 is the most comprehensive directory of artificial intelligence tools and platforms. We curate, review, and rank the best AI tools across all categories – from LLMs and image generators to video AI, automation, and more.</p>
+                        <p class="text-sm text-zinc-400 leading-relaxed mt-3">Our team of AI experts and researchers tests each tool thoroughly, providing honest reviews and detailed comparisons to help you make informed decisions.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-zinc-900">
+                        <div class="text-center p-4 bg-zinc-900/30 rounded-xl">
+                            <div class="text-3xl mb-2">🧪</div>
+                            <h4 class="text-sm font-bold text-white">Expert Testing</h4>
+                            <p class="text-xs text-zinc-500 mt-1">Every tool is tested by our team</p>
+                        </div>
+                        <div class="text-center p-4 bg-zinc-900/30 rounded-xl">
+                            <div class="text-3xl mb-2">📊</div>
+                            <h4 class="text-sm font-bold text-white">Data-Driven</h4>
+                            <p class="text-xs text-zinc-500 mt-1">Rankings based on real benchmarks</p>
+                        </div>
+                        <div class="text-center p-4 bg-zinc-900/30 rounded-xl">
+                            <div class="text-3xl mb-2">🔄</div>
+                            <h4 class="text-sm font-bold text-white">Daily Updates</h4>
+                            <p class="text-xs text-zinc-500 mt-1">New tools added every day</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-zinc-900">
+                        <h3 class="text-lg font-bold text-white mb-4">Privacy Policy</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">Your privacy matters to us. We collect minimal data to improve your experience:</p>
+                        <ul class="text-sm text-zinc-400 leading-relaxed mt-3 space-y-2 list-disc pl-5">
+                            <li>We use Google AdSense to serve relevant ads</li>
+                            <li>No personal data is shared with third parties</li>
+                            <li>Cookies are used for analytics and ad personalization</li>
+                            <li>You can opt out of personalized ads at any time</li>
+                            <li>All data is encrypted and stored securely</li>
+                        </ul>
+                        <p class="text-xs text-zinc-500 mt-4">Last updated: July 2026</p>
+                        <a href="#" class="inline-block text-xs text-red-400 hover:text-red-300 transition mt-2">Read full policy →</a>
+                    </div>
+
+                    <div class="pt-4 border-t border-zinc-900 flex flex-wrap gap-6 text-xs text-zinc-500">
+                        <span>📧 contact@aitools2026.com</span>
+                        <span>🐦 @AITools2026</span>
+                        <span>📱 +1 (800) 555-AI01</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="border-t border-zinc-900 bg-zinc-950/80 px-4 py-8 mt-4">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+                <div class="flex items-center gap-2">
+                    <div class="bg-red-600 p-1.5 rounded-lg text-white shadow-sm shadow-red-600/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.27A7 7 0 0 1 14 23h-4a7 7 0 0 1-6.73-4H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/><path d="M12 12v2"/></svg>
+                    </div>
+                    <span class="font-bold text-white">AI<span class="text-red-500">Tools</span></span>
+                    <span class="text-zinc-600">© 2026</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <button @click="currentPage = 'home'" class="hover:text-white transition">Home</button>
+                    <button @click="currentPage = 'about'" class="hover:text-white transition">About</button>
+                    <a href="#" class="hover:text-white transition">Privacy</a>
+                    <a href="#" class="hover:text-white transition">Terms</a>
+                    <a href="#" class="hover:text-white transition">Contact</a>
+                </div>
+                <span class="text-[10px] text-zinc-600">Auto Ads enabled – Google places ads automatically</span>
+            </div>
+        </footer>
+
     </div>
 
     <!-- ============================================ -->
-    <!-- MAIN ARTICLE CONTENT -->
+    <!-- ALPINE.JS APP -->
     <!-- ============================================ -->
-    <main class="article">
+    <script>
+        function appState() {
+            return {
+                currentPage: 'home',
+                mobileMenuOpen: false,
+                searchQuery: '',
+                activeCategory: 'all',
+                rankingTab: 'llm',
 
-        <h2>Why Classic Websites Are Making a Comeback</h2>
-        
-        <p>
-            In an age of bloated JavaScript frameworks and cookie consent pop-ups, 
-            many internet users are craving the simplicity of old-school websites. 
-            Fast loading times, readable text, and genuine content are becoming rare 
-            treasures in 2026.
-        </p>
+                // Stats
+                totalTools: 1247,
+                totalCategories: 156,
+                totalReviews: 892,
 
-        <p>
-            The "old web" aesthetic — with serif fonts, clean layouts, and minimal 
-            distractions — is experiencing a renaissance. Designers are realizing 
-            that users don't need parallax scrolling or animated gradients to enjoy 
-            an article. Sometimes, a simple HTML page with good writing is all it takes.
-        </p>
+                // Featured Tools
+                featuredTools: [{
+                    id: 1,
+                    name: 'GPT-5',
+                    company: 'OpenAI',
+                    initial: 'G',
+                    gradient: 'linear-gradient(135deg, #dc2626, #991b1b)',
+                    rating: 4.9,
+                    desc: 'State-of-the-art reasoning with 10M token context and multimodal capabilities.',
+                    tags: ['Text', 'Image', 'Code', 'Audio'],
+                    price: 'Free tier',
+                    category: 'llm'
+                }, {
+                    id: 2,
+                    name: 'Midjourney v7',
+                    company: 'Midjourney',
+                    initial: 'M',
+                    gradient: 'linear-gradient(135deg, #10b981, #047857)',
+                    rating: 4.9,
+                    desc: 'Photorealistic, artistic, cinematic quality. Best for creative professionals.',
+                    tags: ['Photorealistic', 'Artistic', 'Cinematic'],
+                    price: 'Paid',
+                    category: 'image'
+                }, {
+                    id: 3,
+                    name: 'Claude 4',
+                    company: 'Anthropic',
+                    initial: 'C',
+                    gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)',
+                    rating: 4.8,
+                    desc: 'Advanced reasoning with 200K context and exceptional coding capabilities.',
+                    tags: ['Text', 'Code', 'Analysis'],
+                    price: 'Paid plans',
+                    category: 'llm'
+                }, {
+                    id: 4,
+                    name: 'DALL-E 4',
+                    company: 'OpenAI',
+                    initial: 'D',
+                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
+                    rating: 4.8,
+                    desc: 'High-fidelity, prompt-accurate with advanced editing and inpainting.',
+                    tags: ['Edit', 'Inpaint', 'Variations'],
+                    price: 'Paid',
+                    category: 'image'
+                }, {
+                    id: 5,
+                    name: 'Pika 3.0',
+                    company: 'Pika Labs',
+                    initial: 'P',
+                    gradient: 'linear-gradient(135deg, #6366f1, #3730a3)',
+                    rating: 4.7,
+                    desc: 'Cinematic video generation from text and images with motion control.',
+                    tags: ['Video', 'Cinematic', 'Motion'],
+                    price: 'Free tier',
+                    category: 'video'
+                }, {
+                    id: 6,
+                    name: 'Cursor AI',
+                    company: 'Cursor',
+                    initial: 'C',
+                    gradient: 'linear-gradient(135deg, #14b8a6, #0f766e)',
+                    rating: 4.9,
+                    desc: 'AI-powered code editor with full project understanding and autocomplete.',
+                    tags: ['Code', 'Editor', 'Autocomplete'],
+                    price: 'Free tier',
+                    category: 'code'
+                }],
 
-        <!-- ============================================ -->
-        <!-- AD UNIT #2 - In-Article Fluid (Embedded) -->
-        <!-- ============================================ -->
-        <div class="ad-container" style="margin: 30px 0;">
-            <div class="ad-label">— Continue Reading —</div>
-            
-            <ins class="adsbygoogle"
-                 style="display:block; text-align:center;"
-                 data-ad-layout="in-article"
-                 data-ad-format="fluid"
-                 data-ad-client="ca-pub-9203356640818184"
-                 data-ad-slot="3747643042"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
+                // Trending Tools
+                trendingTools: [{
+                    id: 101,
+                    name: 'Gemini 2.0',
+                    company: 'Google',
+                    initial: 'G',
+                    gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                    rating: 4.7,
+                    desc: 'Native multimodal with 2M token context',
+                    category: 'llm'
+                }, {
+                    id: 102,
+                    name: 'Stable Diffusion 4',
+                    company: 'Stability AI',
+                    initial: 'S',
+                    gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                    rating: 4.6,
+                    desc: 'Open-source, highly customizable',
+                    category: 'image'
+                }, {
+                    id: 103,
+                    name: 'ElevenLabs V3',
+                    company: 'ElevenLabs',
+                    initial: 'E',
+                    gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)',
+                    rating: 4.8,
+                    desc: 'Ultra-realistic voice synthesis',
+                    category: 'audio'
+                }, {
+                    id: 104,
+                    name: 'Runway Gen-4',
+                    company: 'Runway ML',
+                    initial: 'R',
+                    gradient: 'linear-gradient(135deg, #ec4899, #be185d)',
+                    rating: 4.6,
+                    desc: 'Advanced video generation',
+                    category: 'video'
+                }],
 
-        <h2>How to Build Your Own Static Site</h2>
-        
-        <p>
-            Building a static HTML site is easier than ever. All you need is a text 
-            editor (like Notepad, VS Code, or Sublime Text) and a web host. Write 
-            your content in plain HTML, add some CSS for styling, and upload it to 
-            any hosting provider. No databases, no server-side code — just files.
-        </p>
+                // LLM Tools
+                llmTools: [{
+                    id: 1,
+                    name: 'GPT-5',
+                    company: 'OpenAI',
+                    initial: 'G',
+                    gradient: 'linear-gradient(135deg, #dc2626, #991b1b)',
+                    rating: 4.9,
+                    desc: 'State-of-the-art reasoning, multimodal understanding, and AGI capabilities.',
+                    tags: ['Text', 'Image', 'Code', 'Audio'],
+                    context: '10M',
+                    speed: '1.2s',
+                    price: 'Free',
+                    reviewCount: 1247
+                }, {
+                    id: 2,
+                    name: 'Claude 4',
+                    company: 'Anthropic',
+                    initial: 'C',
+                    gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)',
+                    rating: 4.8,
+                    desc: 'Advanced reasoning with 200K context and strong safety features.',
+                    tags: ['Text', 'Code', 'Analysis'],
+                    context: '200K',
+                    speed: '0.8s',
+                    price: 'Paid',
+                    reviewCount: 892
+                }, {
+                    id: 3,
+                    name: 'Gemini 2.0',
+                    company: 'Google DeepMind',
+                    initial: 'G',
+                    gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                    rating: 4.7,
+                    desc: 'Native multimodal with 2M context and real-time processing.',
+                    tags: ['Text', 'Image', 'Video', 'Audio'],
+                    context: '2M',
+                    speed: '0.9s',
+                    price: 'Free',
+                    reviewCount: 756
+                }, {
+                    id: 4,
+                    name: 'Llama 4',
+                    company: 'Meta',
+                    initial: 'L',
+                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
+                    rating: 4.5,
+                    desc: 'Open-source, high-performance with strong reasoning capabilities.',
+                    tags: ['Text', 'Code', 'Open-source'],
+                    context: '128K',
+                    speed: '1.0s',
+                    price: 'Free',
+                    reviewCount: 634
+                }, {
+                    id: 5,
+                    name: 'Mistral 3',
+                    company: 'Mistral AI',
+                    initial: 'M',
+                    gradient: 'linear-gradient(135deg, #14b8a6, #0f766e)',
+                    rating: 4.4,
+                    desc: 'Efficient, open-source model with competitive performance.',
+                    tags: ['Text', 'Code', 'Open-source'],
+                    context: '32K',
+                    speed: '0.7s',
+                    price: 'Free',
+                    reviewCount: 523
+                }, {
+                    id: 6,
+                    name: 'DeepSeek V3',
+                    company: 'DeepSeek',
+                    initial: 'D',
+                    gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                    rating: 4.3,
+                    desc: 'High-performance reasoning with cost-effective pricing.',
+                    tags: ['Text', 'Code', 'Reasoning'],
+                    context: '128K',
+                    speed: '0.9s',
+                    price: 'Free',
+                    reviewCount: 412
+                }],
 
-        <div class="info-box">
-            <strong>💡 Tip:</strong> Search engines love fast-loading pages. 
-            A simple HTML file with 500+ words of useful content will rank better 
-            than a slow React app with the same text.
-        </div>
+                // Image Tools
+                imageTools: [{
+                    id: 101,
+                    name: 'Midjourney v7',
+                    company: 'Midjourney',
+                    initial: 'M',
+                    gradient: 'linear-gradient(135deg, #10b981, #047857)',
+                    rating: 4.9,
+                    desc: 'Photorealistic, artistic, cinematic quality. Best for creative professionals.',
+                    tags: ['Photorealistic', 'Artistic', 'Cinematic'],
+                    price: 'Paid'
+                }, {
+                    id: 102,
+                    name: 'DALL-E 4',
+                    company: 'OpenAI',
+                    initial: 'D',
+                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
+                    rating: 4.8,
+                    desc: 'High-fidelity, prompt-accurate with advanced editing and inpainting.',
+                    tags: ['Edit', 'Inpaint', 'Variations'],
+                    price: 'Paid'
+                }, {
+                    id: 103,
+                    name: 'Stable Diffusion 4',
+                    company: 'Stability AI',
+                    initial: 'S',
+                    gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                    rating: 4.6,
+                    desc: 'Open-source, highly customizable, runs locally.',
+                    tags: ['Open-source', 'Custom', 'Local'],
+                    price: 'Free'
+                }, {
+                    id: 104,
+                    name: 'Firefly 3',
+                    company: 'Adobe',
+                    initial: 'F',
+                    gradient: 'linear-gradient(135deg, #ec4899, #be185d)',
+                    rating: 4.5,
+                    desc: 'Integrated with Creative Cloud, commercial-safe, vector & 3D.',
+                    tags: ['Vector', '3D', 'Commercial'],
+                    price: 'Subscription'
+                }],
 
-        <p>
-            If you're adding AdSense to your site, remember to place ads <em>between</em> 
-            paragraphs, not at the very top or bottom. This improves user experience 
-            and click-through rates. Google's algorithms also check that your content 
-            is the main focus — not the ads.
-        </p>
+                // Video Tools
+                videoTools: [{
+                    id: 201,
+                    name: 'Pika 3.0',
+                    company: 'Pika Labs',
+                    initial: 'P',
+                    gradient: 'linear-gradient(135deg, #6366f1, #3730a3)',
+                    rating: 4.7,
+                    desc: 'Cinematic video generation from text and images with motion control.',
+                    tags: ['Video', 'Cinematic', 'Motion'],
+                    price: 'Free tier'
+                }, {
+                    id: 202,
+                    name: 'Runway Gen-4',
+                    company: 'Runway ML',
+                    initial: 'R',
+                    gradient: 'linear-gradient(135deg, #ec4899, #be185d)',
+                    rating: 4.6,
+                    desc: 'Advanced video generation with sophisticated motion control.',
+                    tags: ['Video', 'Motion', 'Professional'],
+                    price: 'Paid'
+                }, {
+                    id: 203,
+                    name: 'Sora 2.0',
+                    company: 'OpenAI',
+                    initial: 'S',
+                    gradient: 'linear-gradient(135deg, #dc2626, #991b1b)',
+                    rating: 4.5,
+                    desc: 'High-quality video generation with complex scene understanding.',
+                    tags: ['Video', 'Scenes', 'Realistic'],
+                    price: 'Paid'
+                }],
 
-        <!-- ============================================ -->
-        <!-- AD UNIT #3 - Bottom / Multi-Display -->
-        <!-- ============================================ -->
-        <div class="ad-container">
-            <div class="ad-label">— You Might Also Like —</div>
-            
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-format="autorelaxed"
-                 data-ad-client="ca-pub-9203356640818184"
-                 data-ad-slot="6104157733"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
+                // Audio Tools
+                audioTools: [{
+                    id: 301,
+                    name: 'ElevenLabs V3',
+                    company: 'ElevenLabs',
+                    initial: 'E',
+                    gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)',
+                    rating: 4.8,
+                    desc: 'Ultra-realistic voice synthesis with emotion control.',
+                    tags: ['Voice', 'Emotion', 'Realistic'],
+                    price: 'Free tier'
+                }, {
+                    id: 302,
+                    name: 'Suno AI',
+                    company: 'Suno',
+                    initial: 'S',
+                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
+                    rating: 4.4,
+                    desc: 'AI music generation with full song creation.',
+                    tags: ['Music', 'Generation', 'Creative'],
+                    price: 'Free tier'
+                }, {
+                    id: 303,
+                    name: 'Descript AI',
+                    company: 'Descript',
+                    initial: 'D',
+                    gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                    rating: 4.3,
+                    desc: 'Audio editing with AI voice cloning and transcription.',
+                    tags: ['Editing', 'Cloning', 'Transcription'],
+                    price: 'Subscription'
+                }],
 
-        <h2>Final Thoughts</h2>
-        
-        <p>
-            The beauty of a basic HTML file is that it works forever. You don't need 
-            to update frameworks or worry about dependency conflicts. What you write 
-            today will still load perfectly in 2030. That's the power of the static web.
-        </p>
+                // Code Tools
+                codeTools: [{
+                    id: 401,
+                    name: 'Cursor AI',
+                    company: 'Cursor',
+                    initial: 'C',
+                    gradient: 'linear-gradient(135deg, #14b8a6, #0f766e)',
+                    rating: 4.9,
+                    desc: 'AI-powered code editor with full project understanding.',
+                    tags: ['Code', 'Editor', 'Autocomplete'],
+                    price: 'Free tier'
+                }, {
+                    id: 402,
+                    name: 'GitHub Copilot X',
+                    company: 'GitHub',
+                    initial: 'G',
+                    gradient: 'linear-gradient(135deg, #6b7280, #374151)',
+                    rating: 4.7,
+                    desc: 'AI pair programmer with advanced code generation.',
+                    tags: ['Code', 'Pair Programming', 'Generation'],
+                    price: 'Subscription'
+                }, {
+                    id: 403,
+                    name: 'Codeium',
+                    company: 'Codeium',
+                    initial: 'C',
+                    gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)',
+                    rating: 4.5,
+                    desc: 'Free AI code completion with team support.',
+                    tags: ['Code', 'Completion', 'Team'],
+                    price: 'Free'
+                }],
 
-        <p>
-            So go ahead — write your articles, add your AdSense codes, and publish 
-            your classic site. The internet needs more genuine, human-made content.
-        </p>
+                // Rankings Data
+                llmRankings: [
+                    { rank: 1, name: 'GPT-5', company: 'OpenAI', score: 96 },
+                    { rank: 2, name: 'Claude 4', company: 'Anthropic', score: 94 },
+                    { rank: 3, name: 'Gemini 2.0', company: 'Google', score: 91 },
+                    { rank: 4, name: 'Llama 4', company: 'Meta', score: 88 },
+                    { rank: 5, name: 'Mistral 3', company: 'Mistral AI', score: 85 },
+                    { rank: 6, name: 'DeepSeek V3', company: 'DeepSeek', score: 83 }
+                ],
+                llmCostRankings: [
+                    { rank: 1, name: 'DeepSeek V3', cost: 2.5 },
+                    { rank: 2, name: 'Mistral 3', cost: 4.0 },
+                    { rank: 3, name: 'Claude 4', cost: 8.0 },
+                    { rank: 4, name: 'GPT-5', cost: 12.0 },
+                    { rank: 5, name: 'Gemini 2.0', cost: 14.0 }
+                ],
+                imageRankings: [
+                    { rank: 1, name: 'Midjourney v7', company: 'Midjourney', score: 98 },
+                    { rank: 2, name: 'DALL-E 4', company: 'OpenAI', score: 95 },
+                    { rank: 3, name: 'Stable Diffusion 4', company: 'Stability AI', score: 89 },
+                    { rank: 4, name: 'Firefly 3', company: 'Adobe', score: 86 },
+                    { rank: 5, name: 'Imagen 3', company: 'Google', score: 83 }
+                ],
+                videoRankings: [
+                    { rank: 1, name: 'Pika 3.0', company: 'Pika Labs', score: 92 },
+                    { rank: 2, name: 'Runway Gen-4', company: 'Runway ML', score: 90 },
+                    { rank: 3, name: 'Sora 2.0', company: 'OpenAI', score: 87 },
+                    { rank: 4, name: 'Synthesia 3', company: 'Synthesia', score: 84 }
+                ],
+                audioRankings: [
+                    { rank: 1, name: 'ElevenLabs V3', company: 'ElevenLabs', score: 96 },
+                    { rank: 2, name: 'Suno AI', company: 'Suno', score: 88 },
+                    { rank: 3, name: 'Descript AI', company: 'Descript', score: 85 },
+                    { rank: 4, name: 'Murf AI', company: 'Murf', score: 82 }
+                ],
+                codeRankings: [
+                    { rank: 1, name: 'Cursor AI', company: 'Cursor', score: 95 },
+                    { rank: 2, name: 'GitHub Copilot X', company: 'GitHub', score: 92 },
+                    { rank: 3, name: 'Codeium', company: 'Codeium', score: 88 },
+                    { rank: 4, name: 'TabNine', company: 'TabNine', score: 84 }
+                ],
 
-    </main>
+                // Methods
+                formatNumber(num) {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                },
 
-    <!-- ============================================ -->
-    <!-- FOOTER -->
-    <!-- ============================================ -->
-    <footer class="site-footer">
-        <p>© 2026 Classic Blog &bull; Built with plain HTML &amp; ❤️</p>
-        <p style="font-size: 12px; color: #bbb;">AdSense Publisher ID: ca-pub-9203356640818184</p>
-    </footer>
+                scrollToTop() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                },
 
-</div>
-<!-- END CONTAINER -->
-
-</body>
-</html>        }
-    </style>
-</head>
-<body>
-
-    <!-- ===== HEADER ===== -->
-    <header class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-4 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-                </div>
-                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">AI<span class="text-red-500">News</span></span>
-                <span class="text-xs text-zinc-500 ml-2 hidden sm:inline">Auto Ads</span>
-            </div>
-            <div class="text-xs text-zinc-500">Google AdSense Auto Ads Active</div>
-        </div>
-    </header>
-
-    <!-- ===== MAIN CONTENT ===== -->
-    <main class="max-w-4xl mx-auto px-4 py-8">
-
-        <!-- Informational note -->
-        <div class="ad-note">
-            ⚡ Google AdSense Auto Ads is enabled. Ads will appear automatically based on page content and layout.
-            No manual ad units are placed – let Google do the work.
-        </div>
-
-        <!-- HERO -->
-        <div class="content-card mb-6">
-            <h1 class="text-2xl font-black text-white">Auto Ads Demo: AI News Daily</h1>
-            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
-                This page is optimized for Google AdSense Auto Ads. The script is loaded, and Google will automatically
-                insert ads in the best performing positions. All you need is the script tag – we've included it for you.
-            </p>
-            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
-                The page contains rich, varied content to help Auto Ads find natural placements. No additional code is required.
-            </p>
-        </div>
-
-        <!-- ===== FEATURED ARTICLE ===== -->
-        <div class="content-card mb-6">
-            <span class="inline-block bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3">Featured</span>
-            <h2 class="text-xl font-bold text-white">OpenAI Unveils GPT-5: The Next Frontier in AGI</h2>
-            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
-                The new model demonstrates unprecedented reasoning capabilities, multimodal understanding, and a step change in safety alignment.
-                Researchers believe this brings us closer to artificial general intelligence than ever before.
-            </p>
-            <div class="flex items-center gap-3 text-xs text-zinc-500 mt-3">
-                <span>Alex Rivera</span> <span>•</span> <span>July 30, 2026</span> <span>•</span> <span>6 min read</span>
-            </div>
-        </div>
-
-        <!-- ===== ARTICLE GRID ===== -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-
-            <div class="content-card">
-                <h3 class="text-base font-bold text-white">Google DeepMind’s 10M Token Context Model</h3>
-                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-                    The new architecture can process entire books in a single pass, opening new possibilities for long-form reasoning and document understanding.
-                </p>
-                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
-                    <span>Sarah Chen</span> <span>•</span> <span>Jul 29</span>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h3 class="text-base font-bold text-white">EU AI Act: First Major Fines Issued</h3>
-                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-                    Regulators have issued the first penalties under the landmark legislation, targeting companies that failed to disclose AI-generated content.
-                </p>
-                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
-                    <span>Marcus Weber</span> <span>•</span> <span>Jul 28</span>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h3 class="text-base font-bold text-white">Open‑Source LLM Surpasses GPT‑4</h3>
-                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-                    A new community-built model achieves state-of-the-art results on complex logical reasoning tasks with significantly fewer parameters.
-                </p>
-                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
-                    <span>Elena Rodriguez</span> <span>•</span> <span>Jul 27</span>
-                </div>
-            </div>
-
-            <div class="content-card">
-                <h3 class="text-base font-bold text-white">Tesla Optimus Gen 3 Unveiled</h3>
-                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">
-                    The latest humanoid robot features improved dexterity, real-time learning, and a new battery system for all-day operation.
-                </p>
-                <div class="flex items-center gap-2 text-[10px] text-zinc-500 mt-2">
-                    <span>James Park</span> <span>•</span> <span>Jul 26</span>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- ===== FULL WIDTH ARTICLE ===== -->
-        <div class="content-card mb-6">
-            <h2 class="text-lg font-bold text-white">AI Detects Early Signs of Alzheimer’s with 95% Accuracy</h2>
-            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
-                A new deep learning system analyzes speech patterns and eye movements to identify cognitive decline years before symptoms appear.
-                This breakthrough could revolutionize early diagnosis and treatment planning.
-            </p>
-            <div class="flex items-center gap-3 text-xs text-zinc-500 mt-3">
-                <span>Dr. Lisa Kim</span> <span>•</span> <span>Jul 24</span> <span>•</span> <span>5 min read</span>
-            </div>
-        </div>
-
-        <!-- ===== SIDEBAR-LIKE INFO (for ad density) ===== -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div class="content-card">
-                <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Trending</h4>
-                <ul class="mt-2 space-y-2 text-xs text-zinc-300">
-                    <li>• OpenAI’s Q* Breakthrough</li>
-                    <li>• The Hidden Cost of AI</li>
-                    <li>• Microsoft Copilot Everywhere</li>
-                </ul>
-            </div>
-            <div class="content-card">
-                <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Categories</h4>
-                <ul class="mt-2 space-y-1 text-xs text-zinc-300">
-                    <li>#Research</li>
-                    <li>#Generative AI</li>
-                    <li>#Ethics</li>
-                    <li>#Robotics</li>
-                </ul>
-            </div>
-            <div class="content-card">
-                <h4 class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Newsletter</h4>
-                <p class="text-xs text-zinc-400 mt-1">Get top AI stories daily.</p>
-                <div class="flex gap-1 mt-2">
-                    <input type="email" placeholder="Your email" class="flex-1 bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-2 py-1.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500" />
-                    <button class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">Subscribe</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== MORE CONTENT ===== -->
-        <div class="content-card mb-6">
-            <h2 class="text-lg font-bold text-white">The Future of AI: What Lies Ahead</h2>
-            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
-                As models grow in capability and scale, the industry is shifting focus toward efficiency, alignment, and real-world deployment.
-                Experts predict that within the next five years, AI will become an invisible yet indispensable part of daily life.
-            </p>
-            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">
-                From healthcare to education, transportation to entertainment, the applications are boundless. However, ethical frameworks
-                and robust safety measures must evolve alongside the technology to ensure equitable and beneficial outcomes.
-            </p>
-            <div class="flex items-center gap-3 text-xs text-zinc-500 mt-3">
-                <span>Editorial Team</span> <span>•</span> <span>Jul 30, 2026</span>
-            </div>
-        </div>
-
-        <!-- Final note -->
-        <div class="ad-note">
-            ✅ Auto Ads is active. Google will insert ads dynamically. No manual intervention required.
-        </div>
-
-    </main>
-
-    <!-- ===== FOOTER ===== -->
-    <footer class="border-t border-zinc-900 bg-zinc-950/80 px-4 py-6 mt-6">
-        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-zinc-500">
-            <span>AI News Daily – Auto Ads Demo</span>
-            <span>© 2026 · Powered by Google AdSense Auto Ads</span>
-        </div>
-    </footer>
+                init() {
+                    // Any initialization
+                }
+            }
+        }
+    </script>
 
 </body>
 </html>
