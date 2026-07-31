@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RobuxPrize | Claim Your Free Robux</title>
-    <script src="https://cdn.tailwindcss.com">
+    <title>RobuxPrize · Unlock Your Rewards</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,725 +19,466 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', sans-serif;
             background: #0b0b0c;
+            color: #f1f1f1;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
         }
-
-        .main-card {
-            max-width: 820px;
-            width: 100%;
-            background: linear-gradient(145deg, #121214, #0a0a0c);
-            border: 1px solid #1f1f23;
-            border-radius: 2.5rem;
-            padding: 2rem 2rem 2.5rem;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(220, 38, 38, 0.08) inset;
-            position: relative;
-            overflow: hidden;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
         }
-
-        .main-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 20%, rgba(220, 38, 38, 0.04), transparent 70%);
-            pointer-events: none;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #121214;
         }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-        }
-
-        .brand-icon {
+        .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #dc2626;
-            padding: 0.6rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25);
+            border-radius: 3px;
+        }
+        [x-cloak] {
+            display: none !important;
         }
 
-        .brand-icon svg {
-            width: 1.75rem;
-            height: 1.75rem;
-            color: white;
-        }
-
-        .brand-text {
-            font-size: 1.5rem;
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            background: linear-gradient(to right, #ffffff, #a1a1aa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .brand-text span {
-            color: #dc2626;
-            -webkit-text-fill-color: #dc2626;
-        }
-
-        .step-indicators {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .step-dot {
-            width: 2.5rem;
-            height: 0.3rem;
-            border-radius: 999px;
-            background: #27272a;
-            transition: all 0.4s ease;
-        }
-
-        .step-dot.active {
-            background: #dc2626;
-            box-shadow: 0 0 16px rgba(220, 38, 38, 0.35);
-            width: 3.5rem;
-        }
-
-        .step-dot.done {
-            background: #10b981;
-        }
-
-        .step-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #3f3f46;
-            margin-top: 0.25rem;
-            padding: 0 0.25rem;
-        }
-
-        .step-label span.active-label {
-            color: #dc2626;
-        }
-
-        .step-label span.done-label {
-            color: #10b981;
-        }
-
-        /* Phase container */
-        .phase-container {
-            min-height: 340px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 0;
-            position: relative;
-            z-index: 1;
-        }
-
-        .phase-title {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: white;
-            text-align: center;
-            line-height: 1.3;
-            margin-bottom: 0.25rem;
-        }
-
-        .phase-title .highlight {
-            color: #dc2626;
-        }
-
-        .phase-sub {
-            font-size: 0.8rem;
-            color: #71717a;
-            text-align: center;
-            margin-bottom: 1.25rem;
-        }
-
-        /* Timer ring */
-        .timer-ring-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.75rem;
-            margin: 0.5rem 0 1rem;
-        }
-
-        .timer-ring {
-            position: relative;
-            width: 5.5rem;
-            height: 5.5rem;
-        }
-
-        .timer-ring svg {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-
-        .timer-ring .bg-circle {
-            fill: none;
-            stroke: #1f1f23;
-            stroke-width: 5;
-        }
-
-        .timer-ring .progress-circle {
-            fill: none;
-            stroke: #dc2626;
-            stroke-width: 5;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.35s ease;
-            filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.25));
-        }
-
-        .timer-ring .timer-text {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: white;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .timer-ring .timer-text .sec-label {
-            font-size: 0.65rem;
-            font-weight: 500;
-            color: #71717a;
-            margin-left: 0.1rem;
-        }
-
-        /* Ad containers */
-        .ad-slot {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0.5rem 0 1rem;
-            min-height: 70px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 1rem;
-            border: 1px dashed rgba(255, 255, 255, 0.04);
-            padding: 0.5rem;
-            overflow: hidden;
-        }
-
-        .ad-slot iframe {
-            max-width: 100%;
-        }
-
-        .ad-slot .ad-placeholder {
-            color: #3f3f46;
-            font-size: 0.7rem;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        /* Continue button */
-        .btn-continue {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            color: white;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 0.85rem 3rem;
-            border: none;
-            border-radius: 3rem;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 6px 30px rgba(220, 38, 38, 0.25);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            letter-spacing: 0.01em;
-            margin-top: 0.5rem;
-            opacity: 0;
-            transform: translateY(12px);
-            pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .btn-continue.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .btn-continue:hover {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            transform: scale(1.02);
-            box-shadow: 0 8px 40px rgba(220, 38, 38, 0.35);
-        }
-
-        .btn-continue:active {
-            transform: scale(0.97);
-        }
-
-        .btn-continue svg {
-            width: 1.1rem;
-            height: 1.1rem;
-        }
-
-        /* Phase fade */
-        .phase-content {
-            width: 100%;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .phase-content.fade-out {
-            opacity: 0;
-            transform: translateY(12px);
-        }
-
-        .phase-content.fade-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Reward badge */
-        .reward-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 0.3rem 1rem 0.3rem 0.8rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #34d399;
-            margin-bottom: 0.75rem;
-        }
-
-        .reward-badge svg {
-            width: 0.9rem;
-            height: 0.9rem;
-        }
-
-        /* Footer */
-        .footer-note {
-            text-align: center;
-            font-size: 0.6rem;
-            color: #27272a;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #18181b;
-            letter-spacing: 0.03em;
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            .main-card {
-                padding: 1.25rem 1rem 1.75rem;
-                border-radius: 1.75rem;
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
             }
-            .brand-text {
-                font-size: 1.2rem;
-            }
-            .phase-title {
-                font-size: 1.1rem;
-            }
-            .timer-ring {
-                width: 4.5rem;
-                height: 4.5rem;
-            }
-            .timer-ring .timer-text {
-                font-size: 1.3rem;
-            }
-            .btn-continue {
-                padding: 0.7rem 2rem;
-                font-size: 0.85rem;
-            }
-            .step-dot {
-                width: 1.8rem;
-            }
-            .step-dot.active {
-                width: 2.8rem;
-            }
-            .ad-slot {
-                min-height: 60px;
+            100% {
+                background-position: 200% center;
             }
         }
-
-        @media (max-width: 400px) {
-            .main-card {
-                padding: 1rem 0.75rem 1.5rem;
-            }
-            .phase-title {
-                font-size: 0.95rem;
-            }
-            .timer-ring {
-                width: 3.8rem;
-                height: 3.8rem;
-            }
-            .timer-ring .timer-text {
-                font-size: 1.1rem;
-            }
+        .btn-shimmer {
+            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+            background-size: 200% auto;
+            animation: shimmer 2s linear infinite;
+        }
+        .btn-shimmer:hover {
+            animation-duration: 0.8s;
         }
 
-        /* Glow pulse for active step */
         @keyframes glow-pulse {
             0%,
             100% {
-                box-shadow: 0 0 20px rgba(220, 38, 38, 0.05);
+                box-shadow: 0 0 4px rgba(59, 130, 246, 0.2);
             }
             50% {
-                box-shadow: 0 0 40px rgba(220, 38, 38, 0.15);
+                box-shadow: 0 0 16px rgba(59, 130, 246, 0.5);
             }
         }
-        .step-dot.active {
+        .glow-pulse {
             animation: glow-pulse 2s ease-in-out infinite;
         }
 
-        /* Toast style */
-        .toast-mini {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #18181b;
-            border: 1px solid #27272a;
-            padding: 0.6rem 1.5rem;
-            border-radius: 2rem;
-            font-size: 0.8rem;
-            color: #a1a1aa;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 999;
-            transition: all 0.4s ease;
-            opacity: 0;
-            transform: translateX(-50%) translateY(20px);
-            pointer-events: none;
-            white-space: nowrap;
+        @keyframes countdown-pulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+        }
+        .countdown-number {
+            animation: countdown-pulse 1s ease-in-out infinite;
         }
 
-        .toast-mini.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .step-circle {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
-        .toast-mini strong {
+        .step-circle.active {
+            background: #dc2626;
+            border-color: #dc2626;
+            color: white;
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.25);
+            transform: scale(1.1);
+        }
+        .step-circle.completed {
+            background: #10b981;
+            border-color: #10b981;
             color: white;
         }
-
-        /* Ad container responsive */
-        .ad-slot .ad-inner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            min-height: 60px;
-        }
-
-        .ad-slot .ad-inner>div,
-        .ad-slot .ad-inner>iframe,
-        .ad-slot .ad-inner>script {
-            max-width: 100%;
-        }
-
-        /* Hide ad placeholder when ad loads */
-        .ad-slot.loaded .ad-placeholder {
-            display: none;
-        }
-
-        /* Progress bar at top */
-        .progress-bar-wrap {
-            width: 100%;
-            height: 3px;
-            background: #1a1a1e;
-            border-radius: 999px;
-            margin-bottom: 1.5rem;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #dc2626, #ef4444);
-            border-radius: 999px;
-            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-            width: 0%;
-        }
-
-        /* Phase counter */
-        .phase-counter {
-            font-size: 0.65rem;
-            font-weight: 600;
+        .step-circle.pending {
+            background: #27272a;
+            border-color: #3f3f46;
             color: #52525b;
-            text-align: center;
-            letter-spacing: 0.06em;
-            margin-bottom: 0.5rem;
+        }
+        .step-line {
+            transition: background 0.6s ease;
+            height: 3px;
+            background: #27272a;
+        }
+        .step-line.active {
+            background: #dc2626;
+        }
+        .step-line.completed {
+            background: #10b981;
         }
 
-        .phase-counter .current {
-            color: #dc2626;
-        }
-
-        /* Trust badge row */
-        .trust-row {
+        .ad-container {
+            background: #141416;
+            border: 1px solid #2a2a2e;
+            border-radius: 1rem;
+            overflow: hidden;
+            min-height: 60px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-top: 0.75rem;
-            font-size: 0.6rem;
-            color: #3f3f46;
-            letter-spacing: 0.04em;
+            transition: border-color 0.3s;
+        }
+        .ad-container:hover {
+            border-color: #dc2626;
+        }
+        .ad-container iframe {
+            max-width: 100%;
+            border: none;
         }
 
-        .trust-row span {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
+        .card-glow {
+            transition: all 0.3s;
+        }
+        .card-glow:hover {
+            border-color: #dc2626;
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.06);
         }
 
-        .trust-row svg {
-            width: 0.8rem;
-            height: 0.8rem;
-            color: #10b981;
+        .progress-ring {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+        }
+        .progress-ring .bg-circle {
+            stroke: #27272a;
+        }
+        .progress-ring .fg-circle {
+            stroke: #dc2626;
+            transition: stroke-dashoffset 0.3s ease;
         }
 
-        /* safe zone */
-        .safe-zone {
-            background: rgba(16, 185, 129, 0.04);
-            border: 1px solid rgba(16, 185, 129, 0.06);
-            border-radius: 0.75rem;
-            padding: 0.4rem 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.6rem;
-            color: #34d399;
-            font-weight: 500;
-            margin-top: 0.5rem;
+        .toast-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+            max-width: 320px;
+            width: 90%;
+        }
+        .toast-center .toast-inner {
+            pointer-events: auto;
+            background: #0a0a0c;
+            border: 1px solid #dc2626;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .toast-center .toast-inner .toast-icon {
+            font-size: 1.6rem;
+            margin-bottom: 0.1rem;
+        }
+        .toast-center .toast-inner .toast-msg {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f1f1f1;
+            line-height: 1.3;
+        }
+        .toast-center .toast-inner .toast-sub {
+            font-size: 0.65rem;
+            color: #a1a1aa;
+            margin-top: 0.1rem;
+        }
+        .toast-center .toast-inner .toast-ok-btn {
+            margin-top: 0.6rem;
+            background: #dc2626;
+            border: none;
+            padding: 0.25rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+        }
+        .toast-center .toast-inner .toast-ok-btn:hover {
+            background: #b91c1c;
+        }
+
+        .confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        @media (max-width: 640px) {
+            .ad-container {
+                min-height: 50px;
+                border-radius: 0.75rem;
+            }
+            .ad-container iframe {
+                max-width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
-<body>
+<body class="custom-scrollbar" x-data="appState()">
 
-    <!-- ===== TOAST ===== -->
-    <div id="toast" class="toast-mini">
-        ⏳ <strong id="toastMsg">Loading ads...</strong>
+    <!-- ===== NAV ===== -->
+    <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20">
+                    <i data-lucide="ticket" class="w-5 h-5"></i>
+                </div>
+                <span class="text-lg font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
+                <span class="hidden sm:inline-block ml-2 text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">Secure</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
+                    <i data-lucide="ticket" class="w-3.5 h-3.5 text-red-500"></i>
+                    <span class="text-xs font-bold text-white tracking-wide" x-text="tokens + ' TKNS'"></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN ===== -->
+    <main class="max-w-4xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-28">
+
+        <!-- ===== HEADER ===== -->
+        <div class="text-center mb-8 space-y-3">
+            <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                <span class="bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent">Unlock</span> Your Robux
+            </h1>
+            <p class="text-zinc-400 text-sm max-w-md mx-auto leading-relaxed">
+                Complete <strong class="text-white">3 simple steps</strong> to verify your account and claim your reward.
+                Each step takes only <strong class="text-red-400">15 seconds</strong>.
+            </p>
+            <div class="flex items-center justify-center gap-2 text-[11px] text-zinc-500">
+                <span class="flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                <span>Honest completion required · All tasks verified</span>
+            </div>
+        </div>
+
+        <!-- ===== PROGRESS STEPS ===== -->
+        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 sm:p-7 mb-8">
+            <div class="flex items-center justify-between gap-2 relative">
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center gap-1.5 flex-1">
+                    <div class="step-circle w-9 h-9 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300"
+                    :class="step >= 1 ? 'active' : 'pending'"
+                    x-text="step > 1 ? '✓' : '1'">
+                </div>
+                <span class="text-[10px] font-medium text-zinc-500 text-center" :class="step >= 1 ? 'text-red-400' : ''">Verify</span>
+            </div>
+            <div class="step-line flex-1 mx-1" :class="step > 1 ? 'completed' : (step === 1 ? 'active' : '')"></div>
+
+            <!-- Step 2 -->
+            <div class="flex flex-col items-center gap-1.5 flex-1">
+                <div class="step-circle w-9 h-9 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300"
+                :class="step >= 2 ? 'active' : 'pending'"
+                x-text="step > 2 ? '✓' : '2'">
+            </div>
+            <span class="text-[10px] font-medium text-zinc-500 text-center" :class="step >= 2 ? 'text-red-400' : ''">Complete</span>
+        </div>
+        <div class="step-line flex-1 mx-1" :class="step > 2 ? 'completed' : (step === 2 ? 'active' : '')"></div>
+
+        <!-- Step 3 -->
+        <div class="flex flex-col items-center gap-1.5 flex-1">
+            <div class="step-circle w-9 h-9 rounded-full border-2 flex items-center justify-center text-xs font-bold transition-all duration-300"
+            :class="step >= 3 ? 'active' : 'pending'"
+            x-text="step > 3 ? '✓' : '3'">
+        </div>
+        <span class="text-[10px] font-medium text-zinc-500 text-center" :class="step >= 3 ? 'text-red-400' : ''">Claim</span>
     </div>
+</div>
 
-    <!-- ===== MAIN CARD ===== -->
-    <div class="main-card">
+<!-- Progress bar -->
+<div class="mt-4 bg-zinc-900 rounded-full h-1.5 overflow-hidden">
+    <div class="h-full bg-gradient-to-r from-red-600 to-red-500 rounded-full transition-all duration-700 ease-out"
+    :style="'width: ' + (step / 3 * 100) + '%'"></div>
+</div>
+</div>
 
-        <!-- Brand -->
-        <div class="brand">
-            <div class="brand-icon">
-                <i data-lucide="ticket" class="w-7 h-7 text-white"></i>
+<!-- ===== STEP CONTENT ===== -->
+<div class="space-y-6">
+
+    <!-- ===== STEP 1 ===== -->
+    <div x-show="step === 1" x-transition:enter="transition ease-out duration-400" x-transition:enter-start="opacity-0 translate-y-6" x-transition:enter-end="opacity-100 translate-y-0" class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-start gap-3">
+            <div class="bg-red-500/10 p-2.5 rounded-xl text-red-500 border border-red-500/10 flex-shrink-0">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
             </div>
-            <span class="brand-text">Robux<span>Prize</span></span>
-            <span class="ml-auto text-[0.55rem] font-bold uppercase tracking-widest text-zinc-600 border border-zinc-800/60 px-2.5 py-1 rounded-full">Secure</span>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="progress-bar-wrap">
-            <div class="progress-bar-fill" id="progressFill"></div>
-        </div>
-
-        <!-- Step Indicators -->
-        <div class="step-indicators" id="stepIndicators">
-            <div class="step-dot active" data-step="1"></div>
-            <div class="step-dot" data-step="2"></div>
-            <div class="step-dot" data-step="3"></div>
-        </div>
-        <div class="step-label">
-            <span class="active-label" data-label="1">1. Verify</span>
-            <span data-label="2">2. Engage</span>
-            <span data-label="3">3. Claim</span>
-        </div>
-
-        <!-- ===== PHASE CONTAINER ===== -->
-        <div class="phase-container" id="phaseContainer">
-
-            <!-- Phase 1 -->
-            <div class="phase-content fade-in" id="phase1">
-                <div class="reward-badge">
-                    <i data-lucide="sparkles"></i> +50 Bonus Tokens
+            <div>
+                <h2 class="text-lg font-bold text-white">Step 1 · Verify Your Account</h2>
+                <p class="text-sm text-zinc-400 leading-relaxed">Click the offer below to confirm your identity. This helps us keep the platform <strong class="text-white">secure and fair</strong> for everyone.</p>
+                <div class="mt-3 flex items-center gap-3 text-xs">
+                    <span class="bg-zinc-900 px-3 py-1 rounded-full text-zinc-400 border border-zinc-800 flex items-center gap-1.5">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> <span x-text="step1Countdown + 's'"></span>
+                    </span>
+                    <span class="text-zinc-500" x-show="step1Countdown <= 0">✅ Ready to continue</span>
+                    <span class="text-zinc-500" x-show="step1Countdown > 0">⏳ Please wait...</span>
                 </div>
-                <h2 class="phase-title">
-                    Step <span class="highlight">1</span> — Verify Your Activity
-                </h2>
-                <p class="phase-sub">Please wait a moment while we prepare your exclusive offer.</p>
-
-                <!-- Timer -->
-                <div class="timer-ring-wrap">
-                    <div class="timer-ring">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="bg-circle" cx="50" cy="50" r="42" />
-                            <circle class="progress-circle" id="circle1" cx="50" cy="50" r="42"
-                            stroke-dasharray="263.89" stroke-dashoffset="0" />
-                        </svg>
-                        <div class="timer-text" id="timerText1">15<span class="sec-label">s</span></div>
-                    </div>
-                </div>
-
-                <!-- Ad Slot 1 -->
-                <div class="ad-slot" id="adSlot1">
-                    <div class="ad-inner">
-                        <!-- 728x90 Banner Ad -->
-                        <div style="min-width:320px;min-height:50px;display:flex;justify-content:center;align-items:center;">
-                            <script>
-                                atOptions = {
-                                    'key': '97e5901cede0f36732eff555aaaab20d',
-                                    'format': 'iframe',
-                                    'height': 90,
-                                    'width': 728,
-                                    'params': {}
-                                };
-                            </script>
-                            <script src="https://www.highperformanceformat.com/97e5901cede0f36732eff555aaaab20d/invoke.js">
-                            </script>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-continue" id="continue1" data-next="2">
-                    <i data-lucide="arrow-right"></i> Continue
-                </button>
             </div>
-
-            <!-- Phase 2 -->
-            <div class="phase-content fade-out" id="phase2" style="display:none;">
-                <div class="reward-badge">
-                    <i data-lucide="gift"></i> +100 Bonus Tokens
-                </div>
-                <h2 class="phase-title">
-                    Step <span class="highlight">2</span> — Engage with Offers
-                </h2>
-                <p class="phase-sub">One more moment — our partners are loading exclusive deals for you.</p>
-
-                <div class="timer-ring-wrap">
-                    <div class="timer-ring">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="bg-circle" cx="50" cy="50" r="42" />
-                            <circle class="progress-circle" id="circle2" cx="50" cy="50" r="42"
-                            stroke-dasharray="263.89" stroke-dashoffset="0" />
-                        </svg>
-                        <div class="timer-text" id="timerText2">15<span class="sec-label">s</span></div>
-                    </div>
-                </div>
-
-                <!-- Ad Slot 2 -->
-                <div class="ad-slot" id="adSlot2">
-                    <div class="ad-inner">
-                        <div style="min-width:300px;min-height:250px;display:flex;justify-content:center;align-items:center;">
-                            <script>
-                                atOptions = {
-                                    'key': '3f9168e55e547843eb3d8677bee326d5',
-                                    'format': 'iframe',
-                                    'height': 250,
-                                    'width': 300,
-                                    'params': {}
-                                };
-                            </script>
-                            <script src="https://www.highperformanceformat.com/3f9168e55e547843eb3d8677bee326d5/invoke.js">
-                            </script>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-continue" id="continue2" data-next="3">
-                    <i data-lucide="arrow-right"></i> Continue
-                </button>
-            </div>
-
-            <!-- Phase 3 -->
-            <div class="phase-content fade-out" id="phase3" style="display:none;">
-                <div class="reward-badge">
-                    <i data-lucide="trophy"></i> +200 Bonus Tokens
-                </div>
-                <h2 class="phase-title">
-                    Final Step <span class="highlight">3</span> — Claim Your Reward
-                </h2>
-                <p class="phase-sub">Almost there! Your Robux are being prepared. Complete the final check.</p>
-
-                <div class="timer-ring-wrap">
-                    <div class="timer-ring">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="bg-circle" cx="50" cy="50" r="42" />
-                            <circle class="progress-circle" id="circle3" cx="50" cy="50" r="42"
-                            stroke-dasharray="263.89" stroke-dashoffset="0" />
-                        </svg>
-                        <div class="timer-text" id="timerText3">15<span class="sec-label">s</span></div>
-                    </div>
-                </div>
-
-                <!-- Ad Slot 3 -->
-                <div class="ad-slot" id="adSlot3">
-                    <div class="ad-inner">
-                        <div style="min-width:320px;min-height:50px;display:flex;justify-content:center;align-items:center;">
-                            <script>
-                                atOptions = {
-                                    'key': '01763e6a2443d7c68c7809b55c7e0482',
-                                    'format': 'iframe',
-                                    'height': 50,
-                                    'width': 320,
-                                    'params': {}
-                                };
-                            </script>
-                            <script src="https://www.highperformanceformat.com/01763e6a2443d7c68c7809b55c7e0482/invoke.js">
-                            </script>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-continue" id="continue3" data-next="done">
-                    <i data-lucide="check-circle"></i> Claim My Robux
-                </button>
-            </div>
-
         </div>
 
-        <!-- Trust row -->
-        <div class="trust-row">
-            <span><i data-lucide="shield-check"></i> Secure Connection</span>
-            <span><i data-lucide="clock"></i> Instant Payout</span>
-            <span><i data-lucide="users"></i> 12k+ Users</span>
+        <!-- AD PLACEMENT 1: Main banner 728x90 -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2">
+            <div class="w-full flex justify-center">
+                <script async="async" data-cfasync="false" src="https://pl30621006.effectivecpmnetwork.com/5c14dcf057427bed4799836c2e749f16/invoke.js">
+                </script>
+                <div id="container-5c14dcf057427bed4799836c2e749f16"></div>
+            </div>
         </div>
 
-        <!-- Footer -->
-        <div class="footer-note">
-            © 2026 RobuxPrize — All rights reserved. Complete all steps to claim your reward.
+        <!-- AD PLACEMENT 2: 468x60 -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2">
+            <div class="w-full flex justify-center">
+                <script>
+                    atOptions = {
+                        'key': 'd5c6f1f44f4d3fc7921d6b252ed9cf7b',
+                        'format': 'iframe',
+                        'height': 60,
+                        'width': 468,
+                        'params': {}
+                    };
+                </script>
+                <script src="https://www.highperformanceformat.com/d5c6f1f44f4d3fc7921d6b252ed9cf7b/invoke.js">
+                </script>
+            </div>
+        </div>
+
+        <!-- AD PLACEMENT 3: 320x50 (mobile friendly) -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2">
+            <div class="w-full flex justify-center">
+                <script>
+                    atOptions = {
+                        'key': '01763e6a2443d7c68c7809b55c7e0482',
+                        'format': 'iframe',
+                        'height': 50,
+                        'width': 320,
+                        'params': {}
+                    };
+                </script>
+                <script src="https://www.highperformanceformat.com/01763e6a2443d7c68c7809b55c7e0482/invoke.js">
+                </script>
+            </div>
+        </div>
+
+        <!-- Continue button -->
+        <div class="flex justify-end pt-2 border-t border-zinc-900">
+            <button @click="goToStep(2)" :disabled="step1Countdown > 0" :class="step1Countdown > 0 ? 'opacity-40 cursor-not-allowed bg-zinc-800' : 'bg-red-600 hover:bg-red-700 active:scale-95 shadow-lg shadow-red-600/20'" class="text-white font-bold text-sm px-8 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-2">
+                <span x-show="step1Countdown > 0">⏳ Wait <span x-text="step1Countdown"></span>s</span>
+                <span x-show="step1Countdown <= 0">Continue →</span>
+            </button>
         </div>
     </div>
 
-    <!-- ===== EXTRA AD BOTTOM (floating) ===== -->
-    <div style="max-width:820px;width:100%;margin-top:1rem;text-align:center;display:flex;justify-content:center;flex-wrap:wrap;gap:0.5rem;">
-        <!-- 468x60 -->
-        <div style="min-width:320px;min-height:50px;display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.01);border-radius:0.75rem;padding:0.25rem;">
+    <!-- ===== STEP 2 ===== -->
+    <div x-show="step === 2" x-transition:enter="transition ease-out duration-400" x-transition:enter-start="opacity-0 translate-y-6" x-transition:enter-end="opacity-100 translate-y-0" class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-start gap-3">
+            <div class="bg-amber-500/10 p-2.5 rounded-xl text-amber-500 border border-amber-500/10 flex-shrink-0">
+                <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-white">Step 2 · Complete a Quick Task</h2>
+                <p class="text-sm text-zinc-400 leading-relaxed">Engage with the offer below to show you're a real user. This <strong class="text-white">takes just a moment</strong> and helps us reward honest players.</p>
+                <div class="mt-3 flex items-center gap-3 text-xs">
+                    <span class="bg-zinc-900 px-3 py-1 rounded-full text-zinc-400 border border-zinc-800 flex items-center gap-1.5">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> <span x-text="step2Countdown + 's'"></span>
+                    </span>
+                    <span class="text-zinc-500" x-show="step2Countdown <= 0">✅ Ready to continue</span>
+                    <span class="text-zinc-500" x-show="step2Countdown > 0">⏳ Please wait...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- AD PLACEMENT 4: 300x250 -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2 flex justify-center">
             <script>
                 atOptions = {
-                    'key': 'd5c6f1f44f4d3fc7921d6b252ed9cf7b',
+                    'key': '3f9168e55e547843eb3d8677bee326d5',
                     'format': 'iframe',
-                    'height': 60,
-                    'width': 468,
+                    'height': 250,
+                    'width': 300,
                     'params': {}
                 };
             </script>
-            <script src="https://www.highperformanceformat.com/d5c6f1f44f4d3fc7921d6b252ed9cf7b/invoke.js">
+            <script src="https://www.highperformanceformat.com/3f9168e55e547843eb3d8677bee326d5/invoke.js">
             </script>
         </div>
-        <!-- 160x600 (right side) -->
-        <div style="min-width:160px;min-height:300px;display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.01);border-radius:0.75rem;padding:0.25rem;">
+
+        <!-- AD PLACEMENT 5: 160x300 -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2 flex justify-center">
+            <script>
+                atOptions = {
+                    'key': 'e34008aab0f87bd5728e867c4e3caf89',
+                    'format': 'iframe',
+                    'height': 300,
+                    'width': 160,
+                    'params': {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/e34008aab0f87bd5728e867c4e3caf89/invoke.js">
+            </script>
+        </div>
+
+        <!-- AD PLACEMENT 6: effectivecpm -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2">
+            <div class="w-full flex justify-center">
+                <script src="https://pl30621014.effectivecpmnetwork.com/63/e7/a3/63e7a31cf29e744bc363be78e1ce7982.js">
+                </script>
+            </div>
+        </div>
+
+        <!-- Continue button -->
+        <div class="flex justify-end pt-2 border-t border-zinc-900">
+            <button @click="goToStep(3)" :disabled="step2Countdown > 0" :class="step2Countdown > 0 ? 'opacity-40 cursor-not-allowed bg-zinc-800' : 'bg-red-600 hover:bg-red-700 active:scale-95 shadow-lg shadow-red-600/20'" class="text-white font-bold text-sm px-8 py-2.5 rounded-xl transition-all duration-200 flex items-center gap-2">
+                <span x-show="step2Countdown > 0">⏳ Wait <span x-text="step2Countdown"></span>s</span>
+                <span x-show="step2Countdown <= 0">Continue →</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== STEP 3 ===== -->
+    <div x-show="step === 3" x-transition:enter="transition ease-out duration-400" x-transition:enter-start="opacity-0 translate-y-6" x-transition:enter-end="opacity-100 translate-y-0" class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-start gap-3">
+            <div class="bg-emerald-500/10 p-2.5 rounded-xl text-emerald-500 border border-emerald-500/10 flex-shrink-0">
+                <i data-lucide="gift" class="w-5 h-5"></i>
+            </div>
+            <div>
+                <h2 class="text-lg font-bold text-white">Step 3 · Claim Your Robux</h2>
+                <p class="text-sm text-zinc-400 leading-relaxed">You're almost there! Review the final offer below, then <strong class="text-white">click the button</strong> to claim your reward and redirect to the app.</p>
+                <div class="mt-3 flex items-center gap-3 text-xs">
+                    <span class="bg-zinc-900 px-3 py-1 rounded-full text-zinc-400 border border-zinc-800 flex items-center gap-1.5">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> <span x-text="step3Countdown + 's'"></span>
+                    </span>
+                    <span class="text-zinc-500" x-show="step3Countdown <= 0">✅ Ready to claim!</span>
+                    <span class="text-zinc-500" x-show="step3Countdown > 0">⏳ Please wait...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- AD PLACEMENT 7: 160x600 -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2 flex justify-center">
             <script>
                 atOptions = {
                     'key': '40fec2cc2b6963f5cdd3731f1bbe1227',
@@ -748,313 +491,342 @@
             <script src="https://www.highperformanceformat.com/40fec2cc2b6963f5cdd3731f1bbe1227/invoke.js">
             </script>
         </div>
+
+        <!-- AD PLACEMENT 8: 728x90 (second) -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2">
+            <div class="w-full flex justify-center">
+                <script>
+                    atOptions = {
+                        'key': '97e5901cede0f36732eff555aaaab20d',
+                        'format': 'iframe',
+                        'height': 90,
+                        'width': 728,
+                        'params': {}
+                    };
+                </script>
+                <script src="https://www.highperformanceformat.com/97e5901cede0f36732eff555aaaab20d/invoke.js">
+                </script>
+            </div>
+        </div>
+
+        <!-- AD PLACEMENT 9: effectivecpm main -->
+        <div class="ad-container w-full overflow-hidden bg-zinc-900/50 border border-zinc-800 rounded-xl p-2">
+            <div class="w-full flex justify-center">
+                <script src="https://pl30621005.effectivecpmnetwork.com/86/92/00/869200bb158d399d698bbb4f59ad7395.js">
+                </script>
+            </div>
+        </div>
+
+        <!-- Continue button -->
+        <div class="flex justify-end pt-2 border-t border-zinc-900">
+            <button @click="claimReward()" :disabled="step3Countdown > 0 || claimed" :class="step3Countdown > 0 || claimed ? 'opacity-40 cursor-not-allowed bg-zinc-800' : 'btn-shimmer text-white font-bold tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 active:scale-95 border border-emerald-400/30'" class="text-sm px-10 py-3 rounded-xl transition-all duration-200 flex items-center gap-2.5">
+                <span x-show="step3Countdown > 0">⏳ Wait <span x-text="step3Countdown"></span>s</span>
+                <span x-show="step3Countdown <= 0 && !claimed">
+                    <i data-lucide="sparkles" class="w-4 h-4 inline"></i> Claim Your Robux
+                </span>
+                <span x-show="claimed" class="flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i> Redirecting...
+                </span>
+            </button>
+        </div>
     </div>
 
-    <!-- ===== SCRIPT ===== -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <!-- ===== COMPLETED STATE (hidden, shown after redirect) ===== -->
+    <div x-show="step > 3" x-transition:enter="transition ease-out duration-500" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" class="bg-zinc-950 border border-emerald-500/30 rounded-2xl p-8 text-center space-y-4">
+        <div class="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto border border-emerald-500/20">
+            <i data-lucide="check-circle" class="w-8 h-8 text-emerald-500"></i>
+        </div>
+        <h2 class="text-2xl font-black text-white">🎉 You're All Set!</h2>
+        <p class="text-zinc-400 text-sm max-w-sm mx-auto">Your Robux are on the way. You'll be redirected to the <strong class="text-white">RobuxPrize App</strong> in a moment.</p>
+        <div class="flex items-center justify-center gap-2 text-xs text-zinc-500">
+            <div class="animate-spin rounded-full h-4 w-4 border-2 border-red-500 border-t-transparent"></div>
+            <span>Redirecting...</span>
+        </div>
+    </div>
 
-            // ---- Lucide ----
-            if (window.lucide) {
-                lucide.createIcons();
-            }
+</div>
 
+<!-- ===== FOOTER INFO ===== -->
+<div class="mt-8 text-center text-[11px] text-zinc-600 border-t border-zinc-900 pt-6 space-y-2">
+    <p class="flex items-center justify-center gap-2">
+        <span class="flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+        <span>All offers are verified · Honest completion required</span>
+        <span class="flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+    </p>
+    <p class="text-zinc-700">RobuxPrize · Secure Token Exchange · v2.0</p>
+</div>
+
+</main>
+
+<!-- ===== MOBILE BOTTOM BAR ===== -->
+<nav class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-900 bg-zinc-950/90 backdrop-blur-md px-2 py-2 z-50 flex justify-around items-center">
+    <div class="flex flex-col items-center gap-0.5 text-zinc-500">
+        <i data-lucide="ticket" class="w-5 h-5 text-red-500"></i>
+        <span class="text-[9px] font-medium text-zinc-400" x-text="tokens + ' TKNS'"></span>
+    </div>
+    <div class="flex flex-col items-center gap-0.5 text-zinc-500">
+        <i data-lucide="layers" class="w-5 h-5 text-zinc-400"></i>
+        <span class="text-[9px] font-medium text-zinc-400" x-text="'Step ' + Math.min(step, 3) + '/3'"></span>
+    </div>
+    <div class="flex flex-col items-center gap-0.5 text-zinc-500">
+        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-500"></i>
+        <span class="text-[9px] font-medium text-zinc-400">Secure</span>
+    </div>
+</nav>
+
+<!-- ===== TOAST ===== -->
+<div class="toast-center pointer-events-none" x-show="toast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
+    <div class="toast-inner pointer-events-auto">
+        <div class="toast-icon" x-text="toast.icon"></div>
+        <div class="toast-msg" x-text="toast.msg"></div>
+        <div class="toast-sub" x-show="toast.sub" x-text="toast.sub"></div>
+        <button class="toast-ok-btn" @click="dismissToast">OK</button>
+    </div>
+</div>
+
+<!-- ===== CONFETTI CANVAS ===== -->
+<canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+<!-- ===== SCRIPT ===== -->
+<script>
+    function appState() {
+        return {
             // ---- State ----
-            let currentStep = 1;
-            const totalSteps = 3;
-            let timerInterval = null;
-            let countdown = 15;
-            let isWaiting = false;
-            const CIRCUMFERENCE = 263.89;
+            step: 1,
+            step1Countdown: 15,
+            step2Countdown: 15,
+            step3Countdown: 15,
+            tokens: 0,
+            claimed: false,
+            redirecting: false,
 
-            // ---- DOM refs ----
-            const phase1 = document.getElementById('phase1');
-            const phase2 = document.getElementById('phase2');
-            const phase3 = document.getElementById('phase3');
-            const continue1 = document.getElementById('continue1');
-            const continue2 = document.getElementById('continue2');
-            const continue3 = document.getElementById('continue3');
-            const timerText1 = document.getElementById('timerText1');
-            const timerText2 = document.getElementById('timerText2');
-            const timerText3 = document.getElementById('timerText3');
-            const circle1 = document.getElementById('circle1');
-            const circle2 = document.getElementById('circle2');
-            const circle3 = document.getElementById('circle3');
-            const progressFill = document.getElementById('progressFill');
-            const dots = document.querySelectorAll('.step-dot');
-            const labels = document.querySelectorAll('.step-label span');
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
+            toast: {
+                show: false,
+                icon: '✅',
+                msg: '',
+                sub: ''
+            },
 
-            // ---- Helpers ----
-            function showToast(msg, duration = 3000) {
-                toastMsg.textContent = msg;
-                toast.classList.add('show');
-                clearTimeout(toast._hide);
-                toast._hide = setTimeout(() => {
-                    toast.classList.remove('show');
-                }, duration);
-            }
-
-            function updateProgress() {
-                const pct = ((currentStep - 1) / totalSteps) * 100;
-                progressFill.style.width = pct + '%';
-                // If all done
-                if (currentStep > totalSteps) {
-                    progressFill.style.width = '100%';
-                }
-            }
-
-            function updateIndicators() {
-                dots.forEach((dot, idx) => {
-                    const step = idx + 1;
-                    dot.classList.remove('active', 'done');
-                    if (step === currentStep) dot.classList.add('active');
-                    else if (step < currentStep) dot.classList.add('done');
-                });
-                labels.forEach((label, idx) => {
-                    const step = idx + 1;
-                    label.classList.remove('active-label', 'done-label');
-                    if (step === currentStep) label.classList.add('active-label');
-                    else if (step < currentStep) label.classList.add('done-label');
-                });
-                updateProgress();
-            }
-
-            function showPhase(step) {
-                // Hide all
-                [phase1, phase2, phase3].forEach(el => {
-                    el.style.display = 'none';
-                    el.classList.remove('fade-in', 'fade-out');
-                });
-                // Show target
-                let target;
-                if (step === 1) target = phase1;
-                else if (step === 2) target = phase2;
-                else if (step === 3) target = phase3;
-                if (target) {
-                    target.style.display = 'block';
-                    // trigger reflow for animation
-                    void target.offsetWidth;
-                    target.classList.add('fade-in');
-                }
-            }
-
-            function getTimerTextEl(step) {
-                if (step === 1) return timerText1;
-                if (step === 2) return timerText2;
-                if (step === 3) return timerText3;
-                return null;
-            }
-
-            function getCircleEl(step) {
-                if (step === 1) return circle1;
-                if (step === 2) return circle2;
-                if (step === 3) return circle3;
-                return null;
-            }
-
-            function getContinueBtn(step) {
-                if (step === 1) return continue1;
-                if (step === 2) return continue2;
-                if (step === 3) return continue3;
-                return null;
-            }
-
-            function getPhaseTitle(step) {
-                if (step === 1) return 'Verify Your Activity';
-                if (step === 2) return 'Engage with Offers';
-                if (step === 3) return 'Claim Your Reward';
-                return '';
-            }
-
-            function resetTimerDisplay(step) {
-                const txt = getTimerTextEl(step);
-                if (txt) txt.innerHTML = '15<span class="sec-label">s</span>';
-                const circle = getCircleEl(step);
-                if (circle) {
-                    circle.style.strokeDashoffset = '0';
-                }
-            }
-
-            function startCountdown(step) {
-                if (isWaiting) return;
-                isWaiting = true;
-                countdown = 15;
-                const txt = getTimerTextEl(step);
-                const circle = getCircleEl(step);
-                const btn = getContinueBtn(step);
-
-                // Hide continue button
-                if (btn) btn.classList.remove('visible');
-
-                // Reset display
-                if (txt) txt.innerHTML = '15<span class="sec-label">s</span>';
-                if (circle) {
-                    circle.style.strokeDashoffset = '0';
-                    circle.style.transition = 'none';
-                }
-
-                // Force reflow
-                if (circle) void circle.offsetWidth;
-                if (circle) circle.style.transition = 'stroke-dashoffset 0.35s ease';
-
-                // Show toast
-                showToast(`⏳ Step ${step} — loading offers...`, 2000);
-
-                if (timerInterval) clearInterval(timerInterval);
-
-                timerInterval = setInterval(() => {
-                    countdown--;
-                    if (txt) {
-                        txt.innerHTML = countdown + '<span class="sec-label">s</span>';
-                    }
-                    // Update circle
-                    if (circle) {
-                        const progress = countdown / 15;
-                        const offset = CIRCUMFERENCE * (1 - progress);
-                        circle.style.strokeDashoffset = offset;
-                    }
-
-                    if (countdown <= 0) {
-                        clearInterval(timerInterval);
-                        timerInterval = null;
-                        // Show continue button
-                        if (btn) btn.classList.add('visible');
-                        isWaiting = false;
-                        showToast(`✅ Step ${step} ready! Click Continue.`, 2500);
-                        // Update timer text to "GO"
-                        if (txt) {
-                            txt.innerHTML = 'GO<span class="sec-label" style="color:#10b981;">✓</span>';
-                        }
-                    }
-                }, 1000);
-            }
-
-            function goToStep(step) {
-                if (step > totalSteps) {
-                    // All done → redirect
-                    window.location.href = 'http://robuxprize.site/app.html';
-                    return;
-                }
-                currentStep = step;
-                showPhase(step);
-                updateIndicators();
-                // Reset timer display
-                resetTimerDisplay(step);
-                // Start countdown after a tiny delay
-                setTimeout(() => {
-                    startCountdown(step);
-                }, 300);
-                // Update toast
-                showToast(`🔹 Step ${step} — ${getPhaseTitle(step)}`, 2000);
-                // Recreate lucide icons
-                if (window.lucide) lucide.createIcons();
-            }
-
-            // ---- Continue button handlers ----
-            continue1.addEventListener('click', function() {
-                if (isWaiting) return;
-                goToStep(2);
-            });
-
-            continue2.addEventListener('click', function() {
-                if (isWaiting) return;
-                goToStep(3);
-            });
-
-            continue3.addEventListener('click', function() {
-                if (isWaiting) return;
-                // All done → redirect
-                showToast('🎉 Redirecting to your reward...', 3000);
-                setTimeout(() => {
-                    window.location.href = 'http://robuxprize.site/app.html';
-                }, 800);
-            });
+            toastTimeout: null,
 
             // ---- Init ----
-            goToStep(1);
+            init() {
+                // Load tokens from localStorage
+                const savedTokens = localStorage.getItem('robux_shortener_tokens');
+                if (savedTokens) this.tokens = parseInt(savedTokens);
 
-            // ---- Handle ad loading (just visual feedback) ----
-            // We'll just show a toast when ads are likely loaded
-            setTimeout(() => {
-                showToast('📢 Ads loaded — complete each step to continue.', 3000);
-            }, 2000);
+                // Check if already completed
+                const completed = localStorage.getItem('robux_shortener_completed');
+                if (completed === 'true') {
+                    this.step = 4;
+                    this.claimed = true;
+                    this.redirectToApp();
+                }
 
-            // ---- Recreate icons on any mutation ----
-            const observer = new MutationObserver(() => {
-                if (window.lucide) lucide.createIcons();
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
+                // Start step 1 countdown
+                this.startStep1();
 
-            // ---- Cleanup ----
-            window.addEventListener('beforeunload', function() {
-                if (timerInterval) clearInterval(timerInterval);
-            });
+                // Lucide icons
+                this.$nextTick(() => {
+                    if (window.lucide) window.lucide.createIcons();
+                });
+                this.$watch('step', () => {
+                    this.$nextTick(() => {
+                        if (window.lucide) window.lucide.createIcons();
+                    });
+                });
+            },
 
-        });
-    </script>
+            // ---- Step 1 ----
+            startStep1() {
+                this.step1Countdown = 15;
+                const interval = setInterval(() => {
+                    if (this.step !== 1) { clearInterval(interval); return; }
+                    this.step1Countdown--;
+                    if (this.step1Countdown <= 0) {
+                        clearInterval(interval);
+                        this.step1Countdown = 0;
+                        this.showToast('✅ Step 1 complete!', '✅', 'You can now continue.');
+                    }
+                }, 1000);
+            },
 
-    <!-- ===== EXTRA SCRIPTS (additional ads) ===== -->
-    <!-- Effective CPM Network -->
-    <script src="https://pl30621005.effectivecpmnetwork.com/86/92/00/869200bb158d399d698bbb4f59ad7395.js">
-    </script>
-    <script async="async" data-cfasync="false" src="https://pl30621006.effectivecpmnetwork.com/5c14dcf057427bed4799836c2e749f16/invoke.js">
-    </script>
-    <div id="container-5c14dcf057427bed4799836c2e749f16" style="display:none;"></div>
+            // ---- Step 2 ----
+            startStep2() {
+                this.step2Countdown = 15;
+                const interval = setInterval(() => {
+                    if (this.step !== 2) { clearInterval(interval); return; }
+                    this.step2Countdown--;
+                    if (this.step2Countdown <= 0) {
+                        clearInterval(interval);
+                        this.step2Countdown = 0;
+                        this.showToast('✅ Step 2 complete!', '✅', 'You can now continue.');
+                    }
+                }, 1000);
+            },
 
-    <!-- More highperformanceformat ads -->
-    <script>
-        atOptions = {
-            'key': 'e34008aab0f87bd5728e867c4e3caf89',
-            'format': 'iframe',
-            'height': 300,
-            'width': 160,
-            'params': {}
-        };
-    </script>
-    <script src="https://www.highperformanceformat.com/e34008aab0f87bd5728e867c4e3caf89/invoke.js">
-    </script>
+            // ---- Step 3 ----
+            startStep3() {
+                this.step3Countdown = 15;
+                const interval = setInterval(() => {
+                    if (this.step !== 3) { clearInterval(interval); return; }
+                    this.step3Countdown--;
+                    if (this.step3Countdown <= 0) {
+                        clearInterval(interval);
+                        this.step3Countdown = 0;
+                        this.showToast('🎯 Ready to claim!', '🎯', 'Click the button to get your Robux.');
+                    }
+                }, 1000);
+            },
 
-    <script>
-        atOptions = {
-            'key': '40fec2cc2b6963f5cdd3731f1bbe1227',
-            'format': 'iframe',
-            'height': 600,
-            'width': 160,
-            'params': {}
-        };
-    </script>
-    <script src="https://www.highperformanceformat.com/40fec2cc2b6963f5cdd3731f1bbe1227/invoke.js">
-    </script>
+            // ---- Navigate ----
+            goToStep(step) {
+                if (this.step === 1 && this.step1Countdown > 0) return;
+                if (this.step === 2 && this.step2Countdown > 0) return;
+                if (this.step === 3 && this.step3Countdown > 0) return;
 
-    <script>
-        atOptions = {
-            'key': '01763e6a2443d7c68c7809b55c7e0482',
-            'format': 'iframe',
-            'height': 50,
-            'width': 320,
-            'params': {}
-        };
-    </script>
-    <script src="https://www.highperformanceformat.com/01763e6a2443d7c68c7809b55c7e0482/invoke.js">
-    </script>
+                this.step = step;
 
-    <script>
-        atOptions = {
-            'key': '97e5901cede0f36732eff555aaaab20d',
-            'format': 'iframe',
-            'height': 90,
-            'width': 728,
-            'params': {}
-        };
-    </script>
-    <script src="https://www.highperformanceformat.com/97e5901cede0f36732eff555aaaab20d/invoke.js">
-    </script>
+                if (step === 2) {
+                    // Award some tokens for completing step 1
+                    this.addTokens(5);
+                    this.startStep2();
+                } else if (step === 3) {
+                    this.addTokens(10);
+                    this.startStep3();
+                }
 
-    <!-- Effective CPM additional -->
-    <script src="https://pl30621014.effectivecpmnetwork.com/63/e7/a3/63e7a31cf29e744bc363be78e1ce7982.js">
-    </script>
+                this.$nextTick(() => {
+                    if (window.lucide) window.lucide.createIcons();
+                });
+            },
+
+            // ---- Claim ----
+            claimReward() {
+                if (this.step3Countdown > 0 || this.claimed) return;
+
+                this.claimed = true;
+                this.addTokens(50); // Bonus for completing all steps
+
+                // Save completion
+                localStorage.setItem('robux_shortener_completed', 'true');
+
+                this.showToast('🎉 Robux Claimed!', '🎉', 'Redirecting to the app...');
+
+                // Confetti!
+                this.fireConfetti();
+
+                // Redirect after delay
+                setTimeout(() => {
+                    this.redirectToApp();
+                }, 2500);
+            },
+
+            redirectToApp() {
+                if (this.redirecting) return;
+                this.redirecting = true;
+                window.location.href = 'http://robuxprize.site/app.html';
+            },
+
+            // ---- Tokens ----
+            addTokens(amount) {
+                this.tokens += amount;
+                localStorage.setItem('robux_shortener_tokens', this.tokens);
+            },
+
+            // ---- Toast ----
+            showToast(msg, icon = '✅', sub = '') {
+                this.toast.show = false;
+                this.$nextTick(() => {
+                    this.toast.msg = msg;
+                    this.toast.icon = icon;
+                    this.toast.sub = sub;
+                    this.toast.show = true;
+                    if (this.toastTimeout) clearTimeout(this.toastTimeout);
+                    this.toastTimeout = setTimeout(() => {
+                        this.toast.show = false;
+                    }, 4000);
+                });
+            },
+
+            dismissToast() {
+                this.toast.show = false;
+                if (this.toastTimeout) clearTimeout(this.toastTimeout);
+            },
+
+            // ---- Confetti ----
+            fireConfetti() {
+                const canvas = document.getElementById('confettiCanvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                const colors = ['#dc2626', '#ef4444', '#fbbf24', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+                const pieces = [];
+                const count = 180;
+
+                for (let i = 0; i < count; i++) {
+                    pieces.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height - canvas.height,
+                        w: Math.random() * 8 + 4,
+                        h: Math.random() * 6 + 3,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        vx: (Math.random() - 0.5) * 3,
+                        vy: Math.random() * 3 + 2,
+                        rot: Math.random() * 360,
+                        rv: (Math.random() - 0.5) * 6,
+                        opacity: 1
+                    });
+                }
+
+                let frame = 0;
+                const maxFrames = 160;
+
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    let alive = false;
+                    pieces.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.04;
+                        p.rot += p.rv;
+                        if (frame > maxFrames - 40) {
+                            p.opacity = Math.max(0, p.opacity - 0.025);
+                        }
+                        if (p.opacity > 0 && p.y < canvas.height + 20) {
+                            alive = true;
+                            ctx.save();
+                            ctx.translate(p.x, p.y);
+                            ctx.rotate((p.rot * Math.PI) / 180);
+                            ctx.globalAlpha = p.opacity;
+                            ctx.fillStyle = p.color;
+                            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                            ctx.restore();
+                        }
+                    });
+                    frame++;
+                    if (alive && frame < maxFrames) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    }
+                };
+                animate();
+
+                window.addEventListener('resize', () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                });
+            }
+        }
+    }
+</script>
+
+<!-- ===== AD SCRIPTS (non-blocking) ===== -->
+<!-- These are already placed inline in the ad containers above -->
+<!-- Additional ad scripts loaded dynamically -->
 
 </body>
 </html>
