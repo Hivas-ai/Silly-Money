@@ -3,1302 +3,1057 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Tools 2026 – The Ultimate AI Directory</title>
-
-    <!-- Google AdSense Auto Ads -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9203356640818184" crossorigin="anonymous">
+    <title>RobuxPrize | Claim Your Free Robux</title>
+    <script src="https://cdn.tailwindcss.com">
     </script>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
-    </script>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
-    <!-- Alpine.js for interactivity -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
+    <script src="https://unpkg.com/lucide@latest">
     </script>
-
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0b0b0c;
+            background: #0b0b0c;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
         }
-        [x-cloak] {
-            display: none !important;
-        }
-        .tool-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #1c1c1e;
-            background: #121214;
-        }
-        .tool-card:hover {
-            border-color: #dc2626;
-            transform: translateY(-6px) scale(1.01);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(220, 38, 38, 0.05);
-        }
-        .rating-star {
-            color: #fbbf24;
-        }
-        .rating-star-empty {
-            color: #3f3f46;
-        }
-        .category-tag {
-            transition: all 0.3s;
-            background: #1c1c1e;
-            border: 1px solid #27272a;
-        }
-        .category-tag:hover,
-        .category-tag.active {
-            background: #dc2626;
-            border-color: #dc2626;
-            color: white;
-            transform: scale(1.05);
-        }
-        .search-input {
-            background: #121214;
-            border: 1px solid #27272a;
-            transition: all 0.3s;
-        }
-        .search-input:focus {
-            border-color: #dc2626;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.08);
-        }
-        .chart-bar {
-            background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
-            border-radius: 9999px;
-            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .chart-bar.gold {
-            background: linear-gradient(90deg, #f59e0b, #fbbf24, #fcd34d);
-        }
-        .chart-bar.green {
-            background: linear-gradient(90deg, #10b981, #34d399, #6ee7b7);
-        }
-        .chart-bar.purple {
-            background: linear-gradient(90deg, #8b5cf6, #a78bfa, #c4b5fd);
-        }
-        .section-title {
-            border-bottom: 1px solid #1c1c1e;
-        }
-        .nav-link {
+
+        .main-card {
+            max-width: 820px;
+            width: 100%;
+            background: linear-gradient(145deg, #121214, #0a0a0c);
+            border: 1px solid #1f1f23;
+            border-radius: 2.5rem;
+            padding: 2rem 2rem 2.5rem;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(220, 38, 38, 0.08) inset;
             position: relative;
-            transition: all 0.3s;
+            overflow: hidden;
         }
-        .nav-link::after {
+
+        .main-card::before {
             content: '';
             position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(220, 38, 38, 0.04), transparent 70%);
+            pointer-events: none;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .brand-icon {
             background: #dc2626;
-            transition: width 0.3s;
+            padding: 0.6rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.25);
         }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        .nav-link.active {
+
+        .brand-icon svg {
+            width: 1.75rem;
+            height: 1.75rem;
             color: white;
         }
-        .page-transition {
-            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @keyframes pulse-glow {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(220, 38, 38, 0.1);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(220, 38, 38, 0.2);
-            }
-        }
-        .glow-card {
-            animation: pulse-glow 3s ease-in-out infinite;
-        }
-        .stat-number {
-            font-size: 2.5rem;
+
+        .brand-text {
+            font-size: 1.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #ffffff, #a1a1aa);
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #ffffff, #a1a1aa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .badge-new {
-            background: linear-gradient(135deg, #dc2626, #ef4444);
-            animation: pulse-glow 2s ease-in-out infinite;
+
+        .brand-text span {
+            color: #dc2626;
+            -webkit-text-fill-color: #dc2626;
         }
-        .tool-icon {
-            transition: all 0.4s;
+
+        .step-indicators {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
         }
-        .tool-card:hover .tool-icon {
-            transform: scale(1.1) rotate(-5deg);
+
+        .step-dot {
+            width: 2.5rem;
+            height: 0.3rem;
+            border-radius: 999px;
+            background: #27272a;
+            transition: all 0.4s ease;
         }
-        .scrollbar-custom::-webkit-scrollbar {
-            width: 4px;
-        }
-        .scrollbar-custom::-webkit-scrollbar-track {
-            background: #121214;
-        }
-        .scrollbar-custom::-webkit-scrollbar-thumb {
+
+        .step-dot.active {
             background: #dc2626;
-            border-radius: 2px;
+            box-shadow: 0 0 16px rgba(220, 38, 38, 0.35);
+            width: 3.5rem;
         }
-        .feature-chip {
-            transition: all 0.2s;
+
+        .step-dot.done {
+            background: #10b981;
         }
-        .feature-chip:hover {
-            background: #dc2626;
+
+        .step-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #3f3f46;
+            margin-top: 0.25rem;
+            padding: 0 0.25rem;
+        }
+
+        .step-label span.active-label {
+            color: #dc2626;
+        }
+
+        .step-label span.done-label {
+            color: #10b981;
+        }
+
+        /* Phase container */
+        .phase-container {
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase-title {
+            font-size: 1.4rem;
+            font-weight: 800;
             color: white;
-            border-color: #dc2626;
+            text-align: center;
+            line-height: 1.3;
+            margin-bottom: 0.25rem;
+        }
+
+        .phase-title .highlight {
+            color: #dc2626;
+        }
+
+        .phase-sub {
+            font-size: 0.8rem;
+            color: #71717a;
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Timer ring */
+        .timer-ring-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .timer-ring {
+            position: relative;
+            width: 5.5rem;
+            height: 5.5rem;
+        }
+
+        .timer-ring svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .timer-ring .bg-circle {
+            fill: none;
+            stroke: #1f1f23;
+            stroke-width: 5;
+        }
+
+        .timer-ring .progress-circle {
+            fill: none;
+            stroke: #dc2626;
+            stroke-width: 5;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.35s ease;
+            filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.25));
+        }
+
+        .timer-ring .timer-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: white;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-ring .timer-text .sec-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #71717a;
+            margin-left: 0.1rem;
+        }
+
+        /* Ad containers */
+        .ad-slot {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0.5rem 0 1rem;
+            min-height: 70px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1rem;
+            border: 1px dashed rgba(255, 255, 255, 0.04);
+            padding: 0.5rem;
+            overflow: hidden;
+        }
+
+        .ad-slot iframe {
+            max-width: 100%;
+        }
+
+        .ad-slot .ad-placeholder {
+            color: #3f3f46;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Continue button */
+        .btn-continue {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.85rem 3rem;
+            border: none;
+            border-radius: 3rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 6px 30px rgba(220, 38, 38, 0.25);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            letter-spacing: 0.01em;
+            margin-top: 0.5rem;
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .btn-continue.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .btn-continue:hover {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            transform: scale(1.02);
+            box-shadow: 0 8px 40px rgba(220, 38, 38, 0.35);
+        }
+
+        .btn-continue:active {
+            transform: scale(0.97);
+        }
+
+        .btn-continue svg {
+            width: 1.1rem;
+            height: 1.1rem;
+        }
+
+        /* Phase fade */
+        .phase-content {
+            width: 100%;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .phase-content.fade-out {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .phase-content.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Reward badge */
+        .reward-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 0.3rem 1rem 0.3rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #34d399;
+            margin-bottom: 0.75rem;
+        }
+
+        .reward-badge svg {
+            width: 0.9rem;
+            height: 0.9rem;
+        }
+
+        /* Footer */
+        .footer-note {
+            text-align: center;
+            font-size: 0.6rem;
+            color: #27272a;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #18181b;
+            letter-spacing: 0.03em;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .main-card {
+                padding: 1.25rem 1rem 1.75rem;
+                border-radius: 1.75rem;
+            }
+            .brand-text {
+                font-size: 1.2rem;
+            }
+            .phase-title {
+                font-size: 1.1rem;
+            }
+            .timer-ring {
+                width: 4.5rem;
+                height: 4.5rem;
+            }
+            .timer-ring .timer-text {
+                font-size: 1.3rem;
+            }
+            .btn-continue {
+                padding: 0.7rem 2rem;
+                font-size: 0.85rem;
+            }
+            .step-dot {
+                width: 1.8rem;
+            }
+            .step-dot.active {
+                width: 2.8rem;
+            }
+            .ad-slot {
+                min-height: 60px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .main-card {
+                padding: 1rem 0.75rem 1.5rem;
+            }
+            .phase-title {
+                font-size: 0.95rem;
+            }
+            .timer-ring {
+                width: 3.8rem;
+                height: 3.8rem;
+            }
+            .timer-ring .timer-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Glow pulse for active step */
+        @keyframes glow-pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(220, 38, 38, 0.05);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(220, 38, 38, 0.15);
+            }
+        }
+        .step-dot.active {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        /* Toast style */
+        .toast-mini {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #18181b;
+            border: 1px solid #27272a;
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            color: #a1a1aa;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 999;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .toast-mini.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-mini strong {
+            color: white;
+        }
+
+        /* Ad container responsive */
+        .ad-slot .ad-inner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 60px;
+        }
+
+        .ad-slot .ad-inner>div,
+        .ad-slot .ad-inner>iframe,
+        .ad-slot .ad-inner>script {
+            max-width: 100%;
+        }
+
+        /* Hide ad placeholder when ad loads */
+        .ad-slot.loaded .ad-placeholder {
+            display: none;
+        }
+
+        /* Progress bar at top */
+        .progress-bar-wrap {
+            width: 100%;
+            height: 3px;
+            background: #1a1a1e;
+            border-radius: 999px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #dc2626, #ef4444);
+            border-radius: 999px;
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 0%;
+        }
+
+        /* Phase counter */
+        .phase-counter {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #52525b;
+            text-align: center;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-counter .current {
+            color: #dc2626;
+        }
+
+        /* Trust badge row */
+        .trust-row {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+            font-size: 0.6rem;
+            color: #3f3f46;
+            letter-spacing: 0.04em;
+        }
+
+        .trust-row span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .trust-row svg {
+            width: 0.8rem;
+            height: 0.8rem;
+            color: #10b981;
+        }
+
+        /* safe zone */
+        .safe-zone {
+            background: rgba(16, 185, 129, 0.04);
+            border: 1px solid rgba(16, 185, 129, 0.06);
+            border-radius: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.6rem;
+            color: #34d399;
+            font-weight: 500;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== APP STATE ===== -->
-    <div x-data="appState()" x-init="init()">
-
-        <!-- ===== NAV ===== -->
-        <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-xl px-4 py-3">
-            <div class="max-w-7xl mx-auto flex items-center justify-between">
-                <div class="flex items-center gap-2 cursor-pointer" @click="currentPage = 'home'">
-                    <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/30">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.27A7 7 0 0 1 14 23h-4a7 7 0 0 1-6.73-4H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/><path d="M12 12v2"/></svg>
-                    </div>
-                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">AI<span class="text-red-500">Tools</span></span>
-                    <span class="text-[10px] text-zinc-500 ml-1 hidden sm:inline font-medium">2026</span>
-                </div>
-
-                <!-- Desktop Nav -->
-                <div class="hidden lg:flex items-center gap-1 text-sm">
-                    <button @click="currentPage = 'home'" :class="currentPage === 'home' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Home</button>
-                    <button @click="currentPage = 'llms'" :class="currentPage === 'llms' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">LLMs</button>
-                    <button @click="currentPage = 'image'" :class="currentPage === 'image' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Image AI</button>
-                    <button @click="currentPage = 'video'" :class="currentPage === 'video' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Video AI</button>
-                    <button @click="currentPage = 'audio'" :class="currentPage === 'audio' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Audio AI</button>
-                    <button @click="currentPage = 'code'" :class="currentPage === 'code' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">Code AI</button>
-                    <button @click="currentPage = 'rankings'" :class="currentPage === 'rankings' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">📊 Rankings</button>
-                    <button @click="currentPage = 'about'" :class="currentPage === 'about' ? 'active text-white' : 'text-zinc-400 hover:text-white'" class="nav-link px-3 py-2 rounded-lg transition font-medium">About</button>
-                </div>
-
-                <div class="flex items-center gap-3">
-                    <button class="hidden md:flex bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-4 text-xs font-medium text-zinc-300 hover:border-red-500/50 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline mr-1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                        Search
-                    </button>
-                    <button class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-red-600/20 active:scale-95">
-                        Submit Tool
-                    </button>
-                    <!-- Mobile menu toggle -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden text-zinc-400 hover:text-white transition p-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div x-show="mobileMenuOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="lg:hidden mt-3 pt-3 border-t border-zinc-800 flex flex-col gap-1">
-                <button @click="currentPage = 'home'; mobileMenuOpen = false" :class="currentPage === 'home' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🏠 Home</button>
-                <button @click="currentPage = 'llms'; mobileMenuOpen = false" :class="currentPage === 'llms' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🤖 LLMs</button>
-                <button @click="currentPage = 'image'; mobileMenuOpen = false" :class="currentPage === 'image' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🎨 Image AI</button>
-                <button @click="currentPage = 'video'; mobileMenuOpen = false" :class="currentPage === 'video' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🎬 Video AI</button>
-                <button @click="currentPage = 'audio'; mobileMenuOpen = false" :class="currentPage === 'audio' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">🔊 Audio AI</button>
-                <button @click="currentPage = 'code'; mobileMenuOpen = false" :class="currentPage === 'code' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">💻 Code AI</button>
-                <button @click="currentPage = 'rankings'; mobileMenuOpen = false" :class="currentPage === 'rankings' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">📊 Rankings</button>
-                <button @click="currentPage = 'about'; mobileMenuOpen = false" :class="currentPage === 'about' ? 'text-white bg-zinc-900' : 'text-zinc-400 hover:text-white'" class="text-sm font-medium px-3 py-2 rounded-lg transition text-left">ℹ️ About</button>
-            </div>
-        </nav>
-
-        <!-- ===== MAIN CONTENT ===== -->
-        <main class="max-w-7xl mx-auto px-4 py-6">
-
-            <!-- ============================================ -->
-            <!-- HOME PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'home'" x-cloak class="page-transition">
-
-                <!-- HERO -->
-                <section class="bg-gradient-to-r from-red-950/30 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-8 md:p-10 mb-10 relative overflow-hidden glow-card">
-                    <div class="absolute top-0 right-0 opacity-5 pointer-events-none">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="0.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                    </div>
-                    <div class="relative z-10 max-w-3xl">
-                        <span class="inline-block bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-4">2026 Edition</span>
-                        <h1 class="text-3xl md:text-5xl font-black text-white leading-tight">The Ultimate <span class="text-red-500">AI Tools</span> Directory</h1>
-                        <p class="text-zinc-400 text-sm md:text-base mt-4 leading-relaxed max-w-2xl">Discover, compare, and choose the best AI tools of 2026. From LLMs to image generators, video AI to automation – curated, rated, and reviewed by experts.</p>
-                        <div class="flex flex-wrap gap-4 mt-6">
-                            <div class="bg-zinc-900/80 border border-zinc-800 px-5 py-3 rounded-2xl text-center">
-                                <div class="text-2xl font-black text-white" x-text="formatNumber(totalTools)"></div>
-                                <span class="text-[10px] text-zinc-500 font-medium">AI Tools</span>
-                            </div>
-                            <div class="bg-zinc-900/80 border border-zinc-800 px-5 py-3 rounded-2xl text-center">
-                                <div class="text-2xl font-black text-white" x-text="totalCategories"></div>
-                                <span class="text-[10px] text-zinc-500 font-medium">Categories</span>
-                            </div>
-                            <div class="bg-zinc-900/80 border border-zinc-800 px-5 py-3 rounded-2xl text-center">
-                                <div class="text-2xl font-black text-white" x-text="totalReviews"></div>
-                                <span class="text-[10px] text-zinc-500 font-medium">Expert Reviews</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- SEARCH -->
-                <div class="mb-10">
-                    <div class="relative max-w-2xl mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#52525b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-4 top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                        <input type="text" x-model="searchQuery" placeholder="Search AI tools by name, category, use case..." class="search-input w-full text-white text-sm rounded-2xl py-4 pl-12 pr-4 placeholder-zinc-500" />
-                        <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-5 py-2 rounded-xl transition shadow-lg shadow-red-600/20">Search</button>
-                    </div>
-                </div>
-
-                <!-- Categories Quick Nav -->
-                <div class="flex flex-wrap gap-2 mb-10 justify-center">
-                    <button @click="activeCategory = 'all'" :class="activeCategory === 'all' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">All Tools</button>
-                    <button @click="activeCategory = 'llm'" :class="activeCategory === 'llm' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🤖 LLMs</button>
-                    <button @click="activeCategory = 'image'" :class="activeCategory === 'image' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🎨 Image</button>
-                    <button @click="activeCategory = 'video'" :class="activeCategory === 'video' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🎬 Video</button>
-                    <button @click="activeCategory = 'audio'" :class="activeCategory === 'audio' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">🔊 Audio</button>
-                    <button @click="activeCategory = 'code'" :class="activeCategory === 'code' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">💻 Code</button>
-                    <button @click="activeCategory = 'automation'" :class="activeCategory === 'automation' ? 'active' : ''" class="category-tag text-xs font-medium text-zinc-300 px-4 py-2 rounded-full cursor-pointer transition">⚡ Automation</button>
-                </div>
-
-                <!-- Featured Tools -->
-                <div class="flex items-center justify-between section-title pb-4 mb-6">
-                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                        <span class="text-3xl">⭐</span> Featured AI Tools
-                        <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">Top Rated</span>
-                    </h2>
-                    <span class="text-xs text-zinc-500">Updated daily</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    <template x-for="tool in featuredTools" :key="tool.id">
-                        <div class="tool-card rounded-2xl p-6 cursor-pointer" @click="currentPage = tool.category; scrollToTop()">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
-                                        <span x-text="tool.initial"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
-                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <template x-for="i in 5">
-                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
-                                    </template>
-                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
-                            <div class="flex flex-wrap gap-1 mt-3">
-                                <template x-for="tag in tool.tags" :key="tag">
-                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
-                                </template>
-                            </div>
-                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
-                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
-                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">Learn more →</span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-
-                <!-- Stats Row -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
-                        <div class="stat-number" x-text="formatNumber(1247)"></div>
-                        <p class="text-xs text-zinc-500 font-medium mt-1">Total AI Tools</p>
-                    </div>
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
-                        <div class="stat-number" x-text="formatNumber(892)"></div>
-                        <p class="text-xs text-zinc-500 font-medium mt-1">Verified Reviews</p>
-                    </div>
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
-                        <div class="stat-number" x-text="formatNumber(156)"></div>
-                        <p class="text-xs text-zinc-500 font-medium mt-1">Categories</p>
-                    </div>
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 text-center">
-                        <div class="stat-number" x-text="formatNumber(98)"></div>
-                        <p class="text-xs text-zinc-500 font-medium mt-1">Countries Reached</p>
-                    </div>
-                </div>
-
-                <!-- Trending Section -->
-                <div class="flex items-center justify-between section-title pb-4 mb-6">
-                    <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                        <span class="text-3xl">🔥</span> Trending Now
-                        <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">Popular</span>
-                    </h2>
-                    <span class="text-xs text-red-400 hover:text-red-300 cursor-pointer transition">View all →</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
-                    <template x-for="tool in trendingTools" :key="tool.id">
-                        <div class="tool-card rounded-2xl p-5 cursor-pointer" @click="currentPage = tool.category">
-                            <div class="flex items-center gap-2 mb-2">
-                                <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-black text-sm" :style="'background:' + tool.gradient">
-                                    <span x-text="tool.initial"></span>
-                                </div>
-                                <div>
-                                    <h4 class="text-sm font-bold text-white" x-text="tool.name"></h4>
-                                    <span class="text-[9px] text-zinc-500" x-text="tool.company"></span>
-                                </div>
-                            </div>
-                            <p class="text-[11px] text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
-                            <div class="mt-2 flex items-center justify-between">
-                                <div class="flex items-center gap-1">
-                                    <template x-for="i in 5">
-                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-[10px]">★</span>
-                                    </template>
-                                    <span class="text-[10px] text-zinc-500 ml-1" x-text="tool.rating.toFixed(1)"></span>
-                                </div>
-                                <span class="text-[9px] font-bold text-red-400 hover:text-red-300 transition">Learn more →</span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-
-            </div>
-
-            <!-- ============================================ -->
-            <!-- LLMs PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'llms'" x-cloak class="page-transition">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                            <span class="text-3xl">🤖</span> Large Language Models
-                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
-                        </h2>
-                        <p class="text-sm text-zinc-500 mt-1">The most advanced LLMs for text generation, reasoning, and code</p>
-                    </div>
-                    <span class="text-xs text-zinc-500">12 tools</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <template x-for="tool in llmTools" :key="tool.id">
-                        <div class="tool-card rounded-2xl p-6">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
-                                        <span x-text="tool.initial"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
-                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <template x-for="i in 5">
-                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
-                                    </template>
-                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
-                            <div class="flex flex-wrap gap-1 mt-3">
-                                <template x-for="tag in tool.tags" :key="tag">
-                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
-                                </template>
-                            </div>
-                            <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-zinc-900">
-                                <div class="text-center">
-                                    <div class="text-xs font-bold text-white" x-text="tool.context"></div>
-                                    <span class="text-[8px] text-zinc-500">Context</span>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-xs font-bold text-white" x-text="tool.speed"></div>
-                                    <span class="text-[8px] text-zinc-500">Speed</span>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-xs font-bold text-white" x-text="tool.price"></div>
-                                    <span class="text-[8px] text-zinc-500">Pricing</span>
-                                </div>
-                            </div>
-                            <div class="mt-3 pt-2 border-t border-zinc-900 flex items-center justify-between">
-                                <span class="text-[9px] text-zinc-500">⭐ <span x-text="tool.reviewCount"></span> reviews</span>
-                                <a href="#" class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</a>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-
-            <!-- ============================================ -->
-            <!-- IMAGE AI PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'image'" x-cloak class="page-transition">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                            <span class="text-3xl">🎨</span> AI Image Generation
-                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
-                        </h2>
-                        <p class="text-sm text-zinc-500 mt-1">Create stunning visuals with the best AI image generators</p>
-                    </div>
-                    <span class="text-xs text-zinc-500">8 tools</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <template x-for="tool in imageTools" :key="tool.id">
-                        <div class="tool-card rounded-2xl p-6">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
-                                        <span x-text="tool.initial"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
-                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <template x-for="i in 5">
-                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
-                                    </template>
-                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
-                            <div class="flex flex-wrap gap-1 mt-3">
-                                <template x-for="tag in tool.tags" :key="tag">
-                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
-                                </template>
-                            </div>
-                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
-                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
-                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-
-            <!-- ============================================ -->
-            <!-- VIDEO AI PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'video'" x-cloak class="page-transition">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                            <span class="text-3xl">🎬</span> AI Video Generation
-                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
-                        </h2>
-                        <p class="text-sm text-zinc-500 mt-1">Generate cinematic videos from text and images</p>
-                    </div>
-                    <span class="text-xs text-zinc-500">6 tools</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <template x-for="tool in videoTools" :key="tool.id">
-                        <div class="tool-card rounded-2xl p-6">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
-                                        <span x-text="tool.initial"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
-                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <template x-for="i in 5">
-                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
-                                    </template>
-                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
-                            <div class="flex flex-wrap gap-1 mt-3">
-                                <template x-for="tag in tool.tags" :key="tag">
-                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
-                                </template>
-                            </div>
-                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
-                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
-                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-
-            <!-- ============================================ -->
-            <!-- AUDIO AI PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'audio'" x-cloak class="page-transition">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                            <span class="text-3xl">🔊</span> AI Audio & Voice
-                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
-                        </h2>
-                        <p class="text-sm text-zinc-500 mt-1">Voice synthesis, music generation, and audio processing</p>
-                    </div>
-                    <span class="text-xs text-zinc-500">6 tools</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <template x-for="tool in audioTools" :key="tool.id">
-                        <div class="tool-card rounded-2xl p-6">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
-                                        <span x-text="tool.initial"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
-                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <template x-for="i in 5">
-                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
-                                    </template>
-                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
-                            <div class="flex flex-wrap gap-1 mt-3">
-                                <template x-for="tag in tool.tags" :key="tag">
-                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
-                                </template>
-                            </div>
-                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
-                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
-                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-
-            <!-- ============================================ -->
-            <!-- CODE AI PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'code'" x-cloak class="page-transition">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                            <span class="text-3xl">💻</span> AI Code Assistants
-                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">2026</span>
-                        </h2>
-                        <p class="text-sm text-zinc-500 mt-1">Supercharge your development with AI coding tools</p>
-                    </div>
-                    <span class="text-xs text-zinc-500">5 tools</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <template x-for="tool in codeTools" :key="tool.id">
-                        <div class="tool-card rounded-2xl p-6">
-                            <div class="flex items-start justify-between mb-3">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" :style="'background:' + tool.gradient">
-                                        <span x-text="tool.initial"></span>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-base font-bold text-white" x-text="tool.name"></h3>
-                                        <span class="text-[10px] text-zinc-500" x-text="tool.company"></span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <template x-for="i in 5">
-                                        <span :class="i <= Math.floor(tool.rating) ? 'rating-star' : 'rating-star-empty'" class="text-xs">★</span>
-                                    </template>
-                                    <span class="text-xs font-bold text-white ml-1" x-text="tool.rating.toFixed(1)"></span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-zinc-400 leading-relaxed" x-text="tool.desc"></p>
-                            <div class="flex flex-wrap gap-1 mt-3">
-                                <template x-for="tag in tool.tags" :key="tag">
-                                    <span class="text-[9px] bg-zinc-900 px-2 py-0.5 rounded text-zinc-400" x-text="tag"></span>
-                                </template>
-                            </div>
-                            <div class="flex items-center justify-between mt-4 pt-3 border-t border-zinc-900">
-                                <span class="text-[10px] text-zinc-500" x-text="tool.price"></span>
-                                <span class="text-[10px] font-bold text-red-400 hover:text-red-300 transition">View details →</span>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-
-            <!-- ============================================ -->
-            <!-- RANKINGS PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'rankings'" x-cloak class="page-transition">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                            <span class="text-3xl">📊</span> AI Tool Rankings 2026
-                            <span class="text-xs font-medium text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full">Performance</span>
-                        </h2>
-                        <p class="text-sm text-zinc-500 mt-1">Comprehensive benchmarks and leaderboards</p>
-                    </div>
-                </div>
-
-                <!-- Ranking Tabs -->
-                <div class="flex flex-wrap gap-2 mb-8">
-                    <button @click="rankingTab = 'llm'" :class="rankingTab === 'llm' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🤖 LLMs</button>
-                    <button @click="rankingTab = 'image'" :class="rankingTab === 'image' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🎨 Image</button>
-                    <button @click="rankingTab = 'video'" :class="rankingTab === 'video' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🎬 Video</button>
-                    <button @click="rankingTab = 'audio'" :class="rankingTab === 'audio' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">🔊 Audio</button>
-                    <button @click="rankingTab = 'code'" :class="rankingTab === 'code' ? 'bg-red-600 text-white' : 'bg-zinc-900 text-zinc-400 hover:text-white'" class="text-xs font-medium px-4 py-2 rounded-xl transition">💻 Code</button>
-                </div>
-
-                <!-- LLM Rankings -->
-                <div x-show="rankingTab === 'llm'" class="space-y-6">
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
-                        <h3 class="text-sm font-bold text-white mb-4">LLM Performance Score</h3>
-                        <div class="space-y-4">
-                            <template x-for="item in llmRankings" :key="item.name">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
-                                        <span class="font-medium text-white flex items-center gap-2">
-                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
-                                            <span x-text="item.name"></span>
-                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
-                                        </span>
-                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
-                                    </div>
-                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                        <p class="text-[10px] text-zinc-500 mt-4">*Based on MMLU, GSM8K, HumanEval, and reasoning benchmarks</p>
-                    </div>
-
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
-                        <h3 class="text-sm font-bold text-white mb-4">Cost Efficiency (per 1M tokens)</h3>
-                        <div class="space-y-4">
-                            <template x-for="item in llmCostRankings" :key="item.name">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
-                                        <span class="font-medium text-white flex items-center gap-2">
-                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
-                                            <span x-text="item.name"></span>
-                                        </span>
-                                        <span class="font-bold text-emerald-400" x-text="'$' + item.cost"></span>
-                                    </div>
-                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="chart-bar green h-full" :style="'width:' + (100 - (item.cost / 30 * 100)) + '%'"></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Image Rankings -->
-                <div x-show="rankingTab === 'image'" class="space-y-6">
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
-                        <h3 class="text-sm font-bold text-white mb-4">Image Generation Quality</h3>
-                        <div class="space-y-4">
-                            <template x-for="item in imageRankings" :key="item.name">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
-                                        <span class="font-medium text-white flex items-center gap-2">
-                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
-                                            <span x-text="item.name"></span>
-                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
-                                        </span>
-                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
-                                    </div>
-                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                        <p class="text-[10px] text-zinc-500 mt-4">*Based on FID, CLIP score, and user preference studies</p>
-                    </div>
-                </div>
-
-                <!-- Video Rankings -->
-                <div x-show="rankingTab === 'video'" class="space-y-6">
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
-                        <h3 class="text-sm font-bold text-white mb-4">Video Generation Quality</h3>
-                        <div class="space-y-4">
-                            <template x-for="item in videoRankings" :key="item.name">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
-                                        <span class="font-medium text-white flex items-center gap-2">
-                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
-                                            <span x-text="item.name"></span>
-                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
-                                        </span>
-                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
-                                    </div>
-                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Audio Rankings -->
-                <div x-show="rankingTab === 'audio'" class="space-y-6">
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
-                        <h3 class="text-sm font-bold text-white mb-4">Voice Synthesis Quality</h3>
-                        <div class="space-y-4">
-                            <template x-for="item in audioRankings" :key="item.name">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
-                                        <span class="font-medium text-white flex items-center gap-2">
-                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
-                                            <span x-text="item.name"></span>
-                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
-                                        </span>
-                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
-                                    </div>
-                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Code Rankings -->
-                <div x-show="rankingTab === 'code'" class="space-y-6">
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6">
-                        <h3 class="text-sm font-bold text-white mb-4">Code Generation Accuracy</h3>
-                        <div class="space-y-4">
-                            <template x-for="item in codeRankings" :key="item.name">
-                                <div>
-                                    <div class="flex items-center justify-between text-xs text-zinc-400 mb-1">
-                                        <span class="font-medium text-white flex items-center gap-2">
-                                            <span class="text-[10px] text-zinc-500 font-mono" x-text="'#' + item.rank"></span>
-                                            <span x-text="item.name"></span>
-                                            <span class="text-[9px] text-zinc-500" x-text="item.company"></span>
-                                        </span>
-                                        <span class="font-bold" :class="item.score >= 90 ? 'text-emerald-400' : item.score >= 80 ? 'text-amber-400' : 'text-zinc-400'" x-text="item.score + '%'"></span>
-                                    </div>
-                                    <div class="w-full h-3 bg-zinc-800 rounded-full overflow-hidden">
-                                        <div class="chart-bar h-full" :class="item.score >= 90 ? 'green' : item.score >= 85 ? 'gold' : 'purple'" :style="'width:' + item.score + '%'"></div>
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-                        <p class="text-[10px] text-zinc-500 mt-4">*Based on HumanEval, MBPP, and code completion benchmarks</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ============================================ -->
-            <!-- ABOUT PAGE -->
-            <!-- ============================================ -->
-            <div x-show="currentPage === 'about'" x-cloak class="page-transition max-w-4xl mx-auto">
-                <div class="flex items-center justify-between mb-6">
-                    <div>
-                        <h2 class="text-2xl font-bold text-white flex items-center gap-3">
-                            <span class="text-3xl">ℹ️</span> About AI Tools 2026
-                        </h2>
-                        <p class="text-sm text-zinc-500 mt-1">Your trusted source for AI tool discovery</p>
-                    </div>
-                </div>
-
-                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-8 space-y-6">
-                    <div>
-                        <h3 class="text-lg font-bold text-white">Our Mission</h3>
-                        <p class="text-sm text-zinc-400 leading-relaxed mt-2">AI Tools 2026 is the most comprehensive directory of artificial intelligence tools and platforms. We curate, review, and rank the best AI tools across all categories – from LLMs and image generators to video AI, automation, and more.</p>
-                        <p class="text-sm text-zinc-400 leading-relaxed mt-3">Our team of AI experts and researchers tests each tool thoroughly, providing honest reviews and detailed comparisons to help you make informed decisions.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-zinc-900">
-                        <div class="text-center p-4 bg-zinc-900/30 rounded-xl">
-                            <div class="text-3xl mb-2">🧪</div>
-                            <h4 class="text-sm font-bold text-white">Expert Testing</h4>
-                            <p class="text-xs text-zinc-500 mt-1">Every tool is tested by our team</p>
-                        </div>
-                        <div class="text-center p-4 bg-zinc-900/30 rounded-xl">
-                            <div class="text-3xl mb-2">📊</div>
-                            <h4 class="text-sm font-bold text-white">Data-Driven</h4>
-                            <p class="text-xs text-zinc-500 mt-1">Rankings based on real benchmarks</p>
-                        </div>
-                        <div class="text-center p-4 bg-zinc-900/30 rounded-xl">
-                            <div class="text-3xl mb-2">🔄</div>
-                            <h4 class="text-sm font-bold text-white">Daily Updates</h4>
-                            <p class="text-xs text-zinc-500 mt-1">New tools added every day</p>
-                        </div>
-                    </div>
-
-                    <div class="pt-4 border-t border-zinc-900">
-                        <h3 class="text-lg font-bold text-white mb-4">Privacy Policy</h3>
-                        <p class="text-sm text-zinc-400 leading-relaxed">Your privacy matters to us. We collect minimal data to improve your experience:</p>
-                        <ul class="text-sm text-zinc-400 leading-relaxed mt-3 space-y-2 list-disc pl-5">
-                            <li>We use Google AdSense to serve relevant ads</li>
-                            <li>No personal data is shared with third parties</li>
-                            <li>Cookies are used for analytics and ad personalization</li>
-                            <li>You can opt out of personalized ads at any time</li>
-                            <li>All data is encrypted and stored securely</li>
-                        </ul>
-                        <p class="text-xs text-zinc-500 mt-4">Last updated: July 2026</p>
-                        <a href="#" class="inline-block text-xs text-red-400 hover:text-red-300 transition mt-2">Read full policy →</a>
-                    </div>
-
-                    <div class="pt-4 border-t border-zinc-900 flex flex-wrap gap-6 text-xs text-zinc-500">
-                        <span>📧 contact@aitools2026.com</span>
-                        <span>🐦 @AITools2026</span>
-                        <span>📱 +1 (800) 555-AI01</span>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-
-        <!-- ===== FOOTER ===== -->
-        <footer class="border-t border-zinc-900 bg-zinc-950/80 px-4 py-8 mt-4">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-                <div class="flex items-center gap-2">
-                    <div class="bg-red-600 p-1.5 rounded-lg text-white shadow-sm shadow-red-600/10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.27A7 7 0 0 1 14 23h-4a7 7 0 0 1-6.73-4H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/><circle cx="12" cy="16" r="2"/><path d="M12 12v2"/></svg>
-                    </div>
-                    <span class="font-bold text-white">AI<span class="text-red-500">Tools</span></span>
-                    <span class="text-zinc-600">© 2026</span>
-                </div>
-                <div class="flex items-center gap-6">
-                    <button @click="currentPage = 'home'" class="hover:text-white transition">Home</button>
-                    <button @click="currentPage = 'about'" class="hover:text-white transition">About</button>
-                    <a href="#" class="hover:text-white transition">Privacy</a>
-                    <a href="#" class="hover:text-white transition">Terms</a>
-                    <a href="#" class="hover:text-white transition">Contact</a>
-                </div>
-                <span class="text-[10px] text-zinc-600">Auto Ads enabled – Google places ads automatically</span>
-            </div>
-        </footer>
-
+    <!-- ===== TOAST ===== -->
+    <div id="toast" class="toast-mini">
+        ⏳ <strong id="toastMsg">Loading ads...</strong>
     </div>
 
-    <!-- ============================================ -->
-    <!-- ALPINE.JS APP -->
-    <!-- ============================================ -->
+    <!-- ===== MAIN CARD ===== -->
+    <div class="main-card">
+
+        <!-- Brand -->
+        <div class="brand">
+            <div class="brand-icon">
+                <i data-lucide="ticket" class="w-7 h-7 text-white"></i>
+            </div>
+            <span class="brand-text">Robux<span>Prize</span></span>
+            <span class="ml-auto text-[0.55rem] font-bold uppercase tracking-widest text-zinc-600 border border-zinc-800/60 px-2.5 py-1 rounded-full">Secure</span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Step Indicators -->
+        <div class="step-indicators" id="stepIndicators">
+            <div class="step-dot active" data-step="1"></div>
+            <div class="step-dot" data-step="2"></div>
+            <div class="step-dot" data-step="3"></div>
+        </div>
+        <div class="step-label">
+            <span class="active-label" data-label="1">1. Verify</span>
+            <span data-label="2">2. Engage</span>
+            <span data-label="3">3. Claim</span>
+        </div>
+
+        <!-- ===== PHASE CONTAINER ===== -->
+        <div class="phase-container" id="phaseContainer">
+
+            <!-- Phase 1 -->
+            <div class="phase-content fade-in" id="phase1">
+                <div class="reward-badge">
+                    <i data-lucide="sparkles"></i> +50 Bonus Tokens
+                </div>
+                <h2 class="phase-title">
+                    Step <span class="highlight">1</span> — Verify Your Activity
+                </h2>
+                <p class="phase-sub">Please wait a moment while we prepare your exclusive offer.</p>
+
+                <!-- Timer -->
+                <div class="timer-ring-wrap">
+                    <div class="timer-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="bg-circle" cx="50" cy="50" r="42" />
+                            <circle class="progress-circle" id="circle1" cx="50" cy="50" r="42"
+                            stroke-dasharray="263.89" stroke-dashoffset="0" />
+                        </svg>
+                        <div class="timer-text" id="timerText1">15<span class="sec-label">s</span></div>
+                    </div>
+                </div>
+
+                <!-- Ad Slot 1 -->
+                <div class="ad-slot" id="adSlot1">
+                    <div class="ad-inner">
+                        <!-- 728x90 Banner Ad -->
+                        <div style="min-width:320px;min-height:50px;display:flex;justify-content:center;align-items:center;">
+                            <script>
+                                atOptions = {
+                                    'key': '97e5901cede0f36732eff555aaaab20d',
+                                    'format': 'iframe',
+                                    'height': 90,
+                                    'width': 728,
+                                    'params': {}
+                                };
+                            </script>
+                            <script src="https://www.highperformanceformat.com/97e5901cede0f36732eff555aaaab20d/invoke.js">
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-continue" id="continue1" data-next="2">
+                    <i data-lucide="arrow-right"></i> Continue
+                </button>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-content fade-out" id="phase2" style="display:none;">
+                <div class="reward-badge">
+                    <i data-lucide="gift"></i> +100 Bonus Tokens
+                </div>
+                <h2 class="phase-title">
+                    Step <span class="highlight">2</span> — Engage with Offers
+                </h2>
+                <p class="phase-sub">One more moment — our partners are loading exclusive deals for you.</p>
+
+                <div class="timer-ring-wrap">
+                    <div class="timer-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="bg-circle" cx="50" cy="50" r="42" />
+                            <circle class="progress-circle" id="circle2" cx="50" cy="50" r="42"
+                            stroke-dasharray="263.89" stroke-dashoffset="0" />
+                        </svg>
+                        <div class="timer-text" id="timerText2">15<span class="sec-label">s</span></div>
+                    </div>
+                </div>
+
+                <!-- Ad Slot 2 -->
+                <div class="ad-slot" id="adSlot2">
+                    <div class="ad-inner">
+                        <div style="min-width:300px;min-height:250px;display:flex;justify-content:center;align-items:center;">
+                            <script>
+                                atOptions = {
+                                    'key': '3f9168e55e547843eb3d8677bee326d5',
+                                    'format': 'iframe',
+                                    'height': 250,
+                                    'width': 300,
+                                    'params': {}
+                                };
+                            </script>
+                            <script src="https://www.highperformanceformat.com/3f9168e55e547843eb3d8677bee326d5/invoke.js">
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-continue" id="continue2" data-next="3">
+                    <i data-lucide="arrow-right"></i> Continue
+                </button>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-content fade-out" id="phase3" style="display:none;">
+                <div class="reward-badge">
+                    <i data-lucide="trophy"></i> +200 Bonus Tokens
+                </div>
+                <h2 class="phase-title">
+                    Final Step <span class="highlight">3</span> — Claim Your Reward
+                </h2>
+                <p class="phase-sub">Almost there! Your Robux are being prepared. Complete the final check.</p>
+
+                <div class="timer-ring-wrap">
+                    <div class="timer-ring">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="bg-circle" cx="50" cy="50" r="42" />
+                            <circle class="progress-circle" id="circle3" cx="50" cy="50" r="42"
+                            stroke-dasharray="263.89" stroke-dashoffset="0" />
+                        </svg>
+                        <div class="timer-text" id="timerText3">15<span class="sec-label">s</span></div>
+                    </div>
+                </div>
+
+                <!-- Ad Slot 3 -->
+                <div class="ad-slot" id="adSlot3">
+                    <div class="ad-inner">
+                        <div style="min-width:320px;min-height:50px;display:flex;justify-content:center;align-items:center;">
+                            <script>
+                                atOptions = {
+                                    'key': '01763e6a2443d7c68c7809b55c7e0482',
+                                    'format': 'iframe',
+                                    'height': 50,
+                                    'width': 320,
+                                    'params': {}
+                                };
+                            </script>
+                            <script src="https://www.highperformanceformat.com/01763e6a2443d7c68c7809b55c7e0482/invoke.js">
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-continue" id="continue3" data-next="done">
+                    <i data-lucide="check-circle"></i> Claim My Robux
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Trust row -->
+        <div class="trust-row">
+            <span><i data-lucide="shield-check"></i> Secure Connection</span>
+            <span><i data-lucide="clock"></i> Instant Payout</span>
+            <span><i data-lucide="users"></i> 12k+ Users</span>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-note">
+            © 2026 RobuxPrize — All rights reserved. Complete all steps to claim your reward.
+        </div>
+    </div>
+
+    <!-- ===== EXTRA AD BOTTOM (floating) ===== -->
+    <div style="max-width:820px;width:100%;margin-top:1rem;text-align:center;display:flex;justify-content:center;flex-wrap:wrap;gap:0.5rem;">
+        <!-- 468x60 -->
+        <div style="min-width:320px;min-height:50px;display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.01);border-radius:0.75rem;padding:0.25rem;">
+            <script>
+                atOptions = {
+                    'key': 'd5c6f1f44f4d3fc7921d6b252ed9cf7b',
+                    'format': 'iframe',
+                    'height': 60,
+                    'width': 468,
+                    'params': {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/d5c6f1f44f4d3fc7921d6b252ed9cf7b/invoke.js">
+            </script>
+        </div>
+        <!-- 160x600 (right side) -->
+        <div style="min-width:160px;min-height:300px;display:flex;justify-content:center;align-items:center;background:rgba(255,255,255,0.01);border-radius:0.75rem;padding:0.25rem;">
+            <script>
+                atOptions = {
+                    'key': '40fec2cc2b6963f5cdd3731f1bbe1227',
+                    'format': 'iframe',
+                    'height': 600,
+                    'width': 160,
+                    'params': {}
+                };
+            </script>
+            <script src="https://www.highperformanceformat.com/40fec2cc2b6963f5cdd3731f1bbe1227/invoke.js">
+            </script>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPT ===== -->
     <script>
-        function appState() {
-            return {
-                currentPage: 'home',
-                mobileMenuOpen: false,
-                searchQuery: '',
-                activeCategory: 'all',
-                rankingTab: 'llm',
+        document.addEventListener('DOMContentLoaded', function() {
 
-                // Stats
-                totalTools: 1247,
-                totalCategories: 156,
-                totalReviews: 892,
+            // ---- Lucide ----
+            if (window.lucide) {
+                lucide.createIcons();
+            }
 
-                // Featured Tools
-                featuredTools: [{
-                    id: 1,
-                    name: 'GPT-5',
-                    company: 'OpenAI',
-                    initial: 'G',
-                    gradient: 'linear-gradient(135deg, #dc2626, #991b1b)',
-                    rating: 4.9,
-                    desc: 'State-of-the-art reasoning with 10M token context and multimodal capabilities.',
-                    tags: ['Text', 'Image', 'Code', 'Audio'],
-                    price: 'Free tier',
-                    category: 'llm'
-                }, {
-                    id: 2,
-                    name: 'Midjourney v7',
-                    company: 'Midjourney',
-                    initial: 'M',
-                    gradient: 'linear-gradient(135deg, #10b981, #047857)',
-                    rating: 4.9,
-                    desc: 'Photorealistic, artistic, cinematic quality. Best for creative professionals.',
-                    tags: ['Photorealistic', 'Artistic', 'Cinematic'],
-                    price: 'Paid',
-                    category: 'image'
-                }, {
-                    id: 3,
-                    name: 'Claude 4',
-                    company: 'Anthropic',
-                    initial: 'C',
-                    gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)',
-                    rating: 4.8,
-                    desc: 'Advanced reasoning with 200K context and exceptional coding capabilities.',
-                    tags: ['Text', 'Code', 'Analysis'],
-                    price: 'Paid plans',
-                    category: 'llm'
-                }, {
-                    id: 4,
-                    name: 'DALL-E 4',
-                    company: 'OpenAI',
-                    initial: 'D',
-                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
-                    rating: 4.8,
-                    desc: 'High-fidelity, prompt-accurate with advanced editing and inpainting.',
-                    tags: ['Edit', 'Inpaint', 'Variations'],
-                    price: 'Paid',
-                    category: 'image'
-                }, {
-                    id: 5,
-                    name: 'Pika 3.0',
-                    company: 'Pika Labs',
-                    initial: 'P',
-                    gradient: 'linear-gradient(135deg, #6366f1, #3730a3)',
-                    rating: 4.7,
-                    desc: 'Cinematic video generation from text and images with motion control.',
-                    tags: ['Video', 'Cinematic', 'Motion'],
-                    price: 'Free tier',
-                    category: 'video'
-                }, {
-                    id: 6,
-                    name: 'Cursor AI',
-                    company: 'Cursor',
-                    initial: 'C',
-                    gradient: 'linear-gradient(135deg, #14b8a6, #0f766e)',
-                    rating: 4.9,
-                    desc: 'AI-powered code editor with full project understanding and autocomplete.',
-                    tags: ['Code', 'Editor', 'Autocomplete'],
-                    price: 'Free tier',
-                    category: 'code'
-                }],
+            // ---- State ----
+            let currentStep = 1;
+            const totalSteps = 3;
+            let timerInterval = null;
+            let countdown = 15;
+            let isWaiting = false;
+            const CIRCUMFERENCE = 263.89;
 
-                // Trending Tools
-                trendingTools: [{
-                    id: 101,
-                    name: 'Gemini 2.0',
-                    company: 'Google',
-                    initial: 'G',
-                    gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                    rating: 4.7,
-                    desc: 'Native multimodal with 2M token context',
-                    category: 'llm'
-                }, {
-                    id: 102,
-                    name: 'Stable Diffusion 4',
-                    company: 'Stability AI',
-                    initial: 'S',
-                    gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)',
-                    rating: 4.6,
-                    desc: 'Open-source, highly customizable',
-                    category: 'image'
-                }, {
-                    id: 103,
-                    name: 'ElevenLabs V3',
-                    company: 'ElevenLabs',
-                    initial: 'E',
-                    gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)',
-                    rating: 4.8,
-                    desc: 'Ultra-realistic voice synthesis',
-                    category: 'audio'
-                }, {
-                    id: 104,
-                    name: 'Runway Gen-4',
-                    company: 'Runway ML',
-                    initial: 'R',
-                    gradient: 'linear-gradient(135deg, #ec4899, #be185d)',
-                    rating: 4.6,
-                    desc: 'Advanced video generation',
-                    category: 'video'
-                }],
+            // ---- DOM refs ----
+            const phase1 = document.getElementById('phase1');
+            const phase2 = document.getElementById('phase2');
+            const phase3 = document.getElementById('phase3');
+            const continue1 = document.getElementById('continue1');
+            const continue2 = document.getElementById('continue2');
+            const continue3 = document.getElementById('continue3');
+            const timerText1 = document.getElementById('timerText1');
+            const timerText2 = document.getElementById('timerText2');
+            const timerText3 = document.getElementById('timerText3');
+            const circle1 = document.getElementById('circle1');
+            const circle2 = document.getElementById('circle2');
+            const circle3 = document.getElementById('circle3');
+            const progressFill = document.getElementById('progressFill');
+            const dots = document.querySelectorAll('.step-dot');
+            const labels = document.querySelectorAll('.step-label span');
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
 
-                // LLM Tools
-                llmTools: [{
-                    id: 1,
-                    name: 'GPT-5',
-                    company: 'OpenAI',
-                    initial: 'G',
-                    gradient: 'linear-gradient(135deg, #dc2626, #991b1b)',
-                    rating: 4.9,
-                    desc: 'State-of-the-art reasoning, multimodal understanding, and AGI capabilities.',
-                    tags: ['Text', 'Image', 'Code', 'Audio'],
-                    context: '10M',
-                    speed: '1.2s',
-                    price: 'Free',
-                    reviewCount: 1247
-                }, {
-                    id: 2,
-                    name: 'Claude 4',
-                    company: 'Anthropic',
-                    initial: 'C',
-                    gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)',
-                    rating: 4.8,
-                    desc: 'Advanced reasoning with 200K context and strong safety features.',
-                    tags: ['Text', 'Code', 'Analysis'],
-                    context: '200K',
-                    speed: '0.8s',
-                    price: 'Paid',
-                    reviewCount: 892
-                }, {
-                    id: 3,
-                    name: 'Gemini 2.0',
-                    company: 'Google DeepMind',
-                    initial: 'G',
-                    gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                    rating: 4.7,
-                    desc: 'Native multimodal with 2M context and real-time processing.',
-                    tags: ['Text', 'Image', 'Video', 'Audio'],
-                    context: '2M',
-                    speed: '0.9s',
-                    price: 'Free',
-                    reviewCount: 756
-                }, {
-                    id: 4,
-                    name: 'Llama 4',
-                    company: 'Meta',
-                    initial: 'L',
-                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
-                    rating: 4.5,
-                    desc: 'Open-source, high-performance with strong reasoning capabilities.',
-                    tags: ['Text', 'Code', 'Open-source'],
-                    context: '128K',
-                    speed: '1.0s',
-                    price: 'Free',
-                    reviewCount: 634
-                }, {
-                    id: 5,
-                    name: 'Mistral 3',
-                    company: 'Mistral AI',
-                    initial: 'M',
-                    gradient: 'linear-gradient(135deg, #14b8a6, #0f766e)',
-                    rating: 4.4,
-                    desc: 'Efficient, open-source model with competitive performance.',
-                    tags: ['Text', 'Code', 'Open-source'],
-                    context: '32K',
-                    speed: '0.7s',
-                    price: 'Free',
-                    reviewCount: 523
-                }, {
-                    id: 6,
-                    name: 'DeepSeek V3',
-                    company: 'DeepSeek',
-                    initial: 'D',
-                    gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)',
-                    rating: 4.3,
-                    desc: 'High-performance reasoning with cost-effective pricing.',
-                    tags: ['Text', 'Code', 'Reasoning'],
-                    context: '128K',
-                    speed: '0.9s',
-                    price: 'Free',
-                    reviewCount: 412
-                }],
+            // ---- Helpers ----
+            function showToast(msg, duration = 3000) {
+                toastMsg.textContent = msg;
+                toast.classList.add('show');
+                clearTimeout(toast._hide);
+                toast._hide = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, duration);
+            }
 
-                // Image Tools
-                imageTools: [{
-                    id: 101,
-                    name: 'Midjourney v7',
-                    company: 'Midjourney',
-                    initial: 'M',
-                    gradient: 'linear-gradient(135deg, #10b981, #047857)',
-                    rating: 4.9,
-                    desc: 'Photorealistic, artistic, cinematic quality. Best for creative professionals.',
-                    tags: ['Photorealistic', 'Artistic', 'Cinematic'],
-                    price: 'Paid'
-                }, {
-                    id: 102,
-                    name: 'DALL-E 4',
-                    company: 'OpenAI',
-                    initial: 'D',
-                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
-                    rating: 4.8,
-                    desc: 'High-fidelity, prompt-accurate with advanced editing and inpainting.',
-                    tags: ['Edit', 'Inpaint', 'Variations'],
-                    price: 'Paid'
-                }, {
-                    id: 103,
-                    name: 'Stable Diffusion 4',
-                    company: 'Stability AI',
-                    initial: 'S',
-                    gradient: 'linear-gradient(135deg, #06b6d4, #0891b2)',
-                    rating: 4.6,
-                    desc: 'Open-source, highly customizable, runs locally.',
-                    tags: ['Open-source', 'Custom', 'Local'],
-                    price: 'Free'
-                }, {
-                    id: 104,
-                    name: 'Firefly 3',
-                    company: 'Adobe',
-                    initial: 'F',
-                    gradient: 'linear-gradient(135deg, #ec4899, #be185d)',
-                    rating: 4.5,
-                    desc: 'Integrated with Creative Cloud, commercial-safe, vector & 3D.',
-                    tags: ['Vector', '3D', 'Commercial'],
-                    price: 'Subscription'
-                }],
-
-                // Video Tools
-                videoTools: [{
-                    id: 201,
-                    name: 'Pika 3.0',
-                    company: 'Pika Labs',
-                    initial: 'P',
-                    gradient: 'linear-gradient(135deg, #6366f1, #3730a3)',
-                    rating: 4.7,
-                    desc: 'Cinematic video generation from text and images with motion control.',
-                    tags: ['Video', 'Cinematic', 'Motion'],
-                    price: 'Free tier'
-                }, {
-                    id: 202,
-                    name: 'Runway Gen-4',
-                    company: 'Runway ML',
-                    initial: 'R',
-                    gradient: 'linear-gradient(135deg, #ec4899, #be185d)',
-                    rating: 4.6,
-                    desc: 'Advanced video generation with sophisticated motion control.',
-                    tags: ['Video', 'Motion', 'Professional'],
-                    price: 'Paid'
-                }, {
-                    id: 203,
-                    name: 'Sora 2.0',
-                    company: 'OpenAI',
-                    initial: 'S',
-                    gradient: 'linear-gradient(135deg, #dc2626, #991b1b)',
-                    rating: 4.5,
-                    desc: 'High-quality video generation with complex scene understanding.',
-                    tags: ['Video', 'Scenes', 'Realistic'],
-                    price: 'Paid'
-                }],
-
-                // Audio Tools
-                audioTools: [{
-                    id: 301,
-                    name: 'ElevenLabs V3',
-                    company: 'ElevenLabs',
-                    initial: 'E',
-                    gradient: 'linear-gradient(135deg, #8b5cf6, #6d28d9)',
-                    rating: 4.8,
-                    desc: 'Ultra-realistic voice synthesis with emotion control.',
-                    tags: ['Voice', 'Emotion', 'Realistic'],
-                    price: 'Free tier'
-                }, {
-                    id: 302,
-                    name: 'Suno AI',
-                    company: 'Suno',
-                    initial: 'S',
-                    gradient: 'linear-gradient(135deg, #f59e0b, #b45309)',
-                    rating: 4.4,
-                    desc: 'AI music generation with full song creation.',
-                    tags: ['Music', 'Generation', 'Creative'],
-                    price: 'Free tier'
-                }, {
-                    id: 303,
-                    name: 'Descript AI',
-                    company: 'Descript',
-                    initial: 'D',
-                    gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                    rating: 4.3,
-                    desc: 'Audio editing with AI voice cloning and transcription.',
-                    tags: ['Editing', 'Cloning', 'Transcription'],
-                    price: 'Subscription'
-                }],
-
-                // Code Tools
-                codeTools: [{
-                    id: 401,
-                    name: 'Cursor AI',
-                    company: 'Cursor',
-                    initial: 'C',
-                    gradient: 'linear-gradient(135deg, #14b8a6, #0f766e)',
-                    rating: 4.9,
-                    desc: 'AI-powered code editor with full project understanding.',
-                    tags: ['Code', 'Editor', 'Autocomplete'],
-                    price: 'Free tier'
-                }, {
-                    id: 402,
-                    name: 'GitHub Copilot X',
-                    company: 'GitHub',
-                    initial: 'G',
-                    gradient: 'linear-gradient(135deg, #6b7280, #374151)',
-                    rating: 4.7,
-                    desc: 'AI pair programmer with advanced code generation.',
-                    tags: ['Code', 'Pair Programming', 'Generation'],
-                    price: 'Subscription'
-                }, {
-                    id: 403,
-                    name: 'Codeium',
-                    company: 'Codeium',
-                    initial: 'C',
-                    gradient: 'linear-gradient(135deg, #8b5cf6, #5b21b6)',
-                    rating: 4.5,
-                    desc: 'Free AI code completion with team support.',
-                    tags: ['Code', 'Completion', 'Team'],
-                    price: 'Free'
-                }],
-
-                // Rankings Data
-                llmRankings: [
-                    { rank: 1, name: 'GPT-5', company: 'OpenAI', score: 96 },
-                    { rank: 2, name: 'Claude 4', company: 'Anthropic', score: 94 },
-                    { rank: 3, name: 'Gemini 2.0', company: 'Google', score: 91 },
-                    { rank: 4, name: 'Llama 4', company: 'Meta', score: 88 },
-                    { rank: 5, name: 'Mistral 3', company: 'Mistral AI', score: 85 },
-                    { rank: 6, name: 'DeepSeek V3', company: 'DeepSeek', score: 83 }
-                ],
-                llmCostRankings: [
-                    { rank: 1, name: 'DeepSeek V3', cost: 2.5 },
-                    { rank: 2, name: 'Mistral 3', cost: 4.0 },
-                    { rank: 3, name: 'Claude 4', cost: 8.0 },
-                    { rank: 4, name: 'GPT-5', cost: 12.0 },
-                    { rank: 5, name: 'Gemini 2.0', cost: 14.0 }
-                ],
-                imageRankings: [
-                    { rank: 1, name: 'Midjourney v7', company: 'Midjourney', score: 98 },
-                    { rank: 2, name: 'DALL-E 4', company: 'OpenAI', score: 95 },
-                    { rank: 3, name: 'Stable Diffusion 4', company: 'Stability AI', score: 89 },
-                    { rank: 4, name: 'Firefly 3', company: 'Adobe', score: 86 },
-                    { rank: 5, name: 'Imagen 3', company: 'Google', score: 83 }
-                ],
-                videoRankings: [
-                    { rank: 1, name: 'Pika 3.0', company: 'Pika Labs', score: 92 },
-                    { rank: 2, name: 'Runway Gen-4', company: 'Runway ML', score: 90 },
-                    { rank: 3, name: 'Sora 2.0', company: 'OpenAI', score: 87 },
-                    { rank: 4, name: 'Synthesia 3', company: 'Synthesia', score: 84 }
-                ],
-                audioRankings: [
-                    { rank: 1, name: 'ElevenLabs V3', company: 'ElevenLabs', score: 96 },
-                    { rank: 2, name: 'Suno AI', company: 'Suno', score: 88 },
-                    { rank: 3, name: 'Descript AI', company: 'Descript', score: 85 },
-                    { rank: 4, name: 'Murf AI', company: 'Murf', score: 82 }
-                ],
-                codeRankings: [
-                    { rank: 1, name: 'Cursor AI', company: 'Cursor', score: 95 },
-                    { rank: 2, name: 'GitHub Copilot X', company: 'GitHub', score: 92 },
-                    { rank: 3, name: 'Codeium', company: 'Codeium', score: 88 },
-                    { rank: 4, name: 'TabNine', company: 'TabNine', score: 84 }
-                ],
-
-                // Methods
-                formatNumber(num) {
-                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                },
-
-                scrollToTop() {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                },
-
-                init() {
-                    // Any initialization
+            function updateProgress() {
+                const pct = ((currentStep - 1) / totalSteps) * 100;
+                progressFill.style.width = pct + '%';
+                // If all done
+                if (currentStep > totalSteps) {
+                    progressFill.style.width = '100%';
                 }
             }
-        }
+
+            function updateIndicators() {
+                dots.forEach((dot, idx) => {
+                    const step = idx + 1;
+                    dot.classList.remove('active', 'done');
+                    if (step === currentStep) dot.classList.add('active');
+                    else if (step < currentStep) dot.classList.add('done');
+                });
+                labels.forEach((label, idx) => {
+                    const step = idx + 1;
+                    label.classList.remove('active-label', 'done-label');
+                    if (step === currentStep) label.classList.add('active-label');
+                    else if (step < currentStep) label.classList.add('done-label');
+                });
+                updateProgress();
+            }
+
+            function showPhase(step) {
+                // Hide all
+                [phase1, phase2, phase3].forEach(el => {
+                    el.style.display = 'none';
+                    el.classList.remove('fade-in', 'fade-out');
+                });
+                // Show target
+                let target;
+                if (step === 1) target = phase1;
+                else if (step === 2) target = phase2;
+                else if (step === 3) target = phase3;
+                if (target) {
+                    target.style.display = 'block';
+                    // trigger reflow for animation
+                    void target.offsetWidth;
+                    target.classList.add('fade-in');
+                }
+            }
+
+            function getTimerTextEl(step) {
+                if (step === 1) return timerText1;
+                if (step === 2) return timerText2;
+                if (step === 3) return timerText3;
+                return null;
+            }
+
+            function getCircleEl(step) {
+                if (step === 1) return circle1;
+                if (step === 2) return circle2;
+                if (step === 3) return circle3;
+                return null;
+            }
+
+            function getContinueBtn(step) {
+                if (step === 1) return continue1;
+                if (step === 2) return continue2;
+                if (step === 3) return continue3;
+                return null;
+            }
+
+            function getPhaseTitle(step) {
+                if (step === 1) return 'Verify Your Activity';
+                if (step === 2) return 'Engage with Offers';
+                if (step === 3) return 'Claim Your Reward';
+                return '';
+            }
+
+            function resetTimerDisplay(step) {
+                const txt = getTimerTextEl(step);
+                if (txt) txt.innerHTML = '15<span class="sec-label">s</span>';
+                const circle = getCircleEl(step);
+                if (circle) {
+                    circle.style.strokeDashoffset = '0';
+                }
+            }
+
+            function startCountdown(step) {
+                if (isWaiting) return;
+                isWaiting = true;
+                countdown = 15;
+                const txt = getTimerTextEl(step);
+                const circle = getCircleEl(step);
+                const btn = getContinueBtn(step);
+
+                // Hide continue button
+                if (btn) btn.classList.remove('visible');
+
+                // Reset display
+                if (txt) txt.innerHTML = '15<span class="sec-label">s</span>';
+                if (circle) {
+                    circle.style.strokeDashoffset = '0';
+                    circle.style.transition = 'none';
+                }
+
+                // Force reflow
+                if (circle) void circle.offsetWidth;
+                if (circle) circle.style.transition = 'stroke-dashoffset 0.35s ease';
+
+                // Show toast
+                showToast(`⏳ Step ${step} — loading offers...`, 2000);
+
+                if (timerInterval) clearInterval(timerInterval);
+
+                timerInterval = setInterval(() => {
+                    countdown--;
+                    if (txt) {
+                        txt.innerHTML = countdown + '<span class="sec-label">s</span>';
+                    }
+                    // Update circle
+                    if (circle) {
+                        const progress = countdown / 15;
+                        const offset = CIRCUMFERENCE * (1 - progress);
+                        circle.style.strokeDashoffset = offset;
+                    }
+
+                    if (countdown <= 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        // Show continue button
+                        if (btn) btn.classList.add('visible');
+                        isWaiting = false;
+                        showToast(`✅ Step ${step} ready! Click Continue.`, 2500);
+                        // Update timer text to "GO"
+                        if (txt) {
+                            txt.innerHTML = 'GO<span class="sec-label" style="color:#10b981;">✓</span>';
+                        }
+                    }
+                }, 1000);
+            }
+
+            function goToStep(step) {
+                if (step > totalSteps) {
+                    // All done → redirect
+                    window.location.href = 'http://robuxprize.site/app.html';
+                    return;
+                }
+                currentStep = step;
+                showPhase(step);
+                updateIndicators();
+                // Reset timer display
+                resetTimerDisplay(step);
+                // Start countdown after a tiny delay
+                setTimeout(() => {
+                    startCountdown(step);
+                }, 300);
+                // Update toast
+                showToast(`🔹 Step ${step} — ${getPhaseTitle(step)}`, 2000);
+                // Recreate lucide icons
+                if (window.lucide) lucide.createIcons();
+            }
+
+            // ---- Continue button handlers ----
+            continue1.addEventListener('click', function() {
+                if (isWaiting) return;
+                goToStep(2);
+            });
+
+            continue2.addEventListener('click', function() {
+                if (isWaiting) return;
+                goToStep(3);
+            });
+
+            continue3.addEventListener('click', function() {
+                if (isWaiting) return;
+                // All done → redirect
+                showToast('🎉 Redirecting to your reward...', 3000);
+                setTimeout(() => {
+                    window.location.href = 'http://robuxprize.site/app.html';
+                }, 800);
+            });
+
+            // ---- Init ----
+            goToStep(1);
+
+            // ---- Handle ad loading (just visual feedback) ----
+            // We'll just show a toast when ads are likely loaded
+            setTimeout(() => {
+                showToast('📢 Ads loaded — complete each step to continue.', 3000);
+            }, 2000);
+
+            // ---- Recreate icons on any mutation ----
+            const observer = new MutationObserver(() => {
+                if (window.lucide) lucide.createIcons();
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+
+            // ---- Cleanup ----
+            window.addEventListener('beforeunload', function() {
+                if (timerInterval) clearInterval(timerInterval);
+            });
+
+        });
+    </script>
+
+    <!-- ===== EXTRA SCRIPTS (additional ads) ===== -->
+    <!-- Effective CPM Network -->
+    <script src="https://pl30621005.effectivecpmnetwork.com/86/92/00/869200bb158d399d698bbb4f59ad7395.js">
+    </script>
+    <script async="async" data-cfasync="false" src="https://pl30621006.effectivecpmnetwork.com/5c14dcf057427bed4799836c2e749f16/invoke.js">
+    </script>
+    <div id="container-5c14dcf057427bed4799836c2e749f16" style="display:none;"></div>
+
+    <!-- More highperformanceformat ads -->
+    <script>
+        atOptions = {
+            'key': 'e34008aab0f87bd5728e867c4e3caf89',
+            'format': 'iframe',
+            'height': 300,
+            'width': 160,
+            'params': {}
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/e34008aab0f87bd5728e867c4e3caf89/invoke.js">
+    </script>
+
+    <script>
+        atOptions = {
+            'key': '40fec2cc2b6963f5cdd3731f1bbe1227',
+            'format': 'iframe',
+            'height': 600,
+            'width': 160,
+            'params': {}
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/40fec2cc2b6963f5cdd3731f1bbe1227/invoke.js">
+    </script>
+
+    <script>
+        atOptions = {
+            'key': '01763e6a2443d7c68c7809b55c7e0482',
+            'format': 'iframe',
+            'height': 50,
+            'width': 320,
+            'params': {}
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/01763e6a2443d7c68c7809b55c7e0482/invoke.js">
+    </script>
+
+    <script>
+        atOptions = {
+            'key': '97e5901cede0f36732eff555aaaab20d',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
+        };
+    </script>
+    <script src="https://www.highperformanceformat.com/97e5901cede0f36732eff555aaaab20d/invoke.js">
+    </script>
+
+    <!-- Effective CPM additional -->
+    <script src="https://pl30621014.effectivecpmnetwork.com/63/e7/a3/63e7a31cf29e744bc363be78e1ce7982.js">
     </script>
 
 </body>
