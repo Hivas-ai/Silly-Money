@@ -133,6 +133,31 @@
         .stat-card:hover {
             border-color: #3f3f46;
         }
+
+        .countdown-badge {
+            background: #1a1a1e;
+            border: 1px solid #3f3f46;
+            border-radius: 0.75rem;
+            padding: 0.25rem 1rem;
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fbbf24;
+            display: inline-block;
+            min-width: 4rem;
+            text-align: center;
+        }
+        .expiry-warning {
+            background: #7f1d1d30;
+            border: 1px solid #dc262630;
+            border-radius: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            color: #fca5a5;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="collectionState()">
@@ -183,8 +208,16 @@
                         </svg>
                         <span>Processing your task...</span>
                     </div>
-                    <p class="text-xs text-zinc-500">Please wait while we verify your action. This usually takes about 2 minutes.</p>
-                    <div class="mt-4 bg-zinc-900/50 border border-zinc-800 rounded-xl p-3 text-left">
+                    <p class="text-xs text-zinc-500">Please wait while we verify your action. This usually takes about <strong class="text-white">3 minutes</strong>.</p>
+                    <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+                        <span class="text-xs text-zinc-400">⏳ Time remaining:</span>
+                        <span class="countdown-badge" x-text="getLoadingTimeLeft(activeTask.endTime)"></span>
+                        <span class="expiry-warning">
+                            <i data-lucide="clock" class="w-3 h-3"></i>
+                            Expires if not claimed!
+                        </span>
+                    </div>
+                    <div class="mt-5 bg-zinc-900/50 border border-zinc-800 rounded-xl p-3 text-left max-w-sm mx-auto">
                         <p class="text-xs text-zinc-400"><strong class="text-white">Task:</strong> <span x-text="activeTask.title"></span></p>
                         <p class="text-xs text-zinc-400 mt-1"><strong class="text-white">Reward:</strong>
                             <template x-if="activeTask.isRandomReward">🎁 Random Gift (10-50 TKNS)</template>
@@ -201,7 +234,15 @@
                         <i data-lucide="sparkles" class="w-10 h-10 text-emerald-400"></i>
                     </div>
                     <h2 class="text-xl font-bold text-white">🎉 Ready to Claim!</h2>
-                    <p class="text-sm text-zinc-400 mt-1">Your task has been completed. Claim your tokens now.</p>
+                    <p class="text-sm text-zinc-400 mt-1">Your task has been completed. Claim your tokens now before they expire!</p>
+                    <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
+                        <span class="text-xs text-amber-400 font-medium">⏳ Claim within:</span>
+                        <span class="countdown-badge" x-text="getClaimableTimeLeft(activeTask.claimableExpiry)"></span>
+                        <span class="expiry-warning">
+                            <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                            Expires in 3 minutes!
+                        </span>
+                    </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 max-w-md mx-auto">
                         <div class="stat-card text-center">
                             <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Task</p>
@@ -215,14 +256,12 @@
                             </p>
                         </div>
                     </div>
-                    <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
-                        <span class="text-xs text-amber-400 font-medium">
-                            ⏳ Claim within <span x-text="getClaimableTimeLeft(activeTask.claimableExpiry)"></span>
-                        </span>
+                    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
                         <button @click="claimTokens()" class="btn-shimmer text-white font-bold text-sm px-8 py-3 rounded-xl transition active:scale-95 shadow-lg shadow-emerald-600/30 border border-emerald-400/30 flex items-center gap-2">
-                            <i data-lucide="gift" class="w-4 h-4"></i> Claim Tokens
+                            <i data-lucide="gift" class="w-4 h-4"></i> Claim Tokens Now
                         </button>
                     </div>
+                    <p class="text-[10px] text-zinc-500 mt-3">⚠️ If you don't claim in time, the task will expire and you'll need to start over.</p>
                 </div>
             </template>
 
@@ -234,6 +273,20 @@
                     </div>
                     <h3 class="text-lg font-bold text-zinc-400">No task in progress</h3>
                     <p class="text-sm text-zinc-500 mt-2 max-w-sm mx-auto">Start a task from the main app and come back here to track it and claim your tokens.</p>
+                    <a href="index.html" class="inline-block mt-5 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition shadow-md shadow-red-600/10">
+                        <i data-lucide="arrow-left" class="w-4 h-4 inline mr-2"></i> Go to Tasks
+                    </a>
+                </div>
+            </template>
+
+            <!-- Expired state (claimable but expired) -->
+            <template x-if="activeTask && activeTask.status === 'claimable' && activeTask.claimableExpiry && activeTask.claimableExpiry <= Date.now()">
+                <div class="text-center py-8">
+                    <div class="bg-red-500/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/30">
+                        <i data-lucide="alert-circle" class="w-10 h-10 text-red-400"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-red-400">⏰ Task Expired!</h2>
+                    <p class="text-sm text-zinc-400 mt-1">You didn't claim your tokens in time. Please start the task again.</p>
                     <a href="index.html" class="inline-block mt-5 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition shadow-md shadow-red-600/10">
                         <i data-lucide="arrow-left" class="w-4 h-4 inline mr-2"></i> Go to Tasks
                     </a>
@@ -332,10 +385,10 @@
                     this.loadState();
                     this.syncWithMainApp();
 
-                    // Auto-sync every 3 seconds
+                    // Auto-sync every 2 seconds for faster updates
                     setInterval(() => {
                         this.syncWithMainApp();
-                    }, 3000);
+                    }, 2000);
 
                     // Also sync when window gains focus
                     document.addEventListener('visibilitychange', () => {
@@ -346,6 +399,7 @@
 
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     this.$watch('tasks', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('activeTask', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                 },
 
                 // ---- Load State from localStorage ----
@@ -365,9 +419,6 @@
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
-                        // We need to merge with our task definitions to get full task objects
-                        // For the collection page, we only need basic info
-                        // We'll fetch from the main app's tasks structure if available
                         this.fetchFullTasks(parsed);
                     } else {
                         this.tasks = [];
@@ -375,10 +426,8 @@
                     }
                 },
 
-                // ---- Fetch full task details from localStorage or defaults ----
+                // ---- Fetch full task details ----
                 fetchFullTasks(savedStates) {
-                    // We'll try to get the full tasks from a separate store if possible
-                    // But for simplicity, we'll build from the saved states
                     const fullTasks = [];
                     const taskTemplates = [
                         { id: 1, title: 'Sign Up', icon: 'mail-check', isRandomReward: false },
@@ -392,7 +441,6 @@
                         { id: 9, title: '📲 Join Telegram Group', icon: 'send', isRandomReward: false }
                     ];
 
-                    // Map saved states to full task objects
                     savedStates.forEach(saved => {
                         const template = taskTemplates.find(t => t.id === saved.id);
                         if (template) {
@@ -409,7 +457,6 @@
                         }
                     });
 
-                    // Also add any tasks that might be missing
                     taskTemplates.forEach(t => {
                         if (!fullTasks.find(ft => ft.id === t.id)) {
                             fullTasks.push({
@@ -427,8 +474,6 @@
                     });
 
                     this.tasks = fullTasks;
-
-                    // Find active task (loading or claimable)
                     this.activeTask = this.tasks.find(t => t.status === 'loading' || t.status === 'claimable') || null;
                 },
 
@@ -455,7 +500,6 @@
 
                     if (savedTasks) {
                         const parsed = JSON.parse(savedTasks);
-                        // Update task statuses
                         this.tasks.forEach(task => {
                             const match = parsed.find(p => p.id === task.id);
                             if (match) {
@@ -465,11 +509,9 @@
                                 task.endTime = match.endTime || null;
                             }
                         });
-                        // Update active task
                         this.activeTask = this.tasks.find(t => t.status === 'loading' || t.status === 'claimable') || null;
                     }
 
-                    // Update icons
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
@@ -490,13 +532,11 @@
                         return;
                     }
 
-                    // Claim the reward
                     let rewardAmount = task.reward;
                     if (task.isRandomReward) {
                         rewardAmount = Math.floor(Math.random() * 41) + 10;
                     }
 
-                    // Update state
                     task.status = 'completed';
                     task.cooldownUntil = Date.now() + 600000;
                     task.claimableExpiry = null;
@@ -504,23 +544,16 @@
                     this.totalTokensEarned += rewardAmount;
                     this.completedTasksCount++;
 
-                    // Update level
                     this.updateLevel();
-
-                    // Save to localStorage
                     this.saveState();
-
-                    // Update active task
                     this.activeTask = null;
 
-                    // Show success
                     if (task.isRandomReward) {
                         this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁', 'Thanks for participating!');
                     } else {
                         this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰', 'Task will be available again in 10 minutes.');
                     }
 
-                    // Sync with main app
                     this.syncWithMainApp();
                 },
 
@@ -569,17 +602,25 @@
                     if (this.toastTimeout) clearTimeout(this.toastTimeout);
                 },
 
-                // ---- Computed ----
+                // ---- Computed timers ----
+                getLoadingTimeLeft(endTime) {
+                    if (!endTime) return '0:00';
+                    const now = Date.now();
+                    const diff = endTime - now;
+                    if (diff <= 0) return '0:00';
+                    const mins = Math.floor(diff / 60000);
+                    const secs = Math.floor((diff % 60000) / 1000);
+                    return `${mins}:${secs.toString().padStart(2, '0')}`;
+                },
+
                 getClaimableTimeLeft(expiry) {
-                    if (!expiry) return 'N/A';
+                    if (!expiry) return '0:00';
                     const now = Date.now();
                     const diff = expiry - now;
-                    if (diff <= 0) return 'Expired';
-                    const secs = Math.floor(diff / 1000);
-                    const mins = Math.floor(secs / 60);
-                    const remSecs = secs % 60;
-                    if (mins > 0) return `${mins}m ${remSecs}s`;
-                    return `${secs}s`;
+                    if (diff <= 0) return '0:00';
+                    const mins = Math.floor(diff / 60000);
+                    const secs = Math.floor((diff % 60000) / 1000);
+                    return `${mins}:${secs.toString().padStart(2, '0')}`;
                 }
             }
         }
