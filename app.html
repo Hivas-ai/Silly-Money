@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RobuxPrize | Earn Robux Honestly</title>
+    <title>RobuxPrize | Update in Progress</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
     </script>
@@ -35,6 +35,2327 @@
         [x-cloak] {
             display: none !important;
         }
+
+        .wheel-transition {
+            transition: transform 5s cubic-bezier(0.2, 0.8, 0.1, 1);
+        }
+
+        .visual-wheel {
+            background: conic-gradient(#dc2626 0deg 45deg,
+                    #18181b 45deg 90deg,
+                    #ef4444 90deg 135deg,
+                    #27272a 135deg 180deg,
+                    #dc2626 180deg 225deg,
+                    #18181b 225deg 270deg,
+                    #ef4444 270deg 315deg,
+                    #27272a 315deg 360deg);
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        .btn-shimmer {
+            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+            background-size: 200% auto;
+            animation: shimmer 2s linear infinite;
+        }
+        .btn-shimmer:hover {
+            animation-duration: 0.8s;
+        }
+
+        @keyframes glow-pulse {
+            0%,
+            100% {
+                box-shadow: 0 0 4px rgba(59, 130, 246, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+            }
+        }
+        .btn-open-task {
+            border-color: #3b82f6;
+            color: #93c5fd;
+            transition: all 0.2s;
+        }
+        .btn-open-task:hover {
+            background: #1e293b;
+            border-color: #60a5fa;
+            color: #bfdbfe;
+            animation: glow-pulse 1.2s ease-in-out infinite;
+        }
+
+        /* CENTERED TOAST – even smaller size */
+        .toast-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+            max-width: 300px;
+            width: 90%;
+        }
+        .toast-center .toast-inner {
+            pointer-events: auto;
+            background: #0a0a0c;
+            border: 1px solid #dc2626;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
+            border-radius: 1rem;
+            padding: 0.7rem 1rem 0.7rem;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .toast-center .toast-inner .toast-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.1rem;
+        }
+        .toast-center .toast-inner .toast-msg {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #f1f1f1;
+            line-height: 1.3;
+        }
+        .toast-center .toast-inner .toast-sub {
+            font-size: 0.65rem;
+            color: #a1a1aa;
+            margin-top: 0.1rem;
+        }
+        .toast-center .toast-inner .toast-ok-btn {
+            margin-top: 0.6rem;
+            background: #dc2626;
+            border: none;
+            padding: 0.25rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+        }
+        .toast-center .toast-inner .toast-ok-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* Notif badge pulse */
+        @keyframes notif-pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+        .notif-badge {
+            animation: notif-pulse 1.8s ease-in-out infinite;
+        }
+
+        /* Rules overlay - full screen modal style */
+        .rules-modal-overlay {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .checkbox-honest {
+            accent-color: #dc2626;
+            width: 1.1rem;
+            height: 1.1rem;
+            cursor: pointer;
+        }
+        /* Custom scroll for rules list */
+        .rules-scroll {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .rules-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .rules-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .rules-scroll::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 2px;
+        }
+
+        /* Level progress */
+        .level-progress-bar {
+            background: #27272a;
+            border-radius: 9999px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .level-progress-fill {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        /* Leaderboard item */
+        .leaderboard-item {
+            transition: background 0.15s;
+        }
+        .leaderboard-item:hover {
+            background: #1c1c1e;
+        }
+        .leaderboard-rank {
+            font-weight: 800;
+            color: #52525b;
+            min-width: 1.5rem;
+        }
+        .leaderboard-rank.gold {
+            color: #fbbf24;
+        }
+        .leaderboard-rank.silver {
+            color: #a1a1aa;
+        }
+        .leaderboard-rank.bronze {
+            color: #d97706;
+        }
+
+        /* Profile avatar placeholder */
+        .profile-avatar {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        /* Professional Withdraw Card */
+        .withdraw-tier-card {
+            transition: all 0.2s;
+            border: 1px solid #27272a;
+            background: #18181b;
+            border-radius: 1rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+        }
+        .withdraw-tier-card:hover {
+            border-color: #3f3f46;
+        }
+        .withdraw-tier-card.active {
+            border-color: #dc2626;
+            background: #1f1a1a;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.1);
+        }
+        .withdraw-tier-card .tier-amount {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: white;
+        }
+        .withdraw-tier-card .tier-cost {
+            font-size: 0.7rem;
+            color: #a1a1aa;
+            font-weight: 500;
+            background: #27272a;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+        }
+        .withdraw-tier-card .tier-badge {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: #52525b;
+        }
+        .withdraw-tier-card.active .tier-badge {
+            color: #dc2626;
+        }
+
+        /* Task Modal Overlay */
+        .task-modal-overlay {
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+        }
+        .task-modal-content {
+            background: #121214;
+            border: 1px solid #27272a;
+            border-radius: 1.5rem;
+            max-width: 520px;
+            width: 92%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .task-modal-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .task-modal-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .task-modal-content::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 2px;
+        }
+        .giveaway-timer {
+            background: #1a1a1e;
+            border: 1px solid #3f3f46;
+            border-radius: 0.75rem;
+            padding: 0.5rem 1rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #fbbf24;
+            text-align: center;
+        }
+
+        /* ===== MAINTENANCE OVERLAY ===== */
+        .maintenance-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(8, 8, 10, 0.94);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .maintenance-overlay .maintenance-card {
+            max-width: 540px;
+            width: 100%;
+            background: #121214;
+            border: 1px solid #27272a;
+            border-radius: 2rem;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+        .maintenance-overlay .maintenance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(220, 38, 38, 0.06), transparent 70%);
+            pointer-events: none;
+        }
+        .maintenance-overlay .maintenance-icon {
+            width: 5rem;
+            height: 5rem;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.2);
+            position: relative;
+        }
+        .maintenance-overlay .maintenance-icon svg {
+            width: 2.5rem;
+            height: 2.5rem;
+            color: white;
+        }
+        .maintenance-overlay .maintenance-icon .pulse-ring {
+            position: absolute;
+            inset: -6px;
+            border-radius: 9999px;
+            border: 2px solid rgba(220, 38, 38, 0.2);
+            animation: ring-pulse 2s ease-out infinite;
+        }
+        @keyframes ring-pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+        .maintenance-overlay h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        .maintenance-overlay h1 span {
+            color: #dc2626;
+        }
+        .maintenance-overlay .sub-text {
+            color: #a1a1aa;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            max-width: 400px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+        .maintenance-overlay .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            max-width: 320px;
+            margin: 0 auto 1.75rem;
+            position: relative;
+        }
+        .maintenance-overlay .timer-grid .time-block {
+            background: #1a1a1e;
+            border: 1px solid #27272a;
+            border-radius: 0.75rem;
+            padding: 0.5rem 0.25rem;
+        }
+        .maintenance-overlay .timer-grid .time-block .number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: monospace;
+            color: white;
+            display: block;
+            line-height: 1.2;
+        }
+        .maintenance-overlay .timer-grid .time-block .label {
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #52525b;
+            font-weight: 600;
+        }
+        .maintenance-overlay .status-badge {
+            display: inline-block;
+            background: rgba(220, 38, 38, 0.12);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            color: #f87171;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.3rem 1rem;
+            border-radius: 9999px;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .maintenance-overlay .status-badge .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #dc2626;
+            border-radius: 9999px;
+            margin-right: 0.4rem;
+            animation: dot-pulse 1.4s ease-in-out infinite;
+        }
+        @keyframes dot-pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.6);
+            }
+        }
+        .maintenance-overlay .progress-track {
+            background: #1a1a1e;
+            border-radius: 9999px;
+            height: 4px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 0.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .maintenance-overlay .progress-track .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #dc2626, #ef4444, #dc2626);
+            background-size: 200% 100%;
+            animation: progress-shimmer 2s linear infinite;
+            border-radius: 9999px;
+            transition: width 1s ease;
+        }
+        @keyframes progress-shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+        .maintenance-overlay .eta-text {
+            font-size: 0.65rem;
+            color: #52525b;
+            font-weight: 500;
+            position: relative;
+        }
+        .maintenance-overlay .footer-note {
+            margin-top: 1.25rem;
+            font-size: 0.6rem;
+            color: #3f3f46;
+            border-top: 1px solid #1a1a1e;
+            padding-top: 1rem;
+            position: relative;
+        }
+        .maintenance-overlay .footer-note a {
+            color: #52525b;
+            text-decoration: none;
+        }
+        .maintenance-overlay .footer-note a:hover {
+            color: #a1a1aa;
+        }
+
+        /* disable pointer events on main content during maintenance */
+        .main-content-blocked {
+            pointer-events: none;
+            user-select: none;
+            opacity: 0.3;
+            filter: grayscale(0.4);
+        }
+        .main-content-blocked button,
+        .main-content-blocked a,
+        .main-content-blocked input,
+        .main-content-blocked .withdraw-tier-card,
+        .main-content-blocked [x-on\:click] {
+            cursor: not-allowed !important;
+        }
+    </style>
+</head>
+<body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
+
+    <!-- ===== MAINTENANCE OVERLAY ===== -->
+    <div class="maintenance-overlay" x-show="!updateComplete" x-transition:enter="transition ease-out duration-700" x-transition:enter-start="opacity-0 scale-105" x-transition:enter-end="opacity-100 scale-100">
+        <div class="maintenance-card">
+            <div class="maintenance-icon">
+                <div class="pulse-ring"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.75 3.75l.813 2.846a4.5 4.5 0 003.09 3.09L22.5 12l-2.846.813a4.5 4.5 0 00-3.09 3.09L15.75 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L9 12l2.846-.813a4.5 4.5 0 003.09-3.09L15.75 3.75l.813 2.846a4.5 4.5 0 003.09 3.09L22.5 12l-2.846.813a4.5 4.5 0 00-3.09 3.09L18.75 18.75z" />
+                </svg>
+            </div>
+
+            <div class="status-badge">
+                <span class="dot"></span> System Update in Progress
+            </div>
+
+            <h1>We're <span>Upgrading</span> the Platform</h1>
+            <p class="sub-text">
+                Our team is working hard to bring you a faster, more secure, and feature-rich experience.
+                Please bear with us — we'll be back online shortly.
+            </p>
+
+            <!-- Timer -->
+            <div class="timer-grid">
+                <div class="time-block">
+                    <span class="number" x-text="String(Math.floor(updateRemaining / 3600000)).padStart(2, '0')"></span>
+                    <span class="label">Hours</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" x-text="String(Math.floor((updateRemaining % 3600000) / 60000)).padStart(2, '0')"></span>
+                    <span class="label">Minutes</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" x-text="String(Math.floor((updateRemaining % 60000) / 1000)).padStart(2, '0')"></span>
+                    <span class="label">Seconds</span>
+                </div>
+                <div class="time-block">
+                    <span class="number" x-text="Math.floor(updateProgress)"></span>
+                    <span class="label">% Done</span>
+                </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="progress-track">
+                <div class="progress-fill" :style="'width: ' + updateProgress + '%'"></div>
+            </div>
+            <p class="eta-text" x-text="'Estimated completion: ' + etaMessage"></p>
+
+            <div class="footer-note">
+                <span>⏳ Please wait up to 24 hours. We appreciate your patience.</span>
+                <br />
+                <span class="text-[0.5rem] text-zinc-600">© 2026 RobuxPrize — All systems undergoing maintenance.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTENT (blocked during update) ===== -->
+    <div :class="!updateComplete ? 'main-content-blocked' : ''">
+
+        <!-- TOP NAV -->
+        <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2 cursor-pointer" @click="currentTab = 'dashboard'">
+                    <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20 animate-pulse">
+                        <i data-lucide="ticket" class="w-6 h-6"></i>
+                    </div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
+                        <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                        <span class="text-sm font-bold text-white tracking-wide" x-text="tokens + ' TKNS'"></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN -->
+        <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-24 lg:pb-12">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+
+                <!-- SIDEBAR -->
+                <aside class="hidden lg:block space-y-2">
+                    <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl space-y-1">
+                        <p class="text-xs font-bold text-zinc-500 px-3 uppercase tracking-wider mb-3">Navigation</p>
+                        <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
+                        </button>
+                        <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                            <i data-lucide="clipboard-list" class="w-5 h-5"></i> Tasks
+                        </button>
+                        <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                            <i data-lucide="coins" class="w-5 h-5"></i> Convert & Withdraw
+                        </button>
+                        <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                            <i data-lucide="users" class="w-5 h-5"></i> Invite & Promos
+                        </button>
+                        <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                            <i data-lucide="user" class="w-5 h-5"></i> Profile & Account
+                        </button>
+                        <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition relative">
+                            <i data-lucide="shield-alert" class="w-5 h-5"></i> Platform Rules
+                            <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-gradient-to-b from-zinc-950 to-zinc-900 border border-zinc-900 p-4 rounded-2xl text-center">
+                        <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500 mx-auto mb-2"></i>
+                        <h4 class="text-sm font-semibold text-white">System Secure</h4>
+                        <p class="text-xs text-zinc-500 mt-1">VPN detection active. Play honest, get paid instantly.</p>
+                    </div>
+                </aside>
+
+                <!-- CONTENT -->
+                <section class="lg:col-span-3 min-h-[60vh]">
+
+                    <!-- ===== DASHBOARD ===== -->
+                    <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+
+                        <div class="bg-gradient-to-r from-red-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                                <i data-lucide="ticket" class="w-48 h-48 text-red-500"></i>
+                            </div>
+                            <div class="max-w-md space-y-3 relative z-10">
+                                <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Active Event x2</span>
+                                <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Turn simple modern micro-tasks into clean Robux.</h2>
+                                <p class="text-zinc-400 text-sm leading-relaxed">Complete verified offers, install applications, register securely, or join premium social hubs to bag Token Papers instantly.</p>
+                                <button @click="currentTab = 'tasks'" class="mt-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition shadow-md shadow-red-600/10">Start Earning Now</button>
+                            </div>
+                        </div>
+
+                        <!-- Stats + Level + Leaderboard Row -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <div class="lg:col-span-2 grid grid-cols-2 gap-4">
+                                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                                    <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                        <span class="text-xs font-medium tracking-wider uppercase">Your Balance</span>
+                                        <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                                    </div>
+                                    <p class="text-2xl font-black text-white tracking-tight" x-text="tokens"></p>
+                                    <span class="text-[11px] text-zinc-500 font-medium">Token Papers Available</span>
+                                </div>
+                                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                                    <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                        <span class="text-xs font-medium tracking-wider uppercase">Level</span>
+                                        <i data-lucide="trending-up" class="w-4 h-4 text-amber-500"></i>
+                                    </div>
+                                    <p class="text-2xl font-black text-white tracking-tight" x-text="'Lv.' + userLevel"></p>
+                                    <span class="text-[11px] text-zinc-500 font-medium" x-text="'Total Earned: ' + totalTokensEarned + ' TKNS'"></span>
+                                    <div class="mt-2 level-progress-bar">
+                                        <div class="level-progress-fill" :style="'width: ' + levelProgress + '%'"></div>
+                                    </div>
+                                    <span class="text-[10px] text-zinc-500 mt-1 block" x-text="'Next level in ' + (nextLevelXP - totalTokensEarned) + ' TKNS'"></span>
+                                </div>
+                                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl col-span-2">
+                                    <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                        <span class="text-xs font-medium tracking-wider uppercase">Completed Tasks</span>
+                                        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+                                    </div>
+                                    <p class="text-2xl font-black text-white tracking-tight" x-text="completedTasksCount"></p>
+                                    <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned'"></span>
+                                </div>
+                            </div>
+
+                            <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col">
+                                <div class="flex items-center justify-between border-b border-zinc-900 pb-2 mb-2">
+                                    <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Leaderboard</h4>
+                                    <span class="text-[10px] text-zinc-500 font-mono">Top 5</span>
+                                </div>
+                                <div class="space-y-1.5 flex-1">
+                                    <template x-for="(user, idx) in leaderboardUsers" :key="user.id">
+                                        <div class="leaderboard-item flex items-center gap-2 px-1 py-1 rounded-lg text-xs">
+                                            <span class="leaderboard-rank" :class="{
+                                                'gold': idx === 0,
+                                                'silver': idx === 1,
+                                                'bronze': idx === 2
+                                            }" x-text="'#' + (idx+1)"></span>
+                                            <div class="w-5 h-5 rounded-full bg-zinc-800 flex items-center justify-center text-[9px] font-bold text-white">
+                                                <span x-text="user.avatar"></span>
+                                            </div>
+                                            <span class="text-zinc-300 font-medium" x-text="user.name"></span>
+                                            <span class="ml-auto text-zinc-400 font-mono" x-text="user.tokens + ' TKNS'"></span>
+                                            <span class="text-[9px] text-zinc-500" x-text="'Lv.' + user.level"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                                <div class="border-t border-zinc-900 pt-2 mt-2 text-[10px] text-zinc-500 text-center">
+                                    Your ID: <span class="text-zinc-300 font-mono" x-text="userId"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Streak + Wheel -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Consecutive Daily Streak</span>
+                                        <span class="text-xs text-zinc-400 font-medium font-mono" x-text="'Day ' + currentStreak"></span>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white">Claim Your Daily Tokens</h3>
+                                    <p class="text-zinc-400 text-xs leading-relaxed">Don't break your momentum! Log in every day to upgrade your token payout systematically up to Day 7.</p>
+                                    <div class="grid grid-cols-4 gap-2 pt-2">
+                                        <template x-for="(reward, index) in streakDays" :key="index">
+                                            <div :class="{
+                                                'border-emerald-500/30 bg-emerald-950/20': index + 1 === currentStreak && isDailyGiftAvailable,
+                                                'border-zinc-800 bg-zinc-900/20 opacity-40': index + 1 > currentStreak || (index + 1 === currentStreak && !isDailyGiftAvailable),
+                                                'border-emerald-500 bg-emerald-500/10 text-emerald-400': index + 1 < currentStreak
+                                            }" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px] transition">
+                                                <span class="text-[9px] font-bold text-zinc-400 uppercase" x-text="'Day ' + (index + 1)"></span>
+                                                <template x-if="index + 1 < currentStreak">
+                                                    <i data-lucide="check-circle" class="w-3.5 h-3.5 mt-1 text-emerald-400"></i>
+                                                </template>
+                                                <template x-if="index + 1 >= currentStreak">
+                                                    <span class="text-xs font-black mt-1 text-white" x-text="'+' + reward"></span>
+                                                </template>
+                                                <span class="text-[8px] text-zinc-500 mt-0.5">Tokens</span>
+                                            </div>
+                                        </template>
+                                        <div :class="currentStreak === 8 && isDailyGiftAvailable ? 'border-amber-500/30 bg-amber-950/20' : 'border-zinc-800 bg-zinc-900/20 opacity-40'" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px]">
+                                            <span class="text-[9px] font-bold text-zinc-400 uppercase">Day 8</span>
+                                            <i data-lucide="gift" class="w-4 h-4 text-amber-400 mt-1"></i>
+                                            <span class="text-[8px] text-zinc-500 mt-0.5">Bonus</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-6 pt-4 border-t border-zinc-900 flex items-center justify-between">
+                                    <span class="text-xs text-zinc-500 font-medium" x-text="dailyGiftCooldownStr"></span>
+                                    <button @click="claimDailyStreak()" :disabled="!isDailyGiftAvailable" :class="isDailyGiftAvailable ? 'bg-emerald-600 hover:bg-emerald-500 text-white active:scale-95' : 'bg-zinc-900 text-zinc-600 cursor-not-allowed border border-zinc-800'" class="text-xs font-bold px-4 py-2.5 rounded-xl transition shadow-lg">
+                                        <span x-show="isDailyGiftAvailable" x-text="'Claim Day ' + currentStreak"></span>
+                                        <span x-show="!isDailyGiftAvailable">Claimed</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+                                <div class="flex items-center justify-between">
+                                    <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" x-text="isFirstSpin ? 'Free First Turn' : 'Cost: 5 TKNS'"></span>
+                                    <span class="text-xs text-zinc-400 font-mono">Win up to 100 TKNS</span>
+                                </div>
+                                <div class="my-4 flex flex-col sm:flex-row items-center justify-center gap-6">
+                                    <div class="relative">
+                                        <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-20 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[14px] border-t-amber-400 drop-shadow"></div>
+                                        <div class="w-36 h-36 rounded-full border-4 border-zinc-800 shadow-2xl relative overflow-hidden visual-wheel wheel-transition" :style="'transform: rotate(' + wheelAngle + 'deg)'">
+                                            <div class="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white pointer-events-none">
+                                                <div class="absolute transform -translate-y-12 rotate-0">5</div>
+                                                <div class="absolute transform translate-x-8 -translate-y-8 rotate-45">10</div>
+                                                <div class="absolute transform translate-x-12 rotate-90">20</div>
+                                                <div class="absolute transform translate-x-8 translate-y-8 rotate-135">50</div>
+                                                <div class="absolute transform translate-y-12 rotate-180">5</div>
+                                                <div class="absolute transform -translate-x-8 translate-y-8 rotate-225">10</div>
+                                                <div class="absolute transform -translate-x-12 rotate-270">20</div>
+                                                <div class="absolute transform -translate-x-8 -translate-y-8 rotate-315">100</div>
+                                            </div>
+                                            <div class="absolute inset-0 m-auto w-8 h-8 bg-zinc-950 border-2 border-zinc-800 rounded-full flex items-center justify-center shadow-md">
+                                                <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center sm:text-left space-y-2">
+                                        <h4 class="text-sm font-bold text-white">Wheel of Fortune</h4>
+                                        <p class="text-xs text-zinc-400 leading-relaxed">Spin the visual wheel to score high rewards instantly. Slices are weighted equally!</p>
+                                        <button @click="spinWheel()" :disabled="isSpinning || (spinCooldownUntil > Date.now()) || (!isFirstSpin && tokens < 5)" :class="isSpinning ? 'opacity-50 cursor-not-allowed' : (spinCooldownUntil > Date.now() ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'active:scale-95')" class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xs px-5 py-2.5 rounded-xl transition shadow-lg shadow-red-600/10">
+                                            <span x-show="!isSpinning && spinCooldownUntil <= Date.now()">
+                                                <span x-text="isFirstSpin ? 'Free Spin' : 'Spin (5 TKNS)'"></span>
+                                            </span>
+                                            <span x-show="!isSpinning && spinCooldownUntil > Date.now()">
+                                                ⏳ <span x-text="spinCooldownDisplay"></span>
+                                            </span>
+                                            <span x-show="isSpinning">Spinning...</span>
+                                        </button>
+                                        <p x-show="spinCooldownUntil > Date.now()" class="text-[10px] text-amber-400 font-medium mt-1">Try again after the cooldown ends.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live logs -->
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
+                            <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
+                                <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                                    <span class="flex h-2 w-2 relative">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                    </span>
+                                    Real-Time Platform Dispersals
+                                </h3>
+                                <span class="text-xs text-zinc-500 font-medium font-mono">LIVE FEED</span>
+                            </div>
+                            <div class="space-y-2.5 max-h-[220px] overflow-hidden relative custom-scrollbar">
+                                <template x-for="log in liveLogs" :key="log.id">
+                                    <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="flex justify-between items-center text-xs bg-zinc-900/40 p-2.5 rounded-xl border border-zinc-900 hover:border-zinc-800 transition">
+                                        <div class="flex items-center gap-2">
+                                            <div class="p-1 bg-emerald-500/10 rounded-lg text-emerald-500 border border-emerald-500/10">
+                                                <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+                                            </div>
+                                            <span class="text-zinc-300 font-medium">
+                                                Account <strong class="text-zinc-100 font-semibold font-mono" x-text="log.userId"></strong> successfully withdrew profits
+                                            </span>
+                                        </div>
+                                        <span class="text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-md border border-emerald-500/10" x-text="'+' + log.amount + ' ROBUX'"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== TASKS ===== -->
+                    <div x-show="currentTab === 'tasks'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h2 class="text-xl font-bold tracking-tight text-white">Task Wall</h2>
+                                <p class="text-zinc-500 text-xs mt-0.5">Fulfill verification directives correctly to receive Token Paper tokens.</p>
+                            </div>
+                        </div>
+
+                        <div x-show="isTaskRunning" x-transition class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-400 font-medium">
+                            <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+                            <span>An active task sequence is already underway. You can only work on 1 task at a time.</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <template x-for="task in tasks" :key="task.id">
+                                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between hover:border-zinc-800 transition duration-200 group">
+                                    <div>
+                                        <div class="flex justify-between items-start gap-2 mb-3">
+                                            <div class="bg-zinc-900 p-2.5 rounded-xl text-zinc-300 border border-zinc-800 group-hover:border-red-500/30 transition">
+                                                <i :data-lucide="task.icon" class="w-5 h-5 text-red-500"></i>
+                                            </div>
+                                            <span class="text-xs font-bold text-red-400 bg-red-500/10 px-2.5 py-1 rounded-lg border border-red-500/20">
+                                                <template x-if="task.isRandomReward">
+                                                    🎁 Random Gift
+                                                </template>
+                                                <template x-if="!task.isRandomReward">
+                                                    <span x-text="'+' + task.reward + ' Tokens'"></span>
+                                                </template>
+                                            </span>
+                                        </div>
+                                        <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
+                                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
+
+                                        <template x-if="task.id === 8 && task.giveawayExpiry">
+                                            <div class="mt-2 text-xs text-amber-400 font-medium">
+                                                🎁 Giveaway ends in: <span x-text="getGiveawayRemaining(task.giveawayExpiry)"></span>
+                                            </div>
+                                        </template>
+                                        <template x-if="task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry">
+                                            <div class="mt-2 text-xs text-red-400 font-bold">
+                                                ⛔ Giveaway expired. This task is no longer available.
+                                            </div>
+                                        </template>
+
+                                        <template x-if="task.status === 'loading'">
+                                            <div class="mt-2 text-xs text-blue-400 font-medium flex items-center gap-1.5">
+                                                <svg class="animate-spin h-3.5 w-3.5 text-amber-400" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Processing...
+                                            </div>
+                                        </template>
+
+                                        <template x-if="task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry > Date.now()">
+                                            <div class="mt-2 text-xs text-amber-400 font-medium">
+                                                ⏳ Claim within <span x-text="getClaimableTimeLeft(task.claimableExpiry)"></span>
+                                            </div>
+                                        </template>
+                                        <template x-if="task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()">
+                                            <div class="mt-2 text-xs text-red-400 font-medium">
+                                                ⏰ Task expired! Start again.
+                                            </div>
+                                        </template>
+
+                                        <template x-if="task.isRepeatable && task.status === 'completed' && task.cooldownUntil && task.cooldownUntil > Date.now()">
+                                            <div class="mt-2 text-xs text-amber-400 font-medium">
+                                                ⏳ Available again in <span x-text="getCooldownDisplay(task.cooldownUntil)"></span>
+                                            </div>
+                                        </template>
+                                    </div>
+
+                                    <div class="mt-4 pt-4 border-t border-zinc-900 flex items-center justify-between">
+                                        <span class="text-[11px] text-zinc-500 flex items-center gap-1">
+                                            <i data-lucide="info" class="w-3.5 h-3.5 text-zinc-500"></i> Claim within 1 min.
+                                        </span>
+                                        <div class="flex items-center gap-2">
+
+                                            <template x-if="task.status === 'loading' || task.status === 'claimable'">
+                                                <button @click.stop="openTaskLink(task)" class="btn-open-task text-xs bg-zinc-900/60 border border-blue-500/40 hover:bg-zinc-800 text-blue-300 px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-medium">
+                                                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Task
+                                                </button>
+                                            </template>
+
+                                            <button @click="handleTaskInteraction(task)" :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) || (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)" :class="{
+                                                'bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-md shadow-red-600/20 active:scale-95 border border-red-500/30': task.status === 'idle' && !(task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry),
+                                                'bg-zinc-800/80 border border-zinc-700 text-zinc-400 cursor-not-allowed backdrop-blur-sm': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
+                                                'btn-shimmer text-white font-bold tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 active:scale-95 border border-emerald-400/30': task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry > Date.now(),
+                                                'bg-zinc-800/60 border border-zinc-700 text-zinc-500 cursor-not-allowed': task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) || (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)
+                                            }" class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
+
+                                                <template x-if="task.status === 'loading'">
+                                                    <span class="flex items-center gap-1.5">
+                                                        <svg class="animate-spin h-3.5 w-3.5 text-amber-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                                        Processing...
+                                                    </span>
+                                                </template>
+
+                                                <template x-if="task.status === 'idle'">
+                                                    <span x-show="!(task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)" class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> Start Offer</span>
+                                                    <span x-show="task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry" class="flex items-center gap-1 text-red-400">Expired</span>
+                                                </template>
+
+                                                <template x-if="task.status === 'claimable'">
+                                                    <span x-show="task.claimableExpiry && task.claimableExpiry > Date.now()" class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
+                                                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Claim Tokens
+                                                    </span>
+                                                    <span x-show="!task.claimableExpiry || task.claimableExpiry <= Date.now()" class="flex items-center gap-1.5 text-red-400 text-[11px] font-bold">
+                                                        <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Expired
+                                                    </span>
+                                                </template>
+
+                                                <template x-if="task.status === 'completed'">
+                                                    <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Completed</span>
+                                                </template>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- ===== WITHDRAW ===== -->
+                    <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                        <div>
+                            <h2 class="text-xl font-bold tracking-tight text-white">💳 Token Exchange Portal</h2>
+                            <p class="text-zinc-500 text-xs mt-0.5">Convert your validated Token Paper balance securely into direct payout Robux.</p>
+                        </div>
+
+                        <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
+                            <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                            <div>
+                                <p class="text-sm font-bold text-amber-400">⚠️ Important – Withdraw Safely</p>
+                                <p class="text-xs text-zinc-300 leading-relaxed mt-0.5">
+                                    <strong>All tasks must be completed honestly</strong> and in accordance with the instructions. We verify your activity before approving any payout. Skipping tasks or collecting tokens without genuinely completing them <strong class="text-red-400">may result in your Robux not being delivered</strong>. Always complete tasks honestly to receive everything without problems.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between md:col-span-1">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <i data-lucide="info" class="text-red-500 w-4 h-4"></i>
+                                        <h3 class="text-sm font-bold text-white">Exchange Rate</h3>
+                                    </div>
+                                    <p class="text-xs text-zinc-400 leading-relaxed">Fixed rate, no hidden fees.</p>
+                                    <div class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-900 mt-4 text-center">
+                                        <span class="text-xs font-mono tracking-wider text-zinc-300">10 TKNS = <strong class="text-red-400">100 Robux</strong></span>
+                                    </div>
+                                    <div class="mt-3 text-center">
+                                        <span class="text-[10px] text-zinc-500">Current balance</span>
+                                        <p class="text-xl font-black text-white" x-text="tokens + ' TKNS'"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 md:col-span-3 space-y-4">
+                                <template x-if="withdrawStatus === 'loading'">
+                                    <div class="py-8 text-center space-y-3">
+                                        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600 mx-auto"></div>
+                                        <p class="text-sm font-medium text-zinc-300">Validating compliance variables & generating route parameters...</p>
+                                    </div>
+                                </template>
+
+                                <template x-if="withdrawStatus === 'confirming'">
+                                    <div class="py-6 text-center space-y-4 border border-red-500/20 bg-red-500/5 rounded-xl p-5">
+                                        <i data-lucide="user-check" class="w-10 h-10 text-red-500 mx-auto animate-bounce"></i>
+                                        <div>
+                                            <h4 class="text-base font-bold text-white">Account Parameter Verification</h4>
+                                            <p class="text-xs text-zinc-300 mt-1">Please make sure that the user is right:</p>
+                                            <p class="text-lg font-black text-red-500 tracking-wide mt-2 bg-zinc-950 inline-block px-4 py-1.5 border border-zinc-800 rounded-xl" x-text="robloxUser"></p>
+                                        </div>
+                                        <div class="flex gap-2 justify-center pt-2">
+                                            <button @click="withdrawStatus = 'idle'" class="text-xs bg-zinc-900 px-4 py-2 rounded-xl text-zinc-400 hover:text-white transition">Edit Name</button>
+                                            <button @click="confirmAndCompleteWithdraw()" class="text-xs bg-red-600 px-5 py-2 font-bold rounded-xl text-white hover:bg-red-700 transition">Yes, It's Correct</button>
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <template x-if="withdrawStatus === 'complete'">
+                                    <div class="py-6 text-center space-y-3 border border-emerald-500/20 bg-emerald-500/5 rounded-xl p-4">
+                                        <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500 mx-auto"></i>
+                                        <h4 class="text-base font-bold text-white">Order Successfully Formed!</h4>
+                                        <p class="text-xs text-zinc-300 leading-relaxed">Verification protocol complete. You will receive your Robux in your designated Roblox account within <strong class="text-emerald-400">24h</strong>.</p>
+                                        <button @click="withdrawStatus = 'idle'" class="mt-2 text-xs bg-zinc-900 px-3 py-1.5 rounded-lg border border-zinc-800 hover:text-white transition">Form Another Payout</button>
+                                    </div>
+                                </template>
+
+                                <template x-if="withdrawStatus === 'idle'">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Target Roblox Username</label>
+                                            <input type="text" x-model="robloxUser" placeholder="e.g. CoolPlayer123" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Select Bundle Package</label>
+                                            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
+                                                <button @click="selectedTier = 5000" :class="selectedTier === 5000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">5,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">500 TKNS</span>
+                                                    </div>
+                                                </button>
+                                                <button @click="selectedTier = 10000" :class="selectedTier === 10000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">10,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">1,000 TKNS</span>
+                                                    </div>
+                                                </button>
+                                                <button @click="selectedTier = 15000" :class="selectedTier === 15000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">15,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">1,500 TKNS</span>
+                                                    </div>
+                                                </button>
+                                                <button @click="selectedTier = 25000" :class="selectedTier === 25000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">25,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">2,500 TKNS</span>
+                                                    </div>
+                                                </button>
+                                                <button @click="selectedTier = 30000" :class="selectedTier === 30000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">30,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">3,000 TKNS</span>
+                                                    </div>
+                                                </button>
+                                                <button @click="selectedTier = 35000" :class="selectedTier === 35000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">35,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">3,500 TKNS</span>
+                                                    </div>
+                                                </button>
+                                                <button @click="selectedTier = 40000" :class="selectedTier === 40000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">40,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">4,000 TKNS</span>
+                                                    </div>
+                                                </button>
+                                                <button @click="selectedTier = 45000" :class="selectedTier === 45000 ? 'active' : ''" class="withdraw-tier-card">
+                                                    <div class="flex flex-col">
+                                                        <span class="tier-amount">45,000</span>
+                                                        <span class="tier-badge">Robux</span>
+                                                        <span class="tier-cost">4,500 TKNS</span>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-start gap-2.5 bg-zinc-900/50 p-3 rounded-xl border border-zinc-800">
+                                            <input type="checkbox" x-model="withdrawHonestConfirm" class="checkbox-honest mt-0.5" />
+                                            <label class="text-[11px] text-zinc-400 leading-relaxed cursor-pointer select-none">
+                                                I confirm that I have <strong class="text-white">honestly completed all tasks</strong> I claimed tokens for. I understand that if I skipped tasks or collected without doing them, my Robux payout <strong class="text-red-400">will be rejected</strong>.
+                                            </label>
+                                        </div>
+
+                                        <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim()" :class="(!withdrawHonestConfirm || !robloxUser.trim()) ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-red-600 hover:bg-red-700'" class="w-full text-white font-semibold text-sm py-3 rounded-xl shadow-lg shadow-red-600/10 transition-all duration-150">
+                                            <i data-lucide="send" class="w-4 h-4 inline mr-2"></i> Transmit Payout Order
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== REFERRALS ===== -->
+                    <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                        <div>
+                            <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
+                            <p class="text-zinc-500 text-xs mt-0.5">Share your link and earn passive rewards when friends join and complete tasks.</p>
+                        </div>
+
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
+                            <div class="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-900">
+                                <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
+                                    <i data-lucide="gift" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">🎯 Earn Up to <span class="text-emerald-400 text-lg">200 TKNS</span> per Friend</h3>
+                                    <p class="text-xs text-zinc-400 mt-0.5">Share your unique referral link. When friends join and complete tasks, you earn <strong class="text-emerald-400">bonus tokens</strong> automatically.</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-zinc-900/30 border border-zinc-800 rounded-xl p-4 flex items-center gap-3">
+                                <i data-lucide="trending-up" class="w-5 h-5 text-amber-500 flex-shrink-0"></i>
+                                <p class="text-xs text-zinc-400">
+                                    <strong class="text-white">+15% Lifetime Royalties</strong> — You earn a commission every time your invited users complete tasks on the platform.
+                                </p>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
+                                <div class="flex gap-2">
+                                    <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none" />
+                                    <button @click="copyRefLink()" class="bg-red-600 hover:bg-red-700 text-white border border-red-600/30 px-4 rounded-xl flex items-center justify-center transition active:scale-95 font-medium text-sm gap-2">
+                                        <i data-lucide="copy" class="w-4 h-4"></i> Copy
+                                    </button>
+                                </div>
+                                <p class="text-[10px] text-zinc-500 italic">Share this link with friends. Tokens are credited when they complete tasks.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="send" class="w-5 h-5 text-blue-500"></i>
+                                <h3 class="text-lg font-bold text-white">📲 Join Telegram</h3>
+                            </div>
+                            <p class="text-xs text-zinc-400">Join our official Telegram group to stay updated and get exclusive news.</p>
+
+                            <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-2 text-xs text-zinc-300">
+                                <p class="font-bold text-white">How to join:</p>
+                                <ol class="list-decimal pl-4 space-y-1.5">
+                                    <li>First, check if you have the Telegram app installed on your device.</li>
+                                    <li>Copy the link below: <br />
+                                        <span class="font-mono text-blue-400 select-all bg-zinc-950 px-2 py-1 rounded border border-zinc-800 block mt-1">https://t.me/robux_prize</span>
+                                    </li>
+                                    <li>Go to any web browser and paste the link to open it.</li>
+                                    <li>Join the Telegram group and stay active!</li>
+                                </ol>
+                            </div>
+
+                            <div class="flex flex-wrap gap-3 items-center">
+                                <button @click="copyTelegramLink()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-2">
+                                    <i data-lucide="copy" class="w-4 h-4"></i> Copy Telegram Link
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
+                            <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-3">
+                                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
+                                    <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i> Redeem Promo / Activation Code
+                                </label>
+                                <div class="space-y-2">
+                                    <div class="flex gap-2">
+                                        <input id="promoCodeInput" :disabled="showPromoPasswordForm" type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950 border border-zinc-800 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition disabled:opacity-50" />
+                                        <template x-if="!showPromoPasswordForm">
+                                            <button @click="applyPromoCode()" class="bg-red-600 hover:bg-red-700 text-white font-semibold text-xs px-5 rounded-xl transition active:scale-95 whitespace-nowrap">
+                                                Apply Code
+                                            </button>
+                                        </template>
+                                    </div>
+                                    <div x-show="showPromoPasswordForm" x-transition class="mt-2 p-3 bg-zinc-950 border border-red-500/20 rounded-xl space-y-2">
+                                        <label class="block text-[11px] font-bold text-red-400 uppercase tracking-wider">Secured Verification Key Required</label>
+                                        <div class="flex gap-2">
+                                            <input type="password" x-model="promoPassword" placeholder="Enter security password..." class="w-full bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
+                                            <button @click="submitPromoPassword()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] px-4 rounded-lg transition whitespace-nowrap">
+                                                Verify Key
+                                            </button>
+                                            <button @click="cancelPromoPassword()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 text-[11px] px-3 rounded-lg transition">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-900">
+                                <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
+                                    <i data-lucide="gift" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-white">Earn 15% Lifelong Royalties</h3>
+                                    <p class="text-xs text-zinc-400 mt-0.5">Receive a processing commission bonus every single time your direct invited users clear an operational task.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== ACCOUNT & PROFILE ===== -->
+                    <div x-show="currentTab === 'account'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+                        <div>
+                            <h2 class="text-xl font-bold tracking-tight text-white">Profile & Account</h2>
+                            <p class="text-zinc-500 text-xs mt-0.5">View your profile details and manage your account.</p>
+                        </div>
+
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="profile-avatar" x-text="userId ? userId.slice(0,2) : 'U'"></div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-white">User <span class="font-mono text-zinc-400" x-text="userId"></span></h3>
+                                    <p class="text-xs text-zinc-500">Level <span x-text="userLevel"></span> · <span x-text="totalTokensEarned"></span> total TKNS earned</p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-zinc-900 pt-4">
+                                <div>
+                                    <p class="text-xs text-zinc-500">User ID</p>
+                                    <p class="font-mono text-sm text-white" x-text="userId"></p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-zinc-500">Level</p>
+                                    <p class="font-bold text-white" x-text="userLevel"></p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-zinc-500">Total Tokens Earned</p>
+                                    <p class="font-bold text-white" x-text="totalTokensEarned"></p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-zinc-500">Tasks Completed</p>
+                                    <p class="font-bold text-white" x-text="completedTasksCount"></p>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-zinc-900 pt-4 flex flex-wrap gap-3">
+                                <button @click="resetAccount()" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-2">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i> Delete Account (Reset)
+                                </button>
+                                <button @click="resetAccount()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-2">
+                                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Start New Profile
+                                </button>
+                            </div>
+                            <p class="text-[10px] text-zinc-500 italic">Resetting will clear all your progress, tokens, and tasks. This action is irreversible.</p>
+                        </div>
+                    </div>
+
+                    <!-- ===== RULES ===== -->
+                    <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6 relative">
+                        <div>
+                            <h2 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                                Compliance & Fraud Prevention
+                                <span x-show="!rulesAccepted" class="notif-badge ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
+                            </h2>
+                            <p class="text-zinc-500 text-xs mt-0.5">Review system rules to guarantee smooth token settlement and withdraw approvals.</p>
+                        </div>
+
+                        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 divide-y divide-zinc-900 relative">
+                            <div :class="!rulesAccepted ? 'opacity-30 pointer-events-none blur-[1px]' : ''">
+                                <div class="pb-4 flex gap-4 items-start">
+                                    <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                        <i data-lucide="shield-x" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white">Strict Anti-VPN Infrastructure</h3>
+                                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Proxy layers, VPN nodes, or data center routing environments are systematically flagged. Violations lead to automated account locks.</p>
+                                    </div>
+                                </div>
+                                <div class="py-4 flex gap-4 items-start">
+                                    <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                        <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white">Accurate Form Directives Only</h3>
+                                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Inputting invalid, temporary, or burner details during verification processes causes direct programmatic settlement failure.</p>
+                                    </div>
+                                </div>
+                                <div class="py-4 flex gap-4 items-start">
+                                    <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white">One Account Limitation</h3>
+                                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Multi-accounting behavior to loop invite systems triggers hardware identity fingerprints and immediate systemic ban execution.</p>
+                                    </div>
+                                </div>
+                                <div class="pt-4 flex gap-4 items-start">
+                                    <div class="bg-emerald-500/10 p-2 rounded-lg text-emerald-500 border border-emerald-500/10 mt-0.5">
+                                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white">Honest Task Completion Required</h3>
+                                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">All tasks must be completed honestly and in accordance with the instructions. We verify your activity before approving any payout. Faking or automating tasks will result in permanent account suspension and forfeiture of all earned tokens.</p>
+                                    </div>
+                                </div>
+                                <div class="pt-4 flex gap-4 items-start">
+                                    <div class="bg-amber-500/10 p-2 rounded-lg text-amber-500 border border-amber-500/10 mt-0.5">
+                                        <i data-lucide="info" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-white">Withdrawals Require Honest Activity</h3>
+                                        <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Skipping tasks or collecting tokens without genuinely completing the work <strong class="text-red-400">will result in your Robux being rejected</strong>. Always complete tasks honestly to receive everything without problems.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div x-show="!rulesAccepted" class="rules-modal-overlay absolute inset-0 z-10 rounded-2xl flex flex-col items-center justify-center p-6">
+                                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 max-w-2xl w-full shadow-2xl max-h-[85vh] flex flex-col">
+                                    <div class="flex items-center gap-3 border-b border-zinc-800 pb-4 mb-4">
+                                        <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500"></i>
+                                        <h3 class="text-lg font-black text-white">📋 Platform Rules – Read Carefully</h3>
+                                    </div>
+                                    <div class="rules-scroll flex-1 space-y-4 text-sm text-zinc-300 leading-relaxed pr-2">
+                                        <p class="font-bold text-red-400 text-base">⚠️ Important – This directly affects your ability to receive Robux!</p>
+                                        <p>By using RobuxPrize, you agree to the following rules. Failure to comply may result in permanent account suspension and forfeiture of all earned tokens and Robux.</p>
+                                        <ul class="list-disc pl-5 space-y-3">
+                                            <li><strong class="text-white">Anti-VPN & Proxy:</strong> Using VPNs, proxies, or any obfuscation tools is strictly prohibited. Our system detects such connections and will automatically lock your account.</li>
+                                            <li><strong class="text-white">Accurate Information:</strong> You must provide real, valid, and non-temporary details when completing tasks and verification forms. False information leads to settlement failure.</li>
+                                            <li><strong class="text-white">One Account Only:</strong> Creating multiple accounts to exploit referral systems or task bonuses is forbidden. We use hardware fingerprinting to detect and ban all associated accounts.</li>
+                                            <li><strong class="text-white">Honest Task Completion:</strong> Every task must be completed manually and honestly according to the provided instructions. Automated scripts, bots, or any form of cheating will be detected and result in immediate account termination and loss of all earnings.</li>
+                                            <li><strong class="text-white">Withdrawal Integrity:</strong> To withdraw Robux, you must have honestly completed the tasks you claimed tokens for. If we detect that you collected tokens without genuinely performing the tasks, your payout will be rejected and your account may be suspended.</li>
+                                        </ul>
+                                        <p class="text-amber-400 font-medium mt-2">🔹 You must read and accept these rules to continue using the platform. By accepting, you confirm that you understand and agree to all terms.</p>
+                                    </div>
+                                    <div class="border-t border-zinc-800 pt-4 mt-4 flex justify-end">
+                                        <button @click="acceptRules()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-8 py-3 rounded-xl transition shadow-lg shadow-red-600/20 active:scale-95">
+                                            I Have Read & Fully Accept
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </main>
+
+        <!-- MOBILE TAB BAR -->
+        <nav class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-900 bg-zinc-950/90 backdrop-blur-md px-2 py-2 z-50 flex justify-around items-center">
+            <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Home</span>
+            </button>
+            <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+                <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Tasks</span>
+            </button>
+            <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+                <i data-lucide="coins" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Payout</span>
+            </button>
+            <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+                <i data-lucide="users" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Invite</span>
+            </button>
+            <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+                <i data-lucide="user" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Profile</span>
+            </button>
+            <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition relative">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Rules</span>
+                <span x-show="!rulesAccepted" class="absolute -top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-600 text-[7px] font-black text-white">1</span>
+            </button>
+        </nav>
+
+        <!-- ===== TASK MODAL ===== -->
+        <div x-show="showTaskModal" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[100]"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-cloak>
+            <div class="task-modal-content p-6 relative">
+                <button @click="closeTaskModal()" class="absolute top-3 right-3 text-zinc-500 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+
+                <template x-if="modalTaskId === 9">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-blue-500/10 p-3 rounded-xl border border-blue-500/20">
+                                <i data-lucide="send" class="w-6 h-6 text-blue-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">📲 Join Telegram Group</h3>
+                                <p class="text-xs text-zinc-400">Complete this task to earn <strong class="text-emerald-400">+25 Tokens</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
+                            <p class="font-bold text-white">How to complete:</p>
+                            <ol class="list-decimal pl-4 space-y-2">
+                                <li>Make sure you have the Telegram app installed on your device.</li>
+                                <li>Copy the group link below:</li>
+                            </ol>
+                            <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-blue-400 text-sm flex items-center justify-between gap-2 select-all">
+                                <span class="truncate">https://t.me/+NYDKCqeUg_YxODM8</span>
+                                <button @click="copyTelegramTaskLink()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
+                            </div>
+                            <ol class="list-decimal pl-4 space-y-2 mt-1">
+                                <li>Open your browser and paste the link to join the group.</li>
+                                <li>Once you've joined, click <strong class="text-white">"Start Now"</strong> below to begin verification.</li>
+                            </ol>
+                            <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-400 text-[11px]">
+                                📌 Join this Telegram group to complete the task.
+                            </div>
+                        </div>
+
+                        <div class="mt-5 flex flex-wrap gap-3 items-center">
+                            <button @click="confirmTaskAction()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
+                                <i data-lucide="play" class="w-4 h-4"></i> Start Now
+                            </button>
+                            <button @click="closeTaskModal()" class="text-xs text-zinc-500 hover:text-zinc-300 transition px-3 py-2">Cancel</button>
+                        </div>
+                    </div>
+                </template>
+
+                <template x-if="modalTaskId === 8">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-red-500/10 p-3 rounded-xl border border-red-500/20">
+                                <i data-lucide="gift" class="w-6 h-6 text-red-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white">🎁 Support Giveaway</h3>
+                                <p class="text-xs text-zinc-400">Earn a <strong class="text-emerald-400">random gift (10-50 TKNS)</strong> by contacting us!</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
+                            <p class="font-bold text-white">How to participate:</p>
+                            <ol class="list-decimal pl-4 space-y-2">
+                                <li>Check the email address linked to your Google Play account.</li>
+                                <li>Send a simple "hi" to our support email:</li>
+                            </ol>
+                            <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-blue-400 text-sm flex items-center justify-between gap-2 select-all">
+                                <span class="truncate">nebsytechnologies@gmail.com</span>
+                                <button @click="copyEmailAddress()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
+                            </div>
+                            <ol class="list-decimal pl-4 space-y-2 mt-1">
+                                <li>Make sure to send the email from the same address you use in Google Play.</li>
+                                <li>After sending, click <strong class="text-white">"Start Now"</strong> below to verify.</li>
+                                <li>You will receive a random gift between 10 and 50 TKNS!</li>
+                            </ol>
+                            <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-400 text-[11px]">
+                                🎁 This is a limited-time giveaway. Hurry – it ends in <span x-text="getGiveawayRemaining(getEmailGiveawayExpiry())"></span>!
+                            </div>
+                            <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-2 text-red-400 text-[11px]">
+                                ⚠️ After 7 days, this giveaway will expire and the task will no longer be available.
+                            </div>
+                        </div>
+
+                        <div class="mt-5 flex flex-wrap gap-3 items-center">
+                            <button @click="confirmTaskAction()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
+                                <i data-lucide="play" class="w-4 h-4"></i> Start Now
+                            </button>
+                            <button @click="closeTaskModal()" class="text-xs text-zinc-500 hover:text-zinc-300 transition px-3 py-2">Cancel</button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- ===== CENTERED TOAST ===== -->
+        <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
+            <div class="toast-inner pointer-events-auto">
+                <div class="toast-icon" x-text="importantToast.icon"></div>
+                <div class="toast-msg" x-text="importantToast.msg"></div>
+                <div class="toast-sub" x-show="importantToast.sub" x-text="importantToast.sub"></div>
+                <button class="toast-ok-btn" @click="dismissToast">OK</button>
+            </div>
+        </div>
+
+    </div>
+    <!-- ===== END MAIN CONTENT ===== -->
+
+    <!-- ===== APPLICATION SCRIPT ===== -->
+    <script>
+        function appState() {
+            return {
+                // ---- Update / Maintenance ----
+                updateStartTime: Date.now(),
+                updateDuration: 24 * 60 * 60 * 1000, // 24 hours
+                updateComplete: false,
+
+                // ---- Core ----
+                currentTab: 'dashboard',
+                tokens: 5,
+                selectedTier: 5000,
+                robloxUser: '',
+                promoCode: '',
+                promoPassword: '',
+                showPromoPasswordForm: false,
+                withdrawStatus: 'idle',
+                completedTasksCount: 0,
+                isTaskRunning: false,
+                showTelegramGuide: false,
+
+                // ---- User Identity ----
+                userId: '',
+                totalTokensEarned: 0,
+                userLevel: 1,
+                levelXP: 100,
+
+                // ---- Rules Acceptance ----
+                rulesAccepted: false,
+
+                // ---- Withdraw Honest Confirm ----
+                withdrawHonestConfirm: false,
+
+                // ---- Streak & Wheel ----
+                isDailyGiftAvailable: true,
+                dailyGiftCooldownStr: 'Available Now',
+                nextDailyClaimTime: 0,
+                currentStreak: 1,
+                streakDays: [5, 10, 15, 20, 25, 30, 50],
+                isFirstSpin: true,
+                isSpinning: false,
+                wheelAngle: 0,
+                spinCooldownUntil: 0,
+
+                // ---- Important Toast ----
+                importantToast: {
+                    show: false,
+                    icon: '✅',
+                    msg: '',
+                    sub: ''
+                },
+
+                // ---- Leaderboard ----
+                leaderboardUsers: [],
+
+                // ---- Live logs ----
+                liveLogs: [],
+                usedLiveIds: [],
+
+                // ---- Task Modal ----
+                showTaskModal: false,
+                modalTaskId: null,
+
+                // ---- Tasks ----
+                tasks: [
+                    { id: 1, title: 'Sign Up', desc: 'Sign up or create an account on our partner platforms securely.',
+                        reward: 20, status: 'idle', link: 'https://appsave.space/cl/i/l7mw56', icon: 'mail-check',
+                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                    { id: 2, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.',
+                        reward: 35, status: 'idle', link: 'https://appsave.online/cl/i/5nngov', icon: 'download-cloud',
+                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                    { id: 3, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.',
+                        reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus',
+                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                    { id: 4, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.',
+                        reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
+                        icon: 'users-2', isRepeatable: true, cooldownUntil: null, claimableExpiry: null,
+                        endTime: null },
+                    { id: 5, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.',
+                        reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
+                        icon: 'star', isRepeatable: false, cooldownUntil: null, claimableExpiry: null,
+                        endTime: null },
+                    { id: 6, title: 'Email / Number Verification', desc: 'Verify your email or phone number through our secure partner.',
+                        reward: 25, status: 'idle', link: 'https://saveapp.store/cl/i/1xxpdx', icon: 'shield-check',
+                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                    { id: 7, title: 'Random Task', desc: 'Choose and complete any random task provided by our system.',
+                        reward: 30, status: 'idle', link: 'https://saveapp.store/cl/i/5nn8m3', icon: 'shuffle',
+                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                    {
+                        id: 8,
+                        title: '📧 Contact Support – Giveaway',
+                        desc: 'Send "hi" from your Google Play email to nebsytechnologies@gmail.com and get a random gift! Limited time.',
+                        reward: 0,
+                        status: 'idle',
+                        link: 'mailto:nebsytechnologies@gmail.com?subject=Hello%20from%20RobuxPrize&body=hi',
+                        icon: 'mail',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null,
+                        isRandomReward: true,
+                        giveawayExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000
+                    },
+                    {
+                        id: 9,
+                        title: '📲 Join Telegram Group',
+                        desc: 'Join this Telegram group to stay updated. Click to view steps and complete.',
+                        reward: 25,
+                        status: 'idle',
+                        link: 'https://t.me/+NYDKCqeUg_YxODM8',
+                        icon: 'send',
+                        isRepeatable: false,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null
+                    },
+                    {
+                        id: 10,
+                        title: '🎬 Watch & Click Ads',
+                        desc: 'Watch promotional ads and click through to earn tokens. Complete the ad viewing session to claim your reward. Available every 10 minutes.',
+                        reward: 40,
+                        status: 'idle',
+                        link: 'https://robuxprize.site/',
+                        icon: 'play-circle',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null
+                    }
+                ],
+
+                usedPromoCodes: [],
+
+                // ---- Computed ----
+                get updateRemaining() {
+                    const elapsed = Date.now() - this.updateStartTime;
+                    const remaining = this.updateDuration - elapsed;
+                    return Math.max(0, remaining);
+                },
+
+                get updateProgress() {
+                    const elapsed = Date.now() - this.updateStartTime;
+                    const progress = (elapsed / this.updateDuration) * 100;
+                    return Math.min(100, Math.max(0, progress));
+                },
+
+                get etaMessage() {
+                    const remaining = this.updateRemaining;
+                    if (remaining <= 0) return 'Any moment now!';
+                    const hours = Math.floor(remaining / 3600000);
+                    const mins = Math.floor((remaining % 3600000) / 60000);
+                    if (hours > 0) {
+                        return `~${hours}h ${mins}m remaining`;
+                    }
+                    return `~${mins} minutes remaining`;
+                },
+
+                get spinCooldownDisplay() {
+                    const now = Date.now();
+                    const diff = this.spinCooldownUntil - now;
+                    if (diff <= 0) return 'Ready!';
+                    const hours = Math.floor(diff / 3600000);
+                    const mins = Math.floor((diff % 3600000) / 60000);
+                    return `${hours}h ${mins}m`;
+                },
+
+                getCooldownDisplay(cooldownUntil) {
+                    const now = Date.now();
+                    const diff = cooldownUntil - now;
+                    if (diff <= 0) return 'Ready!';
+                    const mins = Math.floor(diff / 60000);
+                    const secs = Math.floor((diff % 60000) / 1000);
+                    return `${mins}m ${secs}s`;
+                },
+
+                getClaimableTimeLeft(expiry) {
+                    const now = Date.now();
+                    const diff = expiry - now;
+                    if (diff <= 0) return 'Expired';
+                    const secs = Math.floor(diff / 1000);
+                    return `${secs}s`;
+                },
+
+                get levelProgress() {
+                    const earned = this.totalTokensEarned;
+                    const level = this.userLevel;
+                    const xpPerLevel = this.levelXP;
+                    const currentLevelXP = (level - 1) * xpPerLevel;
+                    const nextLevelXP = level * xpPerLevel;
+                    const progress = (earned - currentLevelXP) / (nextLevelXP - currentLevelXP) * 100;
+                    return Math.min(Math.max(progress, 0), 100);
+                },
+                get nextLevelXP() {
+                    return this.userLevel * this.levelXP;
+                },
+
+                getGiveawayRemaining(expiry) {
+                    if (!expiry) return 'N/A';
+                    const now = Date.now();
+                    const diff = expiry - now;
+                    if (diff <= 0) return 'Expired';
+                    const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+                    const hours = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                    const mins = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
+                    return `${days}d ${hours}h ${mins}m`;
+                },
+                getEmailGiveawayExpiry() {
+                    const task = this.tasks.find(t => t.id === 8);
+                    return task ? task.giveawayExpiry : null;
+                },
+
+                // ---- Important Toast ----
+                showImportantToast(msg, icon = '✅', sub = '') {
+                    this.importantToast.show = false;
+                    this.$nextTick(() => {
+                        this.importantToast.msg = msg;
+                        this.importantToast.icon = icon;
+                        this.importantToast.sub = sub;
+                        this.importantToast.show = true;
+                        if (this.toastTimeout) clearTimeout(this.toastTimeout);
+                        this.toastTimeout = setTimeout(() => {
+                            this.importantToast.show = false;
+                        }, 5000);
+                    });
+                },
+                dismissToast() {
+                    this.importantToast.show = false;
+                    if (this.toastTimeout) clearTimeout(this.toastTimeout);
+                },
+
+                // ---- Init ----
+                init() {
+                    // Check if update is complete (for demo, we consider it complete after 24h)
+                    // For testing, you can set updateComplete = true to bypass
+                    // this.updateComplete = true; // uncomment to bypass maintenance
+
+                    this.loadSavedState();
+
+                    if (!this.userId) {
+                        this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+                    }
+
+                    this.generateLeaderboard();
+                    this.updateDailyGiftStatus();
+
+                    // Update timer every second
+                    setInterval(() => {
+                        // Check if update is complete
+                        if (this.updateRemaining <= 0 && !this.updateComplete) {
+                            this.updateComplete = true;
+                            this.showImportantToast('✅ Update complete! The platform is now fully available.', '🎉',
+                                'Welcome back!');
+                        }
+                        this.updateDailyGiftStatus();
+
+                        let anyReset = false;
+                        this.tasks.forEach(t => {
+                            if (t.status === 'loading' && t.endTime && t.endTime < Date.now()) {
+                                t.status = 'claimable';
+                                t.claimableExpiry = Date.now() + 60000;
+                                t.endTime = null;
+                                this.isTaskRunning = false;
+                                anyReset = true;
+                                this.showImportantToast(`✅ "${t.title}" ready to claim!`, '🎯',
+                                    'You have 1 minute to claim.');
+                            }
+                            if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
+                                .now()) {
+                                t.status = 'idle';
+                                t.claimableExpiry = null;
+                                anyReset = true;
+                            }
+                            if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
+                                t.status = 'idle';
+                                t.cooldownUntil = null;
+                                anyReset = true;
+                            }
+                        });
+                        if (anyReset) this.saveState();
+                    }, 1000);
+
+                    // Live logs
+                    setInterval(() => {
+                        this.generateLiveLogItem();
+                    }, Math.floor(Math.random() * 4000) + 8000);
+
+                    this.generateLiveLog();
+
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                                .createIcons(); }); });
+                    this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                                .createIcons(); }); });
+                    this.$watch('showTelegramGuide', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                                .createIcons(); }); });
+                    this.$watch('showPromoPasswordForm', () => { this.$nextTick(() => { if (window.lucide) window
+                                .lucide.createIcons(); }); });
+                    this.$watch('showTaskModal', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                                .createIcons(); }); });
+                },
+
+                // ---- Leaderboard ----
+                generateLeaderboard() {
+                    const names = ['AlphaBlox', 'BetaBuilder', 'GammaGamer', 'DeltaDev', 'EpsilonElite', 'ZetaZen',
+                        'EtaEagle', 'ThetaThunder', 'IotaInferno', 'KappaKing'
+                    ];
+                    const levels = [5, 12, 8, 15, 6, 9, 11, 7, 13, 10];
+                    const tokenAmounts = [1200, 3400, 2100, 5600, 1800, 2700, 3100, 1900, 4200, 2500];
+                    this.leaderboardUsers = [];
+                    for (let i = 0; i < 5; i++) {
+                        const idx = i % names.length;
+                        this.leaderboardUsers.push({
+                            id: 'RBLX-' + Math.floor(Math.random() * 900000 + 100000),
+                            name: names[(i + 3) % names.length],
+                            level: levels[(i + 2) % levels.length],
+                            tokens: tokenAmounts[(i + 1) % tokenAmounts.length],
+                            avatar: names[(i + 1) % names.length].charAt(0)
+                        });
+                    }
+                    this.leaderboardUsers.sort((a, b) => b.tokens - a.tokens);
+                },
+
+                // ---- Live logs ----
+                generateLiveLog() {
+                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843',
+                        'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'
+                    ];
+                    const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
+
+                    for (let i = 0; i < 5; i++) {
+                        let id;
+                        do {
+                            id = idPool[Math.floor(Math.random() * idPool.length)];
+                        } while (this.usedLiveIds.includes(id));
+                        this.usedLiveIds.push(id);
+                        this.liveLogs.push({
+                            id: Date.now() + i,
+                            userId: id,
+                            amount: amounts[Math.floor(Math.random() * amounts.length)]
+                        });
+                    }
+                    if (this.liveLogs.length > 8) this.liveLogs = this.liveLogs.slice(0, 8);
+                },
+
+                generateLiveLogItem() {
+                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843',
+                        'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'
+                    ];
+                    const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
+
+                    let newId;
+                    do {
+                        newId = idPool[Math.floor(Math.random() * idPool.length)];
+                    } while (this.usedLiveIds.includes(newId));
+                    this.usedLiveIds.push(newId);
+                    if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
+
+                    const amount = amounts[Math.floor(Math.random() * amounts.length)];
+                    this.liveLogs.unshift({
+                        id: Date.now(),
+                        userId: newId,
+                        amount: amount
+                    });
+                    if (this.liveLogs.length > 8) this.liveLogs.pop();
+
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                },
+
+                // ---- Save / Load State ----
+                loadSavedState() {
+                    const savedTasks = localStorage.getItem('robux_tasks_state_v3');
+                    const savedRunning = localStorage.getItem('robux_task_running');
+                    const savedTokens = localStorage.getItem('robux_tokens_balance');
+                    const savedCount = localStorage.getItem('robux_completed_count');
+                    const savedUsedPromos = localStorage.getItem('robux_used_promos');
+                    const savedNextClaim = localStorage.getItem('robux_next_daily_claim');
+                    const savedStreak = localStorage.getItem('robux_streak_day');
+                    const savedFirstSpin = localStorage.getItem('robux_first_spin_available');
+                    const savedSpinCooldown = localStorage.getItem('robux_spin_cooldown');
+                    const savedRulesAccepted = localStorage.getItem('robux_rules_accepted');
+                    const savedUserId = localStorage.getItem('robux_user_id');
+                    const savedTotalEarned = localStorage.getItem('robux_total_earned');
+                    const savedLevel = localStorage.getItem('robux_user_level');
+
+                    if (savedTokens) this.tokens = parseInt(savedTokens);
+                    if (savedCount) this.completedTasksCount = parseInt(savedCount);
+                    if (savedRunning === 'true') this.isTaskRunning = true;
+                    if (savedUsedPromos) this.usedPromoCodes = JSON.parse(savedUsedPromos);
+                    if (savedNextClaim) this.nextDailyClaimTime = parseInt(savedNextClaim);
+                    if (savedStreak) this.currentStreak = parseInt(savedStreak);
+                    if (savedFirstSpin === 'false') this.isFirstSpin = false;
+                    if (savedSpinCooldown) this.spinCooldownUntil = parseInt(savedSpinCooldown);
+                    if (savedRulesAccepted === 'true') this.rulesAccepted = true;
+                    if (savedUserId) this.userId = savedUserId;
+                    if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
+                    if (savedLevel) this.userLevel = parseInt(savedLevel);
+
+                    this.updateLevel();
+
+                    if (savedTasks) {
+                        const parsed = JSON.parse(savedTasks);
+                        this.tasks.forEach(t => {
+                            const match = parsed.find(x => x.id === t.id);
+                            if (match) {
+                                t.status = match.status;
+                                t.cooldownUntil = match.cooldownUntil || null;
+                                t.claimableExpiry = match.claimableExpiry || null;
+                                t.endTime = match.endTime || null;
+                                if (t.status === 'loading' && t.endTime && t.endTime < Date.now()) {
+                                    t.status = 'claimable';
+                                    t.claimableExpiry = Date.now() + 60000;
+                                    t.endTime = null;
+                                    this.isTaskRunning = false;
+                                }
+                                if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
+                                    .now()) {
+                                    t.status = 'idle';
+                                    t.claimableExpiry = null;
+                                }
+                                if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
+                                    t.status = 'idle';
+                                    t.cooldownUntil = null;
+                                }
+                            }
+                        });
+                    }
+                },
+
+                saveState() {
+                    const mapped = this.tasks.map(t => ({
+                        id: t.id,
+                        status: t.status,
+                        endTime: t.endTime || null,
+                        cooldownUntil: t.cooldownUntil || null,
+                        claimableExpiry: t.claimableExpiry || null
+                    }));
+                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(mapped));
+                    localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
+                    localStorage.setItem('robux_tokens_balance', this.tokens);
+                    localStorage.setItem('robux_completed_count', this.completedTasksCount);
+                    localStorage.setItem('robux_used_promos', JSON.stringify(this.usedPromoCodes));
+                    localStorage.setItem('robux_next_daily_claim', this.nextDailyClaimTime);
+                    localStorage.setItem('robux_streak_day', this.currentStreak);
+                    localStorage.setItem('robux_first_spin_available', this.isFirstSpin ? 'true' : 'false');
+                    localStorage.setItem('robux_spin_cooldown', this.spinCooldownUntil);
+                    localStorage.setItem('robux_rules_accepted', this.rulesAccepted ? 'true' : 'false');
+                    localStorage.setItem('robux_user_id', this.userId);
+                    localStorage.setItem('robux_total_earned', this.totalTokensEarned);
+                    localStorage.setItem('robux_user_level', this.userLevel);
+                },
+
+                // ---- Level update ----
+                updateLevel() {
+                    const earned = this.totalTokensEarned;
+                    const xpPerLevel = this.levelXP;
+                    let level = 1;
+                    while (earned >= level * xpPerLevel) {
+                        level++;
+                    }
+                    this.userLevel = level;
+                },
+
+                // ---- Add tokens with level update ----
+                addTokens(amount) {
+                    this.tokens += amount;
+                    this.totalTokensEarned += amount;
+                    this.updateLevel();
+                    this.saveState();
+                },
+
+                // ---- Reset Account ----
+                resetAccount() {
+                    if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
+                        const keys = ['robux_tasks_state_v3', 'robux_task_running', 'robux_tokens_balance',
+                            'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
+                            'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
+                            'robux_rules_accepted', 'robux_user_id', 'robux_total_earned',
+                            'robux_user_level'
+                        ];
+                        keys.forEach(k => localStorage.removeItem(k));
+
+                        this.tokens = 5;
+                        this.completedTasksCount = 0;
+                        this.isTaskRunning = false;
+                        this.usedPromoCodes = [];
+                        this.nextDailyClaimTime = 0;
+                        this.currentStreak = 1;
+                        this.isFirstSpin = true;
+                        this.spinCooldownUntil = 0;
+                        this.rulesAccepted = false;
+                        this.totalTokensEarned = 0;
+                        this.userLevel = 1;
+                        this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+                        this.tasks.forEach(t => {
+                            t.status = 'idle';
+                            t.cooldownUntil = null;
+                            t.claimableExpiry = null;
+                            t.endTime = null;
+                        });
+                        this.withdrawStatus = 'idle';
+                        this.withdrawHonestConfirm = false;
+                        this.robloxUser = '';
+                        this.saveState();
+                        this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
+                        this.generateLeaderboard();
+                        this.liveLogs = [];
+                        this.usedLiveIds = [];
+                        this.generateLiveLog();
+                        this.currentTab = 'dashboard';
+                    }
+                },
+
+                // ---- Rules Accept ----
+                acceptRules() {
+                    this.rulesAccepted = true;
+                    this.saveState();
+                    this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋',
+                        'Thank you for reading carefully.');
+                },
+
+                // ---- Daily Streak ----
+                updateDailyGiftStatus() {
+                    let now = Date.now();
+                    if (this.nextDailyClaimTime > 0 && (now - (this.nextDailyClaimTime - 86400000)) > 172800000) {
+                        this.currentStreak = 1;
+                        this.saveState();
+                    }
+                    if (now >= this.nextDailyClaimTime) {
+                        this.isDailyGiftAvailable = true;
+                        this.dailyGiftCooldownStr = 'Available Now';
+                    } else {
+                        this.isDailyGiftAvailable = false;
+                        let diff = this.nextDailyClaimTime - now;
+                        let hours = Math.floor(diff / 3600000);
+                        let mins = Math.floor((diff % 3600000) / 60000);
+                        let secs = Math.floor((diff % 60000) / 1000);
+                        this.dailyGiftCooldownStr = `Next Day in: ${hours}h ${mins}m ${secs}s`;
+                    }
+                },
+
+                claimDailyStreak() {
+                    if (!this.isDailyGiftAvailable) return;
+                    let rewardAmount = 0;
+                    if (this.currentStreak <= 7) {
+                        rewardAmount = this.streakDays[this.currentStreak - 1];
+                    } else {
+                        rewardAmount = Math.floor(Math.random() * 51) + 25;
+                    }
+                    this.addTokens(rewardAmount);
+                    if (this.currentStreak >= 8) {
+                        this.currentStreak = 1;
+                    } else {
+                        this.currentStreak++;
+                    }
+                    this.nextDailyClaimTime = Date.now() + 86400000;
+                    this.isDailyGiftAvailable = false;
+                    this.saveState();
+                    this.updateDailyGiftStatus();
+                    this.showImportantToast(`🎉 Streak claimed! +${rewardAmount} Tokens`, '🔥',
+                        `Day ${this.currentStreak - 1} → Day ${this.currentStreak}`);
+                },
+
+                // ---- Spin Wheel ----
+                spinWheel() {
+                    if (this.isSpinning) return;
+                    if (this.spinCooldownUntil > Date.now()) {
+                        this.showImportantToast('⏳ Cooldown active. Please wait.', '⏳', this.spinCooldownDisplay);
+                        return;
+                    }
+                    if (!this.isFirstSpin && this.tokens < 5) {
+                        this.showImportantToast('❌ Need 5 Tokens to spin.', '❌', 'Complete tasks to earn more.');
+                        return;
+                    }
+
+                    this.isSpinning = true;
+                    if (!this.isFirstSpin) {
+                        this.tokens -= 5;
+                    } else {
+                        this.isFirstSpin = false;
+                    }
+                    this.spinCooldownUntil = Date.now() + 7200000;
+                    this.saveState();
+
+                    const sliceWeights = [5, 5, 5, 5, 5, 5, 5, 1];
+                    const totalWeight = sliceWeights.reduce((a, b) => a + b, 0);
+                    let random = Math.random() * totalWeight;
+                    let winningIndex = 0;
+                    for (let i = 0; i < sliceWeights.length; i++) {
+                        random -= sliceWeights[i];
+                        if (random <= 0) { winningIndex = i; break; }
+                    }
+
+                    const slicesMap = [
+                        { prize: 5, angleMin: 0, angleMax: 45 },
+                        { prize: 10, angleMin: 45, angleMax: 90 },
+                        { prize: 20, angleMin: 90, angleMax: 135 },
+                        { prize: 50, angleMin: 135, angleMax: 180 },
+                        { prize: 5, angleMin: 180, angleMax: 225 },
+                        { prize: 10, angleMin: 225, angleMax: 270 },
+                        { prize: 20, angleMin: 270, angleMax: 315 },
+                        { prize: 100, angleMin: 315, angleMax: 360 }
+                    ];
+
+                    let selectedSlice = slicesMap[winningIndex];
+                    let targetSliceMid = (selectedSlice.angleMin + selectedSlice.angleMax) / 2;
+                    let baseRotations = 5;
+                    let calculatedStopAngle = (baseRotations * 360) + (360 - targetSliceMid);
+                    this.wheelAngle = calculatedStopAngle;
+
+                    setTimeout(() => {
+                        this.isSpinning = false;
+                        let winAmount = selectedSlice.prize;
+                        this.addTokens(winAmount);
+                        this.showImportantToast(`🎰 You won +${winAmount} Tokens!`, '🎉',
+                            `The wheel landed on ${winAmount} TKNS.`);
+                    }, 5000);
+                },
+
+                // ---- Task Modal ----
+                showTaskModalFor(taskId) {
+                    this.modalTaskId = taskId;
+                    this.showTaskModal = true;
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                },
+
+                closeTaskModal() {
+                    this.showTaskModal = false;
+                    this.modalTaskId = null;
+                },
+
+                copyTelegramTaskLink() {
+                    navigator.clipboard.writeText('https://t.me/+NYDKCqeUg_YxODM8');
+                    this.showImportantToast('📋 Telegram link copied!', '📋', 'Open your browser and paste to join.');
+                },
+
+                copyEmailAddress() {
+                    navigator.clipboard.writeText('nebsytechnologies@gmail.com');
+                    this.showImportantToast('📋 Email address copied!', '📋', 'Use your Google Play email to send a "hi".');
+                },
+
+                confirmTaskAction() {
+                    const task = this.tasks.find(t => t.id === this.modalTaskId);
+                    if (!task) {
+                        this.closeTaskModal();
+                        return;
+                    }
+                    if (task.status === 'idle') {
+                        this.isTaskRunning = true;
+                        task.status = 'loading';
+                        task.endTime = Date.now() + 120000;
+                        this.saveState();
+                        this.closeTaskModal();
+                        this.showImportantToast('🔄 Processing your request...', '⏳', 'Please wait 2 minutes.');
+                    } else {
+                        this.closeTaskModal();
+                    }
+                },
+
+                // ---- Task Helpers ----
+                openTaskLink(task) {
+                    if (!task) return;
+                    if (task.link) {
+                        window.open(task.link, '_blank');
+                    }
+                },
+
+                // ---- Main Task Interaction ----
+                handleTaskInteraction(task) {
+                    if ((task.id === 8 || task.id === 9) && task.status === 'idle') {
+                        if (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) {
+                            this.showImportantToast('⛔ This giveaway has expired.', '⛔');
+                            return;
+                        }
+                        this.showTaskModalFor(task.id);
+                        return;
+                    }
+
+                    if (this.isTaskRunning && task.status === 'idle') {
+                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Complete your current task first.');
+                        return;
+                    }
+
+                    if (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) {
+                        task.status = 'idle';
+                        task.claimableExpiry = null;
+                        this.saveState();
+                        this.showImportantToast('⏰ Task expired. Start again.', '⏰');
+                        return;
+                    }
+
+                    if (task.isRepeatable) {
+                        if (task.status === 'idle') {
+                            if (task.link) window.open(task.link, '_blank');
+                            this.isTaskRunning = true;
+                            task.status = 'loading';
+                            task.endTime = Date.now() + 120000;
+                            this.saveState();
+                        } else if (task.status === 'claimable') {
+                            let rewardAmount = task.reward;
+                            if (task.isRandomReward) {
+                                rewardAmount = Math.floor(Math.random() * 41) + 10;
+                            }
+                            task.status = 'completed';
+                            task.cooldownUntil = Date.now() + 600000;
+                            task.claimableExpiry = null;
+                            this.addTokens(rewardAmount);
+                            this.completedTasksCount++;
+                            this.saveState();
+                            if (task.isRandomReward) {
+                                this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁',
+                                    'Thanks for participating!');
+                            } else {
+                                this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰',
+                                    'Task will be available again in 10 minutes.');
+                            }
+                        }
+                        return;
+                    }
+
+                    if (task.status === 'idle') {
+                        if (task.link) window.open(task.link, '_blank');
+                        this.isTaskRunning = true;
+                        task.status = 'loading';
+                        task.endTime = Date.now() + 120000;
+                        this.saveState();
+                    } else if (task.status === 'claimable') {
+                        task.status = 'completed';
+                        task.cooldownUntil = null;
+                        task.claimableExpiry = null;
+                        this.addTokens(task.reward);
+                        this.completedTasksCount++;
+                        this.saveState();
+                        this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
+                    }
+                },
+
+                // ---- Promo ----
+                applyPromoCode() {
+                    let inputCode = this.promoCode.trim().toUpperCase();
+                    if (!inputCode) {
+                        this.showImportantToast('❌ Please enter a code.', '❌');
+                        return;
+                    }
+                    if (inputCode === 'IYVKQ') {
+                        this.showPromoPasswordForm = true;
+                        this.showImportantToast('🔐 Master code detected.', '🔐', 'Enter the security key.');
+                        return;
+                    }
+                    const validBatchRegex = /^RBX50_[A-Z0-9]{4}$/;
+                    const allowedSuffixes = [
+                        'A1B2', 'C3D4', 'E5F6', 'G7H8', 'I9J0', 'K1L2', 'M3N4', 'O5P6', 'J0K1', 'L2M3',
+                        'N4O5', 'P6Q7', 'R8S9', 'T0U1', 'V2W3', 'X4Y5', 'S8T9', 'U0V1', 'W2X3', 'Y4Z5',
+                        'Q1W2', 'E3R4', 'T5Y6', 'U7I8', 'A2B3', 'C4D5', 'E6F7', 'G8H9', 'I0J1', 'T2U3'
+                    ];
+                    let suffix = inputCode.replace('RBX50_', '');
+                    if (validBatchRegex.test(inputCode) && allowedSuffixes.includes(suffix)) {
+                        if (this.usedPromoCodes.includes(inputCode)) {
+                            this.showImportantToast('❌ Code already used.', '❌');
+                            return;
+                        }
+                        this.usedPromoCodes.push(inputCode);
+                        this.addTokens(50);
+                        this.showImportantToast('🎁 +50 Tokens from promo!', '🎁', 'Code redeemed successfully.');
+                        this.promoCode = '';
+                        this.saveState();
+                    } else {
+                        this.showImportantToast('❌ Invalid promo code.', '❌', 'Please check and try again.');
+                    }
+                },
+
+                submitPromoPassword() {
+                    if (this.promoPassword.trim() === '4482') {
+                        this.addTokens(500);
+                        this.showImportantToast('🔓 Master unlock! +500 Tokens', '🔓', 'Override complete.');
+                        this.cancelPromoPassword();
+                        this.promoCode = '';
+                        this.saveState();
+                    } else {
+                        this.showImportantToast('❌ Wrong security key.', '❌');
+                        this.promoPassword = '';
+                    }
+                },
+
+                cancelPromoPassword() {
+                    this.showPromoPasswordForm = false;
+                    this.promoPassword = '';
+                },
+
+                // ---- Telegram Copy ----
+                copyTelegramLink() {
+                    navigator.clipboard.writeText('https://t.me/robux_prize');
+                    this.showImportantToast('📋 Link copied!', '📋', 'Follow the steps above to join Telegram.');
+                },
+
+                // ---- Withdraw ----
+                processWithdraw() {
+                    if (!this.robloxUser.trim()) {
+                        this.showImportantToast('❌ Enter a Roblox username.', '❌');
+                        return;
+                    }
+                    if (!this.withdrawHonestConfirm) {
+                        this.showImportantToast('⚠️ Confirm honest task completion.', '⚠️',
+                            'You must confirm you completed all tasks honestly.');
+                        return;
+                    }
+                    let cost = this.selectedTier / 10;
+                    if (this.tokens < cost) {
+                        this.showImportantToast(`❌ Need ${cost} Tokens.`, '❌', 'Complete more tasks to earn.');
+                        return;
+                    }
+                    this.withdrawStatus = 'loading';
+                    setTimeout(() => {
+                        this.withdrawStatus = 'confirming';
+                    }, 3000);
+                },
+
+                confirmAndCompleteWithdraw() {
+                    let cost = this.selectedTier / 10;
+                    this.tokens -= cost;
+                    this.withdrawStatus = 'loading';
+                    this.showImportantToast('📦 Processing payout...', '📦', 'Finalizing ledger encryption.');
+
+                    setTimeout(() => {
+                        this.withdrawStatus = 'complete';
+                        this.completedTasksCount++;
+                        this.saveState();
+                        const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932',
+                            'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487',
+                            'RBLX-360598'
+                        ];
+                        let newId;
+                        do {
+                            newId = idPool[Math.floor(Math.random() * idPool.length)];
+                        } while (this.usedLiveIds.includes(newId));
+                        this.usedLiveIds.push(newId);
+                        if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
+                        this.liveLogs.unshift({
+                            id: Date.now(),
+                            userId: newId,
+                            amount: this.selectedTier
+                        });
+                        if (this.liveLogs.length > 8) this.liveLogs.pop();
+                        this.showImportantToast('✅ Payout confirmed!', '✅',
+                            `${this.selectedTier} Robux will arrive within 24h.`);
+                    }, 4000);
+                },
+
+                // ---- Copy ----
+                copyRefLink() {
+                    navigator.clipboard.writeText(
+                        "https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share");
+                    this.showImportantToast('📋 Link copied!', '📋', 'Share with friends to earn rewards.');
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>        }
 
         .wheel-transition {
             transition: transform 5s cubic-bezier(0.2, 0.8, 0.1, 1);
