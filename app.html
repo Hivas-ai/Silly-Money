@@ -1511,6 +1511,14 @@
                                 anyReset = true;
                             }
                         });
+
+                        // ---- FIX: Reset isTaskRunning if no task is actually loading ----
+                        const anyLoading = this.tasks.some(t => t.status === 'loading');
+                        if (!anyLoading && this.isTaskRunning) {
+                            this.isTaskRunning = false;
+                            anyReset = true;
+                        }
+
                         if (anyReset) this.saveState();
                     }, 1000);
 
@@ -1662,6 +1670,13 @@
                                 }
                             }
                         });
+                    }
+
+                    // Final cleanup: if isTaskRunning is true but no loading task, reset
+                    const anyLoading = this.tasks.some(t => t.status === 'loading');
+                    if (this.isTaskRunning && !anyLoading) {
+                        this.isTaskRunning = false;
+                        this.saveState();
                     }
                 },
 
@@ -1912,6 +1927,15 @@
 
                 // ---- Main Task Interaction ----
                 handleTaskInteraction(task) {
+                    // ---- FIX: Reset isTaskRunning if no task is loading ----
+                    if (this.isTaskRunning) {
+                        const anyLoading = this.tasks.some(t => t.status === 'loading');
+                        if (!anyLoading) {
+                            this.isTaskRunning = false;
+                            this.saveState();
+                        }
+                    }
+
                     // For Telegram and Email tasks, show modal first (if idle)
                     if ((task.id === 8 || task.id === 9) && task.status === 'idle') {
                         if (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) {
@@ -1959,6 +1983,9 @@
                             this.saveState();
                             this.showImportantToast(`💰 +${task.reward} Tokens claimed! Link rotated.`, '💰',
                                 `Next link: ${this.getCurrentTaskLink(task)}`);
+                            // Reset running flag
+                            this.isTaskRunning = false;
+                            this.saveState();
                         }
                         return;
                     }
@@ -1981,6 +2008,8 @@
                             task.claimableExpiry = null;
                             this.addTokens(rewardAmount);
                             this.completedTasksCount++;
+                            this.saveState();
+                            this.isTaskRunning = false;
                             this.saveState();
                             if (task.isRandomReward) {
                                 this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁',
@@ -2006,6 +2035,8 @@
                         task.claimableExpiry = null;
                         this.addTokens(task.reward);
                         this.completedTasksCount++;
+                        this.saveState();
+                        this.isTaskRunning = false;
                         this.saveState();
                         this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
                     }
