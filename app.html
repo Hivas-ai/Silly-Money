@@ -607,6 +607,8 @@
                                     <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
                                     <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
 
+                                    <!-- Link display removed for task 6 (email/phone verification) -->
+
                                     <!-- Display giveaway expiry for email task -->
                                     <template x-if="task.id === 8 && task.giveawayExpiry">
                                         <div class="mt-2 text-xs text-amber-400 font-medium">
@@ -1316,6 +1318,22 @@
 
                 // ---- Tasks ----
                 tasks: [
+                    // ---- EMAIL / PHONE VERIFICATION - FIRST (id: 6) ----
+                    {
+                        id: 6,
+                        title: 'Email / Number Verification',
+                        desc: 'Verify your email or phone number through our secure partner. Link rotates after each completion!',
+                        reward: 40,
+                        status: 'idle',
+                        links: ['https://saveapp.store/cl/i/1xxpdx', 'https://fundedfree.store/sl/85r31'],
+                        linkIndex: 0,
+                        icon: 'shield-check',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null
+                    },
+                    // ---- OTHER TASKS ----
                     { id: 1, title: 'Sign Up', desc: 'Sign up or create an account on our partner platforms securely.',
                         reward: 20, status: 'idle', link: 'https://appsave.space/cl/i/l7mw56', icon: 'mail-check',
                         isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
@@ -1327,18 +1345,15 @@
                         isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
                     { id: 4, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.',
                         reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
-                        icon: 'users-2', isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                        icon: 'users-2', isRepeatable: true, cooldownUntil: null, claimableExpiry: null,
+                        endTime: null },
                     { id: 5, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.',
                         reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
-                        icon: 'star', isRepeatable: false, cooldownUntil: null, claimableExpiry: null, endTime: null },
-                    { id: 6, title: 'Email / Number Verification', desc: 'Verify your email or phone number through our secure partner.',
-                        reward: 25, status: 'idle', link: 'https://saveapp.store/cl/i/1xxpdx', icon: 'shield-check',
-                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                        icon: 'star', isRepeatable: false, cooldownUntil: null, claimableExpiry: null,
+                    endTime: null },
                     { id: 7, title: 'Random Task', desc: 'Choose and complete any random task provided by our system.',
                         reward: 30, status: 'idle', link: 'https://saveapp.store/cl/i/5nn8m3', icon: 'shuffle',
                         isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
-
-                    // ---- NEW TASKS ----
                     {
                         id: 8,
                         title: '📧 Contact Support – Giveaway',
@@ -1352,7 +1367,7 @@
                         claimableExpiry: null,
                         endTime: null,
                         isRandomReward: true,
-                        giveawayExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000 // 7 days
+                        giveawayExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000
                     },
                     {
                         id: 9,
@@ -1418,14 +1433,24 @@
                     const now = Date.now();
                     const diff = expiry - now;
                     if (diff <= 0) return 'Expired';
-                    const days = Math.floor(diff / (24*60*60*1000));
-                    const hours = Math.floor((diff % (24*60*60*1000)) / (60*60*1000));
-                    const mins = Math.floor((diff % (60*60*1000)) / (60*1000));
+                    const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+                    const hours = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                    const mins = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
                     return `${days}d ${hours}h ${mins}m`;
                 },
                 getEmailGiveawayExpiry() {
                     const task = this.tasks.find(t => t.id === 8);
                     return task ? task.giveawayExpiry : null;
+                },
+
+                // ---- Get current link for a task with link rotation ----
+                getCurrentTaskLink(task) {
+                    if (!task) return '#';
+                    if (task.links && task.links.length > 0) {
+                        const idx = task.linkIndex || 0;
+                        return task.links[idx % task.links.length];
+                    }
+                    return task.link || '#';
                 },
 
                 // ---- Important Toast ----
@@ -1511,7 +1536,9 @@
 
                 // ---- Leaderboard ----
                 generateLeaderboard() {
-                    const names = ['AlphaBlox', 'BetaBuilder', 'GammaGamer', 'DeltaDev', 'EpsilonElite', 'ZetaZen', 'EtaEagle', 'ThetaThunder', 'IotaInferno', 'KappaKing'];
+                    const names = ['AlphaBlox', 'BetaBuilder', 'GammaGamer', 'DeltaDev', 'EpsilonElite', 'ZetaZen',
+                        'EtaEagle', 'ThetaThunder', 'IotaInferno', 'KappaKing'
+                    ];
                     const levels = [5, 12, 8, 15, 6, 9, 11, 7, 13, 10];
                     const tokenAmounts = [1200, 3400, 2100, 5600, 1800, 2700, 3100, 1900, 4200, 2500];
                     this.leaderboardUsers = [];
@@ -1530,7 +1557,9 @@
 
                 // ---- Live logs ----
                 generateLiveLog() {
-                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
+                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843',
+                        'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'
+                    ];
                     const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
 
                     for (let i = 0; i < 5; i++) {
@@ -1549,7 +1578,9 @@
                 },
 
                 generateLiveLogItem() {
-                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
+                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843',
+                        'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'
+                    ];
                     const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
 
                     let newId;
@@ -1572,7 +1603,7 @@
 
                 // ---- Save / Load State ----
                 loadSavedState() {
-                    const savedTasks = localStorage.getItem('robux_tasks_state_v3');
+                    const savedTasks = localStorage.getItem('robux_tasks_state_v4');
                     const savedRunning = localStorage.getItem('robux_task_running');
                     const savedTokens = localStorage.getItem('robux_tokens_balance');
                     const savedCount = localStorage.getItem('robux_completed_count');
@@ -1610,6 +1641,10 @@
                                 t.cooldownUntil = match.cooldownUntil || null;
                                 t.claimableExpiry = match.claimableExpiry || null;
                                 t.endTime = match.endTime || null;
+                                // Load linkIndex for task 6
+                                if (t.id === 6 && match.linkIndex !== undefined) {
+                                    t.linkIndex = match.linkIndex;
+                                }
                                 if (t.status === 'loading' && t.endTime && t.endTime < Date.now()) {
                                     t.status = 'claimable';
                                     t.claimableExpiry = Date.now() + 60000;
@@ -1636,9 +1671,10 @@
                         status: t.status,
                         endTime: t.endTime || null,
                         cooldownUntil: t.cooldownUntil || null,
-                        claimableExpiry: t.claimableExpiry || null
+                        claimableExpiry: t.claimableExpiry || null,
+                        linkIndex: t.linkIndex !== undefined ? t.linkIndex : 0
                     }));
-                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(mapped));
+                    localStorage.setItem('robux_tasks_state_v4', JSON.stringify(mapped));
                     localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
                     localStorage.setItem('robux_tokens_balance', this.tokens);
                     localStorage.setItem('robux_completed_count', this.completedTasksCount);
@@ -1675,11 +1711,10 @@
                 // ---- Reset Account ----
                 resetAccount() {
                     if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
-                        const keys = ['robux_tasks_state_v3', 'robux_task_running', 'robux_tokens_balance',
+                        const keys = ['robux_tasks_state_v4', 'robux_task_running', 'robux_tokens_balance',
                             'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
                             'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
-                            'robux_rules_accepted', 'robux_user_id', 'robux_total_earned',
-                            'robux_user_level'
+                            'robux_rules_accepted', 'robux_user_id', 'robux_total_earned', 'robux_user_level'
                         ];
                         keys.forEach(k => localStorage.removeItem(k));
 
@@ -1700,6 +1735,7 @@
                             t.cooldownUntil = null;
                             t.claimableExpiry = null;
                             t.endTime = null;
+                            if (t.id === 6) t.linkIndex = 0;
                         });
                         this.withdrawStatus = 'idle';
                         this.withdrawHonestConfirm = false;
@@ -1718,7 +1754,8 @@
                 acceptRules() {
                     this.rulesAccepted = true;
                     this.saveState();
-                    this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋', 'Thank you for reading carefully.');
+                    this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋',
+                        'Thank you for reading carefully.');
                 },
 
                 // ---- Daily Streak ----
@@ -1842,18 +1879,15 @@
                 },
 
                 startTaskFromModal() {
-                    // This is called when user clicks "Start Now" in modal
                     const task = this.tasks.find(t => t.id === this.modalTaskId);
                     if (!task) {
                         this.closeTaskModal();
                         return;
                     }
-                    // Check if task is idle and not expired
                     if (task.status === 'idle') {
-                        // Start the loading process
                         this.isTaskRunning = true;
                         task.status = 'loading';
-                        task.endTime = Date.now() + 120000; // 2 minutes
+                        task.endTime = Date.now() + 120000;
                         this.saveState();
                         this.closeTaskModal();
                         this.showImportantToast('🔄 Processing your action...', '⏳', 'Please wait 2 minutes.');
@@ -1865,6 +1899,12 @@
                 // ---- Task Helpers ----
                 openTaskLink(task) {
                     if (!task) return;
+                    // For task 6 with link rotation, use the current link
+                    if (task.id === 6 && task.links && task.links.length > 0) {
+                        const link = this.getCurrentTaskLink(task);
+                        if (link) window.open(link, '_blank');
+                        return;
+                    }
                     if (task.link) {
                         window.open(task.link, '_blank');
                     }
@@ -1874,7 +1914,6 @@
                 handleTaskInteraction(task) {
                     // For Telegram and Email tasks, show modal first (if idle)
                     if ((task.id === 8 || task.id === 9) && task.status === 'idle') {
-                        // Check if giveaway expired for email
                         if (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) {
                             this.showImportantToast('⛔ This giveaway has expired.', '⛔');
                             return;
@@ -1883,7 +1922,6 @@
                         return;
                     }
 
-                    // Standard flow for other tasks or if already loading/claimable
                     if (this.isTaskRunning && task.status === 'idle') {
                         this.showImportantToast('⏳ One task at a time.', '⏳', 'Complete your current task first.');
                         return;
@@ -1897,7 +1935,35 @@
                         return;
                     }
 
-                    // For repeatable tasks (except email which is handled above)
+                    // ---- EMAIL / PHONE VERIFICATION (id: 6) with link rotation ----
+                    if (task.id === 6 && task.isRepeatable) {
+                        if (task.status === 'idle') {
+                            // Open the current link
+                            const currentLink = this.getCurrentTaskLink(task);
+                            if (currentLink) window.open(currentLink, '_blank');
+                            this.isTaskRunning = true;
+                            task.status = 'loading';
+                            task.endTime = Date.now() + 120000;
+                            this.saveState();
+                        } else if (task.status === 'claimable') {
+                            // Claim reward, then rotate the link
+                            task.status = 'completed';
+                            task.cooldownUntil = Date.now() + 600000;
+                            task.claimableExpiry = null;
+                            this.addTokens(task.reward);
+                            this.completedTasksCount++;
+                            // Rotate the link index for next time
+                            if (task.links && task.links.length > 0) {
+                                task.linkIndex = (task.linkIndex || 0) + 1;
+                            }
+                            this.saveState();
+                            this.showImportantToast(`💰 +${task.reward} Tokens claimed! Link rotated.`, '💰',
+                                `Next link: ${this.getCurrentTaskLink(task)}`);
+                        }
+                        return;
+                    }
+
+                    // ---- Other repeatable tasks ----
                     if (task.isRepeatable) {
                         if (task.status === 'idle') {
                             if (task.link) window.open(task.link, '_blank');
@@ -1917,15 +1983,17 @@
                             this.completedTasksCount++;
                             this.saveState();
                             if (task.isRandomReward) {
-                                this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁', 'Thanks for participating!');
+                                this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁',
+                                    'Thanks for participating!');
                             } else {
-                                this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰', 'Task will be available again in 10 minutes.');
+                                this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰',
+                                    'Task will be available again in 10 minutes.');
                             }
                         }
                         return;
                     }
 
-                    // Non-repeatable (Telegram is non-repeatable, handled above but also here for completeness)
+                    // ---- Non-repeatable ----
                     if (task.status === 'idle') {
                         if (task.link) window.open(task.link, '_blank');
                         this.isTaskRunning = true;
@@ -2033,7 +2101,10 @@
                         this.withdrawStatus = 'complete';
                         this.completedTasksCount++;
                         this.saveState();
-                        const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'];
+                        const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932',
+                            'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487',
+                            'RBLX-360598'
+                        ];
                         let newId;
                         do {
                             newId = idPool[Math.floor(Math.random() * idPool.length)];
