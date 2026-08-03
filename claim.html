@@ -3,537 +3,571 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Claim Reward | RobuxPrize</title>
+    <title>Task Complete · RobuxPrize</title>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
     </script>
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
-    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest">
     </script>
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0b0b0c;
-        }
-        [x-cloak] {
-            display: none !important;
+            background: #0b0b0c;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #f1f1f1;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .countdown-box {
-            background: #1a1a1e;
-            border: 1px solid #3f3f46;
+        /* ---- Scrollbar ---- */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121214;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 3px;
+        }
+
+        /* ---- Header (exact copy from app) ---- */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            width: 100%;
+            border-bottom: 1px solid #27272a;
+            background: rgba(24, 24, 27, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.75rem 1.5rem;
+        }
+
+        .app-header .header-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .app-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: default;
+        }
+
+        .app-header .brand-icon {
+            background: #dc2626;
+            padding: 0.5rem;
             border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            font-family: monospace;
-            font-size: 1.2rem;
-            color: #fbbf24;
-            text-align: center;
-        }
-        .countdown-box.expired {
-            border-color: #ef4444;
-            color: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.2);
         }
 
-        .task-card {
+        .app-header .brand-icon svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: white;
+        }
+
+        .app-header .brand-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #ffffff 60%, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .app-header .brand-name span {
+            color: #dc2626;
+            -webkit-text-fill-color: #dc2626;
+        }
+
+        .app-header .token-pill {
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 9999px;
+            padding: 0.375rem 1rem 0.375rem 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: white;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .app-header .token-pill svg {
+            width: 1rem;
+            height: 1rem;
+            color: #dc2626;
+        }
+
+        /* ---- Main card ---- */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .congrats-card {
+            width: 100%;
             background: #121214;
             border: 1px solid #27272a;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            max-width: 520px;
-            width: 100%;
-        }
-
-        .btn-collect {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            font-weight: bold;
-            padding: 0.75rem 2rem;
-            border-radius: 1rem;
+            border-radius: 2rem;
+            padding: 2.75rem 2rem 2.25rem;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            text-align: center;
             transition: all 0.2s;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .btn-collect:hover:not(:disabled) {
-            transform: scale(1.03);
-            box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
-        }
-        .btn-collect:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
         }
 
-        .status-badge {
-            display: inline-block;
-            padding: 0.15rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        /* ---- Success icon (professional) ---- */
+        .success-ring {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1.5px solid rgba(16, 185, 129, 0.2);
+            margin-bottom: 1.5rem;
+            position: relative;
         }
-        .status-badge.verifying {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.3);
+
+        .success-ring::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            border-top-color: rgba(16, 185, 129, 0.2);
+            animation: ringSpin 4s linear infinite;
         }
-        .status-badge.expired {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
+
+        @keyframes ringSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        .status-badge.claimed {
-            background: rgba(16, 185, 129, 0.2);
+
+        .success-ring svg {
+            width: 40px;
+            height: 40px;
             color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-        .status-badge.error {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-            border: 1px solid rgba(245, 158, 11, 0.3);
+            stroke-width: 2.5;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* ---- Title ---- */
+        .congrats-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
         }
-        .animate-spin-custom {
-            animation: spin 0.8s linear infinite;
+
+        .congrats-sub {
+            font-size: 0.875rem;
+            color: #a1a1aa;
+            font-weight: 400;
+            line-height: 1.6;
+            max-width: 280px;
+            margin: 0 auto 0.5rem;
+        }
+
+        /* ---- Divider ---- */
+        .divider-light {
+            width: 48px;
+            height: 2px;
+            background: #27272a;
+            border-radius: 2px;
+            margin: 1.25rem auto;
+        }
+
+        /* ---- Task detail row ---- */
+        .task-detail-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #52525b;
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 9999px;
+            padding: 0.3rem 1.2rem 0.3rem 0.8rem;
+            margin: 0 auto 0.5rem;
+            width: fit-content;
+        }
+
+        .task-detail-row svg {
+            width: 14px;
+            height: 14px;
+            color: #52525b;
+        }
+
+        .task-detail-row .task-label {
+            color: #a1a1aa;
+            font-weight: 500;
+        }
+
+        /* ---- Claim button (professional) ---- */
+        .btn-claim {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            width: 100%;
+            background: #dc2626;
+            border: none;
+            padding: 0.85rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 24px rgba(220, 38, 38, 0.2);
+            margin-top: 1.5rem;
+            text-decoration: none;
+        }
+
+        .btn-claim:hover {
+            background: #ef4444;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 32px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-claim:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn-claim svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* ---- Timer row ---- */
+        .timer-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            font-size: 0.7rem;
+            color: #52525b;
+            margin-top: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .timer-row svg {
+            width: 14px;
+            height: 14px;
+            color: #52525b;
+        }
+
+        .timer-row .time-value {
+            color: #a1a1aa;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            min-width: 1.5rem;
+            display: inline-block;
+        }
+
+        .timer-row .time-value.warning {
+            color: #fbbf24;
+        }
+
+        .timer-row .time-value.danger {
+            color: #ef4444;
+        }
+
+        /* ---- Small footer note ---- */
+        .footnote {
+            font-size: 0.6rem;
+            color: #3f3f46;
+            margin-top: 1.25rem;
+            letter-spacing: 0.03em;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 480px) {
+            .app-header {
+                padding: 0.6rem 1rem;
+            }
+            .app-header .brand-name {
+                font-size: 1rem;
+            }
+            .app-header .token-pill {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.75rem 0.3rem 0.5rem;
+            }
+            .app-header .brand-icon {
+                padding: 0.4rem;
+                border-radius: 0.6rem;
+            }
+            .app-header .brand-icon svg {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
+
+            .main-wrapper {
+                padding: 1.25rem 1rem;
+            }
+            .congrats-card {
+                padding: 2rem 1.25rem 1.75rem;
+                border-radius: 1.5rem;
+            }
+            .success-ring {
+                width: 64px;
+                height: 64px;
+            }
+            .success-ring svg {
+                width: 32px;
+                height: 32px;
+            }
+            .congrats-title {
+                font-size: 1.25rem;
+            }
+            .congrats-sub {
+                font-size: 0.8rem;
+            }
+            .btn-claim {
+                font-size: 0.875rem;
+                padding: 0.75rem 1.25rem;
+            }
+            .task-detail-row {
+                font-size: 0.7rem;
+                padding: 0.2rem 1rem 0.2rem 0.6rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .app-header .brand-name {
+                font-size: 0.875rem;
+            }
+            .app-header .token-pill {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.5rem 0.2rem 0.4rem;
+            }
+            .app-header .token-pill svg {
+                width: 0.75rem;
+                height: 0.75rem;
+            }
+            .congrats-card {
+                padding: 1.5rem 1rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOP NAV -->
-    <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20">
-                    <i data-lucide="ticket" class="w-6 h-6"></i>
+    <!-- ===== HEADER (exact copy from app) ===== -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                    </svg>
                 </div>
-                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
+                <span class="brand-name">Robux<span>Prize</span></span>
             </div>
-            <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2">
-                <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
-                <span class="text-sm font-bold text-white tracking-wide" id="tokenDisplay">0 TKNS</span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- MAIN CONTENT -->
-    <main class="max-w-2xl mx-auto px-4 py-12 flex items-center justify-center min-h-[70vh]">
-        <div class="w-full" x-data="claimApp()" x-init="initClaim()">
-            <div class="task-card mx-auto">
-
-                <!-- ===== LOADING ===== -->
-                <div x-show="loading" class="text-center py-12 space-y-3">
-                    <div class="animate-spin-custom rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent mx-auto"></div>
-                    <p class="text-zinc-400 text-sm">Loading claim details...</p>
-                </div>
-
-                <!-- ===== ERROR ===== -->
-                <div x-show="!loading && error" class="text-center py-8 space-y-3">
-                    <i data-lucide="alert-triangle" class="w-12 h-12 text-amber-500 mx-auto"></i>
-                    <h3 class="text-xl font-bold text-white" x-text="error"></h3>
-                    <p class="text-zinc-400 text-sm">Please start the task again from the dashboard.</p>
-                    <button @click="goBackToApp()" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition">
-                        ← Back to Dashboard
-                    </button>
-                </div>
-
-                <!-- ===== SUCCESS (after claiming) ===== -->
-                <div x-show="!loading && claimed" class="text-center py-8 space-y-4">
-                    <div class="bg-emerald-500/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto border border-emerald-500/30">
-                        <i data-lucide="check-circle" class="w-10 h-10 text-emerald-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-black text-white">🎉 Reward Collected!</h3>
-                    <p class="text-zinc-300 text-sm">
-                        You successfully claimed <strong class="text-emerald-400" x-text="rewardAmount + ' TKNS'"></strong>
-                        for <span class="font-medium" x-text="taskTitle"></span>.
-                    </p>
-                    <p class="text-zinc-500 text-xs">The tokens have been added to your balance.</p>
-                    <button @click="goBackToApp()" class="mt-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-8 py-2.5 rounded-xl transition shadow-lg shadow-red-600/20">
-                        ← Return to Dashboard
-                    </button>
-                </div>
-
-                <!-- ===== VERIFYING / CLAIMABLE STATE ===== -->
-                <div x-show="!loading && !error && !claimed && verifying" x-transition>
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="bg-blue-500/10 p-3 rounded-xl border border-blue-500/20">
-                            <i data-lucide="gift" class="w-6 h-6 text-blue-400"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white" x-text="taskTitle"></h3>
-                            <p class="text-zinc-400 text-xs">Complete the offer and click the button below to collect</p>
-                        </div>
-                    </div>
-
-                    <!-- Task details -->
-                    <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 mb-4 space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-zinc-500">Reward</span>
-                            <span class="text-emerald-400 font-bold" x-text="rewardAmount + ' TKNS'"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-zinc-500">Time remaining</span>
-                            <span class="font-mono text-amber-400" x-text="timeLeft"></span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-zinc-500">Status</span>
-                            <span class="status-badge verifying">Verifying</span>
-                        </div>
-                    </div>
-
-                    <!-- Countdown -->
-                    <div class="countdown-box mb-6" :class="timeLeft === 'Expired' ? 'expired' : ''" x-text="timeLeft"></div>
-
-                    <!-- Collect Button -->
-                    <button @click="claimReward()"
-                            :disabled="claiming || timeLeft === 'Expired'"
-                            :class="(claiming || timeLeft === 'Expired') ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'btn-collect'"
-                            class="w-full text-white font-bold text-base py-3 rounded-xl transition-all duration-150 flex items-center justify-center gap-2">
-                        <span x-show="!claiming">
-                            <i data-lucide="sparkles" class="w-5 h-5 inline"></i> Collect Reward
-                        </span>
-                        <span x-show="claiming">
-                            <svg class="animate-spin-custom h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            Processing...
-                        </span>
-                    </button>
-
-                    <p x-show="timeLeft === 'Expired'" class="text-red-400 text-xs text-center mt-3 font-medium">
-                        ⏰ This claim window has expired. Please start the task again from the dashboard.
-                    </p>
-                    <p x-show="timeLeft !== 'Expired'" class="text-zinc-500 text-xs text-center mt-3">
-                        You have 3 minutes to claim after the offer is completed.
-                    </p>
-                </div>
-
+            <div class="token-pill">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                </svg>
+                <span id="headerTokenCount">5</span> TKNS
             </div>
         </div>
-    </main>
+    </header>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-zinc-900 py-4 text-center text-zinc-500 text-xs">
-        &copy; 2026 RobuxPrize — Claim securely.
-    </footer>
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-wrapper">
+        <div class="congrats-card">
 
-    <!-- ===== APPLICATION SCRIPT ===== -->
+            <!-- Success icon -->
+            <div class="success-ring">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h1 class="congrats-title">Task Completed</h1>
+            <p class="congrats-sub">
+                You've successfully finished the required steps. Your reward is ready to be claimed.
+            </p>
+
+            <!-- Divider -->
+            <div class="divider-light"></div>
+
+            <!-- Task name pill -->
+            <div class="task-detail-row">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span class="task-label" id="taskNameDisplay">—</span>
+            </div>
+
+            <!-- Claim button -->
+            <button id="claimButton" class="btn-claim">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                Claim Reward &amp; Return
+            </button>
+
+            <!-- Timer -->
+            <div class="timer-row">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
+                </svg>
+                <span>Claim within</span>
+                <span class="time-value" id="countdownDisplay">60</span>
+                <span>seconds</span>
+            </div>
+
+            <!-- Footnote -->
+            <p class="footnote">Your progress is synced automatically · Return to continue earning</p>
+
+        </div>
+    </div>
+
+    <!-- ===== SCRIPT ===== -->
     <script>
-        function claimApp() {
-            return {
-                // ---- State ----
-                taskId: null,
-                loading: true,
-                error: null,
-                verifying: false,
-                claimed: false,
-                claiming: false,
-                taskTitle: '',
-                rewardAmount: 0,
-                timeLeft: '--:--',
-                verifyingExpiry: null,
-                timerInterval: null,
+        (function() {
+            'use strict';
 
-                // ---- Init ----
-                initClaim() {
-                    const params = new URLSearchParams(window.location.search);
-                    this.taskId = params.get('taskId');
-                    if (!this.taskId) {
-                        this.error = 'No task specified.';
-                        this.loading = false;
-                        return;
+            // ---- Read URL params ----
+            const urlParams = new URLSearchParams(window.location.search);
+
+            const taskName = urlParams.get('task') || 'Task';
+            const returnUrl = urlParams.get('return') || 'index.html';
+            const tokenBalance = parseInt(urlParams.get('balance')) || 5;
+
+            // ---- DOM refs ----
+            const taskNameDisplay = document.getElementById('taskNameDisplay');
+            const claimBtn = document.getElementById('claimButton');
+            const countdownDisplay = document.getElementById('countdownDisplay');
+            const headerTokenSpan = document.getElementById('headerTokenCount');
+
+            // ---- Populate header token balance ----
+            if (headerTokenSpan) {
+                headerTokenSpan.textContent = tokenBalance;
+            }
+
+            // ---- Populate task name (clean, truncated) ----
+            if (taskNameDisplay) {
+                const clean = taskName.length > 32 ? taskName.slice(0, 30) + '…' : taskName;
+                taskNameDisplay.textContent = clean;
+            }
+
+            // ---- Countdown (60 seconds) ----
+            let secondsLeft = 60;
+            let timerInterval = null;
+
+            function updateCountdown() {
+                if (!countdownDisplay) return;
+                countdownDisplay.textContent = secondsLeft;
+
+                // Visual feedback
+                countdownDisplay.classList.remove('warning', 'danger');
+                if (secondsLeft <= 10) {
+                    countdownDisplay.classList.add('danger');
+                } else if (secondsLeft <= 30) {
+                    countdownDisplay.classList.add('warning');
+                }
+
+                if (secondsLeft <= 0) {
+                    countdownDisplay.textContent = '0';
+                    if (timerInterval) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
                     }
-                    this.loadTaskState();
-                },
-
-                // ---- Load task state from localStorage ----
-                loadTaskState() {
-                    try {
-                        const savedTasks = localStorage.getItem('robux_tasks_state_v3');
-                        const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
-
-                        if (!savedTasks) {
-                            this.error = 'No task data found. Please start a task first.';
-                            this.loading = false;
-                            return;
-                        }
-
-                        const tasks = JSON.parse(savedTasks);
-                        const taskState = tasks.find(t => t.id == this.taskId);
-
-                        if (!taskState) {
-                            this.error = 'Task not found.';
-                            this.loading = false;
-                            return;
-                        }
-
-                        // Get task metadata (title, reward, etc.)
-                        const meta = fullTasks.find(t => t.id == this.taskId);
-                        if (meta) {
-                            this.taskTitle = meta.title || 'Task #' + this.taskId;
-                            // If random reward, generate a random amount
-                            if (meta.isRandomReward) {
-                                this.rewardAmount = Math.floor(Math.random() * 41) + 10;
-                            } else {
-                                this.rewardAmount = meta.reward || 10;
-                            }
-                        } else {
-                            this.taskTitle = 'Task #' + this.taskId;
-                            this.rewardAmount = 10;
-                        }
-
-                        const status = taskState.status;
-                        const verifyingExpiry = taskState.verifyingExpiry || 0;
-
-                        // ---- Check status ----
-                        if (status === 'verifying' && verifyingExpiry && verifyingExpiry > Date.now()) {
-                            // Task is in verification window – claimable
-                            this.verifying = true;
-                            this.verifyingExpiry = verifyingExpiry;
-                            this.error = null;
-
-                            // Start countdown
-                            this.updateCountdown();
-                            this.timerInterval = setInterval(() => {
-                                this.updateCountdown();
-                            }, 1000);
-
-                        } else if (status === 'verifying' && verifyingExpiry && verifyingExpiry <= Date.now()) {
-                            // Verification window expired – show error and reset
-                            this.error = '⏰ This claim window has expired. Please start the task again.';
-                            this.verifying = false;
-
-                            // Reset the task to expired (main app will handle reset to idle after 5s)
-                            taskState.status = 'expired';
-                            taskState.verifyingExpiry = null;
-                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
-
-                            // Also trigger the main app's reset mechanism by updating the full tasks array
-                            const fullTasksCopy = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
-                            const metaTask = fullTasksCopy.find(t => t.id == this.taskId);
-                            if (metaTask) {
-                                metaTask.status = 'expired';
-                                metaTask.verifyingExpiry = null;
-                                localStorage.setItem('robux_tasks_full', JSON.stringify(fullTasksCopy));
-                            }
-
-                        } else if (status === 'completed') {
-                            this.error = '✅ You already claimed this task.';
-                            this.verifying = false;
-
-                        } else if (status === 'expired') {
-                            this.error = '⏰ This task has expired. Please start again.';
-                            this.verifying = false;
-
-                            // Reset to idle (main app will handle this, but we can do it here too)
-                            taskState.status = 'idle';
-                            taskState.verifyingExpiry = null;
-                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
-
-                        } else if (status === 'idle') {
-                            this.error = 'This task hasn\'t been started yet. Please start the offer from the dashboard.';
-                            this.verifying = false;
-
-                        } else {
-                            this.error = 'This task is not ready for claiming. Please complete the offer first.';
-                            this.verifying = false;
-                        }
-
-                        // Update token display in nav
-                        const tokens = parseInt(localStorage.getItem('robux_tokens_balance') || '0');
-                        document.getElementById('tokenDisplay').innerText = tokens + ' TKNS';
-
-                        this.loading = false;
-
-                    } catch (e) {
-                        console.error('Error loading task state:', e);
-                        this.error = 'Error loading task data. Please try again.';
-                        this.loading = false;
+                    // Optionally change button text
+                    if (claimBtn) {
+                        claimBtn.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:18px;height:18px;">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Expired · Return
+                        `;
+                        claimBtn.style.opacity = '0.6';
+                        claimBtn.style.background = '#3f3f46';
+                        claimBtn.style.cursor = 'pointer';
                     }
-                },
-
-                // ---- Update countdown ----
-                updateCountdown() {
-                    if (!this.verifyingExpiry) return;
-
-                    const now = Date.now();
-                    const diff = this.verifyingExpiry - now;
-
-                    if (diff <= 0) {
-                        this.timeLeft = 'Expired';
-                        this.verifying = false;
-                        clearInterval(this.timerInterval);
-
-                        // Update error and reset the task
-                        this.error = '⏰ This claim window has expired. Please start the task again.';
-
-                        // Reset task in localStorage
-                        try {
-                            const savedTasks = localStorage.getItem('robux_tasks_state_v3');
-                            if (savedTasks) {
-                                const tasks = JSON.parse(savedTasks);
-                                const task = tasks.find(t => t.id == this.taskId);
-                                if (task && task.status === 'verifying') {
-                                    task.status = 'expired';
-                                    task.verifyingExpiry = null;
-                                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
-
-                                    // Also update full tasks
-                                    const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
-                                    const meta = fullTasks.find(t => t.id == this.taskId);
-                                    if (meta) {
-                                        meta.status = 'expired';
-                                        meta.verifyingExpiry = null;
-                                        localStorage.setItem('robux_tasks_full', JSON.stringify(fullTasks));
-                                    }
-
-                                    // After 5 seconds, reset to idle (main app will also do this)
-                                    setTimeout(() => {
-                                        const updatedTasks = JSON.parse(localStorage.getItem(
-                                        'robux_tasks_state_v3') || '[]');
-                                        const t = updatedTasks.find(x => x.id == this.taskId);
-                                        if (t && t.status === 'expired') {
-                                            t.status = 'idle';
-                                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(
-                                            updatedTasks));
-                                        }
-                                    }, 5000);
-                                }
-                            }
-                        } catch (e) {
-                            console.error('Error resetting task:', e);
-                        }
-
-                        return;
-                    }
-
-                    const mins = Math.floor(diff / 60000);
-                    const secs = Math.floor((diff % 60000) / 1000);
-                    this.timeLeft = `${mins}:${secs.toString().padStart(2, '0')}`;
-                },
-
-                // ---- Claim the reward ----
-                claimReward() {
-                    if (this.claiming || this.timeLeft === 'Expired') return;
-                    this.claiming = true;
-
-                    try {
-                        // 1. Get current balances
-                        let currentTokens = parseInt(localStorage.getItem('robux_tokens_balance') || '0');
-                        let totalEarned = parseInt(localStorage.getItem('robux_total_earned') || '0');
-                        let completedCount = parseInt(localStorage.getItem('robux_completed_count') || '0');
-
-                        // 2. Add tokens
-                        currentTokens += this.rewardAmount;
-                        totalEarned += this.rewardAmount;
-                        completedCount += 1;
-
-                        localStorage.setItem('robux_tokens_balance', currentTokens);
-                        localStorage.setItem('robux_total_earned', totalEarned);
-                        localStorage.setItem('robux_completed_count', completedCount);
-
-                        // 3. Update task status
-                        const savedTasks = JSON.parse(localStorage.getItem('robux_tasks_state_v3') || '[]');
-                        const taskIndex = savedTasks.findIndex(t => t.id == this.taskId);
-
-                        if (taskIndex !== -1) {
-                            const task = savedTasks[taskIndex];
-                            task.status = 'completed';
-                            task.verifyingExpiry = null;
-
-                            // If repeatable, set cooldown (10 minutes)
-                            const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
-                            const meta = fullTasks.find(t => t.id == this.taskId);
-                            if (meta && meta.isRepeatable) {
-                                task.cooldownUntil = Date.now() + 600000; // 10 minutes
-                            } else {
-                                task.cooldownUntil = null;
-                            }
-
-                            savedTasks[taskIndex] = task;
-                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(savedTasks));
-
-                            // Also update full tasks
-                            if (meta) {
-                                meta.status = 'completed';
-                                meta.verifyingExpiry = null;
-                                if (meta.isRepeatable) {
-                                    meta.cooldownUntil = Date.now() + 600000;
-                                } else {
-                                    meta.cooldownUntil = null;
-                                }
-                                localStorage.setItem('robux_tasks_full', JSON.stringify(fullTasks));
-                            }
-                        }
-
-                        // 4. Clear running task flag
-                        localStorage.setItem('robux_task_running', 'false');
-
-                        // 5. Update token display
-                        document.getElementById('tokenDisplay').innerText = currentTokens + ' TKNS';
-
-                        // 6. Show success
-                        this.claimed = true;
-                        this.claiming = false;
-                        clearInterval(this.timerInterval);
-
-                        // Refresh icons
-                        this.$nextTick(() => {
-                            if (window.lucide) window.lucide.createIcons();
-                        });
-
-                    } catch (e) {
-                        console.error('Error claiming reward:', e);
-                        this.claiming = false;
-                        alert('There was an error claiming your reward. Please try again.');
-                    }
-                },
-
-                // ---- Go back to main app ----
-                goBackToApp() {
-                    window.location.href = 'index.html';
                 }
             }
-        }
 
-        // ---- Initialize Lucide icons after DOM ready ----
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.lucide) window.lucide.createIcons();
-        });
-
-        // ---- Re-run Lucide after Alpine renders ----
-        document.addEventListener('alpine:init', () => {
-            // Watch for changes that might need icon refresh
-            const app = document.querySelector('[x-data]');
-            if (app && app._x_dataStack) {
-                // Re-run after state changes
-                setTimeout(() => {
-                    if (window.lucide) window.lucide.createIcons();
-                }, 100);
+            function startCountdown() {
+                updateCountdown();
+                timerInterval = setInterval(() => {
+                    secondsLeft -= 1;
+                    updateCountdown();
+                    if (secondsLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                }, 1000);
             }
-        });
 
-        // Also watch for Alpine updates
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check periodically for icon updates
-            const observer = new MutationObserver(() => {
-                if (window.lucide) window.lucide.createIcons();
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
-        });
+            startCountdown();
+
+            // ---- Claim button handler ----
+            if (claimBtn) {
+                claimBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // If expired, just redirect back
+                    if (secondsLeft <= 0) {
+                        window.location.href = returnUrl;
+                        return;
+                    }
+
+                    // Otherwise, redirect to the return URL
+                    window.location.href = returnUrl;
+                });
+            }
+
+            // ---- Small trick: if user clicks the card background, it's fine ----
+            console.log(`✅ Task Complete: "${taskName}" | Return: ${returnUrl} | Balance: ${tokenBalance} TKNS`);
+
+        })();
     </script>
 
 </body>
