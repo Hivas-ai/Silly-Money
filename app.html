@@ -725,6 +725,20 @@
                         </div>
                     </div>
 
+                    <!-- ===== NEW: Weekly Cooldown Banner ===== -->
+                    <div x-show="lastWithdrawTime > 0 && (Date.now() - lastWithdrawTime) < 7 * 24 * 60 * 60 * 1000" class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
+                        <i data-lucide="clock" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <p class="text-sm font-bold text-amber-400">⏳ Weekly Cooldown Active</p>
+                            <p class="text-xs text-zinc-300 leading-relaxed">
+                                You've already made a withdrawal this week. Next withdrawal available in <strong class="text-white" x-text="getWithdrawCooldownDisplay()"></strong>.
+                            </p>
+                            <p class="text-xs text-emerald-400 leading-relaxed mt-1">
+                                💡 Use this time to complete more tasks and earn extra Tokens. You can withdraw <strong>twice</strong> when the cooldown resets!
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <!-- Exchange rate card -->
                         <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between md:col-span-1">
@@ -768,11 +782,13 @@
                                 </div>
                             </template>
 
+                            <!-- ===== UPDATED: Withdraw Complete Message ===== -->
                             <template x-if="withdrawStatus === 'complete'">
                                 <div class="py-6 text-center space-y-3 border border-emerald-500/20 bg-emerald-500/5 rounded-xl p-4">
                                     <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500 mx-auto"></i>
                                     <h4 class="text-base font-bold text-white">Order Successfully Formed!</h4>
-                                    <p class="text-xs text-zinc-300 leading-relaxed">Verification protocol complete. You will receive your Robux in your designated Roblox account within <strong class="text-emerald-400">24h</strong>.</p>
+                                    <p class="text-xs text-zinc-300 leading-relaxed">Verification protocol complete. You will receive your Robux in your designated Roblox account within <strong class="text-emerald-400">1 to 2 weeks</strong>.</p>
+                                    <p class="text-xs text-amber-400 leading-relaxed">💡 Keep completing tasks to earn more Tokens. You can withdraw <strong>twice</strong> next week!</p>
                                     <button @click="withdrawStatus = 'idle'" class="mt-2 text-xs bg-zinc-900 px-3 py-1.5 rounded-lg border border-zinc-800 hover:text-white transition">Form Another Payout</button>
                                 </div>
                             </template>
@@ -1314,6 +1330,9 @@
                 showTaskModal: false,
                 modalTaskId: null,
 
+                // ===== NEW: Withdrawal Cooldown =====
+                lastWithdrawTime: 0,
+
                 // ---- Tasks ----
                 tasks: [
                     // ---- EMAIL / PHONE VERIFICATION - FIRST (id: 6) ----
@@ -1448,6 +1467,19 @@
                         return task.links[idx % task.links.length];
                     }
                     return task.link || '#';
+                },
+
+                // ---- Withdrawal Cooldown Display ----
+                getWithdrawCooldownDisplay() {
+                    if (!this.lastWithdrawTime) return 'Ready!';
+                    const now = Date.now();
+                    const weekInMs = 7 * 24 * 60 * 60 * 1000;
+                    const diff = now - this.lastWithdrawTime;
+                    if (diff >= weekInMs) return 'Ready!';
+                    const remaining = weekInMs - diff;
+                    const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
+                    const hours = Math.floor((remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                    return `${days}d ${hours}h`;
                 },
 
                 // ---- Important Toast ----
@@ -1621,6 +1653,8 @@
                     const savedUserId = localStorage.getItem('robux_user_id');
                     const savedTotalEarned = localStorage.getItem('robux_total_earned');
                     const savedLevel = localStorage.getItem('robux_user_level');
+                    // NEW
+                    const savedLastWithdraw = localStorage.getItem('robux_last_withdraw_time');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -1634,6 +1668,7 @@
                     if (savedUserId) this.userId = savedUserId;
                     if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
                     if (savedLevel) this.userLevel = parseInt(savedLevel);
+                    if (savedLastWithdraw) this.lastWithdrawTime = parseInt(savedLastWithdraw);
 
                     this.updateLevel();
 
@@ -1698,6 +1733,8 @@
                     localStorage.setItem('robux_user_id', this.userId);
                     localStorage.setItem('robux_total_earned', this.totalTokensEarned);
                     localStorage.setItem('robux_user_level', this.userLevel);
+                    // NEW
+                    localStorage.setItem('robux_last_withdraw_time', this.lastWithdrawTime);
                 },
 
                 // ---- Level update ----
@@ -1725,7 +1762,8 @@
                         const keys = ['robux_tasks_state_v4', 'robux_task_running', 'robux_tokens_balance',
                             'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
                             'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
-                            'robux_rules_accepted', 'robux_user_id', 'robux_total_earned', 'robux_user_level'
+                            'robux_rules_accepted', 'robux_user_id', 'robux_total_earned', 'robux_user_level',
+                            'robux_last_withdraw_time'
                         ];
                         keys.forEach(k => localStorage.removeItem(k));
 
@@ -1741,6 +1779,7 @@
                         this.totalTokensEarned = 0;
                         this.userLevel = 1;
                         this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+                        this.lastWithdrawTime = 0;
                         this.tasks.forEach(t => {
                             t.status = 'idle';
                             t.cooldownUntil = null;
@@ -1910,7 +1949,6 @@
                 // ---- Task Helpers ----
                 openTaskLink(task) {
                     if (!task) return;
-                    // For task 6, use the single link
                     if (task.id === 6 && task.link) {
                         window.open(task.link, '_blank');
                         return;
@@ -2103,6 +2141,25 @@
                         this.showImportantToast(`❌ Need ${cost} Tokens.`, '❌', 'Complete more tasks to earn.');
                         return;
                     }
+
+                    // ===== NEW: Check Weekly Cooldown =====
+                    if (this.lastWithdrawTime > 0) {
+                        const now = Date.now();
+                        const diff = now - this.lastWithdrawTime;
+                        const weekInMs = 7 * 24 * 60 * 60 * 1000;
+                        if (diff < weekInMs) {
+                            const remaining = weekInMs - diff;
+                            const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
+                            const hours = Math.floor((remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                            this.showImportantToast(
+                                `⏳ Withdrawal cooldown active!`,
+                                '⏳',
+                                `You can withdraw again in ${days}d ${hours}h. Keep earning Tokens to withdraw double next week!`
+                            );
+                            return;
+                        }
+                    }
+
                     this.withdrawStatus = 'loading';
                     setTimeout(() => {
                         this.withdrawStatus = 'confirming';
@@ -2116,6 +2173,9 @@
                     this.showImportantToast('📦 Processing payout...', '📦', 'Finalizing ledger encryption.');
 
                     setTimeout(() => {
+                        // ===== NEW: Set last withdrawal time to now =====
+                        this.lastWithdrawTime = Date.now();
+
                         this.withdrawStatus = 'complete';
                         this.completedTasksCount++;
                         this.saveState();
@@ -2136,7 +2196,7 @@
                         });
                         if (this.liveLogs.length > 8) this.liveLogs.pop();
                         this.showImportantToast('✅ Payout confirmed!', '✅',
-                            `${this.selectedTier} Robux will arrive within 24h.`);
+                            `${this.selectedTier} Robux will arrive within 1-2 weeks.`);
                     }, 4000);
                 },
 
