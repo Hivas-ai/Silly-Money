@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Token Collection | RobuxPrize</title>
+    <title>Claim Reward | RobuxPrize</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
@@ -18,613 +18,387 @@
             font-family: 'Inter', sans-serif;
             background-color: #0b0b0c;
         }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #121214;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #dc2626;
-            border-radius: 3px;
-        }
-        [x-cloak] {
-            display: none !important;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        .btn-shimmer {
-            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
-            background-size: 200% auto;
-            animation: shimmer 2s linear infinite;
-        }
-        .btn-shimmer:hover {
-            animation-duration: 0.8s;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.1); }
-            50% { box-shadow: 0 0 40px rgba(220, 38, 38, 0.25); }
-        }
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        .spin-slow {
-            animation: spin-slow 3s linear infinite;
-        }
-
-        .toast-center {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999;
-            pointer-events: none;
-            max-width: 300px;
-            width: 90%;
-        }
-        .toast-center .toast-inner {
-            pointer-events: auto;
-            background: #0a0a0c;
-            border: 1px solid #dc2626;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem 0.7rem;
-            text-align: center;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-        .toast-center .toast-inner .toast-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.1rem;
-        }
-        .toast-center .toast-inner .toast-msg {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #f1f1f1;
-            line-height: 1.3;
-        }
-        .toast-center .toast-inner .toast-sub {
-            font-size: 0.65rem;
-            color: #a1a1aa;
-            margin-top: 0.1rem;
-        }
-        .toast-center .toast-inner .toast-ok-btn {
-            margin-top: 0.6rem;
-            background: #dc2626;
-            border: none;
-            padding: 0.25rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: 700;
-            font-size: 0.7rem;
-            color: white;
-            cursor: pointer;
-            transition: background 0.2s;
-            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
-        }
-        .toast-center .toast-inner .toast-ok-btn:hover {
-            background: #b91c1c;
-        }
-
-        .claim-progress-ring {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 4px solid #27272a;
-            border-top-color: #dc2626;
-            animation: spin-slow 1.2s linear infinite;
-        }
-
-        .stat-card {
-            background: #121214;
-            border: 1px solid #27272a;
-            border-radius: 1rem;
-            padding: 1rem;
-            transition: all 0.2s;
-        }
-        .stat-card:hover {
-            border-color: #3f3f46;
-        }
-
-        .countdown-badge {
+        [x-cloak] { display: none !important; }
+        .countdown-box {
             background: #1a1a1e;
             border: 1px solid #3f3f46;
             border-radius: 0.75rem;
-            padding: 0.25rem 1rem;
+            padding: 0.75rem 1rem;
             font-family: monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.2rem;
             color: #fbbf24;
-            display: inline-block;
-            min-width: 4rem;
             text-align: center;
         }
-        .expiry-warning {
-            background: #7f1d1d30;
-            border: 1px solid #dc262630;
-            border-radius: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.7rem;
-            color: #fca5a5;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
+        .task-card {
+            background: #121214;
+            border: 1px solid #27272a;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            max-width: 520px;
+            width: 100%;
+        }
+        .btn-collect {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 2rem;
+            border-radius: 1rem;
+            transition: all 0.2s;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+        .btn-collect:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+        }
+        .btn-collect:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.15rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .status-badge.verifying {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        .status-badge.expired {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .status-badge.claimed {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .status-badge.error {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
         }
     </style>
 </head>
-<body class="text-gray-100 antialiased custom-scrollbar" x-data="collectionState()">
+<body>
 
-    <!-- ===== TOP NAV ===== -->
-    <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
-        <div class="max-w-4xl mx-auto flex items-center justify-between">
+    <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20">
                     <i data-lucide="ticket" class="w-6 h-6"></i>
                 </div>
                 <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
-                <span class="ml-2 bg-zinc-800 text-xs font-bold px-2.5 py-1 rounded-full text-zinc-400 border border-zinc-700">Collection Hub</span>
             </div>
-            <div class="flex items-center gap-3">
-                <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
-                    <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
-                    <span class="text-sm font-bold text-white tracking-wide" x-text="tokens + ' TKNS'"></span>
-                </div>
-                <a href="index.html" class="text-xs text-zinc-500 hover:text-white transition px-2 py-1 rounded-lg hover:bg-zinc-900 border border-transparent hover:border-zinc-800">← Back</a>
+            <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2">
+                <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                <span class="text-sm font-bold text-white tracking-wide" id="tokenDisplay">0 TKNS</span>
             </div>
         </div>
     </nav>
 
-    <!-- ===== MAIN ===== -->
-    <main class="max-w-4xl mx-auto px-4 py-8 lg:py-12">
+    <main class="max-w-2xl mx-auto px-4 py-12 flex items-center justify-center min-h-[70vh]">
+        <div class="w-full" x-data="claimApp()" x-init="initClaim()">
+            <div class="task-card mx-auto">
+                <!-- Loading -->
+                <div x-show="loading" class="text-center py-12 space-y-3">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+                    <p class="text-zinc-400 text-sm">Loading claim details...</p>
+                </div>
 
-        <!-- Page Header -->
-        <div class="mb-8">
-            <h1 class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
-                <i data-lucide="target" class="w-7 h-7 text-red-500"></i>
-                Task Tracker & Collection
-            </h1>
-            <p class="text-zinc-500 text-sm mt-1">Monitor your active task and claim your tokens here when ready.</p>
-        </div>
+                <!-- Error -->
+                <div x-show="!loading && error" class="text-center py-8 space-y-3">
+                    <i data-lucide="alert-triangle" class="w-12 h-12 text-amber-500 mx-auto"></i>
+                    <h3 class="text-xl font-bold text-white" x-text="error"></h3>
+                    <p class="text-zinc-400 text-sm">You may have already claimed this task or it's no longer available.</p>
+                    <button @click="goBackToApp()" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition">
+                        ← Back to Dashboard
+                    </button>
+                </div>
 
-        <!-- ===== COLLECTION CARD ===== -->
-        <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 lg:p-8 pulse-glow">
-
-            <!-- Loading State -->
-            <template x-if="activeTask && activeTask.status === 'loading'">
-                <div class="text-center py-8">
-                    <div class="claim-progress-ring mx-auto mb-5"></div>
-                    <div class="flex items-center justify-center gap-2 text-amber-400 font-medium text-sm mb-2">
-                        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        <span>Processing your task...</span>
+                <!-- Success (after claim) -->
+                <div x-show="!loading && claimed" class="text-center py-8 space-y-4">
+                    <div class="bg-emerald-500/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto border border-emerald-500/30">
+                        <i data-lucide="check-circle" class="w-10 h-10 text-emerald-400"></i>
                     </div>
-                    <p class="text-xs text-zinc-500">Please wait while we verify your action. This usually takes about <strong class="text-white">3 minutes</strong>.</p>
-                    <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
-                        <span class="text-xs text-zinc-400">⏳ Time remaining:</span>
-                        <span class="countdown-badge" x-text="getLoadingTimeLeft(activeTask.endTime)"></span>
-                        <span class="expiry-warning">
-                            <i data-lucide="clock" class="w-3 h-3"></i>
-                            Expires if not claimed!
+                    <h3 class="text-2xl font-black text-white">🎉 Reward Collected!</h3>
+                    <p class="text-zinc-300 text-sm">
+                        You successfully claimed <strong class="text-emerald-400" x-text="rewardAmount + ' TKNS'"></strong>
+                        for <span class="font-medium" x-text="taskTitle"></span>.
+                    </p>
+                    <p class="text-zinc-500 text-xs">The tokens have been added to your balance.</p>
+                    <button @click="goBackToApp()" class="mt-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-8 py-2.5 rounded-xl transition shadow-lg shadow-red-600/20">
+                        ← Return to Dashboard
+                    </button>
+                </div>
+
+                <!-- Verifying State (claimable) -->
+                <div x-show="!loading && !error && !claimed && verifying" x-transition>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-blue-500/10 p-3 rounded-xl border border-blue-500/20">
+                            <i data-lucide="gift" class="w-6 h-6 text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white" x-text="taskTitle"></h3>
+                            <p class="text-zinc-400 text-xs">Click the button below to collect your reward</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 mb-4 space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-zinc-500">Reward</span>
+                            <span class="text-emerald-400 font-bold" x-text="rewardAmount + ' TKNS'"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-zinc-500">Time remaining</span>
+                            <span class="font-mono text-amber-400" x-text="timeLeft"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-zinc-500">Status</span>
+                            <span class="status-badge verifying">Verifying</span>
+                        </div>
+                    </div>
+
+                    <div class="countdown-box mb-6" x-text="timeLeft"></div>
+
+                    <button @click="claimReward()" 
+                            :disabled="claiming || timeLeft === 'Expired'"
+                            :class="(claiming || timeLeft === 'Expired') ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'btn-collect'"
+                            class="w-full text-white font-bold text-base py-3 rounded-xl transition-all duration-150 flex items-center justify-center gap-2">
+                        <span x-show="!claiming">
+                            <i data-lucide="sparkles" class="w-5 h-5 inline"></i> Collect Reward
                         </span>
-                    </div>
-                    <div class="mt-5 bg-zinc-900/50 border border-zinc-800 rounded-xl p-3 text-left max-w-sm mx-auto">
-                        <p class="text-xs text-zinc-400"><strong class="text-white">Task:</strong> <span x-text="activeTask.title"></span></p>
-                        <p class="text-xs text-zinc-400 mt-1"><strong class="text-white">Reward:</strong>
-                            <template x-if="activeTask.isRandomReward">🎁 Random Gift (10-50 TKNS)</template>
-                            <template x-if="!activeTask.isRandomReward"><span x-text="'+' + activeTask.reward + ' TKNS'"></span></template>
-                        </p>
-                    </div>
-                </div>
-            </template>
-
-            <!-- Claimable State -->
-            <template x-if="activeTask && activeTask.status === 'claimable'">
-                <div class="text-center py-6">
-                    <div class="bg-emerald-500/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
-                        <i data-lucide="sparkles" class="w-10 h-10 text-emerald-400"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-white">🎉 Ready to Claim!</h2>
-                    <p class="text-sm text-zinc-400 mt-1">Your task has been completed. Claim your tokens now before they expire!</p>
-                    <div class="mt-4 flex flex-wrap items-center justify-center gap-3">
-                        <span class="text-xs text-amber-400 font-medium">⏳ Claim within:</span>
-                        <span class="countdown-badge" x-text="getClaimableTimeLeft(activeTask.claimableExpiry)"></span>
-                        <span class="expiry-warning">
-                            <i data-lucide="alert-triangle" class="w-3 h-3"></i>
-                            Expires in 3 minutes!
+                        <span x-show="claiming">
+                            <svg class="animate-spin h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Processing...
                         </span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 max-w-md mx-auto">
-                        <div class="stat-card text-center">
-                            <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Task</p>
-                            <p class="text-sm font-bold text-white truncate" x-text="activeTask.title"></p>
-                        </div>
-                        <div class="stat-card text-center">
-                            <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Reward</p>
-                            <p class="text-sm font-bold text-emerald-400">
-                                <template x-if="activeTask.isRandomReward">🎁 Random Gift</template>
-                                <template x-if="!activeTask.isRandomReward"><span x-text="'+' + activeTask.reward + ' TKNS'"></span></template>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-                        <button @click="claimTokens()" class="btn-shimmer text-white font-bold text-sm px-8 py-3 rounded-xl transition active:scale-95 shadow-lg shadow-emerald-600/30 border border-emerald-400/30 flex items-center gap-2">
-                            <i data-lucide="gift" class="w-4 h-4"></i> Claim Tokens Now
-                        </button>
-                    </div>
-                    <p class="text-[10px] text-zinc-500 mt-3">⚠️ If you don't claim in time, the task will expire and you'll need to start over.</p>
+                    </button>
+
+                    <p x-show="timeLeft === 'Expired'" class="text-red-400 text-xs text-center mt-3 font-medium">
+                        ⏰ This claim window has expired. Please start the task again from the dashboard.
+                    </p>
+                    <p x-show="timeLeft !== 'Expired'" class="text-zinc-500 text-xs text-center mt-3">
+                        You have 3 minutes to claim after completing the offer.
+                    </p>
                 </div>
-            </template>
-
-            <!-- No Active Task -->
-            <template x-if="!activeTask">
-                <div class="text-center py-12">
-                    <div class="bg-zinc-900/50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-800">
-                        <i data-lucide="inbox" class="w-12 h-12 text-zinc-600"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-zinc-400">No task in progress</h3>
-                    <p class="text-sm text-zinc-500 mt-2 max-w-sm mx-auto">Start a task from the main app and come back here to track it and claim your tokens.</p>
-                    <a href="index.html" class="inline-block mt-5 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition shadow-md shadow-red-600/10">
-                        <i data-lucide="arrow-left" class="w-4 h-4 inline mr-2"></i> Go to Tasks
-                    </a>
-                </div>
-            </template>
-
-            <!-- Expired state (claimable but expired) -->
-            <template x-if="activeTask && activeTask.status === 'claimable' && activeTask.claimableExpiry && activeTask.claimableExpiry <= Date.now()">
-                <div class="text-center py-8">
-                    <div class="bg-red-500/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 border border-red-500/30">
-                        <i data-lucide="alert-circle" class="w-10 h-10 text-red-400"></i>
-                    </div>
-                    <h2 class="text-xl font-bold text-red-400">⏰ Task Expired!</h2>
-                    <p class="text-sm text-zinc-400 mt-1">You didn't claim your tokens in time. Please start the task again.</p>
-                    <a href="index.html" class="inline-block mt-5 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-6 py-2.5 rounded-xl transition shadow-md shadow-red-600/10">
-                        <i data-lucide="arrow-left" class="w-4 h-4 inline mr-2"></i> Go to Tasks
-                    </a>
-                </div>
-            </template>
-        </div>
-
-        <!-- ===== ALL TASKS OVERVIEW ===== -->
-        <div class="mt-6 bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
-            <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
-                <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">📋 All Tasks Overview</h4>
-                <span class="text-[10px] text-zinc-500 font-mono">Status Monitor</span>
             </div>
-            <div class="space-y-1.5 max-h-[220px] overflow-y-auto custom-scrollbar pr-1">
-                <template x-for="task in tasks" :key="task.id">
-                    <div class="flex items-center justify-between text-xs border-b border-zinc-900/50 py-2 px-1 rounded hover:bg-zinc-900/30 transition">
-                        <div class="flex items-center gap-2 min-w-0">
-                            <i :data-lucide="task.icon" class="w-3.5 h-3.5 text-zinc-500 flex-shrink-0"></i>
-                            <span class="text-zinc-300 truncate" x-text="task.title"></span>
-                        </div>
-                        <div class="flex items-center gap-2 flex-shrink-0">
-                            <span class="font-medium text-[10px]" :class="{
-                                'text-yellow-400': task.status === 'loading',
-                                'text-emerald-400': task.status === 'claimable',
-                                'text-green-500': task.status === 'completed',
-                                'text-zinc-500': task.status === 'idle'
-                            }" x-text="task.status.toUpperCase()"></span>
-                            <span class="text-[9px] text-zinc-600 font-mono" x-text="'#' + task.id"></span>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <!-- ===== QUICK STATS ===== -->
-        <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="bg-zinc-950 border border-zinc-900 rounded-xl p-3 text-center">
-                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Balance</p>
-                <p class="text-lg font-black text-white" x-text="tokens + ' TKNS'"></p>
-            </div>
-            <div class="bg-zinc-950 border border-zinc-900 rounded-xl p-3 text-center">
-                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Level</p>
-                <p class="text-lg font-black text-white" x-text="'Lv.' + userLevel"></p>
-            </div>
-            <div class="bg-zinc-950 border border-zinc-900 rounded-xl p-3 text-center">
-                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Completed</p>
-                <p class="text-lg font-black text-white" x-text="completedTasksCount"></p>
-            </div>
-            <div class="bg-zinc-950 border border-zinc-900 rounded-xl p-3 text-center">
-                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Total Earned</p>
-                <p class="text-lg font-black text-white" x-text="totalTokensEarned"></p>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="mt-8 text-center text-[10px] text-zinc-600 border-t border-zinc-900 pt-4">
-            <p>RobuxPrize Collection Hub · Auto-syncs with your main session</p>
-            <p class="mt-0.5">All tasks are verified honestly. Stay secure, stay honest.</p>
         </div>
     </main>
 
-    <!-- ===== TOAST ===== -->
-    <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
-        <div class="toast-inner pointer-events-auto">
-            <div class="toast-icon" x-text="importantToast.icon"></div>
-            <div class="toast-msg" x-text="importantToast.msg"></div>
-            <div class="toast-sub" x-show="importantToast.sub" x-text="importantToast.sub"></div>
-            <button class="toast-ok-btn" @click="dismissToast">OK</button>
-        </div>
-    </div>
+    <footer class="border-t border-zinc-900 py-4 text-center text-zinc-500 text-xs">
+        &copy; 2026 RobuxPrize — Claim securely.
+    </footer>
 
-    <!-- ===== SCRIPT ===== -->
     <script>
-        function collectionState() {
+        function claimApp() {
             return {
-                // ---- Core ----
-                tokens: 0,
-                completedTasksCount: 0,
-                totalTokensEarned: 0,
-                userLevel: 1,
-                userId: '',
-                tasks: [],
-                activeTask: null,
+                taskId: null,
+                task: null,
+                loading: true,
+                error: null,
+                verifying: false,
+                claimed: false,
+                claiming: false,
+                taskTitle: '',
+                rewardAmount: 0,
+                timeLeft: '--:--',
+                verifyingExpiry: null,
+                timerInterval: null,
 
-                // ---- Toast ----
-                importantToast: {
-                    show: false,
-                    icon: '✅',
-                    msg: '',
-                    sub: ''
+                initClaim() {
+                    const params = new URLSearchParams(window.location.search);
+                    this.taskId = params.get('taskId');
+                    if (!this.taskId) {
+                        this.error = 'No task specified.';
+                        this.loading = false;
+                        return;
+                    }
+                    this.loadTaskState();
                 },
-                toastTimeout: null,
 
-                // ---- Init ----
-                init() {
-                    this.loadState();
-                    this.syncWithMainApp();
-
-                    // Auto-sync every 2 seconds for faster updates
-                    setInterval(() => {
-                        this.syncWithMainApp();
-                    }, 2000);
-
-                    // Also sync when window gains focus
-                    document.addEventListener('visibilitychange', () => {
-                        if (!document.hidden) {
-                            this.syncWithMainApp();
+                loadTaskState() {
+                    try {
+                        const savedTasks = localStorage.getItem('robux_tasks_state_v3');
+                        const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
+                        if (!savedTasks) {
+                            this.error = 'No task data found. Please start a task first.';
+                            this.loading = false;
+                            return;
                         }
-                    });
+                        const tasks = JSON.parse(savedTasks);
+                        const taskState = tasks.find(t => t.id == this.taskId);
+                        if (!taskState) {
+                            this.error = 'Task not found.';
+                            this.loading = false;
+                            return;
+                        }
 
-                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    this.$watch('tasks', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
-                    this.$watch('activeTask', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
-                },
+                        // Get metadata
+                        const meta = fullTasks.find(t => t.id == this.taskId);
+                        if (meta) {
+                            this.taskTitle = meta.title || 'Task';
+                            this.rewardAmount = meta.reward || (meta.isRandomReward ? Math.floor(Math.random() * 41) + 10 : 10);
+                        } else {
+                            this.taskTitle = 'Task #' + this.taskId;
+                            this.rewardAmount = 10;
+                        }
 
-                // ---- Load State from localStorage ----
-                loadState() {
-                    const savedTokens = localStorage.getItem('robux_tokens_balance');
-                    const savedCount = localStorage.getItem('robux_completed_count');
-                    const savedTotalEarned = localStorage.getItem('robux_total_earned');
-                    const savedLevel = localStorage.getItem('robux_user_level');
-                    const savedUserId = localStorage.getItem('robux_user_id');
-                    const savedTasks = localStorage.getItem('robux_tasks_state_v3');
+                        const status = taskState.status;
+                        const verifyingExpiry = taskState.verifyingExpiry || 0;
 
-                    if (savedTokens) this.tokens = parseInt(savedTokens);
-                    if (savedCount) this.completedTasksCount = parseInt(savedCount);
-                    if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
-                    if (savedLevel) this.userLevel = parseInt(savedLevel);
-                    if (savedUserId) this.userId = savedUserId;
+                        if (status === 'verifying' && verifyingExpiry && verifyingExpiry > Date.now()) {
+                            this.verifying = true;
+                            this.verifyingExpiry = verifyingExpiry;
+                            this.error = null;
+                            this.updateCountdown();
+                            this.timerInterval = setInterval(() => {
+                                this.updateCountdown();
+                            }, 1000);
+                        } else if (status === 'verifying' && verifyingExpiry && verifyingExpiry <= Date.now()) {
+                            this.error = 'This claim window has expired. Please start the task again.';
+                            this.verifying = false;
+                            // Reset the task
+                            taskState.status = 'expired';
+                            taskState.verifyingExpiry = null;
+                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+                            setTimeout(() => {
+                                const task = tasks.find(t => t.id == this.taskId);
+                                if (task && task.status === 'expired') {
+                                    task.status = 'idle';
+                                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+                                }
+                            }, 5000);
+                        } else if (status === 'completed') {
+                            this.error = 'You already claimed this task.';
+                            this.verifying = false;
+                        } else if (status === 'expired') {
+                            this.error = 'This task has expired. Please start again.';
+                            this.verifying = false;
+                            // Reset to idle
+                            taskState.status = 'idle';
+                            taskState.verifyingExpiry = null;
+                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+                        } else {
+                            this.error = 'This task is not ready for claiming yet. Please complete the offer first.';
+                            this.verifying = false;
+                        }
 
-                    if (savedTasks) {
-                        const parsed = JSON.parse(savedTasks);
-                        this.fetchFullTasks(parsed);
-                    } else {
-                        this.tasks = [];
-                        this.activeTask = null;
+                        const tokens = parseInt(localStorage.getItem('robux_tokens_balance') || '0');
+                        document.getElementById('tokenDisplay').innerText = tokens + ' TKNS';
+
+                        this.loading = false;
+                    } catch (e) {
+                        this.error = 'Error loading task data.';
+                        this.loading = false;
+                        console.error(e);
                     }
                 },
 
-                // ---- Fetch full task details ----
-                fetchFullTasks(savedStates) {
-                    const fullTasks = [];
-                    const taskTemplates = [
-                        { id: 1, title: 'Sign Up', icon: 'mail-check', isRandomReward: false },
-                        { id: 2, title: 'Install App', icon: 'download-cloud', isRandomReward: false },
-                        { id: 3, title: 'Complete Partner Platform Registry', icon: 'user-plus', isRandomReward: false },
-                        { id: 4, title: 'Invite Loop: Add 5 Friends', icon: 'users-2', isRandomReward: false },
-                        { id: 5, title: 'Rate App Ecosystem 5 Stars', icon: 'star', isRandomReward: false },
-                        { id: 6, title: 'Email / Number Verification', icon: 'shield-check', isRandomReward: false },
-                        { id: 7, title: 'Random Task', icon: 'shuffle', isRandomReward: false },
-                        { id: 8, title: '📧 Contact Support – Giveaway', icon: 'mail', isRandomReward: true },
-                        { id: 9, title: '📲 Join Telegram Group', icon: 'send', isRandomReward: false }
-                    ];
-
-                    savedStates.forEach(saved => {
-                        const template = taskTemplates.find(t => t.id === saved.id);
-                        if (template) {
-                            fullTasks.push({
-                                ...template,
-                                status: saved.status,
-                                cooldownUntil: saved.cooldownUntil || null,
-                                claimableExpiry: saved.claimableExpiry || null,
-                                endTime: saved.endTime || null,
-                                reward: this.getRewardForTask(saved.id),
-                                isRepeatable: true,
-                                link: '#'
-                            });
-                        }
-                    });
-
-                    taskTemplates.forEach(t => {
-                        if (!fullTasks.find(ft => ft.id === t.id)) {
-                            fullTasks.push({
-                                ...t,
-                                status: 'idle',
-                                cooldownUntil: null,
-                                claimableExpiry: null,
-                                endTime: null,
-                                reward: t.id === 8 ? 0 : (t.id === 9 ? 50 : 25),
-                                isRepeatable: true,
-                                link: '#',
-                                isRandomReward: t.isRandomReward || false
-                            });
-                        }
-                    });
-
-                    this.tasks = fullTasks;
-                    this.activeTask = this.tasks.find(t => t.status === 'loading' || t.status === 'claimable') || null;
-                },
-
-                // ---- Helper: get reward for task ----
-                getRewardForTask(id) {
-                    const rewards = { 1: 20, 2: 35, 3: 20, 4: 35, 5: 15, 6: 25, 7: 30, 8: 0, 9: 50 };
-                    return rewards[id] || 25;
-                },
-
-                // ---- Sync with main app ----
-                syncWithMainApp() {
-                    const savedTasks = localStorage.getItem('robux_tasks_state_v3');
-                    const savedTokens = localStorage.getItem('robux_tokens_balance');
-                    const savedCount = localStorage.getItem('robux_completed_count');
-                    const savedTotalEarned = localStorage.getItem('robux_total_earned');
-                    const savedLevel = localStorage.getItem('robux_user_level');
-                    const savedUserId = localStorage.getItem('robux_user_id');
-
-                    if (savedTokens) this.tokens = parseInt(savedTokens);
-                    if (savedCount) this.completedTasksCount = parseInt(savedCount);
-                    if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
-                    if (savedLevel) this.userLevel = parseInt(savedLevel);
-                    if (savedUserId) this.userId = savedUserId;
-
-                    if (savedTasks) {
-                        const parsed = JSON.parse(savedTasks);
-                        this.tasks.forEach(task => {
-                            const match = parsed.find(p => p.id === task.id);
-                            if (match) {
-                                task.status = match.status;
-                                task.cooldownUntil = match.cooldownUntil || null;
-                                task.claimableExpiry = match.claimableExpiry || null;
-                                task.endTime = match.endTime || null;
+                updateCountdown() {
+                    if (!this.verifyingExpiry) return;
+                    const now = Date.now();
+                    const diff = this.verifyingExpiry - now;
+                    if (diff <= 0) {
+                        this.timeLeft = 'Expired';
+                        this.verifying = false;
+                        clearInterval(this.timerInterval);
+                        this.error = 'This claim window has expired. Please start the task again.';
+                        // Reset the task
+                        try {
+                            const savedTasks = localStorage.getItem('robux_tasks_state_v3');
+                            if (savedTasks) {
+                                const tasks = JSON.parse(savedTasks);
+                                const task = tasks.find(t => t.id == this.taskId);
+                                if (task && task.status === 'verifying') {
+                                    task.status = 'expired';
+                                    task.verifyingExpiry = null;
+                                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+                                    setTimeout(() => {
+                                        const t = tasks.find(x => x.id == this.taskId);
+                                        if (t && t.status === 'expired') {
+                                            t.status = 'idle';
+                                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+                                        }
+                                    }, 5000);
+                                }
                             }
-                        });
-                        this.activeTask = this.tasks.find(t => t.status === 'loading' || t.status === 'claimable') || null;
-                    }
-
-                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                },
-
-                // ---- Claim tokens ----
-                claimTokens() {
-                    const task = this.activeTask;
-                    if (!task || task.status !== 'claimable') {
-                        this.showImportantToast('❌ No claimable task found.', '❌');
+                        } catch(e) {}
                         return;
                     }
-
-                    if (task.claimableExpiry && task.claimableExpiry <= Date.now()) {
-                        task.status = 'idle';
-                        task.claimableExpiry = null;
-                        this.saveState();
-                        this.activeTask = null;
-                        this.showImportantToast('⏰ Task expired. Start again.', '⏰');
-                        return;
-                    }
-
-                    let rewardAmount = task.reward;
-                    if (task.isRandomReward) {
-                        rewardAmount = Math.floor(Math.random() * 41) + 10;
-                    }
-
-                    task.status = 'completed';
-                    task.cooldownUntil = Date.now() + 600000;
-                    task.claimableExpiry = null;
-                    this.tokens += rewardAmount;
-                    this.totalTokensEarned += rewardAmount;
-                    this.completedTasksCount++;
-
-                    this.updateLevel();
-                    this.saveState();
-                    this.activeTask = null;
-
-                    if (task.isRandomReward) {
-                        this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁', 'Thanks for participating!');
-                    } else {
-                        this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰', 'Task will be available again in 10 minutes.');
-                    }
-
-                    this.syncWithMainApp();
-                },
-
-                // ---- Update level ----
-                updateLevel() {
-                    const xpPerLevel = 100;
-                    let level = 1;
-                    while (this.totalTokensEarned >= level * xpPerLevel) {
-                        level++;
-                    }
-                    this.userLevel = level;
-                },
-
-                // ---- Save state ----
-                saveState() {
-                    const mapped = this.tasks.map(t => ({
-                        id: t.id,
-                        status: t.status,
-                        endTime: t.endTime || null,
-                        cooldownUntil: t.cooldownUntil || null,
-                        claimableExpiry: t.claimableExpiry || null
-                    }));
-                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(mapped));
-                    localStorage.setItem('robux_tokens_balance', this.tokens);
-                    localStorage.setItem('robux_completed_count', this.completedTasksCount);
-                    localStorage.setItem('robux_total_earned', this.totalTokensEarned);
-                    localStorage.setItem('robux_user_level', this.userLevel);
-                },
-
-                // ---- Toast helpers ----
-                showImportantToast(msg, icon = '✅', sub = '') {
-                    this.importantToast.show = false;
-                    this.$nextTick(() => {
-                        this.importantToast.msg = msg;
-                        this.importantToast.icon = icon;
-                        this.importantToast.sub = sub;
-                        this.importantToast.show = true;
-                        if (this.toastTimeout) clearTimeout(this.toastTimeout);
-                        this.toastTimeout = setTimeout(() => {
-                            this.importantToast.show = false;
-                        }, 5000);
-                    });
-                },
-                dismissToast() {
-                    this.importantToast.show = false;
-                    if (this.toastTimeout) clearTimeout(this.toastTimeout);
-                },
-
-                // ---- Computed timers ----
-                getLoadingTimeLeft(endTime) {
-                    if (!endTime) return '0:00';
-                    const now = Date.now();
-                    const diff = endTime - now;
-                    if (diff <= 0) return '0:00';
                     const mins = Math.floor(diff / 60000);
                     const secs = Math.floor((diff % 60000) / 1000);
-                    return `${mins}:${secs.toString().padStart(2, '0')}`;
+                    this.timeLeft = `${mins}:${secs.toString().padStart(2, '0')}`;
                 },
 
-                getClaimableTimeLeft(expiry) {
-                    if (!expiry) return '0:00';
-                    const now = Date.now();
-                    const diff = expiry - now;
-                    if (diff <= 0) return '0:00';
-                    const mins = Math.floor(diff / 60000);
-                    const secs = Math.floor((diff % 60000) / 1000);
-                    return `${mins}:${secs.toString().padStart(2, '0')}`;
+                claimReward() {
+                    if (this.claiming || this.timeLeft === 'Expired') return;
+                    this.claiming = true;
+
+                    try {
+                        let currentTokens = parseInt(localStorage.getItem('robux_tokens_balance') || '0');
+                        let totalEarned = parseInt(localStorage.getItem('robux_total_earned') || '0');
+                        let completedCount = parseInt(localStorage.getItem('robux_completed_count') || '0');
+
+                        currentTokens += this.rewardAmount;
+                        totalEarned += this.rewardAmount;
+                        completedCount += 1;
+
+                        localStorage.setItem('robux_tokens_balance', currentTokens);
+                        localStorage.setItem('robux_total_earned', totalEarned);
+                        localStorage.setItem('robux_completed_count', completedCount);
+
+                        // Update task status
+                        const savedTasks = JSON.parse(localStorage.getItem('robux_tasks_state_v3') || '[]');
+                        const taskIndex = savedTasks.findIndex(t => t.id == this.taskId);
+                        if (taskIndex !== -1) {
+                            const task = savedTasks[taskIndex];
+                            task.status = 'completed';
+                            task.verifyingExpiry = null;
+                            const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
+                            const meta = fullTasks.find(t => t.id == this.taskId);
+                            if (meta && meta.isRepeatable) {
+                                task.cooldownUntil = Date.now() + 600000;
+                            } else {
+                                task.cooldownUntil = null;
+                            }
+                            savedTasks[taskIndex] = task;
+                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(savedTasks));
+                        }
+
+                        localStorage.setItem('robux_task_running', 'false');
+
+                        document.getElementById('tokenDisplay').innerText = currentTokens + ' TKNS';
+
+                        this.claimed = true;
+                        this.claiming = false;
+                        clearInterval(this.timerInterval);
+                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+
+                    } catch (e) {
+                        console.error(e);
+                        this.claiming = false;
+                        alert('There was an error claiming your reward. Please try again.');
+                    }
+                },
+
+                goBackToApp() {
+                    window.location.href = 'index.html';
                 }
             }
         }
-    </script>
 
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) window.lucide.createIcons();
+        });
+    </script>
 </body>
 </html>
