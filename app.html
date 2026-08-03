@@ -663,8 +663,8 @@
                                     </span>
                                     <div class="flex items-center gap-2">
 
-                                        <!-- Open Task - visible when idle or verifying -->
-                                        <template x-if="task.status === 'idle' || (task.status === 'verifying' && task.verifyingExpiry && task.verifyingExpiry > Date.now())">
+                                        <!-- Open Offer - ONLY visible when verifying (after starting the task) -->
+                                        <template x-if="task.status === 'verifying' && task.verifyingExpiry && task.verifyingExpiry > Date.now()">
                                             <button @click.stop="openTaskLink(task)" class="btn-open-task text-xs bg-zinc-900/60 border border-blue-500/40 hover:bg-zinc-800 text-blue-300 px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-medium">
                                                 <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Offer
                                             </button>
