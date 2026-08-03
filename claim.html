@@ -4,13 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Claim Reward | RobuxPrize</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
     </script>
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest">
     </script>
     <style>
@@ -18,7 +22,10 @@
             font-family: 'Inter', sans-serif;
             background-color: #0b0b0c;
         }
-        [x-cloak] { display: none !important; }
+        [x-cloak] {
+            display: none !important;
+        }
+
         .countdown-box {
             background: #1a1a1e;
             border: 1px solid #3f3f46;
@@ -29,6 +36,11 @@
             color: #fbbf24;
             text-align: center;
         }
+        .countdown-box.expired {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+
         .task-card {
             background: #121214;
             border: 1px solid #27272a;
@@ -37,6 +49,7 @@
             max-width: 520px;
             width: 100%;
         }
+
         .btn-collect {
             background: linear-gradient(135deg, #10b981, #059669);
             color: white;
@@ -45,8 +58,11 @@
             border-radius: 1rem;
             transition: all 0.2s;
             box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
         }
-        .btn-collect:hover {
+        .btn-collect:hover:not(:disabled) {
             transform: scale(1.03);
             box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
         }
@@ -55,6 +71,7 @@
             cursor: not-allowed;
             transform: none;
         }
+
         .status-badge {
             display: inline-block;
             padding: 0.15rem 0.75rem;
@@ -84,10 +101,18 @@
             color: #fbbf24;
             border: 1px solid rgba(245, 158, 11, 0.3);
         }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-custom {
+            animation: spin 0.8s linear infinite;
+        }
     </style>
 </head>
 <body>
 
+    <!-- TOP NAV -->
     <nav class="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -103,26 +128,28 @@
         </div>
     </nav>
 
+    <!-- MAIN CONTENT -->
     <main class="max-w-2xl mx-auto px-4 py-12 flex items-center justify-center min-h-[70vh]">
         <div class="w-full" x-data="claimApp()" x-init="initClaim()">
             <div class="task-card mx-auto">
-                <!-- Loading -->
+
+                <!-- ===== LOADING ===== -->
                 <div x-show="loading" class="text-center py-12 space-y-3">
-                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+                    <div class="animate-spin-custom rounded-full h-12 w-12 border-4 border-red-600 border-t-transparent mx-auto"></div>
                     <p class="text-zinc-400 text-sm">Loading claim details...</p>
                 </div>
 
-                <!-- Error -->
+                <!-- ===== ERROR ===== -->
                 <div x-show="!loading && error" class="text-center py-8 space-y-3">
                     <i data-lucide="alert-triangle" class="w-12 h-12 text-amber-500 mx-auto"></i>
                     <h3 class="text-xl font-bold text-white" x-text="error"></h3>
-                    <p class="text-zinc-400 text-sm">You may have already claimed this task or it's no longer available.</p>
+                    <p class="text-zinc-400 text-sm">Please start the task again from the dashboard.</p>
                     <button @click="goBackToApp()" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition">
                         ← Back to Dashboard
                     </button>
                 </div>
 
-                <!-- Success (after claim) -->
+                <!-- ===== SUCCESS (after claiming) ===== -->
                 <div x-show="!loading && claimed" class="text-center py-8 space-y-4">
                     <div class="bg-emerald-500/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto border border-emerald-500/30">
                         <i data-lucide="check-circle" class="w-10 h-10 text-emerald-400"></i>
@@ -138,7 +165,7 @@
                     </button>
                 </div>
 
-                <!-- Verifying State (claimable) -->
+                <!-- ===== VERIFYING / CLAIMABLE STATE ===== -->
                 <div x-show="!loading && !error && !claimed && verifying" x-transition>
                     <div class="flex items-center gap-3 mb-6">
                         <div class="bg-blue-500/10 p-3 rounded-xl border border-blue-500/20">
@@ -146,10 +173,11 @@
                         </div>
                         <div>
                             <h3 class="text-xl font-bold text-white" x-text="taskTitle"></h3>
-                            <p class="text-zinc-400 text-xs">Click the button below to collect your reward</p>
+                            <p class="text-zinc-400 text-xs">Complete the offer and click the button below to collect</p>
                         </div>
                     </div>
 
+                    <!-- Task details -->
                     <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 mb-4 space-y-2 text-sm">
                         <div class="flex justify-between">
                             <span class="text-zinc-500">Reward</span>
@@ -165,9 +193,11 @@
                         </div>
                     </div>
 
-                    <div class="countdown-box mb-6" x-text="timeLeft"></div>
+                    <!-- Countdown -->
+                    <div class="countdown-box mb-6" :class="timeLeft === 'Expired' ? 'expired' : ''" x-text="timeLeft"></div>
 
-                    <button @click="claimReward()" 
+                    <!-- Collect Button -->
+                    <button @click="claimReward()"
                             :disabled="claiming || timeLeft === 'Expired'"
                             :class="(claiming || timeLeft === 'Expired') ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'btn-collect'"
                             class="w-full text-white font-bold text-base py-3 rounded-xl transition-all duration-150 flex items-center justify-center gap-2">
@@ -175,7 +205,7 @@
                             <i data-lucide="sparkles" class="w-5 h-5 inline"></i> Collect Reward
                         </span>
                         <span x-show="claiming">
-                            <svg class="animate-spin h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
+                            <svg class="animate-spin-custom h-5 w-5 text-white inline" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
@@ -187,22 +217,25 @@
                         ⏰ This claim window has expired. Please start the task again from the dashboard.
                     </p>
                     <p x-show="timeLeft !== 'Expired'" class="text-zinc-500 text-xs text-center mt-3">
-                        You have 3 minutes to claim after completing the offer.
+                        You have 3 minutes to claim after the offer is completed.
                     </p>
                 </div>
+
             </div>
         </div>
     </main>
 
+    <!-- FOOTER -->
     <footer class="border-t border-zinc-900 py-4 text-center text-zinc-500 text-xs">
         &copy; 2026 RobuxPrize — Claim securely.
     </footer>
 
+    <!-- ===== APPLICATION SCRIPT ===== -->
     <script>
         function claimApp() {
             return {
+                // ---- State ----
                 taskId: null,
-                task: null,
                 loading: true,
                 error: null,
                 verifying: false,
@@ -214,6 +247,7 @@
                 verifyingExpiry: null,
                 timerInterval: null,
 
+                // ---- Init ----
                 initClaim() {
                     const params = new URLSearchParams(window.location.search);
                     this.taskId = params.get('taskId');
@@ -225,28 +259,37 @@
                     this.loadTaskState();
                 },
 
+                // ---- Load task state from localStorage ----
                 loadTaskState() {
                     try {
                         const savedTasks = localStorage.getItem('robux_tasks_state_v3');
                         const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
+
                         if (!savedTasks) {
                             this.error = 'No task data found. Please start a task first.';
                             this.loading = false;
                             return;
                         }
+
                         const tasks = JSON.parse(savedTasks);
                         const taskState = tasks.find(t => t.id == this.taskId);
+
                         if (!taskState) {
                             this.error = 'Task not found.';
                             this.loading = false;
                             return;
                         }
 
-                        // Get metadata
+                        // Get task metadata (title, reward, etc.)
                         const meta = fullTasks.find(t => t.id == this.taskId);
                         if (meta) {
-                            this.taskTitle = meta.title || 'Task';
-                            this.rewardAmount = meta.reward || (meta.isRandomReward ? Math.floor(Math.random() * 41) + 10 : 10);
+                            this.taskTitle = meta.title || 'Task #' + this.taskId;
+                            // If random reward, generate a random amount
+                            if (meta.isRandomReward) {
+                                this.rewardAmount = Math.floor(Math.random() * 41) + 10;
+                            } else {
+                                this.rewardAmount = meta.reward || 10;
+                            }
                         } else {
                             this.taskTitle = 'Task #' + this.taskId;
                             this.rewardAmount = 10;
@@ -255,64 +298,89 @@
                         const status = taskState.status;
                         const verifyingExpiry = taskState.verifyingExpiry || 0;
 
+                        // ---- Check status ----
                         if (status === 'verifying' && verifyingExpiry && verifyingExpiry > Date.now()) {
+                            // Task is in verification window – claimable
                             this.verifying = true;
                             this.verifyingExpiry = verifyingExpiry;
                             this.error = null;
+
+                            // Start countdown
                             this.updateCountdown();
                             this.timerInterval = setInterval(() => {
                                 this.updateCountdown();
                             }, 1000);
+
                         } else if (status === 'verifying' && verifyingExpiry && verifyingExpiry <= Date.now()) {
-                            this.error = 'This claim window has expired. Please start the task again.';
+                            // Verification window expired – show error and reset
+                            this.error = '⏰ This claim window has expired. Please start the task again.';
                             this.verifying = false;
-                            // Reset the task
+
+                            // Reset the task to expired (main app will handle reset to idle after 5s)
                             taskState.status = 'expired';
                             taskState.verifyingExpiry = null;
                             localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
-                            setTimeout(() => {
-                                const task = tasks.find(t => t.id == this.taskId);
-                                if (task && task.status === 'expired') {
-                                    task.status = 'idle';
-                                    localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
-                                }
-                            }, 5000);
+
+                            // Also trigger the main app's reset mechanism by updating the full tasks array
+                            const fullTasksCopy = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
+                            const metaTask = fullTasksCopy.find(t => t.id == this.taskId);
+                            if (metaTask) {
+                                metaTask.status = 'expired';
+                                metaTask.verifyingExpiry = null;
+                                localStorage.setItem('robux_tasks_full', JSON.stringify(fullTasksCopy));
+                            }
+
                         } else if (status === 'completed') {
-                            this.error = 'You already claimed this task.';
+                            this.error = '✅ You already claimed this task.';
                             this.verifying = false;
+
                         } else if (status === 'expired') {
-                            this.error = 'This task has expired. Please start again.';
+                            this.error = '⏰ This task has expired. Please start again.';
                             this.verifying = false;
-                            // Reset to idle
+
+                            // Reset to idle (main app will handle this, but we can do it here too)
                             taskState.status = 'idle';
                             taskState.verifyingExpiry = null;
                             localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+
+                        } else if (status === 'idle') {
+                            this.error = 'This task hasn\'t been started yet. Please start the offer from the dashboard.';
+                            this.verifying = false;
+
                         } else {
-                            this.error = 'This task is not ready for claiming yet. Please complete the offer first.';
+                            this.error = 'This task is not ready for claiming. Please complete the offer first.';
                             this.verifying = false;
                         }
 
+                        // Update token display in nav
                         const tokens = parseInt(localStorage.getItem('robux_tokens_balance') || '0');
                         document.getElementById('tokenDisplay').innerText = tokens + ' TKNS';
 
                         this.loading = false;
+
                     } catch (e) {
-                        this.error = 'Error loading task data.';
+                        console.error('Error loading task state:', e);
+                        this.error = 'Error loading task data. Please try again.';
                         this.loading = false;
-                        console.error(e);
                     }
                 },
 
+                // ---- Update countdown ----
                 updateCountdown() {
                     if (!this.verifyingExpiry) return;
+
                     const now = Date.now();
                     const diff = this.verifyingExpiry - now;
+
                     if (diff <= 0) {
                         this.timeLeft = 'Expired';
                         this.verifying = false;
                         clearInterval(this.timerInterval);
-                        this.error = 'This claim window has expired. Please start the task again.';
-                        // Reset the task
+
+                        // Update error and reset the task
+                        this.error = '⏰ This claim window has expired. Please start the task again.';
+
+                        // Reset task in localStorage
                         try {
                             const savedTasks = localStorage.getItem('robux_tasks_state_v3');
                             if (savedTasks) {
@@ -322,32 +390,53 @@
                                     task.status = 'expired';
                                     task.verifyingExpiry = null;
                                     localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+
+                                    // Also update full tasks
+                                    const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
+                                    const meta = fullTasks.find(t => t.id == this.taskId);
+                                    if (meta) {
+                                        meta.status = 'expired';
+                                        meta.verifyingExpiry = null;
+                                        localStorage.setItem('robux_tasks_full', JSON.stringify(fullTasks));
+                                    }
+
+                                    // After 5 seconds, reset to idle (main app will also do this)
                                     setTimeout(() => {
-                                        const t = tasks.find(x => x.id == this.taskId);
+                                        const updatedTasks = JSON.parse(localStorage.getItem(
+                                        'robux_tasks_state_v3') || '[]');
+                                        const t = updatedTasks.find(x => x.id == this.taskId);
                                         if (t && t.status === 'expired') {
                                             t.status = 'idle';
-                                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(tasks));
+                                            localStorage.setItem('robux_tasks_state_v3', JSON.stringify(
+                                            updatedTasks));
                                         }
                                     }, 5000);
                                 }
                             }
-                        } catch(e) {}
+                        } catch (e) {
+                            console.error('Error resetting task:', e);
+                        }
+
                         return;
                     }
+
                     const mins = Math.floor(diff / 60000);
                     const secs = Math.floor((diff % 60000) / 1000);
                     this.timeLeft = `${mins}:${secs.toString().padStart(2, '0')}`;
                 },
 
+                // ---- Claim the reward ----
                 claimReward() {
                     if (this.claiming || this.timeLeft === 'Expired') return;
                     this.claiming = true;
 
                     try {
+                        // 1. Get current balances
                         let currentTokens = parseInt(localStorage.getItem('robux_tokens_balance') || '0');
                         let totalEarned = parseInt(localStorage.getItem('robux_total_earned') || '0');
                         let completedCount = parseInt(localStorage.getItem('robux_completed_count') || '0');
 
+                        // 2. Add tokens
                         currentTokens += this.rewardAmount;
                         totalEarned += this.rewardAmount;
                         completedCount += 1;
@@ -356,49 +445,96 @@
                         localStorage.setItem('robux_total_earned', totalEarned);
                         localStorage.setItem('robux_completed_count', completedCount);
 
-                        // Update task status
+                        // 3. Update task status
                         const savedTasks = JSON.parse(localStorage.getItem('robux_tasks_state_v3') || '[]');
                         const taskIndex = savedTasks.findIndex(t => t.id == this.taskId);
+
                         if (taskIndex !== -1) {
                             const task = savedTasks[taskIndex];
                             task.status = 'completed';
                             task.verifyingExpiry = null;
+
+                            // If repeatable, set cooldown (10 minutes)
                             const fullTasks = JSON.parse(localStorage.getItem('robux_tasks_full') || '[]');
                             const meta = fullTasks.find(t => t.id == this.taskId);
                             if (meta && meta.isRepeatable) {
-                                task.cooldownUntil = Date.now() + 600000;
+                                task.cooldownUntil = Date.now() + 600000; // 10 minutes
                             } else {
                                 task.cooldownUntil = null;
                             }
+
                             savedTasks[taskIndex] = task;
                             localStorage.setItem('robux_tasks_state_v3', JSON.stringify(savedTasks));
+
+                            // Also update full tasks
+                            if (meta) {
+                                meta.status = 'completed';
+                                meta.verifyingExpiry = null;
+                                if (meta.isRepeatable) {
+                                    meta.cooldownUntil = Date.now() + 600000;
+                                } else {
+                                    meta.cooldownUntil = null;
+                                }
+                                localStorage.setItem('robux_tasks_full', JSON.stringify(fullTasks));
+                            }
                         }
 
+                        // 4. Clear running task flag
                         localStorage.setItem('robux_task_running', 'false');
 
+                        // 5. Update token display
                         document.getElementById('tokenDisplay').innerText = currentTokens + ' TKNS';
 
+                        // 6. Show success
                         this.claimed = true;
                         this.claiming = false;
                         clearInterval(this.timerInterval);
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+
+                        // Refresh icons
+                        this.$nextTick(() => {
+                            if (window.lucide) window.lucide.createIcons();
+                        });
 
                     } catch (e) {
-                        console.error(e);
+                        console.error('Error claiming reward:', e);
                         this.claiming = false;
                         alert('There was an error claiming your reward. Please try again.');
                     }
                 },
 
+                // ---- Go back to main app ----
                 goBackToApp() {
                     window.location.href = 'index.html';
                 }
             }
         }
 
+        // ---- Initialize Lucide icons after DOM ready ----
         document.addEventListener('DOMContentLoaded', () => {
             if (window.lucide) window.lucide.createIcons();
         });
+
+        // ---- Re-run Lucide after Alpine renders ----
+        document.addEventListener('alpine:init', () => {
+            // Watch for changes that might need icon refresh
+            const app = document.querySelector('[x-data]');
+            if (app && app._x_dataStack) {
+                // Re-run after state changes
+                setTimeout(() => {
+                    if (window.lucide) window.lucide.createIcons();
+                }, 100);
+            }
+        });
+
+        // Also watch for Alpine updates
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check periodically for icon updates
+            const observer = new MutationObserver(() => {
+                if (window.lucide) window.lucide.createIcons();
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
     </script>
+
 </body>
 </html>
