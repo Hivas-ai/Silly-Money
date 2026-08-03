@@ -607,8 +607,6 @@
                                     <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
                                     <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
 
-                                    <!-- Link display removed for task 6 (email/phone verification) -->
-
                                     <!-- Display giveaway expiry for email task -->
                                     <template x-if="task.id === 8 && task.giveawayExpiry">
                                         <div class="mt-2 text-xs text-amber-400 font-medium">
@@ -1322,11 +1320,10 @@
                     {
                         id: 6,
                         title: 'Email / Number Verification',
-                        desc: 'Verify your email or phone number through our secure partner. Link rotates after each completion!',
+                        desc: 'Verify your email or phone number through our secure partner.',
                         reward: 40,
                         status: 'idle',
-                        links: ['https://saveapp.store/cl/i/1xxpdx', 'https://fundedfree.store/sl/85r31'],
-                        linkIndex: 0,
+                        link: 'https://fundedfree.store/sl/85r31',
                         icon: 'shield-check',
                         isRepeatable: true,
                         cooldownUntil: null,
@@ -1443,7 +1440,7 @@
                     return task ? task.giveawayExpiry : null;
                 },
 
-                // ---- Get current link for a task with link rotation ----
+                // ---- Get current link for a task ----
                 getCurrentTaskLink(task) {
                     if (!task) return '#';
                     if (task.links && task.links.length > 0) {
@@ -1649,7 +1646,6 @@
                                 t.cooldownUntil = match.cooldownUntil || null;
                                 t.claimableExpiry = match.claimableExpiry || null;
                                 t.endTime = match.endTime || null;
-                                // Load linkIndex for task 6
                                 if (t.id === 6 && match.linkIndex !== undefined) {
                                     t.linkIndex = match.linkIndex;
                                 }
@@ -1914,10 +1910,9 @@
                 // ---- Task Helpers ----
                 openTaskLink(task) {
                     if (!task) return;
-                    // For task 6 with link rotation, use the current link
-                    if (task.id === 6 && task.links && task.links.length > 0) {
-                        const link = this.getCurrentTaskLink(task);
-                        if (link) window.open(link, '_blank');
+                    // For task 6, use the single link
+                    if (task.id === 6 && task.link) {
+                        window.open(task.link, '_blank');
                         return;
                     }
                     if (task.link) {
@@ -1959,31 +1954,23 @@
                         return;
                     }
 
-                    // ---- EMAIL / PHONE VERIFICATION (id: 6) with link rotation ----
+                    // ---- EMAIL / PHONE VERIFICATION (id: 6) ----
                     if (task.id === 6 && task.isRepeatable) {
                         if (task.status === 'idle') {
-                            // Open the current link
-                            const currentLink = this.getCurrentTaskLink(task);
-                            if (currentLink) window.open(currentLink, '_blank');
+                            if (task.link) window.open(task.link, '_blank');
                             this.isTaskRunning = true;
                             task.status = 'loading';
                             task.endTime = Date.now() + 120000;
                             this.saveState();
                         } else if (task.status === 'claimable') {
-                            // Claim reward, then rotate the link
                             task.status = 'completed';
                             task.cooldownUntil = Date.now() + 600000;
                             task.claimableExpiry = null;
                             this.addTokens(task.reward);
                             this.completedTasksCount++;
-                            // Rotate the link index for next time
-                            if (task.links && task.links.length > 0) {
-                                task.linkIndex = (task.linkIndex || 0) + 1;
-                            }
                             this.saveState();
-                            this.showImportantToast(`💰 +${task.reward} Tokens claimed! Link rotated.`, '💰',
-                                `Next link: ${this.getCurrentTaskLink(task)}`);
-                            // Reset running flag
+                            this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰',
+                                'Task will be available again in 10 minutes.');
                             this.isTaskRunning = false;
                             this.saveState();
                         }
