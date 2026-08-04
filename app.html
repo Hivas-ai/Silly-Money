@@ -237,93 +237,152 @@
             text-transform: uppercase;
         }
 
-        /* Professional Withdraw Card */
+        /* ---- NEW: Polished Withdraw Cards ---- */
         .withdraw-tier-card {
-            transition: all 0.2s;
-            border: 1px solid #27272a;
-            background: #18181b;
+            transition: all 0.2s ease;
+            border: 1px solid #2a2a2e;
+            background: #141416;
             border-radius: 1rem;
-            padding: 0.75rem 1rem;
+            padding: 1rem 1rem;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
             position: relative;
+            min-height: 104px;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         .withdraw-tier-card:hover {
-            border-color: #3f3f46;
+            border-color: #4a4a50;
+            background: #1c1c20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
         }
         .withdraw-tier-card.active {
             border-color: #dc2626;
-            background: #1f1a1a;
-            box-shadow: 0 0 20px rgba(220, 38, 38, 0.1);
+            background: #1f1818;
+            box-shadow: 0 0 24px rgba(220, 38, 38, 0.15), inset 0 0 12px rgba(220, 38, 38, 0.05);
+            transform: translateY(-2px);
         }
         .withdraw-tier-card .tier-amount {
             font-weight: 800;
-            font-size: 1.1rem;
-            color: white;
-        }
-        .withdraw-tier-card .tier-cost {
-            font-size: 0.7rem;
-            color: #a1a1aa;
-            font-weight: 500;
-            background: #27272a;
-            padding: 0.15rem 0.6rem;
-            border-radius: 9999px;
-            display: inline-block;
-            margin-top: 0.1rem;
+            font-size: 1.25rem;
+            line-height: 1.2;
+            color: #fff;
+            letter-spacing: -0.02em;
         }
         .withdraw-tier-card .tier-badge {
             font-size: 0.6rem;
             text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            color: #52525b;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: #8a8a92;
+        }
+        .withdraw-tier-card .tier-cost {
+            font-size: 0.7rem;
+            color: #8a8a92;
+            font-weight: 500;
+            background: #222226;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-top: 0.15rem;
+            border: 1px solid #2f2f33;
         }
         .withdraw-tier-card.active .tier-badge {
             color: #dc2626;
         }
+        .withdraw-tier-card.active .tier-cost {
+            border-color: #dc2626/30;
+            background: #2a1a1a;
+            color: #f0a0a0;
+        }
         .tier-required-badge {
             background: #3b82f6;
-            color: white;
+            color: #fff;
             font-size: 0.5rem;
             font-weight: 800;
-            padding: 0.1rem 0.4rem;
+            padding: 0.1rem 0.5rem;
             border-radius: 9999px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-top: 0.2rem;
-            display: inline-block;
+            flex-shrink: 0;
         }
         .promo-badge {
             background: #f59e0b;
             color: #000;
             font-size: 0.5rem;
             font-weight: 800;
-            padding: 0.1rem 0.4rem;
+            padding: 0.1rem 0.5rem;
             border-radius: 9999px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-left: 0.3rem;
         }
-        .promo-info-btn {
-            position: absolute;
-            top: 0.3rem;
-            right: 0.3rem;
-            background: #27272a;
-            border: 1px solid #3f3f46;
-            border-radius: 9999px;
-            width: 1.2rem;
-            height: 1.2rem;
+        .tier-card-top {
             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+        .tier-card-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.1rem;
+        }
+        .tier-promo-cost {
+            display: flex;
+            flex-wrap: wrap;
             align-items: center;
-            justify-content: center;
+            gap: 0.3rem;
+            margin-top: 0.1rem;
+        }
+        .tier-promo-cost .old-cost {
+            color: #6a6a72;
+            text-decoration: line-through;
+            font-size: 0.65rem;
+        }
+        .tier-promo-cost .new-cost {
+            color: #34d399;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+        .tier-promo-cost .save-badge {
+            background: rgba(52, 211, 153, 0.15);
+            color: #34d399;
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 0.05rem 0.4rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(52, 211, 153, 0.2);
+        }
+        .tier-status-label {
             font-size: 0.6rem;
             font-weight: 700;
-            color: #a1a1aa;
-            cursor: pointer;
-            transition: all 0.2s;
         }
-        .promo-info-btn:hover {
-            background: #3f3f46;
-            color: white;
+        .tier-status-label.used {
+            color: #34d399;
+        }
+        .tier-status-label.expired {
+            color: #f87171;
+        }
+
+        .withdraw-submit-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transition: all 0.2s;
+            border: none;
+        }
+        .withdraw-submit-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            transform: scale(1.01);
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.3);
+        }
+        .withdraw-submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* Task Modal Overlay */
@@ -866,7 +925,7 @@
                 </div>
             </div>
 
-            <!-- ===== WITHDRAW ===== -->
+            <!-- ===== WITHDRAW (UPDATED DESIGN) ===== -->
             <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                 <div>
                     <h2 class="text-xl font-bold tracking-tight text-white">💳 Token Exchange Portal</h2>
@@ -949,7 +1008,9 @@
                     </div>
 
                     <!-- Main withdraw form -->
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 md:col-span-3 space-y-4">
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 md:col-span-3 space-y-5">
+
+                        <!-- LOADING STATE -->
                         <template x-if="withdrawStatus === 'loading'">
                             <div class="py-8 text-center space-y-3">
                                 <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600 mx-auto"></div>
@@ -957,6 +1018,7 @@
                             </div>
                         </template>
 
+                        <!-- CONFIRMING STATE -->
                         <template x-if="withdrawStatus === 'confirming'">
                             <div class="py-6 text-center space-y-4 border border-red-500/20 bg-red-500/5 rounded-xl p-5">
                                 <i data-lucide="user-check" class="w-10 h-10 text-red-500 mx-auto animate-bounce"></i>
@@ -972,6 +1034,7 @@
                             </div>
                         </template>
 
+                        <!-- COMPLETE STATE -->
                         <template x-if="withdrawStatus === 'complete'">
                             <div class="py-6 text-center space-y-3 border border-emerald-500/20 bg-emerald-500/5 rounded-xl p-4">
                                 <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500 mx-auto"></i>
@@ -982,97 +1045,97 @@
                             </div>
                         </template>
 
+                        <!-- IDLE STATE – Updated Design -->
                         <template x-if="withdrawStatus === 'idle'">
-                            <div class="space-y-4">
+                            <div class="space-y-5">
                                 <!-- Roblox username -->
                                 <div>
                                     <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Target Roblox Username</label>
                                     <input type="text" x-model="robloxUser" placeholder="e.g. CoolPlayer123" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
                                 </div>
 
-                                <!-- Tier selection -->
+                                <!-- Tier selection – Polished Cards -->
                                 <div>
-                                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Select Bundle Package</label>
-                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
+                                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">Select Bundle Package</label>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                                         <!-- 500 TKNS -->
-                                        <button @click="selectedTier = 5000" :class="selectedTier === 5000 ? 'active' : ''" class="withdraw-tier-card relative">
-                                            <div class="flex flex-col">
+                                        <button @click="selectedTier = 5000" :class="selectedTier === 5000 ? 'active' : ''" class="withdraw-tier-card">
+                                            <div class="tier-card-top">
                                                 <span class="tier-amount">5,000</span>
-                                                <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost">500 TKNS</span>
-                                                <span x-show="withdrawalStage < 2" class="tier-required-badge mt-1 self-start">Required</span>
+                                                <span x-show="withdrawalStage < 2" class="tier-required-badge">Required</span>
                                             </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <span class="tier-cost">500 TKNS</span>
                                         </button>
                                         <!-- 10k -->
                                         <button @click="selectedTier = 10000" :class="selectedTier === 10000 ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="flex flex-col">
+                                            <div class="tier-card-top">
                                                 <span class="tier-amount">10,000</span>
-                                                <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost">1,000 TKNS</span>
                                             </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <span class="tier-cost">1,000 TKNS</span>
                                         </button>
                                         <!-- 15k -->
                                         <button @click="selectedTier = 15000" :class="selectedTier === 15000 ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="flex flex-col">
+                                            <div class="tier-card-top">
                                                 <span class="tier-amount">15,000</span>
-                                                <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost">1,500 TKNS</span>
                                             </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <span class="tier-cost">1,500 TKNS</span>
                                         </button>
                                         <!-- 25k -->
                                         <button @click="selectedTier = 25000" :class="selectedTier === 25000 ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="flex flex-col">
+                                            <div class="tier-card-top">
                                                 <span class="tier-amount">25,000</span>
-                                                <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost">2,500 TKNS</span>
                                             </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <span class="tier-cost">2,500 TKNS</span>
                                         </button>
                                         <!-- 30k -->
                                         <button @click="selectedTier = 30000" :class="selectedTier === 30000 ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="flex flex-col">
+                                            <div class="tier-card-top">
                                                 <span class="tier-amount">30,000</span>
-                                                <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost">3,000 TKNS</span>
                                             </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <span class="tier-cost">3,000 TKNS</span>
                                         </button>
-                                        <!-- 35k – with promotion -->
+                                        <!-- 35k – with promotion, no "?" button -->
                                         <button @click="selectedTier = 35000" :class="selectedTier === 35000 ? 'active' : ''" class="withdraw-tier-card relative">
-                                            <div class="flex flex-col">
-                                                <span class="tier-amount">35,000
-                                                    <span x-show="promo35kStatus === 'available'" class="promo-badge">🔥 PROMO</span>
-                                                    <span x-show="promo35kStatus === 'used'" class="text-[10px] text-emerald-400 ml-1">✔ Used</span>
-                                                    <span x-show="promo35kStatus === 'expired'" class="text-[10px] text-red-400 ml-1">⛔ Expired</span>
-                                                </span>
-                                                <span class="tier-badge">Robux</span>
-                                                <!-- Cost display -->
+                                            <div class="tier-card-top">
+                                                <span class="tier-amount">35,000</span>
+                                                <span x-show="promo35kStatus === 'available'" class="promo-badge">🔥 PROMO</span>
+                                                <span x-show="promo35kStatus === 'used'" class="tier-status-label used">✔ Used</span>
+                                                <span x-show="promo35kStatus === 'expired'" class="tier-status-label expired">⛔ Expired</span>
+                                            </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <div class="tier-promo-cost">
                                                 <template x-if="promo35kStatus === 'available'">
-                                                    <span class="tier-cost">
-                                                        <span class="line-through text-zinc-500">3,500</span> → <span class="text-emerald-400 font-bold">3,000</span> TKNS
-                                                        <span class="inline-block ml-1 text-[10px] bg-emerald-500/20 text-emerald-300 px-1 rounded">Save 500!</span>
-                                                    </span>
+                                                    <>
+                                                        <span class="old-cost">3,500</span>
+                                                        <span class="new-cost">3,000 TKNS</span>
+                                                        <span class="save-badge">Save 500!</span>
+                                                    </>
                                                 </template>
                                                 <template x-if="promo35kStatus !== 'available'">
                                                     <span class="tier-cost">3,500 TKNS</span>
                                                 </template>
-                                                <!-- "?" info button -->
-                                                <button @click.stop="showPromoInfo()" class="promo-info-btn">?</button>
                                             </div>
                                         </button>
                                         <!-- 40k -->
                                         <button @click="selectedTier = 40000" :class="selectedTier === 40000 ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="flex flex-col">
+                                            <div class="tier-card-top">
                                                 <span class="tier-amount">40,000</span>
-                                                <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost">4,000 TKNS</span>
                                             </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <span class="tier-cost">4,000 TKNS</span>
                                         </button>
                                         <!-- 45k -->
                                         <button @click="selectedTier = 45000" :class="selectedTier === 45000 ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="flex flex-col">
+                                            <div class="tier-card-top">
                                                 <span class="tier-amount">45,000</span>
-                                                <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost">4,500 TKNS</span>
                                             </div>
+                                            <span class="tier-badge">Robux</span>
+                                            <span class="tier-cost">4,500 TKNS</span>
                                         </button>
                                     </div>
                                 </div>
@@ -1085,9 +1148,10 @@
                                     </label>
                                 </div>
 
-                                <!-- Submit button -->
-                                <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim()" :class="(!withdrawHonestConfirm || !robloxUser.trim()) ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'bg-red-600 hover:bg-red-700'" class="w-full text-white font-semibold text-sm py-3 rounded-xl shadow-lg shadow-red-600/10 transition-all duration-150">
-                                    <i data-lucide="send" class="w-4 h-4 inline mr-2"></i> Transmit Payout Order
+                                <!-- Submit button – prominent and always visible -->
+                                <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim()" class="withdraw-submit-btn w-full text-white font-bold text-base py-3.5 rounded-xl shadow-lg shadow-red-600/30 transition-all duration-200 flex items-center justify-center gap-2">
+                                    <i data-lucide="send" class="w-5 h-5"></i>
+                                    <span>Transmit Payout Order</span>
                                 </button>
                             </div>
                         </template>
@@ -1549,7 +1613,7 @@ x-cloak>
             // ===== Withdrawal Stage (0=not started, 1=first 500 done, 2=second 500 done, fully verified) =====
             withdrawalStage: 0,
 
-            // ===== NEW: Promotion for 35k tier (3,500 TKNS discounted to 3,000) =====
+            // ===== Promotion for 35k tier (3,500 TKNS discounted to 3,000) =====
             promo35kStatus: 'available', // 'available', 'expired', 'used'
 
             // ---- Tasks (REORDERED: Prize Offer → Install App → Email/Phone → Sign Up → Random → others) ----
@@ -1803,28 +1867,8 @@ x-cloak>
                 if (this.toastTimeout) clearTimeout(this.toastTimeout);
             },
 
-            // ---- Promotion Info ----
-            showPromoInfo() {
-                if (this.promo35kStatus === 'available') {
-                    this.showImportantToast(
-                        '🔥 35,000 Robux – ONE‑TIME PROMO!',
-                        '🎁',
-                        'Withdraw 35,000 Robux for only 3,000 TKNS (save 500). This offer expires if you withdraw any other amount before using it. Available once per account.'
-                    );
-                } else if (this.promo35kStatus === 'used') {
-                    this.showImportantToast(
-                        '✔ You have already used this promotion.',
-                        '✅',
-                        'The 35,000 Robux promo was already claimed. You can still withdraw at the normal cost.'
-                    );
-                } else {
-                    this.showImportantToast(
-                        '⛔ This promotion has expired.',
-                        '⛔',
-                        'The 35,000 Robux promo expired because you withdrew a different amount before using it.'
-                    );
-                }
-            },
+            // ---- Promotion Info (now shown via toast on card click, but we keep a helper) ----
+            // Not needed for cards now, but we keep the function for possible future use.
 
             // ---- Init ----
             init() {
