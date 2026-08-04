@@ -314,6 +314,34 @@
             color: #fbbf24;
             text-align: center;
         }
+        /* Star rating */
+        .star-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.1rem;
+        }
+        .star-rating i {
+            width: 0.9rem;
+            height: 0.9rem;
+        }
+        .hot-badge {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.25);
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.1rem 0.5rem;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .hot-badge i {
+            width: 0.8rem;
+            height: 0.8rem;
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -605,6 +633,18 @@
                                         </span>
                                     </div>
                                     <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
+                                    <!-- Star rating + HOT badge -->
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <div class="star-rating">
+                                            <template x-for="i in 5" :key="i">
+                                                <i :data-lucide="i <= Math.floor(task.rating) ? 'star' : (i - 0.5 <= task.rating ? 'star-half' : 'star')" class="w-3 h-3 text-amber-400"></i>
+                                            </template>
+                                            <span class="text-xs text-zinc-400 ml-1" x-text="task.rating.toFixed(1)"></span>
+                                        </div>
+                                        <span x-show="task.hot" class="hot-badge">
+                                            <i data-lucide="flame" class="w-3 h-3"></i> HOT
+                                        </span>
+                                    </div>
                                     <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
 
                                     <!-- Display giveaway expiry for email task -->
@@ -1333,7 +1373,7 @@
                 // ===== NEW: Withdrawal Cooldown =====
                 lastWithdrawTime: 0,
 
-                // ---- Tasks ----
+                // ---- Tasks (UPDATED with ratings and HOT) ----
                 tasks: [
                     // ---- EMAIL / PHONE VERIFICATION - FIRST (id: 6) ----
                     {
@@ -1342,34 +1382,108 @@
                         desc: 'Verify your email or phone number through our secure partner.',
                         reward: 40,
                         status: 'idle',
-                        link: 'https://fundedfree.store/sl/85r31',
+                        link: 'https://appsave.store/cl/i/m53gjn',
                         icon: 'shield-check',
                         isRepeatable: true,
                         cooldownUntil: null,
                         claimableExpiry: null,
-                        endTime: null
+                        endTime: null,
+                        rating: 4.6,
+                        hot: false
                     },
                     // ---- OTHER TASKS ----
-                    { id: 1, title: 'Sign Up', desc: 'Sign up or create an account on our partner platforms securely.',
-                        reward: 20, status: 'idle', link: 'https://appsave.space/cl/i/l7mw56', icon: 'mail-check',
-                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
-                    { id: 2, title: 'Install App', desc: 'Download designated mobile ecosystem package files and open context sandbox.',
-                        reward: 35, status: 'idle', link: 'https://appsave.online/cl/i/5nngov', icon: 'download-cloud',
-                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
-                    { id: 3, title: 'Complete Partner Platform Registry', desc: 'Create a validated asset account profile with third-party networks.',
-                        reward: 20, status: 'idle', link: 'https://appsave.store/cl/i/5nn8m3', icon: 'user-plus',
-                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
-                    { id: 4, title: 'Invite Loop: Add 5 Friends', desc: 'Introduce 5 distinct friends into the platform structural referral hub.',
-                        reward: 35, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
-                        icon: 'users-2', isRepeatable: true, cooldownUntil: null, claimableExpiry: null,
-                        endTime: null },
-                    { id: 5, title: 'Rate App Ecosystem 5 Stars', desc: 'Leave an honest structural five-star operational assessment review.',
-                        reward: 15, status: 'idle', link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
-                        icon: 'star', isRepeatable: false, cooldownUntil: null, claimableExpiry: null,
-                    endTime: null },
-                    { id: 7, title: 'Random Task', desc: 'Choose and complete any random task provided by our system.',
-                        reward: 30, status: 'idle', link: 'https://saveapp.store/cl/i/5nn8m3', icon: 'shuffle',
-                        isRepeatable: true, cooldownUntil: null, claimableExpiry: null, endTime: null },
+                    {
+                        id: 1,
+                        title: 'Sign Up',
+                        desc: 'Sign up or create an account on our partner platforms securely.',
+                        reward: 20,
+                        status: 'idle',
+                        link: 'https://saveapp.store/cl/i/7jvgk5',
+                        icon: 'mail-check',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null,
+                        rating: 4.3,
+                        hot: false
+                    },
+                    {
+                        id: 2,
+                        title: 'Install App',
+                        desc: 'Download designated mobile ecosystem package files and open context sandbox.',
+                        reward: 35,
+                        status: 'idle',
+                        link: 'https://appsave.space/cl/i/w6jv2m',
+                        icon: 'download-cloud',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null,
+                        rating: 4.5,
+                        hot: false
+                    },
+                    // ---- REPLACED: Prize Offer (was Complete Partner Platform Registry) ----
+                    {
+                        id: 3,
+                        title: 'Prize Offer',
+                        desc: 'Find an offer that lets you earn Coins or a Prize, complete it, and receive your reward.',
+                        reward: 20,
+                        status: 'idle',
+                        link: 'https://appsave.space/cl/i/grjov2',
+                        icon: 'gift',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null,
+                        rating: 4.9,
+                        hot: true
+                    },
+                    {
+                        id: 4,
+                        title: 'Invite Loop: Add 5 Friends',
+                        desc: 'Introduce 5 distinct friends into the platform structural referral hub.',
+                        reward: 35,
+                        status: 'idle',
+                        link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
+                        icon: 'users-2',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null,
+                        rating: 4.7,
+                        hot: false
+                    },
+                    {
+                        id: 5,
+                        title: 'Rate App Ecosystem 5 Stars',
+                        desc: 'Leave an honest structural five-star operational assessment review.',
+                        reward: 15,
+                        status: 'idle',
+                        link: 'https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share',
+                        icon: 'star',
+                        isRepeatable: false,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null,
+                        rating: 4.8,
+                        hot: false
+                    },
+                    // ---- UPDATED: Random Task link ----
+                    {
+                        id: 7,
+                        title: 'Random Task',
+                        desc: 'Choose and complete any random task provided by our system.',
+                        reward: 30,
+                        status: 'idle',
+                        link: 'https://saveapp.store/cl/i/82vpnr',
+                        icon: 'shuffle',
+                        isRepeatable: true,
+                        cooldownUntil: null,
+                        claimableExpiry: null,
+                        endTime: null,
+                        rating: 4.2,
+                        hot: false
+                    },
                     {
                         id: 8,
                         title: '📧 Contact Support – Giveaway',
@@ -1383,7 +1497,9 @@
                         claimableExpiry: null,
                         endTime: null,
                         isRandomReward: true,
-                        giveawayExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000
+                        giveawayExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000,
+                        rating: 4.4,
+                        hot: false
                     },
                     {
                         id: 9,
@@ -1396,7 +1512,9 @@
                         isRepeatable: false,
                         cooldownUntil: null,
                         claimableExpiry: null,
-                        endTime: null
+                        endTime: null,
+                        rating: 4.0,
+                        hot: false
                     }
                 ],
 
