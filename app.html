@@ -237,7 +237,7 @@
             text-transform: uppercase;
         }
 
-        /* ---- NEW: Polished Withdraw Cards ---- */
+        /* ---- Polished Withdraw Cards ---- */
         .withdraw-tier-card {
             transition: all 0.2s ease;
             border: 1px solid #2a2a2e;
@@ -251,13 +251,13 @@
             position: relative;
             min-height: 104px;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         .withdraw-tier-card:hover {
             border-color: #4a4a50;
             background: #1c1c20;
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
         }
         .withdraw-tier-card.active {
             border-color: #dc2626;
@@ -298,74 +298,11 @@
             background: #2a1a1a;
             color: #f0a0a0;
         }
-        .tier-required-badge {
-            background: #3b82f6;
-            color: #fff;
-            font-size: 0.5rem;
-            font-weight: 800;
-            padding: 0.1rem 0.5rem;
-            border-radius: 9999px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            flex-shrink: 0;
-        }
-        .promo-badge {
-            background: #f59e0b;
-            color: #000;
-            font-size: 0.5rem;
-            font-weight: 800;
-            padding: 0.1rem 0.5rem;
-            border-radius: 9999px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
         .tier-card-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             width: 100%;
-        }
-        .tier-card-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 0.1rem;
-        }
-        .tier-promo-cost {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.3rem;
-            margin-top: 0.1rem;
-        }
-        .tier-promo-cost .old-cost {
-            color: #6a6a72;
-            text-decoration: line-through;
-            font-size: 0.65rem;
-        }
-        .tier-promo-cost .new-cost {
-            color: #34d399;
-            font-weight: 700;
-            font-size: 0.75rem;
-        }
-        .tier-promo-cost .save-badge {
-            background: rgba(52, 211, 153, 0.15);
-            color: #34d399;
-            font-size: 0.5rem;
-            font-weight: 700;
-            padding: 0.05rem 0.4rem;
-            border-radius: 9999px;
-            border: 1px solid rgba(52, 211, 153, 0.2);
-        }
-        .tier-status-label {
-            font-size: 0.6rem;
-            font-weight: 700;
-        }
-        .tier-status-label.used {
-            color: #34d399;
-        }
-        .tier-status-label.expired {
-            color: #f87171;
         }
 
         .withdraw-submit-btn {
@@ -496,6 +433,40 @@
         .btn-locked .lock-icon-small {
             opacity: 0.5;
         }
+
+        /* Withdraw eligibility banner */
+        .eligibility-banner {
+            background: #141416;
+            border: 1px solid #2a2a2e;
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .eligibility-banner .status-icon {
+            font-size: 1.5rem;
+        }
+        .eligibility-banner .status-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .eligibility-banner .status-detail {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+        }
+        .eligibility-banner .status-detail strong {
+            color: #fff;
+        }
+        .eligibility-banner.eligible {
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.05);
+        }
+        .eligibility-banner.not-eligible {
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.05);
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -538,11 +509,9 @@
                     <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="users" class="w-5 h-5"></i> Invite & Promos
                     </button>
-                    <!-- Account Tab -->
                     <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="user" class="w-5 h-5"></i> Profile & Account
                     </button>
-                    <!-- RULES with notif badge -->
                     <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition relative">
                         <i data-lucide="shield-alert" class="w-5 h-5"></i> Platform Rules
                         <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
@@ -576,7 +545,6 @@
 
                     <!-- Stats + Level + Leaderboard Row -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        <!-- Left column: Stats and Level -->
                         <div class="lg:col-span-2 grid grid-cols-2 gap-4">
                             <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
                                 <div class="flex items-center justify-between text-zinc-500 mb-2">
@@ -593,7 +561,6 @@
                                 </div>
                                 <p class="text-2xl font-black text-white tracking-tight" x-text="'Lv.' + userLevel"></p>
                                 <span class="text-[11px] text-zinc-500 font-medium" x-text="'Total Earned: ' + totalTokensEarned + ' TKNS'"></span>
-                                <!-- Level progress -->
                                 <div class="mt-2 level-progress-bar">
                                     <div class="level-progress-fill" :style="'width: ' + levelProgress + '%'"></div>
                                 </div>
@@ -609,7 +576,7 @@
                             </div>
                         </div>
 
-                        <!-- Right: Leaderboard widget -->
+                        <!-- Leaderboard widget -->
                         <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col">
                             <div class="flex items-center justify-between border-b border-zinc-900 pb-2 mb-2">
                                 <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Leaderboard</h4>
@@ -648,7 +615,7 @@
                                     <span class="text-xs text-zinc-400 font-medium font-mono" x-text="'Day ' + currentStreak"></span>
                                 </div>
                                 <h3 class="text-lg font-bold text-white">Claim Your Daily Tokens</h3>
-                                <p class="text-zinc-400 text-xs leading-relaxed">Don't break your momentum! Log in every day to upgrade your token payout systematically up to Day 7.</p>
+                                <p class="text-zinc-400 text-xs leading-relaxed">Don't break your momentum! Log in every day to upgrade your token payout.</p>
                                 <div class="grid grid-cols-4 gap-2 pt-2">
                                     <template x-for="(reward, index) in streakDays" :key="index">
                                         <div :class="{
@@ -666,11 +633,10 @@
                                             <span class="text-[8px] text-zinc-500 mt-0.5">Tokens</span>
                                         </div>
                                     </template>
-                                    <div :class="currentStreak === 8 && isDailyGiftAvailable ? 'border-amber-500/30 bg-amber-950/20' : 'border-zinc-800 bg-zinc-900/20 opacity-40'" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[64px]">
-                                        <span class="text-[9px] font-bold text-zinc-400 uppercase">Day 8</span>
-                                        <i data-lucide="gift" class="w-4 h-4 text-amber-400 mt-1"></i>
-                                        <span class="text-[8px] text-zinc-500 mt-0.5">Bonus</span>
-                                    </div>
+                                </div>
+                                <div class="text-[10px] text-zinc-500 text-center -mt-1">
+                                    <span x-show="currentStreak >= 7" class="text-emerald-400 font-bold">✅ 7-Day Streak Achieved!</span>
+                                    <span x-show="currentStreak < 7" x-text="'Progress: ' + currentStreak + ' / 7 days'"></span>
                                 </div>
                             </div>
                             <div class="mt-6 pt-4 border-t border-zinc-900 flex items-center justify-between">
@@ -771,11 +737,9 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
-                            <!-- task card with optional lock overlay -->
                             <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between hover:border-zinc-800 transition duration-200 group relative"
                             :class="{ 'task-locked': isTaskRunning && task.status === 'idle' }">
 
-                            <!-- LOCK OVERLAY -->
                             <div x-show="isTaskRunning && task.status === 'idle'" class="lock-overlay">
                                 <div class="flex flex-col items-center gap-0.5">
                                     <span class="lock-icon">🔒</span>
@@ -798,7 +762,6 @@
                                     </span>
                                 </div>
                                 <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
-                                <!-- Star rating + HOT badge -->
                                 <div class="flex items-center gap-2 mt-1">
                                     <div class="star-rating">
                                         <template x-for="i in 5" :key="i">
@@ -812,7 +775,6 @@
                                 </div>
                                 <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
 
-                                <!-- Display giveaway expiry for email task -->
                                 <template x-if="task.id === 8 && task.giveawayExpiry">
                                     <div class="mt-2 text-xs text-amber-400 font-medium">
                                         🎁 Giveaway ends in: <span x-text="getGiveawayRemaining(task.giveawayExpiry)"></span>
@@ -824,7 +786,6 @@
                                     </div>
                                 </template>
 
-                                <!-- Loading display - only spinner and "Processing..." -->
                                 <template x-if="task.status === 'loading'">
                                     <div class="mt-2 text-xs text-blue-400 font-medium flex items-center gap-1.5">
                                         <svg class="animate-spin h-3.5 w-3.5 text-amber-400" fill="none" viewBox="0 0 24 24">
@@ -835,7 +796,6 @@
                                     </div>
                                 </template>
 
-                                <!-- Show claimable expiry timer if claimable -->
                                 <template x-if="task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry > Date.now()">
                                     <div class="mt-2 text-xs text-amber-400 font-medium">
                                         ⏳ Claim within <span x-text="getClaimableTimeLeft(task.claimableExpiry)"></span>
@@ -847,7 +807,6 @@
                                     </div>
                                 </template>
 
-                                <!-- Cooldown timer for repeatable tasks -->
                                 <template x-if="task.isRepeatable && task.status === 'completed' && task.cooldownUntil && task.cooldownUntil > Date.now()">
                                     <div class="mt-2 text-xs text-amber-400 font-medium">
                                         ⏳ Available again in <span x-text="getCooldownDisplay(task.cooldownUntil)"></span>
@@ -861,14 +820,12 @@
                                 </span>
                                 <div class="flex items-center gap-2">
 
-                                    <!-- Open Task - visible only when loading or claimable -->
                                     <template x-if="task.status === 'loading' || task.status === 'claimable'">
                                         <button @click.stop="openTaskLink(task)" class="btn-open-task text-xs bg-zinc-900/60 border border-blue-500/40 hover:bg-zinc-800 text-blue-300 px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-medium">
                                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Open Task
                                         </button>
                                     </template>
 
-                                    <!-- MAIN TASK BUTTON -->
                                     <button @click="handleTaskInteraction(task)"
                                     :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) || (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)"
                                     :class="{
@@ -880,7 +837,6 @@
                                     }"
                                     class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
 
-                                    <!-- loading -->
                                     <template x-if="task.status === 'loading'">
                                         <span class="flex items-center gap-1.5">
                                             <svg class="animate-spin h-3.5 w-3.5 text-amber-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -888,7 +844,6 @@
                                         </span>
                                     </template>
 
-                                    <!-- idle – LOCKED state -->
                                     <template x-if="task.status === 'idle'">
                                         <span x-show="!(task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)" class="flex items-center gap-1.5">
                                             <template x-if="isTaskRunning">
@@ -904,7 +859,6 @@
                                         <span x-show="task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry" class="flex items-center gap-1 text-red-400">Expired</span>
                                     </template>
 
-                                    <!-- claimable -->
                                     <template x-if="task.status === 'claimable'">
                                         <span x-show="task.claimableExpiry && task.claimableExpiry > Date.now()" class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
                                             <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Claim Tokens
@@ -914,7 +868,6 @@
                                         </span>
                                     </template>
 
-                                    <!-- completed -->
                                     <template x-if="task.status === 'completed'">
                                         <span class="flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Completed</span>
                                     </template>
@@ -925,7 +878,7 @@
                 </div>
             </div>
 
-            <!-- ===== WITHDRAW (UPDATED DESIGN) ===== -->
+            <!-- ===== WITHDRAW (UPDATED: Always visible, eligibility check on submit) ===== -->
             <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                 <div>
                     <h2 class="text-xl font-bold tracking-tight text-white">💳 Token Exchange Portal</h2>
@@ -943,51 +896,24 @@
                     </div>
                 </div>
 
-                <!-- ===== Weekly Cooldown Banner ===== -->
-                <div x-show="lastWithdrawTime > 0 && (Date.now() - lastWithdrawTime) < 7 * 24 * 60 * 60 * 1000" class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
-                    <i data-lucide="clock" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+                <!-- ===== ELIGIBILITY BANNER (always visible) ===== -->
+                <div class="eligibility-banner" :class="isWithdrawUnlocked ? 'eligible' : 'not-eligible'">
+                    <span class="status-icon" x-text="isWithdrawUnlocked ? '✅' : '🔒'"></span>
                     <div>
-                        <p class="text-sm font-bold text-amber-400">⏳ Weekly Cooldown Active</p>
-                        <p class="text-xs text-zinc-300 leading-relaxed">
-                            You've already made a withdrawal this week. Next withdrawal available in <strong class="text-white" x-text="getWithdrawCooldownDisplay()"></strong>.
-                        </p>
-                        <p class="text-xs text-emerald-400 leading-relaxed mt-1">
-                            💡 Use this time to complete more tasks and earn extra Tokens. You can withdraw <strong>twice</strong> when the cooldown resets!
+                        <p class="status-text" x-text="isWithdrawUnlocked ? 'Withdrawals Unlocked' : 'Withdrawals Locked'"></p>
+                        <p class="status-detail">
+                            <span x-show="!isWithdrawUnlocked">
+                                You need a <strong>7-day daily streak</strong> and <strong>30 completed tasks</strong> to unlock withdrawals.
+                                Current: Streak <strong x-text="currentStreak"></strong>/7 · Tasks <strong x-text="completedTasksCount"></strong>/30.
+                            </span>
+                            <span x-show="isWithdrawUnlocked">
+                                You meet all requirements! You can withdraw any amount. Robux delivered within 1–2 weeks.
+                            </span>
                         </p>
                     </div>
                 </div>
 
-                <!-- ===== Withdrawal Stage Messages ===== -->
-                <div x-show="withdrawalStage === 0" class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-3 flex items-start gap-2.5">
-                    <i data-lucide="info" class="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5"></i>
-                    <div>
-                        <p class="text-xs font-bold text-blue-300">🔑 Verification Required</p>
-                        <p class="text-xs text-zinc-300 leading-relaxed">
-                            To activate your withdrawal privileges, you need to complete <strong class="text-white">two successful 500 TKNS</strong> (5,000 Robux) withdrawals. This confirms your genuine interest and unlocks full access.
-                            <span class="block mt-1 text-blue-400/80">Step 1: Withdraw 500 TKNS now.</span>
-                        </p>
-                    </div>
-                </div>
-                <div x-show="withdrawalStage === 1" class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-start gap-2.5">
-                    <i data-lucide="alert-circle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
-                    <div>
-                        <p class="text-xs font-bold text-amber-300">✅ First Stage Complete!</p>
-                        <p class="text-xs text-zinc-300 leading-relaxed">
-                            You've successfully completed your first 500 TKNS withdrawal. Now complete a <strong class="text-white">second 500 TKNS</strong> withdrawal to confirm your interest. After that, you'll be fully verified and can withdraw any amount without restrictions.
-                            <span class="block mt-1 text-amber-400/80">Step 2: Withdraw another 500 TKNS.</span>
-                        </p>
-                    </div>
-                </div>
-                <div x-show="withdrawalStage === 2" class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-start gap-2.5">
-                    <i data-lucide="check-circle" class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5"></i>
-                    <div>
-                        <p class="text-xs font-bold text-emerald-300">🎉 Fully Verified!</p>
-                        <p class="text-xs text-zinc-300 leading-relaxed">
-                            Congratulations! You've completed both verification withdrawals. You are now fully verified and can withdraw <strong class="text-white">any amount</strong> without any further restrictions. Keep earning and enjoy your Robux!
-                        </p>
-                    </div>
-                </div>
-
+                <!-- ===== WITHDRAWAL FORM (always shown) ===== -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- Exchange rate card -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between md:col-span-1">
@@ -1040,12 +966,12 @@
                                 <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500 mx-auto"></i>
                                 <h4 class="text-base font-bold text-white">Order Successfully Formed!</h4>
                                 <p class="text-xs text-zinc-300 leading-relaxed">Verification protocol complete. You will receive your Robux in your designated Roblox account within <strong class="text-emerald-400">1 to 2 weeks</strong>.</p>
-                                <p class="text-xs text-amber-400 leading-relaxed">💡 Keep completing tasks to earn more Tokens. You can withdraw <strong>twice</strong> next week!</p>
+                                <p class="text-xs text-amber-400 leading-relaxed">💡 Keep completing tasks to earn more Tokens. You can withdraw again immediately!</p>
                                 <button @click="withdrawStatus = 'idle'" class="mt-2 text-xs bg-zinc-900 px-3 py-1.5 rounded-lg border border-zinc-800 hover:text-white transition">Form Another Payout</button>
                             </div>
                         </template>
 
-                        <!-- IDLE STATE – Updated Design -->
+                        <!-- IDLE STATE -->
                         <template x-if="withdrawStatus === 'idle'">
                             <div class="space-y-5">
                                 <!-- Roblox username -->
@@ -1054,15 +980,14 @@
                                     <input type="text" x-model="robloxUser" placeholder="e.g. CoolPlayer123" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
                                 </div>
 
-                                <!-- Tier selection – Polished Cards -->
+                                <!-- Tier selection -->
                                 <div>
                                     <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">Select Bundle Package</label>
                                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                                        <!-- 500 TKNS -->
+                                        <!-- 5,000 Robux (500 TKNS) -->
                                         <button @click="selectedTier = 5000" :class="selectedTier === 5000 ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
                                                 <span class="tier-amount">5,000</span>
-                                                <span x-show="withdrawalStage < 2" class="tier-required-badge">Required</span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">500 TKNS</span>
@@ -1099,28 +1024,6 @@
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">3,000 TKNS</span>
                                         </button>
-                                        <!-- 35k – with promotion, no "?" button -->
-                                        <button @click="selectedTier = 35000" :class="selectedTier === 35000 ? 'active' : ''" class="withdraw-tier-card relative">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">35,000</span>
-                                                <span x-show="promo35kStatus === 'available'" class="promo-badge">🔥 PROMO</span>
-                                                <span x-show="promo35kStatus === 'used'" class="tier-status-label used">✔ Used</span>
-                                                <span x-show="promo35kStatus === 'expired'" class="tier-status-label expired">⛔ Expired</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <div class="tier-promo-cost">
-                                                <template x-if="promo35kStatus === 'available'">
-                                                    <>
-                                                        <span class="old-cost">3,500</span>
-                                                        <span class="new-cost">3,000 TKNS</span>
-                                                        <span class="save-badge">Save 500!</span>
-                                                    </>
-                                                </template>
-                                                <template x-if="promo35kStatus !== 'available'">
-                                                    <span class="tier-cost">3,500 TKNS</span>
-                                                </template>
-                                            </div>
-                                        </button>
                                         <!-- 40k -->
                                         <button @click="selectedTier = 40000" :class="selectedTier === 40000 ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
@@ -1148,11 +1051,12 @@
                                     </label>
                                 </div>
 
-                                <!-- Submit button – prominent and always visible -->
-                                <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim()" class="withdraw-submit-btn w-full text-white font-bold text-base py-3.5 rounded-xl shadow-lg shadow-red-600/30 transition-all duration-200 flex items-center justify-center gap-2">
+                                <!-- Submit button – disabled if not eligible or missing fields -->
+                                <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim() || !isWithdrawUnlocked" class="withdraw-submit-btn w-full text-white font-bold text-base py-3.5 rounded-xl shadow-lg shadow-red-600/30 transition-all duration-200 flex items-center justify-center gap-2">
                                     <i data-lucide="send" class="w-5 h-5"></i>
                                     <span>Transmit Payout Order</span>
                                 </button>
+                                <p x-show="!isWithdrawUnlocked" class="text-xs text-amber-400 text-center mt-1">🔒 Withdrawals locked – meet the requirements above to unlock.</p>
                             </div>
                         </template>
                     </div>
@@ -1166,7 +1070,6 @@
                     <p class="text-zinc-500 text-xs mt-0.5">Share your link and earn passive rewards when friends join and complete tasks.</p>
                 </div>
 
-                <!-- Referral Info & Link -->
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
                     <div class="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-900">
                         <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
@@ -1178,7 +1081,6 @@
                         </div>
                     </div>
 
-                    <!-- Royalties info -->
                     <div class="bg-zinc-900/30 border border-zinc-800 rounded-xl p-4 flex items-center gap-3">
                         <i data-lucide="trending-up" class="w-5 h-5 text-amber-500 flex-shrink-0"></i>
                         <p class="text-xs text-zinc-400">
@@ -1186,7 +1088,6 @@
                         </p>
                     </div>
 
-                    <!-- Referral link -->
                     <div class="space-y-2">
                         <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
                         <div class="flex gap-2">
@@ -1199,7 +1100,7 @@
                     </div>
                 </div>
 
-                <!-- Telegram Section – Steps + Copy, NO claiming -->
+                <!-- Telegram Section -->
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
                     <div class="flex items-center gap-2">
                         <i data-lucide="send" class="w-5 h-5 text-blue-500"></i>
@@ -1300,6 +1201,14 @@
                         <div>
                             <p class="text-xs text-zinc-500">Tasks Completed</p>
                             <p class="font-bold text-white" x-text="completedTasksCount"></p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-zinc-500">Daily Streak</p>
+                            <p class="font-bold text-white" x-text="currentStreak + ' days'"></p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-zinc-500">Withdrawals Unlocked</p>
+                            <p class="font-bold text-white" x-text="isWithdrawUnlocked ? '✅ Yes' : '🔒 No'"></p>
                         </div>
                     </div>
 
@@ -1435,7 +1344,7 @@
     </button>
 </nav>
 
-<!-- ===== TASK MODAL (for Telegram and Email) ===== -->
+<!-- ===== TASK MODAL ===== -->
 <div x-show="showTaskModal" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[100]"
 x-transition:enter="transition ease-out duration-200"
 x-transition:enter-start="opacity-0 scale-95"
@@ -1491,7 +1400,7 @@ x-cloak>
         </div>
     </template>
 
-    <!-- Email (Contact Support – Giveaway) Task Modal (id 8) -->
+    <!-- Email Giveaway Task Modal (id 8) -->
     <template x-if="modalTaskId === 8">
         <div>
             <div class="flex items-center gap-3 mb-4">
@@ -1582,7 +1491,8 @@ x-cloak>
             dailyGiftCooldownStr: 'Available Now',
             nextDailyClaimTime: 0,
             currentStreak: 1,
-            streakDays: [5, 10, 15, 20, 25, 30, 50],
+            // 14 days of streak rewards (we only need up to 7 for unlock)
+            streakDays: [5, 10, 15, 20, 25, 30, 50, 5, 10, 15, 20, 25, 30, 50],
             isFirstSpin: true,
             isSpinning: false,
             wheelAngle: 0,
@@ -1607,19 +1517,8 @@ x-cloak>
             showTaskModal: false,
             modalTaskId: null,
 
-            // ===== Withdrawal Cooldown =====
-            lastWithdrawTime: 0,
-
-            // ===== Withdrawal Stage (0=not started, 1=first 500 done, 2=second 500 done, fully verified) =====
-            withdrawalStage: 0,
-
-            // ===== Promotion for 35k tier (3,500 TKNS discounted to 3,000) =====
-            promo35kStatus: 'available', // 'available', 'expired', 'used'
-
-            // ---- Tasks (REORDERED: Prize Offer → Install App → Email/Phone → Sign Up → Random → others) ----
-            tasks: [
-                // 1. Prize Offer (was id: 3) — now 45 tokens
-                {
+            // ---- Tasks ----
+            tasks: [{
                     id: 3,
                     title: 'Prize Offer',
                     desc: 'Find an offer that lets you earn Coins or a Prize, complete it, and receive your reward.',
@@ -1634,7 +1533,6 @@ x-cloak>
                     rating: 4.9,
                     hot: true
                 },
-                // 2. Install App (was id: 2)
                 {
                     id: 2,
                     title: 'Install App',
@@ -1650,7 +1548,6 @@ x-cloak>
                     rating: 4.5,
                     hot: false
                 },
-                // 3. Email / Number Verification (was id: 6)
                 {
                     id: 6,
                     title: 'Email / Number Verification',
@@ -1666,7 +1563,6 @@ x-cloak>
                     rating: 4.6,
                     hot: false
                 },
-                // 4. Sign Up (was id: 1)
                 {
                     id: 1,
                     title: 'Sign Up',
@@ -1682,7 +1578,6 @@ x-cloak>
                     rating: 4.3,
                     hot: false
                 },
-                // 5. Random Task (was id: 7)
                 {
                     id: 7,
                     title: 'Random Task',
@@ -1698,7 +1593,6 @@ x-cloak>
                     rating: 4.2,
                     hot: false
                 },
-                // 6. Invite Loop: Add 5 Friends (was id: 4)
                 {
                     id: 4,
                     title: 'Invite Loop: Add 5 Friends',
@@ -1714,7 +1608,6 @@ x-cloak>
                     rating: 4.7,
                     hot: false
                 },
-                // 7. Rate App Ecosystem 5 Stars (was id: 5)
                 {
                     id: 5,
                     title: 'Rate App Ecosystem 5 Stars',
@@ -1730,7 +1623,6 @@ x-cloak>
                     rating: 4.8,
                     hot: false
                 },
-                // 8. 📧 Contact Support – Giveaway (was id: 8)
                 {
                     id: 8,
                     title: '📧 Contact Support – Giveaway',
@@ -1748,7 +1640,6 @@ x-cloak>
                     rating: 4.4,
                     hot: false
                 },
-                // 9. 📲 Join Telegram Group (was id: 9)
                 {
                     id: 9,
                     title: '📲 Join Telegram Group',
@@ -1809,6 +1700,11 @@ x-cloak>
                 return this.userLevel * this.levelXP;
             },
 
+            // ---- Withdraw unlock check (7-day streak + 30 tasks) ----
+            get isWithdrawUnlocked() {
+                return this.currentStreak >= 7 && this.completedTasksCount >= 30;
+            },
+
             // ---- Giveaway helpers ----
             getGiveawayRemaining(expiry) {
                 if (!expiry) return 'N/A';
@@ -1825,7 +1721,6 @@ x-cloak>
                 return task ? task.giveawayExpiry : null;
             },
 
-            // ---- Get current link for a task ----
             getCurrentTaskLink(task) {
                 if (!task) return '#';
                 if (task.links && task.links.length > 0) {
@@ -1833,19 +1728,6 @@ x-cloak>
                     return task.links[idx % task.links.length];
                 }
                 return task.link || '#';
-            },
-
-            // ---- Withdrawal Cooldown Display ----
-            getWithdrawCooldownDisplay() {
-                if (!this.lastWithdrawTime) return 'Ready!';
-                const now = Date.now();
-                const weekInMs = 7 * 24 * 60 * 60 * 1000;
-                const diff = now - this.lastWithdrawTime;
-                if (diff >= weekInMs) return 'Ready!';
-                const remaining = weekInMs - diff;
-                const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
-                const hours = Math.floor((remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                return `${days}d ${hours}h`;
             },
 
             // ---- Important Toast ----
@@ -1878,13 +1760,11 @@ x-cloak>
                 this.generateLeaderboard();
                 this.updateDailyGiftStatus();
 
-                // Use a single interval for all time-based updates
                 setInterval(() => {
                     this.updateDailyGiftStatus();
 
                     let anyReset = false;
                     this.tasks.forEach(t => {
-                        // Check if loading task has finished (endTime passed)
                         if (t.status === 'loading' && t.endTime && t.endTime < Date.now()) {
                             t.status = 'claimable';
                             t.claimableExpiry = Date.now() + 60000;
@@ -1907,7 +1787,6 @@ x-cloak>
                         }
                     });
 
-                    // ---- FIX: Reset isTaskRunning if no task is actually loading ----
                     const anyLoading = this.tasks.some(t => t.status === 'loading');
                     if (!anyLoading && this.isTaskRunning) {
                         this.isTaskRunning = false;
@@ -1917,7 +1796,6 @@ x-cloak>
                     if (anyReset) this.saveState();
                 }, 1000);
 
-                // Live logs
                 setInterval(() => {
                     this.generateLiveLogItem();
                 }, Math.floor(Math.random() * 4000) + 8000);
@@ -2006,7 +1884,7 @@ x-cloak>
 
             // ---- Save / Load State ----
             loadSavedState() {
-                const savedTasks = localStorage.getItem('robux_tasks_state_v4');
+                const savedTasks = localStorage.getItem('robux_tasks_state_v5');
                 const savedRunning = localStorage.getItem('robux_task_running');
                 const savedTokens = localStorage.getItem('robux_tokens_balance');
                 const savedCount = localStorage.getItem('robux_completed_count');
@@ -2019,9 +1897,6 @@ x-cloak>
                 const savedUserId = localStorage.getItem('robux_user_id');
                 const savedTotalEarned = localStorage.getItem('robux_total_earned');
                 const savedLevel = localStorage.getItem('robux_user_level');
-                const savedLastWithdraw = localStorage.getItem('robux_last_withdraw_time');
-                const savedWithdrawalStage = localStorage.getItem('robux_withdrawal_stage');
-                const savedPromo35k = localStorage.getItem('robux_promo35k_status');
 
                 if (savedTokens) this.tokens = parseInt(savedTokens);
                 if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -2035,17 +1910,6 @@ x-cloak>
                 if (savedUserId) this.userId = savedUserId;
                 if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
                 if (savedLevel) this.userLevel = parseInt(savedLevel);
-                if (savedLastWithdraw) this.lastWithdrawTime = parseInt(savedLastWithdraw);
-                if (savedWithdrawalStage !== undefined && savedWithdrawalStage !== null) {
-                    this.withdrawalStage = parseInt(savedWithdrawalStage);
-                } else {
-                    this.withdrawalStage = 0;
-                }
-                if (savedPromo35k) {
-                    this.promo35kStatus = savedPromo35k;
-                } else {
-                    this.promo35kStatus = 'available';
-                }
 
                 this.updateLevel();
 
@@ -2080,7 +1944,6 @@ x-cloak>
                     });
                 }
 
-                // Final cleanup: if isTaskRunning is true but no loading task, reset
                 const anyLoading = this.tasks.some(t => t.status === 'loading');
                 if (this.isTaskRunning && !anyLoading) {
                     this.isTaskRunning = false;
@@ -2097,7 +1960,7 @@ x-cloak>
                     claimableExpiry: t.claimableExpiry || null,
                     linkIndex: t.linkIndex !== undefined ? t.linkIndex : 0
                 }));
-                localStorage.setItem('robux_tasks_state_v4', JSON.stringify(mapped));
+                localStorage.setItem('robux_tasks_state_v5', JSON.stringify(mapped));
                 localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
                 localStorage.setItem('robux_tokens_balance', this.tokens);
                 localStorage.setItem('robux_completed_count', this.completedTasksCount);
@@ -2110,9 +1973,6 @@ x-cloak>
                 localStorage.setItem('robux_user_id', this.userId);
                 localStorage.setItem('robux_total_earned', this.totalTokensEarned);
                 localStorage.setItem('robux_user_level', this.userLevel);
-                localStorage.setItem('robux_last_withdraw_time', this.lastWithdrawTime);
-                localStorage.setItem('robux_withdrawal_stage', this.withdrawalStage);
-                localStorage.setItem('robux_promo35k_status', this.promo35kStatus);
             },
 
             // ---- Level update ----
@@ -2137,11 +1997,10 @@ x-cloak>
             // ---- Reset Account ----
             resetAccount() {
                 if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
-                    const keys = ['robux_tasks_state_v4', 'robux_task_running', 'robux_tokens_balance',
+                    const keys = ['robux_tasks_state_v5', 'robux_task_running', 'robux_tokens_balance',
                         'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
                         'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
-                        'robux_rules_accepted', 'robux_user_id', 'robux_total_earned', 'robux_user_level',
-                        'robux_last_withdraw_time', 'robux_withdrawal_stage', 'robux_promo35k_status'
+                        'robux_rules_accepted', 'robux_user_id', 'robux_total_earned', 'robux_user_level'
                     ];
                     keys.forEach(k => localStorage.removeItem(k));
 
@@ -2157,9 +2016,6 @@ x-cloak>
                     this.totalTokensEarned = 0;
                     this.userLevel = 1;
                     this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
-                    this.lastWithdrawTime = 0;
-                    this.withdrawalStage = 0;
-                    this.promo35kStatus = 'available';
                     this.tasks.forEach(t => {
                         t.status = 'idle';
                         t.cooldownUntil = null;
@@ -2210,24 +2066,26 @@ x-cloak>
 
             claimDailyStreak() {
                 if (!this.isDailyGiftAvailable) return;
-                let rewardAmount = 0;
-                if (this.currentStreak <= 7) {
-                    rewardAmount = this.streakDays[this.currentStreak - 1];
-                } else {
-                    rewardAmount = Math.floor(Math.random() * 51) + 25;
+                const idx = (this.currentStreak - 1) % 14;
+                let rewardAmount = this.streakDays[idx] || 5;
+                // Bonus for day 7 milestone
+                if (this.currentStreak === 7) {
+                    rewardAmount += 25;
                 }
                 this.addTokens(rewardAmount);
-                if (this.currentStreak >= 8) {
-                    this.currentStreak = 1;
-                } else {
-                    this.currentStreak++;
-                }
+                this.currentStreak++;
                 this.nextDailyClaimTime = Date.now() + 86400000;
                 this.isDailyGiftAvailable = false;
                 this.saveState();
                 this.updateDailyGiftStatus();
-                this.showImportantToast(`🎉 Streak claimed! +${rewardAmount} Tokens`, '🔥',
-                    `Day ${this.currentStreak - 1} → Day ${this.currentStreak}`);
+
+                if (this.currentStreak >= 7) {
+                    this.showImportantToast(`🎉 Streak milestone! +${rewardAmount} Tokens`, '🔥',
+                        `Day ${this.currentStreak - 1} — you're now eligible for withdrawals!`);
+                } else {
+                    this.showImportantToast(`🎉 Streak claimed! +${rewardAmount} Tokens`, '🔥',
+                        `Day ${this.currentStreak - 1} → Day ${this.currentStreak}`);
+                }
             },
 
             // ---- Spin Wheel ----
@@ -2340,7 +2198,6 @@ x-cloak>
 
             // ---- Main Task Interaction ----
             handleTaskInteraction(task) {
-                // ---- FIX: Reset isTaskRunning if no task is loading ----
                 if (this.isTaskRunning) {
                     const anyLoading = this.tasks.some(t => t.status === 'loading');
                     if (!anyLoading) {
@@ -2349,7 +2206,6 @@ x-cloak>
                     }
                 }
 
-                // For Telegram and Email tasks, show modal first (if idle)
                 if ((task.id === 8 || task.id === 9) && task.status === 'idle') {
                     if (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) {
                         this.showImportantToast('⛔ This giveaway has expired.', '⛔');
@@ -2507,6 +2363,13 @@ x-cloak>
 
             // ---- Withdraw ----
             processWithdraw() {
+                // Eligibility check
+                if (!this.isWithdrawUnlocked) {
+                    this.showImportantToast('🔒 Withdrawals locked.', '🔒',
+                        `Need 7-day streak (${this.currentStreak}/7) and 30 tasks (${this.completedTasksCount}/30).`);
+                    return;
+                }
+
                 if (!this.robloxUser.trim()) {
                     this.showImportantToast('❌ Enter a Roblox username.', '❌');
                     return;
@@ -2517,59 +2380,13 @@ x-cloak>
                     return;
                 }
 
-                // ---- Verification stage restrictions ----
-                if (this.withdrawalStage === 0 && this.selectedTier !== 5000) {
-                    this.showImportantToast('⚠️ First withdrawal must be 500 TKNS (5,000 Robux) to initiate verification.', '⚠️');
-                    return;
-                }
-                if (this.withdrawalStage === 1 && this.selectedTier !== 5000) {
-                    this.showImportantToast('⚠️ Second withdrawal must also be 500 TKNS to confirm your interest.', '⚠️');
-                    return;
-                }
-
-                // ---- Promotion handling ----
-                let cost = this.selectedTier / 10; // default
-                if (this.selectedTier === 35000 && this.promo35kStatus === 'available') {
-                    cost = 3000;
-                    // mark as used later, but we'll set it after confirmation
-                } else if (this.selectedTier === 35000 && this.promo35kStatus === 'expired') {
-                    cost = 3500;
-                } else if (this.selectedTier === 35000 && this.promo35kStatus === 'used') {
-                    cost = 3500;
-                }
-
-                // If promo is available and user selects any amount other than 35k, expire it
-                if (this.promo35kStatus === 'available' && this.selectedTier !== 35000) {
-                    this.promo35kStatus = 'expired';
-                    this.saveState();
-                    this.showImportantToast('⛔ The 35k promotion expired because you chose a different withdrawal.', '⛔');
-                    // continue with normal withdrawal
-                }
+                let cost = this.selectedTier / 10;
 
                 if (this.tokens < cost) {
                     this.showImportantToast(`❌ Need ${cost} Tokens.`, '❌', 'Complete more tasks to earn.');
                     return;
                 }
 
-                // ===== Check Weekly Cooldown =====
-                if (this.lastWithdrawTime > 0) {
-                    const now = Date.now();
-                    const diff = now - this.lastWithdrawTime;
-                    const weekInMs = 7 * 24 * 60 * 60 * 1000;
-                    if (diff < weekInMs) {
-                        const remaining = weekInMs - diff;
-                        const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
-                        const hours = Math.floor((remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                        this.showImportantToast(
-                            `⏳ Withdrawal cooldown active!`,
-                            '⏳',
-                            `You can withdraw again in ${days}d ${hours}h. Keep earning Tokens to withdraw double next week!`
-                        );
-                        return;
-                    }
-                }
-
-                // Store cost in a temporary variable for later use
                 this._withdrawCost = cost;
                 this._withdrawTier = this.selectedTier;
 
@@ -2587,38 +2404,12 @@ x-cloak>
                 this.showImportantToast('📦 Processing payout...', '📦', 'Finalizing ledger encryption.');
 
                 setTimeout(() => {
-                    // ===== Update withdrawal stage =====
-                    if (this.withdrawalStage === 0 && tier === 5000) {
-                        this.withdrawalStage = 1;
-                        this.showImportantToast('✅ First stage complete!', '🎯',
-                            'You now need to perform a second 500 TKNS withdrawal to confirm your interest. After that, you\'ll be fully verified and can withdraw any amount without problems.');
-                    } else if (this.withdrawalStage === 1 && tier === 5000) {
-                        this.withdrawalStage = 2;
-                        this.showImportantToast('🎉 Congratulations! You are now fully verified!', '✅',
-                            'You can withdraw any amount without restrictions. Enjoy!');
-                    } else {
-                        if (this.withdrawalStage === 2) {
-                            this.showImportantToast('✅ Withdrawal successful!', '💰',
-                                `${tier} Robux will arrive within 1-2 weeks.`);
-                        } else {
-                            this.showImportantToast('✅ Withdrawal successful!', '💰',
-                                `${tier} Robux will arrive within 1-2 weeks.`);
-                        }
-                    }
-
-                    // ---- Promotion: if tier is 35k and promo was available, mark as used ----
-                    if (tier === 35000 && this.promo35kStatus === 'available') {
-                        this.promo35kStatus = 'used';
-                        this.showImportantToast('🎉 You used the 35k promotion!', '🔥',
-                            'You saved 500 TKNS! Enjoy your Robux.');
-                    }
-
-                    // Set last withdrawal time
-                    this.lastWithdrawTime = Date.now();
-
                     this.withdrawStatus = 'complete';
                     this.completedTasksCount++;
                     this.saveState();
+
+                    this.showImportantToast('✅ Withdrawal successful!', '💰',
+                        `${tier} Robux will arrive within 1 to 2 weeks.`);
 
                     // Add to live logs
                     const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932',
