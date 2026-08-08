@@ -1173,12 +1173,10 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <div class="bal-label">Your Nebcoin Balance</div>
+                                        <!-- Removed the circle image from here as requested -->
                                         <div class="flex items-center gap-2">
                                             <p class="bal-number" x-text="tokens"></p>
-                                            <span class="inline-flex items-center gap-1 text-zinc-400">
-                                                <img src="./Nbc.jpg" alt="NBC" class="w-8 h-8 rounded-full border border-zinc-700">
-                                                <span class="text-sm font-bold">NBC</span>
-                                            </span>
+                                            <span class="text-sm font-bold text-zinc-400">NBC</span>
                                         </div>
                                         <div class="flex items-center gap-3 mt-1">
                                             <span class="bal-sub">≈ <span x-text="Math.round(tokens / 10)"></span> Value</span>
