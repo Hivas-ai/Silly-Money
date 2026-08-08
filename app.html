@@ -628,6 +628,146 @@
             font-family: 'Inter', sans-serif;
             font-weight: 600;
         }
+
+        /* ---- Circular progress for eligibility ---- */
+        .circular-progress {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+        .circular-progress svg {
+            transform: rotate(-90deg);
+            width: 80px;
+            height: 80px;
+        }
+        .circular-progress .bg-circle {
+            fill: none;
+            stroke: #27272a;
+            stroke-width: 5;
+        }
+        .circular-progress .progress-circle {
+            fill: none;
+            stroke-width: 5;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.8s ease, stroke 0.5s ease;
+        }
+        .circular-progress .center-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: #d4d4d8;
+            line-height: 1.2;
+        }
+        .circular-progress .center-text .num {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+        .circular-progress .center-text .label {
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Eligibility card */
+        .eligibility-card {
+            background: #0f0f11;
+            border: 1px solid #222226;
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            transition: border-color 0.4s ease;
+        }
+        .eligibility-card.locked {
+            border-color: #3f3f46;
+        }
+        .eligibility-card.unlocked {
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.03);
+        }
+        .eligibility-card .info h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .eligibility-card .info p {
+            font-size: 0.7rem;
+            color: #a1a1aa;
+            margin-top: 0.1rem;
+        }
+        .eligibility-card .info .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        .eligibility-card .info .highlight.done {
+            color: #34d399;
+        }
+        .eligibility-card .status-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.8rem;
+            border-radius: 9999px;
+            border: 1px solid;
+            margin-left: auto;
+        }
+        .eligibility-card .status-badge.locked {
+            color: #f87171;
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.08);
+        }
+        .eligibility-card .status-badge.unlocked {
+            color: #34d399;
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.08);
+        }
+        .eligibility-card .progress-group {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+        }
+        .eligibility-card .circular-progress {
+            width: 64px;
+            height: 64px;
+        }
+        .eligibility-card .circular-progress svg {
+            width: 64px;
+            height: 64px;
+        }
+        .eligibility-card .circular-progress .center-text .num {
+            font-size: 0.9rem;
+        }
+        .eligibility-card .circular-progress .center-text .label {
+            font-size: 0.45rem;
+        }
+
+        /* ---- Responsive tweaks ---- */
+        @media (max-width: 640px) {
+            .eligibility-card {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 1rem;
+            }
+            .eligibility-card .progress-group {
+                justify-content: center;
+            }
+            .eligibility-card .status-badge {
+                margin-left: 0;
+                align-self: center;
+            }
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -1086,21 +1226,54 @@
                     </div>
                 </div>
 
-                <!-- ===== ELIGIBILITY BANNER ===== -->
-                <div class="eligibility-banner" :class="isWithdrawUnlocked ? 'eligible' : 'not-eligible'">
-                    <span class="status-icon" x-text="isWithdrawUnlocked ? '✅' : '🔒'"></span>
-                    <div>
-                        <p class="status-text" x-text="isWithdrawUnlocked ? 'Withdrawals Unlocked' : 'Withdrawals Locked'"></p>
-                        <p class="status-detail">
+                <!-- ===== NEW PROFESSIONAL ELIGIBILITY CARD ===== -->
+                <div class="eligibility-card" :class="isWithdrawUnlocked ? 'unlocked' : 'locked'">
+                    <div class="progress-group">
+                        <!-- Streak Circle -->
+                        <div class="circular-progress">
+                            <svg viewBox="0 0 80 80">
+                                <circle class="bg-circle" cx="40" cy="40" r="34" />
+                                <circle class="progress-circle" cx="40" cy="40" r="34"
+                                :stroke="currentStreak >= 7 ? '#34d399' : '#fbbf24'"
+                                :stroke-dasharray="213.6 * (Math.min(currentStreak, 7) / 7) + ' 213.6'" />
+                            </svg>
+                            <div class="center-text">
+                                <span class="num" x-text="Math.min(currentStreak, 7) + '/7'"></span>
+                                <span class="label">Streak</span>
+                            </div>
+                        </div>
+
+                        <!-- Tasks Circle -->
+                        <div class="circular-progress">
+                            <svg viewBox="0 0 80 80">
+                                <circle class="bg-circle" cx="40" cy="40" r="34" />
+                                <circle class="progress-circle" cx="40" cy="40" r="34"
+                                :stroke="completedTasksCount >= 30 ? '#34d399' : '#60a5fa'"
+                                :stroke-dasharray="213.6 * (Math.min(completedTasksCount, 30) / 30) + ' 213.6'" />
+                            </svg>
+                            <div class="center-text">
+                                <span class="num" x-text="Math.min(completedTasksCount, 30) + '/30'"></span>
+                                <span class="label">Tasks</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info">
+                        <h4 x-text="isWithdrawUnlocked ? '✅ Withdrawals Unlocked' : '🔒 Withdrawals Locked'"></h4>
+                        <p>
                             <span x-show="!isWithdrawUnlocked">
-                                You need a <strong>7-day daily streak</strong> and <strong>30 completed tasks</strong> to unlock withdrawals.
-                                Current: Streak <strong x-text="currentStreak"></strong>/7 · Tasks <strong x-text="completedTasksCount"></strong>/30.
-                                <br /><span class="text-amber-400 text-[11px]">⚠️ You can still select your payout below. Eligibility will be verified when you submit.</span>
+                                Complete <span class="highlight" :class="currentStreak >= 7 ? 'done' : ''" x-text="currentStreak >= 7 ? '✓ 7-day streak' : currentStreak + '/7 day streak'"></span>
+                                and <span class="highlight" :class="completedTasksCount >= 30 ? 'done' : ''" x-text="completedTasksCount >= 30 ? '✓ 30 tasks' : completedTasksCount + '/30 tasks'"></span>
+                                to unlock payouts.
                             </span>
-                            <span x-show="isWithdrawUnlocked">
-                                ✅ You meet all requirements! You can withdraw any amount. Robux delivered within 1–2 weeks.
+                            <span x-show="isWithdrawUnlocked" class="text-emerald-400">
+                                You're fully verified — withdraw any amount. Robux delivered within 1–2 weeks.
                             </span>
                         </p>
+                    </div>
+
+                    <div class="status-badge" :class="isWithdrawUnlocked ? 'unlocked' : 'locked'">
+                        <span x-text="isWithdrawUnlocked ? 'Unlocked' : 'Locked'"></span>
                     </div>
                 </div>
 
