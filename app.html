@@ -768,6 +768,24 @@
                 align-self: center;
             }
         }
+        /* ---- Robux logo image fallback ---- */
+        .robux-logo-img {
+            object-fit: cover;
+            flex-shrink: 0;
+            border-radius: 9999px;
+            background: #1a1a1e;
+        }
+        .robux-logo-img.bordered {
+            border: 1px solid #3f3f46;
+        }
+        .tier-amount .robux-logo-img {
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 9999px;
+            border: 1px solid #3f3f46;
+            background: #1a1a1e;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -1349,49 +1367,70 @@
                                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                                         <button @click="selectedTier = 5000; selectedGiftCard = null" :class="selectedTier === 5000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
-                                                <span class="tier-amount">5,000</span>
+                                                <span class="tier-amount flex items-center">
+                                                    5K
+                                                    <img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1 bordered" onerror="this.style.display='none'" />
+                                                </span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">500 TKNS</span>
                                         </button>
                                         <button @click="selectedTier = 10000; selectedGiftCard = null" :class="selectedTier === 10000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
-                                                <span class="tier-amount">10,000</span>
+                                                <span class="tier-amount flex items-center">
+                                                    10K
+                                                    <img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1 bordered" onerror="this.style.display='none'" />
+                                                </span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">1,000 TKNS</span>
                                         </button>
                                         <button @click="selectedTier = 15000; selectedGiftCard = null" :class="selectedTier === 15000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
-                                                <span class="tier-amount">15,000</span>
+                                                <span class="tier-amount flex items-center">
+                                                    15K
+                                                    <img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1 bordered" onerror="this.style.display='none'" />
+                                                </span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">1,500 TKNS</span>
                                         </button>
                                         <button @click="selectedTier = 25000; selectedGiftCard = null" :class="selectedTier === 25000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
-                                                <span class="tier-amount">25,000</span>
+                                                <span class="tier-amount flex items-center">
+                                                    25K
+                                                    <img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1 bordered" onerror="this.style.display='none'" />
+                                                </span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">2,500 TKNS</span>
                                         </button>
                                         <button @click="selectedTier = 30000; selectedGiftCard = null" :class="selectedTier === 30000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
-                                                <span class="tier-amount">30,000</span>
+                                                <span class="tier-amount flex items-center">
+                                                    30K
+                                                    <img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1 bordered" onerror="this.style.display='none'" />
+                                                </span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">3,000 TKNS</span>
                                         </button>
                                         <button @click="selectedTier = 40000; selectedGiftCard = null" :class="selectedTier === 40000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
-                                                <span class="tier-amount">40,000</span>
+                                                <span class="tier-amount flex items-center">
+                                                    40K
+                                                    <img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1 bordered" onerror="this.style.display='none'" />
+                                                </span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">4,000 TKNS</span>
                                         </button>
                                         <button @click="selectedTier = 45000; selectedGiftCard = null" :class="selectedTier === 45000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                             <div class="tier-card-top">
-                                                <span class="tier-amount">45,000</span>
+                                                <span class="tier-amount flex items-center">
+                                                    45K
+                                                    <img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1 bordered" onerror="this.style.display='none'" />
+                                                </span>
                                             </div>
                                             <span class="tier-badge">Robux</span>
                                             <span class="tier-cost">4,500 TKNS</span>
