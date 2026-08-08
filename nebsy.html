@@ -37,6 +37,14 @@
             display: none !important;
         }
 
+        .nbc-icon {
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+            background: #1a1a1e;
+        }
+
         /* iPhone-style Bottom Bar */
         .iphone-tab-bar {
             position: fixed;
@@ -1093,8 +1101,11 @@
             </div>
             <div class="flex items-center gap-4">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
-                    <i data-lucide="coins" class="w-4 h-4 text-blue-500"></i>
-                    <span class="text-sm font-bold text-white tracking-wide" x-text="tokens + ' NBC'"></span>
+                    <img src="./Nbc.jpg" alt="NBC" class="w-6 h-6 rounded-full border border-zinc-700" />
+                    <span class="text-sm font-bold text-white tracking-wide flex items-center gap-1">
+                        <span x-text="tokens"></span>
+                        <span>NBC</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -1162,7 +1173,13 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <div class="bal-label">Your Nebcoin Balance</div>
-                                        <div class="bal-number" x-text="tokens"></div>
+                                        <div class="flex items-center gap-2">
+                                            <p class="bal-number" x-text="tokens"></p>
+                                            <span class="inline-flex items-center gap-1 text-zinc-400">
+                                                <img src="./Nbc.jpg" alt="NBC" class="w-8 h-8 rounded-full border border-zinc-700">
+                                                <span class="text-sm font-bold">NBC</span>
+                                            </span>
+                                        </div>
                                         <div class="flex items-center gap-3 mt-1">
                                             <span class="bal-sub">≈ <span x-text="Math.round(tokens / 10)"></span> Value</span>
                                             <span class="bal-change">+<span x-text="tokens - 5"></span> this week</span>
@@ -1191,7 +1208,13 @@
                                     <span class="text-xs font-medium tracking-wider uppercase">Total Earned</span>
                                     <i data-lucide="trending-up" class="w-4 h-4 text-amber-500"></i>
                                 </div>
-                                <p class="text-2xl font-black text-white tracking-tight" x-text="totalTokensEarned + ' NBC'"></p>
+                                <div class="flex items-center gap-2">
+                                    <p class="text-2xl font-black text-white tracking-tight" x-text="totalTokensEarned"></p>
+                                    <span class="inline-flex items-center gap-1 text-zinc-400">
+                                        <img src="./Nbc.jpg" alt="NBC" class="w-7 h-7 rounded-full border border-zinc-700">
+                                        <span class="text-sm font-bold">NBC</span>
+                                    </span>
+                                </div>
                                 <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ $' + Math.round(totalTokensEarned / 10) + ' value'"></span>
                             </div>
                         </div>
@@ -1214,7 +1237,13 @@
                                             <span x-text="user.avatar"></span>
                                         </div>
                                         <span class="text-zinc-300 font-medium" x-text="user.name"></span>
-                                        <span class="ml-auto text-zinc-400 font-mono" x-text="user.tokens + ' NBC'"></span>
+                                        <span class="ml-auto text-zinc-400 font-mono flex items-center gap-1">
+                                            <span x-text="user.tokens"></span>
+                                            <span class="inline-flex items-center gap-0.5">
+                                                <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                                <span>NBC</span>
+                                            </span>
+                                        </span>
                                         <span class="text-[9px] text-zinc-500" x-text="'Lv.' + user.level"></span>
                                     </div>
                                 </template>
@@ -1328,8 +1357,11 @@
                                             </template>
                                             <template x-if="index + 1 >= currentStreak">
                                                 <span class="text-xs font-black mt-1 text-white" x-text="'+' + reward"></span>
+                                                <span class="text-[8px] text-zinc-500 mt-0.5 flex items-center justify-center gap-0.5">
+                                                    <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                                    NBC
+                                                </span>
                                             </template>
-                                            <span class="text-[8px] text-zinc-500 mt-0.5">NBC</span>
                                         </div>
                                     </template>
                                 </div>
@@ -1371,7 +1403,13 @@
                                             <p class="text-sm font-medium text-white truncate">
                                                 <span x-text="log.userId"></span>
                                             </p>
-                                            <span class="text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20" x-text="'+$' + log.amount"></span>
+                                            <span class="text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20 inline-flex items-center gap-0.5">
+                                                <span x-text="'+$' + log.amount"></span>
+                                                <span class="inline-flex items-center gap-0.5">
+                                                    <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                                    <span>NBC</span>
+                                                </span>
+                                            </span>
                                         </div>
                                         <div class="flex items-center justify-between mt-0.5">
                                             <p class="text-xs text-zinc-500" x-text="log.type + ' · ' + getRelativeTime(log.timestamp)"></p>
@@ -1415,12 +1453,19 @@
                                     <div class="bg-zinc-900 p-2.5 rounded-xl text-zinc-300 border border-zinc-800 group-hover:border-blue-500/30 transition">
                                         <i :data-lucide="task.icon" class="w-5 h-5 text-blue-500"></i>
                                     </div>
-                                    <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-lg border border-blue-500/20">
+                                    <!-- Task reward badge with larger NBC icon -->
+                                    <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-lg border border-blue-500/20 inline-flex items-center gap-1">
                                         <template x-if="task.isRandomReward">
-                                            🎁 Random Gift
+                                            <span>🎁 Random Gift</span>
                                         </template>
                                         <template x-if="!task.isRandomReward">
-                                            <span x-text="'+' + task.reward + ' NBC'"></span>
+                                            <span class="flex items-center gap-1">
+                                                <span x-text="'+' + task.reward"></span>
+                                                <span class="inline-flex items-center gap-0.5">
+                                                    <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                                    <span>NBC</span>
+                                                </span>
+                                            </span>
                                         </template>
                                     </span>
                                 </div>
@@ -1615,14 +1660,36 @@
                             </div>
                             <p class="text-xs text-zinc-400 leading-relaxed">Fixed rate, no hidden fees.</p>
                             <div class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-900 mt-4 text-center">
-                                <span class="text-xs font-mono tracking-wider text-zinc-300">10 NBC = <strong class="text-blue-400">$5 value</strong></span>
+                                <span class="text-xs font-mono tracking-wider text-zinc-300 inline-flex items-center gap-1 flex-wrap justify-center">
+                                    <span>10</span>
+                                    <span class="inline-flex items-center gap-0.5">
+                                        <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                        <span>NBC</span>
+                                    </span>
+                                    <span>= <strong class="text-blue-400">$5 value</strong></span>
+                                </span>
                             </div>
                             <div class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-900 mt-3 text-center">
-                                <span class="text-xs font-mono tracking-wider text-zinc-300">PayPal: <strong class="text-emerald-400">$100 = 2,500 NBC</strong></span>
+                                <span class="text-xs font-mono tracking-wider text-zinc-300 inline-flex items-center gap-1 flex-wrap justify-center">
+                                    <span>Gift Cards:</span>
+                                    <strong class="text-emerald-400 inline-flex items-center gap-0.5">
+                                        <span>$25 = 500</span>
+                                        <span class="inline-flex items-center gap-0.5">
+                                            <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                            <span>NBC</span>
+                                        </span>
+                                    </strong>
+                                </span>
                             </div>
                             <div class="mt-3 text-center">
                                 <span class="text-[10px] text-zinc-500">Current balance</span>
-                                <p class="text-xl font-black text-white" x-text="tokens + ' NBC'"></p>
+                                <div class="flex items-center justify-center gap-1">
+                                    <p class="text-xl font-black text-white" x-text="tokens"></p>
+                                    <span class="inline-flex items-center gap-0.5">
+                                        <img src="./Nbc.jpg" alt="NBC" class="w-6 h-6 rounded-full border border-zinc-700">
+                                        <span>NBC</span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1692,7 +1759,13 @@
                                                 </div>
                                                 <span class="tier-amount">$<span x-text="amount"></span></span>
                                                 <span class="tier-badge" x-text="selectedPayoutType"></span>
-                                                <span class="tier-cost" x-text="(amount * 25) + ' NBC'"></span>
+                                                <span class="tier-cost inline-flex items-center gap-0.5">
+                                                    <span x-text="amount * 25"></span>
+                                                    <span class="inline-flex items-center gap-0.5">
+                                                        <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                                        <span>NBC</span>
+                                                    </span>
+                                                </span>
                                                 <span x-show="selectedGiftCard === amount" class="selection-indicator">✓ Selected</span>
                                             </button>
                                         </template>
@@ -1751,7 +1824,13 @@
                             <i data-lucide="gift" class="w-6 h-6"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-white">🎯 Earn Up to <span class="text-emerald-400 text-lg">200 NBC</span> per Friend</h3>
+                            <h3 class="text-sm font-bold text-white">🎯 Earn Up to <span class="text-emerald-400 text-lg inline-flex items-center gap-0.5">
+                                <span>200</span>
+                                <span class="inline-flex items-center gap-0.5">
+                                    <img src="./Nbc.jpg" alt="NBC" class="w-5 h-5 rounded-full border border-zinc-700">
+                                    <span>NBC</span>
+                                </span>
+                            </span> per Friend</h3>
                             <p class="text-xs text-zinc-400 mt-0.5">Share your unique referral link. When friends join and complete tasks, you earn <strong class="text-emerald-400">bonus Nebcoin</strong> automatically.</p>
                         </div>
                     </div>
@@ -1775,7 +1854,7 @@
                     </div>
                 </div>
 
-                <!-- Telegram - updated link to https://t.me/Nebsycoin -->
+                <!-- Telegram -->
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
                     <div class="flex items-center gap-2">
                         <i data-lucide="send" class="w-5 h-5 text-blue-500"></i>
@@ -1853,7 +1932,15 @@
                         <div class="profile-avatar" x-text="userId ? userId.slice(0,2) : 'U'"></div>
                         <div>
                             <h3 class="text-lg font-bold text-white">User <span class="font-mono text-zinc-400" x-text="userId"></span></h3>
-                            <p class="text-xs text-zinc-500">Level <span x-text="userLevel"></span> · <span x-text="totalTokensEarned"></span> total NBC earned</p>
+                            <p class="text-xs text-zinc-500">
+                                Level <span x-text="userLevel"></span> · 
+                                <span x-text="totalTokensEarned"></span> 
+                                <span class="inline-flex items-center gap-0.5">
+                                    <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
+                                    <span>NBC</span>
+                                </span> 
+                                earned
+                            </p>
                         </div>
                     </div>
 
