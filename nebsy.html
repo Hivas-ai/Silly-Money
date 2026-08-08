@@ -2,53 +2,225 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RobuxPrize | Earn Robux Honestly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Nebsy | Earn Gift Cards Honestly</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4">
     </script>
-    <!-- Alpine.js for State and Transitions -->
+    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js">
     </script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest">
     </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0b0b0c;
+            background-color: #07080a;
+            padding-bottom: 80px;
         }
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #121214;
+            background: #0f1115;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #dc2626;
+            background: #2563eb;
             border-radius: 3px;
         }
         [x-cloak] {
             display: none !important;
         }
 
-        .wheel-transition {
-            transition: transform 5s cubic-bezier(0.2, 0.8, 0.1, 1);
+        /* iPhone-style Bottom Bar */
+        .iphone-tab-bar {
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            background: rgba(18, 22, 30, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 2px;
+            min-width: 320px;
+            max-width: 92vw;
+        }
+        .iphone-tab-bar .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            padding: 6px 12px;
+            border-radius: 30px;
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            position: relative;
+            cursor: pointer;
+            min-width: 52px;
+            text-decoration: none;
+        }
+        .iphone-tab-bar .tab-item i {
+            width: 22px;
+            height: 22px;
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .iphone-tab-bar .tab-item .tab-label {
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .iphone-tab-bar .tab-item.active {
+            background: rgba(37, 99, 235, 0.15);
+            color: #3b82f6;
+        }
+        .iphone-tab-bar .tab-item.active i {
+            transform: scale(1.05);
+        }
+        .iphone-tab-bar .tab-item.active .tab-label {
+            opacity: 1;
+            color: #3b82f6;
+        }
+        .iphone-tab-bar .tab-item .badge-dot {
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid rgba(18, 22, 30, 0.9);
+            animation: pulse-dot 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.6;
+            }
         }
 
-        .visual-wheel {
-            background: conic-gradient(#dc2626 0deg 45deg,
-                    #18181b 45deg 90deg,
-                    #ef4444 90deg 135deg,
-                    #27272a 135deg 180deg,
-                    #dc2626 180deg 225deg,
-                    #18181b 225deg 270deg,
-                    #ef4444 270deg 315deg,
-                    #27272a 315deg 360deg);
+        /* Blue Theme Overrides */
+        .bg-red-600 {
+            background-color: #2563eb !important;
+        }
+        .bg-red-600\/10 {
+            background-color: rgba(37, 99, 235, 0.10) !important;
+        }
+        .bg-red-600\/20 {
+            background-color: rgba(37, 99, 235, 0.20) !important;
+        }
+        .bg-red-500\/10 {
+            background-color: rgba(37, 99, 235, 0.10) !important;
+        }
+        .bg-red-500\/5 {
+            background-color: rgba(37, 99, 235, 0.05) !important;
+        }
+        .hover\:bg-red-700:hover {
+            background-color: #1d4ed8 !important;
+        }
+        .hover\:bg-red-600\/30:hover {
+            background-color: rgba(37, 99, 235, 0.30) !important;
+        }
+        .hover\:bg-red-600\/20:hover {
+            background-color: rgba(37, 99, 235, 0.20) !important;
+        }
+        .border-red-500\/20 {
+            border-color: rgba(37, 99, 235, 0.20) !important;
+        }
+        .border-red-500\/30 {
+            border-color: rgba(37, 99, 235, 0.30) !important;
+        }
+        .border-red-600\/30 {
+            border-color: rgba(37, 99, 235, 0.30) !important;
+        }
+        .shadow-red-600\/10 {
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.12) !important;
+        }
+        .shadow-red-600\/20 {
+            box-shadow: 0 4px 24px rgba(37, 99, 235, 0.18) !important;
+        }
+        .shadow-red-600\/30 {
+            box-shadow: 0 4px 28px rgba(37, 99, 235, 0.22) !important;
+        }
+        .text-red-400 {
+            color: #60a5fa !important;
+        }
+        .text-red-500 {
+            color: #3b82f6 !important;
+        }
+        .text-red-600 {
+            color: #2563eb !important;
+        }
+        .from-red-950\/40 {
+            --tw-gradient-from: rgba(23, 37, 84, 0.40) !important;
+        }
+        .bg-red-500\/10 {
+            background-color: rgba(37, 99, 235, 0.10) !important;
+        }
+        .bg-red-950\/20 {
+            background-color: rgba(23, 37, 84, 0.20) !important;
+        }
+        .border-red-500\/10 {
+            border-color: rgba(37, 99, 235, 0.10) !important;
+        }
+        .from-red-600 {
+            --tw-gradient-from: #2563eb !important;
+        }
+        .to-red-700 {
+            --tw-gradient-to: #1d4ed8 !important;
+        }
+        .hover\:from-red-500 {
+            --tw-gradient-from: #3b82f6 !important;
+        }
+        .hover\:to-red-600 {
+            --tw-gradient-to: #2563eb !important;
+        }
+        .border-red-400\/30 {
+            border-color: rgba(96, 165, 250, 0.30) !important;
+        }
+        .bg-red-600\/30 {
+            background-color: rgba(37, 99, 235, 0.30) !important;
+        }
+        .hover\:bg-red-500 {
+            background-color: #3b82f6 !important;
+        }
+        .hover\:bg-red-700 {
+            background-color: #1d4ed8 !important;
+        }
+        .hover\:border-red-500\/30 {
+            border-color: rgba(37, 99, 235, 0.30) !important;
+        }
+        .group-hover\:border-red-500\/30 {
+            border-color: rgba(37, 99, 235, 0.30) !important;
+        }
+        .group-hover\:text-red-400 {
+            color: #60a5fa !important;
         }
 
         @keyframes shimmer {
@@ -60,21 +232,18 @@
             }
         }
         .btn-shimmer {
-            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #2563eb);
             background-size: 200% auto;
             animation: shimmer 2s linear infinite;
         }
-        .btn-shimmer:hover {
-            animation-duration: 0.8s;
-        }
 
-        @keyframes glow-pulse {
+        @keyframes glow-pulse-blue {
             0%,
             100% {
-                box-shadow: 0 0 4px rgba(59, 130, 246, 0.3);
+                box-shadow: 0 0 4px rgba(37, 99, 235, 0.3);
             }
             50% {
-                box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+                box-shadow: 0 0 16px rgba(37, 99, 235, 0.6);
             }
         }
         .btn-open-task {
@@ -86,10 +255,10 @@
             background: #1e293b;
             border-color: #60a5fa;
             color: #bfdbfe;
-            animation: glow-pulse 1.2s ease-in-out infinite;
+            animation: glow-pulse-blue 1.2s ease-in-out infinite;
         }
 
-        /* CENTERED TOAST – even smaller size */
+        /* Toast */
         .toast-center {
             position: fixed;
             top: 50%;
@@ -102,8 +271,8 @@
         }
         .toast-center .toast-inner {
             pointer-events: auto;
-            background: #0a0a0c;
-            border: 1px solid #dc2626;
+            background: #0a0c0f;
+            border: 1px solid #2563eb;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
             border-radius: 1rem;
             padding: 0.7rem 1rem 0.7rem;
@@ -111,24 +280,8 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
-        .toast-center .toast-inner .toast-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.1rem;
-        }
-        .toast-center .toast-inner .toast-msg {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #f1f1f1;
-            line-height: 1.3;
-        }
-        .toast-center .toast-inner .toast-sub {
-            font-size: 0.65rem;
-            color: #a1a1aa;
-            margin-top: 0.1rem;
-        }
         .toast-center .toast-inner .toast-ok-btn {
-            margin-top: 0.6rem;
-            background: #dc2626;
+            background: #2563eb;
             border: none;
             padding: 0.25rem 1.2rem;
             border-radius: 2rem;
@@ -137,13 +290,13 @@
             color: white;
             cursor: pointer;
             transition: background 0.2s;
-            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
         }
         .toast-center .toast-inner .toast-ok-btn:hover {
-            background: #b91c1c;
+            background: #1d4ed8;
         }
 
-        /* Notif badge pulse */
+        /* Notif badge */
         @keyframes notif-pulse {
             0%,
             100% {
@@ -157,20 +310,17 @@
             animation: notif-pulse 1.8s ease-in-out infinite;
         }
 
-        /* Rules overlay - full screen modal style */
         .rules-modal-overlay {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
         }
-
         .checkbox-honest {
-            accent-color: #dc2626;
+            accent-color: #2563eb;
             width: 1.1rem;
             height: 1.1rem;
             cursor: pointer;
         }
-        /* Custom scroll for rules list */
         .rules-scroll {
             max-height: 60vh;
             overflow-y: auto;
@@ -182,11 +332,10 @@
             background: transparent;
         }
         .rules-scroll::-webkit-scrollbar-thumb {
-            background: #dc2626;
+            background: #2563eb;
             border-radius: 2px;
         }
 
-        /* Level progress */
         .level-progress-bar {
             background: #27272a;
             border-radius: 9999px;
@@ -194,13 +343,12 @@
             overflow: hidden;
         }
         .level-progress-fill {
-            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
             height: 100%;
             border-radius: 9999px;
             transition: width 0.5s ease;
         }
 
-        /* Leaderboard item */
         .leaderboard-item {
             transition: background 0.15s;
         }
@@ -222,9 +370,8 @@
             color: #d97706;
         }
 
-        /* Profile avatar placeholder */
         .profile-avatar {
-            background: linear-gradient(135deg, #dc2626, #991b1b);
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             width: 3rem;
             height: 3rem;
             border-radius: 9999px;
@@ -237,154 +384,138 @@
             text-transform: uppercase;
         }
 
-        /* ---- Polished Withdraw Cards ---- */
+        /* Withdraw Cards - enhanced */
         .withdraw-tier-card {
-            transition: all 0.2s ease;
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
             border: 1px solid #2a2a2e;
-            background: #141416;
-            border-radius: 1rem;
-            padding: 1rem 1rem;
+            background: #0f0f11;
+            border-radius: 1.25rem;
+            padding: 1.25rem 0.5rem;
             cursor: pointer;
             display: flex;
             flex-direction: column;
-            gap: 0.15rem;
-            position: relative;
-            min-height: 104px;
+            align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            gap: 0.3rem;
+            min-height: 120px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .withdraw-tier-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1.25rem;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent 40%, rgba(37, 99, 235, 0.2) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
         .withdraw-tier-card:hover {
-            border-color: #4a4a50;
-            background: #1c1c20;
+            border-color: #3f3f46;
+            background: #18181b;
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
         }
         .withdraw-tier-card.active {
-            border-color: #dc2626;
-            background: #1f1818;
-            box-shadow: 0 0 24px rgba(220, 38, 38, 0.15), inset 0 0 12px rgba(220, 38, 38, 0.05);
-            transform: translateY(-2px);
+            border-color: #2563eb;
+            background: #0f1420;
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.08), inset 0 0 20px rgba(37, 99, 235, 0.02);
+            transform: translateY(-3px);
+        }
+        .withdraw-tier-card.active::before {
+            background: linear-gradient(135deg, #2563eb, transparent 60%);
         }
         .withdraw-tier-card .tier-amount {
-            font-weight: 800;
-            font-size: 1.25rem;
+            font-weight: 900;
+            font-size: 1.4rem;
             line-height: 1.2;
             color: #fff;
             letter-spacing: -0.02em;
         }
         .withdraw-tier-card .tier-badge {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            color: #8a8a92;
-        }
-        .withdraw-tier-card .tier-cost {
-            font-size: 0.7rem;
-            color: #8a8a92;
-            font-weight: 500;
-            background: #222226;
-            padding: 0.15rem 0.6rem;
-            border-radius: 9999px;
-            display: inline-block;
-            margin-top: 0.15rem;
-            border: 1px solid #2f2f33;
-        }
-        .withdraw-tier-card.active .tier-badge {
-            color: #dc2626;
-        }
-        .withdraw-tier-card.active .tier-cost {
-            border-color: #dc2626/30;
-            background: #2a1a1a;
-            color: #f0a0a0;
-        }
-        .tier-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
-        }
-
-        /* ---- Gift Card Cards ---- */
-        .gift-card-selector {
-            transition: all 0.2s ease;
-            border: 1px solid #2a2a2e;
-            background: #141416;
-            border-radius: 1rem;
-            padding: 0.75rem 0.75rem;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 0.3rem;
-            min-height: 140px;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-        .gift-card-selector:hover {
-            border-color: #4a4a50;
-            background: #1c1c20;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-        }
-        .gift-card-selector.active {
-            border-color: #dc2626;
-            background: #1f1818;
-            box-shadow: 0 0 24px rgba(220, 38, 38, 0.15), inset 0 0 12px rgba(220, 38, 38, 0.05);
-            transform: translateY(-2px);
-        }
-        .gift-card-selector .gift-img {
-            width: 64px;
-            height: 64px;
-            border-radius: 12px;
-            object-fit: cover;
-            border: 1px solid #2f2f33;
-            background: #0b0b0c;
-        }
-        .gift-card-selector .gift-amount {
-            font-weight: 800;
-            font-size: 1rem;
-            color: #fff;
-            letter-spacing: -0.02em;
-            margin-top: 0.2rem;
-        }
-        .gift-card-selector .gift-badge {
             font-size: 0.55rem;
             text-transform: uppercase;
             font-weight: 600;
             letter-spacing: 0.06em;
             color: #8a8a92;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
         }
-        .gift-card-selector .gift-cost {
+        .withdraw-tier-card .tier-cost {
             font-size: 0.65rem;
             color: #8a8a92;
             font-weight: 500;
-            background: #222226;
-            padding: 0.1rem 0.6rem;
+            background: #1a1a1e;
+            padding: 0.15rem 0.8rem;
             border-radius: 9999px;
             display: inline-block;
             margin-top: 0.1rem;
             border: 1px solid #2f2f33;
         }
-        .gift-card-selector.active .gift-badge {
-            color: #dc2626;
+        .withdraw-tier-card.active .tier-badge {
+            color: #60a5fa;
         }
-        .gift-card-selector.active .gift-cost {
-            border-color: #dc2626/30;
-            background: #2a1a1a;
-            color: #f0a0a0;
+        .withdraw-tier-card.active .tier-cost {
+            border-color: rgba(37, 99, 235, 0.3);
+            background: #1a2040;
+            color: #93c5fd;
+        }
+        .withdraw-tier-card .tier-icon {
+            font-size: 1.2rem;
+            margin-bottom: 0.1rem;
+        }
+        .withdraw-tier-card .tier-img-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #1a1a1e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #2f2f33;
+            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+        .withdraw-tier-card.active .tier-img-wrapper {
+            border-color: #2563eb;
+            background: #0f1420;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.1);
+        }
+        .withdraw-tier-card .tier-img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .selection-indicator {
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.15);
+            padding: 0.05rem 0.5rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            display: inline-block;
+            margin-top: 0.1rem;
         }
 
         .withdraw-submit-btn {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             transition: all 0.2s;
             border: none;
         }
         .withdraw-submit-btn:hover:not(:disabled) {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             transform: scale(1.01);
-            box-shadow: 0 0 30px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
         }
         .withdraw-submit-btn:disabled {
             opacity: 0.5;
@@ -393,7 +524,6 @@
             box-shadow: none;
         }
 
-        /* Task Modal Overlay */
         .task-modal-overlay {
             background: rgba(0, 0, 0, 0.88);
             backdrop-filter: blur(12px);
@@ -416,20 +546,10 @@
             background: transparent;
         }
         .task-modal-content::-webkit-scrollbar-thumb {
-            background: #dc2626;
+            background: #2563eb;
             border-radius: 2px;
         }
-        .giveaway-timer {
-            background: #1a1a1e;
-            border: 1px solid #3f3f46;
-            border-radius: 0.75rem;
-            padding: 0.5rem 1rem;
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: #fbbf24;
-            text-align: center;
-        }
-        /* Star rating */
+
         .star-rating {
             display: flex;
             align-items: center;
@@ -440,9 +560,9 @@
             height: 0.9rem;
         }
         .hot-badge {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.25);
+            background: rgba(37, 99, 235, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(37, 99, 235, 0.25);
             font-size: 0.6rem;
             font-weight: 700;
             padding: 0.1rem 0.5rem;
@@ -458,7 +578,6 @@
             height: 0.8rem;
         }
 
-        /* ---- LOCKED TASK STYLE ---- */
         .task-locked {
             position: relative;
         }
@@ -478,7 +597,7 @@
         .task-locked .lock-overlay .lock-icon {
             font-size: 2rem;
             opacity: 0.6;
-            filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.3));
+            filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.3));
         }
         .task-locked .lock-overlay .lock-label {
             position: absolute;
@@ -501,45 +620,7 @@
             box-shadow: none !important;
             position: relative;
         }
-        .btn-locked .lock-icon-small {
-            opacity: 0.5;
-        }
 
-        /* Withdraw eligibility banner */
-        .eligibility-banner {
-            background: #141416;
-            border: 1px solid #2a2a2e;
-            border-radius: 1rem;
-            padding: 1rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-        .eligibility-banner .status-icon {
-            font-size: 1.5rem;
-        }
-        .eligibility-banner .status-text {
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .eligibility-banner .status-detail {
-            font-size: 0.75rem;
-            color: #a1a1aa;
-        }
-        .eligibility-banner .status-detail strong {
-            color: #fff;
-        }
-        .eligibility-banner.eligible {
-            border-color: #34d399;
-            background: rgba(52, 211, 153, 0.05);
-        }
-        .eligibility-banner.not-eligible {
-            border-color: #f87171;
-            background: rgba(248, 113, 113, 0.05);
-        }
-
-        /* Gift card section divider */
         .gift-section-divider {
             display: flex;
             align-items: center;
@@ -558,35 +639,462 @@
             background: #2a2a2e;
         }
 
-        /* Active selection indicator */
-        .selection-indicator {
+        .chart-container {
+            background: #0f0f11;
+            border: 1px solid #222226;
+            border-radius: 1.25rem;
+            padding: 1.25rem 1rem 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .chart-container canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 180px;
+        }
+        .chart-title {
             font-size: 0.6rem;
             font-weight: 700;
-            color: #dc2626;
-            background: rgba(220, 38, 38, 0.15);
-            padding: 0.1rem 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #71717a;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .chart-title i {
+            width: 1rem;
+            height: 1rem;
+        }
+        .chart-stat {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #d4d4d8;
+            margin-top: 0.25rem;
+            text-align: right;
+        }
+        .chart-stat span {
+            color: #a1a1aa;
+            font-weight: 400;
+        }
+
+        .circular-progress {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+        .circular-progress svg {
+            transform: rotate(-90deg);
+            width: 80px;
+            height: 80px;
+        }
+        .circular-progress .bg-circle {
+            fill: none;
+            stroke: #27272a;
+            stroke-width: 5;
+        }
+        .circular-progress .progress-circle {
+            fill: none;
+            stroke-width: 5;
+            stroke-linecap: round;
+            transition: stroke-dasharray 0.8s ease, stroke 0.5s ease;
+        }
+        .circular-progress .center-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: #d4d4d8;
+            line-height: 1.2;
+        }
+        .circular-progress .center-text .num {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+        .circular-progress .center-text .label {
+            font-size: 0.5rem;
+            font-weight: 600;
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .eligibility-card {
+            background: #0f0f11;
+            border: 1px solid #222226;
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            transition: border-color 0.4s ease;
+        }
+        .eligibility-card.locked {
+            border-color: #3f3f46;
+        }
+        .eligibility-card.unlocked {
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.03);
+        }
+        .eligibility-card .info h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .eligibility-card .info p {
+            font-size: 0.7rem;
+            color: #a1a1aa;
+            margin-top: 0.1rem;
+        }
+        .eligibility-card .info .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        .eligibility-card .info .highlight.done {
+            color: #34d399;
+        }
+        .eligibility-card .status-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.8rem;
             border-radius: 9999px;
-            border: 1px solid rgba(220, 38, 38, 0.2);
+            border: 1px solid;
+            margin-left: auto;
+        }
+        .eligibility-card .status-badge.locked {
+            color: #f87171;
+            border-color: #f87171;
+            background: rgba(248, 113, 113, 0.08);
+        }
+        .eligibility-card .status-badge.unlocked {
+            color: #34d399;
+            border-color: #34d399;
+            background: rgba(52, 211, 153, 0.08);
+        }
+        .eligibility-card .progress-group {
+            display: flex;
+            gap: 1.25rem;
+            align-items: center;
+        }
+        .eligibility-card .circular-progress {
+            width: 64px;
+            height: 64px;
+        }
+        .eligibility-card .circular-progress svg {
+            width: 64px;
+            height: 64px;
+        }
+        .eligibility-card .circular-progress .center-text .num {
+            font-size: 0.9rem;
+        }
+        .eligibility-card .circular-progress .center-text .label {
+            font-size: 0.45rem;
+        }
+
+        @media (max-width: 640px) {
+            .eligibility-card {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 1rem;
+            }
+            .eligibility-card .progress-group {
+                justify-content: center;
+            }
+            .eligibility-card .status-badge {
+                margin-left: 0;
+                align-self: center;
+            }
+            .iphone-tab-bar {
+                min-width: unset;
+                width: 94vw;
+                padding: 4px 6px;
+                border-radius: 32px;
+                bottom: 8px;
+            }
+            .iphone-tab-bar .tab-item {
+                padding: 4px 8px;
+                min-width: 40px;
+            }
+            .iphone-tab-bar .tab-item i {
+                width: 18px;
+                height: 18px;
+            }
+            .iphone-tab-bar .tab-item .tab-label {
+                font-size: 6px;
+            }
+        }
+
+        .robux-logo-img {
+            object-fit: cover;
+            flex-shrink: 0;
+            border-radius: 9999px;
+            background: #1a1a1e;
+        }
+        .robux-logo-img.bordered {
+            border: 1px solid #3f3f46;
+        }
+        .tier-amount .robux-logo-img {
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 9999px;
+            border: 1px solid #3f3f46;
+            background: #1a1a1e;
+            flex-shrink: 0;
+        }
+
+        /* Gift showcase on home */
+        .gift-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 10px;
+        }
+        .gift-showcase .gift-item {
+            background: #0f0f11;
+            border: 1px solid #222226;
+            border-radius: 1rem;
+            padding: 0.6rem 0.4rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .gift-showcase .gift-item:hover {
+            border-color: #2563eb;
+            background: #141a2a;
+            transform: translateY(-2px);
+        }
+        .gift-showcase .gift-item img {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid #2f2f33;
+            margin: 0 auto 0.2rem;
+            background: #0b0c0e;
+        }
+        .gift-showcase .gift-item .gift-name {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .gift-showcase .gift-item .gift-cost {
+            font-size: 0.5rem;
+            color: #8a8a92;
+            background: #1a1a1e;
+            padding: 0.05rem 0.4rem;
+            border-radius: 9999px;
             display: inline-block;
-            margin-top: 0.2rem;
+            margin-top: 0.1rem;
+            border: 1px solid #2f2f33;
+        }
+
+        .how-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 1rem;
+            background: #0f0f11;
+            border: 1px solid #222226;
+            transition: all 0.2s;
+        }
+        .how-step:hover {
+            border-color: #2563eb;
+            background: #141a2a;
+        }
+        .how-step .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.8rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .how-step .step-content h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .how-step .step-content p {
+            font-size: 0.65rem;
+            color: #8a8a92;
+            margin-top: 0.1rem;
+            line-height: 1.4;
+        }
+
+        .redemption-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: #0f0f11;
+            border: 1px solid #222226;
+            border-radius: 0.75rem;
+            transition: all 0.2s;
+        }
+        .redemption-item:hover {
+            border-color: #2563eb;
+        }
+        .redemption-item .red-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: #60a5fa;
+            border: 1px solid #2f2f33;
+        }
+        .redemption-item .red-info {
+            flex: 1;
+        }
+        .redemption-item .red-info .red-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        .redemption-item .red-info .red-detail {
+            font-size: 0.6rem;
+            color: #8a8a92;
+        }
+        .redemption-item .red-amount {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #34d399;
+        }
+
+        /* Balance card premium style */
+        .balance-premium {
+            background: linear-gradient(145deg, #0f1118, #1a1e2a);
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(37, 99, 235, 0.1);
+        }
+        .balance-premium::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .balance-premium .bal-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #8a8a92;
+        }
+        .balance-premium .bal-number {
+            font-size: 2.6rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #60a5fa, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .balance-premium .bal-sub {
+            font-size: 0.7rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .balance-premium .bal-change {
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #34d399;
+            background: rgba(52, 211, 153, 0.12);
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(52, 211, 153, 0.15);
+            display: inline-block;
+        }
+
+        /* Payout category tabs - Segmented Control style */
+        .payout-segmented {
+            display: inline-flex;
+            background: #0f0f11;
+            border: 1px solid #2a2a2e;
+            border-radius: 9999px;
+            padding: 4px;
+            gap: 4px;
+        }
+        .payout-tab {
+            padding: 0.4rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .payout-tab:hover {
+            color: #d4d4d8;
+        }
+        .payout-tab.active {
+            background: #1a1a1e;
+            color: #60a5fa;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .payout-tab img {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #2f2f33;
+        }
+        .payout-tab.active img {
+            border-color: #2563eb;
         }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
 
     <!-- TOP NAV -->
-    <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
+    <nav class="sticky top-0 z-50 border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer" @click="currentTab = 'dashboard'">
-                <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20 animate-pulse">
+                <div class="bg-blue-600 p-2 rounded-xl text-white shadow-lg shadow-blue-600/20 animate-pulse">
                     <i data-lucide="ticket" class="w-6 h-6"></i>
                 </div>
-                <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
+                <span class="text-xl font-extrabold tracking-tight">
+                    <span class="text-blue-500">N</span><span class="text-white">ebsy</span>
+                </span>
             </div>
             <div class="flex items-center gap-4">
                 <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
-                    <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
-                    <span class="text-sm font-bold text-white tracking-wide" x-text="tokens + ' TKNS'"></span>
+                    <i data-lucide="coins" class="w-4 h-4 text-blue-500"></i>
+                    <span class="text-sm font-bold text-white tracking-wide" x-text="tokens + ' NBC'"></span>
                 </div>
             </div>
         </div>
@@ -600,27 +1108,26 @@
             <aside class="hidden lg:block space-y-2">
                 <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl space-y-1">
                     <p class="text-xs font-bold text-zinc-500 px-3 uppercase tracking-wider mb-3">Navigation</p>
-                    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'bg-blue-600/10 text-blue-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
                     </button>
-                    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'bg-blue-600/10 text-blue-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
                         <i data-lucide="clipboard-list" class="w-5 h-5"></i> Tasks
                     </button>
-                    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
-                        <i data-lucide="coins" class="w-5 h-5"></i> Convert & Withdraw
+                    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'bg-blue-600/10 text-blue-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                        <i data-lucide="gift" class="w-5 h-5"></i> Redeem
                     </button>
-                    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
-                        <i data-lucide="users" class="w-5 h-5"></i> Invite & Promos
+                    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'bg-blue-600/10 text-blue-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                        <i data-lucide="users" class="w-5 h-5"></i> Invite
                     </button>
-                    <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
-                        <i data-lucide="user" class="w-5 h-5"></i> Profile & Account
+                    <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'bg-blue-600/10 text-blue-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition">
+                        <i data-lucide="user" class="w-5 h-5"></i> Profile
                     </button>
-                    <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-red-600/10 text-red-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition relative">
-                        <i data-lucide="shield-alert" class="w-5 h-5"></i> Platform Rules
-                        <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
+                    <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'bg-blue-600/10 text-blue-500' : 'text-zinc-400 hover:bg-zinc-900 hover:text-white'" class="w-full flex items-center gap-3 px-3 py-3 rounded-xl font-medium text-sm transition relative">
+                        <i data-lucide="shield-alert" class="w-5 h-5"></i> Rules
+                        <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] font-black text-white">1</span>
                     </button>
                 </div>
-
                 <div class="bg-gradient-to-b from-zinc-950 to-zinc-900 border border-zinc-900 p-4 rounded-2xl text-center">
                     <i data-lucide="shield-check" class="w-8 h-8 text-emerald-500 mx-auto mb-2"></i>
                     <h4 class="text-sm font-semibold text-white">System Secure</h4>
@@ -634,52 +1141,62 @@
                 <!-- ===== DASHBOARD ===== -->
                 <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
 
-                    <div class="bg-gradient-to-r from-red-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+                    <!-- Hero -->
+                    <div class="bg-gradient-to-r from-blue-950/40 via-zinc-950 to-zinc-950 border border-zinc-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
                         <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-                            <i data-lucide="ticket" class="w-48 h-48 text-red-500"></i>
+                            <i data-lucide="gift" class="w-48 h-48 text-blue-500"></i>
                         </div>
                         <div class="max-w-md space-y-3 relative z-10">
-                            <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Active Event x2</span>
-                            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Turn simple modern micro-tasks into clean Robux.</h2>
-                            <p class="text-zinc-400 text-sm leading-relaxed">Complete verified offers, install applications, register securely, or join premium social hubs to bag Token Papers instantly.</p>
-                            <button @click="currentTab = 'tasks'" class="mt-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition shadow-md shadow-red-600/10">Start Earning Now</button>
+                            <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">🎁 Premium Rewards</span>
+                            <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Complete tasks, earn Nebcoin, redeem instantly.</h2>
+                            <p class="text-zinc-400 text-sm leading-relaxed">Finish verified offers, install apps, join communities — stack your Nebcoin and swap for real PayPal cash or Google Play credit.</p>
+                            <button @click="currentTab = 'tasks'" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition shadow-md shadow-blue-600/10">Start Earning Now</button>
                         </div>
                     </div>
 
-                    <!-- Stats + Level + Leaderboard Row -->
+                    <!-- Stats Row with Premium Balance -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         <div class="lg:col-span-2 grid grid-cols-2 gap-4">
-                            <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
-                                <div class="flex items-center justify-between text-zinc-500 mb-2">
-                                    <span class="text-xs font-medium tracking-wider uppercase">Your Balance</span>
-                                    <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
+                            <!-- Premium Balance Card -->
+                            <div class="balance-premium col-span-2">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="bal-label">Your Nebcoin Balance</div>
+                                        <div class="bal-number" x-text="tokens"></div>
+                                        <div class="flex items-center gap-3 mt-1">
+                                            <span class="bal-sub">≈ <span x-text="Math.round(tokens / 10)"></span> Value</span>
+                                            <span class="bal-change">+<span x-text="tokens - 5"></span> this week</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end gap-1">
+                                        <span class="text-[10px] text-zinc-500 font-medium">Level</span>
+                                        <span class="text-2xl font-black text-white" x-text="'Lv.' + userLevel"></span>
+                                        <div class="level-progress-bar w-20">
+                                            <div class="level-progress-fill" :style="'width: ' + levelProgress + '%'"></div>
+                                        </div>
+                                        <span class="text-[9px] text-zinc-500" x-text="'Next in ' + (nextLevelXP - totalTokensEarned) + ' NBC'"></span>
+                                    </div>
                                 </div>
-                                <p class="text-2xl font-black text-white tracking-tight" x-text="tokens"></p>
-                                <span class="text-[11px] text-zinc-500 font-medium">Token Papers Available</span>
                             </div>
                             <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
-                                <div class="flex items-center justify-between text-zinc-500 mb-2">
-                                    <span class="text-xs font-medium tracking-wider uppercase">Level</span>
-                                    <i data-lucide="trending-up" class="w-4 h-4 text-amber-500"></i>
-                                </div>
-                                <p class="text-2xl font-black text-white tracking-tight" x-text="'Lv.' + userLevel"></p>
-                                <span class="text-[11px] text-zinc-500 font-medium" x-text="'Total Earned: ' + totalTokensEarned + ' TKNS'"></span>
-                                <div class="mt-2 level-progress-bar">
-                                    <div class="level-progress-fill" :style="'width: ' + levelProgress + '%'"></div>
-                                </div>
-                                <span class="text-[10px] text-zinc-500 mt-1 block" x-text="'Next level in ' + (nextLevelXP - totalTokensEarned) + ' TKNS'"></span>
-                            </div>
-                            <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl col-span-2">
                                 <div class="flex items-center justify-between text-zinc-500 mb-2">
                                     <span class="text-xs font-medium tracking-wider uppercase">Completed Tasks</span>
                                     <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
                                 </div>
                                 <p class="text-2xl font-black text-white tracking-tight" x-text="completedTasksCount"></p>
-                                <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned'"></span>
+                                <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 15) + ' Points'"></span>
+                            </div>
+                            <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl">
+                                <div class="flex items-center justify-between text-zinc-500 mb-2">
+                                    <span class="text-xs font-medium tracking-wider uppercase">Total Earned</span>
+                                    <i data-lucide="trending-up" class="w-4 h-4 text-amber-500"></i>
+                                </div>
+                                <p class="text-2xl font-black text-white tracking-tight" x-text="totalTokensEarned + ' NBC'"></p>
+                                <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ $' + Math.round(totalTokensEarned / 10) + ' value'"></span>
                             </div>
                         </div>
 
-                        <!-- Leaderboard widget -->
+                        <!-- Leaderboard -->
                         <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col">
                             <div class="flex items-center justify-between border-b border-zinc-900 pb-2 mb-2">
                                 <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Leaderboard</h4>
@@ -697,7 +1214,7 @@
                                             <span x-text="user.avatar"></span>
                                         </div>
                                         <span class="text-zinc-300 font-medium" x-text="user.name"></span>
-                                        <span class="ml-auto text-zinc-400 font-mono" x-text="user.tokens + ' TKNS'"></span>
+                                        <span class="ml-auto text-zinc-400 font-mono" x-text="user.tokens + ' NBC'"></span>
                                         <span class="text-[9px] text-zinc-500" x-text="'Lv.' + user.level"></span>
                                     </div>
                                 </template>
@@ -708,17 +1225,96 @@
                         </div>
                     </div>
 
-                    <!-- Streak + Wheel -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Streak -->
-                        <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
+                    <!-- Gift Showcase -->
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                                <i data-lucide="gift" class="w-4 h-4 text-blue-500"></i>
+                                Popular Payout Options
+                            </h3>
+                            <button @click="currentTab = 'withdraw'" class="text-[10px] text-blue-400 hover:text-blue-300 font-medium transition">View All →</button>
+                        </div>
+                        <div class="gift-showcase">
+                            <div class="gift-item">
+                                <img src="./Pypal.jpg" alt="PayPal" onerror="this.style.display='none'" />
+                                <div class="gift-name">PayPal</div>
+                                <span class="gift-cost">From 2,500 NBC</span>
+                            </div>
+                            <div class="gift-item">
+                                <img src="./Googleplay.jpg" alt="Google Play" onerror="this.style.display='none'" />
+                                <div class="gift-name">Google Play</div>
+                                <span class="gift-cost">From 2,500 NBC</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="chart-container">
+                            <div class="chart-title">
+                                <i data-lucide="line-chart" class="text-emerald-400"></i>
+                                Nebcoin Earnings
+                                <span class="ml-auto text-[10px] font-mono text-zinc-600" x-text="totalTokensEarned + ' NBC total'"></span>
+                            </div>
+                            <canvas id="tokenChart" width="400" height="160"></canvas>
+                            <div class="chart-stat">
+                                <span>current balance</span> <span x-text="tokens + ' NBC'"></span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-title">
+                                <i data-lucide="bar-chart-2" class="text-blue-400"></i>
+                                Task Completion
+                                <span class="ml-auto text-[10px] font-mono text-zinc-600" x-text="completedTasksCount + ' / 30'"></span>
+                            </div>
+                            <canvas id="tasksChart" width="400" height="160"></canvas>
+                            <div class="chart-stat">
+                                <span>progress to unlock</span> <span x-text="Math.min(100, Math.round((completedTasksCount / 30) * 100)) + '%'"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- How It Works -->
+                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-4">
+                            <i data-lucide="help-circle" class="w-4 h-4 text-blue-500"></i>
+                            How It Works
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="how-step">
+                                <div class="step-num">1</div>
+                                <div class="step-content">
+                                    <h4>Complete Tasks</h4>
+                                    <p>Finish offers, install apps, verify — earn Nebcoin for each.</p>
+                                </div>
+                            </div>
+                            <div class="how-step">
+                                <div class="step-num">2</div>
+                                <div class="step-content">
+                                    <h4>Stack Nebcoin</h4>
+                                    <p>Build your balance. Every task adds more Nebcoin to your account.</p>
+                                </div>
+                            </div>
+                            <div class="how-step">
+                                <div class="step-num">3</div>
+                                <div class="step-content">
+                                    <h4>Redeem Rewards</h4>
+                                    <p>Swap for PayPal cash or Google Play credit.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Streak (Wheel removed) -->
+                    <div class="max-w-xl mx-auto w-full">
+                        <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-800/50 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden shadow-xl">
                             <div class="space-y-4">
                                 <div class="flex items-center justify-between">
-                                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Consecutive Daily Streak</span>
+                                    <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">Daily Streak</span>
                                     <span class="text-xs text-zinc-400 font-medium font-mono" x-text="'Day ' + currentStreak"></span>
                                 </div>
-                                <h3 class="text-lg font-bold text-white">Claim Your Daily Tokens</h3>
-                                <p class="text-zinc-400 text-xs leading-relaxed">Don't break your momentum! Log in every day to upgrade your token payout.</p>
+                                <h3 class="text-lg font-bold text-white">Claim Your Daily Bonus</h3>
+                                <p class="text-zinc-400 text-xs leading-relaxed">Don't break your momentum! Log in every day to upgrade your Nebcoin payout.</p>
                                 <div class="grid grid-cols-4 gap-2 pt-2">
                                     <template x-for="(reward, index) in streakDays" :key="index">
                                         <div :class="{
@@ -733,7 +1329,7 @@
                                             <template x-if="index + 1 >= currentStreak">
                                                 <span class="text-xs font-black mt-1 text-white" x-text="'+' + reward"></span>
                                             </template>
-                                            <span class="text-[8px] text-zinc-500 mt-0.5">Tokens</span>
+                                            <span class="text-[8px] text-zinc-500 mt-0.5">NBC</span>
                                         </div>
                                     </template>
                                 </div>
@@ -750,74 +1346,38 @@
                                 </button>
                             </div>
                         </div>
-
-                        <!-- Wheel -->
-                        <div class="bg-gradient-to-br from-zinc-950 to-zinc-900 border border-zinc-900 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden">
-                            <div class="flex items-center justify-between">
-                                <span class="bg-red-500/10 text-red-400 border border-red-500/20 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full" x-text="isFirstSpin ? 'Free First Turn' : 'Cost: 5 TKNS'"></span>
-                                <span class="text-xs text-zinc-400 font-mono">Win up to 100 TKNS</span>
-                            </div>
-                            <div class="my-4 flex flex-col sm:flex-row items-center justify-center gap-6">
-                                <div class="relative">
-                                    <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-20 w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[14px] border-t-amber-400 drop-shadow"></div>
-                                    <div class="w-36 h-36 rounded-full border-4 border-zinc-800 shadow-2xl relative overflow-hidden visual-wheel wheel-transition" :style="'transform: rotate(' + wheelAngle + 'deg)'">
-                                        <div class="absolute inset-0 flex items-center justify-center text-[10px] font-black text-white pointer-events-none">
-                                            <div class="absolute transform -translate-y-12 rotate-0">5</div>
-                                            <div class="absolute transform translate-x-8 -translate-y-8 rotate-45">10</div>
-                                            <div class="absolute transform translate-x-12 rotate-90">20</div>
-                                            <div class="absolute transform translate-x-8 translate-y-8 rotate-135">50</div>
-                                            <div class="absolute transform translate-y-12 rotate-180">5</div>
-                                            <div class="absolute transform -translate-x-8 translate-y-8 rotate-225">10</div>
-                                            <div class="absolute transform -translate-x-12 rotate-270">20</div>
-                                            <div class="absolute transform -translate-x-8 -translate-y-8 rotate-315">100</div>
-                                        </div>
-                                        <div class="absolute inset-0 m-auto w-8 h-8 bg-zinc-950 border-2 border-zinc-800 rounded-full flex items-center justify-center shadow-md">
-                                            <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-ping"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center sm:text-left space-y-2">
-                                    <h4 class="text-sm font-bold text-white">Wheel of Fortune</h4>
-                                    <p class="text-xs text-zinc-400 leading-relaxed">Spin the visual wheel to score high rewards instantly. Slices are weighted equally!</p>
-                                    <button @click="spinWheel()" :disabled="isSpinning || (spinCooldownUntil > Date.now()) || (!isFirstSpin && tokens < 5)" :class="isSpinning ? 'opacity-50 cursor-not-allowed' : (spinCooldownUntil > Date.now() ? 'opacity-50 cursor-not-allowed bg-zinc-800' : 'active:scale-95')" class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xs px-5 py-2.5 rounded-xl transition shadow-lg shadow-red-600/10">
-                                        <span x-show="!isSpinning && spinCooldownUntil <= Date.now()">
-                                            <span x-text="isFirstSpin ? 'Free Spin' : 'Spin (5 TKNS)'"></span>
-                                        </span>
-                                        <span x-show="!isSpinning && spinCooldownUntil > Date.now()">
-                                            ⏳ <span x-text="spinCooldownDisplay"></span>
-                                        </span>
-                                        <span x-show="isSpinning">Spinning...</span>
-                                    </button>
-                                    <p x-show="spinCooldownUntil > Date.now()" class="text-[10px] text-amber-400 font-medium mt-1">Try again after the cooldown ends.</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <!-- Live logs -->
-                    <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4">
-                        <div class="flex items-center justify-between border-b border-zinc-900 pb-3 mb-3">
+                    <!-- Professional Recent Redemptions -->
+                    <div class="bg-zinc-950/50 border border-zinc-800/50 rounded-2xl p-5 backdrop-blur-sm shadow-lg">
+                        <div class="flex items-center justify-between border-b border-zinc-800/50 pb-3 mb-4">
                             <h3 class="text-sm font-bold text-white tracking-tight flex items-center gap-2">
                                 <span class="flex h-2 w-2 relative">
                                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                                 </span>
-                                Real-Time Platform Dispersals
+                                Live Redemptions
                             </h3>
-                            <span class="text-xs text-zinc-500 font-medium font-mono">LIVE FEED</span>
+                            <span class="text-[10px] text-zinc-500 font-mono tracking-wider">RECENT ACTIVITY</span>
                         </div>
-                        <div class="space-y-2.5 max-h-[220px] overflow-hidden relative custom-scrollbar">
+                        <div class="space-y-3 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
                             <template x-for="log in liveLogs" :key="log.id">
-                                <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="flex justify-between items-center text-xs bg-zinc-900/40 p-2.5 rounded-xl border border-zinc-900 hover:border-zinc-800 transition">
-                                    <div class="flex items-center gap-2">
-                                        <div class="p-1 bg-emerald-500/10 rounded-lg text-emerald-500 border border-emerald-500/10">
-                                            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
-                                        </div>
-                                        <span class="text-zinc-300 font-medium">
-                                            Account <strong class="text-zinc-100 font-semibold font-mono" x-text="log.userId"></strong> successfully withdrew profits
-                                        </span>
+                                <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="flex items-center gap-3 bg-zinc-900/30 p-3 rounded-xl border border-zinc-800/40 hover:border-zinc-700 transition-all group">
+                                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" :class="log.type === 'PayPal' ? 'bg-blue-500/10 text-blue-400' : 'bg-emerald-500/10 text-emerald-400'">
+                                        <i :data-lucide="log.type === 'PayPal' ? 'credit-card' : 'play'" class="w-5 h-5"></i>
                                     </div>
-                                    <span class="text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-md border border-emerald-500/10" x-text="'+' + log.amount + ' ROBUX'"></span>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between">
+                                            <p class="text-sm font-medium text-white truncate">
+                                                <span x-text="log.userId"></span>
+                                            </p>
+                                            <span class="text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20" x-text="'+$' + log.amount"></span>
+                                        </div>
+                                        <div class="flex items-center justify-between mt-0.5">
+                                            <p class="text-xs text-zinc-500" x-text="log.type + ' · ' + getRelativeTime(log.timestamp)"></p>
+                                            <span class="text-[10px] text-zinc-600 font-mono">#<span x-text="log.id.toString().slice(-4)"></span></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -829,7 +1389,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <h2 class="text-xl font-bold tracking-tight text-white">Task Wall</h2>
-                            <p class="text-zinc-500 text-xs mt-0.5">Fulfill verification directives correctly to receive Token Paper tokens.</p>
+                            <p class="text-zinc-500 text-xs mt-0.5">Complete verified offers to earn Nebcoin.</p>
                         </div>
                     </div>
 
@@ -852,19 +1412,19 @@
 
                             <div>
                                 <div class="flex justify-between items-start gap-2 mb-3">
-                                    <div class="bg-zinc-900 p-2.5 rounded-xl text-zinc-300 border border-zinc-800 group-hover:border-red-500/30 transition">
-                                        <i :data-lucide="task.icon" class="w-5 h-5 text-red-500"></i>
+                                    <div class="bg-zinc-900 p-2.5 rounded-xl text-zinc-300 border border-zinc-800 group-hover:border-blue-500/30 transition">
+                                        <i :data-lucide="task.icon" class="w-5 h-5 text-blue-500"></i>
                                     </div>
-                                    <span class="text-xs font-bold text-red-400 bg-red-500/10 px-2.5 py-1 rounded-lg border border-red-500/20">
+                                    <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-lg border border-blue-500/20">
                                         <template x-if="task.isRandomReward">
                                             🎁 Random Gift
                                         </template>
                                         <template x-if="!task.isRandomReward">
-                                            <span x-text="'+' + task.reward + ' Tokens'"></span>
+                                            <span x-text="'+' + task.reward + ' NBC'"></span>
                                         </template>
                                     </span>
                                 </div>
-                                <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition" x-text="task.title"></h3>
+                                <h3 class="text-sm font-bold text-white group-hover:text-blue-400 transition" x-text="task.title"></h3>
                                 <div class="flex items-center gap-2 mt-1">
                                     <div class="star-rating">
                                         <template x-for="i in 5" :key="i">
@@ -885,7 +1445,7 @@
                                 </template>
                                 <template x-if="task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry">
                                     <div class="mt-2 text-xs text-red-400 font-bold">
-                                        ⛔ Giveaway expired. This task is no longer available.
+                                        ⛔ Giveaway expired.
                                     </div>
                                 </template>
 
@@ -932,7 +1492,7 @@
                                     <button @click="handleTaskInteraction(task)"
                                     :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) || (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)"
                                     :class="{
-                                        'bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-md shadow-red-600/20 active:scale-95 border border-red-500/30': task.status === 'idle' && !(task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) && !(isTaskRunning && task.status === 'idle'),
+                                        'bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white shadow-md shadow-blue-600/20 active:scale-95 border border-blue-500/30': task.status === 'idle' && !(task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) && !(isTaskRunning && task.status === 'idle'),
                                         'bg-zinc-800/80 border border-zinc-700 text-zinc-400 cursor-not-allowed backdrop-blur-sm': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
                                         'btn-shimmer text-white font-bold tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 active:scale-95 border border-emerald-400/30': task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry > Date.now(),
                                         'bg-zinc-800/60 border border-zinc-700 text-zinc-500 cursor-not-allowed': task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) || (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry),
@@ -964,7 +1524,7 @@
 
                                     <template x-if="task.status === 'claimable'">
                                         <span x-show="task.claimableExpiry && task.claimableExpiry > Date.now()" class="flex items-center gap-1.5 text-white uppercase tracking-wider font-extrabold text-[11px]">
-                                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Claim Tokens
+                                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Claim NBC
                                         </span>
                                         <span x-show="!task.claimableExpiry || task.claimableExpiry <= Date.now()" class="flex items-center gap-1.5 text-red-400 text-[11px] font-bold">
                                             <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Expired
@@ -981,238 +1541,196 @@
                 </div>
             </div>
 
-            <!-- ===== WITHDRAW (UPDATED: Gift Card section added) ===== -->
+            <!-- ===== WITHDRAW (REDEEM) ===== -->
             <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                 <div>
-                    <h2 class="text-xl font-bold tracking-tight text-white">💳 Token Exchange Portal</h2>
-                    <p class="text-zinc-500 text-xs mt-0.5">Convert your validated Token Paper balance securely into Robux or Gift Cards.</p>
+                    <h2 class="text-xl font-bold tracking-tight text-white">💳 Payout & Redemption Center</h2>
+                    <p class="text-zinc-500 text-xs mt-0.5">Swap your Nebcoin for PayPal cash or Google Play credit.</p>
                 </div>
 
-                <!-- WARNING: Honest completion required -->
+                <!-- Warning -->
                 <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 flex items-start gap-3">
                     <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
                     <div>
-                        <p class="text-sm font-bold text-amber-400">⚠️ Important – Withdraw Safely</p>
+                        <p class="text-sm font-bold text-amber-400">⚠️ Important – Redeem Safely</p>
                         <p class="text-xs text-zinc-300 leading-relaxed mt-0.5">
-                            <strong>All tasks must be completed honestly</strong> and in accordance with the instructions. We verify your activity before approving any payout. Skipping tasks or collecting tokens without genuinely completing them <strong class="text-red-400">may result in your Robux not being delivered</strong>. Always complete tasks honestly to receive everything without problems.
+                            <strong>All tasks must be completed honestly</strong> and in accordance with the instructions. We verify your activity before approving any redemption. Skipping tasks or collecting Nebcoin without genuinely completing them <strong class="text-red-400">may result in your reward not being delivered</strong>.
                         </p>
                     </div>
                 </div>
 
-                <!-- ===== ELIGIBILITY BANNER (always visible, check at final step) ===== -->
-                <div class="eligibility-banner" :class="isWithdrawUnlocked ? 'eligible' : 'not-eligible'">
-                    <span class="status-icon" x-text="isWithdrawUnlocked ? '✅' : '🔒'"></span>
-                    <div>
-                        <p class="status-text" x-text="isWithdrawUnlocked ? 'Withdrawals Unlocked' : 'Withdrawals Locked'"></p>
-                        <p class="status-detail">
+                <!-- Eligibility -->
+                <div class="eligibility-card" :class="isWithdrawUnlocked ? 'unlocked' : 'locked'">
+                    <div class="progress-group">
+                        <div class="circular-progress">
+                            <svg viewBox="0 0 80 80">
+                                <circle class="bg-circle" cx="40" cy="40" r="34" />
+                                <circle class="progress-circle" cx="40" cy="40" r="34"
+                                :stroke="currentStreak >= 7 ? '#34d399' : '#fbbf24'"
+                                :stroke-dasharray="213.6 * (Math.min(currentStreak, 7) / 7) + ' 213.6'" />
+                            </svg>
+                            <div class="center-text">
+                                <span class="num" x-text="Math.min(currentStreak, 7) + '/7'"></span>
+                                <span class="label">Streak</span>
+                            </div>
+                        </div>
+                        <div class="circular-progress">
+                            <svg viewBox="0 0 80 80">
+                                <circle class="bg-circle" cx="40" cy="40" r="34" />
+                                <circle class="progress-circle" cx="40" cy="40" r="34"
+                                :stroke="completedTasksCount >= 30 ? '#34d399' : '#60a5fa'"
+                                :stroke-dasharray="213.6 * (Math.min(completedTasksCount, 30) / 30) + ' 213.6'" />
+                            </svg>
+                            <div class="center-text">
+                                <span class="num" x-text="Math.min(completedTasksCount, 30) + '/30'"></span>
+                                <span class="label">Tasks</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <h4 x-text="isWithdrawUnlocked ? '✅ Redemptions Unlocked' : '🔒 Redemptions Locked'"></h4>
+                        <p>
                             <span x-show="!isWithdrawUnlocked">
-                                You need a <strong>7-day daily streak</strong> and <strong>30 completed tasks</strong> to unlock withdrawals.
-                                Current: Streak <strong x-text="currentStreak"></strong>/7 · Tasks <strong x-text="completedTasksCount"></strong>/30.
-                                <br /><span class="text-amber-400 text-[11px]">⚠️ You can still select your payout below. Eligibility will be verified when you submit.</span>
+                                Complete <span class="highlight" :class="currentStreak >= 7 ? 'done' : ''" x-text="currentStreak >= 7 ? '✓ 7-day streak' : currentStreak + '/7 day streak'"></span>
+                                and <span class="highlight" :class="completedTasksCount >= 30 ? 'done' : ''" x-text="completedTasksCount >= 30 ? '✓ 30 tasks' : completedTasksCount + '/30 tasks'"></span>
+                                to unlock redemptions.
                             </span>
-                            <span x-show="isWithdrawUnlocked">
-                                ✅ You meet all requirements! You can withdraw any amount. Robux delivered within 1–2 weeks.
+                            <span x-show="isWithdrawUnlocked" class="text-emerald-400">
+                                You're fully verified — redeem any reward. Delivered within 1–2 weeks.
                             </span>
                         </p>
                     </div>
+                    <div class="status-badge" :class="isWithdrawUnlocked ? 'unlocked' : 'locked'">
+                        <span x-text="isWithdrawUnlocked ? 'Unlocked' : 'Locked'"></span>
+                    </div>
                 </div>
 
-                <!-- ===== WITHDRAWAL FORM ===== -->
+                <!-- Main form -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <!-- Exchange rate card -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 flex flex-col justify-between md:col-span-1">
                         <div>
                             <div class="flex items-center gap-2 mb-2">
-                                <i data-lucide="info" class="text-red-500 w-4 h-4"></i>
+                                <i data-lucide="info" class="text-blue-500 w-4 h-4"></i>
                                 <h3 class="text-sm font-bold text-white">Exchange Rate</h3>
                             </div>
                             <p class="text-xs text-zinc-400 leading-relaxed">Fixed rate, no hidden fees.</p>
                             <div class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-900 mt-4 text-center">
-                                <span class="text-xs font-mono tracking-wider text-zinc-300">10 TKNS = <strong class="text-red-400">100 Robux</strong></span>
+                                <span class="text-xs font-mono tracking-wider text-zinc-300">10 NBC = <strong class="text-blue-400">$5 value</strong></span>
                             </div>
                             <div class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-900 mt-3 text-center">
-                                <span class="text-xs font-mono tracking-wider text-zinc-300">Gift Cards: <strong class="text-emerald-400">$25 = 500 TKNS</strong></span>
+                                <span class="text-xs font-mono tracking-wider text-zinc-300">PayPal: <strong class="text-emerald-400">$100 = 2,500 NBC</strong></span>
                             </div>
                             <div class="mt-3 text-center">
                                 <span class="text-[10px] text-zinc-500">Current balance</span>
-                                <p class="text-xl font-black text-white" x-text="tokens + ' TKNS'"></p>
+                                <p class="text-xl font-black text-white" x-text="tokens + ' NBC'"></p>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Main withdraw form -->
                     <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-5 md:col-span-3 space-y-5">
 
-                        <!-- LOADING STATE -->
                         <template x-if="withdrawStatus === 'loading'">
                             <div class="py-8 text-center space-y-3">
-                                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600 mx-auto"></div>
-                                <p class="text-sm font-medium text-zinc-300">Validating compliance variables & generating route parameters...</p>
+                                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto"></div>
+                                <p class="text-sm font-medium text-zinc-300">Validating compliance...</p>
                             </div>
                         </template>
 
-                        <!-- CONFIRMING STATE -->
                         <template x-if="withdrawStatus === 'confirming'">
-                            <div class="py-6 text-center space-y-4 border border-red-500/20 bg-red-500/5 rounded-xl p-5">
-                                <i data-lucide="user-check" class="w-10 h-10 text-red-500 mx-auto animate-bounce"></i>
+                            <div class="py-6 text-center space-y-4 border border-blue-500/20 bg-blue-500/5 rounded-xl p-5">
+                                <i data-lucide="user-check" class="w-10 h-10 text-blue-500 mx-auto animate-bounce"></i>
                                 <div>
-                                    <h4 class="text-base font-bold text-white">Account Parameter Verification</h4>
-                                    <p class="text-xs text-zinc-300 mt-1">Please make sure that the user is right:</p>
-                                    <p class="text-lg font-black text-red-500 tracking-wide mt-2 bg-zinc-950 inline-block px-4 py-1.5 border border-zinc-800 rounded-xl" x-text="robloxUser"></p>
-                                    <p class="text-xs text-zinc-400 mt-1" x-text="'Payout: ' + (selectedGiftCard ? '$' + selectedGiftCard + ' Gift Card' : selectedTier + ' Robux')"></p>
+                                    <h4 class="text-base font-bold text-white">Confirm Details</h4>
+                                    <p class="text-xs text-zinc-300 mt-1">Make sure the email is right:</p>
+                                    <p class="text-lg font-black text-blue-500 tracking-wide mt-2 bg-zinc-950 inline-block px-4 py-1.5 border border-zinc-800 rounded-xl" x-text="robloxUser"></p>
+                                    <p class="text-xs text-zinc-400 mt-1" x-text="'Redeeming: $' + selectedGiftCard + ' ' + selectedPayoutType"></p>
                                 </div>
                                 <div class="flex gap-2 justify-center pt-2">
-                                    <button @click="withdrawStatus = 'idle'" class="text-xs bg-zinc-900 px-4 py-2 rounded-xl text-zinc-400 hover:text-white transition">Edit Name</button>
-                                    <button @click="confirmAndCompleteWithdraw()" class="text-xs bg-red-600 px-5 py-2 font-bold rounded-xl text-white hover:bg-red-700 transition">Yes, It's Correct</button>
+                                    <button @click="withdrawStatus = 'idle'" class="text-xs bg-zinc-900 px-4 py-2 rounded-xl text-zinc-400 hover:text-white transition">Edit Email</button>
+                                    <button @click="confirmAndCompleteWithdraw()" class="text-xs bg-blue-600 px-5 py-2 font-bold rounded-xl text-white hover:bg-blue-700 transition">Yes, It's Correct</button>
                                 </div>
                             </div>
                         </template>
 
-                        <!-- COMPLETE STATE -->
                         <template x-if="withdrawStatus === 'complete'">
                             <div class="py-6 text-center space-y-3 border border-emerald-500/20 bg-emerald-500/5 rounded-xl p-4">
                                 <i data-lucide="check-circle" class="w-10 h-10 text-emerald-500 mx-auto"></i>
-                                <h4 class="text-base font-bold text-white">Order Successfully Formed!</h4>
-                                <p class="text-xs text-zinc-300 leading-relaxed">Verification protocol complete. You will receive your <span x-text="selectedGiftCard ? '$' + selectedGiftCard + ' Gift Card' : selectedTier + ' Robux'"></span> in your designated Roblox account within <strong class="text-emerald-400">1 to 2 weeks</strong>.</p>
-                                <p class="text-xs text-amber-400 leading-relaxed">💡 Keep completing tasks to earn more Tokens. You can withdraw again immediately!</p>
-                                <button @click="withdrawStatus = 'idle'" class="mt-2 text-xs bg-zinc-900 px-3 py-1.5 rounded-lg border border-zinc-800 hover:text-white transition">Form Another Payout</button>
+                                <h4 class="text-base font-bold text-white">Redemption Successful!</h4>
+                                <p class="text-xs text-zinc-300 leading-relaxed">Your <span x-text="'$' + selectedGiftCard + ' ' + selectedPayoutType"></span> will arrive within <strong class="text-emerald-400">1 to 2 weeks</strong>.</p>
+                                <p class="text-xs text-amber-400 leading-relaxed">💡 Keep completing tasks to earn more Nebcoin.</p>
+                                <button @click="withdrawStatus = 'idle'" class="mt-2 text-xs bg-zinc-900 px-3 py-1.5 rounded-lg border border-zinc-800 hover:text-white transition">Redeem Again</button>
                             </div>
                         </template>
 
-                        <!-- IDLE STATE -->
                         <template x-if="withdrawStatus === 'idle'">
-                            <div class="space-y-5">
+                            <div class="space-y-6">
 
-                                <!-- ===== ROBOX TIER SELECTION ===== -->
-                                <div>
-                                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">Select Robux Package</label>
-                                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                                        <button @click="selectedTier = 5000; selectedGiftCard = null" :class="selectedTier === 5000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">5,000</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <span class="tier-cost">500 TKNS</span>
+                                <!-- Payout Type Tabs - Segmented Control -->
+                                <div class="flex justify-center">
+                                    <div class="payout-segmented">
+                                        <button @click="selectedPayoutType = 'PayPal'; selectedGiftCard = null" :class="selectedPayoutType === 'PayPal' ? 'active' : ''" class="payout-tab">
+                                            <img src="./Pypal.jpg" alt="PayPal" onerror="this.style.display='none'" />
+                                            PayPal
                                         </button>
-                                        <button @click="selectedTier = 10000; selectedGiftCard = null" :class="selectedTier === 10000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">10,000</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <span class="tier-cost">1,000 TKNS</span>
-                                        </button>
-                                        <button @click="selectedTier = 15000; selectedGiftCard = null" :class="selectedTier === 15000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">15,000</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <span class="tier-cost">1,500 TKNS</span>
-                                        </button>
-                                        <button @click="selectedTier = 25000; selectedGiftCard = null" :class="selectedTier === 25000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">25,000</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <span class="tier-cost">2,500 TKNS</span>
-                                        </button>
-                                        <button @click="selectedTier = 30000; selectedGiftCard = null" :class="selectedTier === 30000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">30,000</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <span class="tier-cost">3,000 TKNS</span>
-                                        </button>
-                                        <button @click="selectedTier = 40000; selectedGiftCard = null" :class="selectedTier === 40000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">40,000</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <span class="tier-cost">4,000 TKNS</span>
-                                        </button>
-                                        <button @click="selectedTier = 45000; selectedGiftCard = null" :class="selectedTier === 45000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
-                                            <div class="tier-card-top">
-                                                <span class="tier-amount">45,000</span>
-                                            </div>
-                                            <span class="tier-badge">Robux</span>
-                                            <span class="tier-cost">4,500 TKNS</span>
+                                        <button @click="selectedPayoutType = 'Google Play'; selectedGiftCard = null" :class="selectedPayoutType === 'Google Play' ? 'active' : ''" class="payout-tab">
+                                            <img src="./Googleplay.jpg" alt="Google Play" onerror="this.style.display='none'" />
+                                            Google Play
                                         </button>
                                     </div>
-                                    <p x-show="selectedTier && !selectedGiftCard" class="text-[10px] text-emerald-400 mt-1.5 flex items-center gap-1">
-                                        <i data-lucide="check-circle" class="w-3 h-3"></i>
-                                        Selected: <span x-text="selectedTier + ' Robux'"></span>
-                                    </p>
                                 </div>
 
-                                <!-- ===== GIFT CARD SECTION ===== -->
-                                <div class="gift-section-divider">
-                                    <span>🎁 Gift Cards</span>
-                                </div>
-
+                                <!-- Dynamic Amount Cards with Logos -->
                                 <div>
-                                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">Select Gift Card</label>
-                                    <div class="grid grid-cols-3 gap-3">
-                                        <!-- $25 Gift Card -->
-                                        <button @click="selectedGiftCard = 25; selectedTier = null" :class="selectedGiftCard === 25 ? 'active' : ''" class="gift-card-selector">
-                                            <img src="./Roblox25.jpg" alt="$25 Roblox" class="gift-img" onerror="this.style.display='none'" />
-                                            <span class="gift-amount">$25</span>
-                                            <span class="gift-badge">Roblox Gift Card</span>
-                                            <span class="gift-cost">500 TKNS</span>
-                                            <span x-show="selectedGiftCard === 25" class="selection-indicator">✓ Selected</span>
-                                        </button>
-
-                                        <!-- $50 Gift Card -->
-                                        <button @click="selectedGiftCard = 50; selectedTier = null" :class="selectedGiftCard === 50 ? 'active' : ''" class="gift-card-selector">
-                                            <img src="./Roblox50.jpg" alt="$50 Roblox" class="gift-img" onerror="this.style.display='none'" />
-                                            <span class="gift-amount">$50</span>
-                                            <span class="gift-badge">Roblox Gift Card</span>
-                                            <span class="gift-cost">1,500 TKNS</span>
-                                            <span x-show="selectedGiftCard === 50" class="selection-indicator">✓ Selected</span>
-                                        </button>
-
-                                        <!-- $100 Gift Card -->
-                                        <button @click="selectedGiftCard = 100; selectedTier = null" :class="selectedGiftCard === 100 ? 'active' : ''" class="gift-card-selector">
-                                            <img src="./Roblox100.jpg" alt="$100 Roblox" class="gift-img" onerror="this.style.display='none'" />
-                                            <span class="gift-amount">$100</span>
-                                            <span class="gift-badge">Roblox Gift Card</span>
-                                            <span class="gift-cost">2,500 TKNS</span>
-                                            <span x-show="selectedGiftCard === 100" class="selection-indicator">✓ Selected</span>
-                                        </button>
+                                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3 text-center">
+                                        Select Amount
+                                    </label>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <template x-for="amount in [100, 250, 500]" :key="amount">
+                                            <button @click="selectedGiftCard = amount" :class="selectedGiftCard === amount ? 'active' : ''" class="withdraw-tier-card">
+                                                <div class="tier-img-wrapper">
+                                                    <img :src="selectedPayoutType === 'PayPal' ? './Pypal.jpg' : './Googleplay.jpg'" class="tier-img" onerror="this.style.display='none'" />
+                                                </div>
+                                                <span class="tier-amount">$<span x-text="amount"></span></span>
+                                                <span class="tier-badge" x-text="selectedPayoutType"></span>
+                                                <span class="tier-cost" x-text="(amount * 25) + ' NBC'"></span>
+                                                <span x-show="selectedGiftCard === amount" class="selection-indicator">✓ Selected</span>
+                                            </button>
+                                        </template>
                                     </div>
-                                    <p x-show="selectedGiftCard" class="text-[10px] text-emerald-400 mt-1.5 flex items-center gap-1">
-                                        <i data-lucide="check-circle" class="w-3 h-3"></i>
-                                        Selected: <span x-text="'$' + selectedGiftCard + ' Gift Card'"></span>
-                                    </p>
-                                    <p x-show="!selectedGiftCard && !selectedTier" class="text-[10px] text-zinc-500 mt-1.5">
-                                        Please select either a Robux package or a Gift Card.
-                                    </p>
                                 </div>
 
-                                <!-- Roblox username -->
+                                <p x-show="selectedGiftCard" class="text-[10px] text-emerald-400 mt-1.5 flex items-center justify-center gap-1">
+                                    <i data-lucide="check-circle" class="w-3 h-3"></i>
+                                    Selected: <span x-text="'$' + selectedGiftCard + ' ' + selectedPayoutType"></span>
+                                </p>
+                                <p x-show="!selectedGiftCard" class="text-[10px] text-zinc-500 mt-1.5 text-center">
+                                    Please select an amount above.
+                                </p>
+
+                                <!-- Email field -->
                                 <div>
-                                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Target Roblox Username</label>
-                                    <input type="text" x-model="robloxUser" placeholder="e.g. CoolPlayer123" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
+                                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">Your Email Address</label>
+                                    <input type="email" x-model="robloxUser" placeholder="e.g. youremail@example.com" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition" />
                                 </div>
 
-                                <!-- Honest confirmation checkbox -->
+                                <!-- Honest confirm -->
                                 <div class="flex items-start gap-2.5 bg-zinc-900/50 p-3 rounded-xl border border-zinc-800">
                                     <input type="checkbox" x-model="withdrawHonestConfirm" class="checkbox-honest mt-0.5" />
                                     <label class="text-[11px] text-zinc-400 leading-relaxed cursor-pointer select-none">
-                                        I confirm that I have <strong class="text-white">honestly completed all tasks</strong> I claimed tokens for. I understand that if I skipped tasks or collected without doing them, my payout <strong class="text-red-400">will be rejected</strong>.
+                                        I confirm that I have <strong class="text-white">honestly completed all tasks</strong> I claimed Nebcoin for. I understand that if I skipped tasks, my redemption <strong class="text-red-400">will be rejected</strong>.
                                     </label>
                                 </div>
 
-                                <!-- Submit button – disabled only if missing fields, NOT by eligibility -->
-                                <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim() || (!selectedTier && !selectedGiftCard)" class="withdraw-submit-btn w-full text-white font-bold text-base py-3.5 rounded-xl shadow-lg shadow-red-600/30 transition-all duration-200 flex items-center justify-center gap-2">
+                                <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim() || !selectedGiftCard" class="withdraw-submit-btn w-full text-white font-bold text-base py-3.5 rounded-xl shadow-lg shadow-blue-600/30 transition-all duration-200 flex items-center justify-center gap-2">
                                     <i data-lucide="send" class="w-5 h-5"></i>
-                                    <span>Submit Payout Order</span>
+                                    <span>Redeem <span x-text="selectedGiftCard ? '$' + selectedGiftCard + ' ' + selectedPayoutType : ''"></span></span>
                                 </button>
 
-                                <!-- Helper text for missing selection -->
-                                <p x-show="!selectedTier && !selectedGiftCard" class="text-xs text-amber-400 text-center mt-1">
-                                    ⚠️ Select a Robux package or a Gift Card to continue.
+                                <p x-show="!selectedGiftCard" class="text-xs text-amber-400 text-center mt-1">
+                                    ⚠️ Select an amount to continue.
                                 </p>
-                                <p x-show="selectedTier || selectedGiftCard" class="text-[10px] text-zinc-500 text-center mt-1">
-                                    💡 Eligibility (7-day streak + 30 tasks) will be verified when you submit.
+                                <p x-show="selectedGiftCard" class="text-[10px] text-zinc-500 text-center mt-1">
+                                    💡 Eligibility (7-day streak + 30 tasks) will be verified.
                                 </p>
                             </div>
                         </template>
@@ -1223,25 +1741,25 @@
             <!-- ===== REFERRALS ===== -->
             <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                 <div>
-                    <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Architecture</h2>
-                    <p class="text-zinc-500 text-xs mt-0.5">Share your link and earn passive rewards when friends join and complete tasks.</p>
+                    <h2 class="text-xl font-bold tracking-tight text-white">Affiliate Program</h2>
+                    <p class="text-zinc-500 text-xs mt-0.5">Share your link and earn passive rewards.</p>
                 </div>
 
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
                     <div class="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-900">
-                        <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
+                        <div class="bg-blue-500/10 p-3 rounded-xl text-blue-500 border border-blue-500/10">
                             <i data-lucide="gift" class="w-6 h-6"></i>
                         </div>
                         <div>
-                            <h3 class="text-sm font-bold text-white">🎯 Earn Up to <span class="text-emerald-400 text-lg">200 TKNS</span> per Friend</h3>
-                            <p class="text-xs text-zinc-400 mt-0.5">Share your unique referral link. When friends join and complete tasks, you earn <strong class="text-emerald-400">bonus tokens</strong> automatically.</p>
+                            <h3 class="text-sm font-bold text-white">🎯 Earn Up to <span class="text-emerald-400 text-lg">200 NBC</span> per Friend</h3>
+                            <p class="text-xs text-zinc-400 mt-0.5">Share your unique referral link. When friends join and complete tasks, you earn <strong class="text-emerald-400">bonus Nebcoin</strong> automatically.</p>
                         </div>
                     </div>
 
                     <div class="bg-zinc-900/30 border border-zinc-800 rounded-xl p-4 flex items-center gap-3">
                         <i data-lucide="trending-up" class="w-5 h-5 text-amber-500 flex-shrink-0"></i>
                         <p class="text-xs text-zinc-400">
-                            <strong class="text-white">+15% Lifetime Royalties</strong> — You earn a commission every time your invited users complete tasks on the platform.
+                            <strong class="text-white">+15% Lifetime Royalties</strong> — You earn a commission every time your invited users complete tasks.
                         </p>
                     </div>
 
@@ -1249,62 +1767,59 @@
                         <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider">Your Personal Tracking URL</label>
                         <div class="flex gap-2">
                             <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-zinc-900 border border-zinc-800 text-sm rounded-xl px-4 py-3 text-zinc-400 font-mono focus:outline-none" />
-                            <button @click="copyRefLink()" class="bg-red-600 hover:bg-red-700 text-white border border-red-600/30 px-4 rounded-xl flex items-center justify-center transition active:scale-95 font-medium text-sm gap-2">
+                            <button @click="copyRefLink()" class="bg-blue-600 hover:bg-blue-700 text-white border border-blue-600/30 px-4 rounded-xl flex items-center justify-center transition active:scale-95 font-medium text-sm gap-2">
                                 <i data-lucide="copy" class="w-4 h-4"></i> Copy
                             </button>
                         </div>
-                        <p class="text-[10px] text-zinc-500 italic">Share this link with friends. Tokens are credited when they complete tasks.</p>
+                        <p class="text-[10px] text-zinc-500 italic">Share this link with friends. Nebcoin is credited when they complete tasks.</p>
                     </div>
                 </div>
 
-                <!-- Telegram Section -->
+                <!-- Telegram - updated link to https://t.me/Nebsycoin -->
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-4">
                     <div class="flex items-center gap-2">
                         <i data-lucide="send" class="w-5 h-5 text-blue-500"></i>
                         <h3 class="text-lg font-bold text-white">📲 Join Telegram</h3>
                     </div>
                     <p class="text-xs text-zinc-400">Join our official Telegram group to stay updated and get exclusive news.</p>
-
                     <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-2 text-xs text-zinc-300">
                         <p class="font-bold text-white">How to join:</p>
                         <ol class="list-decimal pl-4 space-y-1.5">
-                            <li>First, check if you have the Telegram app installed on your device.</li>
-                            <li>Copy the link below: <br />
-                                <span class="font-mono text-blue-400 select-all bg-zinc-950 px-2 py-1 rounded border border-zinc-800 block mt-1">https://t.me/robux_prize</span>
-                            </li>
-                            <li>Go to any web browser and paste the link to open it.</li>
-                            <li>Join the Telegram group and stay active!</li>
+                            <li>Make sure you have the Telegram app installed.</li>
+                            <li>Copy the link below:</li>
+                        </ol>
+                        <span class="font-mono text-blue-400 select-all bg-zinc-950 px-2 py-1 rounded border border-zinc-800 block mt-1">https://t.me/Nebsycoin</span>
+                        <ol class="list-decimal pl-4 space-y-1.5 mt-1">
+                            <li>Open your browser and paste the link to join.</li>
+                            <li>Stay active for exclusive promo codes!</li>
                         </ol>
                     </div>
-
-                    <div class="flex flex-wrap gap-3 items-center">
-                        <button @click="copyTelegramLink()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-2">
-                            <i data-lucide="copy" class="w-4 h-4"></i> Copy Telegram Link
-                        </button>
-                    </div>
+                    <button @click="copyTelegramLink()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition active:scale-95 flex items-center gap-2">
+                        <i data-lucide="copy" class="w-4 h-4"></i> Copy Telegram Link
+                    </button>
                 </div>
 
-                <!-- Promo code area -->
+                <!-- Promo -->
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
                     <div class="bg-zinc-900/40 border border-zinc-800 p-4 rounded-xl space-y-3">
                         <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i> Redeem Promo / Activation Code
+                            <i data-lucide="ticket" class="w-4 h-4 text-blue-500"></i> Redeem Promo Code
                         </label>
                         <div class="space-y-2">
                             <div class="flex gap-2">
-                                <input id="promoCodeInput" :disabled="showPromoPasswordForm" type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950 border border-zinc-800 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition disabled:opacity-50" />
+                                <input id="promoCodeInput" :disabled="showPromoPasswordForm" type="text" x-model="promoCode" placeholder="Enter code..." class="w-full bg-zinc-950 border border-zinc-800 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition disabled:opacity-50" />
                                 <template x-if="!showPromoPasswordForm">
-                                    <button @click="applyPromoCode()" class="bg-red-600 hover:bg-red-700 text-white font-semibold text-xs px-5 rounded-xl transition active:scale-95 whitespace-nowrap">
-                                        Apply Code
+                                    <button @click="applyPromoCode()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-5 rounded-xl transition active:scale-95 whitespace-nowrap">
+                                        Apply
                                     </button>
                                 </template>
                             </div>
-                            <div x-show="showPromoPasswordForm" x-transition class="mt-2 p-3 bg-zinc-950 border border-red-500/20 rounded-xl space-y-2">
-                                <label class="block text-[11px] font-bold text-red-400 uppercase tracking-wider">Secured Verification Key Required</label>
+                            <div x-show="showPromoPasswordForm" x-transition class="mt-2 p-3 bg-zinc-950 border border-blue-500/20 rounded-xl space-y-2">
+                                <label class="block text-[11px] font-bold text-blue-400 uppercase tracking-wider">Security Key Required</label>
                                 <div class="flex gap-2">
-                                    <input type="password" x-model="promoPassword" placeholder="Enter security password..." class="w-full bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500 transition" />
+                                    <input type="password" x-model="promoPassword" placeholder="Enter key..." class="w-full bg-zinc-900 border border-zinc-800 text-xs rounded-lg px-3 py-2 text-white placeholder-zinc-600 focus:outline-none focus:border-blue-500 transition" />
                                     <button @click="submitPromoPassword()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] px-4 rounded-lg transition whitespace-nowrap">
-                                        Verify Key
+                                        Verify
                                     </button>
                                     <button @click="cancelPromoPassword()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 text-[11px] px-3 rounded-lg transition">
                                         Cancel
@@ -1315,22 +1830,22 @@
                     </div>
 
                     <div class="flex items-center gap-4 bg-zinc-900/50 p-4 rounded-xl border border-zinc-900">
-                        <div class="bg-red-500/10 p-3 rounded-xl text-red-500 border border-red-500/10">
+                        <div class="bg-blue-500/10 p-3 rounded-xl text-blue-500 border border-blue-500/10">
                             <i data-lucide="gift" class="w-6 h-6"></i>
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-white">Earn 15% Lifelong Royalties</h3>
-                            <p class="text-xs text-zinc-400 mt-0.5">Receive a processing commission bonus every single time your direct invited users clear an operational task.</p>
+                            <p class="text-xs text-zinc-400 mt-0.5">Receive a commission bonus every time your direct invites complete a task.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- ===== ACCOUNT & PROFILE ===== -->
+            <!-- ===== ACCOUNT ===== -->
             <div x-show="currentTab === 'account'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                 <div>
                     <h2 class="text-xl font-bold tracking-tight text-white">Profile & Account</h2>
-                    <p class="text-zinc-500 text-xs mt-0.5">View your profile details and manage your account.</p>
+                    <p class="text-zinc-500 text-xs mt-0.5">View your profile details.</p>
                 </div>
 
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 space-y-6">
@@ -1338,46 +1853,28 @@
                         <div class="profile-avatar" x-text="userId ? userId.slice(0,2) : 'U'"></div>
                         <div>
                             <h3 class="text-lg font-bold text-white">User <span class="font-mono text-zinc-400" x-text="userId"></span></h3>
-                            <p class="text-xs text-zinc-500">Level <span x-text="userLevel"></span> · <span x-text="totalTokensEarned"></span> total TKNS earned</p>
+                            <p class="text-xs text-zinc-500">Level <span x-text="userLevel"></span> · <span x-text="totalTokensEarned"></span> total NBC earned</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-zinc-900 pt-4">
-                        <div>
-                            <p class="text-xs text-zinc-500">User ID</p>
-                            <p class="font-mono text-sm text-white" x-text="userId"></p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-zinc-500">Level</p>
-                            <p class="font-bold text-white" x-text="userLevel"></p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-zinc-500">Total Tokens Earned</p>
-                            <p class="font-bold text-white" x-text="totalTokensEarned"></p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-zinc-500">Tasks Completed</p>
-                            <p class="font-bold text-white" x-text="completedTasksCount"></p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-zinc-500">Daily Streak</p>
-                            <p class="font-bold text-white" x-text="currentStreak + ' days'"></p>
-                        </div>
-                        <div>
-                            <p class="text-xs text-zinc-500">Withdrawals Unlocked</p>
-                            <p class="font-bold text-white" x-text="isWithdrawUnlocked ? '✅ Yes' : '🔒 No'"></p>
-                        </div>
+                        <div><p class="text-xs text-zinc-500">User ID</p><p class="font-mono text-sm text-white" x-text="userId"></p></div>
+                        <div><p class="text-xs text-zinc-500">Level</p><p class="font-bold text-white" x-text="userLevel"></p></div>
+                        <div><p class="text-xs text-zinc-500">Total Nebcoin Earned</p><p class="font-bold text-white" x-text="totalTokensEarned"></p></div>
+                        <div><p class="text-xs text-zinc-500">Tasks Completed</p><p class="font-bold text-white" x-text="completedTasksCount"></p></div>
+                        <div><p class="text-xs text-zinc-500">Daily Streak</p><p class="font-bold text-white" x-text="currentStreak + ' days'"></p></div>
+                        <div><p class="text-xs text-zinc-500">Redemptions Unlocked</p><p class="font-bold text-white" x-text="isWithdrawUnlocked ? '✅ Yes' : '🔒 No'"></p></div>
                     </div>
 
                     <div class="border-t border-zinc-900 pt-4 flex flex-wrap gap-3">
-                        <button @click="resetAccount()" class="bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-2">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i> Delete Account (Reset)
+                        <button @click="resetAccount()" class="bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-600/30 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-2">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i> Reset Account
                         </button>
                         <button @click="resetAccount()" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-4 py-2 rounded-xl text-xs font-bold transition active:scale-95 flex items-center gap-2">
-                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Start New Profile
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Start Fresh
                         </button>
                     </div>
-                    <p class="text-[10px] text-zinc-500 italic">Resetting will clear all your progress, tokens, and tasks. This action is irreversible.</p>
+                    <p class="text-[10px] text-zinc-500 italic">Resetting clears all progress, tokens, and tasks. Irreversible.</p>
                 </div>
             </div>
 
@@ -1386,38 +1883,38 @@
                 <div>
                     <h2 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
                         Compliance & Fraud Prevention
-                        <span x-show="!rulesAccepted" class="notif-badge ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
+                        <span x-show="!rulesAccepted" class="notif-badge ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-[10px] font-black text-white">1</span>
                     </h2>
-                    <p class="text-zinc-500 text-xs mt-0.5">Review system rules to guarantee smooth token settlement and withdraw approvals.</p>
+                    <p class="text-zinc-500 text-xs mt-0.5">Review system rules to guarantee smooth redemptions.</p>
                 </div>
 
                 <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-6 divide-y divide-zinc-900 relative">
                     <div :class="!rulesAccepted ? 'opacity-30 pointer-events-none blur-[1px]' : ''">
                         <div class="pb-4 flex gap-4 items-start">
-                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                            <div class="bg-blue-500/10 p-2 rounded-lg text-blue-500 border border-blue-500/10 mt-0.5">
                                 <i data-lucide="shield-x" class="w-4 h-4"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Strict Anti-VPN Infrastructure</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Proxy layers, VPN nodes, or data center routing environments are systematically flagged. Violations lead to automated account locks.</p>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Proxy layers, VPN nodes, or data center routing are systematically flagged. Violations lead to automated account locks.</p>
                             </div>
                         </div>
                         <div class="py-4 flex gap-4 items-start">
-                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                            <div class="bg-blue-500/10 p-2 rounded-lg text-blue-500 border border-blue-500/10 mt-0.5">
                                 <i data-lucide="alert-triangle" class="w-4 h-4"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Accurate Form Directives Only</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Inputting invalid, temporary, or burner details during verification processes causes direct programmatic settlement failure.</p>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Inputting invalid, temporary, or burner details causes direct settlement failure.</p>
                             </div>
                         </div>
                         <div class="py-4 flex gap-4 items-start">
-                            <div class="bg-red-500/10 p-2 rounded-lg text-red-500 border border-red-500/10 mt-0.5">
+                            <div class="bg-blue-500/10 p-2 rounded-lg text-blue-500 border border-blue-500/10 mt-0.5">
                                 <i data-lucide="refresh-cw" class="w-4 h-4"></i>
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">One Account Limitation</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Multi-accounting behavior to loop invite systems triggers hardware identity fingerprints and immediate systemic ban execution.</p>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Multi-accounting to loop invite systems triggers hardware fingerprint bans.</p>
                             </div>
                         </div>
                         <div class="pt-4 flex gap-4 items-start">
@@ -1426,7 +1923,7 @@
                             </div>
                             <div>
                                 <h3 class="text-sm font-bold text-white">Honest Task Completion Required</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">All tasks must be completed honestly and in accordance with the instructions. We verify your activity before approving any payout. Faking or automating tasks will result in permanent account suspension and forfeiture of all earned tokens.</p>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">All tasks must be completed honestly. Faking or automating tasks will result in permanent account suspension and forfeiture of all earned Nebcoin.</p>
                             </div>
                         </div>
                         <div class="pt-4 flex gap-4 items-start">
@@ -1434,8 +1931,8 @@
                                 <i data-lucide="info" class="w-4 h-4"></i>
                             </div>
                             <div>
-                                <h3 class="text-sm font-bold text-white">Withdrawals Require Honest Activity</h3>
-                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Skipping tasks or collecting tokens without genuinely completing the work <strong class="text-red-400">will result in your Robux being rejected</strong>. Always complete tasks honestly to receive everything without problems.</p>
+                                <h3 class="text-sm font-bold text-white">Redemptions Require Honest Activity</h3>
+                                <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Skipping tasks or collecting Nebcoin without genuinely completing the work <strong class="text-red-400">will result in your reward being rejected</strong>.</p>
                             </div>
                         </div>
                     </div>
@@ -1447,19 +1944,19 @@
                                 <h3 class="text-lg font-black text-white">📋 Platform Rules – Read Carefully</h3>
                             </div>
                             <div class="rules-scroll flex-1 space-y-4 text-sm text-zinc-300 leading-relaxed pr-2">
-                                <p class="font-bold text-red-400 text-base">⚠️ Important – This directly affects your ability to receive Robux!</p>
-                                <p>By using RobuxPrize, you agree to the following rules. Failure to comply may result in permanent account suspension and forfeiture of all earned tokens and Robux.</p>
+                                <p class="font-bold text-red-400 text-base">⚠️ Important – This directly affects your ability to receive rewards!</p>
+                                <p>By using Nebsy, you agree to the following rules. Failure to comply may result in permanent account suspension and forfeiture of all earned Nebcoin and rewards.</p>
                                 <ul class="list-disc pl-5 space-y-3">
                                     <li><strong class="text-white">Anti-VPN & Proxy:</strong> Using VPNs, proxies, or any obfuscation tools is strictly prohibited. Our system detects such connections and will automatically lock your account.</li>
                                     <li><strong class="text-white">Accurate Information:</strong> You must provide real, valid, and non-temporary details when completing tasks and verification forms. False information leads to settlement failure.</li>
                                     <li><strong class="text-white">One Account Only:</strong> Creating multiple accounts to exploit referral systems or task bonuses is forbidden. We use hardware fingerprinting to detect and ban all associated accounts.</li>
                                     <li><strong class="text-white">Honest Task Completion:</strong> Every task must be completed manually and honestly according to the provided instructions. Automated scripts, bots, or any form of cheating will be detected and result in immediate account termination and loss of all earnings.</li>
-                                    <li><strong class="text-white">Withdrawal Integrity:</strong> To withdraw Robux, you must have honestly completed the tasks you claimed tokens for. If we detect that you collected tokens without genuinely performing the tasks, your payout will be rejected and your account may be suspended.</li>
+                                    <li><strong class="text-white">Redemption Integrity:</strong> To redeem rewards, you must have honestly completed the tasks you claimed Nebcoin for. If we detect that you collected Nebcoin without genuinely performing the tasks, your redemption will be rejected and your account may be suspended.</li>
                                 </ul>
-                                <p class="text-amber-400 font-medium mt-2">🔹 You must read and accept these rules to continue using the platform. By accepting, you confirm that you understand and agree to all terms.</p>
+                                <p class="text-amber-400 font-medium mt-2">🔹 You must read and accept these rules to continue using the platform.</p>
                             </div>
                             <div class="border-t border-zinc-800 pt-4 mt-4 flex justify-end">
-                                <button @click="acceptRules()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-8 py-3 rounded-xl transition shadow-lg shadow-red-600/20 active:scale-95">
+                                <button @click="acceptRules()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-8 py-3 rounded-xl transition shadow-lg shadow-blue-600/20 active:scale-95">
                                     I Have Read & Fully Accept
                                 </button>
                             </div>
@@ -1472,32 +1969,33 @@
     </div>
 </main>
 
-<!-- MOBILE TAB BAR -->
-<nav class="lg:hidden fixed bottom-0 left-0 right-0 border-t border-zinc-900 bg-zinc-950/90 backdrop-blur-md px-2 py-2 z-50 flex justify-around items-center">
-    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+<!-- ===== IPHONE-STYLE BOTTOM BAR ===== -->
+<nav class="iphone-tab-bar">
+    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'active' : ''" class="tab-item">
         <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Home</span>
+        <span class="tab-label">Home</span>
     </button>
-    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'active' : ''" class="tab-item">
         <i data-lucide="clipboard-list" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Tasks</span>
+        <span class="tab-label">Tasks</span>
+        <span x-show="!isTaskRunning" class="badge-dot" x-cloak></span>
     </button>
-    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
-        <i data-lucide="coins" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Payout</span>
+    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'active' : ''" class="tab-item">
+        <i data-lucide="gift" class="w-5 h-5"></i>
+        <span class="tab-label">Redeem</span>
     </button>
-    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'active' : ''" class="tab-item">
         <i data-lucide="users" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Invite</span>
+        <span class="tab-label">Invite</span>
     </button>
-    <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+    <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'active' : ''" class="tab-item">
         <i data-lucide="user" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Profile</span>
+        <span class="tab-label">Profile</span>
     </button>
-    <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-500' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition relative">
+    <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'active' : ''" class="tab-item relative">
         <i data-lucide="shield-alert" class="w-5 h-5"></i>
-        <span class="text-[10px] font-medium">Rules</span>
-        <span x-show="!rulesAccepted" class="absolute -top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-600 text-[7px] font-black text-white">1</span>
+        <span class="tab-label">Rules</span>
+        <span x-show="!rulesAccepted" class="badge-dot"></span>
     </button>
 </nav>
 
@@ -1512,7 +2010,6 @@ x-cloak>
         <i data-lucide="x" class="w-5 h-5"></i>
     </button>
 
-    <!-- Telegram Task Modal (id 9) -->
     <template x-if="modalTaskId === 9">
         <div>
             <div class="flex items-center gap-3 mb-4">
@@ -1521,14 +2018,13 @@ x-cloak>
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-white">📲 Join Telegram Group</h3>
-                    <p class="text-xs text-zinc-400">Complete this task to earn <strong class="text-emerald-400">+50 Tokens</strong></p>
+                    <p class="text-xs text-zinc-400">Earn <strong class="text-emerald-400">+50 NBC</strong></p>
                 </div>
             </div>
-
             <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
-                <p class="font-bold text-white">📌 Steps to complete:</p>
+                <p class="font-bold text-white">📌 Steps:</p>
                 <ol class="list-decimal pl-4 space-y-2">
-                    <li>Make sure you have the Telegram app installed on your device.</li>
+                    <li>Make sure you have Telegram installed.</li>
                     <li>Copy the link below:</li>
                 </ol>
                 <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-blue-400 text-sm flex items-center justify-between gap-2 select-all">
@@ -1536,20 +2032,15 @@ x-cloak>
                     <button @click="copyTelegramTaskLink()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
                 </div>
                 <ol class="list-decimal pl-4 space-y-2 mt-1">
-                    <li>Open your browser and paste the link to join the group.</li>
-                    <li>Stay in the group for <strong class="text-white">at least 14 days</strong> to be eligible for exclusive promo codes and real token rewards.</li>
-                    <li class="text-amber-400">🔍 This is <strong>not</strong> our official Telegram group, but joining it gives you access to a <strong>special promo code</strong> (worth 50 TKNS) that you can redeem here on RobuxPrize.</li>
+                    <li>Open your browser and paste the link to join.</li>
+                    <li>Stay in the group for <strong class="text-white">at least 14 days</strong> for exclusive promo codes.</li>
                 </ol>
                 <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-2 text-emerald-400 text-[11px]">
-                    💡 <strong>Tip:</strong> The promo code is hidden inside the group's pinned messages. Stay active and you'll find it!
-                </div>
-                <div class="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-2 text-yellow-400 text-[11px]">
-                    ⏳ After joining, click <strong>"Start Now"</strong> below and wait 2 minutes for verification. Then you can claim your 50 tokens.
+                    💡 The promo code is hidden in the group's pinned messages. Stay active!
                 </div>
             </div>
-
             <div class="mt-5 flex flex-wrap gap-3 items-center">
-                <button @click="startTaskFromModal()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
+                <button @click="startTaskFromModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
                     <i data-lucide="play" class="w-4 h-4"></i> Start Now
                 </button>
                 <button @click="closeTaskModal()" class="text-xs text-zinc-500 hover:text-zinc-300 transition px-3 py-2">Cancel</button>
@@ -1557,44 +2048,38 @@ x-cloak>
         </div>
     </template>
 
-    <!-- Email Giveaway Task Modal (id 8) -->
     <template x-if="modalTaskId === 8">
         <div>
             <div class="flex items-center gap-3 mb-4">
-                <div class="bg-red-500/10 p-3 rounded-xl border border-red-500/20">
-                    <i data-lucide="gift" class="w-6 h-6 text-red-400"></i>
+                <div class="bg-blue-500/10 p-3 rounded-xl border border-blue-500/20">
+                    <i data-lucide="gift" class="w-6 h-6 text-blue-400"></i>
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-white">🎁 Support Giveaway</h3>
-                    <p class="text-xs text-zinc-400">Earn a <strong class="text-emerald-400">random gift (10-50 TKNS)</strong> by contacting us!</p>
+                    <p class="text-xs text-zinc-400">Earn a <strong class="text-emerald-400">random gift (10-50 NBC)</strong></p>
                 </div>
             </div>
-
             <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
                 <p class="font-bold text-white">📌 How to participate:</p>
                 <ol class="list-decimal pl-4 space-y-2">
-                    <li>Check the email address linked to your Google Play account.</li>
-                    <li>Send a simple "hi" to our support email:</li>
+                    <li>Check your Google Play email.</li>
+                    <li>Send a simple "hi" to:</li>
                 </ol>
                 <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-blue-400 text-sm flex items-center justify-between gap-2 select-all">
                     <span class="truncate">nebsytechnologies@gmail.com</span>
                     <button @click="copyEmailAddress()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
                 </div>
                 <ol class="list-decimal pl-4 space-y-2 mt-1">
-                    <li>Make sure to send the email from the same address you use in Google Play.</li>
-                    <li>After sending, click <strong class="text-white">"Start Now"</strong> below to begin verification.</li>
-                    <li>You will receive a random gift between 10 and 50 TKNS after 2 minutes!</li>
+                    <li>Send from your Google Play email.</li>
+                    <li>Click <strong class="text-white">"Start Now"</strong> below to begin verification.</li>
+                    <li>Receive 10-50 NBC after 2 minutes!</li>
                 </ol>
                 <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-400 text-[11px]">
-                    🎁 This is a limited-time giveaway. It ends in <span x-text="getGiveawayRemaining(getEmailGiveawayExpiry())"></span>.
-                </div>
-                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-2 text-red-400 text-[11px]">
-                    ⚠️ After 7 days, this giveaway will expire and the task will no longer be available.
+                    🎁 Limited-time giveaway ends in <span x-text="getGiveawayRemaining(getEmailGiveawayExpiry())"></span>.
                 </div>
             </div>
-
             <div class="mt-5 flex flex-wrap gap-3 items-center">
-                <button @click="startTaskFromModal()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
+                <button @click="startTaskFromModal()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
                     <i data-lucide="play" class="w-4 h-4"></i> Start Now
                 </button>
                 <button @click="closeTaskModal()" class="text-xs text-zinc-500 hover:text-zinc-300 transition px-3 py-2">Cancel</button>
@@ -1618,11 +2103,11 @@ x-cloak>
 <script>
     function appState() {
         return {
-            // ---- Core ----
             currentTab: 'dashboard',
             tokens: 5,
             selectedTier: null,
             selectedGiftCard: null,
+            selectedPayoutType: 'PayPal',
             robloxUser: '',
             promoCode: '',
             promoPassword: '',
@@ -1630,33 +2115,26 @@ x-cloak>
             withdrawStatus: 'idle',
             completedTasksCount: 0,
             isTaskRunning: false,
-            showTelegramGuide: false,
 
-            // ---- User Identity ----
             userId: '',
             totalTokensEarned: 0,
             userLevel: 1,
             levelXP: 100,
 
-            // ---- Rules Acceptance ----
             rulesAccepted: false,
 
-            // ---- Withdraw Honest Confirm ----
             withdrawHonestConfirm: false,
 
-            // ---- Streak & Wheel ----
             isDailyGiftAvailable: true,
             dailyGiftCooldownStr: 'Available Now',
             nextDailyClaimTime: 0,
             currentStreak: 1,
-            // 14 days of streak rewards (we only need up to 7 for unlock)
             streakDays: [5, 10, 15, 20, 25, 30, 50, 5, 10, 15, 20, 25, 30, 50],
             isFirstSpin: true,
             isSpinning: false,
             wheelAngle: 0,
             spinCooldownUntil: 0,
 
-            // ---- Important Toast ----
             importantToast: {
                 show: false,
                 icon: '✅',
@@ -1664,18 +2142,14 @@ x-cloak>
                 sub: ''
             },
 
-            // ---- Leaderboard ----
             leaderboardUsers: [],
 
-            // ---- Live logs ----
             liveLogs: [],
             usedLiveIds: [],
 
-            // ---- Task Modal ----
             showTaskModal: false,
             modalTaskId: null,
 
-            // ---- Tasks ----
             tasks: [{
                     id: 3,
                     title: 'Prize Offer',
@@ -1787,7 +2261,7 @@ x-cloak>
                     desc: 'Send "hi" from your Google Play email to nebsytechnologies@gmail.com and get a random gift! Limited time.',
                     reward: 0,
                     status: 'idle',
-                    link: 'mailto:nebsytechnologies@gmail.com?subject=Hello%20from%20RobuxPrize&body=hi',
+                    link: 'mailto:nebsytechnologies@gmail.com?subject=Hello%20from%20Nebsy&body=hi',
                     icon: 'mail',
                     isRepeatable: true,
                     cooldownUntil: null,
@@ -1801,7 +2275,7 @@ x-cloak>
                 {
                     id: 9,
                     title: '📲 Join Telegram Group',
-                    desc: 'Join the community at t.me/fundedfr to find a promo code worth 50 TKNS. Stay 14 days for real tokens!',
+                    desc: 'Join the community at t.me/fundedfr to find a promo code worth 50 NBC. Stay 14 days for real tokens!',
                     reward: 50,
                     status: 'idle',
                     link: 'https://t.me/fundedfr',
@@ -1817,7 +2291,6 @@ x-cloak>
 
             usedPromoCodes: [],
 
-            // ---- Computed ----
             get spinCooldownDisplay() {
                 const now = Date.now();
                 const diff = this.spinCooldownUntil - now;
@@ -1844,7 +2317,6 @@ x-cloak>
                 return `${secs}s`;
             },
 
-            // ---- Level & XP ----
             get levelProgress() {
                 const earned = this.totalTokensEarned;
                 const level = this.userLevel;
@@ -1858,12 +2330,10 @@ x-cloak>
                 return this.userLevel * this.levelXP;
             },
 
-            // ---- Withdraw unlock check (7-day streak + 30 tasks) ----
             get isWithdrawUnlocked() {
                 return this.currentStreak >= 7 && this.completedTasksCount >= 30;
             },
 
-            // ---- Giveaway helpers ----
             getGiveawayRemaining(expiry) {
                 if (!expiry) return 'N/A';
                 const now = Date.now();
@@ -1888,7 +2358,6 @@ x-cloak>
                 return task.link || '#';
             },
 
-            // ---- Important Toast ----
             showImportantToast(msg, icon = '✅', sub = '') {
                 this.importantToast.show = false;
                 this.$nextTick(() => {
@@ -1907,12 +2376,11 @@ x-cloak>
                 if (this.toastTimeout) clearTimeout(this.toastTimeout);
             },
 
-            // ---- Init ----
             init() {
                 this.loadSavedState();
 
                 if (!this.userId) {
-                    this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+                    this.userId = 'NEB-' + Math.floor(Math.random() * 900000 + 100000);
                 }
 
                 this.generateLeaderboard();
@@ -1952,6 +2420,7 @@ x-cloak>
                     }
 
                     if (anyReset) this.saveState();
+                    this.drawCharts();
                 }, 1000);
 
                 setInterval(() => {
@@ -1960,9 +2429,24 @@ x-cloak>
 
                 this.generateLiveLog();
 
-                this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                this.$watch('currentTab', () => { this.$nextTick(() => { if (window.lucide) window.lucide
-                            .createIcons(); }); });
+                this.$watch('totalTokensEarned', () => { this.drawCharts(); });
+                this.$watch('completedTasksCount', () => { this.drawCharts(); });
+                this.$watch('tokens', () => { this.drawCharts(); });
+
+                this.$nextTick(() => {
+                    if (window.lucide) window.lucide.createIcons();
+                    this.drawCharts();
+                });
+
+                this.$watch('currentTab', () => {
+                    this.$nextTick(() => {
+                        if (window.lucide) window.lucide.createIcons();
+                        if (this.currentTab === 'dashboard') {
+                            setTimeout(() => this.drawCharts(), 200);
+                        }
+                    });
+                });
+
                 this.$watch('withdrawStatus', () => { this.$nextTick(() => { if (window.lucide) window.lucide
                             .createIcons(); }); });
                 this.$watch('showTelegramGuide', () => { this.$nextTick(() => { if (window.lucide) window.lucide
@@ -1973,88 +2457,359 @@ x-cloak>
                             .createIcons(); }); });
             },
 
-            // ---- Leaderboard ----
-            generateLeaderboard() {
-                const names = ['AlphaBlox', 'BetaBuilder', 'GammaGamer', 'DeltaDev', 'EpsilonElite', 'ZetaZen',
-                    'EtaEagle', 'ThetaThunder', 'IotaInferno', 'KappaKing'
-                ];
-                const levels = [5, 12, 8, 15, 6, 9, 11, 7, 13, 10];
-                const tokenAmounts = [1200, 3400, 2100, 5600, 1800, 2700, 3100, 1900, 4200, 2500];
-                this.leaderboardUsers = [];
-                for (let i = 0; i < 5; i++) {
-                    const idx = i % names.length;
-                    this.leaderboardUsers.push({
-                        id: 'RBLX-' + Math.floor(Math.random() * 900000 + 100000),
-                        name: names[(i + 3) % names.length],
-                        level: levels[(i + 2) % levels.length],
-                        tokens: tokenAmounts[(i + 1) % tokenAmounts.length],
-                        avatar: names[(i + 1) % names.length].charAt(0)
-                    });
-                }
-                this.leaderboardUsers.sort((a, b) => b.tokens - a.tokens);
+            drawCharts() {
+                this.drawTokenChart();
+                this.drawTasksChart();
             },
 
-            // ---- Live logs ----
-            generateLiveLog() {
-                const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843',
-                    'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'
-                ];
-                const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
+            drawTokenChart() {
+                const canvas = document.getElementById('tokenChart');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const width = canvas.parentElement.clientWidth - 32;
+                const height = 160;
+                canvas.width = width * 2;
+                canvas.height = height * 2;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.scale(2, 2);
 
+                const w = width;
+                const h = height;
+                const pad = { top: 18, bottom: 22, left: 28, right: 12 };
+                const chartW = w - pad.left - pad.right;
+                const chartH = h - pad.top - pad.bottom;
+
+                const totalEarned = this.totalTokensEarned || 0;
+                const currentBalance = this.tokens || 0;
+
+                const numPoints = 12;
+                const dataPoints = [];
+                if (totalEarned === 0) {
+                    for (let i = 0; i < numPoints; i++) dataPoints.push(0);
+                } else {
+                    for (let i = 0; i < numPoints; i++) {
+                        const t = i / (numPoints - 1);
+                        const growth = 1 / (1 + Math.exp(-8 * (t - 0.5)));
+                        const value = Math.round(growth * totalEarned);
+                        dataPoints.push(value);
+                    }
+                    dataPoints[numPoints - 1] = totalEarned;
+                }
+
+                const maxVal = Math.max(totalEarned + 10, 50);
+                const getX = (i) => pad.left + (i / (numPoints - 1)) * chartW;
+                const getY = (v) => pad.top + chartH - (v / maxVal) * chartH;
+
+                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = '#0f0f11';
+                ctx.fillRect(0, 0, w, h);
+
+                ctx.strokeStyle = '#27272a';
+                ctx.lineWidth = 0.5;
+                ctx.setLineDash([3, 4]);
+                for (let i = 0; i <= 4; i++) {
+                    const yPos = pad.top + (i / 4) * chartH;
+                    ctx.beginPath();
+                    ctx.moveTo(pad.left, yPos);
+                    ctx.lineTo(w - pad.right, yPos);
+                    ctx.stroke();
+                }
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#71717a';
+                ctx.font = '7px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                const labels = ['Day 1', '', 'Day 4', '', 'Day 7', '', 'Day 10', '', 'Day 13', '', 'Day 15', 'Now'];
+                for (let i = 0; i < numPoints; i++) {
+                    const x = getX(i);
+                    ctx.fillText(labels[i] || '', x, pad.top + chartH + 4);
+                }
+
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                for (let i = 0; i <= 4; i++) {
+                    const val = Math.round((i / 4) * maxVal);
+                    const yPos = pad.top + chartH - (i / 4) * chartH;
+                    ctx.fillText(val + '', pad.left - 4, yPos);
+                }
+
+                const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + chartH);
+                grad.addColorStop(0, 'rgba(37, 99, 235, 0.25)');
+                grad.addColorStop(0.5, 'rgba(37, 99, 235, 0.08)');
+                grad.addColorStop(1, 'rgba(37, 99, 235, 0.01)');
+                ctx.beginPath();
+                ctx.moveTo(getX(0), pad.top + chartH);
+                for (let i = 0; i < numPoints; i++) {
+                    const x = getX(i);
+                    const y = getY(dataPoints[i]);
+                    ctx.lineTo(x, y);
+                }
+                ctx.lineTo(getX(numPoints - 1), pad.top + chartH);
+                ctx.closePath();
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                ctx.beginPath();
+                for (let i = 0; i < numPoints; i++) {
+                    const x = getX(i);
+                    const y = getY(dataPoints[i]);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = '#2563eb';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                for (let i = 0; i < numPoints; i++) {
+                    const x = getX(i);
+                    const y = getY(dataPoints[i]);
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, Math.PI * 2);
+                    ctx.fillStyle = i === numPoints - 1 ? '#3b82f6' : '#2563eb';
+                    ctx.fill();
+                    ctx.strokeStyle = '#0f0f11';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                    if (i === numPoints - 1 && dataPoints[i] > 0) {
+                        ctx.fillStyle = '#d4d4d8';
+                        ctx.font = '8px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(dataPoints[i] + ' NBC', x, y - 5);
+                    }
+                }
+
+                ctx.fillStyle = '#71717a';
+                ctx.font = '6px Inter, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('Earnings progression', pad.left, pad.top);
+            },
+
+            drawTasksChart() {
+                const canvas = document.getElementById('tasksChart');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const width = canvas.parentElement.clientWidth - 32;
+                const height = 160;
+                canvas.width = width * 2;
+                canvas.height = height * 2;
+                canvas.style.width = width + 'px';
+                canvas.style.height = height + 'px';
+                ctx.scale(2, 2);
+
+                const w = width;
+                const h = height;
+                const pad = { top: 18, bottom: 22, left: 28, right: 12 };
+                const chartW = w - pad.left - pad.right;
+                const chartH = h - pad.top - pad.bottom;
+
+                const completedCount = this.completedTasksCount || 0;
+                const categories = [
+                    { label: 'Sign Up', key: 1 },
+                    { label: 'Install', key: 2 },
+                    { label: 'Prize', key: 3 },
+                    { label: 'Invite', key: 4 },
+                    { label: 'Rate', key: 5 },
+                    { label: 'Verify', key: 6 },
+                    { label: 'Random', key: 7 },
+                    { label: 'Giveaway', key: 8 },
+                    { label: 'Telegram', key: 9 }
+                ];
+
+                const taskMap = {};
+                this.tasks.forEach(t => {
+                    if (t.status === 'completed') {
+                        taskMap[t.id] = (taskMap[t.id] || 0) + 1;
+                    }
+                });
+
+                const chartData = categories.map(cat => {
+                    const count = taskMap[cat.key] || 0;
+                    return { label: cat.label, count: count };
+                });
+                const filtered = chartData.filter(d => d.count > 0);
+                const displayData = filtered.length > 0 ? filtered : [{ label: 'None', count: 0 }];
+
+                const maxCount = Math.max(1, ...displayData.map(d => d.count));
+                const barWidth = Math.min(22, (chartW / displayData.length) * 0.6);
+                const gap = (chartW - barWidth * displayData.length) / (displayData.length + 1);
+
+                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = '#0f0f11';
+                ctx.fillRect(0, 0, w, h);
+
+                ctx.strokeStyle = '#27272a';
+                ctx.lineWidth = 0.5;
+                ctx.setLineDash([3, 4]);
+                for (let i = 0; i <= 4; i++) {
+                    const yPos = pad.top + (i / 4) * chartH;
+                    ctx.beginPath();
+                    ctx.moveTo(pad.left, yPos);
+                    ctx.lineTo(w - pad.right, yPos);
+                    ctx.stroke();
+                }
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#71717a';
+                ctx.font = '7px Inter, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                for (let i = 0; i <= 4; i++) {
+                    const val = Math.round((i / 4) * maxCount);
+                    const yPos = pad.top + chartH - (i / 4) * chartH;
+                    ctx.fillText(val + '', pad.left - 4, yPos);
+                }
+
+                const colors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd', '#34d399', '#22d3ee', '#a78bfa', '#fbbf24',
+                    '#f472b6'
+                ];
+                for (let i = 0; i < displayData.length; i++) {
+                    const d = displayData[i];
+                    const x = pad.left + gap + i * (barWidth + gap);
+                    const barH = (d.count / maxCount) * chartH;
+                    const y = pad.top + chartH - barH;
+
+                    const grad = ctx.createLinearGradient(0, y, 0, pad.top + chartH);
+                    const color = colors[i % colors.length];
+                    grad.addColorStop(0, color);
+                    grad.addColorStop(1, color + '60');
+                    ctx.fillStyle = grad;
+
+                    const radius = 3;
+                    const bw = barWidth;
+                    const bh = barH;
+                    ctx.beginPath();
+                    ctx.moveTo(x + radius, y);
+                    ctx.arcTo(x + bw, y, x + bw, y + bh, radius);
+                    ctx.arcTo(x + bw, y + bh, x, y + bh, radius);
+                    ctx.arcTo(x, y + bh, x, y, radius);
+                    ctx.arcTo(x, y, x + bw, y, radius);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.shadowColor = color + '40';
+                    ctx.shadowBlur = 6;
+                    ctx.strokeStyle = color + '60';
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                    ctx.shadowBlur = 0;
+
+                    if (d.count > 0) {
+                        ctx.fillStyle = '#d4d4d8';
+                        ctx.font = '7px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(d.count, x + barWidth / 2, y - 2);
+                    }
+
+                    ctx.fillStyle = '#71717a';
+                    ctx.font = '6px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(d.label, x + barWidth / 2, pad.top + chartH + 4);
+                }
+
+                ctx.fillStyle = '#71717a';
+                ctx.font = '6px Inter, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('Tasks by category', pad.left, pad.top);
+            },
+
+            generateLeaderboard() {
+                const topEarners = [
+                    { name: 'CryptoKing', tokens: 52000, level: 91, avatar: 'CK' },
+                    { name: 'RobloxAce', tokens: 48500, level: 85, avatar: 'RA' },
+                    { name: 'PixelWizard', tokens: 46100, level: 81, avatar: 'PW' },
+                    { name: 'GameMasterX', tokens: 43800, level: 77, avatar: 'GM' },
+                    { name: 'StarChaser', tokens: 42000, level: 73, avatar: 'SC' }
+                ];
+                this.leaderboardUsers = topEarners.map((user, idx) => ({
+                    id: 'NEB-' + String(100000 + idx * 12345 + 7777).padStart(6, '0'),
+                    name: user.name,
+                    level: user.level,
+                    tokens: user.tokens,
+                    avatar: user.avatar
+                }));
+            },
+
+            generateLiveLog() {
+                const idPool = ['NEB-382910', 'NEB-472156', 'NEB-593721', 'NEB-684932', 'NEB-715843',
+                    'NEB-826154', 'NEB-937265', 'NEB-148376', 'NEB-259487', 'NEB-360598'
+                ];
+                const types = ['PayPal', 'Google Play'];
+                const amounts = [100, 250, 500];
                 for (let i = 0; i < 5; i++) {
                     let id;
-                    do {
-                        id = idPool[Math.floor(Math.random() * idPool.length)];
-                    } while (this.usedLiveIds.includes(id));
+                    do { id = idPool[Math.floor(Math.random() * idPool.length)]; } while (this.usedLiveIds.includes(
+                    id));
                     this.usedLiveIds.push(id);
+                    const type = types[Math.floor(Math.random() * types.length)];
+                    const amount = amounts[Math.floor(Math.random() * amounts.length)];
                     this.liveLogs.push({
                         id: Date.now() + i,
                         userId: id,
-                        amount: amounts[Math.floor(Math.random() * amounts.length)]
+                        type: type,
+                        amount: amount,
+                        timestamp: Date.now() - Math.floor(Math.random() * 600000)
                     });
                 }
+                this.liveLogs.sort((a, b) => b.timestamp - a.timestamp);
                 if (this.liveLogs.length > 8) this.liveLogs = this.liveLogs.slice(0, 8);
             },
 
             generateLiveLogItem() {
-                const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843',
-                    'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487', 'RBLX-360598'
+                const idPool = ['NEB-382910', 'NEB-472156', 'NEB-593721', 'NEB-684932', 'NEB-715843',
+                    'NEB-826154', 'NEB-937265', 'NEB-148376', 'NEB-259487', 'NEB-360598'
                 ];
-                const amounts = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000];
-
+                const types = ['PayPal', 'Google Play'];
+                const amounts = [100, 250, 500];
                 let newId;
-                do {
-                    newId = idPool[Math.floor(Math.random() * idPool.length)];
-                } while (this.usedLiveIds.includes(newId));
+                do { newId = idPool[Math.floor(Math.random() * idPool.length)]; } while (this.usedLiveIds.includes(
+                    newId));
                 this.usedLiveIds.push(newId);
                 if (this.usedLiveIds.length > 20) this.usedLiveIds.shift();
-
+                const type = types[Math.floor(Math.random() * types.length)];
                 const amount = amounts[Math.floor(Math.random() * amounts.length)];
                 this.liveLogs.unshift({
                     id: Date.now(),
                     userId: newId,
-                    amount: amount
+                    type: type,
+                    amount: amount,
+                    timestamp: Date.now() - Math.floor(Math.random() * 120000)
                 });
                 if (this.liveLogs.length > 8) this.liveLogs.pop();
-
                 this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
             },
 
-            // ---- Save / Load State ----
+            getRelativeTime(timestamp) {
+                const diff = Date.now() - timestamp;
+                const mins = Math.floor(diff / 60000);
+                if (mins < 1) return 'Just now';
+                if (mins < 60) return mins + 'm ago';
+                const hours = Math.floor(mins / 60);
+                if (hours < 24) return hours + 'h ago';
+                const days = Math.floor(hours / 24);
+                return days + 'd ago';
+            },
+
             loadSavedState() {
-                const savedTasks = localStorage.getItem('robux_tasks_state_v5');
-                const savedRunning = localStorage.getItem('robux_task_running');
-                const savedTokens = localStorage.getItem('robux_tokens_balance');
-                const savedCount = localStorage.getItem('robux_completed_count');
-                const savedUsedPromos = localStorage.getItem('robux_used_promos');
-                const savedNextClaim = localStorage.getItem('robux_next_daily_claim');
-                const savedStreak = localStorage.getItem('robux_streak_day');
-                const savedFirstSpin = localStorage.getItem('robux_first_spin_available');
-                const savedSpinCooldown = localStorage.getItem('robux_spin_cooldown');
-                const savedRulesAccepted = localStorage.getItem('robux_rules_accepted');
-                const savedUserId = localStorage.getItem('robux_user_id');
-                const savedTotalEarned = localStorage.getItem('robux_total_earned');
-                const savedLevel = localStorage.getItem('robux_user_level');
+                const savedTasks = localStorage.getItem('neb_tasks_state_v1');
+                const savedRunning = localStorage.getItem('neb_task_running');
+                const savedTokens = localStorage.getItem('neb_tokens_balance');
+                const savedCount = localStorage.getItem('neb_completed_count');
+                const savedUsedPromos = localStorage.getItem('neb_used_promos');
+                const savedNextClaim = localStorage.getItem('neb_next_daily_claim');
+                const savedStreak = localStorage.getItem('neb_streak_day');
+                const savedFirstSpin = localStorage.getItem('neb_first_spin_available');
+                const savedSpinCooldown = localStorage.getItem('neb_spin_cooldown');
+                const savedRulesAccepted = localStorage.getItem('neb_rules_accepted');
+                const savedUserId = localStorage.getItem('neb_user_id');
+                const savedTotalEarned = localStorage.getItem('neb_total_earned');
+                const savedLevel = localStorage.getItem('neb_user_level');
 
                 if (savedTokens) this.tokens = parseInt(savedTokens);
                 if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -2118,22 +2873,21 @@ x-cloak>
                     claimableExpiry: t.claimableExpiry || null,
                     linkIndex: t.linkIndex !== undefined ? t.linkIndex : 0
                 }));
-                localStorage.setItem('robux_tasks_state_v5', JSON.stringify(mapped));
-                localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
-                localStorage.setItem('robux_tokens_balance', this.tokens);
-                localStorage.setItem('robux_completed_count', this.completedTasksCount);
-                localStorage.setItem('robux_used_promos', JSON.stringify(this.usedPromoCodes));
-                localStorage.setItem('robux_next_daily_claim', this.nextDailyClaimTime);
-                localStorage.setItem('robux_streak_day', this.currentStreak);
-                localStorage.setItem('robux_first_spin_available', this.isFirstSpin ? 'true' : 'false');
-                localStorage.setItem('robux_spin_cooldown', this.spinCooldownUntil);
-                localStorage.setItem('robux_rules_accepted', this.rulesAccepted ? 'true' : 'false');
-                localStorage.setItem('robux_user_id', this.userId);
-                localStorage.setItem('robux_total_earned', this.totalTokensEarned);
-                localStorage.setItem('robux_user_level', this.userLevel);
+                localStorage.setItem('neb_tasks_state_v1', JSON.stringify(mapped));
+                localStorage.setItem('neb_task_running', this.isTaskRunning ? 'true' : 'false');
+                localStorage.setItem('neb_tokens_balance', this.tokens);
+                localStorage.setItem('neb_completed_count', this.completedTasksCount);
+                localStorage.setItem('neb_used_promos', JSON.stringify(this.usedPromoCodes));
+                localStorage.setItem('neb_next_daily_claim', this.nextDailyClaimTime);
+                localStorage.setItem('neb_streak_day', this.currentStreak);
+                localStorage.setItem('neb_first_spin_available', this.isFirstSpin ? 'true' : 'false');
+                localStorage.setItem('neb_spin_cooldown', this.spinCooldownUntil);
+                localStorage.setItem('neb_rules_accepted', this.rulesAccepted ? 'true' : 'false');
+                localStorage.setItem('neb_user_id', this.userId);
+                localStorage.setItem('neb_total_earned', this.totalTokensEarned);
+                localStorage.setItem('neb_user_level', this.userLevel);
             },
 
-            // ---- Level update ----
             updateLevel() {
                 const earned = this.totalTokensEarned;
                 const xpPerLevel = this.levelXP;
@@ -2144,21 +2898,20 @@ x-cloak>
                 this.userLevel = level;
             },
 
-            // ---- Add tokens with level update ----
             addTokens(amount) {
                 this.tokens += amount;
                 this.totalTokensEarned += amount;
                 this.updateLevel();
                 this.saveState();
+                this.drawCharts();
             },
 
-            // ---- Reset Account ----
             resetAccount() {
                 if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
-                    const keys = ['robux_tasks_state_v5', 'robux_task_running', 'robux_tokens_balance',
-                        'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
-                        'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
-                        'robux_rules_accepted', 'robux_user_id', 'robux_total_earned', 'robux_user_level'
+                    const keys = ['neb_tasks_state_v1', 'neb_task_running', 'neb_tokens_balance',
+                        'neb_completed_count', 'neb_used_promos', 'neb_next_daily_claim',
+                        'neb_streak_day', 'neb_first_spin_available', 'neb_spin_cooldown',
+                        'neb_rules_accepted', 'neb_user_id', 'neb_total_earned', 'neb_user_level'
                     ];
                     keys.forEach(k => localStorage.removeItem(k));
 
@@ -2173,7 +2926,7 @@ x-cloak>
                     this.rulesAccepted = false;
                     this.totalTokensEarned = 0;
                     this.userLevel = 1;
-                    this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+                    this.userId = 'NEB-' + Math.floor(Math.random() * 900000 + 100000);
                     this.tasks.forEach(t => {
                         t.status = 'idle';
                         t.cooldownUntil = null;
@@ -2186,6 +2939,7 @@ x-cloak>
                     this.robloxUser = '';
                     this.selectedTier = null;
                     this.selectedGiftCard = null;
+                    this.selectedPayoutType = 'PayPal';
                     this.saveState();
                     this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
                     this.generateLeaderboard();
@@ -2193,10 +2947,10 @@ x-cloak>
                     this.usedLiveIds = [];
                     this.generateLiveLog();
                     this.currentTab = 'dashboard';
+                    this.drawCharts();
                 }
             },
 
-            // ---- Rules Accept ----
             acceptRules() {
                 this.rulesAccepted = true;
                 this.saveState();
@@ -2204,7 +2958,6 @@ x-cloak>
                     'Thank you for reading carefully.');
             },
 
-            // ---- Daily Streak ----
             updateDailyGiftStatus() {
                 let now = Date.now();
                 if (this.nextDailyClaimTime > 0 && (now - (this.nextDailyClaimTime - 86400000)) > 172800000) {
@@ -2228,7 +2981,6 @@ x-cloak>
                 if (!this.isDailyGiftAvailable) return;
                 const idx = (this.currentStreak - 1) % 14;
                 let rewardAmount = this.streakDays[idx] || 5;
-                // Bonus for day 7 milestone
                 if (this.currentStreak === 7) {
                     rewardAmount += 25;
                 }
@@ -2240,71 +2992,19 @@ x-cloak>
                 this.updateDailyGiftStatus();
 
                 if (this.currentStreak >= 7) {
-                    this.showImportantToast(`🎉 Streak milestone! +${rewardAmount} Tokens`, '🔥',
-                        `Day ${this.currentStreak - 1} — you're now eligible for withdrawals!`);
+                    this.showImportantToast(`🎉 Streak milestone! +${rewardAmount} NBC`, '🔥',
+                        `Day ${this.currentStreak - 1} — you're now eligible for redemptions!`);
                 } else {
-                    this.showImportantToast(`🎉 Streak claimed! +${rewardAmount} Tokens`, '🔥',
+                    this.showImportantToast(`🎉 Streak claimed! +${rewardAmount} NBC`, '🔥',
                         `Day ${this.currentStreak - 1} → Day ${this.currentStreak}`);
                 }
+                this.drawCharts();
             },
 
-            // ---- Spin Wheel ----
             spinWheel() {
-                if (this.isSpinning) return;
-                if (this.spinCooldownUntil > Date.now()) {
-                    this.showImportantToast('⏳ Cooldown active. Please wait.', '⏳', this.spinCooldownDisplay);
-                    return;
-                }
-                if (!this.isFirstSpin && this.tokens < 5) {
-                    this.showImportantToast('❌ Need 5 Tokens to spin.', '❌', 'Complete tasks to earn more.');
-                    return;
-                }
-
-                this.isSpinning = true;
-                if (!this.isFirstSpin) {
-                    this.tokens -= 5;
-                } else {
-                    this.isFirstSpin = false;
-                }
-                this.spinCooldownUntil = Date.now() + 7200000;
-                this.saveState();
-
-                const sliceWeights = [5, 5, 5, 5, 5, 5, 5, 1];
-                const totalWeight = sliceWeights.reduce((a, b) => a + b, 0);
-                let random = Math.random() * totalWeight;
-                let winningIndex = 0;
-                for (let i = 0; i < sliceWeights.length; i++) {
-                    random -= sliceWeights[i];
-                    if (random <= 0) { winningIndex = i; break; }
-                }
-
-                const slicesMap = [
-                    { prize: 5, angleMin: 0, angleMax: 45 },
-                    { prize: 10, angleMin: 45, angleMax: 90 },
-                    { prize: 20, angleMin: 90, angleMax: 135 },
-                    { prize: 50, angleMin: 135, angleMax: 180 },
-                    { prize: 5, angleMin: 180, angleMax: 225 },
-                    { prize: 10, angleMin: 225, angleMax: 270 },
-                    { prize: 20, angleMin: 270, angleMax: 315 },
-                    { prize: 100, angleMin: 315, angleMax: 360 }
-                ];
-
-                let selectedSlice = slicesMap[winningIndex];
-                let targetSliceMid = (selectedSlice.angleMin + selectedSlice.angleMax) / 2;
-                let baseRotations = 5;
-                let calculatedStopAngle = (baseRotations * 360) + (360 - targetSliceMid);
-                this.wheelAngle = calculatedStopAngle;
-
-                setTimeout(() => {
-                    this.isSpinning = false;
-                    let winAmount = selectedSlice.prize;
-                    this.addTokens(winAmount);
-                    this.showImportantToast(`🎰 You won +${winAmount} Tokens!`, '🎉',
-                        `The wheel landed on ${winAmount} TKNS.`);
-                }, 5000);
+                // Kept for compatibility but not used in UI
             },
 
-            // ---- Task Modal ----
             showTaskModalFor(taskId) {
                 this.modalTaskId = taskId;
                 this.showTaskModal = true;
@@ -2344,7 +3044,6 @@ x-cloak>
                 }
             },
 
-            // ---- Task Helpers ----
             openTaskLink(task) {
                 if (!task) return;
                 if (task.id === 6 && task.link) {
@@ -2356,7 +3055,6 @@ x-cloak>
                 }
             },
 
-            // ---- Main Task Interaction ----
             handleTaskInteraction(task) {
                 if (this.isTaskRunning) {
                     const anyLoading = this.tasks.some(t => t.status === 'loading');
@@ -2388,7 +3086,6 @@ x-cloak>
                     return;
                 }
 
-                // ---- EMAIL / PHONE VERIFICATION (id: 6) ----
                 if (task.id === 6 && task.isRepeatable) {
                     if (task.status === 'idle') {
                         if (task.link) window.open(task.link, '_blank');
@@ -2403,15 +3100,15 @@ x-cloak>
                         this.addTokens(task.reward);
                         this.completedTasksCount++;
                         this.saveState();
-                        this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰',
+                        this.showImportantToast(`💰 +${task.reward} NBC claimed!`, '💰',
                             'Task will be available again in 10 minutes.');
                         this.isTaskRunning = false;
                         this.saveState();
+                        this.drawCharts();
                     }
                     return;
                 }
 
-                // ---- Other repeatable tasks ----
                 if (task.isRepeatable) {
                     if (task.status === 'idle') {
                         if (task.link) window.open(task.link, '_blank');
@@ -2433,17 +3130,17 @@ x-cloak>
                         this.isTaskRunning = false;
                         this.saveState();
                         if (task.isRandomReward) {
-                            this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁',
+                            this.showImportantToast(`🎁 You received +${rewardAmount} NBC!`, '🎁',
                                 'Thanks for participating!');
                         } else {
-                            this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰',
+                            this.showImportantToast(`💰 +${rewardAmount} NBC claimed!`, '💰',
                                 'Task will be available again in 10 minutes.');
                         }
+                        this.drawCharts();
                     }
                     return;
                 }
 
-                // ---- Non-repeatable ----
                 if (task.status === 'idle') {
                     if (task.link) window.open(task.link, '_blank');
                     this.isTaskRunning = true;
@@ -2459,11 +3156,11 @@ x-cloak>
                     this.saveState();
                     this.isTaskRunning = false;
                     this.saveState();
-                    this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
+                    this.showImportantToast(`💰 +${task.reward} NBC claimed!`, '💰', 'Task completed successfully.');
+                    this.drawCharts();
                 }
             },
 
-            // ---- Promo ----
             applyPromoCode() {
                 let inputCode = this.promoCode.trim().toUpperCase();
                 if (!inputCode) {
@@ -2489,9 +3186,10 @@ x-cloak>
                     }
                     this.usedPromoCodes.push(inputCode);
                     this.addTokens(50);
-                    this.showImportantToast('🎁 +50 Tokens from promo!', '🎁', 'Code redeemed successfully.');
+                    this.showImportantToast('🎁 +50 NBC from promo!', '🎁', 'Code redeemed successfully.');
                     this.promoCode = '';
                     this.saveState();
+                    this.drawCharts();
                 } else {
                     this.showImportantToast('❌ Invalid promo code.', '❌', 'Please check and try again.');
                 }
@@ -2500,10 +3198,11 @@ x-cloak>
             submitPromoPassword() {
                 if (this.promoPassword.trim() === '4482') {
                     this.addTokens(500);
-                    this.showImportantToast('🔓 Master unlock! +500 Tokens', '🔓', 'Override complete.');
+                    this.showImportantToast('🔓 Master unlock! +500 NBC', '🔓', 'Override complete.');
                     this.cancelPromoPassword();
                     this.promoCode = '';
                     this.saveState();
+                    this.drawCharts();
                 } else {
                     this.showImportantToast('❌ Wrong security key.', '❌');
                     this.promoPassword = '';
@@ -2515,35 +3214,33 @@ x-cloak>
                 this.promoPassword = '';
             },
 
-            // ---- Telegram Copy ----
             copyTelegramLink() {
-                navigator.clipboard.writeText('https://t.me/robux_prize');
+                navigator.clipboard.writeText('https://t.me/Nebsycoin');
                 this.showImportantToast('📋 Link copied!', '📋', 'Follow the steps above to join Telegram.');
             },
 
-            // ---- Withdraw (UPDATED: checks eligibility at final step) ----
             processWithdraw() {
-                // Check: Did user select a Robux tier or a Gift Card?
-                if (!this.selectedTier && !this.selectedGiftCard) {
-                    this.showImportantToast('⚠️ Select a payout option.', '⚠️',
-                        'Choose either a Robux package or a Gift Card.');
+                if (!this.selectedGiftCard) {
+                    this.showImportantToast('⚠️ Select an amount.', '⚠️', 'Choose a payout amount to redeem.');
                     return;
                 }
 
-                // Determine cost based on selection
                 let cost = 0;
                 let payoutLabel = '';
-                if (this.selectedGiftCard) {
-                    const giftCosts = { 25: 500, 50: 1500, 100: 2500 };
-                    cost = giftCosts[this.selectedGiftCard] || 0;
-                    payoutLabel = '$' + this.selectedGiftCard + ' Gift Card';
-                } else if (this.selectedTier) {
-                    cost = this.selectedTier / 10;
-                    payoutLabel = this.selectedTier + ' Robux';
-                }
+                const amount = this.selectedGiftCard;
+                const type = this.selectedPayoutType;
+
+                const costMap = {
+                    'PayPal': { 100: 2500, 250: 5000, 500: 10000 },
+                    'Google Play': { 100: 2500, 250: 5000, 500: 10000 }
+                };
+
+                const costs = costMap[type] || {};
+                cost = costs[amount] || 0;
+                payoutLabel = '$' + amount + ' ' + type;
 
                 if (!this.robloxUser.trim()) {
-                    this.showImportantToast('❌ Enter a Roblox username.', '❌');
+                    this.showImportantToast('❌ Enter your email address.', '❌');
                     return;
                 }
                 if (!this.withdrawHonestConfirm) {
@@ -2552,22 +3249,21 @@ x-cloak>
                     return;
                 }
 
-                // ---- ELIGIBILITY CHECK AT FINAL STEP ----
                 if (!this.isWithdrawUnlocked) {
-                    this.showImportantToast('🔒 Withdrawals locked.', '🔒',
-                        `Need 7-day streak (${this.currentStreak}/7) and 30 tasks (${this.completedTasksCount}/30). Complete more tasks and maintain your streak!`);
+                    this.showImportantToast('🔒 Redemptions locked.', '🔒',
+                        `Need 7-day streak (${this.currentStreak}/7) and 30 tasks (${this.completedTasksCount}/30).`);
                     return;
                 }
 
                 if (this.tokens < cost) {
-                    this.showImportantToast(`❌ Need ${cost} TKNS.`, '❌', 'Complete more tasks to earn.');
+                    this.showImportantToast(`❌ Need ${cost} NBC.`, '❌', 'Complete more tasks to earn.');
                     return;
                 }
 
                 this._withdrawCost = cost;
                 this._withdrawPayoutLabel = payoutLabel;
-                this._withdrawTier = this.selectedTier;
                 this._withdrawGiftCard = this.selectedGiftCard;
+                this._withdrawType = this.selectedPayoutType;
 
                 this.withdrawStatus = 'loading';
                 setTimeout(() => {
@@ -2578,25 +3274,25 @@ x-cloak>
             confirmAndCompleteWithdraw() {
                 const cost = this._withdrawCost;
                 const payoutLabel = this._withdrawPayoutLabel;
-                const tier = this._withdrawTier;
                 const giftCard = this._withdrawGiftCard;
+                const type = this._withdrawType || 'PayPal';
 
                 this.tokens -= cost;
                 this.withdrawStatus = 'loading';
-                this.showImportantToast('📦 Processing payout...', '📦', 'Finalizing ledger encryption.');
+                this.showImportantToast('📦 Processing redemption...', '📦', 'Finalizing ledger.');
 
                 setTimeout(() => {
                     this.withdrawStatus = 'complete';
                     this.completedTasksCount++;
                     this.saveState();
+                    this.drawCharts();
 
-                    this.showImportantToast('✅ Withdrawal successful!', '💰',
+                    this.showImportantToast('✅ Redemption successful!', '💰',
                         `${payoutLabel} will arrive within 1 to 2 weeks.`);
 
-                    // Add to live logs
-                    const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932',
-                        'RBLX-715843', 'RBLX-826154', 'RBLX-937265', 'RBLX-148376', 'RBLX-259487',
-                        'RBLX-360598'
+                    const idPool = ['NEB-382910', 'NEB-472156', 'NEB-593721', 'NEB-684932',
+                        'NEB-715843', 'NEB-826154', 'NEB-937265', 'NEB-148376', 'NEB-259487',
+                        'NEB-360598'
                     ];
                     let newId;
                     do {
@@ -2607,18 +3303,17 @@ x-cloak>
                     this.liveLogs.unshift({
                         id: Date.now(),
                         userId: newId,
-                        amount: giftCard ? (giftCard * 100) : tier
+                        type: type,
+                        amount: giftCard,
+                        timestamp: Date.now()
                     });
                     if (this.liveLogs.length > 8) this.liveLogs.pop();
 
-                    // Reset selection
-                    this.selectedTier = null;
                     this.selectedGiftCard = null;
 
                 }, 4000);
             },
 
-            // ---- Copy ----
             copyRefLink() {
                 navigator.clipboard.writeText(
                     "https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share");
