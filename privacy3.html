@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#0a0806" />
+    <title>Minecoins - Privacy Policy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ── Reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0806;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            touch-action: manipulation;
+            color: #e8e0d6;
+        }
+
+        #app {
+            max-width: 480px;
+            margin: 0 auto;
+            height: 100%;
+            background: #0f0c0a;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 80px rgba(212, 175, 55, 0.04);
+        }
+
+        /* ── Scrollbar ── */
+        .main::-webkit-scrollbar {
+            width: 5px;
+        }
+        .main::-webkit-scrollbar-track {
+            background: #1a150f;
+        }
+        .main::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 8px;
+        }
+        .main::-webkit-scrollbar-thumb:hover {
+            background: #e8c84a;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(145deg, #14100c 0%, #1f1a13 100%);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 14px 18px;
+            padding-top: max(14px, env(safe-area-inset-top));
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+
+        .logo i {
+            color: #d4af37;
+            font-size: 1.4rem;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.25));
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #f5e6b0 0%, #d4af37 50%, #b8962e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ── Main content ── */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px 16px 24px;
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-title i {
+            color: #d4af37;
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.2));
+        }
+
+        /* ── Cards ── */
+        .policy-card {
+            background: linear-gradient(145deg, #16110d, #0f0c0a);
+            border: 1px solid rgba(212, 175, 55, 0.07);
+            border-radius: 18px;
+            padding: 20px 20px 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(212, 175, 55, 0.04);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .policy-card:hover {
+            border-color: rgba(212, 175, 55, 0.15);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(212, 175, 55, 0.06);
+        }
+
+        .policy-section {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #e8c84a;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .section-title i {
+            font-size: 1rem;
+            color: #d4af37;
+            width: 22px;
+            text-align: center;
+        }
+
+        .section-content {
+            font-size: 0.9rem;
+            color: #c8bca8;
+            line-height: 1.65;
+        }
+
+        .section-content p {
+            margin-bottom: 10px;
+        }
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-content strong {
+            color: #f0dfa0;
+        }
+
+        /* ── Highlight boxes ── */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.07), rgba(184, 150, 46, 0.02));
+            border-left: 4px solid #d4af37;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin: 14px 0 10px;
+            backdrop-filter: blur(4px);
+        }
+
+        .highlight-box p {
+            font-size: 0.85rem;
+            color: #f0dfa0;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .highlight-box p i {
+            color: #d4af37;
+            font-size: 0.95rem;
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(212, 175, 55, 0.02));
+            border-left-color: #f59e0b;
+        }
+
+        .highlight-box.warning p {
+            color: #fcd34d;
+        }
+
+        .highlight-box.warning p i {
+            color: #f59e0b;
+        }
+
+        /* ── Info lists ── */
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 6px;
+        }
+
+        .info-list li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            font-size: 0.88rem;
+            color: #c8bca8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 8px;
+            color: #d4af37;
+            font-size: 0.8rem;
+        }
+
+        .info-list li .badge {
+            background: rgba(212, 175, 55, 0.10);
+            color: #e8c84a;
+            font-size: 0.62rem;
+            font-weight: 600;
+            padding: 1px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.08);
+            letter-spacing: 0.2px;
+            text-transform: uppercase;
+        }
+
+        /* ── Last updated ── */
+        .last-updated {
+            text-align: center;
+            font-size: 0.72rem;
+            color: #6b5d4a;
+            margin-top: 18px;
+            padding: 14px 0 4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            letter-spacing: 0.3px;
+        }
+
+        .last-updated i {
+            color: #d4af37;
+            margin-right: 6px;
+        }
+
+        /* ── Responsive tweaks ── */
+        @media (max-width: 400px) {
+            .header {
+                padding: 10px 14px;
+            }
+            .logo {
+                font-size: 1.05rem;
+            }
+            .page-title {
+                font-size: 1.3rem;
+            }
+            .policy-card {
+                padding: 16px 16px 14px;
+            }
+        }
+
+        /* ── subtle gold accent glow ── */
+        .gold-glow {
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.035) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #app {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- subtle gold glow -->
+        <div class="gold-glow"></div>
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-coins"></i>
+                <span>Minecoins</span>
+            </div>
+            <div class="header-actions"></div>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main" id="mainContent">
+
+            <h1 class="page-title">
+                <i class="fas fa-shield-halved"></i>
+                Privacy Policy
+            </h1>
+
+            <!-- 1. Intro -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Introduction
+                    </h2>
+                    <div class="section-content">
+                        <p>Welcome to <strong>Minecoins</strong>. Your privacy is at the core of everything we do. This policy transparently explains how we collect, use, and safeguard your information when you use our platform to earn coins by completing tasks and offers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. What we collect -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-database"></i>
+                        Information We Collect
+                    </h2>
+                    <div class="section-content">
+                        <p>To deliver a seamless earning experience, we collect the following data:</p>
+                        <ul class="info-list">
+                            <li>Account credentials <span class="badge">email · username</span></li>
+                            <li>Device metadata <span class="badge">model · OS version</span></li>
+                            <li>Activity &amp; earnings <span class="badge">clicks · coins · level</span></li>
+                            <li>Task completion records <span class="badge">offers · rewards</span></li>
+                            <li>IP address &amp; region <span class="badge">analytics · fraud prevention</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. How we use data -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-cogs"></i>
+                        How We Use Your Data
+                    </h2>
+                    <div class="section-content">
+                        <p>Your data powers the Minecoins ecosystem:</p>
+                        <ul class="info-list">
+                            <li>Operate the app and process your earnings securely</li>
+                            <li>Validate task completions and prevent fraudulent activity</li>
+                            <li>Personalise your dashboard, rewards, and recommendations</li>
+                            <li>Deliver critical service notifications (only when necessary)</li>
+                            <li>Optimise performance, fix bugs, and enhance user experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Security -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-lock"></i>
+                        Data Security
+                    </h2>
+                    <div class="section-content">
+                        <div class="highlight-box">
+                            <p><i class="fas fa-shield"></i> Your data is stored locally on your device and encrypted during transmission using industry‑standard protocols.</p>
+                        </div>
+                        <p>We employ rigorous security measures, including encryption, access controls, and continuous monitoring. While no system is infallible, we are committed to protecting your information with the highest standards.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Third-party -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-handshake"></i>
+                        Third‑Party Services
+                    </h2>
+                    <div class="section-content">
+                        <p>We collaborate with trusted partners to enhance your experience:</p>
+                        <ul class="info-list">
+                            <li>Offer walls <span class="badge">task verification</span></li>
+                            <li>Payment processors <span class="badge">PayPal · gift cards</span></li>
+                            <li>Analytics providers <span class="badge">performance insights</span></li>
+                            <li>Ad networks <span class="badge">optional rewarded content</span></li>
+                        </ul>
+                        <p style="margin-top:8px; font-size:0.85rem; color:#8f7e68;">Each partner operates under its own privacy policy. We encourage you to review their terms for full transparency.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Your rights -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-user-shield"></i>
+                        Your Rights
+                    </h2>
+                    <div class="section-content">
+                        <p>You retain full control over your personal data:</p>
+                        <ul class="info-list">
+                            <li>Access and review your personal data</li>
+                            <li>Request permanent account deletion</li>
+                            <li>Opt out of non‑essential communications</li>
+                            <li>Export your data in a portable format</li>
+                            <li>Restrict data collection <span class="badge">may affect features</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Children -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-child"></i>
+                        Children's Privacy
+                    </h2>
+                    <div class="section-content">
+                        <div class="highlight-box warning">
+                            <p><i class="fas fa-exclamation-triangle"></i> Minecoins is strictly for users aged 13 and above.</p>
+                        </div>
+                        <p>We do not knowingly collect or store information from children under 13. If you believe we have inadvertently done so, please contact us immediately and we will securely delete the data.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Updates -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-sync-alt"></i>
+                        Policy Updates
+                    </h2>
+                    <div class="section-content">
+                        <p>We may revise this Privacy Policy from time to time to reflect legal, operational, or regulatory changes. We will notify you via the app and update the effective date below. By continuing to use Minecoins, you accept the latest version of this policy.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="last-updated">
+                <i class="fas fa-calendar-alt"></i> Last Updated: August 10, 2026
+            </div>
+
+        </div>
+        <!-- /main -->
+    </div>
+    <!-- /app -->
+
+    <script>
+        // ── Mobile gesture prevention ──
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('gesturechange', e => e.preventDefault());
+        document.addEventListener('gestureend', e => e.preventDefault());
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) e.preventDefault();
+            lastTouchEnd = now;
+        }, false);
+
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
+
+        // ── subtle gold shimmer on hover (desktop only) ──
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.querySelectorAll('.policy-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.borderColor = 'rgba(212, 175, 55, 0.2)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.borderColor = 'rgba(212, 175, 55, 0.07)';
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
