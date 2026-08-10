@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#0b0d1a" />
+    <title>VBucks - Privacy Policy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ── Reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #080a16;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            touch-action: manipulation;
+            color: #eef2ff;
+        }
+
+        #app {
+            max-width: 480px;
+            margin: 0 auto;
+            height: 100%;
+            background: #0b0d1a;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 60px rgba(6, 182, 212, 0.04);
+        }
+
+        /* ── Scrollbar ── */
+        .main::-webkit-scrollbar {
+            width: 5px;
+        }
+        .main::-webkit-scrollbar-track {
+            background: #141729;
+        }
+        .main::-webkit-scrollbar-thumb {
+            background: #06b6d4;
+            border-radius: 8px;
+        }
+        .main::-webkit-scrollbar-thumb:hover {
+            background: #22d3ee;
+        }
+
+        /* ── Header ── */
+        .header {
+            background: linear-gradient(145deg, #0f1228 0%, #1a1f3a 100%);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.15);
+            padding: 14px 18px;
+            padding-top: max(14px, env(safe-area-inset-top));
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+
+        .logo i {
+            color: #06b6d4;
+            font-size: 1.4rem;
+            filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.3));
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #ffffff 0%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ── Main content ── */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 16px 16px 24px;
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-title i {
+            color: #06b6d4;
+            font-size: 1.5rem;
+            filter: drop-shadow(0 0 12px rgba(6, 182, 212, 0.25));
+        }
+
+        /* ── Cards ── */
+        .policy-card {
+            background: linear-gradient(145deg, #11142b, #0d0f20);
+            border: 1px solid rgba(6, 182, 212, 0.08);
+            border-radius: 18px;
+            padding: 20px 20px 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(6, 182, 212, 0.06);
+            transition: border-color 0.2s;
+        }
+
+        .policy-card:hover {
+            border-color: rgba(6, 182, 212, 0.15);
+        }
+
+        .policy-section {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #22d3ee;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .section-title i {
+            font-size: 1rem;
+            color: #06b6d4;
+            width: 22px;
+            text-align: center;
+        }
+
+        .section-content {
+            font-size: 0.9rem;
+            color: #c8d0e6;
+            line-height: 1.65;
+        }
+
+        .section-content p {
+            margin-bottom: 10px;
+        }
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ── Highlight boxes ── */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.07), rgba(6, 182, 212, 0.03));
+            border-left: 4px solid #06b6d4;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin: 14px 0 10px;
+            backdrop-filter: blur(4px);
+        }
+
+        .highlight-box p {
+            font-size: 0.85rem;
+            color: #67e8f9;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .highlight-box p i {
+            color: #06b6d4;
+            font-size: 0.95rem;
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.06), rgba(245, 158, 11, 0.02));
+            border-left-color: #fbbf24;
+        }
+
+        .highlight-box.warning p {
+            color: #fcd34d;
+        }
+
+        .highlight-box.warning p i {
+            color: #fbbf24;
+        }
+
+        /* ── Info lists ── */
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 6px;
+        }
+
+        .info-list li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            font-size: 0.88rem;
+            color: #c8d0e6;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-list li:before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            top: 8px;
+            color: #06b6d4;
+            font-size: 0.8rem;
+        }
+
+        .info-list li .badge {
+            background: rgba(6, 182, 212, 0.12);
+            color: #22d3ee;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 1px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            border: 1px solid rgba(6, 182, 212, 0.08);
+        }
+
+        /* ── Last updated ── */
+        .last-updated {
+            text-align: center;
+            font-size: 0.72rem;
+            color: #5b6a8f;
+            margin-top: 18px;
+            padding: 14px 0 4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            letter-spacing: 0.3px;
+        }
+
+        .last-updated i {
+            color: #06b6d4;
+            margin-right: 6px;
+        }
+
+        /* ── Responsive tweaks ── */
+        @media (max-width: 400px) {
+            .header {
+                padding: 10px 14px;
+            }
+            .logo {
+                font-size: 1.05rem;
+            }
+            .page-title {
+                font-size: 1.3rem;
+            }
+            .policy-card {
+                padding: 16px 16px 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-coins"></i>
+                <span>VBucks</span>
+            </div>
+            <div class="header-actions"></div>
+        </div>
+
+        <!-- MAIN -->
+        <div class="main" id="mainContent">
+
+            <h1 class="page-title">
+                <i class="fas fa-shield-halved"></i>
+                Privacy Policy
+            </h1>
+
+            <!-- 1. Intro -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Introduction
+                    </h2>
+                    <div class="section-content">
+                        <p>Welcome to <strong style="color:#67e8f9;">VBucks</strong>. We take your privacy seriously. This policy explains how we collect, use, and protect your information when you use our app to earn V-Bucks by completing tasks, offers, and challenges.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. What we collect -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-database"></i>
+                        Information We Collect
+                    </h2>
+                    <div class="section-content">
+                        <p>To keep VBucks running smoothly and reward you with V-Bucks, we collect:</p>
+                        <ul class="info-list">
+                            <li>Account details <span class="badge">email · username</span></li>
+                            <li>Device info <span class="badge">model · OS</span></li>
+                            <li>Usage &amp; V-Bucks earnings <span class="badge">clicks · tasks · balance</span></li>
+                            <li>Task completion status <span class="badge">offers · challenges · rewards</span></li>
+                            <li>IP address &amp; region <span class="badge">analytics</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. How we use data -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-cogs"></i>
+                        How We Use Your Data
+                    </h2>
+                    <div class="section-content">
+                        <p>Your data helps us deliver a better VBucks experience and ensure you get your V-Bucks rewards:</p>
+                        <ul class="info-list">
+                            <li>Run the app and process your V-Bucks earnings</li>
+                            <li>Verify task completions &amp; prevent fraud</li>
+                            <li>Personalise your dashboard &amp; reward offers</li>
+                            <li>Send important updates (only when needed)</li>
+                            <li>Improve performance &amp; fix bugs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Security -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-lock"></i>
+                        Data Security
+                    </h2>
+                    <div class="section-content">
+                        <div class="highlight-box">
+                            <p><i class="fas fa-shield"></i> Your data is stored locally on your device and encrypted during transmission.</p>
+                        </div>
+                        <p>We use industry‑standard encryption and security measures. While no system is 100% foolproof, we continuously monitor and update our protections to keep your V-Bucks and personal info safe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Third-party -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-handshake"></i>
+                        Third‑Party Services
+                    </h2>
+                    <div class="section-content">
+                        <p>We work with trusted partners to help you earn V-Bucks:</p>
+                        <ul class="info-list">
+                            <li>Offer walls <span class="badge">task verification</span></li>
+                            <li>Payment processors <span class="badge">V-Bucks payouts</span></li>
+                            <li>Analytics <span class="badge">performance</span></li>
+                            <li>Ad networks <span class="badge">optional rewards</span></li>
+                        </ul>
+                        <p style="margin-top:8px; font-size:0.85rem; color:#94a3b8;">Each partner has its own privacy policy. We encourage you to review them.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Your rights -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-user-shield"></i>
+                        Your Rights
+                    </h2>
+                    <div class="section-content">
+                        <p>You have control over your data and V-Bucks account:</p>
+                        <ul class="info-list">
+                            <li>Access your personal data</li>
+                            <li>Request deletion of your account</li>
+                            <li>Opt out of marketing messages</li>
+                            <li>Export your data</li>
+                            <li>Limit data collection <span class="badge">may affect features</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Children -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-child"></i>
+                        Children's Privacy
+                    </h2>
+                    <div class="section-content">
+                        <div class="highlight-box warning">
+                            <p><i class="fas fa-exclamation-triangle"></i> VBucks is not for users under 13 years of age.</p>
+                        </div>
+                        <p>We do not knowingly collect data from children under 13. If you believe we have, please contact us and we will delete it immediately.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Updates -->
+            <div class="policy-card">
+                <div class="policy-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-sync-alt"></i>
+                        Policy Updates
+                    </h2>
+                    <div class="section-content">
+                        <p>We may update this policy occasionally. We'll notify you via the app and update the date below. Continued use of VBucks means you accept the revised policy.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="last-updated">
+                <i class="fas fa-calendar-alt"></i> Last Updated: August 10, 2026
+            </div>
+
+        </div>
+        <!-- /main -->
+    </div>
+    <!-- /app -->
+
+    <script>
+        // ── Mobile gesture prevention ──
+        document.addEventListener('gesturestart', e => e.preventDefault());
+        document.addEventListener('gesturechange', e => e.preventDefault());
+        document.addEventListener('gestureend', e => e.preventDefault());
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', e => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) e.preventDefault();
+            lastTouchEnd = now;
+        }, false);
+
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
+    </script>
+
+</body>
+</html>
