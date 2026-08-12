@@ -497,7 +497,7 @@
                         </div>
                     </div>
 
-                    <!-- Gift Cards (all use ./roblox100.jpg) -->
+                    <!-- Gift Cards (all use ./Roblox25.jpg) -->
                     <div>
                         <div class="gift-section-divider flex items-center gap-3 text-zinc-500 text-xs font-bold uppercase tracking-wider my-4">
                             <span class="flex-1 h-px bg-zinc-800"></span>
@@ -507,7 +507,7 @@
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                             <template x-for="(gc, idx) in giftCards" :key="idx">
                                 <div @click="selectPrize('giftcard', gc.amount)" class="gift-card-selector" :class="{ 'active': selectedPrize && selectedPrize.type === 'giftcard' && selectedPrize.amount === gc.amount }">
-                                    <img src="./roblox100.jpg" class="gift-img" alt="Gift Card" />
+                                    <img src="./Roblox25.jpg" class="gift-img" alt="Gift Card" />
                                     <span class="gift-amount" x-text="'$' + gc.amount"></span>
                                     <span class="gift-badge">Roblox Gift Card</span>
                                     <span class="gift-cost" x-text="gc.cost + ' TKNS'"></span>
@@ -607,7 +607,7 @@
                                     'bg-green-500/30': verificationStatus[index] === 'completed',
                                     'bg-amber-400/30': verificationStatus[index] === 'loading'
                                 }"></div>
-                                
+
                                 <!-- Dot -->
                                 <div class="step-dot" :class="{
                                     'completed': verificationStatus[index] === 'completed',
