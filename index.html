@@ -145,19 +145,31 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-        .prize-card .limited-tag {
+        /* Professional Limited Badge for Gift Cards */
+        .limited-badge {
             position: absolute;
             top: 0.5rem;
             left: 0.5rem;
-            background: rgba(251, 191, 36, 0.15);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.25);
-            font-size: 0.45rem;
-            font-weight: 700;
-            padding: 0.1rem 0.4rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #0f0f0f;
+            font-size: 0.5rem;
+            font-weight: 800;
+            padding: 0.15rem 0.6rem 0.15rem 0.4rem;
             border-radius: 9999px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
+            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+        }
+        .limited-badge::before {
+            content: "★";
+            font-size: 0.6rem;
+            line-height: 1;
+            color: #0f0f0f;
         }
         .gift-card-selector {
             background: rgba(20, 20, 22, 0.8);
@@ -512,7 +524,8 @@
                                     <span class="gift-badge">Roblox Gift Card</span>
                                     <span class="gift-cost" x-text="gc.cost + ' TKNS'"></span>
                                     <span x-show="gc.hot" class="hot-tag">🔥 Hot</span>
-                                    <span x-show="gc.limited" class="limited-tag" style="top:0.3rem;left:0.3rem;background:rgba(251,191,36,0.2);color:#fbbf24;border-color:rgba(251,191,36,0.3);">Limited</span>
+                                    <!-- Professional Limited Badge -->
+                                    <span x-show="gc.limited" class="limited-badge">Limited</span>
                                 </div>
                             </template>
                         </div>
@@ -726,7 +739,7 @@
             return {
                 // Core State
                 currentStep: 1,
-                tokens: 9999,
+                tokens: 50000, // <-- Updated to 50,000
                 robloxUser: '',
                 selectedPrize: null,
                 isPurchasing: false,
