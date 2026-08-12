@@ -430,17 +430,24 @@
 
     <!-- HEADER -->
     <nav class="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md px-4 py-3 lg:px-8">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-2">
             <div class="flex items-center gap-2 cursor-pointer">
                 <div class="bg-red-600 p-2 rounded-xl text-white shadow-lg shadow-red-600/20 animate-pulse">
                     <i data-lucide="ticket" class="w-6 h-6"></i>
                 </div>
                 <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">Robux<span class="text-red-500">Prize</span></span>
             </div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
+                <!-- Download App Button -->
+                <a href="https://play.google.com/store/apps/details?id=silly.prize" target="_blank" class="flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 rounded-full px-3 py-1.5 text-xs font-bold transition-all duration-200 shadow-lg shadow-emerald-600/10">
+                    <i data-lucide="download" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Download App</span>
+                    <span class="sm:hidden">App</span>
+                </a>
+                <!-- TKNS Balance (formatted) -->
                 <div class="bg-zinc-900 border border-zinc-800 rounded-full py-1.5 px-3.5 flex items-center gap-2 shadow-inner">
                     <i data-lucide="ticket" class="w-4 h-4 text-red-500"></i>
-                    <span class="text-sm font-bold text-white tracking-wide" x-text="tokens + ' TKNS'"></span>
+                    <span class="text-sm font-bold text-white tracking-wide" x-text="formattedTokens + ' TKNS'"></span>
                 </div>
             </div>
         </div>
@@ -463,6 +470,13 @@
                     ⚡ Hurry! Some gift cards are limited and available on a first-come, first-served basis.
                 </span>
             </p>
+            <!-- Limited Slots Counter -->
+            <div class="flex justify-center items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-5 py-2 mx-auto w-fit">
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-400">🔥 Only</span>
+                <span class="text-2xl font-black text-amber-400" x-text="remainingSlots"></span>
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-400">slots left!</span>
+            </div>
+            <p class="text-[10px] text-zinc-500 font-mono tracking-wider">⏳ Time remaining to claim your prize</p>
             <div class="flex justify-center items-center gap-3 sm:gap-5 pt-2">
                 <template x-for="(unit, key) in countdown" :key="key">
                     <div class="countdown-block">
@@ -559,7 +573,7 @@
                         </div>
                         <div class="flex justify-between text-sm border-t border-zinc-800 pt-2 mt-1">
                             <span class="text-zinc-400">Your Balance</span>
-                            <span class="text-white font-bold" x-text="tokens + ' TKNS'"></span>
+                            <span class="text-white font-bold" x-text="formattedTokens + ' TKNS'"></span>
                         </div>
                         <div x-show="tokens < getPrizeCost()" class="text-xs text-red-400 text-center bg-red-500/10 rounded-lg p-2 mt-2">
                             ⚠️ Insufficient TKNS! Complete more tasks to earn more.
@@ -739,11 +753,13 @@
             return {
                 // Core State
                 currentStep: 1,
-                tokens: 50000, // <-- Updated to 50,000
+                tokens: 50000,
                 robloxUser: '',
                 selectedPrize: null,
                 isPurchasing: false,
                 isVerifyingCaptcha: false,
+                // Slots counter
+                remainingSlots: 50,
 
                 // Verification Stepper
                 verificationSteps: [
@@ -776,6 +792,14 @@
                 // Countdown
                 giveawayEndTime: Date.now() + 5 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000,
                 currentTime: Date.now(),
+
+                // Computed: formatted balance (e.g., 50k)
+                get formattedTokens() {
+                    const num = this.tokens;
+                    if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+                    if (num >= 1000) return (num / 1000).toFixed(0) + 'k';
+                    return num.toString();
+                },
 
                 get countdown() {
                     const now = this.currentTime;
@@ -865,6 +889,10 @@
                         // Move to processing collection
                         this.currentStep = 6;
                         setTimeout(() => {
+                            // Decrement remaining slots
+                            if (this.remainingSlots > 0) {
+                                this.remainingSlots--;
+                            }
                             this.currentStep = 7;
                             this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                         }, 3000);
@@ -878,6 +906,7 @@
                     this.isPurchasing = false;
                     this.isVerifyingCaptcha = false;
                     this.verificationStatus = ['pending', 'pending', 'pending'];
+                    // Do NOT reset remainingSlots – we keep it persistent across claims
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
