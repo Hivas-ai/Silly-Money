@@ -786,6 +786,148 @@
             background: #1a1a1e;
             flex-shrink: 0;
         }
+
+        /* ===== GIVEAWAY BANNER ANIMATIONS ===== */
+        @keyframes giveaway-float {
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+        @keyframes giveaway-glow {
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(220, 38, 38, 0.2), 0 0 60px rgba(220, 38, 38, 0.05);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(220, 38, 38, 0.35), 0 0 80px rgba(220, 38, 38, 0.08);
+            }
+        }
+        @keyframes countdown-pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        .giveaway-banner {
+            background: linear-gradient(135deg, #1a0a0a 0%, #0f0a0a 40%, #0a0a0c 100%);
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            animation: giveaway-glow 3s ease-in-out infinite;
+            border-radius: 1.5rem;
+            padding: 1rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .giveaway-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(220, 38, 38, 0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .giveaway-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #dc2626, #ef4444, #dc2626, transparent);
+            opacity: 0.4;
+        }
+        .giveaway-icon {
+            animation: giveaway-float 2.5s ease-in-out infinite;
+        }
+        .giveaway-countdown-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 0.75rem;
+            padding: 0.3rem 0.6rem;
+            min-width: 48px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .giveaway-countdown-block .num {
+            font-size: 1.2rem;
+            font-weight: 800;
+            font-feature-settings: "tnum";
+            letter-spacing: 0.02em;
+            background: linear-gradient(180deg, #fff 40%, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .giveaway-countdown-block .label {
+            font-size: 0.45rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #8a8a92;
+            font-weight: 600;
+            display: block;
+            margin-top: 0.05rem;
+            -webkit-text-fill-color: #8a8a92;
+        }
+        .giveaway-tag {
+            background: rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 9999px;
+            padding: 0.15rem 0.8rem;
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #f87171;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .giveaway-tag i {
+            width: 0.75rem;
+            height: 0.75rem;
+        }
+        @keyframes shimmer-giveaway {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        .giveaway-shimmer-text {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
+            background-size: 200% auto;
+            animation: shimmer-giveaway 2.5s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 640px) {
+            .giveaway-banner {
+                padding: 0.75rem 1rem;
+                border-radius: 1rem;
+            }
+            .giveaway-countdown-block {
+                min-width: 36px;
+                padding: 0.2rem 0.4rem;
+            }
+            .giveaway-countdown-block .num {
+                font-size: 0.9rem;
+            }
+            .giveaway-countdown-block .label {
+                font-size: 0.35rem;
+            }
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -807,6 +949,49 @@
             </div>
         </div>
     </nav>
+
+    <!-- ===== GIVEAWAY NOTIFICATION BANNER (UPDATED: $200 Giveaway, Real-time Countdown) ===== -->
+    <div class="max-w-7xl mx-auto px-4 pt-4 lg:px-8" x-show="giveawayActive" x-cloak>
+        <div class="giveaway-banner">
+            <div class="flex flex-wrap items-center justify-between gap-3 relative z-10">
+                <!-- Left: Icon + Title -->
+                <div class="flex items-center gap-3 flex-1 min-w-[180px]">
+                    <div class="giveaway-icon text-3xl sm:text-4xl flex-shrink-0">🎁</div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-sm sm:text-base font-extrabold text-white tracking-tight">🔥 $200 GIVEAWAY</span>
+                            <span class="giveaway-tag">
+                                <i data-lucide="flame" class="w-3 h-3"></i> LIVE
+                            </span>
+                            <span class="giveaway-tag" style="border-color:rgba(251,191,36,0.25);color:#fbbf24;background:rgba(251,191,36,0.08);">
+                                <i data-lucide="gift" class="w-3 h-3"></i> 15 DAYS
+                            </span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mt-0.5 font-medium">
+                            <span class="giveaway-shimmer-text font-bold">$200</span> in Robux Gift Cards — complete the "Contact Support" task to enter!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Center: Countdown (updates every second) -->
+                <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+                    <template x-for="(unit, key) in giveawayCountdown" :key="key">
+                        <div class="giveaway-countdown-block">
+                            <span class="num" x-text="String(unit.value).padStart(2, '0')"></span>
+                            <span class="label" x-text="unit.label"></span>
+                        </div>
+                    </template>
+                    <span class="text-xs text-zinc-600 font-mono font-light tracking-wider ml-1 hidden sm:inline">remaining</span>
+                </div>
+
+                <!-- Right: CTA (navigates to tasks and opens the Giveaway task modal) -->
+                <button @click="joinGiveaway()" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl transition-all duration-200 shadow-lg shadow-red-600/20 active:scale-95 flex items-center gap-2 flex-shrink-0 border border-red-500/20">
+                    <i data-lucide="rocket" class="w-4 h-4"></i>
+                    <span>Join Now</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- MAIN -->
     <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-24 lg:pb-12">
@@ -1855,7 +2040,7 @@ x-cloak>
         </div>
     </template>
 
-    <!-- Email Giveaway Task Modal (id 8) -->
+    <!-- Email Giveaway Task Modal (id 8) – this is the $200 giveaway task -->
     <template x-if="modalTaskId === 8">
         <div>
             <div class="flex items-center gap-3 mb-4">
@@ -1863,8 +2048,8 @@ x-cloak>
                     <i data-lucide="gift" class="w-6 h-6 text-red-400"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-white">🎁 Support Giveaway</h3>
-                    <p class="text-xs text-zinc-400">Earn a <strong class="text-emerald-400">random gift (10-50 TKNS)</strong> by contacting us!</p>
+                    <h3 class="text-lg font-bold text-white">🎁 $200 Giveaway – Contact Support</h3>
+                    <p class="text-xs text-zinc-400">Earn a <strong class="text-emerald-400">random gift (10-50 TKNS)</strong> and be entered to win <strong class="text-yellow-400">$200 in Robux</strong>!</p>
                 </div>
             </div>
 
@@ -1882,12 +2067,13 @@ x-cloak>
                     <li>Make sure to send the email from the same address you use in Google Play.</li>
                     <li>After sending, click <strong class="text-white">"Start Now"</strong> below to begin verification.</li>
                     <li>You will receive a random gift between 10 and 50 TKNS after 2 minutes!</li>
+                    <li class="text-yellow-400 font-medium">🎉 All participants are automatically entered into the <strong>$200 Robux Giveaway</strong> draw. Winners will be announced at the end of the 15-day countdown.</li>
                 </ol>
                 <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-400 text-[11px]">
-                    🎁 This is a limited-time giveaway. It ends in <span x-text="getGiveawayRemaining(getEmailGiveawayExpiry())"></span>.
+                    🎁 This giveaway ends in <span x-text="getGiveawayRemaining(getEmailGiveawayExpiry())"></span>. Don't miss out!
                 </div>
                 <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-2 text-red-400 text-[11px]">
-                    ⚠️ After 7 days, this giveaway will expire and the task will no longer be available.
+                    ⚠️ After 7 days, this task will expire and the giveaway will close.
                 </div>
             </div>
 
@@ -1971,6 +2157,11 @@ x-cloak>
             // ---- Task Modal ----
             showTaskModal: false,
             modalTaskId: null,
+
+            // ---- Giveaway ----
+            giveawayEndTime: Date.now() + 15 * 24 * 60 * 60 * 1000,
+            giveawayActive: true,
+            currentTime: Date.now(),  // <-- NEW: reactive time for countdown
 
             // ---- Tasks ----
             tasks: [{
@@ -2080,8 +2271,8 @@ x-cloak>
                 },
                 {
                     id: 8,
-                    title: '📧 Contact Support – Giveaway',
-                    desc: 'Send "hi" from your Google Play email to nebsytechnologies@gmail.com and get a random gift! Limited time.',
+                    title: '📧 $200 Giveaway – Contact Support',
+                    desc: 'Send "hi" from your Google Play email to nebsytechnologies@gmail.com and get a random gift (10-50 TKNS) plus entry into the $200 Robux giveaway!',
                     reward: 0,
                     status: 'idle',
                     link: 'mailto:nebsytechnologies@gmail.com?subject=Hello%20from%20RobuxPrize&body=hi',
@@ -2124,6 +2315,22 @@ x-cloak>
                 return `${hours}h ${mins}m`;
             },
 
+            // ---- Giveaway Countdown (depends on currentTime to auto-update) ----
+            get giveawayCountdown() {
+                const now = this.currentTime; // <-- reactive dependency
+                const diff = Math.max(0, this.giveawayEndTime - now);
+                const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+                const hours = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                const mins = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
+                const secs = Math.floor((diff % (60 * 1000)) / 1000);
+                return {
+                    days: { value: days, label: 'Days' },
+                    hours: { value: hours, label: 'Hrs' },
+                    mins: { value: mins, label: 'Min' },
+                    secs: { value: secs, label: 'Sec' }
+                };
+            },
+
             getCooldownDisplay(cooldownUntil) {
                 const now = Date.now();
                 const diff = cooldownUntil - now;
@@ -2163,7 +2370,7 @@ x-cloak>
             // ---- Giveaway helpers ----
             getGiveawayRemaining(expiry) {
                 if (!expiry) return 'N/A';
-                const now = Date.now();
+                const now = this.currentTime; // use currentTime for consistency
                 const diff = expiry - now;
                 if (diff <= 0) return 'Expired';
                 const days = Math.floor(diff / (24 * 60 * 60 * 1000));
@@ -2204,6 +2411,16 @@ x-cloak>
                 if (this.toastTimeout) clearTimeout(this.toastTimeout);
             },
 
+            // ---- Join Giveaway: go to tasks and open the Giveaway modal ----
+            joinGiveaway() {
+                this.currentTab = 'tasks';
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.showTaskModalFor(8);
+                    }, 300);
+                });
+            },
+
             // ---- Init ----
             init() {
                 this.loadSavedState();
@@ -2212,30 +2429,50 @@ x-cloak>
                     this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                 }
 
+                // Ensure giveaway end time persists
+                const savedGiveawayEnd = localStorage.getItem('robux_giveaway_end');
+                if (savedGiveawayEnd) {
+                    this.giveawayEndTime = parseInt(savedGiveawayEnd);
+                    if (this.giveawayEndTime < Date.now()) {
+                        this.giveawayEndTime = Date.now() + 15 * 24 * 60 * 60 * 1000;
+                        localStorage.setItem('robux_giveaway_end', this.giveawayEndTime);
+                    }
+                } else {
+                    this.giveawayEndTime = Date.now() + 15 * 24 * 60 * 60 * 1000;
+                    localStorage.setItem('robux_giveaway_end', this.giveawayEndTime);
+                }
+
+                this.giveawayActive = this.giveawayEndTime > Date.now();
+                this.currentTime = Date.now(); // initialise
+
                 this.generateLeaderboard();
                 this.updateDailyGiftStatus();
 
+                // ---- Main interval: update currentTime every second ----
                 setInterval(() => {
+                    this.currentTime = Date.now();
+                    this.giveawayActive = this.giveawayEndTime > this.currentTime;
                     this.updateDailyGiftStatus();
 
                     let anyReset = false;
                     this.tasks.forEach(t => {
-                        if (t.status === 'loading' && t.endTime && t.endTime < Date.now()) {
+                        if (t.status === 'loading' && t.endTime && t.endTime < this.currentTime) {
                             t.status = 'claimable';
-                            t.claimableExpiry = Date.now() + 60000;
+                            t.claimableExpiry = this.currentTime + 60000;
                             t.endTime = null;
                             this.isTaskRunning = false;
                             anyReset = true;
                             this.showImportantToast(`✅ "${t.title}" ready to claim!`, '🎯',
                                 'You have 1 minute to claim.');
                         }
-                        if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
-                            .now()) {
+                        if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < this
+                            .currentTime) {
                             t.status = 'idle';
                             t.claimableExpiry = null;
                             anyReset = true;
                         }
-                        if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
+                        if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < this
+                        .currentTime) {
                             t.status = 'idle';
                             t.cooldownUntil = null;
                             anyReset = true;
@@ -2249,7 +2486,6 @@ x-cloak>
                     }
 
                     if (anyReset) this.saveState();
-                    // Redraw charts on data change
                     this.drawCharts();
                 }, 1000);
 
@@ -2319,7 +2555,6 @@ x-cloak>
                 const currentBalance = this.tokens || 0;
 
                 // Generate 12 data points that lead up to the total earned
-                // Use a realistic growth curve: start slow, accelerate, then plateau
                 const numPoints = 12;
                 const dataPoints = [];
                 if (totalEarned === 0) {
@@ -2327,15 +2562,12 @@ x-cloak>
                         dataPoints.push(0);
                     }
                 } else {
-                    // Use a sigmoid-like growth curve based on the actual total
                     for (let i = 0; i < numPoints; i++) {
                         const t = i / (numPoints - 1);
-                        // Smooth growth: starts slow, ramps up, then levels off
                         const growth = 1 / (1 + Math.exp(-8 * (t - 0.5)));
                         const value = Math.round(growth * totalEarned);
                         dataPoints.push(value);
                     }
-                    // Ensure the last point exactly matches totalEarned
                     dataPoints[numPoints - 1] = totalEarned;
                 }
 
@@ -2365,7 +2597,7 @@ x-cloak>
                 }
                 ctx.setLineDash([]);
 
-                // X-axis labels (periods)
+                // X-axis labels
                 ctx.fillStyle = '#71717a';
                 ctx.font = '7px Inter, sans-serif';
                 ctx.textAlign = 'center';
@@ -2385,7 +2617,7 @@ x-cloak>
                     ctx.fillText(val + '', pad.left - 4, yPos);
                 }
 
-                // Draw area fill (gradient)
+                // Area fill
                 const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + chartH);
                 grad.addColorStop(0, 'rgba(16, 185, 129, 0.25)');
                 grad.addColorStop(0.5, 'rgba(16, 185, 129, 0.08)');
@@ -2402,7 +2634,7 @@ x-cloak>
                 ctx.fillStyle = grad;
                 ctx.fill();
 
-                // Draw line
+                // Line
                 ctx.beginPath();
                 for (let i = 0; i < numPoints; i++) {
                     const x = getX(i);
@@ -2414,7 +2646,7 @@ x-cloak>
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // Draw dots
+                // Dots
                 for (let i = 0; i < numPoints; i++) {
                     const x = getX(i);
                     const y = getY(dataPoints[i]);
@@ -2426,7 +2658,6 @@ x-cloak>
                     ctx.lineWidth = 1;
                     ctx.stroke();
 
-                    // Value label on last point
                     if (i === numPoints - 1 && dataPoints[i] > 0) {
                         ctx.fillStyle = '#d4d4d8';
                         ctx.font = '8px Inter, sans-serif';
@@ -2441,7 +2672,6 @@ x-cloak>
                     const lastIdx = numPoints - 1;
                     const lastX = getX(lastIdx);
                     const lastY = getY(dataPoints[lastIdx]);
-                    // Show current balance as a separate marker
                     const curRatio = Math.min(currentBalance / maxVal, 1);
                     const curY = pad.top + chartH - curRatio * chartH;
                     ctx.beginPath();
@@ -2455,7 +2685,6 @@ x-cloak>
                     ctx.fillText('balance', lastX - 4, curY - 3);
                 }
 
-                // Title inline
                 ctx.fillStyle = '#71717a';
                 ctx.font = '6px Inter, sans-serif';
                 ctx.textAlign = 'left';
@@ -2482,10 +2711,7 @@ x-cloak>
                 const chartW = w - pad.left - pad.right;
                 const chartH = h - pad.top - pad.bottom;
 
-                // Real data: count completed tasks per category
                 const completedCount = this.completedTasksCount || 0;
-
-                // Define task categories based on actual tasks
                 const categories = [
                     { label: 'Sign Up', key: 1 },
                     { label: 'Install', key: 2 },
@@ -2498,8 +2724,6 @@ x-cloak>
                     { label: 'Telegram', key: 9 }
                 ];
 
-                // Count how many tasks are completed per category
-                // For each task, check if status === 'completed'
                 const taskMap = {};
                 this.tasks.forEach(t => {
                     if (t.status === 'completed') {
@@ -2507,13 +2731,11 @@ x-cloak>
                     }
                 });
 
-                // Build data for the chart
                 const chartData = categories.map(cat => {
                     const count = taskMap[cat.key] || 0;
                     return { label: cat.label, count: count };
                 });
 
-                // Filter out categories with 0 count for cleaner chart, but keep at least one
                 const filtered = chartData.filter(d => d.count > 0);
                 const displayData = filtered.length > 0 ? filtered : [{ label: 'None', count: 0 }];
 
@@ -2521,12 +2743,10 @@ x-cloak>
                 const barWidth = Math.min(22, (chartW / displayData.length) * 0.6);
                 const gap = (chartW - barWidth * displayData.length) / (displayData.length + 1);
 
-                // Clear
                 ctx.clearRect(0, 0, w, h);
                 ctx.fillStyle = '#0f0f11';
                 ctx.fillRect(0, 0, w, h);
 
-                // Grid lines
                 ctx.strokeStyle = '#27272a';
                 ctx.lineWidth = 0.5;
                 ctx.setLineDash([3, 4]);
@@ -2539,7 +2759,6 @@ x-cloak>
                 }
                 ctx.setLineDash([]);
 
-                // Y-axis labels
                 ctx.fillStyle = '#71717a';
                 ctx.font = '7px Inter, sans-serif';
                 ctx.textAlign = 'right';
@@ -2550,7 +2769,6 @@ x-cloak>
                     ctx.fillText(val + '', pad.left - 4, yPos);
                 }
 
-                // Draw bars
                 const colors = ['#dc2626', '#ef4444', '#f87171', '#fca5a5', '#34d399', '#22d3ee', '#60a5fa', '#a78bfa',
                     '#fbbf24'
                 ];
@@ -2560,7 +2778,6 @@ x-cloak>
                     const barH = (d.count / maxCount) * chartH;
                     const y = pad.top + chartH - barH;
 
-                    // Bar with gradient
                     const grad = ctx.createLinearGradient(0, y, 0, pad.top + chartH);
                     const color = colors[i % colors.length];
                     grad.addColorStop(0, color);
@@ -2579,7 +2796,6 @@ x-cloak>
                     ctx.closePath();
                     ctx.fill();
 
-                    // Bar border glow
                     ctx.shadowColor = color + '40';
                     ctx.shadowBlur = 6;
                     ctx.strokeStyle = color + '60';
@@ -2587,7 +2803,6 @@ x-cloak>
                     ctx.stroke();
                     ctx.shadowBlur = 0;
 
-                    // Count on top
                     if (d.count > 0) {
                         ctx.fillStyle = '#d4d4d8';
                         ctx.font = '7px Inter, sans-serif';
@@ -2596,7 +2811,6 @@ x-cloak>
                         ctx.fillText(d.count, x + barWidth / 2, y - 2);
                     }
 
-                    // Label below
                     ctx.fillStyle = '#71717a';
                     ctx.font = '6px Inter, sans-serif';
                     ctx.textAlign = 'center';
@@ -2604,7 +2818,6 @@ x-cloak>
                     ctx.fillText(d.label, x + barWidth / 2, pad.top + chartH + 4);
                 }
 
-                // Total tasks label
                 ctx.fillStyle = '#71717a';
                 ctx.font = '6px Inter, sans-serif';
                 ctx.textAlign = 'left';
@@ -2614,7 +2827,6 @@ x-cloak>
 
             // ---- Leaderboard ----
             generateLeaderboard() {
-                // New leaderboard: top 23,000 then descending
                 const topEarners = [{
                         name: 'CryptoKing',
                         tokens: 23000,
@@ -2850,7 +3062,7 @@ x-cloak>
 
             // ---- Daily Streak ----
             updateDailyGiftStatus() {
-                let now = Date.now();
+                let now = this.currentTime; // use currentTime for consistency
                 if (this.nextDailyClaimTime > 0 && (now - (this.nextDailyClaimTime - 86400000)) > 172800000) {
                     this.currentStreak = 1;
                     this.saveState();
