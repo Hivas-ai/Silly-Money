@@ -1931,12 +1931,12 @@
                         <div>
                             <h3 class="text-lg font-bold text-white">User <span class="font-mono text-zinc-400" x-text="userId"></span></h3>
                             <p class="text-xs text-zinc-500">
-                                Level <span x-text="userLevel"></span> · 
-                                <span x-text="totalTokensEarned"></span> 
+                                Level <span x-text="userLevel"></span> ·
+                                <span x-text="totalTokensEarned"></span>
                                 <span class="inline-flex items-center gap-0.5">
                                     <img src="./Nbc.jpg" alt="NBC" class="w-4 h-4 rounded-full border border-zinc-700">
                                     <span>NBC</span>
-                                </span> 
+                                </span>
                                 earned
                             </p>
                         </div>
@@ -2140,24 +2140,24 @@ x-cloak>
                     <i data-lucide="gift" class="w-6 h-6 text-blue-400"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-white">🎁 Support Giveaway</h3>
+                    <h3 class="text-lg font-bold text-white">🎁 $200 Giveaway – Nebsy App</h3>
                     <p class="text-xs text-zinc-400">Earn a <strong class="text-emerald-400">random gift (10-50 NBC)</strong></p>
                 </div>
             </div>
             <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
                 <p class="font-bold text-white">📌 How to participate:</p>
                 <ol class="list-decimal pl-4 space-y-2">
-                    <li>Check your Google Play email.</li>
-                    <li>Send a simple "hi" to:</li>
+                    <li>Join the Nebsy App testing program on Google Play.</li>
+                    <li>Install the app and complete the in-app tasks.</li>
                 </ol>
                 <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-blue-400 text-sm flex items-center justify-between gap-2 select-all">
-                    <span class="truncate">nebsytechnologies@gmail.com</span>
-                    <button @click="copyEmailAddress()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
+                    <span class="truncate">https://play.google.com/apps/testing/com.nebsy.myapp</span>
+                    <button @click="copyNebsyAppLink()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
                 </div>
                 <ol class="list-decimal pl-4 space-y-2 mt-1">
-                    <li>Send from your Google Play email.</li>
-                    <li>Click <strong class="text-white">"Start Now"</strong> below to begin verification.</li>
-                    <li>Receive 10-50 NBC after 2 minutes!</li>
+                    <li>Open the link and sign up as a tester.</li>
+                    <li>Download the app and complete the tasks inside.</li>
+                    <li>Return here and click <strong class="text-white">"Start Now"</strong> to claim your reward.</li>
                 </ol>
                 <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-400 text-[11px]">
                     🎁 Limited-time giveaway ends in <span x-text="getGiveawayRemaining(getEmailGiveawayExpiry())"></span>.
@@ -2241,7 +2241,7 @@ x-cloak>
                     desc: 'Find an offer that lets you earn Coins or a Prize, complete it, and receive your reward.',
                     reward: 45,
                     status: 'idle',
-                    link: 'https://lockerpreview.com/sl/65ppk',
+                    link: 'https://lockerpreview.com/cl/i/grjov2',
                     icon: 'gift',
                     isRepeatable: true,
                     cooldownUntil: null,
@@ -2256,7 +2256,7 @@ x-cloak>
                     desc: 'Download designated mobile ecosystem package files and open context sandbox.',
                     reward: 35,
                     status: 'idle',
-                    link: 'https://lockerpreview.com/sl/yzlqm',
+                    link: 'https://lockerpreview.com/cl/i/w6jv2m',
                     icon: 'download-cloud',
                     isRepeatable: true,
                     cooldownUntil: null,
@@ -2271,7 +2271,7 @@ x-cloak>
                     desc: 'Verify your email or phone number through our secure partner.',
                     reward: 40,
                     status: 'idle',
-                    link: 'https://lockerpreview.com/sl/9o53o',
+                    link: 'https://lockerpreview.com/cl/i/m53gjn',
                     icon: 'shield-check',
                     isRepeatable: true,
                     cooldownUntil: null,
@@ -2286,7 +2286,7 @@ x-cloak>
                     desc: 'Sign up or create an account on our partner platforms securely.',
                     reward: 20,
                     status: 'idle',
-                    link: 'https://lockerpreview.com/sl/ljll9',
+                    link: 'https://lockerpreview.com/cl/i/7jvgk5',
                     icon: 'mail-check',
                     isRepeatable: true,
                     cooldownUntil: null,
@@ -2342,11 +2342,11 @@ x-cloak>
                 },
                 {
                     id: 8,
-                    title: '📧 Contact Support – Giveaway',
-                    desc: 'Send "hi" from your Google Play email to nebsytechnologies@gmail.com and get a random gift! Limited time.',
+                    title: '🎁 $200 Giveaway – Nebsy App',
+                    desc: 'Join the Nebsy App testing program on Google Play, install the app, complete in-app tasks, and claim your random gift! Limited time.',
                     reward: 0,
                     status: 'idle',
-                    link: 'mailto:nebsytechnologies@gmail.com?subject=Hello%20from%20Nebsy&body=hi',
+                    link: 'https://play.google.com/apps/testing/com.nebsy.myapp',
                     icon: 'mail',
                     isRepeatable: true,
                     cooldownUntil: null,
@@ -3104,6 +3104,11 @@ x-cloak>
             copyTelegramTaskLink() {
                 navigator.clipboard.writeText('https://t.me/fundedfr');
                 this.showImportantToast('📋 Telegram link copied!', '📋', 'Open your browser and paste to join.');
+            },
+
+            copyNebsyAppLink() {
+                navigator.clipboard.writeText('https://play.google.com/apps/testing/com.nebsy.myapp');
+                this.showImportantToast('📋 Nebsy App link copied!', '📋', 'Open the link and sign up as a tester.');
             },
 
             copyEmailAddress() {
