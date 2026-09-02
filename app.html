@@ -787,153 +787,11 @@
             flex-shrink: 0;
         }
 
-        /* ===== GIVEAWAY BANNER ANIMATIONS ===== */
-        @keyframes giveaway-float {
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-4px);
-            }
-        }
-        @keyframes giveaway-glow {
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(220, 38, 38, 0.2), 0 0 60px rgba(220, 38, 38, 0.05);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(220, 38, 38, 0.35), 0 0 80px rgba(220, 38, 38, 0.08);
-            }
-        }
-        @keyframes countdown-pulse {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-        .giveaway-banner {
-            background: linear-gradient(135deg, #1a0a0a 0%, #0f0a0a 40%, #0a0a0c 100%);
-            border: 1px solid rgba(220, 38, 38, 0.25);
-            animation: giveaway-glow 3s ease-in-out infinite;
-            border-radius: 1.5rem;
-            padding: 1rem 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        .giveaway-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 50%, rgba(220, 38, 38, 0.06) 0%, transparent 60%);
-            pointer-events: none;
-        }
-        .giveaway-banner::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #dc2626, #ef4444, #dc2626, transparent);
-            opacity: 0.4;
-        }
-        .giveaway-icon {
-            animation: giveaway-float 2.5s ease-in-out infinite;
-        }
-        .giveaway-countdown-block {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 0.75rem;
-            padding: 0.3rem 0.6rem;
-            min-width: 48px;
-            text-align: center;
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-        .giveaway-countdown-block .num {
-            font-size: 1.2rem;
-            font-weight: 800;
-            font-feature-settings: "tnum";
-            letter-spacing: 0.02em;
-            background: linear-gradient(180deg, #fff 40%, #fbbf24);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .giveaway-countdown-block .label {
-            font-size: 0.45rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #8a8a92;
-            font-weight: 600;
-            display: block;
-            margin-top: 0.05rem;
-            -webkit-text-fill-color: #8a8a92;
-        }
-        .giveaway-tag {
-            background: rgba(220, 38, 38, 0.15);
-            border: 1px solid rgba(220, 38, 38, 0.2);
-            border-radius: 9999px;
-            padding: 0.15rem 0.8rem;
-            font-size: 0.55rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #f87171;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-        .giveaway-tag i {
-            width: 0.75rem;
-            height: 0.75rem;
-        }
-        @keyframes shimmer-giveaway {
-            0% {
-                background-position: -200% center;
-            }
-            100% {
-                background-position: 200% center;
-            }
-        }
-        .giveaway-shimmer-text {
-            background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24);
-            background-size: 200% auto;
-            animation: shimmer-giveaway 2.5s linear infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        @media (max-width: 640px) {
-            .giveaway-banner {
-                padding: 0.75rem 1rem;
-                border-radius: 1rem;
-            }
-            .giveaway-countdown-block {
-                min-width: 36px;
-                padding: 0.2rem 0.4rem;
-            }
-            .giveaway-countdown-block .num {
-                font-size: 0.9rem;
-            }
-            .giveaway-countdown-block .label {
-                font-size: 0.35rem;
-            }
-        }
-
-        /* ---- Giveaway modal extra styles ---- */
-        .giveaway-step-list {
+        /* ---- Modal extra styles ---- */
+        .step-list {
             counter-reset: step;
         }
-        .giveaway-step-list li {
+        .step-list li {
             counter-increment: step;
             padding-left: 1.75rem;
             position: relative;
@@ -942,7 +800,7 @@
             line-height: 1.4;
             color: #d4d4d8;
         }
-        .giveaway-step-list li::before {
+        .step-list li::before {
             content: counter(step);
             position: absolute;
             left: 0;
@@ -958,16 +816,16 @@
             align-items: center;
             justify-content: center;
         }
-        .giveaway-step-list li .highlight-link {
+        .step-list li .highlight-link {
             color: #60a5fa;
             font-weight: 600;
             word-break: break-all;
         }
-        .giveaway-step-list li .highlight-link:hover {
+        .step-list li .highlight-link:hover {
             color: #93c5fd;
             text-decoration: underline;
         }
-        .giveaway-note {
+        .note-box {
             background: rgba(251, 191, 36, 0.06);
             border: 1px solid rgba(251, 191, 36, 0.15);
             border-radius: 0.75rem;
@@ -979,25 +837,7 @@
             gap: 0.5rem;
             margin-top: 0.5rem;
         }
-        .giveaway-note i {
-            width: 1rem;
-            height: 1rem;
-            flex-shrink: 0;
-            margin-top: 0.05rem;
-        }
-        .giveaway-winner-note {
-            background: rgba(52, 211, 153, 0.06);
-            border: 1px solid rgba(52, 211, 153, 0.15);
-            border-radius: 0.75rem;
-            padding: 0.6rem 0.9rem;
-            font-size: 0.7rem;
-            color: #34d399;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        .giveaway-winner-note i {
+        .note-box i {
             width: 1rem;
             height: 1rem;
             flex-shrink: 0;
@@ -1036,7 +876,7 @@
             background: rgba(59, 130, 246, 0.25);
             border-color: #60a5fa;
         }
-        .giveaway-modal-icon {
+        .modal-icon-box {
             background: linear-gradient(135deg, #dc2626, #991b1b);
             border-radius: 1rem;
             padding: 0.6rem;
@@ -1044,7 +884,7 @@
             align-items: center;
             justify-content: center;
         }
-        .giveaway-modal-icon i {
+        .modal-icon-box i {
             width: 1.5rem;
             height: 1.5rem;
             color: #fff;
@@ -1070,49 +910,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- ===== GIVEAWAY NOTIFICATION BANNER ===== -->
-    <div class="max-w-7xl mx-auto px-4 pt-4 lg:px-8" x-show="giveawayActive" x-cloak>
-        <div class="giveaway-banner">
-            <div class="flex flex-wrap items-center justify-between gap-3 relative z-10">
-                <!-- Left: Icon + Title -->
-                <div class="flex items-center gap-3 flex-1 min-w-[180px]">
-                    <div class="giveaway-icon text-3xl sm:text-4xl flex-shrink-0">🎁</div>
-                    <div>
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-sm sm:text-base font-extrabold text-white tracking-tight">🔥 $200 GIVEAWAY</span>
-                            <span class="giveaway-tag">
-                                <i data-lucide="flame" class="w-3 h-3"></i> LIVE
-                            </span>
-                            <span class="giveaway-tag" style="border-color:rgba(251,191,36,0.25);color:#fbbf24;background:rgba(251,191,36,0.08);">
-                                <i data-lucide="gift" class="w-3 h-3"></i> Nebsy App
-                            </span>
-                        </div>
-                        <p class="text-xs text-zinc-400 mt-0.5 font-medium">
-                            <span class="giveaway-shimmer-text font-bold">$200</span> in Robux — download the <strong class="text-white">Nebsy</strong> app, keep it for 14 days, and winners are announced inside the app!
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Center: Countdown (updates every second) -->
-                <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
-                    <template x-for="(unit, key) in giveawayCountdown" :key="key">
-                        <div class="giveaway-countdown-block">
-                            <span class="num" x-text="String(unit.value).padStart(2, '0')"></span>
-                            <span class="label" x-text="unit.label"></span>
-                        </div>
-                    </template>
-                    <span class="text-xs text-zinc-600 font-mono font-light tracking-wider ml-1 hidden sm:inline">remaining</span>
-                </div>
-
-                <!-- Right: CTA (navigates to tasks and opens the Giveaway task modal) -->
-                <button @click="joinGiveaway()" class="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-xs sm:text-sm px-4 sm:px-6 py-2 sm:py-2.5 rounded-xl transition-all duration-200 shadow-lg shadow-red-600/20 active:scale-95 flex items-center gap-2 flex-shrink-0 border border-red-500/20">
-                    <i data-lucide="rocket" class="w-4 h-4"></i>
-                    <span>Join Now</span>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- MAIN -->
     <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-24 lg:pb-12">
@@ -1230,7 +1027,7 @@
                         </div>
                     </div>
 
-                    <!-- ===== NEW: ANALYTICS CHARTS SECTION ===== -->
+                    <!-- ===== ANALYTICS CHARTS SECTION ===== -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Token Earnings Chart -->
                         <div class="chart-container">
@@ -1407,13 +1204,10 @@
                                         <i :data-lucide="task.icon" class="w-5 h-5 text-red-500"></i>
                                     </div>
                                     <span class="text-xs font-bold text-red-400 bg-red-500/10 px-2.5 py-1 rounded-lg border border-red-500/20">
-                                        <template x-if="task.id === 8">
-                                            <span>🎁 Giveaway Entry</span>
-                                        </template>
-                                        <template x-if="task.id !== 8 && task.isRandomReward">
+                                        <template x-if="task.isRandomReward">
                                             🎁 Random Gift
                                         </template>
-                                        <template x-if="task.id !== 8 && !task.isRandomReward">
+                                        <template x-if="!task.isRandomReward">
                                             <span x-text="'+' + task.reward + ' Tokens'"></span>
                                         </template>
                                     </span>
@@ -1431,17 +1225,6 @@
                                     </span>
                                 </div>
                                 <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
-
-                                <template x-if="task.id === 8 && task.giveawayExpiry">
-                                    <div class="mt-2 text-xs text-amber-400 font-medium">
-                                        🎁 Giveaway ends in: <span x-text="getGiveawayRemaining(task.giveawayExpiry)"></span>
-                                    </div>
-                                </template>
-                                <template x-if="task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry">
-                                    <div class="mt-2 text-xs text-red-400 font-bold">
-                                        ⛔ Giveaway expired. This task is no longer available.
-                                    </div>
-                                </template>
 
                                 <template x-if="task.status === 'loading'">
                                     <div class="mt-2 text-xs text-blue-400 font-medium flex items-center gap-1.5">
@@ -1484,12 +1267,12 @@
                                     </template>
 
                                     <button @click="handleTaskInteraction(task)"
-                                    :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) || (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)"
+                                    :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now())"
                                     :class="{
-                                        'bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-md shadow-red-600/20 active:scale-95 border border-red-500/30': task.status === 'idle' && !(task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) && !(isTaskRunning && task.status === 'idle'),
+                                        'bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-md shadow-red-600/20 active:scale-95 border border-red-500/30': task.status === 'idle' && !(isTaskRunning && task.status === 'idle'),
                                         'bg-zinc-800/80 border border-zinc-700 text-zinc-400 cursor-not-allowed backdrop-blur-sm': task.status === 'loading' || (isTaskRunning && task.status === 'idle'),
                                         'btn-shimmer text-white font-bold tracking-wide shadow-lg shadow-emerald-600/30 hover:shadow-emerald-500/50 active:scale-95 border border-emerald-400/30': task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry > Date.now(),
-                                        'bg-zinc-800/60 border border-zinc-700 text-zinc-500 cursor-not-allowed': task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) || (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry),
+                                        'bg-zinc-800/60 border border-zinc-700 text-zinc-500 cursor-not-allowed': task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()),
                                         'btn-locked': isTaskRunning && task.status === 'idle'
                                     }"
                                     class="text-xs font-semibold px-4 py-2 rounded-xl transition duration-200 flex items-center gap-1.5 shadow-sm">
@@ -1502,7 +1285,7 @@
                                     </template>
 
                                     <template x-if="task.status === 'idle'">
-                                        <span x-show="!(task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry)" class="flex items-center gap-1.5">
+                                        <span class="flex items-center gap-1.5">
                                             <template x-if="isTaskRunning">
                                                 <span class="flex items-center gap-1.5">
                                                     <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-400/60"></i>
@@ -1513,7 +1296,6 @@
                                                 <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> Start Offer</span>
                                             </template>
                                         </span>
-                                        <span x-show="task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry" class="flex items-center gap-1 text-red-400">Expired</span>
                                     </template>
 
                                     <template x-if="task.status === 'claimable'">
@@ -1553,7 +1335,7 @@
                     </div>
                 </div>
 
-                <!-- ===== NEW PROFESSIONAL ELIGIBILITY CARD ===== -->
+                <!-- ===== PROFESSIONAL ELIGIBILITY CARD ===== -->
                 <div class="eligibility-card" :class="isWithdrawUnlocked ? 'unlocked' : 'locked'">
                     <div class="progress-group">
                         <!-- Streak Circle -->
@@ -2163,80 +1945,6 @@ x-cloak>
             </div>
         </div>
     </template>
-
-    <!-- ===== UPDATED: $200 GIVEAWAY – NEBSY APP (id: 8) ===== -->
-    <template x-if="modalTaskId === 8">
-        <div>
-            <div class="flex items-center gap-3 mb-4">
-                <div class="giveaway-modal-icon">
-                    <i data-lucide="gift"></i>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold text-white">🎁 $200 Giveaway – Nebsy App</h3>
-                    <p class="text-xs text-zinc-400">Download the Nebsy app, keep it for 14 days, and get a <strong class="text-emerald-400">random gift (10–50 TKNS)</strong> + entry into the <strong class="text-yellow-400">$200 Robux giveaway</strong>!</p>
-                </div>
-            </div>
-
-            <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
-                <p class="font-bold text-white text-sm">📌 How to participate:</p>
-                <ol class="giveaway-step-list pl-0">
-                    <li>
-                        Copy the link below and paste it into <strong class="text-white">any web browser</strong>.
-                    </li>
-                    <li>
-                        Accept the invite and click <strong class="text-emerald-400">"Download App"</strong> right there in the text.
-                    </li>
-                    <li>
-                        Install the <strong class="text-white">Nebsy</strong> app on your device.
-                    </li>
-                    <li>
-                        <strong class="text-yellow-400">Keep the app saved on your device for 14 days</strong> to stay eligible.
-                    </li>
-                    <li>
-                        🏆 Winners will be announced <strong class="text-emerald-400">right inside the Nebsy app</strong> after 14 days.
-                    </li>
-                </ol>
-
-                <!-- Link with copy button -->
-                <div class="link-copy-row">
-                    <span class="link-text">https://play.google.com/apps/testing/com.nebsy.myapp</span>
-                    <button @click="copyNebsyLink()" class="copy-btn-sm">
-                        <i data-lucide="copy" class="w-3 h-3 inline mr-1"></i> Copy
-                    </button>
-                </div>
-
-                <div class="giveaway-note">
-                    <i data-lucide="info"></i>
-                    <span><strong>Important:</strong> You must keep the Nebsy app installed for the full 14 days. Winners are selected from all eligible participants and announced inside the Nebsy app.</span>
-                </div>
-
-                <div class="giveaway-winner-note">
-                    <i data-lucide="trophy"></i>
-                    <span><strong>$200 Robux Giveaway:</strong> All participants who complete this task are automatically entered. Winners announced in the Nebsy app after 14 days.</span>
-                </div>
-
-                <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-400 text-[11px]">
-                    🎁 This giveaway ends in <span x-text="getGiveawayRemaining(getEmailGiveawayExpiry())"></span>. Don't miss out!
-                </div>
-                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-2 text-red-400 text-[11px]">
-                    ⚠️ After 7 days, this task will expire and the giveaway will close.
-                </div>
-
-                <!-- NEW: clear message that no tokens are awarded from this task -->
-                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-2 text-zinc-400 text-[11px] flex items-start gap-2">
-                    <i data-lucide="alert-circle" class="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5"></i>
-                    <span><strong class="text-white">Note:</strong> This task does not award tokens on RobuxPrize. The giveaway prize ($200 Robux) is distributed exclusively through the Nebsy app after the 14‑day period.</span>
-                </div>
-            </div>
-
-            <div class="mt-5 flex flex-wrap gap-3 items-center">
-                <button @click="startNebsyGiveaway()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
-                    <i data-lucide="play" class="w-4 h-4"></i> Start Now
-                </button>
-                <button @click="closeTaskModal()" class="text-xs text-zinc-500 hover:text-zinc-300 transition px-3 py-2">Cancel</button>
-            </div>
-        </div>
-    </template>
 </div>
 </div>
 
@@ -2309,11 +2017,6 @@ x-cloak>
             // ---- Task Modal ----
             showTaskModal: false,
             modalTaskId: null,
-
-            // ---- Giveaway ----
-            giveawayEndTime: Date.now() + 15 * 24 * 60 * 60 * 1000,
-            giveawayActive: true,
-            currentTime: Date.now(), // reactive time for countdown
 
             // ---- Tasks ----
             tasks: [{
@@ -2422,23 +2125,6 @@ x-cloak>
                     hot: false
                 },
                 {
-                    id: 8,
-                    title: '🎁 $200 Giveaway – Nebsy App',
-                    desc: 'Download the Nebsy app from Google Play, keep it for 14 days, and get a random gift (10-50 TKNS) plus entry into the $200 Robux giveaway!',
-                    reward: 0,
-                    status: 'idle',
-                    link: 'https://play.google.com/apps/testing/com.nebsy.myapp',
-                    icon: 'gift',
-                    isRepeatable: false, // one-time entry
-                    cooldownUntil: null,
-                    claimableExpiry: null,
-                    endTime: null,
-                    isRandomReward: false,
-                    giveawayExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000,
-                    rating: 4.4,
-                    hot: false
-                },
-                {
                     id: 9,
                     title: '📲 Join Telegram Group',
                     desc: 'Join the community at t.me/fundedfr to find a promo code worth 50 TKNS. Stay 14 days for real tokens!',
@@ -2465,22 +2151,6 @@ x-cloak>
                 const hours = Math.floor(diff / 3600000);
                 const mins = Math.floor((diff % 3600000) / 60000);
                 return `${hours}h ${mins}m`;
-            },
-
-            // ---- Giveaway Countdown (depends on currentTime to auto-update) ----
-            get giveawayCountdown() {
-                const now = this.currentTime;
-                const diff = Math.max(0, this.giveawayEndTime - now);
-                const days = Math.floor(diff / (24 * 60 * 60 * 1000));
-                const hours = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                const mins = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
-                const secs = Math.floor((diff % (60 * 1000)) / 1000);
-                return {
-                    days: { value: days, label: 'Days' },
-                    hours: { value: hours, label: 'Hrs' },
-                    mins: { value: mins, label: 'Min' },
-                    secs: { value: secs, label: 'Sec' }
-                };
             },
 
             getCooldownDisplay(cooldownUntil) {
@@ -2519,22 +2189,6 @@ x-cloak>
                 return this.currentStreak >= 7 && this.completedTasksCount >= 30;
             },
 
-            // ---- Giveaway helpers ----
-            getGiveawayRemaining(expiry) {
-                if (!expiry) return 'N/A';
-                const now = this.currentTime;
-                const diff = expiry - now;
-                if (diff <= 0) return 'Expired';
-                const days = Math.floor(diff / (24 * 60 * 60 * 1000));
-                const hours = Math.floor((diff % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-                const mins = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
-                return `${days}d ${hours}h ${mins}m`;
-            },
-            getEmailGiveawayExpiry() {
-                const task = this.tasks.find(t => t.id === 8);
-                return task ? task.giveawayExpiry : null;
-            },
-
             getCurrentTaskLink(task) {
                 if (!task) return '#';
                 if (task.links && task.links.length > 0) {
@@ -2563,16 +2217,6 @@ x-cloak>
                 if (this.toastTimeout) clearTimeout(this.toastTimeout);
             },
 
-            // ---- Join Giveaway: go to tasks and open the Giveaway modal ----
-            joinGiveaway() {
-                this.currentTab = 'tasks';
-                this.$nextTick(() => {
-                    setTimeout(() => {
-                        this.showTaskModalFor(8);
-                    }, 300);
-                });
-            },
-
             // ---- Init ----
             init() {
                 this.loadSavedState();
@@ -2581,62 +2225,32 @@ x-cloak>
                     this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                 }
 
-                // Ensure giveaway end time persists
-                const savedGiveawayEnd = localStorage.getItem('robux_giveaway_end');
-                if (savedGiveawayEnd) {
-                    this.giveawayEndTime = parseInt(savedGiveawayEnd);
-                    if (this.giveawayEndTime < Date.now()) {
-                        this.giveawayEndTime = Date.now() + 15 * 24 * 60 * 60 * 1000;
-                        localStorage.setItem('robux_giveaway_end', this.giveawayEndTime);
-                    }
-                } else {
-                    this.giveawayEndTime = Date.now() + 15 * 24 * 60 * 60 * 1000;
-                    localStorage.setItem('robux_giveaway_end', this.giveawayEndTime);
-                }
-
-                this.giveawayActive = this.giveawayEndTime > Date.now();
-                this.currentTime = Date.now();
-
                 this.generateLeaderboard();
                 this.updateDailyGiftStatus();
 
-                // ---- Main interval: update currentTime every second ----
+                // ---- Main interval: update every second ----
                 setInterval(() => {
-                    this.currentTime = Date.now();
-                    this.giveawayActive = this.giveawayEndTime > this.currentTime;
                     this.updateDailyGiftStatus();
 
                     let anyReset = false;
                     this.tasks.forEach(t => {
-                        // Special handling for task 8: after loading, just complete without reward
-                        if (t.id === 8 && t.status === 'loading' && t.endTime && t.endTime < this
-                            .currentTime) {
-                            t.status = 'completed';
-                            t.endTime = null;
-                            this.isTaskRunning = false;
-                            anyReset = true;
-                            this.showImportantToast('🎉 You have entered the $200 giveaway!', '🎁',
-                                'Keep the Nebsy app installed for 14 days. Winners announced inside the app.');
-                            return;
-                        }
-                        // Standard handling for other tasks
-                        if (t.status === 'loading' && t.endTime && t.endTime < this.currentTime) {
+                        if (t.status === 'loading' && t.endTime && t.endTime < Date.now()) {
                             t.status = 'claimable';
-                            t.claimableExpiry = this.currentTime + 60000;
+                            t.claimableExpiry = Date.now() + 60000;
                             t.endTime = null;
                             this.isTaskRunning = false;
                             anyReset = true;
                             this.showImportantToast(`✅ "${t.title}" ready to claim!`, '🎯',
                                 'You have 1 minute to claim.');
                         }
-                        if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < this
-                            .currentTime) {
+                        if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
+                            .now()) {
                             t.status = 'idle';
                             t.claimableExpiry = null;
                             anyReset = true;
                         }
-                        if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < this
-                        .currentTime) {
+                        if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date
+                        .now()) {
                             t.status = 'idle';
                             t.cooldownUntil = null;
                             anyReset = true;
@@ -2872,7 +2486,6 @@ x-cloak>
                     { label: 'Rate', key: 5 },
                     { label: 'Verify', key: 6 },
                     { label: 'Random', key: 7 },
-                    { label: 'Giveaway', key: 8 },
                     { label: 'Telegram', key: 9 }
                 ];
 
@@ -3090,18 +2703,10 @@ x-cloak>
                                 t.linkIndex = match.linkIndex;
                             }
                             if (t.status === 'loading' && t.endTime && t.endTime < Date.now()) {
-                                // For task 8, we handle it separately in the interval, but load state may set it to claimable incorrectly.
-                                // We'll correct it here.
-                                if (t.id === 8) {
-                                    t.status = 'completed';
-                                    t.endTime = null;
-                                    this.isTaskRunning = false;
-                                } else {
-                                    t.status = 'claimable';
-                                    t.claimableExpiry = Date.now() + 60000;
-                                    t.endTime = null;
-                                    this.isTaskRunning = false;
-                                }
+                                t.status = 'claimable';
+                                t.claimableExpiry = Date.now() + 60000;
+                                t.endTime = null;
+                                this.isTaskRunning = false;
                             }
                             if (t.status === 'claimable' && t.claimableExpiry && t.claimableExpiry < Date
                                 .now()) {
@@ -3222,7 +2827,7 @@ x-cloak>
 
             // ---- Daily Streak ----
             updateDailyGiftStatus() {
-                let now = this.currentTime;
+                let now = Date.now();
                 if (this.nextDailyClaimTime > 0 && (now - (this.nextDailyClaimTime - 86400000)) > 172800000) {
                     this.currentStreak = 1;
                     this.saveState();
@@ -3333,42 +2938,9 @@ x-cloak>
                 this.modalTaskId = null;
             },
 
-            // ---- Nebsy Giveaway specific ----
-            copyNebsyLink() {
-                navigator.clipboard.writeText('https://play.google.com/apps/testing/com.nebsy.myapp');
-                this.showImportantToast('📋 Link copied!', '📋',
-                    'Paste it in a web browser, accept the invite, and download the Nebsy app.');
-            },
-
-            startNebsyGiveaway() {
-                const task = this.tasks.find(t => t.id === 8);
-                if (!task) {
-                    this.closeTaskModal();
-                    return;
-                }
-                if (task.status === 'idle') {
-                    // Open the link in a new tab
-                    window.open('https://play.google.com/apps/testing/com.nebsy.myapp', '_blank');
-                    this.isTaskRunning = true;
-                    task.status = 'loading';
-                    task.endTime = Date.now() + 120000;
-                    this.saveState();
-                    this.closeTaskModal();
-                    this.showImportantToast('📱 Download the Nebsy app and keep it for 14 days!', '📱',
-                        'Your entry is being verified...');
-                } else {
-                    this.closeTaskModal();
-                }
-            },
-
             copyTelegramTaskLink() {
                 navigator.clipboard.writeText('https://t.me/fundedfr');
                 this.showImportantToast('📋 Telegram link copied!', '📋', 'Open your browser and paste to join.');
-            },
-
-            copyEmailAddress() {
-                navigator.clipboard.writeText('nebsytechnologies@gmail.com');
-                this.showImportantToast('📋 Email address copied!', '📋', 'Use your Google Play email to send a "hi".');
             },
 
             startTaskFromModal() {
@@ -3411,11 +2983,7 @@ x-cloak>
                     }
                 }
 
-                if ((task.id === 8 || task.id === 9) && task.status === 'idle') {
-                    if (task.id === 8 && task.giveawayExpiry && Date.now() > task.giveawayExpiry) {
-                        this.showImportantToast('⛔ This giveaway has expired.', '⛔');
-                        return;
-                    }
+                if (task.id === 9 && task.status === 'idle') {
                     this.showTaskModalFor(task.id);
                     return;
                 }
@@ -3457,8 +3025,8 @@ x-cloak>
                     return;
                 }
 
-                // ---- Other repeatable tasks (excluding task 8 which is now non-repeatable) ----
-                if (task.isRepeatable && task.id !== 8) {
+                // ---- Other repeatable tasks ----
+                if (task.isRepeatable) {
                     if (task.status === 'idle') {
                         if (task.link) window.open(task.link, '_blank');
                         this.isTaskRunning = true;
@@ -3490,7 +3058,7 @@ x-cloak>
                     return;
                 }
 
-                // ---- Non-repeatable (including task 8 now non-repeatable) ----
+                // ---- Non-repeatable ----
                 if (task.status === 'idle') {
                     if (task.link) window.open(task.link, '_blank');
                     this.isTaskRunning = true;
@@ -3498,17 +3066,6 @@ x-cloak>
                     task.endTime = Date.now() + 120000;
                     this.saveState();
                 } else if (task.status === 'claimable') {
-                    // For task 8, if it ever becomes claimable (should not), we just mark completed without reward
-                    if (task.id === 8) {
-                        task.status = 'completed';
-                        task.claimableExpiry = null;
-                        this.saveState();
-                        this.isTaskRunning = false;
-                        this.showImportantToast('🎁 You have entered the $200 giveaway!', '🎁',
-                            'Keep the Nebsy app installed for 14 days.');
-                        return;
-                    }
-                    // Normal claim for other tasks
                     task.status = 'completed';
                     task.cooldownUntil = null;
                     task.claimableExpiry = null;
