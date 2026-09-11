@@ -89,7 +89,7 @@
             animation: glow-pulse 1.2s ease-in-out infinite;
         }
 
-        /* CENTERED TOAST – even smaller size */
+        /* ================= MODERN CENTERED TOAST ================= */
         .toast-center {
             position: fixed;
             top: 50%;
@@ -97,50 +97,78 @@
             transform: translate(-50%, -50%);
             z-index: 9999;
             pointer-events: none;
-            max-width: 300px;
+            max-width: 320px;
             width: 90%;
         }
         .toast-center .toast-inner {
             pointer-events: auto;
-            background: #0a0a0c;
-            border: 1px solid #dc2626;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
-            border-radius: 1rem;
-            padding: 0.7rem 1rem 0.7rem;
+            position: relative;
+            background: linear-gradient(180deg, #131316, #0a0a0c);
+            border: 1px solid transparent;
+            background-image: linear-gradient(180deg, #131316, #0a0a0c),
+                              linear-gradient(135deg, rgba(220, 38, 38, 0.85), rgba(127, 29, 29, 0.5), rgba(220, 38, 38, 0.85));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 50px rgba(220, 38, 38, 0.12);
+            border-radius: 1.4rem;
+            padding: 1.1rem 1.15rem 1rem;
             text-align: center;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            overflow: hidden;
+        }
+        .toast-center .toast-inner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% -30%, rgba(220, 38, 38, 0.18), transparent 70%);
+            pointer-events: none;
         }
         .toast-center .toast-inner .toast-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.1rem;
+            font-size: 1.7rem;
+            line-height: 1;
+            margin-bottom: 0.45rem;
+            filter: drop-shadow(0 4px 12px rgba(220, 38, 38, 0.4));
+            position: relative;
         }
         .toast-center .toast-inner .toast-msg {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #f1f1f1;
+            font-size: 0.86rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            color: #fafafa;
             line-height: 1.3;
+            position: relative;
         }
         .toast-center .toast-inner .toast-sub {
-            font-size: 0.65rem;
+            font-size: 0.68rem;
             color: #a1a1aa;
-            margin-top: 0.1rem;
+            margin-top: 0.3rem;
+            line-height: 1.35;
+            position: relative;
         }
         .toast-center .toast-inner .toast-ok-btn {
-            margin-top: 0.6rem;
-            background: #dc2626;
-            border: none;
-            padding: 0.25rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: 700;
-            font-size: 0.7rem;
+            position: relative;
+            margin-top: 0.85rem;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 0.42rem 1.8rem;
+            border-radius: 9999px;
+            font-weight: 800;
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
             color: white;
             cursor: pointer;
-            transition: background 0.2s;
-            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 18px rgba(220, 38, 38, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.18);
         }
         .toast-center .toast-inner .toast-ok-btn:hover {
-            background: #b91c1c;
+            background: linear-gradient(135deg, #f87171, #dc2626);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 26px rgba(220, 38, 38, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .toast-center .toast-inner .toast-ok-btn:active {
+            transform: translateY(0) scale(0.97);
         }
 
         /* Notif badge pulse */
@@ -220,6 +248,22 @@
         }
         .leaderboard-rank.bronze {
             color: #d97706;
+        }
+
+        /* Weekly leaderboard scroll */
+        .leaderboard-scroll {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        .leaderboard-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .leaderboard-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .leaderboard-scroll::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border-radius: 2px;
         }
 
         /* Profile avatar placeholder */
@@ -401,13 +445,18 @@
             z-index: 1000;
         }
         .task-modal-content {
-            background: #121214;
-            border: 1px solid #27272a;
+            background: linear-gradient(180deg, #131316, #0d0d0f);
+            border: 1px solid transparent;
+            background-image: linear-gradient(180deg, #131316, #0d0d0f),
+                              linear-gradient(135deg, rgba(220, 38, 38, 0.5), rgba(63, 63, 70, 0.35), rgba(220, 38, 38, 0.5));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
             border-radius: 1.5rem;
             max-width: 520px;
             width: 92%;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
         }
         .task-modal-content::-webkit-scrollbar {
             width: 4px;
@@ -439,21 +488,39 @@
             width: 0.9rem;
             height: 0.9rem;
         }
-        .hot-badge {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.25);
+
+        /* ================= TASK BADGES ================= */
+        .task-badge {
             font-size: 0.6rem;
-            font-weight: 700;
-            padding: 0.1rem 0.5rem;
+            font-weight: 800;
+            padding: 0.15rem 0.55rem;
             border-radius: 9999px;
             display: inline-flex;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.22rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
+            border: 1px solid;
         }
-        .hot-badge i {
+        .task-badge.hot {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.35);
+            box-shadow: inset 0 0 12px rgba(239, 68, 68, 0.1);
+        }
+        .task-badge.popular {
+            background: rgba(251, 191, 36, 0.13);
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.35);
+            box-shadow: inset 0 0 12px rgba(251, 191, 36, 0.1);
+        }
+        .task-badge.recommended {
+            background: rgba(96, 165, 250, 0.13);
+            color: #93c5fd;
+            border-color: rgba(96, 165, 250, 0.3);
+            box-shadow: inset 0 0 12px rgba(96, 165, 250, 0.08);
+        }
+        .task-badge i {
             width: 0.8rem;
             height: 0.8rem;
         }
@@ -889,6 +956,168 @@
             height: 1.5rem;
             color: #fff;
         }
+        .modal-icon-box.emerald {
+            background: linear-gradient(135deg, #10b981, #047857);
+        }
+
+        /* ================= MODERN CLAIM MODAL ================= */
+        .claim-modal-card {
+            position: relative;
+            background: linear-gradient(180deg, #131316, #0d0d0f);
+            border: 1px solid transparent;
+            background-image: linear-gradient(180deg, #131316, #0d0d0f),
+                              linear-gradient(135deg, rgba(16, 185, 129, 0.75), rgba(220, 38, 38, 0.45), rgba(16, 185, 129, 0.75));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            border-radius: 1.75rem;
+            max-width: 460px;
+            width: 92%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.88), 0 0 70px rgba(16, 185, 129, 0.09);
+        }
+        .claim-modal-card::-webkit-scrollbar {
+            width: 4px;
+        }
+        .claim-modal-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .claim-modal-card::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 2px;
+        }
+        .claim-modal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.1), transparent 65%);
+            pointer-events: none;
+            border-radius: 1.75rem;
+        }
+
+        .claim-icon-ring {
+            width: 4.25rem;
+            height: 4.25rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #34d399, #059669);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.1),
+                        0 0 34px rgba(16, 185, 129, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        }
+        .claim-icon-ring i {
+            width: 1.9rem;
+            height: 1.9rem;
+            color: #fff;
+        }
+
+        .claim-task-card {
+            position: relative;
+            background: #0a0a0c;
+            border: 1px solid #232327;
+            border-radius: 1.1rem;
+            padding: 0.9rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.85rem;
+            overflow: hidden;
+        }
+        .claim-task-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #10b981, #047857);
+        }
+
+        .claim-reward-pill {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #34d399;
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 0.32rem 0.75rem;
+            border-radius: 9999px;
+            white-space: nowrap;
+            box-shadow: inset 0 0 12px rgba(16, 185, 129, 0.08);
+        }
+
+        .claim-warning {
+            position: relative;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.09), rgba(251, 191, 36, 0.02));
+            border: 1px solid rgba(251, 191, 36, 0.22);
+            border-left: 3px solid #fbbf24;
+            border-radius: 1rem;
+            padding: 0.9rem 1rem;
+            display: flex;
+            gap: 0.65rem;
+            align-items: flex-start;
+        }
+        .claim-warning i {
+            width: 1.1rem;
+            height: 1.1rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+            color: #fbbf24;
+        }
+
+        .claim-btn-retry {
+            flex: 1;
+            background: #17171a;
+            border: 1px solid #2c2c31;
+            color: #d4d4d8;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.9rem 1rem;
+            border-radius: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.42rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .claim-btn-retry:hover {
+            background: #1f1f23;
+            border-color: #3f3f46;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .claim-btn-retry:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .claim-btn-confirm {
+            flex: 1;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 0.9rem 1rem;
+            border-radius: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.42rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 24px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        .claim-btn-confirm:hover {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 32px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+        }
+        .claim-btn-confirm:active {
+            transform: translateY(0) scale(0.98);
+        }
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
@@ -998,31 +1227,38 @@
                             </div>
                         </div>
 
-                        <!-- Leaderboard widget -->
+                        <!-- ===== WEEKLY TOP 10 PAYOUT LEADERBOARD ===== -->
                         <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col">
                             <div class="flex items-center justify-between border-b border-zinc-900 pb-2 mb-2">
-                                <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Leaderboard</h4>
-                                <span class="text-[10px] text-zinc-500 font-mono">Top 5</span>
+                                <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Weekly Top Payouts</h4>
+                                <span class="text-[10px] text-zinc-500 font-mono" x-text="leaderboardWeekLabel"></span>
                             </div>
-                            <div class="space-y-1.5 flex-1">
+
+                            <div class="leaderboard-scroll flex-1 space-y-1 pr-1">
                                 <template x-for="(user, idx) in leaderboardUsers" :key="user.id">
-                                    <div class="leaderboard-item flex items-center gap-2 px-1 py-1 rounded-lg text-xs">
-                                        <span class="leaderboard-rank" :class="{
-                                            'gold': idx === 0,
-                                            'silver': idx === 1,
-                                            'bronze': idx === 2
-                                        }" x-text="'#' + (idx+1)"></span>
-                                        <div class="w-5 h-5 rounded-full bg-zinc-800 flex items-center justify-center text-[9px] font-bold text-white">
-                                            <span x-text="user.avatar"></span>
-                                        </div>
-                                        <span class="text-zinc-300 font-medium" x-text="user.name"></span>
-                                        <span class="ml-auto text-zinc-400 font-mono" x-text="user.tokens + ' TKNS'"></span>
-                                        <span class="text-[9px] text-zinc-500" x-text="'Lv.' + user.level"></span>
+                                    <div class="leaderboard-item flex items-center gap-2 px-1.5 py-1.5 rounded-lg text-xs">
+                                        <span class="w-5 text-center text-[11px] leading-none flex-shrink-0" x-text="rankBadge(idx)"></span>
+                                        <span class="font-mono text-zinc-300 tracking-tight" x-text="user.id"></span>
+                                        <span class="ml-auto font-mono font-bold whitespace-nowrap"
+                                              :class="idx === 0 ? 'text-amber-400' : (idx < 3 ? 'text-zinc-200' : 'text-emerald-400')"
+                                              x-text="user.amount.toLocaleString() + ' ROBUX'"></span>
                                     </div>
                                 </template>
                             </div>
-                            <div class="border-t border-zinc-900 pt-2 mt-2 text-[10px] text-zinc-500 text-center">
-                                Your ID: <span class="text-zinc-300 font-mono" x-text="userId"></span>
+
+                            <div class="border-t border-zinc-900 pt-2.5 mt-2 space-y-1">
+                                <p class="text-[9px] font-black uppercase tracking-wider text-emerald-400 flex items-center gap-1">
+                                    <i data-lucide="check-check" class="w-3 h-3"></i> Status: Rules Reviewed &amp; Checked
+                                </p>
+                                <div class="pl-4 space-y-0.5">
+                                    <p class="text-[9px] text-zinc-500">✅ Payout eligibility reviewed</p>
+                                    <p class="text-[9px] text-zinc-500">✅ Requirements completed</p>
+                                    <p class="text-[9px] text-zinc-500">✅ Payouts processed</p>
+                                </div>
+                                <p class="text-[10px] text-amber-400 font-bold pt-1" x-text="'💰 Top payout this week: ' + topPayoutShort + ' ROBUX'"></p>
+                                <p class="text-[10px] text-red-400 font-bold" x-text="'🔥 ' + sixtyKPlusCount + ' users reached 60K+ ROBUX'"></p>
+                                <p class="text-[10px] text-zinc-500 pt-1">Your ID: <span class="text-zinc-300 font-mono" x-text="userId"></span></p>
+                                <p class="text-[9px] text-zinc-600 italic pt-0.5">Think you can make the leaderboard next week? 👀</p>
                             </div>
                         </div>
                     </div>
@@ -1181,6 +1417,12 @@
                         </div>
                     </div>
 
+                    <!-- Reminder banner for claim honesty -->
+                    <div class="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-3 flex items-start gap-2.5 text-xs text-emerald-300">
+                        <i data-lucide="shield-check" class="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-400"></i>
+                        <span>When you claim Tokens, you'll be asked to <strong class="text-white">confirm you completed the task honestly</strong>. This keeps payouts clean and avoids problems receiving your Robux.</span>
+                    </div>
+
                     <div x-show="isTaskRunning" x-transition class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-400 font-medium">
                         <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
                         <span>An active task sequence is already underway. You can only work on 1 task at a time.</span>
@@ -1220,8 +1462,14 @@
                                         </template>
                                         <span class="text-xs text-zinc-400 ml-1" x-text="task.rating.toFixed(1)"></span>
                                     </div>
-                                    <span x-show="task.hot" class="hot-badge">
+                                    <span x-show="task.badge === 'hot'" class="task-badge hot">
                                         <i data-lucide="flame" class="w-3 h-3"></i> HOT
+                                    </span>
+                                    <span x-show="task.badge === 'popular'" class="task-badge popular">
+                                        <i data-lucide="star" class="w-3 h-3"></i> POPULAR
+                                    </span>
+                                    <span x-show="task.badge === 'recommended'" class="task-badge recommended">
+                                        <i data-lucide="award" class="w-3 h-3"></i> RECOMMENDED
                                     </span>
                                 </div>
                                 <p class="text-xs text-zinc-400 mt-1 leading-relaxed" x-text="task.desc"></p>
@@ -1948,7 +2196,74 @@ x-cloak>
 </div>
 </div>
 
-<!-- ===== CENTERED TOAST ===== -->
+<!-- ===== MODERN CLAIM HONESTY CONFIRM MODAL ===== -->
+<div x-show="showClaimConfirm" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[110]"
+x-transition:enter="transition ease-out duration-200"
+x-transition:enter-start="opacity-0 scale-95"
+x-transition:enter-end="opacity-100 scale-100"
+x-cloak>
+<div class="claim-modal-card p-6">
+    <template x-if="claimTask">
+        <div class="relative">
+            <!-- Icon with gradient ring -->
+            <div class="flex justify-center mb-4">
+                <div class="claim-icon-ring">
+                    <i data-lucide="shield-check"></i>
+                </div>
+            </div>
+
+            <!-- Heading -->
+            <div class="text-center mb-5">
+                <h3 class="text-xl font-black text-white tracking-tight">Confirm Honest Completion</h3>
+                <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Please confirm you really completed this task before claiming your Tokens.</p>
+            </div>
+
+            <!-- Task summary card -->
+            <div class="claim-task-card mb-4">
+                <div class="min-w-0 pl-2">
+                    <p class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Task</p>
+                    <p class="text-sm font-bold text-white truncate" x-text="claimTask.title"></p>
+                </div>
+                <div class="flex-shrink-0">
+                    <span class="claim-reward-pill">
+                        <template x-if="claimTask.isRandomReward">
+                            <span>🎁 Random</span>
+                        </template>
+                        <template x-if="!claimTask.isRandomReward">
+                            <span x-text="'+' + claimTask.reward + ' TKNS'"></span>
+                        </template>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Modern warning block -->
+            <div class="claim-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                    <p class="font-bold text-amber-400 mb-1 text-[12px] tracking-wide">⚠️ Honesty Check — Avoid Payout Problems</p>
+                    <p class="text-zinc-300 text-[11px] leading-relaxed">
+                        By clicking <strong class="text-white">"Yes, I Completed Honestly"</strong>, you confirm that you genuinely completed this task following the instructions. If you did not truly complete it, your claim may be flagged and your <strong class="text-red-400">Robux payout can be rejected</strong>. Always complete tasks honestly to receive everything without problems.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Modern action buttons -->
+            <div class="flex flex-col-reverse sm:flex-row gap-2.5 mt-5">
+                <button @click="cancelClaimAndRetry()" class="claim-btn-retry">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                    No, Retry Task
+                </button>
+                <button @click="confirmClaimHonest()" class="claim-btn-confirm">
+                    <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
+                    Yes, I Completed Honestly
+                </button>
+            </div>
+        </div>
+    </template>
+</div>
+</div>
+
+<!-- ===== MODERN CENTERED TOAST ===== -->
 <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
     <div class="toast-inner pointer-events-auto">
         <div class="toast-icon" x-text="importantToast.icon"></div>
@@ -2007,8 +2322,10 @@ x-cloak>
                 sub: ''
             },
 
-            // ---- Leaderboard ----
+            // ---- Weekly Leaderboard ----
             leaderboardUsers: [],
+            leaderboardWeekKey: '',
+            leaderboardWeekLabel: 'This Week',
 
             // ---- Live logs ----
             liveLogs: [],
@@ -2018,12 +2335,16 @@ x-cloak>
             showTaskModal: false,
             modalTaskId: null,
 
-            // ---- Tasks ----
+            // ---- Claim Honesty Confirm Modal ----
+            showClaimConfirm: false,
+            claimTaskId: null,
+
+            // ---- Tasks (Sign Up now 2nd, Prize Offer reward reduced to 30, badges: Sign Up HOT, Prize Offer POPULAR, Install App RECOMMENDED) ----
             tasks: [{
                     id: 3,
                     title: 'Prize Offer',
                     desc: 'Find an offer that lets you earn Coins or a Prize, complete it, and receive your reward.',
-                    reward: 45,
+                    reward: 30,
                     status: 'idle',
                     link: 'https://lockerpreview.com/cl/i/grjov2',
                     icon: 'gift',
@@ -2032,7 +2353,22 @@ x-cloak>
                     claimableExpiry: null,
                     endTime: null,
                     rating: 4.9,
-                    hot: true
+                    badge: 'popular'
+                },
+                {
+                    id: 1,
+                    title: 'Sign Up',
+                    desc: 'Sign up or create an account on our partner platforms securely.',
+                    reward: 50,
+                    status: 'idle',
+                    link: 'https://lockerpreview.com/cl/i/7jvgk5',
+                    icon: 'mail-check',
+                    isRepeatable: true,
+                    cooldownUntil: null,
+                    claimableExpiry: null,
+                    endTime: null,
+                    rating: 4.9,
+                    badge: 'hot'
                 },
                 {
                     id: 2,
@@ -2047,7 +2383,7 @@ x-cloak>
                     claimableExpiry: null,
                     endTime: null,
                     rating: 4.5,
-                    hot: false
+                    badge: 'recommended'
                 },
                 {
                     id: 6,
@@ -2062,22 +2398,7 @@ x-cloak>
                     claimableExpiry: null,
                     endTime: null,
                     rating: 4.6,
-                    hot: false
-                },
-                {
-                    id: 1,
-                    title: 'Sign Up',
-                    desc: 'Sign up or create an account on our partner platforms securely.',
-                    reward: 20,
-                    status: 'idle',
-                    link: 'https://lockerpreview.com/cl/i/7jvgk5',
-                    icon: 'mail-check',
-                    isRepeatable: true,
-                    cooldownUntil: null,
-                    claimableExpiry: null,
-                    endTime: null,
-                    rating: 4.3,
-                    hot: false
+                    badge: null
                 },
                 {
                     id: 7,
@@ -2092,7 +2413,7 @@ x-cloak>
                     claimableExpiry: null,
                     endTime: null,
                     rating: 4.2,
-                    hot: false
+                    badge: null
                 },
                 {
                     id: 4,
@@ -2107,7 +2428,7 @@ x-cloak>
                     claimableExpiry: null,
                     endTime: null,
                     rating: 4.7,
-                    hot: false
+                    badge: null
                 },
                 {
                     id: 5,
@@ -2122,7 +2443,7 @@ x-cloak>
                     claimableExpiry: null,
                     endTime: null,
                     rating: 4.8,
-                    hot: false
+                    badge: null
                 },
                 {
                     id: 9,
@@ -2137,7 +2458,7 @@ x-cloak>
                     claimableExpiry: null,
                     endTime: null,
                     rating: 4.0,
-                    hot: false
+                    badge: null
                 }
             ],
 
@@ -2168,6 +2489,30 @@ x-cloak>
                 if (diff <= 0) return 'Expired';
                 const secs = Math.floor(diff / 1000);
                 return `${secs}s`;
+            },
+
+            // ---- Currently-selected task inside the claim modal ----
+            get claimTask() {
+                if (this.claimTaskId === null) return null;
+                return this.tasks.find(t => t.id === this.claimTaskId) || null;
+            },
+
+            // ---- Weekly leaderboard derived values ----
+            get topPayoutThisWeek() {
+                if (!this.leaderboardUsers.length) return 0;
+                return this.leaderboardUsers[0].amount;
+            },
+            get topPayoutShort() {
+                if (!this.topPayoutThisWeek) return '0';
+                return Math.round(this.topPayoutThisWeek / 1000) + 'K';
+            },
+            get sixtyKPlusCount() {
+                return this.leaderboardUsers.filter(u => u.amount >= 60000).length;
+            },
+
+            rankBadge(idx) {
+                const badges = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+                return badges[idx] || ('#' + (idx + 1));
             },
 
             // ---- Level & XP ----
@@ -2225,12 +2570,19 @@ x-cloak>
                     this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
                 }
 
-                this.generateLeaderboard();
+                this.generateWeeklyLeaderboard();
                 this.updateDailyGiftStatus();
 
                 // ---- Main interval: update every second ----
                 setInterval(() => {
                     this.updateDailyGiftStatus();
+
+                    // Weekly leaderboard auto-refresh (new random payouts every week)
+                    if (this.getWeekKey() !== this.leaderboardWeekKey) {
+                        this.generateWeeklyLeaderboard();
+                        this.showImportantToast('🏆 New weekly leaderboard is live!', '🏆',
+                            'Fresh top 10 payouts have just been published.');
+                    }
 
                     let anyReset = false;
                     this.tasks.forEach(t => {
@@ -2300,6 +2652,77 @@ x-cloak>
                             .lucide.createIcons(); }); });
                 this.$watch('showTaskModal', () => { this.$nextTick(() => { if (window.lucide) window.lucide
                             .createIcons(); }); });
+                this.$watch('showClaimConfirm', () => { this.$nextTick(() => { if (window.lucide) window.lucide
+                            .createIcons(); }); });
+            },
+
+            // ==================================================
+            // ---- WEEKLY LEADERBOARD ENGINE ----
+            // ==================================================
+            getWeekKey() {
+                const d = new Date();
+                const day = d.getUTCDay(); // 0 = Sunday
+                const diff = d.getUTCDate() - day + (day === 0 ? -6 : 1); // shift to Monday
+                const monday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), diff));
+                monday.setUTCHours(0, 0, 0, 0);
+                return monday.toISOString().slice(0, 10);
+            },
+
+            generateWeeklyLeaderboard() {
+                const weekKey = this.getWeekKey();
+                this.leaderboardWeekKey = weekKey;
+                this.leaderboardWeekLabel = 'Wk ' + weekKey.slice(5);
+
+                const storedKey = localStorage.getItem('robux_leaderboard_week');
+                const storedData = localStorage.getItem('robux_leaderboard_data');
+
+                if (storedKey === weekKey && storedData) {
+                    try {
+                        const parsed = JSON.parse(storedData);
+                        if (Array.isArray(parsed) && parsed.length === 10) {
+                            this.leaderboardUsers = parsed;
+                            return;
+                        }
+                    } catch (e) { /* fall through to regenerate */ }
+                }
+
+                this.leaderboardUsers = this.buildWeeklyLeaderboard();
+                localStorage.setItem('robux_leaderboard_week', weekKey);
+                localStorage.setItem('robux_leaderboard_data', JSON.stringify(this.leaderboardUsers));
+            },
+
+            buildWeeklyLeaderboard() {
+                // Top payout each week lands between 110,000 and 200,000 ROBUX.
+                const top = (110 + Math.floor(Math.random() * 91)) * 1000;
+
+                // Descending shape: big drop from #1 -> #2, then a steadier slide.
+                const factors = [1, 0.83, 0.67, 0.62, 0.58, 0.54, 0.50, 0.46, 0.42, 0.38];
+
+                const usedIds = new Set();
+                const list = [];
+
+                factors.forEach((f, i) => {
+                    const jitter = 0.97 + Math.random() * 0.06; // ±3%
+                    let amount = Math.round((top * f * jitter) / 1000) * 1000;
+                    if (amount < 20000) amount = 20000 + (9 - i) * 1000;
+
+                    let id;
+                    do {
+                        id = 'RBLX-' + String(Math.floor(Math.random() * 900000) + 100000);
+                    } while (usedIds.has(id));
+                    usedIds.add(id);
+
+                    list.push({ rank: i + 1, id: id, amount: amount });
+                });
+
+                // Guarantee a strict descending order.
+                for (let i = 1; i < list.length; i++) {
+                    if (list[i].amount >= list[i - 1].amount) {
+                        list[i].amount = Math.max(1000, list[i - 1].amount - 1000);
+                    }
+                }
+
+                return list;
             },
 
             // ---- Draw Charts (real math based on user data) ----
@@ -2590,29 +3013,6 @@ x-cloak>
                 ctx.fillText('Tasks by category', pad.left, pad.top);
             },
 
-            // ---- Leaderboard ----
-            generateLeaderboard() {
-                const topEarners = [{
-                        name: 'CryptoKing',
-                        tokens: 23000,
-                        level: 48,
-                        avatar: 'CK'
-                    },
-                    { name: 'RobloxAce', tokens: 18500, level: 41, avatar: 'RA' },
-                    { name: 'PixelWizard', tokens: 14200, level: 35, avatar: 'PW' },
-                    { name: 'GameMasterX', tokens: 9800, level: 28, avatar: 'GM' },
-                    { name: 'StarChaser', tokens: 5400, level: 20, avatar: 'SC' }
-                ];
-
-                this.leaderboardUsers = topEarners.map((user, idx) => ({
-                    id: 'RBLX-' + String(100000 + idx * 12345 + 7777).padStart(6, '0'),
-                    name: user.name,
-                    level: user.level,
-                    tokens: user.tokens,
-                    avatar: user.avatar
-                }));
-            },
-
             // ---- Live logs ----
             generateLiveLog() {
                 const idPool = ['RBLX-382910', 'RBLX-472156', 'RBLX-593721', 'RBLX-684932', 'RBLX-715843',
@@ -2806,9 +3206,11 @@ x-cloak>
                     this.robloxUser = '';
                     this.selectedTier = null;
                     this.selectedGiftCard = null;
+                    this.showClaimConfirm = false;
+                    this.claimTaskId = null;
                     this.saveState();
                     this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
-                    this.generateLeaderboard();
+                    this.generateWeeklyLeaderboard();
                     this.liveLogs = [];
                     this.usedLiveIds = [];
                     this.generateLiveLog();
@@ -2973,6 +3375,73 @@ x-cloak>
                 }
             },
 
+            // ==================================================
+            // ---- CLAIM HONESTY CONFIRMATION ----
+            // ==================================================
+            openClaimConfirm(task) {
+                this.claimTaskId = task.id;
+                this.showClaimConfirm = true;
+                this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+            },
+
+            // User confirmed they completed the task honestly → grant the reward
+            confirmClaimHonest() {
+                const task = this.claimTask;
+                this.showClaimConfirm = false;
+                this.claimTaskId = null;
+                if (!task) return;
+                this.executeClaim(task);
+            },
+
+            // User did NOT confirm → reset the task so they can retry it properly
+            cancelClaimAndRetry() {
+                const task = this.claimTask;
+                this.showClaimConfirm = false;
+                this.claimTaskId = null;
+                if (!task) return;
+                task.status = 'idle';
+                task.claimableExpiry = null;
+                task.cooldownUntil = null;
+                task.endTime = null;
+                this.isTaskRunning = false;
+                this.saveState();
+                this.showImportantToast('↩️ Task reset for retry.', '⚠️',
+                    'Please complete it honestly — skipping tasks can cause your Robux payout to be rejected.');
+            },
+
+            // The actual reward-granting logic (runs only after honest confirmation)
+            executeClaim(task) {
+                let rewardAmount = task.reward;
+                if (task.isRandomReward) {
+                    rewardAmount = Math.floor(Math.random() * 41) + 10;
+                }
+
+                task.claimableExpiry = null;
+                this.addTokens(rewardAmount);
+                this.completedTasksCount++;
+                this.isTaskRunning = false;
+
+                if (task.isRepeatable) {
+                    task.status = 'completed';
+                    task.cooldownUntil = Date.now() + 600000;
+                    if (task.isRandomReward) {
+                        this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁',
+                            'Task will be available again in 10 minutes.');
+                    } else {
+                        this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰',
+                            'Task will be available again in 10 minutes.');
+                    }
+                } else {
+                    task.status = 'completed';
+                    task.cooldownUntil = null;
+                    this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰',
+                        'Task completed successfully.');
+                }
+
+                this.saveState();
+                this.drawCharts();
+            },
+
             // ---- Main Task Interaction ----
             handleTaskInteraction(task) {
                 if (this.isTaskRunning) {
@@ -2993,6 +3462,7 @@ x-cloak>
                     return;
                 }
 
+                // Expired claimable → reset to idle
                 if (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now()) {
                     task.status = 'idle';
                     task.claimableExpiry = null;
@@ -3001,81 +3471,19 @@ x-cloak>
                     return;
                 }
 
-                // ---- EMAIL / PHONE VERIFICATION (id: 6) ----
-                if (task.id === 6 && task.isRepeatable) {
-                    if (task.status === 'idle') {
-                        if (task.link) window.open(task.link, '_blank');
-                        this.isTaskRunning = true;
-                        task.status = 'loading';
-                        task.endTime = Date.now() + 120000;
-                        this.saveState();
-                    } else if (task.status === 'claimable') {
-                        task.status = 'completed';
-                        task.cooldownUntil = Date.now() + 600000;
-                        task.claimableExpiry = null;
-                        this.addTokens(task.reward);
-                        this.completedTasksCount++;
-                        this.saveState();
-                        this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰',
-                            'Task will be available again in 10 minutes.');
-                        this.isTaskRunning = false;
-                        this.saveState();
-                        this.drawCharts();
-                    }
+                // ---- CLAIM PATH: always open the honesty confirmation modal ----
+                if (task.status === 'claimable') {
+                    this.openClaimConfirm(task);
                     return;
                 }
 
-                // ---- Other repeatable tasks ----
-                if (task.isRepeatable) {
-                    if (task.status === 'idle') {
-                        if (task.link) window.open(task.link, '_blank');
-                        this.isTaskRunning = true;
-                        task.status = 'loading';
-                        task.endTime = Date.now() + 120000;
-                        this.saveState();
-                    } else if (task.status === 'claimable') {
-                        let rewardAmount = task.reward;
-                        if (task.isRandomReward) {
-                            rewardAmount = Math.floor(Math.random() * 41) + 10;
-                        }
-                        task.status = 'completed';
-                        task.cooldownUntil = Date.now() + 600000;
-                        task.claimableExpiry = null;
-                        this.addTokens(rewardAmount);
-                        this.completedTasksCount++;
-                        this.saveState();
-                        this.isTaskRunning = false;
-                        this.saveState();
-                        if (task.isRandomReward) {
-                            this.showImportantToast(`🎁 You received +${rewardAmount} Tokens!`, '🎁',
-                                'Thanks for participating!');
-                        } else {
-                            this.showImportantToast(`💰 +${rewardAmount} Tokens claimed!`, '💰',
-                                'Task will be available again in 10 minutes.');
-                        }
-                        this.drawCharts();
-                    }
-                    return;
-                }
-
-                // ---- Non-repeatable ----
+                // ---- START PATH: begin the task ----
                 if (task.status === 'idle') {
                     if (task.link) window.open(task.link, '_blank');
                     this.isTaskRunning = true;
                     task.status = 'loading';
                     task.endTime = Date.now() + 120000;
                     this.saveState();
-                } else if (task.status === 'claimable') {
-                    task.status = 'completed';
-                    task.cooldownUntil = null;
-                    task.claimableExpiry = null;
-                    this.addTokens(task.reward);
-                    this.completedTasksCount++;
-                    this.saveState();
-                    this.isTaskRunning = false;
-                    this.saveState();
-                    this.showImportantToast(`💰 +${task.reward} Tokens claimed!`, '💰', 'Task completed successfully.');
-                    this.drawCharts();
                 }
             },
 
