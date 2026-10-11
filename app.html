@@ -1227,11 +1227,10 @@
                             </div>
                         </div>
 
-                        <!-- ===== WEEKLY TOP 10 PAYOUT LEADERBOARD ===== -->
+                        <!-- ===== TOP 5 PAYOUT LEADERBOARD ===== -->
                         <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col">
                             <div class="flex items-center justify-between border-b border-zinc-900 pb-2 mb-2">
-                                <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Weekly Top Payouts</h4>
-                                <span class="text-[10px] text-zinc-500 font-mono" x-text="leaderboardWeekLabel"></span>
+                                <h4 class="text-xs font-bold text-zinc-400 uppercase tracking-wider">🏆 Top Payouts</h4>
                             </div>
 
                             <div class="leaderboard-scroll flex-1 space-y-1 pr-1">
@@ -1255,10 +1254,10 @@
                                     <p class="text-[9px] text-zinc-500">✅ Requirements completed</p>
                                     <p class="text-[9px] text-zinc-500">✅ Payouts processed</p>
                                 </div>
-                                <p class="text-[10px] text-amber-400 font-bold pt-1" x-text="'💰 Top payout this week: ' + topPayoutShort + ' ROBUX'"></p>
-                                <p class="text-[10px] text-red-400 font-bold" x-text="'🔥 ' + sixtyKPlusCount + ' users reached 60K+ ROBUX'"></p>
+                                <p class="text-[10px] text-amber-400 font-bold pt-1" x-text="'💰 Top payout: ' + topPayoutShort + ' ROBUX'"></p>
+                                <p class="text-[10px] text-red-400 font-bold" x-text="'🔥 ' + hundredKPlusCount + ' users reached 100K+ ROBUX'"></p>
                                 <p class="text-[10px] text-zinc-500 pt-1">Your ID: <span class="text-zinc-300 font-mono" x-text="userId"></span></p>
-                                <p class="text-[9px] text-zinc-600 italic pt-0.5">Think you can make the leaderboard next week? 👀</p>
+                                <p class="text-[9px] text-zinc-600 italic pt-0.5">Think you can make the leaderboard? 👀</p>
                             </div>
                         </div>
                     </div>
@@ -2322,10 +2321,9 @@ x-cloak>
                 sub: ''
             },
 
-            // ---- Weekly Leaderboard ----
+            // ---- Top Payout Leaderboard ----
             leaderboardUsers: [],
             leaderboardWeekKey: '',
-            leaderboardWeekLabel: 'This Week',
 
             // ---- Live logs ----
             liveLogs: [],
@@ -2339,23 +2337,8 @@ x-cloak>
             showClaimConfirm: false,
             claimTaskId: null,
 
-            // ---- Tasks (Sign Up now 2nd, Prize Offer reward reduced to 30, badges: Sign Up HOT, Prize Offer POPULAR, Install App RECOMMENDED) ----
+            // ---- Tasks (order: Sign Up → Install App → Prize Offer → rest) ----
             tasks: [{
-                    id: 3,
-                    title: 'Prize Offer',
-                    desc: 'Find an offer that lets you earn Coins or a Prize, complete it, and receive your reward.',
-                    reward: 30,
-                    status: 'idle',
-                    link: 'https://lockerpreview.com/cl/i/grjov2',
-                    icon: 'gift',
-                    isRepeatable: true,
-                    cooldownUntil: null,
-                    claimableExpiry: null,
-                    endTime: null,
-                    rating: 4.9,
-                    badge: 'popular'
-                },
-                {
                     id: 1,
                     title: 'Sign Up',
                     desc: 'Sign up or create an account on our partner platforms securely.',
@@ -2384,6 +2367,21 @@ x-cloak>
                     endTime: null,
                     rating: 4.5,
                     badge: 'recommended'
+                },
+                {
+                    id: 3,
+                    title: 'Prize Offer',
+                    desc: 'Find an offer that lets you earn Coins or a Prize, complete it, and receive your reward.',
+                    reward: 30,
+                    status: 'idle',
+                    link: 'https://lockerpreview.com/cl/i/grjov2',
+                    icon: 'gift',
+                    isRepeatable: true,
+                    cooldownUntil: null,
+                    claimableExpiry: null,
+                    endTime: null,
+                    rating: 4.9,
+                    badge: 'popular'
                 },
                 {
                     id: 6,
@@ -2497,7 +2495,7 @@ x-cloak>
                 return this.tasks.find(t => t.id === this.claimTaskId) || null;
             },
 
-            // ---- Weekly leaderboard derived values ----
+            // ---- Leaderboard derived values ----
             get topPayoutThisWeek() {
                 if (!this.leaderboardUsers.length) return 0;
                 return this.leaderboardUsers[0].amount;
@@ -2506,12 +2504,12 @@ x-cloak>
                 if (!this.topPayoutThisWeek) return '0';
                 return Math.round(this.topPayoutThisWeek / 1000) + 'K';
             },
-            get sixtyKPlusCount() {
-                return this.leaderboardUsers.filter(u => u.amount >= 60000).length;
+            get hundredKPlusCount() {
+                return this.leaderboardUsers.filter(u => u.amount >= 100000).length;
             },
 
             rankBadge(idx) {
-                const badges = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+                const badges = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
                 return badges[idx] || ('#' + (idx + 1));
             },
 
@@ -2577,11 +2575,11 @@ x-cloak>
                 setInterval(() => {
                     this.updateDailyGiftStatus();
 
-                    // Weekly leaderboard auto-refresh (new random payouts every week)
+                    // Leaderboard auto-refresh (new random payouts every week)
                     if (this.getWeekKey() !== this.leaderboardWeekKey) {
                         this.generateWeeklyLeaderboard();
-                        this.showImportantToast('🏆 New weekly leaderboard is live!', '🏆',
-                            'Fresh top 10 payouts have just been published.');
+                        this.showImportantToast('🏆 New leaderboard is live!', '🏆',
+                            'Fresh top 5 payouts have just been published.');
                     }
 
                     let anyReset = false;
@@ -2657,7 +2655,7 @@ x-cloak>
             },
 
             // ==================================================
-            // ---- WEEKLY LEADERBOARD ENGINE ----
+            // ---- LEADERBOARD ENGINE (TOP 5 · 53K – 253K) ----
             // ==================================================
             getWeekKey() {
                 const d = new Date();
@@ -2671,7 +2669,6 @@ x-cloak>
             generateWeeklyLeaderboard() {
                 const weekKey = this.getWeekKey();
                 this.leaderboardWeekKey = weekKey;
-                this.leaderboardWeekLabel = 'Wk ' + weekKey.slice(5);
 
                 const storedKey = localStorage.getItem('robux_leaderboard_week');
                 const storedData = localStorage.getItem('robux_leaderboard_data');
@@ -2679,7 +2676,7 @@ x-cloak>
                 if (storedKey === weekKey && storedData) {
                     try {
                         const parsed = JSON.parse(storedData);
-                        if (Array.isArray(parsed) && parsed.length === 10) {
+                        if (Array.isArray(parsed) && parsed.length === 5) {
                             this.leaderboardUsers = parsed;
                             return;
                         }
@@ -2692,19 +2689,23 @@ x-cloak>
             },
 
             buildWeeklyLeaderboard() {
-                // Top payout each week lands between 110,000 and 200,000 ROBUX.
-                const top = (110 + Math.floor(Math.random() * 91)) * 1000;
+                // Top payout ~253,000 ROBUX · lowest payout ~53,000 ROBUX
+                const maxTop = 253000;
+                const minBottom = 53000;
 
-                // Descending shape: big drop from #1 -> #2, then a steadier slide.
-                const factors = [1, 0.83, 0.67, 0.62, 0.58, 0.54, 0.50, 0.46, 0.42, 0.38];
+                const top = maxTop - Math.floor(Math.random() * 9000);       // 245,000 – 253,000
+                const bottom = minBottom + Math.floor(Math.random() * 9000);  // 53,000 – 61,000
 
                 const usedIds = new Set();
                 const list = [];
 
-                factors.forEach((f, i) => {
-                    const jitter = 0.97 + Math.random() * 0.06; // ±3%
-                    let amount = Math.round((top * f * jitter) / 1000) * 1000;
-                    if (amount < 20000) amount = 20000 + (9 - i) * 1000;
+                for (let i = 0; i < 5; i++) {
+                    const t = i / 4;
+                    const jitter = 0.985 + Math.random() * 0.03; // ±1.5%
+                    let amount = Math.round(((top - (top - bottom) * t) * jitter) / 1000) * 1000;
+
+                    if (amount > maxTop) amount = maxTop;
+                    if (amount < minBottom) amount = minBottom;
 
                     let id;
                     do {
@@ -2713,12 +2714,12 @@ x-cloak>
                     usedIds.add(id);
 
                     list.push({ rank: i + 1, id: id, amount: amount });
-                });
+                }
 
                 // Guarantee a strict descending order.
                 for (let i = 1; i < list.length; i++) {
                     if (list[i].amount >= list[i - 1].amount) {
-                        list[i].amount = Math.max(1000, list[i - 1].amount - 1000);
+                        list[i].amount = Math.max(minBottom, list[i - 1].amount - 1000);
                     }
                 }
 
