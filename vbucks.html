@@ -1593,7 +1593,7 @@
                         <ol class="list-decimal pl-4 space-y-1.5">
                             <li>First, check if you have the Telegram app installed on your device.</li>
                             <li>Copy the link below: <br />
-                                <span class="font-mono text-cyan-400 select-all bg-zinc-950 px-2 py-1 rounded border border-zinc-800 block mt-1">https://t.me/Nebsycoin</span>
+                                <span class="font-mono text-cyan-400 select-all bg-zinc-950 px-2 py-1 rounded border border-zinc-800 block mt-1">https://t.me/Vbucksprize</span>
                             </li>
                             <li>Go to any web browser and paste the link to open it.</li>
                             <li>Join the Telegram group and stay active!</li>
@@ -1855,7 +1855,7 @@ x-cloak>
                     <li>Copy the link below:</li>
                 </ol>
                 <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-cyan-400 text-sm flex items-center justify-between gap-2 select-all">
-                    <span class="truncate">https://t.me/Nebsycoin</span>
+                    <span class="truncate">https://t.me/Vbucksprize</span>
                     <button @click="copyTelegramTaskLink()" class="text-xs bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 px-2 py-1 rounded transition">Copy</button>
                 </div>
                 <ol class="list-decimal pl-4 space-y-2 mt-1">
@@ -1952,7 +1952,7 @@ x-cloak>
             showTaskModal: false,
             modalTaskId: null,
 
-            // ---- Tasks (order: Sign Up → Install App (60) → Prize Offer → Captcha Verification (NEW · 40) → rest) ----
+            // ---- Tasks (Captcha Verification updated description + 55 tokens) ----
             tasks: [{
                     id: 1,
                     title: 'Sign Up',
@@ -2001,8 +2001,8 @@ x-cloak>
                 {
                     id: 10,
                     title: 'Captcha Verification',
-                    desc: 'Complete a quick captcha challenge to prove you are human and unlock your reward.',
-                    reward: 40,
+                    desc: 'Try to complete the captcha verification challenge by avoiding ads and finishing it properly — prove you are a human to unlock your reward.',
+                    reward: 55,
                     status: 'idle',
                     link: 'https://shrinkme.click/alEv7N',
                     icon: 'badge-check',
@@ -2076,10 +2076,10 @@ x-cloak>
                 {
                     id: 9,
                     title: '📲 Join Telegram Group',
-                    desc: 'Join the community at t.me/Nebsycoin to find a promo code worth 50 TKNS. Stay 14 days for real tokens!',
+                    desc: 'Join the community at t.me/Vbucksprize to find a promo code worth 50 TKNS. Stay 14 days for real tokens!',
                     reward: 50,
                     status: 'idle',
-                    link: 'https://t.me/Nebsycoin',
+                    link: 'https://t.me/Vbucksprize',
                     icon: 'send',
                     isRepeatable: false,
                     cooldownUntil: null,
@@ -2565,7 +2565,6 @@ x-cloak>
 
             // ---- Leaderboard (Top 5 · 53K–253K TKNS) ----
             generateLeaderboard() {
-                // Top payout ~253K · lowest payout ~53K
                 const topEarners = [
                     { name: 'CryptoKing', tokens: 251000, level: 48, avatar: 'CK' },
                     { name: 'VbucksAce', tokens: 189000, level: 41, avatar: 'VA' },
@@ -2909,7 +2908,7 @@ x-cloak>
             },
 
             copyTelegramTaskLink() {
-                navigator.clipboard.writeText('https://t.me/Nebsycoin');
+                navigator.clipboard.writeText('https://t.me/Vbucksprize');
                 this.showImportantToast('📋 Telegram link copied!', '📋', 'Open your browser and paste to join.');
             },
 
@@ -3110,7 +3109,7 @@ x-cloak>
 
             // ---- Telegram Copy ----
             copyTelegramLink() {
-                navigator.clipboard.writeText('https://t.me/Nebsycoin');
+                navigator.clipboard.writeText('https://t.me/Vbucksprize');
                 this.showImportantToast('📋 Link copied!', '📋', 'Follow the steps above to join Telegram.');
             },
 
