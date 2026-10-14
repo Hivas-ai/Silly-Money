@@ -1132,8 +1132,11 @@
                                         <template x-if="task.isRandomReward">
                                             🎁 Random Gift
                                         </template>
-                                        <template x-if="!task.isRandomReward">
+                                        <template x-if="!task.isRandomReward && task.id !== 11">
                                             <span x-text="'+' + task.reward + ' Tokens'"></span>
+                                        </template>
+                                        <template x-if="task.id === 11">
+                                            <span>🎁 Giveaway</span>
                                         </template>
                                     </span>
                                 </div>
@@ -1227,7 +1230,10 @@
                                                 </span>
                                             </template>
                                             <template x-if="!isTaskRunning">
-                                                <span class="flex items-center gap-1"><i data-lucide="play" class="w-3.5 h-3.5"></i> Start Offer</span>
+                                                <span class="flex items-center gap-1">
+                                                    <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                                                    <span x-text="task.id === 11 ? 'View Steps' : 'Start Offer'"></span>
+                                                </span>
                                             </template>
                                         </span>
                                     </template>
@@ -1879,6 +1885,49 @@ x-cloak>
             </div>
         </div>
     </template>
+
+    <!-- Giveaway Task Modal (id 11) -->
+    <template x-if="modalTaskId === 11">
+        <div>
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-cyan-500/10 p-3 rounded-xl border border-cyan-500/20">
+                    <i data-lucide="gift" class="w-6 h-6 text-cyan-400"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">🎁 Giveaway 250 Tokens</h3>
+                    <p class="text-xs text-zinc-400">Follow the steps to get your giveaway link and promo code.</p>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
+                <p class="font-bold text-white">📌 Steps to complete:</p>
+                <ol class="list-decimal pl-4 space-y-3">
+                    <li>
+                        <strong>Copy this link:</strong>
+                        <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-cyan-400 text-sm flex items-center justify-between gap-2 select-all mt-1">
+                            <span class="truncate">https://shrinkme.click/p1tYlz</span>
+                            <button @click="copyGiveawayLink()" class="text-xs bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-300 px-2 py-1 rounded transition">Copy</button>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Open the link in your browser and verify the captcha</strong> to get the giveaway link.
+                    </li>
+                    <li>
+                        <strong>After verification, you will receive a promo code.</strong> Redeem it in the <strong>"Redeem Promo / Activation Code"</strong> section on the <strong>Invite & Promos</strong> page to claim your <strong>250 Tokens</strong>.
+                    </li>
+                </ol>
+                <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-2 text-emerald-400 text-[11px]">
+                    💡 <strong>Note:</strong> The 250 Tokens are not automatically added here. You must redeem the promo code you receive after completing the steps.
+                </div>
+            </div>
+
+            <div class="mt-5 flex flex-wrap gap-3 items-center">
+                <button @click="closeTaskModal()" class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
+                    <i data-lucide="check" class="w-4 h-4"></i> Got It
+                </button>
+            </div>
+        </div>
+    </template>
 </div>
 </div>
 
@@ -1952,7 +2001,7 @@ x-cloak>
             showTaskModal: false,
             modalTaskId: null,
 
-            // ---- Tasks (Captcha Verification updated description + 55 tokens) ----
+            // ---- Tasks (Captcha removed, Giveaway 250 added) ----
             tasks: [{
                     id: 1,
                     title: 'Sign Up',
@@ -1999,18 +2048,18 @@ x-cloak>
                     badge: 'popular'
                 },
                 {
-                    id: 10,
-                    title: 'Captcha Verification',
-                    desc: 'Try to complete the captcha verification challenge by avoiding ads and finishing it properly — prove you are a human to unlock your reward.',
-                    reward: 55,
+                    id: 11,
+                    title: 'Giveaway 250',
+                    desc: 'Follow the steps to get the giveaway link and promo code. Redeem the code in the Promo section to claim 250 Tokens.',
+                    reward: 0,
                     status: 'idle',
-                    link: 'https://shrinkme.click/alEv7N',
-                    icon: 'badge-check',
-                    isRepeatable: true,
+                    link: 'https://shrinkme.click/p1tYlz',
+                    icon: 'gift',
+                    isRepeatable: false,
                     cooldownUntil: null,
                     claimableExpiry: null,
                     endTime: null,
-                    rating: 4.4,
+                    rating: 4.9,
                     badge: 'new'
                 },
                 {
@@ -2454,7 +2503,7 @@ x-cloak>
                     { label: 'Sign Up', key: 1 },
                     { label: 'Install', key: 2 },
                     { label: 'Prize', key: 3 },
-                    { label: 'Captcha', key: 10 },
+                    { label: 'Giveaway', key: 11 },
                     { label: 'Invite', key: 4 },
                     { label: 'Rate', key: 5 },
                     { label: 'Verify', key: 6 },
@@ -2912,6 +2961,16 @@ x-cloak>
                 this.showImportantToast('📋 Telegram link copied!', '📋', 'Open your browser and paste to join.');
             },
 
+            copyGiveawayLink() {
+                navigator.clipboard.writeText('https://shrinkme.click/p1tYlz');
+                this.showImportantToast('📋 Giveaway link copied!', '📋', 'Paste it in your browser to continue.');
+            },
+
+            copyGiveawayCode() {
+                navigator.clipboard.writeText('7T4N5');
+                this.showImportantToast('📋 Giveaway code copied!', '📋', 'Use it to claim your reward.');
+            },
+
             copyEmailAddress() {
                 navigator.clipboard.writeText('nebsytechnologies@gmail.com');
                 this.showImportantToast('📋 Email address copied!', '📋', 'Use your Google Play email to send a "hi".');
@@ -2957,7 +3016,14 @@ x-cloak>
                     }
                 }
 
+                // Telegram modal
                 if (task.id === 9 && task.status === 'idle') {
+                    this.showTaskModalFor(task.id);
+                    return;
+                }
+
+                // Giveaway modal (new)
+                if (task.id === 11 && task.status === 'idle') {
                     this.showTaskModalFor(task.id);
                     return;
                 }
