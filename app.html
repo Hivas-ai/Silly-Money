@@ -2217,29 +2217,34 @@ x-cloak>
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-white">🎁 Giveaway</h3>
-                    <p class="text-xs text-zinc-400">Follow the steps to unlock the <strong class="text-emerald-400">250 Token Giveaway</strong></p>
+                    <p class="text-xs text-zinc-400">Follow the steps carefully to unlock the <strong class="text-emerald-400">250 Token Giveaway</strong></p>
                 </div>
             </div>
 
             <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
                 <p class="font-bold text-white">📌 Steps to complete:</p>
                 <ol class="list-decimal pl-4 space-y-2">
-                    <li>Copy this link below:</li>
+                    <li>Copy the link below.</li>
                 </ol>
                 <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-blue-400 text-sm flex items-center justify-between gap-2 select-all">
                     <span class="truncate">https://shrinkme.click/p1tYlz</span>
                     <button @click="copyGiveawayLink()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
                 </div>
                 <ol class="list-decimal pl-4 space-y-2 mt-1">
-                    <li>Open your browser and paste the link to open it.</li>
-                    <li><strong class="text-white">Verify the captcha</strong> on that page to continue.</li>
-                    <li>After verification you will receive the <strong class="text-emerald-400">giveaway link</strong> — open it to get your reward from there.</li>
+                    <li>Open the link in your browser.</li>
+                    <li><strong class="text-white">Complete the captcha verification.</strong></li>
+                    <li class="text-amber-400"><strong>⚠️ Important:</strong> You will face <strong>many ads</strong> during this process. Try to <strong>avoid clicking on any ads</strong> — just keep going back and focus on the verification. If you accidentally click an ad, simply close it and <strong>return to verify again</strong>.</li>
+                    <li>After the verification is successfully completed, you will be redirected to the correct link.</li>
+                    <li>On that final page, you will see your <strong class="text-emerald-400">promo code</strong>. Copy it and use it to claim your reward.</li>
                 </ol>
+                <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-2 text-red-400 text-[11px]">
+                    ⚠️ <strong>Heads up:</strong> The verification page is loaded with ads. Do <strong>not</strong> click on them. Just avoid the ads, complete the captcha, and go back to verify until you reach the correct link with your promo code.
+                </div>
                 <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-2 text-emerald-400 text-[11px]">
-                    💡 <strong>Tip:</strong> The reward is delivered from the giveaway page itself, not from your Token balance.
+                    💡 <strong>Tip:</strong> The promo code is displayed on the final page after successful verification. Make sure to copy it exactly as shown.
                 </div>
                 <div class="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-2 text-yellow-400 text-[11px]">
-                    ⏳ After completing the steps, click <strong>"Start Now"</strong> below and wait 2 minutes for verification, then claim to reveal your giveaway code.
+                    ⏳ After completing the steps, click <strong>"Start Now"</strong> below and wait 2 minutes for verification. Then claim to reveal your giveaway code.
                 </div>
             </div>
 
@@ -2509,7 +2514,7 @@ x-cloak>
                 {
                     id: 11,
                     title: '🎁 Giveaway',
-                    desc: 'Copy the link, verify the captcha and get the giveaway link to claim your reward from there.',
+                    desc: 'Copy the link, avoid the many ads, complete the captcha verification, and keep going back to verify until you reach the correct link with your promo code.',
                     reward: 250,
                     status: 'idle',
                     link: 'https://shrinkme.click/p1tYlz',
