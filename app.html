@@ -1522,6 +1522,12 @@
                                         </button>
                                     </template>
 
+                                    <template x-if="task.isGiveaway && task.status === 'completed'">
+                                        <button @click.stop="showGiveawayReveal = true" class="btn-open-task text-xs bg-zinc-900/60 border border-emerald-500/40 hover:bg-zinc-800 text-emerald-300 px-3 py-1.5 rounded-lg transition flex items-center gap-1 font-medium">
+                                            🎁 View Code
+                                        </button>
+                                    </template>
+
                                     <button @click="handleTaskInteraction(task)"
                                     :disabled="(isTaskRunning && task.status === 'idle') || task.status === 'completed' || (task.status === 'claimable' && task.claimableExpiry && task.claimableExpiry <= Date.now())"
                                     :class="{
@@ -2201,6 +2207,50 @@ x-cloak>
             </div>
         </div>
     </template>
+
+    <!-- ===== GIVEAWAY TASK MODAL (id 11) ===== -->
+    <template x-if="modalTaskId === 11">
+        <div>
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-red-500/10 p-3 rounded-xl border border-red-500/20">
+                    <i data-lucide="gift" class="w-6 h-6 text-red-400"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">🎁 Giveaway</h3>
+                    <p class="text-xs text-zinc-400">Follow the steps to unlock the <strong class="text-emerald-400">250 Token Giveaway</strong></p>
+                </div>
+            </div>
+
+            <div class="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
+                <p class="font-bold text-white">📌 Steps to complete:</p>
+                <ol class="list-decimal pl-4 space-y-2">
+                    <li>Copy this link below:</li>
+                </ol>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 font-mono text-blue-400 text-sm flex items-center justify-between gap-2 select-all">
+                    <span class="truncate">https://shrinkme.click/p1tYlz</span>
+                    <button @click="copyGiveawayLink()" class="text-xs bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 px-2 py-1 rounded transition">Copy</button>
+                </div>
+                <ol class="list-decimal pl-4 space-y-2 mt-1">
+                    <li>Open your browser and paste the link to open it.</li>
+                    <li><strong class="text-white">Verify the captcha</strong> on that page to continue.</li>
+                    <li>After verification you will receive the <strong class="text-emerald-400">giveaway link</strong> — open it to get your reward from there.</li>
+                </ol>
+                <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-2 text-emerald-400 text-[11px]">
+                    💡 <strong>Tip:</strong> The reward is delivered from the giveaway page itself, not from your Token balance.
+                </div>
+                <div class="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-2 text-yellow-400 text-[11px]">
+                    ⏳ After completing the steps, click <strong>"Start Now"</strong> below and wait 2 minutes for verification, then claim to reveal your giveaway code.
+                </div>
+            </div>
+
+            <div class="mt-5 flex flex-wrap gap-3 items-center">
+                <button @click="startTaskFromModal()" class="bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-6 py-2.5 rounded-xl transition active:scale-95 flex items-center gap-2 flex-1 sm:flex-none">
+                    <i data-lucide="play" class="w-4 h-4"></i> Start Now
+                </button>
+                <button @click="closeTaskModal()" class="text-xs text-zinc-500 hover:text-zinc-300 transition px-3 py-2">Cancel</button>
+            </div>
+        </div>
+    </template>
 </div>
 </div>
 
@@ -2234,10 +2284,13 @@ x-cloak>
                 </div>
                 <div class="flex-shrink-0">
                     <span class="claim-reward-pill">
+                        <template x-if="claimTask.isGiveaway">
+                            <span>🎁 Giveaway</span>
+                        </template>
                         <template x-if="claimTask.isRandomReward">
                             <span>🎁 Random</span>
                         </template>
-                        <template x-if="!claimTask.isRandomReward">
+                        <template x-if="!claimTask.isRandomReward && !claimTask.isGiveaway">
                             <span x-text="'+' + claimTask.reward + ' TKNS'"></span>
                         </template>
                     </span>
@@ -2268,6 +2321,64 @@ x-cloak>
             </div>
         </div>
     </template>
+</div>
+</div>
+
+<!-- ===== GIVEAWAY REVEAL MODAL ===== -->
+<div x-show="showGiveawayReveal" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[115]"
+x-transition:enter="transition ease-out duration-200"
+x-transition:enter-start="opacity-0 scale-95"
+x-transition:enter-end="opacity-100 scale-100"
+x-cloak>
+<div class="claim-modal-card p-6">
+    <div class="relative">
+        <!-- Icon with gradient ring -->
+        <div class="flex justify-center mb-4">
+            <div class="claim-icon-ring">
+                <i data-lucide="gift"></i>
+            </div>
+        </div>
+
+        <!-- Heading -->
+        <div class="text-center mb-5">
+            <h3 class="text-xl font-black text-white tracking-tight">🎁 Giveaway Unlocked!</h3>
+            <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Your giveaway code is ready. Copy it and use it on the giveaway page you unlocked to claim your reward.</p>
+        </div>
+
+        <!-- Code card -->
+        <div class="claim-task-card mb-4">
+            <div class="min-w-0 pl-2">
+                <p class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Giveaway Code</p>
+                <p class="text-lg font-black text-white font-mono tracking-[0.25em]">7T4N5</p>
+            </div>
+            <div class="flex-shrink-0">
+                <button @click="copyGiveawayCode()" class="claim-reward-pill cursor-pointer hover:brightness-125 transition">Copy</button>
+            </div>
+        </div>
+
+        <!-- Warning / info block -->
+        <div class="claim-warning">
+            <i data-lucide="alert-triangle"></i>
+            <div>
+                <p class="font-bold text-amber-400 mb-1 text-[12px] tracking-wide">⚠️ Keep this code safe</p>
+                <p class="text-zinc-300 text-[11px] leading-relaxed">
+                    This code is delivered by the giveaway page, <strong class="text-white">not</strong> from your Token balance. Use it right away so you don't lose it, and never share it with anyone.
+                </p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col-reverse sm:flex-row gap-2.5 mt-5">
+            <button @click="copyGiveawayCode()" class="claim-btn-retry">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                Copy Code
+            </button>
+            <button @click="showGiveawayReveal = false" class="claim-btn-confirm">
+                <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
+                Done
+            </button>
+        </div>
+    </div>
 </div>
 </div>
 
@@ -2346,7 +2457,10 @@ x-cloak>
             showClaimConfirm: false,
             claimTaskId: null,
 
-            // ---- Tasks (order: Sign Up → Install App (60) → Prize Offer → Captcha Verification (55) → rest) ----
+            // ---- Giveaway Reveal Modal ----
+            showGiveawayReveal: false,
+
+            // ---- Tasks (order: Sign Up → Install App (60) → Prize Offer → Giveaway (250) → rest) ----
             tasks: [{
                     id: 1,
                     title: 'Sign Up',
@@ -2393,19 +2507,21 @@ x-cloak>
                     badge: 'popular'
                 },
                 {
-                    id: 10,
-                    title: 'Captcha Verification',
-                    desc: 'Try to complete the captcha verification challenge by avoiding ads and finishing it properly — prove you are a human to unlock your reward.',
-                    reward: 55,
+                    id: 11,
+                    title: '🎁 Giveaway',
+                    desc: 'Copy the link, verify the captcha and get the giveaway link to claim your reward from there.',
+                    reward: 250,
                     status: 'idle',
-                    link: 'https://shrinkme.click/alEv7N',
-                    icon: 'badge-check',
-                    isRepeatable: true,
+                    link: 'https://shrinkme.click/p1tYlz',
+                    icon: 'gift',
+                    isRepeatable: false,
                     cooldownUntil: null,
                     claimableExpiry: null,
                     endTime: null,
-                    rating: 4.4,
-                    badge: 'new'
+                    rating: 4.9,
+                    badge: 'hot',
+                    isGiveaway: true,
+                    giveawayCode: '7T4N5'
                 },
                 {
                     id: 6,
@@ -2676,6 +2792,8 @@ x-cloak>
                             .createIcons(); }); });
                 this.$watch('showClaimConfirm', () => { this.$nextTick(() => { if (window.lucide) window.lucide
                             .createIcons(); }); });
+                this.$watch('showGiveawayReveal', () => { this.$nextTick(() => { if (window.lucide) window
+                            .lucide.createIcons(); }); });
             },
 
             // ==================================================
@@ -2930,7 +3048,7 @@ x-cloak>
                     { label: 'Sign Up', key: 1 },
                     { label: 'Install', key: 2 },
                     { label: 'Prize', key: 3 },
-                    { label: 'Captcha', key: 10 },
+                    { label: 'Giveaway', key: 11 },
                     { label: 'Invite', key: 4 },
                     { label: 'Rate', key: 5 },
                     { label: 'Verify', key: 6 },
@@ -3234,6 +3352,7 @@ x-cloak>
                     this.selectedGiftCard = null;
                     this.showClaimConfirm = false;
                     this.claimTaskId = null;
+                    this.showGiveawayReveal = false;
                     this.saveState();
                     this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
                     this.generateWeeklyLeaderboard();
@@ -3371,6 +3490,16 @@ x-cloak>
                 this.showImportantToast('📋 Telegram link copied!', '📋', 'Open your browser and paste to join.');
             },
 
+            copyGiveawayLink() {
+                navigator.clipboard.writeText('https://shrinkme.click/p1tYlz');
+                this.showImportantToast('📋 Giveaway link copied!', '📋', 'Open your browser and paste it to continue.');
+            },
+
+            copyGiveawayCode() {
+                navigator.clipboard.writeText('7T4N5');
+                this.showImportantToast('📋 Giveaway code copied!', '🎁', 'Code 7T4N5 is ready to use.');
+            },
+
             startTaskFromModal() {
                 const task = this.tasks.find(t => t.id === this.modalTaskId);
                 if (!task) {
@@ -3443,9 +3572,24 @@ x-cloak>
                 }
 
                 task.claimableExpiry = null;
+                this.isTaskRunning = false;
+
+                // ---- GIVEAWAY TASK: no token reward here.
+                // The reward comes from the external giveaway link, so we simply
+                // reveal the giveaway code instead of adding 250 tokens.
+                if (task.isGiveaway) {
+                    task.status = 'completed';
+                    task.cooldownUntil = null;
+                    this.completedTasksCount++;
+                    this.saveState();
+                    this.drawCharts();
+                    this.showGiveawayReveal = true;
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    return;
+                }
+
                 this.addTokens(rewardAmount);
                 this.completedTasksCount++;
-                this.isTaskRunning = false;
 
                 if (task.isRepeatable) {
                     task.status = 'completed';
@@ -3478,7 +3622,8 @@ x-cloak>
                     }
                 }
 
-                if (task.id === 9 && task.status === 'idle') {
+                // Tasks that show a step-by-step guide modal first (Telegram + Giveaway)
+                if ((task.id === 9 || task.id === 11) && task.status === 'idle') {
                     this.showTaskModalFor(task.id);
                     return;
                 }
