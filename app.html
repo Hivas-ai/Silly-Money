@@ -1962,6 +1962,7 @@
                                     </button>
                                 </div>
                             </div>
+                            <p class="text-[10px] text-zinc-500 italic">Have a giveaway code? Redeem it here for bonus Tokens.</p>
                         </div>
                     </div>
 
@@ -2369,6 +2370,14 @@ x-cloak>
                 <p class="text-zinc-300 text-[11px] leading-relaxed">
                     This code is delivered by the giveaway page, <strong class="text-white">not</strong> from your Token balance. Use it right away so you don't lose it, and never share it with anyone.
                 </p>
+            </div>
+        </div>
+
+        <!-- Bonus info: redeem on site -->
+        <div class="claim-task-card mb-4 mt-4">
+            <div class="min-w-0 pl-2">
+                <p class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Bonus</p>
+                <p class="text-[11px] text-zinc-300 leading-relaxed">You can also redeem <strong class="text-white font-mono">7T4N5</strong> in the <strong class="text-emerald-400">Promo Code</strong> box on the Invite &amp; Promos page to instantly receive <strong class="text-emerald-400">+250 TKNS</strong> — one time only.</p>
             </div>
         </div>
 
@@ -3670,6 +3679,26 @@ x-cloak>
                     this.showImportantToast('❌ Please enter a code.', '❌');
                     return;
                 }
+
+                // ==================================================
+                // ---- 7T4N5 GIVEAWAY PROMO CODE  (+250 TKNS, ONE TIME USE) ----
+                // ==================================================
+                if (inputCode === '7T4N5') {
+                    if (this.usedPromoCodes.includes('7T4N5')) {
+                        this.showImportantToast('❌ Code already used.', '❌',
+                            'This giveaway code can only be redeemed once per account.');
+                        return;
+                    }
+                    this.usedPromoCodes.push('7T4N5');
+                    this.addTokens(250);
+                    this.showImportantToast('🎁 +250 Tokens from giveaway code!', '🎁',
+                        'Code 7T4N5 redeemed successfully. It can only be used once.');
+                    this.promoCode = '';
+                    this.saveState();
+                    this.drawCharts();
+                    return;
+                }
+
                 if (inputCode === 'IYVKQ') {
                     this.showPromoPasswordForm = true;
                     this.showImportantToast('🔐 Master code detected.', '🔐', 'Enter the security key.');
