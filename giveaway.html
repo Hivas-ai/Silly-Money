@@ -139,7 +139,7 @@
             opacity: 0.6;
         }
 
-        /* ===== SUCCESS ICON ===== */
+        /* ===== SUCCESS / GIFT ICON ===== */
         .success-ring {
             display: inline-flex;
             align-items: center;
@@ -183,7 +183,7 @@
             width: 42px;
             height: 42px;
             color: #60a5fa;
-            stroke-width: 2.5;
+            stroke-width: 2.2;
             filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.2));
         }
 
@@ -201,7 +201,7 @@
             color: #a1a1aa;
             font-weight: 400;
             line-height: 1.6;
-            max-width: 300px;
+            max-width: 320px;
             margin: 0 auto 0.25rem;
         }
 
@@ -282,35 +282,18 @@
             color: #86efac;
         }
 
-        /* ===== TASK DETAIL PILL ===== */
-        .task-detail-row {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
+        /* ===== FEEDBACK MESSAGE ===== */
+        .feedback {
+            font-size: 0.75rem;
+            min-height: 1.2rem;
             color: #a1a1aa;
-            background: #18181b;
-            border: 1px solid #27272a;
-            border-radius: 9999px;
-            padding: 0.35rem 1.2rem 0.35rem 0.85rem;
-            margin: 0 auto 0.5rem;
-            transition: border-color 0.2s;
-            max-width: 100%;
+            transition: color 0.2s;
+            text-align: center;
+            margin-top: 0.5rem;
         }
 
-        .task-detail-row svg {
-            width: 14px;
-            height: 14px;
-            color: #52525b;
-            flex-shrink: 0;
-        }
-
-        .task-detail-row .task-label {
-            font-weight: 500;
-            color: #d4d4d8;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+        .feedback.success {
+            color: #86efac;
         }
 
         /* ===== BLUE PRIMARY BUTTON ===== */
@@ -333,7 +316,7 @@
             position: relative;
             overflow: hidden;
             text-decoration: none;
-            margin-top: 1.25rem;
+            margin-top: 0.75rem;
             font-family: 'Inter', sans-serif;
         }
 
@@ -345,15 +328,21 @@
             pointer-events: none;
         }
 
-        .btn-back:hover {
+        .btn-back:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 12px 40px rgba(37, 99, 235, 0.35);
             background: linear-gradient(135deg, #1e40af, #2563eb);
         }
 
-        .btn-back:active {
+        .btn-back:active:not(:disabled) {
             transform: scale(0.97) translateY(0);
             box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-back:disabled {
+            opacity: 0.6;
+            cursor: default;
+            transform: none;
         }
 
         .btn-back svg {
@@ -383,7 +372,7 @@
             pointer-events: none;
         }
 
-        .btn-back:hover::before {
+        .btn-back:hover:not(:disabled)::before {
             opacity: 1;
         }
 
@@ -442,10 +431,6 @@
             .btn-back {
                 font-size: 0.875rem;
                 padding: 0.8rem 1.25rem;
-            }
-            .task-detail-row {
-                font-size: 0.7rem;
-                padding: 0.25rem 1rem 0.25rem 0.65rem;
             }
             .code-value {
                 font-size: 1.2rem;
@@ -507,7 +492,7 @@
     <div class="main-wrapper">
         <div class="congrats-card">
 
-            <!-- Giveaway icon with animated rings -->
+            <!-- Gift icon with animated rings -->
             <div class="success-ring">
                 <div class="ring-spinner"></div>
                 <div class="ring-spinner"></div>
@@ -517,9 +502,10 @@
             </div>
 
             <!-- Title -->
-            <h1 class="congrats-title">You've Unlocked 250 Tkns!</h1>
+            <h1 class="congrats-title">Congratulations! 🎉</h1>
             <p class="congrats-sub">
-                Your giveaway reward is ready. Send us the code below via email and your <strong style="color:#93c5fd;font-weight:600;">250 Tkns</strong> will be credited to your account.
+                You've won <strong style="color:#93c5fd;font-weight:600;">250 Tkns</strong> in the Nebsy giveaway!<br />
+                Copy the code below and claim your reward.
             </p>
 
             <!-- Divider -->
@@ -536,26 +522,20 @@
                 </button>
             </div>
 
-            <!-- Email pill -->
-            <div class="task-detail-row">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                </svg>
-                <span class="task-label">nebsytechnologies@gmail.com</span>
-            </div>
-
-            <!-- BLUE Get your 250 Tkns button -->
-            <a href="#" id="claimButton" class="btn-back">
+            <!-- Claim button -->
+            <button type="button" id="claimButton" class="btn-back">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                 </svg>
                 <span class="btn-text">Get Your 250 Tkns Now</span>
-            </a>
+            </button>
+
+            <!-- Feedback message (hidden by default, shown on claim) -->
+            <div class="feedback" id="feedback"></div>
 
             <!-- Footnote -->
             <p class="footnote">
-                Email the code <strong>7T4N5</strong> to <strong>nebsytechnologies@gmail.com</strong><br />
-                Tokens are credited after verification · <strong>Nebsy Technologies</strong>
+                Your reward will be credited after verification · <strong>Nebsy Technologies</strong>
             </p>
 
         </div>
@@ -568,34 +548,42 @@
 
             // ---- Giveaway config ----
             const CODE = '7T4N5';
-            const EMAIL = 'nebsytechnologies@gmail.com';
-            const SUBJECT = 'Nebsy Giveaway Claim — Code ' + CODE;
-            const BODY = 'Hi Nebsy Team,\n\n'
-                       + 'I would like to claim my 250 Tkns giveaway reward.\n\n'
-                       + 'My code: ' + CODE + '\n\n'
-                       + 'Thanks!';
 
             // ---- DOM refs ----
             const claimBtn = document.getElementById('claimButton');
+            const feedback = document.getElementById('feedback');
             const copyBtn = document.getElementById('copyBtn');
             const copyText = document.getElementById('copyText');
             const codeValue = document.getElementById('codeValue');
 
-            // ---- Build the mailto link ----
-            const mailtoLink = 'mailto:' + EMAIL
-                + '?subject=' + encodeURIComponent(SUBJECT)
-                + '&body=' + encodeURIComponent(BODY);
-
-            if (claimBtn) {
-                claimBtn.setAttribute('href', mailtoLink);
+            // ---- Copy code to clipboard (shared function) ----
+            function copyCodeToClipboard() {
+                const code = CODE;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    return navigator.clipboard.writeText(code);
+                } else {
+                    return new Promise(function(resolve, reject) {
+                        const ta = document.createElement('textarea');
+                        ta.value = code;
+                        ta.style.position = 'fixed';
+                        ta.style.opacity = '0';
+                        document.body.appendChild(ta);
+                        ta.select();
+                        try {
+                            document.execCommand('copy');
+                            resolve();
+                        } catch (e) {
+                            reject(e);
+                        }
+                        document.body.removeChild(ta);
+                    });
+                }
             }
 
-            // ---- Copy code to clipboard ----
+            // ---- Copy button handler ----
             if (copyBtn && codeValue) {
                 copyBtn.addEventListener('click', function() {
-                    const code = codeValue.textContent.trim();
-
-                    const done = function() {
+                    copyCodeToClipboard().then(function() {
                         copyBtn.classList.add('copied');
                         const original = copyText ? copyText.textContent : '';
                         if (copyText) copyText.textContent = 'Copied!';
@@ -603,34 +591,43 @@
                             copyBtn.classList.remove('copied');
                             if (copyText) copyText.textContent = original || 'Copy';
                         }, 1800);
-                    };
-
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(code).then(done).catch(function() {
-                            // fallback
-                            const ta = document.createElement('textarea');
-                            ta.value = code;
-                            ta.style.position = 'fixed';
-                            ta.style.opacity = '0';
-                            document.body.appendChild(ta);
-                            ta.select();
-                            try { document.execCommand('copy'); done(); } catch (e) {}
-                            document.body.removeChild(ta);
-                        });
-                    } else {
-                        const ta = document.createElement('textarea');
-                        ta.value = code;
-                        ta.style.position = 'fixed';
-                        ta.style.opacity = '0';
-                        document.body.appendChild(ta);
-                        ta.select();
-                        try { document.execCommand('copy'); done(); } catch (e) {}
-                        document.body.removeChild(ta);
-                    }
+                    }).catch(function() {
+                        // ignore
+                    });
                 });
             }
 
-            console.log('🎁 Nebsy giveaway ready — code: ' + CODE + ' → ' + EMAIL);
+            // ---- Claim button handler ----
+            if (claimBtn && feedback) {
+                claimBtn.addEventListener('click', function() {
+                    copyCodeToClipboard().then(function() {
+                        feedback.textContent = '✅ Code copied! Your 250 Tkns will be credited shortly.';
+                        feedback.className = 'feedback success';
+
+                        // Temporarily change button text
+                        const btnText = claimBtn.querySelector('.btn-text');
+                        const originalText = btnText.textContent;
+                        btnText.textContent = 'Code Copied!';
+                        claimBtn.disabled = true;
+
+                        setTimeout(function() {
+                            btnText.textContent = originalText;
+                            claimBtn.disabled = false;
+                            feedback.textContent = '';
+                            feedback.className = 'feedback';
+                        }, 3000);
+                    }).catch(function() {
+                        feedback.textContent = '❌ Could not copy code. Please copy it manually.';
+                        feedback.className = 'feedback error';
+                        setTimeout(function() {
+                            feedback.textContent = '';
+                            feedback.className = 'feedback';
+                        }, 3000);
+                    });
+                });
+            }
+
+            console.log('🎁 Nebsy giveaway ready — code: ' + CODE);
 
         })();
     </script>
