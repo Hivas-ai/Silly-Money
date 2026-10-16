@@ -301,6 +301,9 @@
         }
         .checkbox-honest { accent-color: #ef4444; width: 1.15rem; height: 1.15rem; cursor: pointer; }
         .rules-scroll { max-height: 60vh; overflow-y: auto; }
+        .rules-scroll::-webkit-scrollbar { width: 6px; }
+        .rules-scroll::-webkit-scrollbar-track { background: transparent; }
+        .rules-scroll::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.35); border-radius: 3px; }
         .level-progress-bar { background: rgba(255,255,255,0.06); border-radius: 9999px; height: 6px; overflow: hidden; }
         .level-progress-fill {
             background: linear-gradient(90deg, #fbbf24, #f59e0b);
@@ -586,6 +589,35 @@
         }
         .copy-link-box .copy-btn:hover { background: rgba(59, 130, 246, 0.25); border-color: #60a5fa; color: #bfdbfe; }
         .dragon-icon { width: 1.15rem; height: 1.15rem; color: #fff; }
+
+        /* ===== RULES PAGE ===== */
+        .rule-card {
+            background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
+            border: 1px solid var(--border);
+            border-radius: 1.1rem;
+            padding: 1.05rem 1.15rem;
+            display: flex; gap: 0.9rem; align-items: flex-start;
+            transition: all 0.2s ease;
+            position: relative; overflow: hidden;
+        }
+        .rule-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-2px); }
+        .rule-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--rule-accent, #ef4444);
+        }
+        .rule-card .rule-icon {
+            width: 2.25rem; height: 2.25rem; border-radius: 0.7rem;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            background: color-mix(in srgb, var(--rule-accent) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--rule-accent) 30%, transparent);
+            color: var(--rule-accent);
+        }
+        .rule-card .rule-icon i { width: 1.05rem; height: 1.05rem; }
+        .rule-card h4 { font-size: 0.8rem; font-weight: 800; color: #fff; letter-spacing: -0.01em; }
+        .rule-card p { font-size: 0.72rem; color: #a1a1aa; margin-top: 0.3rem; line-height: 1.5; }
+
+        .rules-locked-blur { opacity: 0.28; filter: blur(3px); pointer-events: none; user-select: none; }
         @media (max-width: 640px) {
             .eligibility-card { flex-direction: column; align-items: stretch; text-align: center; padding: 1.1rem; }
             .eligibility-card .status-badge { margin-left: 0; align-self: center; }
@@ -1357,60 +1389,120 @@
                 </div>
 
                 <!-- ===== RULES ===== -->
-                <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6 relative">
-                    <div>
-                        <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-                            Compliance & Fraud Prevention
-                            <span x-show="!rulesAccepted" class="notif-badge ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
-                        </h2>
-                        <p class="text-zinc-500 text-xs mt-1">Review system rules to guarantee smooth coin settlement.</p>
+                <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
+
+                    <!-- Header -->
+                    <div class="flex items-start justify-between gap-3 flex-wrap">
+                        <div>
+                            <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                                Compliance &amp; Fraud Prevention
+                                <span x-show="!rulesAccepted" class="notif-badge ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
+                            </h2>
+                            <p class="text-zinc-500 text-xs mt-1">Review system rules to guarantee smooth coin settlement.</p>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full border"
+                              :class="rulesAccepted
+                                  ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25'
+                                  : 'bg-red-500/10 text-red-300 border-red-500/25'">
+                            <span class="w-1.5 h-1.5 rounded-full" :class="rulesAccepted ? 'bg-emerald-400' : 'bg-red-400 animate-pulse'"></span>
+                            <span x-text="rulesAccepted ? 'Compliant' : 'Action Required'"></span>
+                        </span>
                     </div>
 
-                    <div class="glass-card p-6 divide-y divide-white/5 relative">
-                        <div :class="!rulesAccepted ? 'opacity-30 pointer-events-none blur-[1px]' : ''">
-                            <div class="pb-4 flex gap-4 items-start">
-                                <div class="bg-red-500/10 p-2 rounded-lg text-red-400 border border-red-500/15 mt-0.5 flex-shrink-0">
-                                    <i data-lucide="shield-x" class="w-4 h-4"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-sm font-bold text-white">Strict Anti-VPN Infrastructure</h3>
-                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed">Proxy layers, VPN nodes, or data center routing environments are systematically flagged.</p>
-                                </div>
-                            </div>
-                            <div class="py-4 flex gap-4 items-start">
-                                <div class="bg-emerald-500/10 p-2 rounded-lg text-emerald-400 border border-emerald-500/15 mt-0.5 flex-shrink-0">
-                                    <i data-lucide="shield-check" class="w-4 h-4"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-sm font-bold text-white">Honest Task Completion Required</h3>
-                                    <p class="text-xs text-zinc-400 mt-1 leading-relaxed">All tasks must be completed honestly. We verify your activity before approving any payout.</p>
-                                </div>
+                    <!-- Status card -->
+                    <div class="eligibility-card" :class="rulesAccepted ? 'unlocked' : ''">
+                        <div x-show="rulesAccepted" class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
+                        </div>
+                        <div x-show="!rulesAccepted" class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/25 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="shield-alert" class="w-6 h-6 text-red-400"></i>
+                        </div>
+                        <div class="info">
+                            <h4 x-text="rulesAccepted ? '✅ Rules Accepted' : '🔒 Rules Acceptance Required'"></h4>
+                            <p>
+                                <span x-show="rulesAccepted">You have agreed to the platform rules. Your account is in good standing and payouts are not affected by compliance flags.</span>
+                                <span x-show="!rulesAccepted">You must read and accept the platform rules before your coins can be safely settled.</span>
+                            </p>
+                        </div>
+                        <div class="status-badge" :class="rulesAccepted ? 'unlocked' : 'locked'">
+                            <span x-text="rulesAccepted ? 'Accepted' : 'Pending'"></span>
+                        </div>
+                    </div>
+
+                    <!-- Warning banner -->
+                    <div class="bg-red-500/[0.07] border border-red-500/25 rounded-2xl p-4 flex items-start gap-3">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5"></i>
+                        <div>
+                            <p class="text-sm font-bold text-red-300">⚠️ Important – This directly affects your ability to receive Robux</p>
+                            <p class="text-xs text-zinc-300 leading-relaxed mt-1">
+                                Breaking any rule below may result in <strong class="text-red-400">rejected payouts</strong>, coin removal, or permanent account termination.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Rules grid (blurred until accepted) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" :class="!rulesAccepted ? 'rules-locked-blur' : ''">
+
+                        <div class="rule-card" style="--rule-accent:#ef4444;">
+                            <div class="rule-icon"><i data-lucide="shield-x"></i></div>
+                            <div>
+                                <h4>Strict Anti-VPN Infrastructure</h4>
+                                <p>Proxy layers, VPN nodes, or data-center routing environments are systematically flagged and blocked.</p>
                             </div>
                         </div>
 
-                        <div x-show="!rulesAccepted" class="rules-modal-overlay absolute inset-0 z-10 rounded-2xl flex flex-col items-center justify-center p-6">
-                            <div class="bg-zinc-950 border border-white/10 rounded-2xl p-6 max-w-2xl w-full shadow-2xl max-h-[85vh] flex flex-col">
-                                <div class="flex items-center gap-3 border-b border-white/10 pb-4 mb-4">
-                                    <i data-lucide="shield-check" class="w-8 h-8 text-emerald-400"></i>
-                                    <h3 class="text-lg font-black text-white">📋 Platform Rules – Read Carefully</h3>
-                                </div>
-                                <div class="rules-scroll flex-1 space-y-4 text-sm text-zinc-300 leading-relaxed pr-2">
-                                    <p class="font-bold text-red-400 text-base">⚠️ Important – This directly affects your ability to receive Robux!</p>
-                                    <ul class="list-disc pl-5 space-y-3">
-                                        <li><strong class="text-white">Anti-VPN & Proxy:</strong> Using VPNs, proxies, or any obfuscation tools is strictly prohibited.</li>
-                                        <li><strong class="text-white">Accurate Information:</strong> Provide real, valid details when completing tasks.</li>
-                                        <li><strong class="text-white">One Account Only:</strong> Creating multiple accounts is forbidden.</li>
-                                        <li><strong class="text-white">Honest Task Completion:</strong> Every task must be completed manually and honestly.</li>
-                                        <li><strong class="text-white">Withdrawal Integrity:</strong> Coins collected without genuine completion may result in rejected payouts.</li>
-                                    </ul>
-                                </div>
-                                <div class="border-t border-white/10 pt-4 mt-4 flex justify-end">
-                                    <button @click="acceptRules()" class="btn-primary text-sm px-8 py-3 rounded-xl">I Have Read & Fully Accept</button>
-                                </div>
+                        <div class="rule-card" style="--rule-accent:#34d399;">
+                            <div class="rule-icon"><i data-lucide="shield-check"></i></div>
+                            <div>
+                                <h4>Honest Task Completion Required</h4>
+                                <p>All tasks must be completed honestly. We verify your activity before approving any payout.</p>
                             </div>
                         </div>
+
+                        <div class="rule-card" style="--rule-accent:#38bdf8;">
+                            <div class="rule-icon"><i data-lucide="user-check"></i></div>
+                            <div>
+                                <h4>Accurate Information</h4>
+                                <p>Provide real, valid details whenever you complete a task. Fake data voids your reward.</p>
+                            </div>
+                        </div>
+
+                        <div class="rule-card" style="--rule-accent:#fbbf24;">
+                            <div class="rule-icon"><i data-lucide="user-x"></i></div>
+                            <div>
+                                <h4>One Account Only</h4>
+                                <p>Creating multiple accounts to farm coins is forbidden and will result in termination.</p>
+                            </div>
+                        </div>
+
+                        <div class="rule-card md:col-span-2" style="--rule-accent:#a78bfa;">
+                            <div class="rule-icon"><i data-lucide="wallet"></i></div>
+                            <div>
+                                <h4>Withdrawal Integrity</h4>
+                                <p>Coins collected without genuine completion may result in rejected payouts. Every withdrawal is manually reviewed before it is sent.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Footer note -->
+                    <div class="glass-card p-5 flex items-center gap-3.5 flex-wrap">
+                        <div class="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="life-buoy" class="w-5 h-5 text-zinc-300"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="text-sm font-bold text-white">Questions about the rules?</h4>
+                            <p class="text-[11px] text-zinc-500 mt-0.5">Join our community group and ask before completing tasks — never guess.</p>
+                        </div>
+                        <button x-show="!rulesAccepted" @click="showRulesGate = true" class="btn-primary ml-auto text-xs px-4 py-2.5 rounded-xl flex items-center gap-2">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Read &amp; Accept Rules
+                        </button>
+                        <span x-show="rulesAccepted" class="ml-auto inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-400">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> All rules accepted
+                        </span>
                     </div>
                 </div>
+
             </section>
         </div>
     </main>
@@ -1610,6 +1702,102 @@
         </div>
     </div>
 
+    <!-- ===== PLATFORM RULES GATE MODAL ===== -->
+    <div x-show="!rulesAccepted && currentTab === 'rules'"
+        class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[120]"
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-cloak>
+        <div class="task-modal-content p-6 relative" style="max-width:620px;">
+
+            <div class="flex items-center gap-3 border-b border-white/10 pb-4 mb-4">
+                <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-black text-white tracking-tight">📋 Platform Rules</h3>
+                    <p class="text-[11px] text-zinc-500 mt-0.5">Read carefully before you continue earning</p>
+                </div>
+            </div>
+
+            <div class="bg-red-500/[0.07] border border-red-500/25 rounded-xl p-3 flex gap-2.5 mb-4">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5"></i>
+                <p class="text-[11px] text-red-200 leading-relaxed">
+                    <strong class="text-red-300">Important:</strong> These rules directly affect your ability to receive Robux. Breaking any of them may result in <strong class="text-white">rejected payouts</strong> or account termination.
+                </p>
+            </div>
+
+            <div class="rules-scroll space-y-2.5 pr-2">
+
+                <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
+                    <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="shield-x" class="w-4 h-4 text-red-400"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="text-xs font-bold text-white">1. Anti-VPN &amp; Proxy</h4>
+                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Using VPNs, proxies, or any obfuscation tools is strictly prohibited. Proxy layers and data-center routing are systematically flagged.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
+                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="user-check" class="w-4 h-4 text-sky-400"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="text-xs font-bold text-white">2. Accurate Information</h4>
+                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Provide real, valid details when completing tasks. Fake or mismatched data voids your reward.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="user-x" class="w-4 h-4 text-amber-400"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="text-xs font-bold text-white">3. One Account Only</h4>
+                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Creating multiple accounts to farm coins is forbidden and will result in termination of all linked accounts.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="text-xs font-bold text-white">4. Honest Task Completion</h4>
+                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Every task must be completed manually and honestly. We verify your activity before approving any payout.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
+                    <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="wallet" class="w-4 h-4 text-violet-400"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <h4 class="text-xs font-bold text-white">5. Withdrawal Integrity</h4>
+                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Coins collected without genuine completion may result in rejected payouts. Every withdrawal is reviewed before it is sent.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-white/10 pt-4 mt-4 space-y-3">
+                <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                    <input type="checkbox" x-model="rulesAgreed" class="checkbox-honest mt-0.5" />
+                    <span class="text-[11px] text-zinc-400 leading-relaxed">
+                        I have read and fully accept the platform rules, and I understand that <strong class="text-white">honest task completion is required</strong> to withdraw.
+                    </span>
+                </label>
+                <button @click="acceptRules()" :disabled="!rulesAgreed"
+                    class="btn-primary w-full text-sm py-3 rounded-xl flex items-center justify-center gap-2">
+                    <i data-lucide="check-check" class="w-4 h-4"></i>
+                    I Have Read &amp; Fully Accept
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== TOAST ===== -->
     <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
         <div class="toast-inner pointer-events-auto" :class="importantToast.reward ? 'reward-toast' : ''">
@@ -1644,6 +1832,8 @@
                 levelXP: 100,
 
                 rulesAccepted: false,
+                rulesAgreed: false,
+                showRulesGate: false,
                 withdrawHonestConfirm: false,
 
                 isDailyGiftAvailable: true,
@@ -2037,6 +2227,9 @@
                     this.$watch('showTaskModal', () => {
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     });
+                    this.$watch('rulesAccepted', () => {
+                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    });
                 },
 
                 registerDailyLogin() {
@@ -2368,7 +2561,7 @@
                     if (savedStreak) this.currentStreak = parseInt(savedStreak);
                     if (savedFirstSpin === 'false') this.isFirstSpin = false;
                     if (savedSpinCooldown) this.spinCooldownUntil = parseInt(savedSpinCooldown);
-                    if (savedRulesAccepted === 'true') this.rulesAccepted = true;
+                    if (savedRulesAccepted === 'true') { this.rulesAccepted = true; this.rulesAgreed = true; }
                     if (savedUserId) this.userId = savedUserId;
                     if (savedTotalEarned) this.totalTokensEarned = parseInt(savedTotalEarned);
                     if (savedLevel) this.userLevel = parseInt(savedLevel);
@@ -2461,6 +2654,8 @@
                         this.isFirstSpin = true;
                         this.spinCooldownUntil = 0;
                         this.rulesAccepted = false;
+                        this.rulesAgreed = false;
+                        this.showRulesGate = false;
                         this.totalTokensEarned = 0;
                         this.userLevel = 1;
                         this.totalLoginDays = 0;
@@ -2486,10 +2681,16 @@
                 },
 
                 acceptRules() {
+                    if (!this.rulesAgreed) {
+                        this.showImportantToast('⚠️ Please tick the checkbox first.', '📋',
+                            'You must confirm you have read the rules.');
+                        return;
+                    }
                     this.rulesAccepted = true;
                     this.saveState();
                     this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋',
                         'Thank you for reading carefully.');
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
                 updateDailyGiftStatus() {
