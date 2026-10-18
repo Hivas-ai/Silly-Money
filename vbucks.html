@@ -810,7 +810,7 @@
         }
         .copy-link-box .copy-btn:hover { background: rgba(34, 211, 238, 0.25); border-color: #22d3ee; color: #cffafe; }
 
-        /* ===== RULES PAGE (redesigned) ===== */
+        /* ===== RULES PAGE ===== */
         .rule-card {
             background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
             border: 1px solid var(--border);
@@ -839,7 +839,110 @@
 
         .rules-locked-blur { opacity: 0.28; filter: blur(3px); pointer-events: none; user-select: none; }
 
+        /* ===== TASKS HERO BANNER ===== */
+        .tasks-hero-banner {
+            position: relative;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border);
+            background:
+                radial-gradient(600px 200px at 0% 0%, rgba(34, 211, 238, 0.14), transparent 60%),
+                radial-gradient(500px 200px at 100% 100%, rgba(52, 211, 153, 0.07), transparent 60%),
+                linear-gradient(180deg, #101115 0%, #0b0c0f 100%);
+            overflow: hidden;
+            padding: 1.5rem 1.5rem;
+        }
+        .tasks-hero-banner::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 32px 32px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+            pointer-events: none;
+        }
+        .th-glow {
+            position: absolute;
+            top: -120px; right: -80px;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(34,211,238,0.14), transparent 70%);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+        .th-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .th-left { flex: 1; min-width: 240px; }
+        .th-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(34,211,238,0.1);
+            border: 1px solid rgba(34,211,238,0.25);
+            color: #a5f3fc;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+        .th-live {
+            display: inline-block;
+            width: 6px; height: 6px;
+            border-radius: 9999px;
+            background: #22d3ee;
+            box-shadow: 0 0 8px rgba(34,211,238,0.9);
+            animation: live-pulse 1.6s infinite;
+        }
+        .th-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+        }
+        .th-arr { color: #22d3ee; margin: 0 0.1rem; }
+        .th-sub {
+            font-size: 0.72rem;
+            color: #a1a1aa;
+            margin-top: 0.55rem;
+            line-height: 1.5;
+            max-width: 480px;
+        }
+        .th-icons {
+            display: flex;
+            gap: 0.55rem;
+            flex-shrink: 0;
+            align-items: center;
+        }
+        .th-icon {
+            width: 42px; height: 42px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5);
+        }
+        .th-icon svg { width: 22px; height: 22px; }
+        .th-tiktok { background: linear-gradient(180deg, #1a1a1a, #0a0a0a); }
+        .th-telegram { background: linear-gradient(180deg, #1a3a52, #0e2438); }
+        .th-youtube { background: linear-gradient(180deg, #3a1010, #1a0808); }
+        .th-youtube svg rect { fill: #FF0000; }
+
         @media (max-width: 640px) {
+            .th-icons { display: none; }
+            .th-title { font-size: 1.02rem; }
             .eligibility-card { flex-direction: column; align-items: stretch; text-align: center; padding: 1.1rem; }
             .eligibility-card .status-badge { margin-left: 0; align-self: center; }
         }
@@ -1167,6 +1270,34 @@
                         </div>
                     </div>
 
+                    <!-- Professional Tasks Banner -->
+                    <div class="tasks-hero-banner">
+                        <div class="th-glow"></div>
+                        <div class="th-content">
+                            <div class="th-left">
+                                <span class="th-badge">
+                                    <span class="th-live"></span>
+                                    TASK CENTER
+                                </span>
+                                <h2 class="th-title">
+                                    Complete Tasks <span class="th-arr">→</span> Earn Tokens <span class="th-arr">→</span> Unlock Rewards
+                                </h2>
+                                <p class="th-sub">Verified offers and social tasks with one-time rewards, credited instantly to your balance.</p>
+                            </div>
+                            <div class="th-icons">
+                                <div class="th-icon th-tiktok" title="TikTok">
+                                    <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                                </div>
+                                <div class="th-icon th-telegram" title="Telegram">
+                                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg>
+                                </div>
+                                <div class="th-icon th-youtube" title="YouTube">
+                                    <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="bg-cyan-500/[0.06] border border-cyan-500/20 rounded-xl p-3 flex items-start gap-2.5 text-xs text-cyan-300">
                         <i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5 text-cyan-400"></i>
                         <span>Only one task can run at a time. Others lock until it finishes. Click <strong class="text-white">Confirm Completion</strong> once you have finished the task to claim your reward.</span>
@@ -1197,22 +1328,14 @@
                         </template>
                     </div>
 
-                    <div x-show="offerStatus === 'error'" class="offer-state-box">
-                        <i data-lucide="wifi-off" class="w-10 h-10 text-red-400 mx-auto mb-3"></i>
-                        <h3 class="text-white font-bold text-lg">Couldn't load live offers</h3>
-                        <p class="text-zinc-400 text-xs mt-2 max-w-md mx-auto">The offer network is temporarily unreachable. Please check your internet and try again.</p>
-                        <button @click="refreshOffers()" class="btn-primary text-xs px-5 py-2.5 rounded-xl mt-4 inline-flex items-center gap-2">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Try Again
-                        </button>
+                    <!-- No extra API offers available right now (social tasks still shown below) -->
+                    <div x-show="offerStatus === 'live' && liveOfferCount === 0" class="bg-slate-500/[0.05] border border-white/10 rounded-xl p-2.5 flex items-center gap-2.5 text-xs text-zinc-400">
+                        <i data-lucide="wifi-off" class="w-3.5 h-3.5 flex-shrink-0 text-zinc-400"></i>
+                        <span>No extra API offers available right now. Social tasks below are still live.</span>
                     </div>
 
-                    <div x-show="offerStatus === 'empty'" class="offer-state-box">
-                        <i data-lucide="package-open" class="w-10 h-10 text-zinc-500 mx-auto mb-3"></i>
-                        <h3 class="text-white font-bold text-lg">No offers available right now</h3>
-                        <p class="text-zinc-400 text-xs mt-2 max-w-md mx-auto">There are no offers for your region or device at this moment. Try refreshing in a few minutes.</p>
-                    </div>
-
-                    <div x-show="offerStatus === 'live' || offerStatus === 'ready'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- TASK GRID (API offers first, social tasks at the bottom) -->
+                    <div x-show="tasks.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
                             <div class="glass-card p-5 flex flex-col justify-between group relative"
                                 :class="{
@@ -1231,10 +1354,19 @@
                                 <div>
                                     <div class="flex justify-between items-start gap-2 mb-3">
                                         <div class="bg-white/[0.03] p-3.5 rounded-2xl text-zinc-200 border border-white/10 overflow-hidden flex items-center justify-center w-16 h-16 flex-shrink-0">
-                                            <template x-if="task.iconUrl">
+                                            <template x-if="task.brand === 'tiktok'">
+                                                <svg viewBox="0 0 24 24" class="w-9 h-9" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                                            </template>
+                                            <template x-if="task.brand === 'telegram'">
+                                                <svg viewBox="0 0 24 24" class="w-9 h-9"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg>
+                                            </template>
+                                            <template x-if="task.brand === 'youtube'">
+                                                <svg viewBox="0 0 24 24" class="w-9 h-9"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg>
+                                            </template>
+                                            <template x-if="task.iconUrl && !task.brand">
                                                 <img :src="task.iconUrl" alt="" class="w-9 h-9 object-contain rounded-lg" @error="$event.target.style.display='none'">
                                             </template>
-                                            <template x-if="!task.iconUrl">
+                                            <template x-if="!task.iconUrl && !task.brand">
                                                 <i :data-lucide="task.icon" class="w-9 h-9 text-cyan-400"></i>
                                             </template>
                                         </div>
@@ -1255,6 +1387,9 @@
                                     </div>
 
                                     <h3 class="text-sm font-bold text-white" x-text="task.title"></h3>
+                                    <template x-if="task.handle">
+                                        <p class="text-[11px] text-cyan-400 font-bold mono mt-0.5" x-text="task.handle"></p>
+                                    </template>
                                     <div class="flex items-center gap-2 mt-1.5 flex-wrap">
                                         <div class="star-rating">
                                             <template x-for="i in 5" :key="i">
@@ -1275,15 +1410,14 @@
                                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                                             </svg>
-                                            <span x-show="task.needsModal">In Progress — follow the instructions to complete it</span>
-                                            <span x-show="!task.needsModal">In Progress — complete the offer on its page</span>
+                                            <span>In Progress — complete the offer on its page</span>
                                         </div>
                                     </template>
 
                                     <template x-if="task.status === 'confirm'">
                                         <div class="mt-2.5 text-xs text-emerald-400 font-medium flex items-center gap-1.5">
                                             <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                                            Ready to confirm your completion
+                                            <span x-text="task.isSocial ? 'Complete the task, then claim your reward.' : 'Ready to confirm your completion'"></span>
                                         </div>
                                     </template>
 
@@ -1302,6 +1436,7 @@
                                     </span>
                                     <div class="flex items-center gap-2">
 
+                                        <!-- Idle CTA -->
                                         <button x-show="task.status === 'idle'" @click="startTask(task)"
                                             :disabled="isTaskRunning"
                                             :class="{
@@ -1310,35 +1445,35 @@
                                             }"
                                             class="text-[11px] font-bold px-3.5 py-2 rounded-xl transition duration-200 flex items-center gap-1.5">
                                             <template x-if="!isTaskRunning">
-                                                <span class="flex items-center gap-1"><i data-lucide="play" class="w-3 h-3"></i><span>Start</span></span>
+                                                <span class="flex items-center gap-1">
+                                                    <i :data-lucide="task.isSocial ? 'external-link' : 'play'" class="w-3 h-3"></i>
+                                                    <span x-text="task.isSocial ? (task.ctaLabel || 'Start') : 'Start'"></span>
+                                                </span>
                                             </template>
                                             <template x-if="isTaskRunning">
                                                 <span class="flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i><span>Locked</span></span>
                                             </template>
                                         </button>
 
-                                        <button x-show="task.status === 'in_progress' && !task.needsModal" @click="openTaskUrl(task)"
+                                        <!-- In Progress → open link -->
+                                        <button x-show="task.status === 'in_progress'" @click="openTaskUrl(task)"
                                             class="btn-open-link text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                                             Open Offer
                                         </button>
 
-                                        <button x-show="task.status === 'in_progress' && task.needsModal" @click="showTaskModalFor(task.id)"
-                                            class="btn-open-link blue text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
-                                            <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
-                                            View Instructions
-                                        </button>
-
+                                        <!-- Confirm -->
                                         <button x-show="task.status === 'confirm'" @click="openHonestConfirm(task)"
                                             class="btn-confirm-completion text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
-                                            Confirm Completion
+                                            <span x-text="task.isSocial ? 'Confirm & Claim' : 'Confirm Completion'"></span>
                                         </button>
 
+                                        <!-- Completed -->
                                         <button x-show="task.status === 'completed'" disabled
-                                            class="bg-white/[0.03] border border-white/5 text-zinc-400 text-[11px] font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-not-allowed">
-                                            <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i>
-                                            Done
+                                            class="bg-emerald-500/[0.08] border border-emerald-500/25 text-emerald-400 text-[11px] font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-not-allowed">
+                                            <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                                            <span x-text="task.isSocial ? 'Completed ✓' : 'Done'"></span>
                                         </button>
                                     </div>
                                 </div>
@@ -1643,10 +1778,9 @@
                     </div>
                 </div>
 
-                <!-- ===== RULES (redesigned) ===== -->
+                <!-- ===== RULES ===== -->
                 <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
 
-                    <!-- Header -->
                     <div class="flex items-start justify-between gap-3 flex-wrap">
                         <div>
                             <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
@@ -1664,7 +1798,6 @@
                         </span>
                     </div>
 
-                    <!-- Status card -->
                     <div class="eligibility-card" :class="rulesAccepted ? 'unlocked' : ''">
                         <div x-show="rulesAccepted" class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
                             <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
@@ -1684,7 +1817,6 @@
                         </div>
                     </div>
 
-                    <!-- Warning banner -->
                     <div class="bg-red-500/[0.07] border border-red-500/25 rounded-2xl p-4 flex items-start gap-3">
                         <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5"></i>
                         <div>
@@ -1695,7 +1827,6 @@
                         </div>
                     </div>
 
-                    <!-- Rules grid (blurred until accepted) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" :class="!rulesAccepted ? 'rules-locked-blur' : ''">
 
                         <div class="rule-card" style="--rule-accent:#22d3ee;">
@@ -1740,7 +1871,6 @@
 
                     </div>
 
-                    <!-- Footer note -->
                     <div class="glass-card p-5 flex items-center gap-3.5 flex-wrap">
                         <div class="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center flex-shrink-0">
                             <i data-lucide="life-buoy" class="w-5 h-5 text-zinc-300"></i>
@@ -1785,106 +1915,83 @@
         </button>
     </nav>
 
-    <!-- ===== TASK INSTRUCTIONS MODAL (Telegram / Giveaway only) ===== -->
-    <div x-show="showTaskModal" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[100]"
+    <!-- ===== SOCIAL TASK INSTRUCTIONS MODAL (TikTok / Telegram / YouTube) ===== -->
+    <div x-show="showSocialModal" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[105]"
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 scale-95"
         x-transition:enter-end="opacity-100 scale-100"
         x-cloak>
         <div class="task-modal-content p-6 relative">
-            <button @click="closeTaskModal()" class="absolute top-3.5 right-3.5 text-zinc-500 hover:text-white transition p-1 rounded-lg hover:bg-white/5">
+            <button @click="closeSocialModal()" class="absolute top-3.5 right-3.5 text-zinc-500 hover:text-white transition p-1 rounded-lg hover:bg-white/5">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
 
-            <template x-if="modalTaskId === 9">
+            <template x-if="socialModalTask">
                 <div>
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="bg-cyan-500/10 p-3 rounded-xl border border-cyan-500/20">
-                            <i data-lucide="send" class="w-6 h-6 text-cyan-400"></i>
+                        <div class="bg-white/[0.03] p-3 rounded-xl border border-white/10 flex items-center justify-center w-12 h-12 flex-shrink-0">
+                            <template x-if="socialModalTask.brand === 'tiktok'">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                            </template>
+                            <template x-if="socialModalTask.brand === 'telegram'">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg>
+                            </template>
+                            <template x-if="socialModalTask.brand === 'youtube'">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg>
+                            </template>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold text-white">📲 Join Telegram Group</h3>
-                            <p class="text-xs text-zinc-400">Follow the steps below to complete this task</p>
+                            <h3 class="text-lg font-bold text-white"
+                                x-text="socialModalTask.brand === 'tiktok'
+                                    ? 'Follow @alqfr on TikTok'
+                                    : (socialModalTask.brand === 'telegram'
+                                        ? 'Join this Telegram channel'
+                                        : 'Subscribe to @vqlyr on YouTube')"></h3>
+                            <p class="text-xs text-zinc-400">Copy the link below and paste it in your browser</p>
                         </div>
                     </div>
 
                     <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
                         <p class="font-bold text-white text-sm">📌 Steps to complete:</p>
                         <ol class="step-list">
-                            <li>Make sure you have the <strong class="text-white">Telegram app</strong> installed on your device.</li>
-                            <li>Tap the <strong class="text-white">Copy</strong> button below to copy the group link.</li>
-                            <li>Open your <strong class="text-white">browser</strong> (Chrome, Safari, etc.) and paste the link to open it.</li>
-                            <li>Join the Telegram group and stay active.</li>
-                            <li>Come back here once you're done and click <strong class="text-white">Confirm Completion</strong>.</li>
+                            <li>Tap the <strong class="text-white">Copy</strong> button below to copy the <span x-text="socialModalTask.brand === 'tiktok'
+                                ? 'TikTok profile link'
+                                : (socialModalTask.brand === 'telegram'
+                                    ? 'Telegram channel link'
+                                    : 'YouTube channel link')"></span>.</li>
+                            <li>Open your <strong class="text-white">browser</strong> (Chrome, Safari, etc.) and paste the link in the address bar.</li>
+                            <li x-text="socialModalTask.brand === 'tiktok'
+                                ? 'On the TikTok page, tap Follow to follow @alqfr.'
+                                : (socialModalTask.brand === 'telegram'
+                                    ? 'Join the Telegram channel from the page.'
+                                    : 'On the YouTube page, tap Subscribe to subscribe to @vqlyr.')"></li>
+                            <li>Come back here once you're done and click <strong class="text-white">Confirm &amp; Claim</strong>.</li>
                         </ol>
 
                         <div>
-                            <p class="text-[11px] text-zinc-400 font-bold uppercase tracking-wider mb-1.5">📋 Telegram Link</p>
+                            <p class="text-[11px] text-zinc-400 font-bold uppercase tracking-wider mb-1.5">📋 Task Link</p>
                             <div class="copy-link-box">
-                                <span class="link-text">https://t.me/Vbucksprize</span>
-                                <button @click="copyTaskLink('https://t.me/Vbucksprize')" class="copy-btn">
+                                <span class="link-text" x-text="socialModalTask.link"></span>
+                                <button @click="copySocialLink(socialModalTask.link)" class="copy-btn">
                                     <i data-lucide="copy" class="w-3 h-3 inline-block mr-1"></i> Copy
                                 </button>
                             </div>
                         </div>
 
                         <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-300 text-[11px]">
-                            ⚠️ <strong>No coins for this task.</strong> The reward is delivered inside the Telegram group itself.
+                            ⚠️ <strong>Important:</strong> You must complete the task <strong>honestly</strong> (actually <span x-text="socialModalTask.brand === 'tiktok'
+                                ? 'follow the account'
+                                : (socialModalTask.brand === 'telegram'
+                                    ? 'join the channel'
+                                    : 'subscribe to the channel')"></span>) before claiming the reward.
                         </div>
                     </div>
 
                     <div class="mt-5 flex flex-wrap gap-3 items-center">
-                        <button @click="startFromModal()" class="btn-primary text-sm px-6 py-2.5 rounded-xl flex items-center gap-2 flex-1 sm:flex-none justify-center">
-                            <i data-lucide="play" class="w-4 h-4"></i> I've Copied — Start Timer
+                        <button @click="startSocialFromModal()" class="btn-primary text-sm px-6 py-2.5 rounded-xl flex items-center gap-2 flex-1 sm:flex-none justify-center">
+                            <i data-lucide="play" class="w-4 h-4"></i> I've Copied — Continue
                         </button>
-                        <button @click="closeTaskModal()" class="btn-ghost text-xs px-4 py-2 rounded-xl">Cancel</button>
-                    </div>
-                </div>
-            </template>
-
-            <template x-if="modalTaskId === 11">
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="bg-cyan-500/10 p-3 rounded-xl border border-cyan-500/20">
-                            <i data-lucide="trophy" class="w-6 h-6 text-cyan-400"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-white">Giveaway</h3>
-                            <p class="text-xs text-zinc-400">Follow the steps below to complete this task</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
-                        <p class="font-bold text-white text-sm">📌 Steps to complete:</p>
-                        <ol class="step-list">
-                            <li>Tap the <strong class="text-white">Copy</strong> button below to copy the giveaway link.</li>
-                            <li>Open your <strong class="text-white">browser</strong> and paste the link.</li>
-                            <li><strong class="text-white">Complete the captcha verification.</strong></li>
-                            <li class="text-amber-400"><strong>⚠️ Important:</strong> You will face many ads. Try to <strong>avoid clicking any ads</strong> — just keep going back and focus on the verification. If you click one by accident, close it and <strong>return to verify again</strong>.</li>
-                            <li>After successful verification, you'll be redirected to the final page where you can collect your reward directly.</li>
-                            <li>Come back here once you're done and click <strong class="text-white">Confirm Completion</strong>.</li>
-                        </ol>
-
-                        <div>
-                            <p class="text-[11px] text-zinc-400 font-bold uppercase tracking-wider mb-1.5">📋 Giveaway Link</p>
-                            <div class="copy-link-box">
-                                <span class="link-text">https://shrinkme.click/p1tYlz</span>
-                                <button @click="copyTaskLink('https://shrinkme.click/p1tYlz')" class="copy-btn">
-                                    <i data-lucide="copy" class="w-3 h-3 inline-block mr-1"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-300 text-[11px]">
-                            ⚠️ <strong>No coins for this task.</strong> The reward is delivered on the giveaway page itself after verification.
-                        </div>
-                    </div>
-
-                    <div class="mt-5 flex flex-wrap gap-3 items-center">
-                        <button @click="startFromModal()" class="btn-primary text-sm px-6 py-2.5 rounded-xl flex items-center gap-2 flex-1 sm:flex-none justify-center">
-                            <i data-lucide="play" class="w-4 h-4"></i> I've Copied — Start Timer
-                        </button>
-                        <button @click="closeTaskModal()" class="btn-ghost text-xs px-4 py-2 rounded-xl">Cancel</button>
+                        <button @click="closeSocialModal()" class="btn-ghost text-xs px-4 py-2 rounded-xl">Cancel</button>
                     </div>
                 </div>
             </template>
@@ -1917,6 +2024,9 @@
                         <div class="min-w-0 pl-2">
                             <p class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Task</p>
                             <p class="text-sm font-bold text-white truncate" x-text="confirmTask.title"></p>
+                            <template x-if="confirmTask.handle">
+                                <p class="text-[10px] mono text-cyan-400 mt-0.5" x-text="confirmTask.handle"></p>
+                            </template>
                         </div>
                         <span class="rounded-full px-3 py-1.5 text-xs font-extrabold"
                             :style="confirmTask.noReward
@@ -2069,6 +2179,84 @@
 
     <!-- ===== SCRIPT ===== -->
     <script>
+        // Social task definitions (defined outside the Alpine component so we can
+        // recreate fresh copies every time offers are refreshed).
+        // All three social tasks use ONE-TIME completion and are stored per user
+        // under the key "vbucks_social_claims_v1" so existing coin balances in
+        // other keys (vbucks_tokens_balance, vbucks_total_earned, etc.) are never
+        // touched.
+        // NOTE: needsCopy: true means the task opens the copy-link modal so the
+        // user pastes the link into their own browser (all 3 platforms).
+        const SOCIAL_TASKS_DEF = [
+            {
+                id: 'tiktok_alqfr',
+                title: 'TikTok',
+                handle: '@alqfr',
+                desc: 'Copy link & follow in your browser',
+                reward: 80,
+                status: 'idle',
+                link: 'https://www.tiktok.com/@alqfr?_r=1&_t=ZN-9AeAoMcikEw',
+                icon: 'external-link',
+                brand: 'tiktok',
+                isRepeatable: false,
+                oneTime: true,
+                cooldownUntil: null,
+                endTime: null,
+                rating: 4.9,
+                badge: 'popular',
+                noReward: false,
+                isSocial: true,
+                needsCopy: true,
+                ctaLabel: 'Follow & Complete'
+            },
+            {
+                id: 'telegram_vbucksprize',
+                title: 'Telegram',
+                handle: 't.me/Vbucksprize',
+                desc: 'Copy link & join in your browser',
+                reward: 50,
+                status: 'idle',
+                link: 'https://t.me/Vbucksprize',
+                icon: 'send',
+                brand: 'telegram',
+                isRepeatable: false,
+                oneTime: true,
+                cooldownUntil: null,
+                endTime: null,
+                rating: 4.7,
+                badge: 'recommended',
+                noReward: false,
+                isSocial: true,
+                needsCopy: true,
+                ctaLabel: 'Join & Complete'
+            },
+            {
+                id: 'youtube_vqlyr',
+                title: 'YouTube',
+                handle: '@vqlyr',
+                desc: 'Copy link & subscribe in your browser',
+                reward: 60,
+                status: 'idle',
+                link: 'https://youtube.com/@vqlyr?si=ShPmOWXWEzNVbp47',
+                icon: 'youtube',
+                brand: 'youtube',
+                isRepeatable: false,
+                oneTime: true,
+                cooldownUntil: null,
+                endTime: null,
+                rating: 4.8,
+                badge: 'new',
+                noReward: false,
+                isSocial: true,
+                needsCopy: true,
+                ctaLabel: 'Subscribe & Complete'
+            }
+        ];
+
+        function getFreshSocialTasks() {
+            return SOCIAL_TASKS_DEF.map(t => ({ ...t }));
+        }
+
         function appState() {
             return {
                 // ---- Core ----
@@ -2119,11 +2307,11 @@
                 liveLogs: [],
                 usedLiveIds: [],
 
-                // ---- Modal ----
-                showTaskModal: false,
-                modalTaskId: null,
+                // ---- Modals ----
                 showHonestConfirm: false,
                 confirmTaskId: null,
+                showSocialModal: false,
+                socialModalTaskId: null,
 
                 activeTaskId: null,
 
@@ -2136,40 +2324,31 @@
                 TASK_TIMER_MS: 2 * 60 * 1000,
                 OFFER_COOLDOWN_MS: 4 * 60 * 1000,
 
-                tasks: [
-                    {
-                        id: 9,
-                        title: '📲 Join Telegram Group',
-                        desc: 'Join the community at t.me/Vbucksprize to unlock exclusive promo codes and community rewards.',
-                        status: 'idle',
-                        link: 'https://t.me/Vbucksprize',
-                        icon: 'send',
-                        isRepeatable: false,
-                        cooldownUntil: null,
-                        endTime: null,
-                        rating: 4.0,
-                        badge: null,
-                        noReward: true,
-                        needsModal: true
-                    },
-                    {
-                        id: 11,
-                        title: 'Giveaway',
-                        desc: 'Complete the verification steps to reach the giveaway page and collect your reward directly from the provider.',
-                        status: 'idle',
-                        link: 'https://shrinkme.click/p1tYlz',
-                        icon: 'trophy',
-                        isRepeatable: false,
-                        cooldownUntil: null,
-                        endTime: null,
-                        rating: 4.9,
-                        badge: 'hot',
-                        noReward: true,
-                        needsModal: true
-                    }
-                ],
+                // Initial tasks: only the three social tasks until the API responds.
+                // After fetchOffers() succeeds, main API offers are placed ABOVE them.
+                tasks: getFreshSocialTasks(),
 
                 usedPromoCodes: [],
+
+                // ===== SOCIAL TASK CLAIM HELPERS (per-user one-time) =====
+                getSocialClaims() {
+                    try {
+                        return JSON.parse(localStorage.getItem('vbucks_social_claims_v1') || '{}');
+                    } catch (e) { return {}; }
+                },
+
+                isSocialClaimed(taskId) {
+                    const claims = this.getSocialClaims();
+                    const userClaims = claims[this.userId] || {};
+                    return !!userClaims[taskId];
+                },
+
+                recordSocialClaim(taskId) {
+                    const claims = this.getSocialClaims();
+                    if (!claims[this.userId]) claims[this.userId] = {};
+                    claims[this.userId][taskId] = { at: Date.now() };
+                    localStorage.setItem('vbucks_social_claims_v1', JSON.stringify(claims));
+                },
 
                 // ===== Computed =====
                 get spinCooldownDisplay() {
@@ -2216,9 +2395,9 @@
                     return this.tasks.find(t => t.id === this.confirmTaskId) || null;
                 },
 
-                get modalTask() {
-                    if (this.modalTaskId === null) return null;
-                    return this.tasks.find(t => t.id === this.modalTaskId) || null;
+                get socialModalTask() {
+                    if (this.socialModalTaskId === null) return null;
+                    return this.tasks.find(t => t.id === this.socialModalTaskId) || null;
                 },
 
                 // ===== Toast =====
@@ -2241,6 +2420,52 @@
                 dismissToast() {
                     this.importantToast.show = false;
                     if (this.toastTimeout) clearTimeout(this.toastTimeout);
+                },
+
+                // ===== SOCIAL MODAL (TikTok / Telegram / YouTube) =====
+                openSocialModal(task) {
+                    if (!task || task.status !== 'idle') return;
+                    if (this.isTaskRunning) {
+                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Finish the current task first.');
+                        return;
+                    }
+                    this.socialModalTaskId = task.id;
+                    this.showSocialModal = true;
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                },
+
+                closeSocialModal() {
+                    this.showSocialModal = false;
+                    this.socialModalTaskId = null;
+                },
+
+                startSocialFromModal() {
+                    const task = this.socialModalTask;
+                    this.closeSocialModal();
+                    if (!task || task.status !== 'idle') return;
+                    if (this.isTaskRunning) {
+                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Finish the current task first.');
+                        return;
+                    }
+
+                    task.status = 'confirm';
+                    task.endTime = null;
+                    this.isTaskRunning = true;
+                    this.activeTaskId = task.id;
+                    this.saveState();
+
+                    this.showImportantToast('▶️ Task started!', '⏳',
+                        'Complete the task in your browser, then come back and click Confirm & Claim.');
+
+                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                },
+
+                copySocialLink(link) {
+                    navigator.clipboard.writeText(link).then(() => {
+                        this.showImportantToast('📋 Link copied!', '📋', 'Now paste it in your browser to continue.');
+                    }).catch(() => {
+                        this.showImportantToast('⚠️ Copy failed', '⚠️', 'Please copy the link manually.');
+                    });
                 },
 
                 // ===== API =====
@@ -2343,8 +2568,7 @@
                         rating: Math.min(5, Math.max(3, rating)),
                         badge,
                         isApiOffer: true,
-                        noReward: false,
-                        needsModal: false
+                        noReward: false
                     };
                 },
 
@@ -2396,23 +2620,13 @@
                         if (!data) throw lastErr || new Error('All API attempts failed');
 
                         const rawOffers = this.extractOffersArray(data);
-                        if (!rawOffers.length) {
-                            this.offerStatus = 'empty';
-                            this.liveOfferCount = 0;
-                            return;
-                        }
-
                         const mapped = rawOffers
                             .map((o, i) => this.normalizeOffer(o, i))
                             .filter(Boolean);
 
-                        if (!mapped.length) {
-                            this.offerStatus = 'empty';
-                            this.liveOfferCount = 0;
-                            return;
-                        }
+                        const special = getFreshSocialTasks();
 
-                        const special = this.tasks.filter(t => t.id === 9 || t.id === 11);
+                        // MAIN API OFFERS FIRST, then social tasks at the bottom
                         this.tasks = [...mapped, ...special];
                         this.liveOfferCount = mapped.length;
                         this.offerStatus = 'live';
@@ -2422,8 +2636,13 @@
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     } catch (e) {
                         console.error('[VbucksPrize] Offer fetch failed:', e);
-                        this.offerStatus = 'error';
+                        // Keep social tasks visible even when API is down
+                        const special = getFreshSocialTasks();
+                        this.tasks = special;
                         this.liveOfferCount = 0;
+                        this.offerStatus = 'live';
+                        this.applySavedTaskState();
+                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     }
                 },
 
@@ -2484,7 +2703,7 @@
                     this.$watch('showHonestConfirm', () => {
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     });
-                    this.$watch('showTaskModal', () => {
+                    this.$watch('showSocialModal', () => {
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     });
                     this.$watch('rulesAccepted', () => {
@@ -2509,11 +2728,14 @@
                         return;
                     }
 
-                    if (task.needsModal) {
-                        this.showTaskModalFor(task.id);
+                    // SOCIAL TASKS: all use the copy-link modal flow
+                    // (TikTok, Telegram, YouTube all require copy → paste in browser)
+                    if (task.isSocial) {
+                        this.openSocialModal(task);
                         return;
                     }
 
+                    // API offers: open link and start timer
                     this.openTaskUrl(task);
                     task.status = 'in_progress';
                     task.endTime = Date.now() + this.TASK_TIMER_MS;
@@ -2527,57 +2749,23 @@
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
-                startFromModal() {
-                    const task = this.modalTask;
-                    this.closeTaskModal();
-                    if (!task || task.status !== 'idle') return;
-                    if (this.isTaskRunning) {
-                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Finish the current task first.');
-                        return;
-                    }
-
-                    task.status = 'in_progress';
-                    task.endTime = Date.now() + this.TASK_TIMER_MS;
-                    this.isTaskRunning = true;
-                    this.activeTaskId = task.id;
-                    this.saveState();
-
-                    this.showImportantToast('▶️ Task started!', '⏳',
-                        'Complete the task in your browser, then come back to confirm completion.');
-
-                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                },
-
                 openTaskUrl(task) {
                     if (!task || !task.link || task.link === '#') return;
                     let finalLink = task.link;
-                    try {
-                        const url = new URL(task.link);
-                        if (!url.searchParams.has('user_id') && !url.searchParams.has('uid') && !url.searchParams.has('s1')) {
-                            url.searchParams.set('user_id', this.userId);
-                        }
-                        finalLink = url.toString();
-                    } catch (e) { }
+
+                    // Only append user tracking param to third-party API offers,
+                    // never to real social media URLs.
+                    if (!task.isSocial) {
+                        try {
+                            const url = new URL(task.link);
+                            if (!url.searchParams.has('user_id') && !url.searchParams.has('uid') && !url.searchParams.has('s1')) {
+                                url.searchParams.set('user_id', this.userId);
+                            }
+                            finalLink = url.toString();
+                        } catch (e) { }
+                    }
+
                     window.open(finalLink, '_blank', 'noopener,noreferrer');
-                },
-
-                showTaskModalFor(taskId) {
-                    this.modalTaskId = taskId;
-                    this.showTaskModal = true;
-                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                },
-
-                closeTaskModal() {
-                    this.showTaskModal = false;
-                    this.modalTaskId = null;
-                },
-
-                copyTaskLink(link) {
-                    navigator.clipboard.writeText(link).then(() => {
-                        this.showImportantToast('📋 Link copied!', '📋', 'Paste it in your browser to continue.');
-                    }).catch(() => {
-                        this.showImportantToast('⚠️ Copy failed', '⚠️', 'Please copy the link manually.');
-                    });
                 },
 
                 openHonestConfirm(task) {
@@ -2598,6 +2786,24 @@
                     this.confirmTaskId = null;
                     if (!task) return;
 
+                    // ===== ATOMIC ONE-TIME CLAIM CHECK =====
+                    // Protects against duplicate rewards from refreshes,
+                    // repeated clicks, multiple tabs, etc.
+                    if (task.oneTime && this.isSocialClaimed(task.id)) {
+                        task.status = 'completed';
+                        task.endTime = null;
+                        this.isTaskRunning = false;
+                        this.activeTaskId = null;
+                        this.saveState();
+                        this.showImportantToast('✓ Already claimed', '✓',
+                            'This reward has already been credited to your account.');
+                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                        return;
+                    }
+
+                    // Record claim BEFORE awarding (synchronous ⇒ atomic in JS)
+                    if (task.oneTime) this.recordSocialClaim(task.id);
+
                     task.status = 'completed';
                     task.endTime = null;
                     if (task.isRepeatable) {
@@ -2609,7 +2815,7 @@
                     if (!task.noReward) {
                         this.addTokens(task.reward);
                         this.completedTasksCount++;
-                        this.showImportantToast('🎉 Offer completed!', '💰',
+                        this.showImportantToast('🎉 Task completed!', '💰',
                             'Coins credited to your balance.',
                             { reward: true, rewardAmount: task.reward, duration: 5500 });
                     } else {
@@ -2728,7 +2934,7 @@
                     const catMap = {};
                     this.tasks.forEach(t => {
                         if (t.status === 'completed') {
-                            const cat = t.isApiOffer ? 'Offers' : 'Other';
+                            const cat = t.isSocial ? 'Social' : (t.isApiOffer ? 'Offers' : 'Other');
                             catMap[cat] = (catMap[cat] || 0) + 1;
                         }
                     });
@@ -2741,7 +2947,7 @@
                     ctx.clearRect(0, 0, w, h);
                     ctx.fillStyle = '#0c0d10';
                     ctx.fillRect(0, 0, w, h);
-                    const colors = ['#22d3ee', '#34d399'];
+                    const colors = ['#22d3ee', '#34d399', '#60a5fa'];
                     for (let i = 0; i < chartData.length; i++) {
                         const d = chartData[i];
                         const x = pad.left + gap + i * (barWidth + gap);
@@ -2795,6 +3001,10 @@
                 },
 
                 // ===== STATE =====
+                // ALL existing localStorage keys are preserved exactly as-is so
+                // current users keep their coin balances and stats across the
+                // update. Only a NEW key (vbucks_social_claims_v1) is added to
+                // track per-user one-time social task rewards.
                 loadSavedState() {
                     const savedTasks = localStorage.getItem('vbucks_tasks_state_v13');
                     const savedRunning = localStorage.getItem('vbucks_task_running');
@@ -2833,10 +3043,29 @@
 
                 applySavedTaskState() {
                     const parsed = this._savedTasksRaw;
-                    if (!parsed) return;
+                    const claims = this.getSocialClaims();
+                    const userClaims = claims[this.userId] || {};
+
                     this.tasks.forEach(t => {
+                        // Per-user one-time claim check has top priority
+                        if (t.oneTime && userClaims[t.id]) {
+                            t.status = 'completed';
+                            t.endTime = null;
+                            t.cooldownUntil = null;
+                            return;
+                        }
+
+                        if (!Array.isArray(parsed) || !parsed.length) return;
                         const match = parsed.find(x => x.id === t.id);
                         if (!match) return;
+
+                        // One-time tasks never revert from completed
+                        if (t.oneTime && match.status === 'completed') {
+                            t.status = 'completed';
+                            t.endTime = null;
+                            return;
+                        }
+
                         t.status = match.status || 'idle';
                         t.cooldownUntil = match.cooldownUntil || null;
                         t.endTime = match.endTime || null;
@@ -2853,6 +3082,14 @@
                             t.cooldownUntil = null;
                         }
                     });
+
+                    // Defensive: if there's no active task in the current list,
+                    // ensure the global "isTaskRunning" flag isn't stuck true.
+                    const anyActive = this.tasks.some(t => t.status === 'in_progress' || t.status === 'confirm');
+                    if (!anyActive) {
+                        this.isTaskRunning = false;
+                        this.activeTaskId = null;
+                    }
                 },
 
                 saveState() {
@@ -2903,6 +3140,12 @@
                             'vbucks_rules_accepted', 'vbucks_user_id', 'vbucks_total_earned', 'vbucks_user_level',
                             'vbucks_login_days', 'vbucks_last_login'];
                         keys.forEach(k => localStorage.removeItem(k));
+
+                        // NOTE: we intentionally keep vbucks_social_claims_v1 to
+                        // prevent re-claiming social rewards by resetting the
+                        // account. This is client-side protection; a real backend
+                        // would enforce this server-side per account.
+
                         this.tokens = 5;
                         this.completedTasksCount = 0;
                         this.isTaskRunning = false;
@@ -2927,8 +3170,9 @@
                         this.selectedGiftCard = null;
                         this.showHonestConfirm = false;
                         this.confirmTaskId = null;
-                        this.showTaskModal = false;
-                        this.modalTaskId = null;
+                        this.showSocialModal = false;
+                        this.socialModalTaskId = null;
+                        this.tasks = getFreshSocialTasks();
                         this.saveState();
                         this.registerDailyLogin();
                         this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
