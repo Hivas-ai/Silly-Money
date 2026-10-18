@@ -2016,6 +2016,12 @@
                 offerStatus: 'loading',
                 liveOfferCount: 0,
 
+                // Guards saveState() from overwriting persisted task state until the
+                // initial fetch has hydrated the task list. Without this, the 1s
+                // interval can fire during the async fetch and reset a task that was
+                // in the "confirm" (claimable) state back to idle.
+                tasksHydrated: false,
+
                 TASK_TIMER_MS: 2 * 60 * 1000,
                 OFFER_COOLDOWN_MS: 4 * 60 * 1000,
 
@@ -2335,6 +2341,7 @@
                         this.offerStatus = 'live';
 
                         this.applySavedTaskState();
+                        this.tasksHydrated = true;
                         this.saveState();
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     } catch (e) {
@@ -2345,6 +2352,7 @@
                         this.liveOfferCount = 0;
                         this.offerStatus = 'error';
                         this.applySavedTaskState();
+                        this.tasksHydrated = true;
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     }
                 },
@@ -2355,6 +2363,12 @@
                 init() {
                     this.loadSavedState();
                     if (!this.userId) this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
+
+                    // Apply the persisted task state to the initial (social) task list
+                    // IMMEDIATELY, before the 1-second interval or the async fetch can
+                    // run. This makes a task that was mid-claim (status === 'confirm')
+                    // survive a page reload / app close-and-reopen.
+                    this.applySavedTaskState();
 
                     this.registerDailyLogin();
                     this.generateWeeklyLeaderboard();
@@ -2388,7 +2402,9 @@
                             anyChange = true;
                         }
 
-                        if (anyChange) this.saveState();
+                        // Never persist while the task list is still being hydrated —
+                        // that would wipe the saved state we are trying to restore.
+                        if (anyChange && this.tasksHydrated) this.saveState();
                         this.drawCharts();
                     }, 1000);
 
@@ -2441,13 +2457,17 @@
                             this.openSocialModal(task);
                             return;
                         }
-                        // YouTube: open the link directly, then go to confirm state
-                        this.openTaskUrl(task);
+
+                        // YouTube: persist the "confirm" state FIRST, then open the
+                        // link. If the browser navigates / the tab is discarded, the
+                        // claim button will still be there when the user comes back.
                         task.status = 'confirm';
                         task.endTime = null;
                         this.isTaskRunning = true;
                         this.activeTaskId = task.id;
                         this.saveState();
+
+                        this.openTaskUrl(task);
 
                         this.showImportantToast('🔗 YouTube opened!', '🔗',
                             'Subscribe to the channel, then come back and click Confirm & Claim.');
@@ -2456,13 +2476,15 @@
                         return;
                     }
 
-                    // API offers: open link and start timer
-                    this.openTaskUrl(task);
+                    // API offers: persist the "in_progress" state FIRST, then open
+                    // the link and start the timer.
                     task.status = 'in_progress';
                     task.endTime = Date.now() + this.TASK_TIMER_MS;
                     this.isTaskRunning = true;
                     this.activeTaskId = task.id;
                     this.saveState();
+
+                    this.openTaskUrl(task);
 
                     this.showImportantToast('▶️ Task started!', '⏳',
                         'Complete the offer on the page that just opened, then come back to confirm completion.');
@@ -2797,6 +2819,14 @@
                             this.activeTaskId = t.id;
                             this.isTaskRunning = true;
                         }
+                        // A task waiting for honest confirmation is still the
+                        // "active" task — restore that so the claim button shows
+                        // and other tasks stay locked after a reload.
+                        if (t.status === 'confirm') {
+                            t.endTime = null;
+                            this.activeTaskId = t.id;
+                            this.isTaskRunning = true;
+                        }
                         if (t.status === 'completed' && t.cooldownUntil && t.cooldownUntil < Date.now()) {
                             t.status = 'idle';
                             t.cooldownUntil = null;
@@ -2885,6 +2915,7 @@
                         this.showSocialModal = false;
                         this.socialModalTaskId = null;
                         this.tasks = getFreshSocialTasks();
+                        this.tasksHydrated = false;
                         this.saveState();
                         this.registerDailyLogin();
                         this.showImportantToast('🔄 Account reset successfully.', '🔄', 'You can start fresh.');
