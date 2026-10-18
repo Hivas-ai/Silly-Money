@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RobuxPrize | Earn Robux Honestly</title>
+
+    <!-- ===== SITE ICON / FAVICON / WEB PROFILE ===== -->
+    <link rel="icon" type="image/jpeg" href="./robuxprizeprofile.jpg" />
+    <link rel="shortcut icon" type="image/jpeg" href="./robuxprizeprofile.jpg" />
+    <link rel="apple-touch-icon" href="./robuxprizeprofile.jpg" />
+    <meta property="og:image" content="./robuxprizeprofile.jpg" />
+    <meta property="og:image:alt" content="RobuxPrize Profile" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="./robuxprizeprofile.jpg" />
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -747,17 +757,28 @@
         }
         .gate-card:hover { transform: translateY(-3px); border-color: rgba(239, 68, 68, 0.45); box-shadow: 0 18px 40px -22px rgba(239, 68, 68, 0.75); }
         .gate-card.gate-card--web:hover { border-color: rgba(52, 211, 153, 0.45); box-shadow: 0 18px 40px -22px rgba(52, 211, 153, 0.6); }
+
+        /* Brand icon cluster (Apple, Windows, Android, Google Play) */
+        .gate-icons {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-bottom: 0.9rem;
+        }
         .gate-icon {
             width: 2.9rem; height: 2.9rem;
             border-radius: 0.85rem;
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 0.9rem;
             border: 1px solid;
             flex-shrink: 0;
         }
-        .gate-icon.android { background: rgba(52, 211, 153, 0.10); border-color: rgba(52, 211, 153, 0.30); color: #6ee7b7; }
-        .gate-icon.web { background: rgba(239, 68, 68, 0.10); border-color: rgba(239, 68, 68, 0.30); color: #fca5a5; }
-        .gate-icon i { width: 1.45rem; height: 1.45rem; }
+        .gate-icon svg { width: 1.5rem; height: 1.5rem; display: block; }
+        .gate-icon.android { background: rgba(61, 220, 132, 0.10); border-color: rgba(61, 220, 132, 0.32); color: #3ddc84; }
+        .gate-icon.apple { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.18); color: #f4f4f5; }
+        .gate-icon.windows { background: rgba(96, 165, 250, 0.10); border-color: rgba(96, 165, 250, 0.32); color: #93c5fd; }
+        .gate-icon.play { background: rgba(61, 220, 132, 0.08); border-color: rgba(61, 220, 132, 0.28); color: #6ee7b7; }
+        .gate-icon.play svg { width: 1.35rem; height: 1.35rem; }
+
         .gate-card h3 { font-size: 0.98rem; font-weight: 800; color: #fff; letter-spacing: -0.01em; }
         .gate-card p { font-size: 0.74rem; color: #a1a1aa; line-height: 1.55; margin-top: 0.35rem; }
         .gate-cta {
@@ -828,8 +849,17 @@
 
                     <!-- Android -->
                     <button @click="gateView = 'android'" class="gate-card">
-                        <div class="gate-icon android">
-                            <i data-lucide="smartphone"></i>
+                        <div class="gate-icons">
+                            <div class="gate-icon android" title="Android">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4483-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993 0 .5511-.4483.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+                                </svg>
+                            </div>
+                            <div class="gate-icon play" title="Google Play">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.7 12l1.998-2.491zM5.864 2.658L16.802 8.99l-2.303 2.303-8.635-8.635z"/>
+                                </svg>
+                            </div>
                         </div>
                         <h3>I'm an Android User</h3>
                         <p>Download the official RobuxPrize app from Google Play and earn on the go.</p>
@@ -838,8 +868,17 @@
 
                     <!-- iOS / Windows -->
                     <button @click="enterSite()" class="gate-card gate-card--web">
-                        <div class="gate-icon web">
-                            <i data-lucide="laptop"></i>
+                        <div class="gate-icons">
+                            <div class="gate-icon apple" title="iOS / Apple">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.03 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/>
+                                </svg>
+                            </div>
+                            <div class="gate-icon windows" title="Windows / PC">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                                </svg>
+                            </div>
                         </div>
                         <h3>I'm on iOS / Windows</h3>
                         <p>No iOS app yet — use the full RobuxPrize web app right in your browser.</p>
@@ -856,8 +895,12 @@
                     </button>
 
                     <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
-                        <div class="gate-icon android" style="margin-bottom:0; width:3.4rem; height:3.4rem;">
-                            <i data-lucide="smartphone"></i>
+                        <div class="gate-icons" style="margin-bottom:0;">
+                            <div class="gate-icon android" title="Android">
+                                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4483-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993 0 .5511-.4483.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
+                                </svg>
+                            </div>
                         </div>
                         <div class="min-w-0">
                             <h3 class="text-lg font-black text-white tracking-tight">Get the RobuxPrize App</h3>
@@ -880,7 +923,9 @@
                     <a href="https://play.google.com/store/apps/details?id=silly.prize&hl=en"
                        target="_blank" rel="noopener noreferrer"
                        class="btn-play-store w-full mt-4 text-sm py-3.5 rounded-xl flex items-center justify-center gap-2">
-                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.7 12l1.998-2.491zM5.864 2.658L16.802 8.99l-2.303 2.303-8.635-8.635z"/>
+                        </svg>
                         Get RobuxPrize on Google Play
                     </a>
 
@@ -1831,72 +1876,6 @@
         </button>
     </nav>
 
-    <!-- ===== SOCIAL TASK INSTRUCTIONS MODAL (TikTok / Telegram / YouTube) ===== -->
-    <div x-show="showSocialModal" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[105]"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 scale-95"
-        x-transition:enter-end="opacity-100 scale-100"
-        x-cloak>
-        <div class="task-modal-content p-6 relative">
-            <button @click="closeSocialModal()" class="absolute top-3.5 right-3.5 text-zinc-500 hover:text-white transition p-1 rounded-lg hover:bg-white/5">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-
-            <template x-if="socialModalTask">
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="bg-white/[0.03] p-3 rounded-xl border border-white/10 flex items-center justify-center w-12 h-12 flex-shrink-0">
-                            <template x-if="socialModalTask.brand === 'tiktok'">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-                            </template>
-                            <template x-if="socialModalTask.brand === 'telegram'">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg>
-                            </template>
-                            <template x-if="socialModalTask.brand === 'youtube'">
-                                <svg viewBox="0 0 24 24" class="w-6 h-6"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg>
-                            </template>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-white" x-text="socialModalTitle"></h3>
-                            <p class="text-xs text-zinc-400">Copy the link below and paste it in your browser</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white/[0.02] border border-white/5 rounded-xl p-4 space-y-3 text-xs text-zinc-300">
-                        <p class="font-bold text-white text-sm">📌 Steps to complete:</p>
-                        <ol class="step-list">
-                            <li>Tap the <strong class="text-white">Copy</strong> button below to copy the <span x-text="socialModalLinkLabel"></span>.</li>
-                            <li>Open your <strong class="text-white">browser</strong> (Chrome, Safari, etc.) and paste the link in the address bar.</li>
-                            <li x-text="socialModalStep3"></li>
-                            <li>Come back here once you're done and click <strong class="text-white">Confirm &amp; Claim</strong>.</li>
-                        </ol>
-
-                        <div>
-                            <p class="text-[11px] text-zinc-400 font-bold uppercase tracking-wider mb-1.5">📋 Task Link</p>
-                            <div class="copy-link-box">
-                                <span class="link-text" x-text="socialModalTask.link"></span>
-                                <button @click="copySocialLink(socialModalTask.link)" class="copy-btn">
-                                    <i data-lucide="copy" class="w-3 h-3 inline-block mr-1"></i> Copy
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 text-amber-300 text-[11px]">
-                            ⚠️ <strong>Important:</strong> You must complete the task <strong>honestly</strong> (actually <span x-text="socialModalHonestAction"></span>) before claiming the reward.
-                        </div>
-                    </div>
-
-                    <div class="mt-5 flex flex-wrap gap-3 items-center">
-                        <button @click="startSocialFromModal()" class="btn-primary text-sm px-6 py-2.5 rounded-xl flex items-center gap-2 flex-1 sm:flex-none justify-center">
-                            <i data-lucide="play" class="w-4 h-4"></i> I've Copied — Open &amp; Continue
-                        </button>
-                        <button @click="closeSocialModal()" class="btn-ghost text-xs px-4 py-2 rounded-xl">Cancel</button>
-                    </div>
-                </div>
-            </template>
-        </div>
-    </div>
-
     <!-- ===== HONEST CONFIRM MODAL ===== -->
     <div x-show="showHonestConfirm" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[110]"
         x-transition:enter="transition ease-out duration-200"
@@ -2078,15 +2057,16 @@
 
     <!-- ===== SCRIPT ===== -->
     <script>
-        // Social task definitions. All three (TikTok, Telegram, YouTube) now follow
-        // the same flow as API offers:
-        //   idle → copy-link modal → in_progress (with timer) → confirm → completed
+        // Social task definitions. TikTok, Telegram, and YouTube now behave
+        // exactly like API offers: clicking "Start" opens the link directly,
+        // the task enters the in_progress state with a timer, then becomes
+        // "Confirm & Claim" once the timer expires. No copy/paste modal.
         const SOCIAL_TASKS_DEF = [
             {
                 id: 'tiktok_alqfr',
                 title: 'TikTok',
                 handle: '@alqfr',
-                desc: 'Copy link & follow in your browser',
+                desc: 'Open the profile and follow @alqfr to earn coins',
                 reward: 80,
                 status: 'idle',
                 link: 'https://www.tiktok.com/@alqfr?_r=1&_t=ZN-9AeAoMcikEw',
@@ -2100,14 +2080,14 @@
                 badge: 'popular',
                 noReward: false,
                 isSocial: true,
-                needsCopy: true,
+                needsCopy: false,
                 ctaLabel: 'Follow & Complete'
             },
             {
                 id: 'telegram_fundedfr',
                 title: 'Telegram',
                 handle: 't.me/fundedfr',
-                desc: 'Copy link & join in your browser',
+                desc: 'Open the channel and join to earn coins',
                 reward: 50,
                 status: 'idle',
                 link: 'https://t.me/fundedfr',
@@ -2121,14 +2101,14 @@
                 badge: 'recommended',
                 noReward: false,
                 isSocial: true,
-                needsCopy: true,
+                needsCopy: false,
                 ctaLabel: 'Join & Complete'
             },
             {
                 id: 'youtube_vqlyr',
                 title: 'YouTube',
                 handle: '@vqlyr',
-                desc: 'Copy link & subscribe in your browser',
+                desc: 'Open the channel and subscribe to earn coins',
                 reward: 60,
                 status: 'idle',
                 link: 'https://youtube.com/@vqlyr?si=ShPmOWXWEzNVbp47',
@@ -2142,7 +2122,7 @@
                 badge: 'new',
                 noReward: false,
                 isSocial: true,
-                needsCopy: true,
+                needsCopy: false,
                 ctaLabel: 'Subscribe & Complete'
             }
         ];
@@ -2199,9 +2179,6 @@
                 showHonestConfirm: false,
                 confirmTaskId: null,
 
-                showSocialModal: false,
-                socialModalTaskId: null,
-
                 activeTaskId: null,
 
                 PLAY_STORE_URL: 'https://play.google.com/store/apps/details?id=silly.prize&hl=en',
@@ -2217,8 +2194,7 @@
 
                 // API offers use the longer 2-minute timer.
                 TASK_TIMER_MS: 2 * 60 * 1000,
-                // Social tasks use a shorter 60-second timer (still shows the same
-                // in-progress loading state as API offers, just quicker to complete).
+                // Social tasks use a shorter 60-second timer.
                 SOCIAL_TASK_TIMER_MS: 60 * 1000,
 
                 OFFER_COOLDOWN_MS: 4 * 60 * 1000,
@@ -2317,45 +2293,6 @@
                     return this.tasks.find(t => t.id === this.confirmTaskId) || null;
                 },
 
-                get socialModalTask() {
-                    if (this.socialModalTaskId === null) return null;
-                    return this.tasks.find(t => t.id === this.socialModalTaskId) || null;
-                },
-
-                // Dynamic modal text per brand (TikTok / Telegram / YouTube)
-                get socialModalTitle() {
-                    const t = this.socialModalTask;
-                    if (!t) return '';
-                    if (t.brand === 'tiktok') return 'Follow @alqfr on TikTok';
-                    if (t.brand === 'telegram') return 'Join this Telegram channel';
-                    if (t.brand === 'youtube') return 'Subscribe to @vqlyr on YouTube';
-                    return t.title || 'Complete the task';
-                },
-                get socialModalLinkLabel() {
-                    const t = this.socialModalTask;
-                    if (!t) return 'link';
-                    if (t.brand === 'tiktok') return 'TikTok profile link';
-                    if (t.brand === 'telegram') return 'Telegram channel link';
-                    if (t.brand === 'youtube') return 'YouTube channel link';
-                    return 'link';
-                },
-                get socialModalStep3() {
-                    const t = this.socialModalTask;
-                    if (!t) return '';
-                    if (t.brand === 'tiktok') return 'On the TikTok page, tap Follow to follow @alqfr.';
-                    if (t.brand === 'telegram') return 'Join the Telegram channel from the page.';
-                    if (t.brand === 'youtube') return 'On the YouTube page, tap Subscribe to subscribe to @vqlyr.';
-                    return 'Complete the task on the page.';
-                },
-                get socialModalHonestAction() {
-                    const t = this.socialModalTask;
-                    if (!t) return 'complete the task';
-                    if (t.brand === 'tiktok') return 'follow the account';
-                    if (t.brand === 'telegram') return 'join the channel';
-                    if (t.brand === 'youtube') return 'subscribe to the channel';
-                    return 'complete the task';
-                },
-
                 // ===== TOAST =====
                 showImportantToast(msg, icon = '✅', sub = '', opts = {}) {
                     this.importantToast.show = false;
@@ -2377,59 +2314,6 @@
                 dismissToast() {
                     this.importantToast.show = false;
                     if (this.toastTimeout) clearTimeout(this.toastTimeout);
-                },
-
-                // ===== SOCIAL MODAL (TikTok / Telegram / YouTube) =====
-                openSocialModal(task) {
-                    if (!task || task.status !== 'idle') return;
-                    if (this.isTaskRunning) {
-                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Finish the current task first.');
-                        return;
-                    }
-                    this.socialModalTaskId = task.id;
-                    this.showSocialModal = true;
-                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                },
-
-                closeSocialModal() {
-                    this.showSocialModal = false;
-                    this.socialModalTaskId = null;
-                },
-
-                startSocialFromModal() {
-                    const task = this.socialModalTask;
-                    this.closeSocialModal();
-                    if (!task || task.status !== 'idle') return;
-                    if (this.isTaskRunning) {
-                        this.showImportantToast('⏳ One task at a time.', '⏳', 'Finish the current task first.');
-                        return;
-                    }
-
-                    // Persist the "in_progress" state FIRST, then open the link.
-                    // Same flow as API offers, so a reload / tab discard still
-                    // shows the correct in-progress spinner and then transitions
-                    // to "Confirm & Claim" once the timer expires.
-                    task.status = 'in_progress';
-                    task.endTime = Date.now() + this.SOCIAL_TASK_TIMER_MS;
-                    this.isTaskRunning = true;
-                    this.activeTaskId = task.id;
-                    this.saveState();
-
-                    // Open the social link in a new tab
-                    this.openTaskUrl(task);
-
-                    this.showImportantToast('▶️ Task started!', '⏳',
-                        'Complete the task in your browser, then come back and click Confirm & Claim.');
-
-                    this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                },
-
-                copySocialLink(link) {
-                    navigator.clipboard.writeText(link).then(() => {
-                        this.showImportantToast('📋 Link copied!', '📋', 'Now paste it in your browser to continue.');
-                    }).catch(() => {
-                        this.showImportantToast('⚠️ Copy failed', '⚠️', 'Please copy the link manually.');
-                    });
                 },
 
                 // ===== OFFERS API =====
@@ -2680,9 +2564,6 @@
                     this.$watch('showHonestConfirm', () => {
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     });
-                    this.$watch('showSocialModal', () => {
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    });
                     this.$watch('rulesAccepted', () => {
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     });
@@ -2704,6 +2585,11 @@
                 },
 
                 // ===== TASK FLOW =====
+                // All tasks (API offers + social) now start the same way:
+                //   1. mark in_progress, save state
+                //   2. open link directly in a new tab
+                //   3. start the timer
+                //   4. once the timer expires the task becomes "Confirm & Claim"
                 startTask(task) {
                     if (!task || task.status !== 'idle') return;
                     if (this.isTaskRunning) {
@@ -2711,28 +2597,18 @@
                         return;
                     }
 
-                    // SOCIAL TASKS (TikTok / Telegram / YouTube) — all go through
-                    // the copy-link modal first. After the user clicks "I've Copied
-                    // — Open & Continue", the task enters the same in_progress
-                    // state as API offers (with a spinner + timer) and then becomes
-                    // claimable. This exactly matches the API offer flow.
-                    if (task.isSocial) {
-                        this.openSocialModal(task);
-                        return;
-                    }
-
-                    // API offers: persist the "in_progress" state FIRST, then open
-                    // the link and start the timer.
                     task.status = 'in_progress';
-                    task.endTime = Date.now() + this.TASK_TIMER_MS;
+                    task.endTime = Date.now() + (task.isSocial ? this.SOCIAL_TASK_TIMER_MS : this.TASK_TIMER_MS);
                     this.isTaskRunning = true;
                     this.activeTaskId = task.id;
                     this.saveState();
 
+                    // Open the link directly (social links go untouched, API offers
+                    // get a user_id tracking param appended).
                     this.openTaskUrl(task);
 
                     this.showImportantToast('▶️ Task started!', '⏳',
-                        'Complete the offer on the page that just opened, then come back to confirm completion.');
+                        'Complete the task on the page that just opened, then come back to confirm completion.');
 
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
@@ -3144,8 +3020,6 @@
                         this.selectedGiftCard = null;
                         this.showHonestConfirm = false;
                         this.confirmTaskId = null;
-                        this.showSocialModal = false;
-                        this.socialModalTaskId = null;
                         this.tasks = getFreshSocialTasks();
                         this.tasksHydrated = false;
                         this.saveState();
