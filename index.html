@@ -705,6 +705,92 @@
         .th-youtube { background: linear-gradient(180deg, #3a1010, #1a0808); }
         .th-youtube svg rect { fill: #FF0000; }
 
+        /* ===== ENTRY GATE (start screen) ===== */
+        .entry-gate {
+            position: fixed; inset: 0;
+            z-index: 500;
+            overflow-y: auto;
+            background:
+                radial-gradient(900px 520px at 82% -12%, rgba(239, 68, 68, 0.16), transparent 62%),
+                radial-gradient(760px 420px at -8% 106%, rgba(52, 211, 153, 0.08), transparent 62%),
+                #08090b;
+        }
+        .entry-gate::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+            background-size: 34px 34px;
+            mask-image: radial-gradient(ellipse at 50% 40%, black 25%, transparent 78%);
+            -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 25%, transparent 78%);
+            pointer-events: none;
+        }
+        .gate-card {
+            position: relative;
+            text-align: left;
+            padding: 1.35rem 1.35rem 1.2rem;
+            border-radius: 1.35rem;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #14151a 0%, #0b0c0f 100%);
+            transition: all 0.2s ease;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gate-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0) 45%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            pointer-events: none;
+        }
+        .gate-card:hover { transform: translateY(-3px); border-color: rgba(239, 68, 68, 0.45); box-shadow: 0 18px 40px -22px rgba(239, 68, 68, 0.75); }
+        .gate-card.gate-card--web:hover { border-color: rgba(52, 211, 153, 0.45); box-shadow: 0 18px 40px -22px rgba(52, 211, 153, 0.6); }
+        .gate-icon {
+            width: 2.9rem; height: 2.9rem;
+            border-radius: 0.85rem;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 0.9rem;
+            border: 1px solid;
+            flex-shrink: 0;
+        }
+        .gate-icon.android { background: rgba(52, 211, 153, 0.10); border-color: rgba(52, 211, 153, 0.30); color: #6ee7b7; }
+        .gate-icon.web { background: rgba(239, 68, 68, 0.10); border-color: rgba(239, 68, 68, 0.30); color: #fca5a5; }
+        .gate-icon i { width: 1.45rem; height: 1.45rem; }
+        .gate-card h3 { font-size: 0.98rem; font-weight: 800; color: #fff; letter-spacing: -0.01em; }
+        .gate-card p { font-size: 0.74rem; color: #a1a1aa; line-height: 1.55; margin-top: 0.35rem; }
+        .gate-cta {
+            margin-top: 0.95rem;
+            font-size: 0.72rem; font-weight: 800;
+            color: #f87171;
+            display: inline-flex; align-items: center; gap: 0.35rem;
+        }
+        .gate-card--web .gate-cta { color: #34d399; }
+        .gate-panel {
+            border-radius: 1.35rem;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, #14151a 0%, #0b0c0f 100%);
+            padding: 1.6rem 1.4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .gate-panel::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+            background: linear-gradient(180deg, rgba(52,211,153,0.22), rgba(255,255,255,0) 50%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            pointer-events: none;
+        }
+        .btn-play-store {
+            background: linear-gradient(180deg, #34d399 0%, #10b981 55%, #059669 100%);
+            color: #04140e; font-weight: 900;
+            border: 1px solid rgba(110, 231, 183, 0.6);
+            box-shadow: 0 14px 30px -12px rgba(16, 185, 129, 0.8), inset 0 1px 0 rgba(255,255,255,0.3);
+            transition: all 0.18s ease;
+        }
+        .btn-play-store:hover { transform: translateY(-1px); }
+
         @media (max-width: 640px) {
             .th-icons { display: none; }
             .th-title { font-size: 1.02rem; }
@@ -714,6 +800,104 @@
     </style>
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
+
+    <!-- ===== ENTRY GATE / START SCREEN ===== -->
+    <div x-show="!gatePassed" class="entry-gate custom-scrollbar">
+        <div class="min-h-full flex items-center justify-center px-4 py-10 sm:py-14">
+            <div class="w-full max-w-3xl relative">
+
+                <!-- Brand -->
+                <div class="flex flex-col items-center text-center mb-8">
+                    <div class="brand-mark" style="width:3.25rem;height:3.25rem;border-radius:1rem;">
+                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2C11 3 10 3.6 8.6 3.6C7 3.6 5.2 4 4.2 5.4C3.2 6.8 3.6 8.4 4.6 9.4C3.6 9.9 3 10.9 3 12C3 13.5 4 14.6 5.4 15.1C5 16.1 5.1 17.4 6 18.4C7 19.4 8.6 19.4 9.6 18.4L12 16L14.4 18.4C15.4 19.4 17 19.4 18 18.4C18.9 17.4 19 16.1 18.6 15.1C20 14.6 21 13.5 21 12C21 10.9 20.4 9.9 19.4 9.4C20.4 8.4 20.8 6.8 19.8 5.4C18.8 4 17 3.6 15.4 3.6C14 3.6 13 3 12 2Z"/>
+                            <circle cx="9.5" cy="10" r="0.9" fill="currentColor" stroke="none"/>
+                            <circle cx="14.5" cy="10" r="0.9" fill="currentColor" stroke="none"/>
+                            <path d="M10.5 13.5C11 14 11.5 14.2 12 14.2C12.5 14.2 13 14 13.5 13.5"/>
+                        </svg>
+                    </div>
+                    <h1 class="mt-4 text-3xl sm:text-4xl font-black tracking-tight text-white">Robux<span class="text-red-500">Prize</span></h1>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.28em] text-zinc-500 mt-1.5">Earn Honestly</p>
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-4 max-w-md leading-relaxed">
+                        Choose how you want to access RobuxPrize. Both options use the same account, balance and task wall.
+                    </p>
+                </div>
+
+                <!-- STEP 1 — CHOOSE PLATFORM -->
+                <div x-show="gateView === 'choose'" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <!-- Android -->
+                    <button @click="gateView = 'android'" class="gate-card">
+                        <div class="gate-icon android">
+                            <i data-lucide="smartphone"></i>
+                        </div>
+                        <h3>I'm an Android User</h3>
+                        <p>Download the official RobuxPrize app from Google Play and earn on the go.</p>
+                        <span class="gate-cta">Get the App <span aria-hidden="true">→</span></span>
+                    </button>
+
+                    <!-- iOS / Windows -->
+                    <button @click="enterSite()" class="gate-card gate-card--web">
+                        <div class="gate-icon web">
+                            <i data-lucide="laptop"></i>
+                        </div>
+                        <h3>I'm on iOS / Windows</h3>
+                        <p>No iOS app yet — use the full RobuxPrize web app right in your browser.</p>
+                        <span class="gate-cta">Open Web App <span aria-hidden="true">→</span></span>
+                    </button>
+
+                </div>
+
+                <!-- STEP 2 — ANDROID PLAY STORE PANEL -->
+                <div x-show="gateView === 'android'" x-cloak class="gate-panel">
+
+                    <button @click="gateView = 'choose'" class="btn-ghost text-[11px] font-bold px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 mb-5">
+                        <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back
+                    </button>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+                        <div class="gate-icon android" style="margin-bottom:0; width:3.4rem; height:3.4rem;">
+                            <i data-lucide="smartphone"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="text-lg font-black text-white tracking-tight">Get the RobuxPrize App</h3>
+                            <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
+                                The Android app is live on Google Play. Install it, log in with the same account and your coins, streaks and tasks stay synced.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 rounded-xl border border-white/10 bg-black/40 p-3">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500 mb-1.5">Download Link</p>
+                        <div class="copy-link-box">
+                            <span class="link-text">https://play.google.com/store/apps/details?id=silly.prize&amp;hl=en</span>
+                            <button @click="copyPlayStoreLink()" class="copy-btn">
+                                <i data-lucide="copy" class="w-3 h-3 inline-block mr-1"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <a href="https://play.google.com/store/apps/details?id=silly.prize&hl=en"
+                       target="_blank" rel="noopener noreferrer"
+                       class="btn-play-store w-full mt-4 text-sm py-3.5 rounded-xl flex items-center justify-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        Get RobuxPrize on Google Play
+                    </a>
+
+                    <div class="mt-4 pt-4 border-t border-white/5 text-center">
+                        <p class="text-[11px] text-zinc-500">Already installed, or can't install right now?</p>
+                        <button @click="enterSite()" class="btn-ghost mt-2 text-[11px] font-bold px-4 py-2 rounded-lg inline-flex items-center gap-1.5">
+                            <i data-lucide="globe" class="w-3.5 h-3.5"></i> Continue in browser instead
+                        </button>
+                    </div>
+                </div>
+
+                <p class="text-center text-[10px] text-zinc-600 mt-7 leading-relaxed max-w-md mx-auto">
+                    By continuing you agree to complete every task honestly. Skipping tasks may result in rejected payouts.
+                </p>
+            </div>
+        </div>
+    </div>
 
     <!-- TOP NAV -->
     <nav class="sticky top-0 z-50 top-nav px-4 py-3 lg:px-8">
@@ -1970,6 +2154,11 @@
         function appState() {
             return {
                 currentTab: 'dashboard',
+
+                // ===== ENTRY GATE =====
+                gatePassed: false,
+                gateView: 'choose', // 'choose' | 'android'
+
                 tokens: 5,
                 selectedTier: null,
                 selectedGiftCard: null,
@@ -2015,6 +2204,8 @@
 
                 activeTaskId: null,
 
+                PLAY_STORE_URL: 'https://play.google.com/store/apps/details?id=silly.prize&hl=en',
+
                 API_BASE_URL: 'https://trckapp.org/api/v2',
                 API_KEY: '48773|fepTvASlEReBI8mPqvDcf1iz5bhZhKNut78QpbHr48a75871',
                 offerStatus: 'loading',
@@ -2035,6 +2226,24 @@
                 tasks: getFreshSocialTasks(),
 
                 usedPromoCodes: [],
+
+                // ===== ENTRY GATE HELPERS =====
+                enterSite() {
+                    this.gatePassed = true;
+                    try { sessionStorage.setItem('robux_gate_passed', '1'); } catch (e) { }
+                    this.$nextTick(() => {
+                        if (window.lucide) window.lucide.createIcons();
+                        this.drawCharts();
+                    });
+                },
+
+                copyPlayStoreLink() {
+                    navigator.clipboard.writeText(this.PLAY_STORE_URL).then(() => {
+                        this.showImportantToast('📋 Link copied!', '📋', 'Paste it in your browser to download the app.');
+                    }).catch(() => {
+                        this.showImportantToast('⚠️ Copy failed', '⚠️', 'Please copy the link manually.');
+                    });
+                },
 
                 // ===== SOCIAL TASK CLAIM HELPERS =====
                 getSocialClaims() {
@@ -2405,6 +2614,12 @@
 
                 // ===== INIT =====
                 init() {
+                    // Restore the entry-gate choice for this browser session so a
+                    // mid-task reload does not force the user through the gate again.
+                    try {
+                        if (sessionStorage.getItem('robux_gate_passed') === '1') this.gatePassed = true;
+                    } catch (e) { }
+
                     this.loadSavedState();
                     if (!this.userId) this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
 
@@ -2469,6 +2684,12 @@
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     });
                     this.$watch('rulesAccepted', () => {
+                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    });
+                    this.$watch('gateView', () => {
+                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+                    });
+                    this.$watch('gatePassed', () => {
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     });
                 },
