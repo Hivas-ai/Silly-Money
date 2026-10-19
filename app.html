@@ -1067,7 +1067,7 @@
                         <p class="text-zinc-400 text-xs mt-1.5 max-w-md mx-auto">Social tasks below are still available. Try refreshing in a few minutes for more offers.</p>
                     </div>
 
-                    <!-- TASK GRID (main offers first, social tasks at the bottom) -->
+                    <!-- TASK GRID -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
                             <div class="glass-card p-5 flex flex-col justify-between group relative"
@@ -1169,7 +1169,6 @@
                                     </span>
                                     <div class="flex items-center gap-2">
 
-                                        <!-- Idle state CTA -->
                                         <button x-show="task.status === 'idle'" @click="startTask(task)"
                                             :disabled="isTaskRunning"
                                             :class="{
@@ -1188,21 +1187,18 @@
                                             </template>
                                         </button>
 
-                                        <!-- In-progress / Open Offer -->
                                         <button x-show="task.status === 'in_progress'" @click="openTaskUrl(task)"
                                             class="btn-open-link text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                                             <span x-text="task.isSocial ? 'Open Link' : 'Open Offer'"></span>
                                         </button>
 
-                                        <!-- Confirm Completion -->
                                         <button x-show="task.status === 'confirm'" @click="openHonestConfirm(task)"
                                             class="btn-confirm-completion text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
                                             <span x-text="task.isSocial ? 'Confirm & Claim' : 'Confirm Completion'"></span>
                                         </button>
 
-                                        <!-- Completed state -->
                                         <button x-show="task.status === 'completed'" disabled
                                             class="bg-emerald-500/[0.08] border border-emerald-500/25 text-emerald-400 text-[11px] font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-not-allowed">
                                             <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
@@ -1894,16 +1890,16 @@
 
     <!-- ===== SCRIPT ===== -->
     <script>
-        // Social task definitions. All three (TikTok, Telegram, YouTube) now follow
-        // the same flow as API offers:
-        //   idle → copy-link modal → in_progress (with timer) → confirm → completed
+        // Social task definitions — all three follow the same flow as API offers:
+        //   idle → copy-link modal → in_progress (timer) → confirm → completed
+        // New rewards: TikTok 120, Telegram 50, YouTube 90.
         const SOCIAL_TASKS_DEF = [
             {
                 id: 'tiktok_alqfr',
                 title: 'TikTok',
                 handle: '@alqfr',
                 desc: 'Copy link & follow in your browser',
-                reward: 80,
+                reward: 120,
                 status: 'idle',
                 link: 'https://www.tiktok.com/@alqfr?_r=1&_t=ZN-9AeAoMcikEw',
                 icon: 'external-link',
@@ -1945,7 +1941,7 @@
                 title: 'YouTube',
                 handle: '@vqlyr',
                 desc: 'Copy link & subscribe in your browser',
-                reward: 60,
+                reward: 90,
                 status: 'idle',
                 link: 'https://youtube.com/@vqlyr?si=ShPmOWXWEzNVbp47',
                 icon: 'youtube',
@@ -1962,6 +1958,22 @@
                 ctaLabel: 'Subscribe & Complete'
             }
         ];
+
+        // Action-oriented offer titles (per spec).
+        const ACTION_TITLES = [
+            'Tap to Claim Your Bonus',
+            'Score to Have the Chance',
+            'Click to Catch Your Coins',
+            'Tap to Earn Your Bonus',
+            'Tap to Claim Your Reward'
+        ];
+
+        // Coin reward range:
+        //   min 50 coins — every API offer is at least 50
+        //   mid  80+     — decent eCPM offers land above 80
+        //   max  150     — top payouts (highest eCPM) cap at 150
+        const COIN_MIN = 50;
+        const COIN_MAX = 150;
 
         function getFreshSocialTasks() {
             return SOCIAL_TASKS_DEF.map(t => ({ ...t }));
@@ -2020,16 +2032,10 @@
                 offerStatus: 'loading',
                 liveOfferCount: 0,
 
-                // Guards saveState() from overwriting persisted task state until the
-                // initial fetch has hydrated the task list.
                 tasksHydrated: false,
 
-                // API offers use the longer 2-minute timer.
                 TASK_TIMER_MS: 2 * 60 * 1000,
-                // Social tasks use a shorter 60-second timer (still shows the same
-                // in-progress loading state as API offers, just quicker to complete).
                 SOCIAL_TASK_TIMER_MS: 60 * 1000,
-
                 OFFER_COOLDOWN_MS: 4 * 60 * 1000,
 
                 tasks: getFreshSocialTasks(),
@@ -2113,7 +2119,6 @@
                     return this.tasks.find(t => t.id === this.socialModalTaskId) || null;
                 },
 
-                // Dynamic modal text per brand (TikTok / Telegram / YouTube)
                 get socialModalTitle() {
                     const t = this.socialModalTask;
                     if (!t) return '';
@@ -2170,7 +2175,7 @@
                     if (this.toastTimeout) clearTimeout(this.toastTimeout);
                 },
 
-                // ===== SOCIAL MODAL (TikTok / Telegram / YouTube) =====
+                // ===== SOCIAL MODAL =====
                 openSocialModal(task) {
                     if (!task || task.status !== 'idle') return;
                     if (this.isTaskRunning) {
@@ -2196,17 +2201,12 @@
                         return;
                     }
 
-                    // Persist the "in_progress" state FIRST, then open the link.
-                    // Same flow as API offers, so a reload / tab discard still
-                    // shows the correct in-progress spinner and then transitions
-                    // to "Confirm & Claim" once the timer expires.
                     task.status = 'in_progress';
                     task.endTime = Date.now() + this.SOCIAL_TASK_TIMER_MS;
                     this.isTaskRunning = true;
                     this.activeTaskId = task.id;
                     this.saveState();
 
-                    // Open the social link in a new tab
                     this.openTaskUrl(task);
 
                     this.showImportantToast('▶️ Task started!', '⏳',
@@ -2260,6 +2260,69 @@
                     return [];
                 },
 
+                // ===== REWARD ENGINE =====
+                // Maps the offer's real payout to a 50–150 coin reward.
+                //   $0.50 payout  → 50 coins (minimum)
+                //   $1.75 payout  → 80 coins (mid / "70-80" tier)
+                //   $4.00 payout  → 150 coins (maximum, top payouts)
+                // Piecewise linear so high eCPM offers comfortably exceed 80.
+                // If no payout field is present, falls back to category heuristics
+                // that always produce 50–150.
+                computeOfferReward(raw, index, title, descRaw) {
+                    let payoutRaw = null;
+                    let payoutSource = null;
+
+                    for (const f of ['payout', 'revenue', 'price', 'value']) {
+                        if (raw[f] != null) {
+                            const n = parseFloat(String(raw[f]).replace(/[^0-9.]/g, ''));
+                            if (!isNaN(n) && n > 0) { payoutRaw = n; payoutSource = 'dollars'; break; }
+                        }
+                    }
+                    if (payoutRaw === null && raw.ecpm != null) {
+                        const n = parseFloat(String(raw.ecpm).replace(/[^0-9.]/g, ''));
+                        if (!isNaN(n) && n > 0) { payoutRaw = n; payoutSource = 'ecpm'; }
+                    }
+                    if (payoutRaw === null && raw.amount != null) {
+                        const n = parseFloat(String(raw.amount).replace(/[^0-9.]/g, ''));
+                        if (!isNaN(n) && n > 0) { payoutRaw = n; payoutSource = 'amount'; }
+                    }
+
+                    // Convert to dollars
+                    let dollars = payoutRaw;
+                    if (payoutSource === 'ecpm' && payoutRaw !== null) {
+                        dollars = payoutRaw / 1000;
+                    } else if (payoutSource === 'amount' && payoutRaw !== null) {
+                        if (payoutRaw > 100) dollars = payoutRaw / 1000;
+                        else if (payoutRaw > 5) dollars = payoutRaw / 100;
+                    }
+
+                    let coins;
+                    if (dollars !== null && dollars > 0) {
+                        // Piecewise linear: $0.50 → 50, $1.75 → 80, $4.00 → 150
+                        if (dollars <= 1.75) {
+                            coins = Math.round(50 + (dollars - 0.5) * (80 - 50) / (1.75 - 0.5));
+                        } else {
+                            coins = Math.round(80 + (dollars - 1.75) * (150 - 80) / (4.00 - 1.75));
+                        }
+                    } else {
+                        const combined = `${title || ''} ${descRaw || ''} ${raw.category || ''} ${raw.type || ''} ${raw.offer_type || ''}`.toLowerCase();
+                        const isAppInstall = /install|download|android|ios|mobile|app store|play store/.test(combined);
+                        const isLeadGen = /lead gen|leadgen|signup|sign up|register|email|form|survey|quote|insurance|finance|loan|sweepstake/.test(combined);
+                        const isVideo = /watch video|watch now|video|stream/.test(combined);
+
+                        if (isAppInstall) {
+                            coins = 65 + Math.floor(Math.random() * 26);   // 65–90
+                        } else if (isLeadGen) {
+                            coins = 70 + Math.floor(Math.random() * 31);   // 70–100
+                        } else if (isVideo) {
+                            coins = 50 + Math.floor(Math.random() * 16);   // 50–65
+                        } else {
+                            coins = 50 + Math.floor(Math.random() * 26);   // 50–75
+                        }
+                    }
+                    return Math.max(COIN_MIN, Math.min(COIN_MAX, coins));
+                },
+
                 normalizeOffer(raw, index) {
                     if (!raw || typeof raw !== 'object') return null;
 
@@ -2268,36 +2331,57 @@
                         raw.cid ?? raw.transaction_id ?? `offer_${index}`
                     );
 
-                    const title = String(
-                        raw.name ?? raw.title ?? raw.offer_name ?? raw.headline ?? `Offer #${index + 1}`
+                    // Action-oriented title (always)
+                    const displayTitle = ACTION_TITLES[index % ACTION_TITLES.length];
+
+                    const originalTitle = String(
+                        raw.name ?? raw.title ?? raw.offer_name ?? raw.headline ?? ''
+                    ).trim();
+                    const rawDesc = String(
+                        raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary ?? ''
                     ).trim();
 
-                    const desc = String(
-                        raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary
-                        ?? 'Complete this offer to earn coins.'
-                    ).trim();
+                    // Compute reward
+                    const coinsReward = this.computeOfferReward(raw, index, originalTitle, rawDesc);
 
-                    const REWARD_CYCLE = [40, 50, 60];
-                    const tokensReward = REWARD_CYCLE[index % 3];
+                    // Category detection for description + icon
+                    const combined = `${originalTitle} ${rawDesc} ${raw.category || ''} ${raw.type || ''} ${raw.offer_type || ''}`.toLowerCase();
+                    const isAppInstall = /install|download|android|ios|mobile|app store|play store/.test(combined);
+                    const isLeadGen = /lead gen|leadgen|signup|sign up|register|email|form|survey|quote|insurance|finance|loan|sweepstake/.test(combined);
+                    const isVideo = /watch video|watch now|video|stream/.test(combined);
+                    const isGame = /game|play|puzzle|rpg|strategy/.test(combined);
 
+                    // Description
+                    let desc;
+                    const origName = originalTitle || 'this offer';
+                    if (isAppInstall) {
+                        desc = `App install offer — install ${origName} and open it to earn ${coinsReward} coins.`;
+                    } else if (isLeadGen) {
+                        desc = `Lead generation offer — complete the form for ${origName} to earn ${coinsReward} coins.`;
+                    } else if (isVideo) {
+                        desc = `Watch the video to earn ${coinsReward} coins.`;
+                    } else if (rawDesc.length > 5) {
+                        desc = rawDesc;
+                    } else {
+                        desc = `Complete this offer to earn ${coinsReward} coins.`;
+                    }
+
+                    // Link
                     const link = (
                         raw.url ?? raw.link ?? raw.click_url ?? raw.clickUrl ??
                         raw.offer_url ?? raw.offerUrl ?? raw.tracking_url ?? raw.trackingUrl ??
                         raw.landing_page ?? null
                     );
-
                     if (!link || link === '#') return null;
 
-                    const category = String(
-                        raw.category ?? raw.type ?? raw.offer_type ?? raw.ctype ?? ''
-                    ).toLowerCase();
+                    // Icon
                     let icon = 'star';
-                    if (category.includes('survey')) icon = 'clipboard-list';
-                    else if (category.includes('app') || category.includes('install')) icon = 'download-cloud';
-                    else if (category.includes('game') || category.includes('play')) icon = 'gamepad-2';
-                    else if (category.includes('video') || category.includes('watch')) icon = 'play-circle';
-                    else if (category.includes('signup') || category.includes('email')) icon = 'mail-check';
-                    else if (category.includes('social')) icon = 'users-2';
+                    if (isAppInstall) icon = 'download-cloud';
+                    else if (isLeadGen) icon = 'mail-check';
+                    else if (isVideo) icon = 'play-circle';
+                    else if (isGame) icon = 'gamepad-2';
+                    else if (/survey/.test(combined)) icon = 'clipboard-list';
+                    else if (/social/.test(combined)) icon = 'users-2';
 
                     const iconUrl = raw.icon || raw.image || raw.thumbnail || raw.picture || null;
                     const rating = parseFloat(raw.rating) || (4.2 + (index % 8) * 0.1);
@@ -2310,9 +2394,9 @@
 
                     return {
                         id,
-                        title,
+                        title: displayTitle,
                         desc,
-                        reward: tokensReward,
+                        reward: coinsReward,
                         status: 'idle',
                         link,
                         icon,
@@ -2408,8 +2492,6 @@
                     this.loadSavedState();
                     if (!this.userId) this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
 
-                    // Apply persisted task state immediately so a mid-flow task
-                    // (in_progress / confirm) survives a reload.
                     this.applySavedTaskState();
 
                     this.registerDailyLogin();
@@ -2490,18 +2572,11 @@
                         return;
                     }
 
-                    // SOCIAL TASKS (TikTok / Telegram / YouTube) — all go through
-                    // the copy-link modal first. After the user clicks "I've Copied
-                    // — Open & Continue", the task enters the same in_progress
-                    // state as API offers (with a spinner + timer) and then becomes
-                    // claimable. This exactly matches the API offer flow.
                     if (task.isSocial) {
                         this.openSocialModal(task);
                         return;
                     }
 
-                    // API offers: persist the "in_progress" state FIRST, then open
-                    // the link and start the timer.
                     task.status = 'in_progress';
                     task.endTime = Date.now() + this.TASK_TIMER_MS;
                     this.isTaskRunning = true;
@@ -2520,8 +2595,6 @@
                     if (!task || !task.link || task.link === '#') return;
                     let finalLink = task.link;
 
-                    // Only append user tracking param to third-party API offers,
-                    // never to the real social media URLs.
                     if (!task.isSocial) {
                         try {
                             const url = new URL(task.link);
@@ -2553,7 +2626,6 @@
                     this.confirmTaskId = null;
                     if (!task) return;
 
-                    // ===== ATOMIC ONE-TIME CLAIM CHECK =====
                     if (task.oneTime && this.isSocialClaimed(task.id)) {
                         task.status = 'completed';
                         task.endTime = null;
