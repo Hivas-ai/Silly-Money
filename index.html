@@ -1296,7 +1296,7 @@
                         <p class="text-zinc-400 text-xs mt-1.5 max-w-md mx-auto">Social tasks below are still available. Try refreshing in a few minutes for more offers.</p>
                     </div>
 
-                    <!-- TASK GRID (main offers first, social tasks at the bottom) -->
+                    <!-- TASK GRID -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
                             <div class="glass-card p-5 flex flex-col justify-between group relative"
@@ -1398,18 +1398,18 @@
                                     </span>
                                     <div class="flex items-center gap-2">
 
-                                        <!-- Idle state CTA -->
+                                        <!-- Idle state CTA (uses per-offer ctaLabel) -->
                                         <button x-show="task.status === 'idle'" @click="startTask(task)"
                                             :disabled="isTaskRunning"
                                             :class="{
                                                 'btn-primary': !isTaskRunning,
                                                 'bg-white/[0.03] border border-white/5 text-zinc-500 cursor-not-allowed': isTaskRunning
                                             }"
-                                            class="text-[11px] font-bold px-3.5 py-2 rounded-xl transition duration-200 flex items-center gap-1.5">
+                                            class="text-[10px] font-bold px-3 py-2 rounded-xl transition duration-200 flex items-center gap-1.5">
                                             <template x-if="!isTaskRunning">
                                                 <span class="flex items-center gap-1">
-                                                    <i :data-lucide="task.isSocial ? 'external-link' : 'play'" class="w-3 h-3"></i>
-                                                    <span x-text="task.isSocial ? (task.ctaLabel || 'Start') : 'Start'"></span>
+                                                    <i data-lucide="play" class="w-3 h-3 flex-shrink-0"></i>
+                                                    <span class="whitespace-nowrap" x-text="task.ctaLabel || 'Start'"></span>
                                                 </span>
                                             </template>
                                             <template x-if="isTaskRunning">
@@ -2127,6 +2127,17 @@
             }
         ];
 
+        // Rotating CTA labels applied to every API-loaded offer.
+        // Each offer gets one of these based on its index, so the wall
+        // feels varied and engaging.
+        const OFFER_CTA_LABELS = [
+            'Tap to Claim Your Bonus',
+            'Score to Have the Chance',
+            'Click to Catch Your Coins',
+            'Tap to Earn Your Bonus',
+            'Tap to Claim Your Reward'
+        ];
+
         function getFreshSocialTasks() {
             return SOCIAL_TASKS_DEF.map(t => ({ ...t }));
         }
@@ -2137,7 +2148,7 @@
 
                 // ===== ENTRY GATE =====
                 gatePassed: false,
-                gateView: 'choose', // 'choose' | 'android'
+                gateView: 'choose',
 
                 tokens: 5,
                 selectedTier: null,
@@ -2188,13 +2199,9 @@
                 offerStatus: 'loading',
                 liveOfferCount: 0,
 
-                // Guards saveState() from overwriting persisted task state until the
-                // initial fetch has hydrated the task list.
                 tasksHydrated: false,
 
-                // API offers use the longer 2-minute timer.
                 TASK_TIMER_MS: 2 * 60 * 1000,
-                // Social tasks use a shorter 60-second timer.
                 SOCIAL_TASK_TIMER_MS: 60 * 1000,
 
                 OFFER_COOLDOWN_MS: 4 * 60 * 1000,
@@ -2370,9 +2377,6 @@
                         ?? 'Complete this offer to earn coins.'
                     ).trim();
 
-                    const REWARD_CYCLE = [40, 50, 60];
-                    const tokensReward = REWARD_CYCLE[index % 3];
-
                     const link = (
                         raw.url ?? raw.link ?? raw.click_url ?? raw.clickUrl ??
                         raw.offer_url ?? raw.offerUrl ?? raw.tracking_url ?? raw.trackingUrl ??
@@ -2381,15 +2385,57 @@
 
                     if (!link || link === '#') return null;
 
+                    // ===== REWARD LOGIC (25-70 coins) =====
+                    // • Standard offers (surveys, videos, misc) → 25 coins
+                    // • High-ECPM offers (app installs, lead gen, signups,
+                    //   games, trials, finance) → 50-70 coins based on
+                    //   the offer's actual payout if provided, else rotating
+                    //   through the 50/55/60/65/70 ladder.
                     const category = String(
                         raw.category ?? raw.type ?? raw.offer_type ?? raw.ctype ?? ''
                     ).toLowerCase();
+                    const titleLower = title.toLowerCase();
+                    const combined = `${category} ${titleLower}`;
+
+                    const HIGH_VALUE_PATTERN = /(^|[^a-z])(app|install|download|game|play|lead|signup|sign.?up|email|survey|form|registration|trial|subscription|deposit|invest|finance|insurance|crypto|casino|betting|trading|broker|wallet|bank)([^a-z]|$)/i;
+                    const isHighValue = HIGH_VALUE_PATTERN.test(combined);
+
+                    // Try to read the actual payout the API provides.
+                    // The user wants the payout shown to *them* to match the
+                    // value the offer actually pays out in coins: 25 for
+                    // standard, 50-70 for high ECPM.
+                    const rawPayout = parseFloat(
+                        raw.payout ?? raw.reward ?? raw.amount ?? raw.value ??
+                        raw.price ?? raw.coins ?? 0
+                    ) || 0;
+
+                    let tokensReward;
+                    if (isHighValue) {
+                        // High-ECPM range: 50 to 70 coins, in increments of 5
+                        if (rawPayout >= 50 && rawPayout <= 70) {
+                            tokensReward = Math.round(rawPayout / 5) * 5;
+                        } else {
+                            const HIGH_RANGE = [50, 55, 60, 65, 70];
+                            tokensReward = HIGH_RANGE[index % HIGH_RANGE.length];
+                        }
+                    } else if (rawPayout >= 25 && rawPayout < 50) {
+                        // API explicitly says this offer pays between 25-49
+                        tokensReward = Math.round(rawPayout);
+                    } else {
+                        // Standard offer → 25 coins
+                        tokensReward = 25;
+                    }
+
+                    // Clamp to the 25-70 hard limits
+                    tokensReward = Math.min(70, Math.max(25, tokensReward));
+
+                    // ===== ICON =====
                     let icon = 'star';
                     if (category.includes('survey')) icon = 'clipboard-list';
-                    else if (category.includes('app') || category.includes('install')) icon = 'download-cloud';
+                    else if (category.includes('app') || category.includes('install') || category.includes('download')) icon = 'download-cloud';
                     else if (category.includes('game') || category.includes('play')) icon = 'gamepad-2';
                     else if (category.includes('video') || category.includes('watch')) icon = 'play-circle';
-                    else if (category.includes('signup') || category.includes('email')) icon = 'mail-check';
+                    else if (category.includes('signup') || category.includes('email') || category.includes('lead')) icon = 'mail-check';
                     else if (category.includes('social')) icon = 'users-2';
 
                     const iconUrl = raw.icon || raw.image || raw.thumbnail || raw.picture || null;
@@ -2400,6 +2446,9 @@
                     else if (index < 3) badge = 'popular';
                     else if (index < 6) badge = 'recommended';
                     else if (index < 9) badge = 'new';
+
+                    // Rotating CTA label so each offer has its own hook
+                    const ctaLabel = OFFER_CTA_LABELS[index % OFFER_CTA_LABELS.length];
 
                     return {
                         id,
@@ -2416,7 +2465,8 @@
                         rating: Math.min(5, Math.max(3, rating)),
                         badge,
                         isApiOffer: true,
-                        noReward: false
+                        noReward: false,
+                        ctaLabel
                     };
                 },
 
@@ -2498,8 +2548,6 @@
 
                 // ===== INIT =====
                 init() {
-                    // Restore the entry-gate choice for this browser session so a
-                    // mid-task reload does not force the user through the gate again.
                     try {
                         if (sessionStorage.getItem('robux_gate_passed') === '1') this.gatePassed = true;
                     } catch (e) { }
@@ -2507,8 +2555,6 @@
                     this.loadSavedState();
                     if (!this.userId) this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
 
-                    // Apply persisted task state immediately so a mid-flow task
-                    // (in_progress / confirm) survives a reload.
                     this.applySavedTaskState();
 
                     this.registerDailyLogin();
@@ -2585,11 +2631,6 @@
                 },
 
                 // ===== TASK FLOW =====
-                // All tasks (API offers + social) now start the same way:
-                //   1. mark in_progress, save state
-                //   2. open link directly in a new tab
-                //   3. start the timer
-                //   4. once the timer expires the task becomes "Confirm & Claim"
                 startTask(task) {
                     if (!task || task.status !== 'idle') return;
                     if (this.isTaskRunning) {
@@ -2603,8 +2644,6 @@
                     this.activeTaskId = task.id;
                     this.saveState();
 
-                    // Open the link directly (social links go untouched, API offers
-                    // get a user_id tracking param appended).
                     this.openTaskUrl(task);
 
                     this.showImportantToast('▶️ Task started!', '⏳',
@@ -2617,8 +2656,6 @@
                     if (!task || !task.link || task.link === '#') return;
                     let finalLink = task.link;
 
-                    // Only append user tracking param to third-party API offers,
-                    // never to the real social media URLs.
                     if (!task.isSocial) {
                         try {
                             const url = new URL(task.link);
@@ -2650,7 +2687,6 @@
                     this.confirmTaskId = null;
                     if (!task) return;
 
-                    // ===== ATOMIC ONE-TIME CLAIM CHECK =====
                     if (task.oneTime && this.isSocialClaimed(task.id)) {
                         task.status = 'completed';
                         task.endTime = null;
