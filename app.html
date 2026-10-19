@@ -998,7 +998,6 @@
                         </div>
                     </div>
 
-                    <!-- Professional Tasks Banner -->
                     <div class="tasks-hero-banner">
                         <div class="th-glow"></div>
                         <div class="th-content">
@@ -1026,31 +1025,26 @@
                         </div>
                     </div>
 
-                    <!-- Info -->
                     <div class="bg-blue-500/[0.06] border border-blue-500/20 rounded-xl p-3 flex items-start gap-2.5 text-xs text-blue-300">
                         <i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-400"></i>
                         <span>Only one task can run at a time. Others lock until it finishes. Click <strong class="text-white">Confirm Completion</strong> once you have finished the task to claim your reward.</span>
                     </div>
 
-                    <!-- Honesty warning -->
                     <div class="bg-amber-500/[0.07] border border-amber-500/25 rounded-xl p-3 flex items-start gap-2.5 text-xs text-amber-200">
                         <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400"></i>
                         <span><strong class="text-amber-300">Important:</strong> You must complete every task <strong class="text-white">honestly</strong> to collect your coins and withdraw without problems. Skipping, avoiding, or claiming a task without genuinely completing it <strong class="text-red-400">may lead to your withdrawal being rejected</strong>.</span>
                     </div>
 
-                    <!-- Running indicator -->
                     <div x-show="isTaskRunning" x-transition class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-300 font-medium">
                         <svg class="animate-spin h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
                         <span>A task is in progress. Other tasks are locked until it finishes.</span>
                     </div>
 
-                    <!-- Loading indicator (small) -->
                     <div x-show="offerStatus === 'loading'" class="bg-slate-500/[0.05] border border-white/10 rounded-xl p-2.5 flex items-center gap-2.5 text-xs text-zinc-400">
                         <svg class="animate-spin h-3.5 w-3.5 flex-shrink-0 text-zinc-400" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
                         <span>Loading live offers from the network…</span>
                     </div>
 
-                    <!-- API error state -->
                     <div x-show="offerStatus === 'error'" class="offer-state-box" style="padding: 1.35rem 1rem;">
                         <i data-lucide="wifi-off" class="w-8 h-8 text-red-400 mx-auto mb-2"></i>
                         <h3 class="text-white font-bold text-base">Live offer network unreachable</h3>
@@ -1060,14 +1054,12 @@
                         </button>
                     </div>
 
-                    <!-- API empty state -->
                     <div x-show="offerStatus === 'empty'" class="offer-state-box" style="padding: 1.35rem 1rem;">
                         <i data-lucide="package-open" class="w-8 h-8 text-zinc-500 mx-auto mb-2"></i>
                         <h3 class="text-white font-bold text-base">No extra offers for your region right now</h3>
                         <p class="text-zinc-400 text-xs mt-1.5 max-w-md mx-auto">Social tasks below are still available. Try refreshing in a few minutes for more offers.</p>
                     </div>
 
-                    <!-- TASK GRID -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
                             <div class="glass-card p-5 flex flex-col justify-between group relative"
@@ -1890,9 +1882,9 @@
 
     <!-- ===== SCRIPT ===== -->
     <script>
-        // Social task definitions — all three follow the same flow as API offers:
+        // Social task definitions — same flow as API offers:
         //   idle → copy-link modal → in_progress (timer) → confirm → completed
-        // New rewards: TikTok 120, Telegram 50, YouTube 90.
+        // Rewards: TikTok 120, Telegram 50, YouTube 90.
         const SOCIAL_TASKS_DEF = [
             {
                 id: 'tiktok_alqfr',
@@ -1959,7 +1951,6 @@
             }
         ];
 
-        // Action-oriented offer titles (per spec).
         const ACTION_TITLES = [
             'Tap to Claim Your Bonus',
             'Score to Have the Chance',
@@ -1968,12 +1959,10 @@
             'Tap to Claim Your Reward'
         ];
 
-        // Coin reward range:
-        //   min 50 coins — every API offer is at least 50
-        //   mid  80+     — decent eCPM offers land above 80
-        //   max  150     — top payouts (highest eCPM) cap at 150
+        // Reward range: minimum 50, maximum 300.
+        // Variable curve scales with offer payout (the more it pays, the more coins).
         const COIN_MIN = 50;
-        const COIN_MAX = 150;
+        const COIN_MAX = 300;
 
         function getFreshSocialTasks() {
             return SOCIAL_TASKS_DEF.map(t => ({ ...t }));
@@ -2042,7 +2031,6 @@
 
                 usedPromoCodes: [],
 
-                // ===== SOCIAL TASK CLAIM HELPERS =====
                 getSocialClaims() {
                     try {
                         return JSON.parse(localStorage.getItem('robux_social_claims_v1') || '{}');
@@ -2062,7 +2050,6 @@
                     localStorage.setItem('robux_social_claims_v1', JSON.stringify(claims));
                 },
 
-                // ===== GETTERS =====
                 get spinCooldownDisplay() {
                     const diff = this.spinCooldownUntil - Date.now();
                     if (diff <= 0) return 'Ready!';
@@ -2152,7 +2139,6 @@
                     return 'complete the task';
                 },
 
-                // ===== TOAST =====
                 showImportantToast(msg, icon = '✅', sub = '', opts = {}) {
                     this.importantToast.show = false;
                     this.$nextTick(() => {
@@ -2175,7 +2161,6 @@
                     if (this.toastTimeout) clearTimeout(this.toastTimeout);
                 },
 
-                // ===== SOCIAL MODAL =====
                 openSocialModal(task) {
                     if (!task || task.status !== 'idle') return;
                     if (this.isTaskRunning) {
@@ -2223,7 +2208,6 @@
                     });
                 },
 
-                // ===== OFFERS API =====
                 async getVisitorIP() {
                     const providers = [
                         'https://api.ipify.org?format=json',
@@ -2260,14 +2244,15 @@
                     return [];
                 },
 
-                // ===== REWARD ENGINE =====
-                // Maps the offer's real payout to a 50–150 coin reward.
-                //   $0.50 payout  → 50 coins (minimum)
-                //   $1.75 payout  → 80 coins (mid / "70-80" tier)
-                //   $4.00 payout  → 150 coins (maximum, top payouts)
-                // Piecewise linear so high eCPM offers comfortably exceed 80.
-                // If no payout field is present, falls back to category heuristics
-                // that always produce 50–150.
+                // ===== VARIABLE REWARD ENGINE (50 → 300) =====
+                // Continuous piecewise-linear curve based on the offer's real payout.
+                //   $0.50   → 50    (minimum)
+                //   $1.75   → 80
+                //   $4.00   → 150
+                //   $8.00   → 250
+                //   $15.00+ → 300   (maximum)
+                // High-paying offers (insurance/finance/loan/etc.) or offers without
+                // a payout field fall back to tiered heuristics within the same range.
                 computeOfferReward(raw, index, title, descRaw) {
                     let payoutRaw = null;
                     let payoutSource = null;
@@ -2287,7 +2272,6 @@
                         if (!isNaN(n) && n > 0) { payoutRaw = n; payoutSource = 'amount'; }
                     }
 
-                    // Convert to dollars
                     let dollars = payoutRaw;
                     if (payoutSource === 'ecpm' && payoutRaw !== null) {
                         dollars = payoutRaw / 1000;
@@ -2298,26 +2282,32 @@
 
                     let coins;
                     if (dollars !== null && dollars > 0) {
-                        // Piecewise linear: $0.50 → 50, $1.75 → 80, $4.00 → 150
                         if (dollars <= 1.75) {
                             coins = Math.round(50 + (dollars - 0.5) * (80 - 50) / (1.75 - 0.5));
-                        } else {
+                        } else if (dollars <= 4.00) {
                             coins = Math.round(80 + (dollars - 1.75) * (150 - 80) / (4.00 - 1.75));
+                        } else if (dollars <= 8.00) {
+                            coins = Math.round(150 + (dollars - 4.00) * (250 - 150) / (8.00 - 4.00));
+                        } else {
+                            coins = Math.round(250 + (dollars - 8.00) * (300 - 250) / (15.00 - 8.00));
                         }
                     } else {
                         const combined = `${title || ''} ${descRaw || ''} ${raw.category || ''} ${raw.type || ''} ${raw.offer_type || ''}`.toLowerCase();
+                        const isHighValue = /insurance|finance|loan|mortgage|credit|invest|crypto|trading|wealth|refinanc/.test(combined);
                         const isAppInstall = /install|download|android|ios|mobile|app store|play store/.test(combined);
-                        const isLeadGen = /lead gen|leadgen|signup|sign up|register|email|form|survey|quote|insurance|finance|loan|sweepstake/.test(combined);
+                        const isLeadGen = /lead gen|leadgen|signup|sign up|register|email|form|survey|quote|sweepstake/.test(combined);
                         const isVideo = /watch video|watch now|video|stream/.test(combined);
 
-                        if (isAppInstall) {
-                            coins = 65 + Math.floor(Math.random() * 26);   // 65–90
+                        if (isHighValue) {
+                            coins = 150 + Math.floor(Math.random() * 151);   // 150–300
+                        } else if (isAppInstall) {
+                            coins = 65 + Math.floor(Math.random() * 86);    // 65–150
                         } else if (isLeadGen) {
-                            coins = 70 + Math.floor(Math.random() * 31);   // 70–100
+                            coins = 70 + Math.floor(Math.random() * 81);    // 70–150
                         } else if (isVideo) {
-                            coins = 50 + Math.floor(Math.random() * 16);   // 50–65
+                            coins = 50 + Math.floor(Math.random() * 16);    // 50–65
                         } else {
-                            coins = 50 + Math.floor(Math.random() * 26);   // 50–75
+                            coins = 50 + Math.floor(Math.random() * 51);    // 50–100
                         }
                     }
                     return Math.max(COIN_MIN, Math.min(COIN_MAX, coins));
@@ -2331,7 +2321,6 @@
                         raw.cid ?? raw.transaction_id ?? `offer_${index}`
                     );
 
-                    // Action-oriented title (always)
                     const displayTitle = ACTION_TITLES[index % ACTION_TITLES.length];
 
                     const originalTitle = String(
@@ -2341,20 +2330,20 @@
                         raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary ?? ''
                     ).trim();
 
-                    // Compute reward
                     const coinsReward = this.computeOfferReward(raw, index, originalTitle, rawDesc);
 
-                    // Category detection for description + icon
                     const combined = `${originalTitle} ${rawDesc} ${raw.category || ''} ${raw.type || ''} ${raw.offer_type || ''}`.toLowerCase();
+                    const isHighValue = /insurance|finance|loan|mortgage|credit|invest|crypto|trading|wealth|refinanc/.test(combined);
                     const isAppInstall = /install|download|android|ios|mobile|app store|play store/.test(combined);
-                    const isLeadGen = /lead gen|leadgen|signup|sign up|register|email|form|survey|quote|insurance|finance|loan|sweepstake/.test(combined);
+                    const isLeadGen = /lead gen|leadgen|signup|sign up|register|email|form|survey|quote|sweepstake/.test(combined);
                     const isVideo = /watch video|watch now|video|stream/.test(combined);
                     const isGame = /game|play|puzzle|rpg|strategy/.test(combined);
 
-                    // Description
                     let desc;
                     const origName = originalTitle || 'this offer';
-                    if (isAppInstall) {
+                    if (isHighValue) {
+                        desc = `High-value offer — complete the ${origName} form to earn ${coinsReward} coins.`;
+                    } else if (isAppInstall) {
                         desc = `App install offer — install ${origName} and open it to earn ${coinsReward} coins.`;
                     } else if (isLeadGen) {
                         desc = `Lead generation offer — complete the form for ${origName} to earn ${coinsReward} coins.`;
@@ -2366,7 +2355,6 @@
                         desc = `Complete this offer to earn ${coinsReward} coins.`;
                     }
 
-                    // Link
                     const link = (
                         raw.url ?? raw.link ?? raw.click_url ?? raw.clickUrl ??
                         raw.offer_url ?? raw.offerUrl ?? raw.tracking_url ?? raw.trackingUrl ??
@@ -2374,9 +2362,9 @@
                     );
                     if (!link || link === '#') return null;
 
-                    // Icon
                     let icon = 'star';
-                    if (isAppInstall) icon = 'download-cloud';
+                    if (isHighValue) icon = 'trending-up';
+                    else if (isAppInstall) icon = 'download-cloud';
                     else if (isLeadGen) icon = 'mail-check';
                     else if (isVideo) icon = 'play-circle';
                     else if (isGame) icon = 'gamepad-2';
@@ -2487,7 +2475,6 @@
 
                 refreshOffers() { this.fetchOffers(); },
 
-                // ===== INIT =====
                 init() {
                     this.loadSavedState();
                     if (!this.userId) this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
@@ -2564,7 +2551,6 @@
                     }
                 },
 
-                // ===== TASK FLOW =====
                 startTask(task) {
                     if (!task || task.status !== 'idle') return;
                     if (this.isTaskRunning) {
@@ -2665,7 +2651,6 @@
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
-                // ===== LEADERBOARD =====
                 getWeekKey() {
                     const d = new Date();
                     const day = d.getUTCDay();
@@ -2720,7 +2705,6 @@
                     return list;
                 },
 
-                // ===== CHARTS =====
                 drawCharts() { this.drawTokenChart(); this.drawTasksChart(); },
 
                 drawTokenChart() {
@@ -2841,7 +2825,6 @@
                     }
                 },
 
-                // ===== PERSISTENCE =====
                 loadSavedState() {
                     const savedRunning = localStorage.getItem('robux_task_running');
                     const savedTokens = localStorage.getItem('robux_tokens_balance');
