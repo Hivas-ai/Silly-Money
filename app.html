@@ -1951,14 +1951,6 @@
             }
         ];
 
-        const ACTION_TITLES = [
-            'Tap to Claim Your Bonus',
-            'Score to Have the Chance',
-            'Click to Catch Your Coins',
-            'Tap to Earn Your Bonus',
-            'Tap to Claim Your Reward'
-        ];
-
         // Reward range: minimum 50, maximum 300.
         // Variable curve scales with offer payout (the more it pays, the more coins).
         const COIN_MIN = 50;
@@ -2321,11 +2313,12 @@
                         raw.cid ?? raw.transaction_id ?? `offer_${index}`
                     );
 
-                    const displayTitle = ACTION_TITLES[index % ACTION_TITLES.length];
-
+                    // Use the API's own offer name. No more generic action titles.
                     const originalTitle = String(
                         raw.name ?? raw.title ?? raw.offer_name ?? raw.headline ?? ''
                     ).trim();
+                    const displayTitle = originalTitle || `Sponsored Offer #${index + 1}`;
+
                     const rawDesc = String(
                         raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary ?? ''
                     ).trim();
