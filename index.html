@@ -136,44 +136,259 @@
         }
         .btn-confirm-completion:hover:not(:disabled) { transform: translateY(-1px); }
 
-        /* ===== OFFER TIER STYLES ===== */
-        .task-tier-bronze { border-color: rgba(205, 127, 50, 0.45) !important; }
-        .task-tier-silver {
-            border-color: rgba(192, 192, 192, 0.55) !important;
-            box-shadow: 0 0 0 1px rgba(192, 192, 192, 0.15), 0 0 22px -6px rgba(192, 192, 192, 0.4) !important;
-        }
-        .task-tier-gold {
-            border-color: rgba(255, 215, 0, 0.6) !important;
-            box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.18), 0 0 26px -6px rgba(255, 215, 0, 0.5) !important;
-        }
-        .task-tier-diamond {
-            border-color: rgba(0, 217, 255, 0.65) !important;
-            box-shadow: 0 0 0 1px rgba(0, 217, 255, 0.22), 0 0 30px -6px rgba(0, 217, 255, 0.55) !important;
-        }
+        /* ===== OFFER TIER CARD DESIGNS ===== */
+        .task-tier-bronze,
+        .task-tier-silver,
+        .task-tier-gold,
+        .task-tier-diamond,
         .task-tier-platinum {
-            border-color: rgba(168, 85, 247, 0.7) !important;
-            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.3), 0 0 40px -8px rgba(168, 85, 247, 0.65) !important;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        /* --- BRONZE --- */
+        .task-tier-bronze {
+            border: 1px solid rgba(205, 127, 50, 0.55) !important;
+            background:
+                radial-gradient(120% 80% at 0% 0%, rgba(205, 127, 50, 0.14), transparent 55%),
+                radial-gradient(100% 70% at 100% 100%, rgba(120, 72, 32, 0.10), transparent 55%),
+                linear-gradient(180deg, #17120c 0%, #0c0a08 100%) !important;
+            box-shadow:
+                0 0 0 1px rgba(205, 127, 50, 0.10),
+                0 10px 28px -18px rgba(205, 127, 50, 0.65) !important;
+        }
+        .task-tier-bronze::after {
+            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #cd7f32 15%, #f0b27a 50%, #cd7f32 85%, transparent);
+            z-index: 2; pointer-events: none;
+        }
+        .task-tier-bronze:hover {
+            transform: translateY(-2px);
+            border-color: rgba(240, 178, 122, 0.8) !important;
+            box-shadow:
+                0 0 0 1px rgba(240, 178, 122, 0.22),
+                0 18px 40px -20px rgba(205, 127, 50, 0.85) !important;
+        }
+
+        /* --- SILVER --- */
+        .task-tier-silver {
+            border: 1px solid rgba(200, 205, 212, 0.60) !important;
+            background:
+                radial-gradient(120% 80% at 0% 0%, rgba(220, 222, 228, 0.10), transparent 55%),
+                radial-gradient(100% 70% at 100% 100%, rgba(140, 145, 155, 0.08), transparent 55%),
+                linear-gradient(180deg, #16171b 0%, #0c0d10 100%) !important;
+            box-shadow:
+                0 0 0 1px rgba(200, 205, 212, 0.16),
+                0 10px 30px -18px rgba(200, 205, 212, 0.55) !important;
+        }
+        .task-tier-silver::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.10) 48%, transparent 62%);
+            background-size: 220% 100%;
+            background-position: 130% 0;
+            transition: background-position 0.9s ease;
+            pointer-events: none; z-index: 1;
+        }
+        .task-tier-silver:hover::before { background-position: -30% 0; }
+        .task-tier-silver::after {
+            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #9ca3af 15%, #f1f5f9 50%, #9ca3af 85%, transparent);
+            z-index: 2; pointer-events: none;
+        }
+        .task-tier-silver:hover {
+            transform: translateY(-2px);
+            border-color: rgba(241, 245, 249, 0.85) !important;
+            box-shadow:
+                0 0 0 1px rgba(241, 245, 249, 0.25),
+                0 18px 40px -20px rgba(200, 205, 212, 0.85) !important;
+        }
+
+        /* --- GOLD --- */
+        .task-tier-gold {
+            border: 1px solid rgba(255, 215, 0, 0.62) !important;
+            background:
+                radial-gradient(120% 80% at 0% 0%, rgba(255, 215, 0, 0.14), transparent 55%),
+                radial-gradient(100% 70% at 100% 100%, rgba(180, 140, 20, 0.10), transparent 55%),
+                linear-gradient(180deg, #1a1709 0%, #0d0b04 100%) !important;
+            box-shadow:
+                0 0 0 1px rgba(255, 215, 0, 0.18),
+                0 10px 32px -18px rgba(255, 215, 0, 0.75) !important;
+        }
+        .task-tier-gold::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            background: linear-gradient(115deg, transparent 30%, rgba(255, 235, 150, 0.16) 48%, transparent 62%);
+            background-size: 220% 100%;
+            background-position: 130% 0;
+            transition: background-position 0.9s ease;
+            pointer-events: none; z-index: 1;
+        }
+        .task-tier-gold:hover::before { background-position: -30% 0; }
+        .task-tier-gold::after {
+            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #f59e0b 15%, #fde68a 50%, #f59e0b 85%, transparent);
+            z-index: 2; pointer-events: none;
+        }
+        .task-tier-gold:hover {
+            transform: translateY(-2px);
+            border-color: rgba(253, 230, 138, 0.9) !important;
+            box-shadow:
+                0 0 0 1px rgba(253, 230, 138, 0.28),
+                0 18px 44px -20px rgba(255, 215, 0, 0.95) !important;
+        }
+
+        /* --- DIAMOND --- */
+        .task-tier-diamond {
+            border: 1px solid rgba(0, 217, 255, 0.68) !important;
+            background:
+                radial-gradient(120% 80% at 0% 0%, rgba(0, 217, 255, 0.14), transparent 55%),
+                radial-gradient(100% 70% at 100% 100%, rgba(99, 102, 241, 0.14), transparent 55%),
+                linear-gradient(180deg, #0a1620 0%, #070b12 100%) !important;
+            box-shadow:
+                0 0 0 1px rgba(0, 217, 255, 0.22),
+                0 0 28px -8px rgba(0, 217, 255, 0.55),
+                0 12px 36px -18px rgba(0, 217, 255, 0.80) !important;
+        }
+        .task-tier-diamond::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            background: linear-gradient(115deg, transparent 30%, rgba(200, 245, 255, 0.20) 48%, transparent 62%);
+            background-size: 220% 100%;
+            background-position: 130% 0;
+            transition: background-position 0.9s ease;
+            pointer-events: none; z-index: 1;
+        }
+        .task-tier-diamond:hover::before { background-position: -30% 0; }
+        .task-tier-diamond::after {
+            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #22d3ee 15%, #bae6fd 50%, #22d3ee 85%, transparent);
+            z-index: 2; pointer-events: none;
+        }
+        .task-tier-diamond:hover {
+            transform: translateY(-2px);
+            border-color: rgba(186, 240, 255, 0.9) !important;
+            box-shadow:
+                0 0 0 1px rgba(186, 240, 255, 0.32),
+                0 0 44px -6px rgba(0, 217, 255, 0.75),
+                0 18px 48px -20px rgba(0, 217, 255, 1) !important;
+        }
+
+        /* --- PLATINUM / LEGENDARY --- */
+        .task-tier-platinum {
+            border: 1px solid rgba(192, 132, 252, 0.78) !important;
+            background:
+                radial-gradient(140% 90% at 0% 0%, rgba(168, 85, 247, 0.22), transparent 55%),
+                radial-gradient(120% 80% at 100% 100%, rgba(236, 72, 153, 0.16), transparent 55%),
+                linear-gradient(180deg, #170f24 0%, #0a0710 100%) !important;
             animation: platinum-glow 3s ease-in-out infinite;
         }
+        .task-tier-platinum::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            background: linear-gradient(115deg, transparent 28%, rgba(255, 220, 255, 0.22) 46%, transparent 60%);
+            background-size: 220% 100%;
+            background-position: 130% 0;
+            transition: background-position 0.9s ease;
+            pointer-events: none; z-index: 1;
+        }
+        .task-tier-platinum:hover::before { background-position: -30% 0; }
+        .task-tier-platinum::after {
+            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2.5px;
+            background: linear-gradient(90deg, transparent, #a855f7 15%, #f0abfc 35%, #ec4899 50%, #f0abfc 65%, #a855f7 85%, transparent);
+            background-size: 200% 100%;
+            animation: legendary-shimmer 3s linear infinite;
+            z-index: 2; pointer-events: none;
+        }
+        .task-tier-platinum:hover {
+            transform: translateY(-2px);
+            border-color: rgba(240, 171, 252, 0.95) !important;
+        }
+        @keyframes legendary-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
         @keyframes platinum-glow {
-            0%, 100% { box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.3), 0 0 40px -8px rgba(168, 85, 247, 0.65); }
-            50% { box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.4), 0 0 60px -8px rgba(168, 85, 247, 0.85); }
+            0%, 100% {
+                box-shadow:
+                    0 0 0 1px rgba(192, 132, 252, 0.32),
+                    0 0 34px -8px rgba(168, 85, 247, 0.75),
+                    0 14px 40px -20px rgba(236, 72, 153, 0.70);
+            }
+            50% {
+                box-shadow:
+                    0 0 0 2px rgba(192, 132, 252, 0.50),
+                    0 0 52px -6px rgba(168, 85, 247, 0.95),
+                    0 14px 46px -20px rgba(236, 72, 153, 0.90);
+            }
         }
 
-        .tier-coin-bronze { color: #e8a866; background: rgba(205,127,50,0.12); border-color: rgba(205,127,50,0.45); }
-        .tier-coin-silver { color: #e8e8e8; background: rgba(192,192,192,0.12); border-color: rgba(192,192,192,0.45); }
-        .tier-coin-gold { color: #ffd700; background: rgba(255,215,0,0.12); border-color: rgba(255,215,0,0.5); }
-        .tier-coin-diamond { color: #00d9ff; background: rgba(0,217,255,0.12); border-color: rgba(0,217,255,0.5); }
-        .tier-coin-platinum { color: #c084fc; background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.55); }
+        /* ===== TIER ICON BOX ===== */
+        .tier-icon-box { transition: background 0.2s ease, border-color 0.2s ease; }
+        .task-tier-bronze  .tier-icon-box { background: rgba(205, 127, 50, 0.10) !important; border-color: rgba(205, 127, 50, 0.35) !important; }
+        .task-tier-silver  .tier-icon-box { background: rgba(220, 222, 228, 0.08) !important; border-color: rgba(200, 205, 212, 0.35) !important; }
+        .task-tier-gold    .tier-icon-box { background: rgba(255, 215, 0, 0.10) !important; border-color: rgba(255, 215, 0, 0.38) !important; }
+        .task-tier-diamond .tier-icon-box { background: rgba(0, 217, 255, 0.10) !important; border-color: rgba(0, 217, 255, 0.40) !important; }
+        .task-tier-platinum .tier-icon-box { background: rgba(168, 85, 247, 0.15) !important; border-color: rgba(192, 132, 252, 0.45) !important; }
 
-        .tier-label-bronze { color: #e8a866; background: rgba(205,127,50,0.18); }
-        .tier-label-silver { color: #e8e8e8; background: rgba(192,192,192,0.18); }
-        .tier-label-gold { color: #ffd700; background: rgba(255,215,0,0.18); }
-        .tier-label-diamond { color: #00d9ff; background: rgba(0,217,255,0.18); }
+        /* ===== TIER COIN BADGES ===== */
+        .tier-coin-bronze {
+            color: #f0b27a;
+            background: linear-gradient(180deg, rgba(205,127,50,0.25), rgba(120,72,32,0.14));
+            border-color: rgba(205,127,50,0.60);
+            box-shadow: inset 0 1px 0 rgba(255, 220, 180, 0.18);
+        }
+        .tier-coin-silver {
+            color: #f8fafc;
+            background: linear-gradient(180deg, rgba(220,222,228,0.25), rgba(140,145,155,0.14));
+            border-color: rgba(200,205,212,0.65);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30);
+        }
+        .tier-coin-gold {
+            color: #fef3c7;
+            background: linear-gradient(180deg, rgba(255,215,0,0.25), rgba(180,140,20,0.14));
+            border-color: rgba(255,215,0,0.70);
+            box-shadow: 0 0 12px -4px rgba(255,215,0,0.65), inset 0 1px 0 rgba(255,240,180,0.30);
+        }
+        .tier-coin-diamond {
+            color: #d6f6ff;
+            background: linear-gradient(180deg, rgba(0,217,255,0.26), rgba(14,116,144,0.14));
+            border-color: rgba(0,217,255,0.70);
+            box-shadow: 0 0 14px -4px rgba(0,217,255,0.75), inset 0 1px 0 rgba(200,250,255,0.30);
+        }
+        .tier-coin-platinum {
+            color: #fbe9ff;
+            background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(236,72,153,0.25));
+            border-color: rgba(192,132,252,0.80);
+            box-shadow: 0 0 16px -4px rgba(168,85,247,0.85), inset 0 1px 0 rgba(255,220,255,0.30);
+        }
+
+        /* ===== TIER LABEL BADGES ===== */
+        .tier-label { letter-spacing: 0.12em; }
+        .tier-label-bronze {
+            color: #f0b27a;
+            background: linear-gradient(135deg, rgba(205,127,50,0.32), rgba(120,72,32,0.18));
+            border: 1px solid rgba(205,127,50,0.55);
+        }
+        .tier-label-silver {
+            color: #f8fafc;
+            background: linear-gradient(135deg, rgba(220,222,228,0.30), rgba(140,145,155,0.16));
+            border: 1px solid rgba(200,205,212,0.55);
+        }
+        .tier-label-gold {
+            color: #fef3c7;
+            background: linear-gradient(135deg, rgba(255,215,0,0.32), rgba(180,140,20,0.18));
+            border: 1px solid rgba(255,215,0,0.60);
+            box-shadow: 0 0 10px -3px rgba(255,215,0,0.60);
+        }
+        .tier-label-diamond {
+            color: #e0f7ff;
+            background: linear-gradient(135deg, rgba(0,217,255,0.32), rgba(99,102,241,0.20));
+            border: 1px solid rgba(0,217,255,0.70);
+            box-shadow: 0 0 14px -3px rgba(0,217,255,0.80);
+        }
         .tier-label-platinum {
-            color: #fff;
+            color: #ffffff;
             background: linear-gradient(135deg, #a855f7, #ec4899);
-            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+            border: 1px solid rgba(240,171,252,0.75);
+            box-shadow: 0 0 14px rgba(168,85,247,0.75), inset 0 1px 0 rgba(255,255,255,0.25);
         }
 
         .task-locked { position: relative; pointer-events: none; }
@@ -1325,7 +1540,7 @@
 
                                 <div>
                                     <div class="flex justify-between items-start gap-2 mb-3">
-                                        <div class="bg-white/[0.03] p-3.5 rounded-2xl text-zinc-200 border border-white/10 overflow-hidden flex items-center justify-center w-16 h-16 flex-shrink-0">
+                                        <div class="tier-icon-box bg-white/[0.03] p-3.5 rounded-2xl text-zinc-200 border border-white/10 overflow-hidden flex items-center justify-center w-16 h-16 flex-shrink-0">
                                             <template x-if="task.brand === 'tiktok'">
                                                 <svg viewBox="0 0 24 24" class="w-9 h-9" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
                                             </template>
@@ -2229,30 +2444,31 @@
                 },
 
                 // Determine tier + coins from USD payout
-                // Bronze: <$1 → 25 (below $0.50) or 50 ($0.50-$0.99)
-                // Silver: $1-$1.99 → 100
-                // Gold: $2-$2.99 → 200
-                // Diamond: $3-$3.99 → 300
-                // Legendary Platinum: $4+ → 500
+                // Bronze:  <$0.50 → 25+, $0.50-$0.99 → 50+
+                // Silver:  $1.00-$1.99 → 100+
+                // Gold:    $2.00-$2.99 → 200+
+                // Diamond: $3.00-$4.99 → 300+
+                // Legendary/Platinum: $5.00+ → 500+ (scales with value)
                 computeTierFromUSD(usd) {
-                    if (usd == null || usd <= 0) {
+                    if (usd == null || isNaN(usd) || usd <= 0) {
                         return { tier: 'bronze', coins: 25, usd: 0 };
                     }
-                    if (usd < 0.5) return { tier: 'bronze', coins: 25, usd };
-                    if (usd < 1) return { tier: 'bronze', coins: 50, usd };
-                    if (usd < 2) return { tier: 'silver', coins: 100, usd };
-                    if (usd < 3) return { tier: 'gold', coins: 200, usd };
-                    if (usd < 4) return { tier: 'diamond', coins: 300, usd };
-                    return { tier: 'platinum', coins: 500, usd };
+                    const rawCoins = Math.round(usd * 100);
+                    if (usd < 0.5) return { tier: 'bronze', coins: Math.max(25, rawCoins), usd };
+                    if (usd < 1)   return { tier: 'bronze', coins: Math.max(50, rawCoins), usd };
+                    if (usd < 2)   return { tier: 'silver', coins: Math.max(100, rawCoins), usd };
+                    if (usd < 3)   return { tier: 'gold', coins: Math.max(200, rawCoins), usd };
+                    if (usd < 5)   return { tier: 'diamond', coins: Math.max(300, rawCoins), usd };
+                    return { tier: 'platinum', coins: Math.max(500, rawCoins), usd };
                 },
 
                 estimateOfferUSD(raw, title, desc) {
                     const combined = `${title} ${desc} ${raw.category || ''} ${raw.type || ''} ${raw.offer_type || ''}`.toLowerCase();
-                    if (/insurance|finance|loan|mortgage|credit|invest|crypto|trading|wealth|refinanc/.test(combined)) return 4.0;
-                    if (/lead.?gen|sign.?up|register|registration|subscription|trial|deposit|sweepstake/.test(combined)) return 2.0;
-                    if (/install|download|android|ios|mobile|app.?store|play.?store/.test(combined)) return 1.0;
-                    if (/game|play|puzzle|rpg|strategy/.test(combined)) return 1.5;
-                    if (/survey|quote|form/.test(combined)) return 0.5;
+                    if (/insurance|finance|loan|mortgage|credit|invest|crypto|trading|wealth|refinanc/.test(combined)) return 6.0;
+                    if (/lead.?gen|sign.?up|register|registration|subscription|trial|deposit|sweepstake/.test(combined)) return 2.5;
+                    if (/install|download|android|ios|mobile|app.?store|play.?store/.test(combined)) return 1.2;
+                    if (/game|play|puzzle|rpg|strategy/.test(combined)) return 1.8;
+                    if (/survey|quote|form/.test(combined)) return 0.6;
                     if (/video|watch|stream/.test(combined)) return 0.16;
                     return 0.5;
                 },
