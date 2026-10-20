@@ -136,259 +136,318 @@
         }
         .btn-confirm-completion:hover:not(:disabled) { transform: translateY(-1px); }
 
-        /* ===== OFFER TIER CARD DESIGNS ===== */
-        .task-tier-bronze,
-        .task-tier-silver,
-        .task-tier-gold,
-        .task-tier-diamond,
-        .task-tier-platinum {
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        /* =====================================================
+           OFFER TIER CARDS — full premium identity per rank
+           ===================================================== */
+
+        /* ===== BRONZE — copper metallic with warm diagonal grain ===== */
+        .glass-card.task-tier-bronze {
+            border-color: transparent !important;
+            background:
+                repeating-linear-gradient(115deg,
+                    rgba(205, 127, 50, 0.04) 0px,
+                    rgba(205, 127, 50, 0.04) 1px,
+                    transparent 1px,
+                    transparent 14px
+                ),
+                radial-gradient(500px 200px at 0% 0%, rgba(205, 127, 50, 0.18), transparent 65%),
+                radial-gradient(400px 160px at 100% 100%, rgba(139, 90, 43, 0.14), transparent 65%),
+                linear-gradient(180deg, #1a120a 0%, #0b0703 100%);
+        }
+        .glass-card.task-tier-bronze::before {
+            background: linear-gradient(135deg,
+                rgba(205, 127, 50, 0.65) 0%,
+                rgba(139, 90, 43, 0.35) 30%,
+                rgba(224, 150, 80, 0.75) 50%,
+                rgba(139, 90, 43, 0.35) 70%,
+                rgba(205, 127, 50, 0.65) 100%);
+            padding: 1.5px;
+        }
+        .glass-card.task-tier-bronze .tier-coin-bronze,
+        .glass-card.task-tier-bronze .tier-label-bronze {
+            box-shadow: inset 0 1px 0 rgba(255, 200, 140, 0.35);
         }
 
-        /* --- BRONZE --- */
-        .task-tier-bronze {
-            border: 1px solid rgba(205, 127, 50, 0.55) !important;
+        /* ===== SILVER — polished chrome with reflective shimmer ===== */
+        .glass-card.task-tier-silver {
+            border-color: transparent !important;
             background:
-                radial-gradient(120% 80% at 0% 0%, rgba(205, 127, 50, 0.14), transparent 55%),
-                radial-gradient(100% 70% at 100% 100%, rgba(120, 72, 32, 0.10), transparent 55%),
-                linear-gradient(180deg, #17120c 0%, #0c0a08 100%) !important;
-            box-shadow:
-                0 0 0 1px rgba(205, 127, 50, 0.10),
-                0 10px 28px -18px rgba(205, 127, 50, 0.65) !important;
+                linear-gradient(115deg,
+                    rgba(220, 220, 235, 0.05) 0%,
+                    rgba(160, 160, 185, 0.08) 25%,
+                    rgba(240, 240, 255, 0.10) 50%,
+                    rgba(160, 160, 185, 0.08) 75%,
+                    rgba(220, 220, 235, 0.05) 100%),
+                radial-gradient(600px 220px at 50% -10%, rgba(220, 220, 235, 0.18), transparent 65%),
+                linear-gradient(180deg, #14151c 0%, #08090e 100%);
+            box-shadow: 0 0 26px -16px rgba(220, 220, 235, 0.65) !important;
         }
-        .task-tier-bronze::after {
-            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, #cd7f32 15%, #f0b27a 50%, #cd7f32 85%, transparent);
-            z-index: 2; pointer-events: none;
+        .glass-card.task-tier-silver::before {
+            background: linear-gradient(115deg,
+                rgba(200, 200, 225, 0.85) 0%,
+                rgba(140, 140, 170, 0.40) 20%,
+                rgba(245, 245, 255, 0.95) 50%,
+                rgba(140, 140, 170, 0.40) 80%,
+                rgba(200, 200, 225, 0.85) 100%);
+            background-size: 250% 100%;
+            padding: 1.5px;
+            animation: tier-shift-border 5s ease-in-out infinite;
         }
-        .task-tier-bronze:hover {
-            transform: translateY(-2px);
-            border-color: rgba(240, 178, 122, 0.8) !important;
-            box-shadow:
-                0 0 0 1px rgba(240, 178, 122, 0.22),
-                0 18px 40px -20px rgba(205, 127, 50, 0.85) !important;
+        .glass-card.task-tier-silver::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 15%; right: 15%; height: 1.5px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(230, 230, 245, 0.6) 40%,
+                rgba(255, 255, 255, 0.9) 50%,
+                rgba(230, 230, 245, 0.6) 60%,
+                transparent);
+            pointer-events: none;
         }
 
-        /* --- SILVER --- */
-        .task-tier-silver {
-            border: 1px solid rgba(200, 205, 212, 0.60) !important;
+        /* ===== GOLD — 24k gold foil with sparkle ===== */
+        .glass-card.task-tier-gold {
+            border-color: transparent !important;
             background:
-                radial-gradient(120% 80% at 0% 0%, rgba(220, 222, 228, 0.10), transparent 55%),
-                radial-gradient(100% 70% at 100% 100%, rgba(140, 145, 155, 0.08), transparent 55%),
-                linear-gradient(180deg, #16171b 0%, #0c0d10 100%) !important;
+                radial-gradient(500px 220px at 50% -20%, rgba(255, 200, 0, 0.24), transparent 65%),
+                radial-gradient(320px 100px at 95% 15%, rgba(255, 240, 150, 0.16), transparent 70%),
+                radial-gradient(320px 100px at 5% 80%, rgba(255, 200, 0, 0.10), transparent 70%),
+                linear-gradient(180deg, #1e1708 0%, #0b0803 100%);
             box-shadow:
-                0 0 0 1px rgba(200, 205, 212, 0.16),
-                0 10px 30px -18px rgba(200, 205, 212, 0.55) !important;
+                0 0 0 1px rgba(255, 200, 0, 0.18),
+                0 0 46px -14px rgba(255, 200, 0, 0.85) !important;
         }
-        .task-tier-silver::before {
-            content: ''; position: absolute; inset: 0; border-radius: inherit;
-            background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.10) 48%, transparent 62%);
-            background-size: 220% 100%;
-            background-position: 130% 0;
-            transition: background-position 0.9s ease;
-            pointer-events: none; z-index: 1;
+        .glass-card.task-tier-gold::before {
+            background: linear-gradient(115deg,
+                #ffd700 0%,
+                #b8860b 18%,
+                #ffed4e 35%,
+                #fff4b8 50%,
+                #ffed4e 65%,
+                #b8860b 82%,
+                #ffd700 100%);
+            background-size: 250% 100%;
+            padding: 2px;
+            animation: tier-shift-border 3.5s linear infinite;
         }
-        .task-tier-silver:hover::before { background-position: -30% 0; }
-        .task-tier-silver::after {
-            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, #9ca3af 15%, #f1f5f9 50%, #9ca3af 85%, transparent);
-            z-index: 2; pointer-events: none;
+        .glass-card.task-tier-gold::after {
+            content: '✦';
+            position: absolute;
+            top: 6px; right: 9px;
+            font-size: 13px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.95);
+            pointer-events: none;
+            animation: gold-sparkle 2.4s ease-in-out infinite;
         }
-        .task-tier-silver:hover {
-            transform: translateY(-2px);
-            border-color: rgba(241, 245, 249, 0.85) !important;
+        .glass-card.task-tier-gold .tier-coin-gold {
             box-shadow:
-                0 0 0 1px rgba(241, 245, 249, 0.25),
-                0 18px 40px -20px rgba(200, 205, 212, 0.85) !important;
+                0 0 12px -2px rgba(255, 215, 0, 0.55),
+                inset 0 1px 0 rgba(255, 240, 150, 0.5);
         }
 
-        /* --- GOLD --- */
-        .task-tier-gold {
-            border: 1px solid rgba(255, 215, 0, 0.62) !important;
+        /* ===== DIAMOND — crystalline ice with prismatic refraction ===== */
+        .glass-card.task-tier-diamond {
+            border-color: transparent !important;
             background:
-                radial-gradient(120% 80% at 0% 0%, rgba(255, 215, 0, 0.14), transparent 55%),
-                radial-gradient(100% 70% at 100% 100%, rgba(180, 140, 20, 0.10), transparent 55%),
-                linear-gradient(180deg, #1a1709 0%, #0d0b04 100%) !important;
+                radial-gradient(520px 220px at 15% -10%, rgba(0, 220, 255, 0.22), transparent 65%),
+                radial-gradient(520px 220px at 85% 110%, rgba(120, 200, 255, 0.20), transparent 65%),
+                radial-gradient(320px 120px at 50% 50%, rgba(165, 243, 252, 0.12), transparent 70%),
+                linear-gradient(180deg, #0a1424 0%, #03060f 100%);
             box-shadow:
-                0 0 0 1px rgba(255, 215, 0, 0.18),
-                0 10px 32px -18px rgba(255, 215, 0, 0.75) !important;
+                0 0 0 1px rgba(0, 220, 255, 0.32),
+                0 0 58px -14px rgba(0, 220, 255, 0.95),
+                inset 0 0 80px -30px rgba(120, 200, 255, 0.75) !important;
         }
-        .task-tier-gold::before {
-            content: ''; position: absolute; inset: 0; border-radius: inherit;
-            background: linear-gradient(115deg, transparent 30%, rgba(255, 235, 150, 0.16) 48%, transparent 62%);
-            background-size: 220% 100%;
-            background-position: 130% 0;
-            transition: background-position 0.9s ease;
-            pointer-events: none; z-index: 1;
+        .glass-card.task-tier-diamond::before {
+            background: linear-gradient(115deg,
+                #00d9ff 0%,
+                #a5f3fc 18%,
+                #ffffff 32%,
+                #7dd3fc 48%,
+                #ffffff 62%,
+                #a5f3fc 82%,
+                #00d9ff 100%);
+            background-size: 300% 100%;
+            padding: 2px;
+            animation: tier-shift-border 3s linear infinite;
         }
-        .task-tier-gold:hover::before { background-position: -30% 0; }
-        .task-tier-gold::after {
-            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, #f59e0b 15%, #fde68a 50%, #f59e0b 85%, transparent);
-            z-index: 2; pointer-events: none;
-        }
-        .task-tier-gold:hover {
-            transform: translateY(-2px);
-            border-color: rgba(253, 230, 138, 0.9) !important;
-            box-shadow:
-                0 0 0 1px rgba(253, 230, 138, 0.28),
-                0 18px 44px -20px rgba(255, 215, 0, 0.95) !important;
-        }
-
-        /* --- DIAMOND --- */
-        .task-tier-diamond {
-            border: 1px solid rgba(0, 217, 255, 0.68) !important;
-            background:
-                radial-gradient(120% 80% at 0% 0%, rgba(0, 217, 255, 0.14), transparent 55%),
-                radial-gradient(100% 70% at 100% 100%, rgba(99, 102, 241, 0.14), transparent 55%),
-                linear-gradient(180deg, #0a1620 0%, #070b12 100%) !important;
-            box-shadow:
-                0 0 0 1px rgba(0, 217, 255, 0.22),
-                0 0 28px -8px rgba(0, 217, 255, 0.55),
-                0 12px 36px -18px rgba(0, 217, 255, 0.80) !important;
-        }
-        .task-tier-diamond::before {
-            content: ''; position: absolute; inset: 0; border-radius: inherit;
-            background: linear-gradient(115deg, transparent 30%, rgba(200, 245, 255, 0.20) 48%, transparent 62%);
-            background-size: 220% 100%;
-            background-position: 130% 0;
-            transition: background-position 0.9s ease;
-            pointer-events: none; z-index: 1;
-        }
-        .task-tier-diamond:hover::before { background-position: -30% 0; }
-        .task-tier-diamond::after {
-            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, #22d3ee 15%, #bae6fd 50%, #22d3ee 85%, transparent);
-            z-index: 2; pointer-events: none;
-        }
-        .task-tier-diamond:hover {
-            transform: translateY(-2px);
-            border-color: rgba(186, 240, 255, 0.9) !important;
-            box-shadow:
-                0 0 0 1px rgba(186, 240, 255, 0.32),
-                0 0 44px -6px rgba(0, 217, 255, 0.75),
-                0 18px 48px -20px rgba(0, 217, 255, 1) !important;
-        }
-
-        /* --- PLATINUM / LEGENDARY --- */
-        .task-tier-platinum {
-            border: 1px solid rgba(192, 132, 252, 0.78) !important;
-            background:
-                radial-gradient(140% 90% at 0% 0%, rgba(168, 85, 247, 0.22), transparent 55%),
-                radial-gradient(120% 80% at 100% 100%, rgba(236, 72, 153, 0.16), transparent 55%),
-                linear-gradient(180deg, #170f24 0%, #0a0710 100%) !important;
-            animation: platinum-glow 3s ease-in-out infinite;
-        }
-        .task-tier-platinum::before {
-            content: ''; position: absolute; inset: 0; border-radius: inherit;
-            background: linear-gradient(115deg, transparent 28%, rgba(255, 220, 255, 0.22) 46%, transparent 60%);
-            background-size: 220% 100%;
-            background-position: 130% 0;
-            transition: background-position 0.9s ease;
-            pointer-events: none; z-index: 1;
-        }
-        .task-tier-platinum:hover::before { background-position: -30% 0; }
-        .task-tier-platinum::after {
-            content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2.5px;
-            background: linear-gradient(90deg, transparent, #a855f7 15%, #f0abfc 35%, #ec4899 50%, #f0abfc 65%, #a855f7 85%, transparent);
+        .glass-card.task-tier-diamond::after {
+            content: '';
+            position: absolute;
+            top: -1px; left: 8%; right: 8%; height: 2px;
+            background: linear-gradient(90deg,
+                transparent,
+                #00d9ff 20%,
+                #a5f3fc 40%,
+                #ffffff 50%,
+                #a5f3fc 60%,
+                #00d9ff 80%,
+                transparent);
             background-size: 200% 100%;
-            animation: legendary-shimmer 3s linear infinite;
-            z-index: 2; pointer-events: none;
+            animation: tier-sweep 2.5s linear infinite;
+            pointer-events: none;
         }
-        .task-tier-platinum:hover {
-            transform: translateY(-2px);
-            border-color: rgba(240, 171, 252, 0.95) !important;
+        .glass-card.task-tier-diamond .tier-coin-diamond {
+            box-shadow:
+                0 0 16px -2px rgba(0, 217, 255, 0.7),
+                inset 0 1px 0 rgba(200, 245, 255, 0.55);
         }
-        @keyframes legendary-shimmer {
-            0% { background-position: 200% 0; }
+
+        /* ===== LEGENDARY — holographic platinum with crown ===== */
+        .glass-card.task-tier-platinum {
+            border-color: transparent !important;
+            background:
+                radial-gradient(600px 280px at 50% -20%, rgba(236, 72, 153, 0.28), transparent 65%),
+                radial-gradient(420px 200px at 15% 100%, rgba(168, 85, 247, 0.22), transparent 60%),
+                radial-gradient(320px 120px at 90% 25%, rgba(251, 191, 36, 0.16), transparent 70%),
+                linear-gradient(180deg, #1e1029 0%, #06040c 100%);
+            animation: platinum-aura 3s ease-in-out infinite;
+        }
+        .glass-card.task-tier-platinum::before {
+            background: linear-gradient(115deg,
+                #a855f7 0%,
+                #ec4899 18%,
+                #fbbf24 36%,
+                #ec4899 54%,
+                #a855f7 72%,
+                #ec4899 90%,
+                #fbbf24 100%);
+            background-size: 300% 100%;
+            padding: 2.5px;
+            animation: tier-shift-border 3s linear infinite;
+        }
+        .glass-card.task-tier-platinum::after {
+            content: '👑';
+            position: absolute;
+            top: 4px; right: 8px;
+            font-size: 15px;
+            filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.95));
+            animation: legend-crown 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .glass-card.task-tier-platinum .tier-coin-platinum {
+            box-shadow:
+                0 0 20px -2px rgba(236, 72, 153, 0.85),
+                inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        }
+
+        @keyframes tier-shift-border {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes tier-sweep {
+            0%   { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-        @keyframes platinum-glow {
+        @keyframes platinum-aura {
             0%, 100% {
                 box-shadow:
-                    0 0 0 1px rgba(192, 132, 252, 0.32),
-                    0 0 34px -8px rgba(168, 85, 247, 0.75),
-                    0 14px 40px -20px rgba(236, 72, 153, 0.70);
+                    0 0 0 1px rgba(168, 85, 247, 0.42),
+                    0 0 60px -10px rgba(168, 85, 247, 0.75);
             }
             50% {
                 box-shadow:
-                    0 0 0 2px rgba(192, 132, 252, 0.50),
-                    0 0 52px -6px rgba(168, 85, 247, 0.95),
-                    0 14px 46px -20px rgba(236, 72, 153, 0.90);
+                    0 0 0 2px rgba(236, 72, 153, 0.58),
+                    0 0 90px -10px rgba(236, 72, 153, 1);
             }
         }
+        @keyframes gold-sparkle {
+            0%, 100% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+            50%      { opacity: 1;   transform: scale(1.35) rotate(180deg); }
+        }
+        @keyframes legend-crown {
+            0%, 100% { transform: scale(1) rotate(-6deg); }
+            50%      { transform: scale(1.18) rotate(6deg); }
+        }
 
-        /* ===== TIER ICON BOX ===== */
-        .tier-icon-box { transition: background 0.2s ease, border-color 0.2s ease; }
-        .task-tier-bronze  .tier-icon-box { background: rgba(205, 127, 50, 0.10) !important; border-color: rgba(205, 127, 50, 0.35) !important; }
-        .task-tier-silver  .tier-icon-box { background: rgba(220, 222, 228, 0.08) !important; border-color: rgba(200, 205, 212, 0.35) !important; }
-        .task-tier-gold    .tier-icon-box { background: rgba(255, 215, 0, 0.10) !important; border-color: rgba(255, 215, 0, 0.38) !important; }
-        .task-tier-diamond .tier-icon-box { background: rgba(0, 217, 255, 0.10) !important; border-color: rgba(0, 217, 255, 0.40) !important; }
-        .task-tier-platinum .tier-icon-box { background: rgba(168, 85, 247, 0.15) !important; border-color: rgba(192, 132, 252, 0.45) !important; }
+        /* Progressive hover lifts */
+        .glass-card.task-tier-bronze:hover { transform: translateY(-1px); }
+        .glass-card.task-tier-silver:hover { transform: translateY(-1px); }
+        .glass-card.task-tier-gold:hover   { transform: translateY(-2px); }
+        .glass-card.task-tier-diamond:hover{ transform: translateY(-2px); }
+        .glass-card.task-tier-platinum:hover{transform: translateY(-3px); }
+
+        /* ===== TIER LABEL PILLS ===== */
+        .tier-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 0.14em;
+            padding: 2px 7px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            line-height: 1.1;
+        }
+        .tier-label-bronze {
+            color: #e8a866;
+            background: linear-gradient(180deg, rgba(205, 127, 50, 0.20), rgba(139, 90, 43, 0.08));
+            border-color: rgba(205, 127, 50, 0.45);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+        }
+        .tier-label-silver {
+            color: #e2e2ea;
+            background: linear-gradient(180deg, rgba(220, 220, 235, 0.20), rgba(160, 160, 185, 0.08));
+            border-color: rgba(220, 220, 235, 0.45);
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+        }
+        .tier-label-gold {
+            color: #ffd700;
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.24), rgba(184, 134, 11, 0.10));
+            border-color: rgba(255, 215, 0, 0.55);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+        .tier-label-diamond {
+            color: #00d9ff;
+            background: linear-gradient(180deg, rgba(0, 217, 255, 0.24), rgba(120, 200, 255, 0.10));
+            border-color: rgba(0, 217, 255, 0.60);
+            text-shadow: 0 0 10px rgba(0, 217, 255, 0.75);
+        }
+        .tier-label-platinum {
+            color: #fff;
+            background: linear-gradient(115deg, #a855f7 0%, #ec4899 50%, #fbbf24 100%);
+            background-size: 200% auto;
+            border-color: rgba(255, 255, 255, 0.55);
+            animation: tier-shift-border 3s linear infinite;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.75);
+            box-shadow: 0 0 14px rgba(236, 72, 153, 0.55);
+        }
 
         /* ===== TIER COIN BADGES ===== */
         .tier-coin-bronze {
-            color: #f0b27a;
-            background: linear-gradient(180deg, rgba(205,127,50,0.25), rgba(120,72,32,0.14));
-            border-color: rgba(205,127,50,0.60);
-            box-shadow: inset 0 1px 0 rgba(255, 220, 180, 0.18);
+            color: #e8a866;
+            background: linear-gradient(180deg, rgba(205, 127, 50, 0.20), rgba(139, 90, 43, 0.08));
+            border-color: rgba(205, 127, 50, 0.55);
         }
         .tier-coin-silver {
-            color: #f8fafc;
-            background: linear-gradient(180deg, rgba(220,222,228,0.25), rgba(140,145,155,0.14));
-            border-color: rgba(200,205,212,0.65);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.30);
+            color: #e2e2ea;
+            background: linear-gradient(180deg, rgba(220, 220, 235, 0.18), rgba(160, 160, 185, 0.08));
+            border-color: rgba(220, 220, 235, 0.55);
         }
         .tier-coin-gold {
-            color: #fef3c7;
-            background: linear-gradient(180deg, rgba(255,215,0,0.25), rgba(180,140,20,0.14));
-            border-color: rgba(255,215,0,0.70);
-            box-shadow: 0 0 12px -4px rgba(255,215,0,0.65), inset 0 1px 0 rgba(255,240,180,0.30);
+            color: #ffd700;
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.20), rgba(184, 134, 11, 0.10));
+            border-color: rgba(255, 215, 0, 0.60);
+            text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
         }
         .tier-coin-diamond {
-            color: #d6f6ff;
-            background: linear-gradient(180deg, rgba(0,217,255,0.26), rgba(14,116,144,0.14));
-            border-color: rgba(0,217,255,0.70);
-            box-shadow: 0 0 14px -4px rgba(0,217,255,0.75), inset 0 1px 0 rgba(200,250,255,0.30);
+            color: #00d9ff;
+            background: linear-gradient(180deg, rgba(0, 217, 255, 0.20), rgba(120, 200, 255, 0.10));
+            border-color: rgba(0, 217, 255, 0.60);
+            text-shadow: 0 0 6px rgba(0, 217, 255, 0.55);
         }
         .tier-coin-platinum {
-            color: #fbe9ff;
-            background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(236,72,153,0.25));
-            border-color: rgba(192,132,252,0.80);
-            box-shadow: 0 0 16px -4px rgba(168,85,247,0.85), inset 0 1px 0 rgba(255,220,255,0.30);
-        }
-
-        /* ===== TIER LABEL BADGES ===== */
-        .tier-label { letter-spacing: 0.12em; }
-        .tier-label-bronze {
-            color: #f0b27a;
-            background: linear-gradient(135deg, rgba(205,127,50,0.32), rgba(120,72,32,0.18));
-            border: 1px solid rgba(205,127,50,0.55);
-        }
-        .tier-label-silver {
-            color: #f8fafc;
-            background: linear-gradient(135deg, rgba(220,222,228,0.30), rgba(140,145,155,0.16));
-            border: 1px solid rgba(200,205,212,0.55);
-        }
-        .tier-label-gold {
-            color: #fef3c7;
-            background: linear-gradient(135deg, rgba(255,215,0,0.32), rgba(180,140,20,0.18));
-            border: 1px solid rgba(255,215,0,0.60);
-            box-shadow: 0 0 10px -3px rgba(255,215,0,0.60);
-        }
-        .tier-label-diamond {
-            color: #e0f7ff;
-            background: linear-gradient(135deg, rgba(0,217,255,0.32), rgba(99,102,241,0.20));
-            border: 1px solid rgba(0,217,255,0.70);
-            box-shadow: 0 0 14px -3px rgba(0,217,255,0.80);
-        }
-        .tier-label-platinum {
-            color: #ffffff;
-            background: linear-gradient(135deg, #a855f7, #ec4899);
-            border: 1px solid rgba(240,171,252,0.75);
-            box-shadow: 0 0 14px rgba(168,85,247,0.75), inset 0 1px 0 rgba(255,255,255,0.25);
+            color: #fff;
+            background: linear-gradient(115deg, #a855f7 0%, #ec4899 50%, #fbbf24 100%);
+            background-size: 200% auto;
+            border-color: rgba(255, 255, 255, 0.50);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.55);
+            animation: tier-shift-border 3s linear infinite;
         }
 
         .task-locked { position: relative; pointer-events: none; }
@@ -437,7 +496,7 @@
         }
         @keyframes bar-scroll {
             0% { background-position: 200% 0; }
-            -100% { background-position: -200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         .wheel-wrap { position: relative; width: 176px; height: 176px; flex-shrink: 0; }
@@ -1058,11 +1117,10 @@
 </head>
 <body class="text-gray-100 antialiased custom-scrollbar" x-data="appState()">
 
-    <!-- ===== ENTRY GATE / START SCREEN ===== -->
+    <!-- ENTRY GATE -->
     <div x-show="!gatePassed" class="entry-gate custom-scrollbar">
         <div class="min-h-full flex items-center justify-center px-4 py-10 sm:py-14">
             <div class="w-full max-w-3xl relative">
-
                 <div class="flex flex-col items-center text-center mb-8">
                     <div class="brand-mark" style="width:3.25rem;height:3.25rem;border-radius:1rem;">
                         <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -1080,7 +1138,6 @@
                 </div>
 
                 <div x-show="gateView === 'choose'" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                     <button @click="gateView = 'android'" class="gate-card">
                         <div class="gate-icons">
                             <div class="gate-icon android" title="Android">
@@ -1116,18 +1173,15 @@
                         <p>No iOS app yet — use the full RobuxPrize web app right in your browser.</p>
                         <span class="gate-cta">Open Web App <span aria-hidden="true">→</span></span>
                     </button>
-
                 </div>
 
                 <div x-show="gateView === 'android'" x-cloak class="gate-panel">
-
                     <button @click="gateView = 'choose'" class="btn-ghost text-[11px] font-bold px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 mb-5">
                         <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back
                     </button>
-
                     <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
                         <div class="gate-icons" style="margin-bottom:0;">
-                            <div class="gate-icon android" title="Android">
+                            <div class="gate-icon android">
                                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                     <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4483-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4483.9993.9993 0 .5511-.4483.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.2439 13.8533 7.8508 12 7.8508s-3.5902.3931-5.1367 1.0989L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3435-4.1021-2.6892-7.5743-6.1185-9.4396"/>
                                 </svg>
@@ -1135,46 +1189,32 @@
                         </div>
                         <div class="min-w-0">
                             <h3 class="text-lg font-black text-white tracking-tight">Get the RobuxPrize App</h3>
-                            <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">
-                                The Android app is live on Google Play. Install it, log in with the same account and your coins, streaks and tasks stay synced.
-                            </p>
+                            <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">The Android app is live on Google Play. Install it, log in with the same account and your coins, streaks and tasks stay synced.</p>
                         </div>
                     </div>
-
                     <div class="mt-6 rounded-xl border border-white/10 bg-black/40 p-3">
                         <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500 mb-1.5">Download Link</p>
                         <div class="copy-link-box">
                             <span class="link-text">https://play.google.com/store/apps/details?id=silly.prize&amp;hl=en</span>
-                            <button @click="copyPlayStoreLink()" class="copy-btn">
-                                <i data-lucide="copy" class="w-3 h-3 inline-block mr-1"></i> Copy
-                            </button>
+                            <button @click="copyPlayStoreLink()" class="copy-btn"><i data-lucide="copy" class="w-3 h-3 inline-block mr-1"></i> Copy</button>
                         </div>
                     </div>
-
-                    <a href="https://play.google.com/store/apps/details?id=silly.prize&hl=en"
-                       target="_blank" rel="noopener noreferrer"
-                       class="btn-play-store w-full mt-4 text-sm py-3.5 rounded-xl flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                            <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.7 12l1.998-2.491zM5.864 2.658L16.802 8.99l-2.303 2.303-8.635-8.635z"/>
-                        </svg>
+                    <a href="https://play.google.com/store/apps/details?id=silly.prize&hl=en" target="_blank" rel="noopener noreferrer" class="btn-play-store w-full mt-4 text-sm py-3.5 rounded-xl flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 0 1-.61-.92V2.734a1 1 0 0 1 .609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 0 1 0 1.73l-2.808 1.626L15.7 12l1.998-2.491zM5.864 2.658L16.802 8.99l-2.303 2.303-8.635-8.635z"/></svg>
                         Get RobuxPrize on Google Play
                     </a>
-
                     <div class="mt-4 pt-4 border-t border-white/5 text-center">
                         <p class="text-[11px] text-zinc-500">Already installed, or can't install right now?</p>
-                        <button @click="enterSite()" class="btn-ghost mt-2 text-[11px] font-bold px-4 py-2 rounded-lg inline-flex items-center gap-1.5">
-                            <i data-lucide="globe" class="w-3.5 h-3.5"></i> Continue in browser instead
-                        </button>
+                        <button @click="enterSite()" class="btn-ghost mt-2 text-[11px] font-bold px-4 py-2 rounded-lg inline-flex items-center gap-1.5"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Continue in browser instead</button>
                     </div>
                 </div>
 
-                <p class="text-center text-[10px] text-zinc-600 mt-7 leading-relaxed max-w-md mx-auto">
-                    By continuing you agree to complete every task honestly. Skipping tasks may result in rejected payouts.
-                </p>
+                <p class="text-center text-[10px] text-zinc-600 mt-7 leading-relaxed max-w-md mx-auto">By continuing you agree to complete every task honestly. Skipping tasks may result in rejected payouts.</p>
             </div>
         </div>
     </div>
 
+    <!-- TOP NAV -->
     <nav class="sticky top-0 z-50 top-nav px-4 py-3 lg:px-8">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2.5 cursor-pointer select-none" @click="currentTab = 'dashboard'">
@@ -1207,31 +1247,18 @@
             <aside class="hidden lg:block space-y-3">
                 <div class="glass-card p-4 space-y-1.5">
                     <p class="text-[10px] font-bold text-zinc-500 px-3 uppercase tracking-[0.15em] mb-3">Navigation</p>
-                    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm">
-                        <i data-lucide="layout-dashboard" class="w-[18px] h-[18px]"></i> Dashboard
-                    </button>
-                    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm">
-                        <i data-lucide="clipboard-list" class="w-[18px] h-[18px]"></i> Tasks
-                    </button>
-                    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm">
-                        <i data-lucide="coins" class="w-[18px] h-[18px]"></i> Convert & Withdraw
-                    </button>
-                    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm">
-                        <i data-lucide="users" class="w-[18px] h-[18px]"></i> Invite & Promos
-                    </button>
-                    <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm">
-                        <i data-lucide="user" class="w-[18px] h-[18px]"></i> Profile & Account
-                    </button>
+                    <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm"><i data-lucide="layout-dashboard" class="w-[18px] h-[18px]"></i> Dashboard</button>
+                    <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm"><i data-lucide="clipboard-list" class="w-[18px] h-[18px]"></i> Tasks</button>
+                    <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm"><i data-lucide="coins" class="w-[18px] h-[18px]"></i> Convert & Withdraw</button>
+                    <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm"><i data-lucide="users" class="w-[18px] h-[18px]"></i> Invite & Promos</button>
+                    <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm"><i data-lucide="user" class="w-[18px] h-[18px]"></i> Profile & Account</button>
                     <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm relative">
                         <i data-lucide="shield-alert" class="w-[18px] h-[18px]"></i> Platform Rules
                         <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
                     </button>
                 </div>
-
                 <div class="glass-card p-5 text-center">
-                    <div class="w-10 h-10 mx-auto mb-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
-                    </div>
+                    <div class="w-10 h-10 mx-auto mb-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center"><i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i></div>
                     <h4 class="text-sm font-bold text-white">System Secure</h4>
                     <p class="text-[11px] text-zinc-500 mt-1.5 leading-relaxed">VPN detection active. Play honest, get paid instantly.</p>
                 </div>
@@ -1239,9 +1266,8 @@
 
             <section class="lg:col-span-3 min-h-[60vh]">
 
-                <!-- ===== DASHBOARD ===== -->
+                <!-- DASHBOARD -->
                 <div x-show="currentTab === 'dashboard'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
-
                     <div class="hero-card p-6 sm:p-8">
                         <div class="max-w-lg space-y-3.5 relative z-10">
                             <span class="inline-flex items-center gap-2 bg-red-500/10 text-red-300 border border-red-500/25 text-[11px] font-bold uppercase tracking-[0.12em] px-3 py-1.5 rounded-full">
@@ -1250,59 +1276,41 @@
                             </span>
                             <h2 class="text-2xl sm:text-4xl font-black tracking-tight text-white leading-[1.1]">Turn simple micro-tasks into clean Robux.</h2>
                             <p class="text-zinc-400 text-sm leading-relaxed">Complete verified offers, install applications, register securely, or join premium social hubs to bag coins instantly.</p>
-                            <button @click="currentTab = 'tasks'" class="btn-primary mt-1 text-sm px-5 py-2.5 rounded-xl inline-flex items-center gap-2">
-                                Start Earning Now <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </button>
+                            <button @click="currentTab = 'tasks'" class="btn-primary mt-1 text-sm px-5 py-2.5 rounded-xl inline-flex items-center gap-2">Start Earning Now <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         <div class="lg:col-span-2 grid grid-cols-2 gap-4">
                             <div class="stat-card">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="stat-label">Your Balance</span>
-                                    <i data-lucide="wallet" class="w-4 h-4 text-red-400"></i>
-                                </div>
+                                <div class="flex items-center justify-between mb-1"><span class="stat-label">Your Balance</span><i data-lucide="wallet" class="w-4 h-4 text-red-400"></i></div>
                                 <p class="stat-value" x-text="tokens"></p>
                                 <span class="text-[11px] text-zinc-500 font-medium flex items-center gap-1">Coins Available <i data-lucide="coins" class="w-3 h-3 text-amber-400"></i></span>
                             </div>
                             <div class="stat-card">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="stat-label">Level</span>
-                                    <i data-lucide="trending-up" class="w-4 h-4 text-amber-400"></i>
-                                </div>
+                                <div class="flex items-center justify-between mb-1"><span class="stat-label">Level</span><i data-lucide="trending-up" class="w-4 h-4 text-amber-400"></i></div>
                                 <p class="stat-value" x-text="'Lv.' + userLevel"></p>
                                 <span class="text-[11px] text-zinc-500 font-medium" x-text="'Total: ' + totalTokensEarned + ' coins'"></span>
-                                <div class="mt-2.5 level-progress-bar">
-                                    <div class="level-progress-fill" :style="'width: ' + levelProgress + '%'"></div>
-                                </div>
+                                <div class="mt-2.5 level-progress-bar"><div class="level-progress-fill" :style="'width: ' + levelProgress + '%'"></div></div>
                             </div>
                             <div class="stat-card col-span-2">
-                                <div class="flex items-center justify-between mb-1">
-                                    <span class="stat-label">Completed Tasks</span>
-                                    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-                                </div>
+                                <div class="flex items-center justify-between mb-1"><span class="stat-label">Completed Tasks</span><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i></div>
                                 <div class="flex items-baseline gap-2">
                                     <p class="stat-value" x-text="completedTasksCount"></p>
                                     <span class="text-[11px] text-zinc-500 font-medium" x-text="'≈ ' + (completedTasksCount * 10) + ' Robux Earned'"></span>
                                 </div>
                             </div>
                         </div>
-
                         <div class="glass-card p-4 flex flex-col">
                             <div class="flex items-center justify-between border-b border-white/5 pb-2.5 mb-2">
-                                <h4 class="text-[11px] font-bold text-zinc-300 uppercase tracking-[0.12em] flex items-center gap-1.5">
-                                    <span>🏆</span> Top Payouts
-                                </h4>
+                                <h4 class="text-[11px] font-bold text-zinc-300 uppercase tracking-[0.12em] flex items-center gap-1.5"><span>🏆</span> Top Payouts</h4>
                             </div>
                             <div class="leaderboard-scroll flex-1 space-y-1 pr-1">
                                 <template x-for="(user, idx) in leaderboardUsers" :key="user.id">
                                     <div class="leaderboard-item flex items-center gap-2 px-1.5 py-1.5 rounded-lg text-xs">
                                         <span class="w-5 text-center text-[11px] leading-none flex-shrink-0" x-text="rankBadge(idx)"></span>
                                         <span class="mono text-zinc-300 tracking-tight text-[11px]" x-text="user.id"></span>
-                                        <span class="ml-auto mono font-bold whitespace-nowrap text-[11px]"
-                                              :class="idx === 0 ? 'text-amber-400' : (idx < 3 ? 'text-zinc-200' : 'text-emerald-400')"
-                                              x-text="user.amount.toLocaleString()"></span>
+                                        <span class="ml-auto mono font-bold whitespace-nowrap text-[11px]" :class="idx === 0 ? 'text-amber-400' : (idx < 3 ? 'text-zinc-200' : 'text-emerald-400')" x-text="user.amount.toLocaleString()"></span>
                                     </div>
                                 </template>
                             </div>
@@ -1316,19 +1324,11 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="chart-container">
-                            <div class="chart-title">
-                                <i data-lucide="line-chart" class="text-emerald-400"></i>
-                                Coin Earnings
-                                <span class="ml-auto text-[10px] mono text-zinc-600" x-text="totalTokensEarned + ' coins total'"></span>
-                            </div>
+                            <div class="chart-title"><i data-lucide="line-chart" class="text-emerald-400"></i> Coin Earnings <span class="ml-auto text-[10px] mono text-zinc-600" x-text="totalTokensEarned + ' coins total'"></span></div>
                             <canvas id="tokenChart" width="400" height="160"></canvas>
                         </div>
                         <div class="chart-container">
-                            <div class="chart-title">
-                                <i data-lucide="bar-chart-2" class="text-red-400"></i>
-                                Task Completion
-                                <span class="ml-auto text-[10px] mono text-zinc-600" x-text="completedTasksCount + ' / 30'"></span>
-                            </div>
+                            <div class="chart-title"><i data-lucide="bar-chart-2" class="text-red-400"></i> Task Completion <span class="ml-auto text-[10px] mono text-zinc-600" x-text="completedTasksCount + ' / 30'"></span></div>
                             <canvas id="tasksChart" width="400" height="160"></canvas>
                         </div>
                     </div>
@@ -1350,12 +1350,8 @@
                                             'border-emerald-500/30 bg-emerald-500/[0.07]': index + 1 < currentStreak
                                         }" class="border p-2 rounded-xl text-center flex flex-col items-center justify-center min-h-[62px] transition">
                                             <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-wider" x-text="'D' + (index + 1)"></span>
-                                            <template x-if="index + 1 < currentStreak">
-                                                <i data-lucide="check" class="w-3.5 h-3.5 mt-1 text-emerald-400"></i>
-                                            </template>
-                                            <template x-if="index + 1 >= currentStreak">
-                                                <span class="text-xs font-black mt-1 text-white mono" x-text="'+' + reward"></span>
-                                            </template>
+                                            <template x-if="index + 1 < currentStreak"><i data-lucide="check" class="w-3.5 h-3.5 mt-1 text-emerald-400"></i></template>
+                                            <template x-if="index + 1 >= currentStreak"><span class="text-xs font-black mt-1 text-white mono" x-text="'+' + reward"></span></template>
                                         </div>
                                     </template>
                                 </div>
@@ -1375,9 +1371,7 @@
 
                         <div class="glass-card p-6 flex flex-col justify-between">
                             <div class="flex items-center justify-between gap-2">
-                                <span x-show="isFirstSpin" class="bg-gradient-to-r from-amber-500/20 to-red-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full inline-flex items-center gap-1">
-                                    <i data-lucide="sparkles" class="w-3 h-3"></i> Free Spin
-                                </span>
+                                <span x-show="isFirstSpin" class="bg-gradient-to-r from-amber-500/20 to-red-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full inline-flex items-center gap-1"><i data-lucide="sparkles" class="w-3 h-3"></i> Free Spin</span>
                                 <span x-show="!isFirstSpin" class="bg-red-500/10 text-red-300 border border-red-500/25 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full inline-flex items-center gap-1">Cost: 5 <i data-lucide="coins" class="w-3 h-3 text-amber-400"></i></span>
                                 <span class="text-xs text-zinc-400 mono">Win up to 120</span>
                             </div>
@@ -1387,13 +1381,7 @@
                                     <div class="wheel-ring"></div>
                                     <div class="wheel-pointer">
                                         <svg viewBox="0 0 30 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <defs>
-                                                <linearGradient id="ptrGrad" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="0%" stop-color="#fde68a"/>
-                                                    <stop offset="50%" stop-color="#fbbf24"/>
-                                                    <stop offset="100%" stop-color="#b45309"/>
-                                                </linearGradient>
-                                            </defs>
+                                            <defs><linearGradient id="ptrGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde68a"/><stop offset="50%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#b45309"/></linearGradient></defs>
                                             <path d="M15 34 L2 8 Q15 -4 28 8 Z" fill="url(#ptrGrad)" stroke="#78350f" stroke-width="1"/>
                                         </svg>
                                     </div>
@@ -1412,20 +1400,9 @@
                                 <div class="text-center sm:text-left space-y-2.5 flex-1">
                                     <h4 class="text-sm font-bold text-white">Wheel of Fortune</h4>
                                     <p class="text-xs text-zinc-400 leading-relaxed">Win <strong class="text-amber-400">20</strong>, <strong class="text-red-300">30</strong>, <strong class="text-emerald-400">60</strong> or the rare <strong class="text-amber-300">120</strong>!</p>
-                                    <button x-show="isFirstSpin && !isSpinning" @click="spinWheel()" class="btn-free-spin w-full text-sm px-5 py-3 rounded-xl flex items-center justify-center gap-2">
-                                        <i data-lucide="sparkles" class="w-4 h-4"></i>
-                                        <span>🎁 Claim Free Spin</span>
-                                    </button>
-                                    <button x-show="!isFirstSpin && !isSpinning && spinCooldownUntil <= Date.now()" @click="spinWheel()"
-                                        :disabled="tokens < 5"
-                                        class="btn-primary w-full text-xs px-5 py-2.5 rounded-xl font-bold inline-flex items-center justify-center gap-1">
-                                        Spin (5 <i data-lucide="coins" class="w-3 h-3 text-amber-300"></i>)
-                                    </button>
-                                    <button x-show="spinCooldownUntil > Date.now() && !isSpinning" @click="spinWheel()"
-                                        class="btn-try-again w-full text-xs px-5 py-2.5 rounded-xl font-bold inline-flex items-center justify-center gap-1.5">
-                                        <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
-                                        Try Again in <span x-text="spinCooldownDisplay"></span>
-                                    </button>
+                                    <button x-show="isFirstSpin && !isSpinning" @click="spinWheel()" class="btn-free-spin w-full text-sm px-5 py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="sparkles" class="w-4 h-4"></i><span>🎁 Claim Free Spin</span></button>
+                                    <button x-show="!isFirstSpin && !isSpinning && spinCooldownUntil <= Date.now()" @click="spinWheel()" :disabled="tokens < 5" class="btn-primary w-full text-xs px-5 py-2.5 rounded-xl font-bold inline-flex items-center justify-center gap-1">Spin (5 <i data-lucide="coins" class="w-3 h-3 text-amber-300"></i>)</button>
+                                    <button x-show="spinCooldownUntil > Date.now() && !isSpinning" @click="spinWheel()" class="btn-try-again w-full text-xs px-5 py-2.5 rounded-xl font-bold inline-flex items-center justify-center gap-1.5"><i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i> Try Again in <span x-text="spinCooldownDisplay"></span></button>
                                     <button x-show="isSpinning" disabled class="btn-primary opacity-60 w-full text-xs px-5 py-2.5 rounded-xl font-bold inline-flex items-center justify-center gap-2">
                                         <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
                                         Spinning...
@@ -1436,7 +1413,7 @@
                     </div>
                 </div>
 
-                <!-- ===== TASKS ===== -->
+                <!-- TASKS -->
                 <div x-show="currentTab === 'tasks'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div class="flex justify-between items-center flex-wrap gap-3">
                         <div>
@@ -1444,14 +1421,8 @@
                             <p class="text-zinc-500 text-xs mt-1">Complete a task, then confirm honestly to earn coins. One task at a time.</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <span x-show="offerStatus === 'live'" class="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full">
-                                <span class="live-dot"></span>
-                                <span x-text="liveOfferCount + ' live offers'"></span>
-                            </span>
-                            <button @click="refreshOffers()" :disabled="offerStatus === 'loading'" class="btn-ghost text-[11px] px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold">
-                                <i data-lucide="refresh-cw" class="w-3 h-3" :class="offerStatus === 'loading' ? 'animate-spin' : ''"></i>
-                                Refresh
-                            </button>
+                            <span x-show="offerStatus === 'live'" class="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full"><span class="live-dot"></span><span x-text="liveOfferCount + ' live offers'"></span></span>
+                            <button @click="refreshOffers()" :disabled="offerStatus === 'loading'" class="btn-ghost text-[11px] px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold"><i data-lucide="refresh-cw" class="w-3 h-3" :class="offerStatus === 'loading' ? 'animate-spin' : ''"></i> Refresh</button>
                         </div>
                     </div>
 
@@ -1459,25 +1430,14 @@
                         <div class="th-glow"></div>
                         <div class="th-content">
                             <div class="th-left">
-                                <span class="th-badge">
-                                    <span class="th-live"></span>
-                                    TASK CENTER
-                                </span>
-                                <h2 class="th-title">
-                                    Complete Tasks <span class="th-arr">→</span> Earn Tokens <span class="th-arr">→</span> Unlock Rewards
-                                </h2>
+                                <span class="th-badge"><span class="th-live"></span> TASK CENTER</span>
+                                <h2 class="th-title">Complete Tasks <span class="th-arr">→</span> Earn Tokens <span class="th-arr">→</span> Unlock Rewards</h2>
                                 <p class="th-sub">Verified offers and social tasks with one-time rewards, credited instantly to your balance.</p>
                             </div>
                             <div class="th-icons">
-                                <div class="th-icon th-tiktok" title="TikTok">
-                                    <svg viewBox="0 0 24 24" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-                                </div>
-                                <div class="th-icon th-telegram" title="Telegram">
-                                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg>
-                                </div>
-                                <div class="th-icon th-youtube" title="YouTube">
-                                    <svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg>
-                                </div>
+                                <div class="th-icon th-tiktok" title="TikTok"><svg viewBox="0 0 24 24" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></div>
+                                <div class="th-icon th-telegram" title="Telegram"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg></div>
+                                <div class="th-icon th-youtube" title="YouTube"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg></div>
                             </div>
                         </div>
                     </div>
@@ -1506,9 +1466,7 @@
                         <i data-lucide="wifi-off" class="w-8 h-8 text-red-400 mx-auto mb-2"></i>
                         <h3 class="text-white font-bold text-base">Live offer network unreachable</h3>
                         <p class="text-zinc-400 text-xs mt-1.5 max-w-md mx-auto">Social tasks below are still available. Please check your connection and refresh for more offers.</p>
-                        <button @click="refreshOffers()" class="btn-primary text-xs px-5 py-2.5 rounded-xl mt-3 inline-flex items-center gap-2">
-                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Try Again
-                        </button>
+                        <button @click="refreshOffers()" class="btn-primary text-xs px-5 py-2.5 rounded-xl mt-3 inline-flex items-center gap-2"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Try Again</button>
                     </div>
 
                     <div x-show="offerStatus === 'empty'" class="offer-state-box" style="padding: 1.35rem 1rem;">
@@ -1540,44 +1498,32 @@
 
                                 <div>
                                     <div class="flex justify-between items-start gap-2 mb-3">
-                                        <div class="tier-icon-box bg-white/[0.03] p-3.5 rounded-2xl text-zinc-200 border border-white/10 overflow-hidden flex items-center justify-center w-16 h-16 flex-shrink-0">
-                                            <template x-if="task.brand === 'tiktok'">
-                                                <svg viewBox="0 0 24 24" class="w-9 h-9" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-                                            </template>
-                                            <template x-if="task.brand === 'telegram'">
-                                                <svg viewBox="0 0 24 24" class="w-9 h-9"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg>
-                                            </template>
-                                            <template x-if="task.brand === 'youtube'">
-                                                <svg viewBox="0 0 24 24" class="w-9 h-9"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg>
-                                            </template>
-                                            <template x-if="task.iconUrl && !task.brand">
-                                                <img :src="task.iconUrl" alt="" class="w-9 h-9 object-contain rounded-lg" @error="$event.target.style.display='none'">
-                                            </template>
-                                            <template x-if="!task.iconUrl && !task.brand">
-                                                <i :data-lucide="task.icon" class="w-9 h-9 text-red-400"></i>
-                                            </template>
+                                        <div class="bg-white/[0.03] p-3.5 rounded-2xl text-zinc-200 border border-white/10 overflow-hidden flex items-center justify-center w-16 h-16 flex-shrink-0">
+                                            <template x-if="task.brand === 'tiktok'"><svg viewBox="0 0 24 24" class="w-9 h-9" fill="#ffffff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></template>
+                                            <template x-if="task.brand === 'telegram'"><svg viewBox="0 0 24 24" class="w-9 h-9"><circle cx="12" cy="12" r="12" fill="#26A5E4"/><path fill="#fff" d="M18.13 7.13l-2.16 10.2c-.16.72-.59.9-1.19.56l-3.3-2.43-1.59 1.53c-.18.18-.33.33-.67.33l.24-3.35 6.13-5.54c.27-.24-.06-.37-.41-.13l-7.58 4.78-3.27-1.02c-.71-.22-.72-.71.15-1.05l12.77-4.93c.59-.22 1.11.13.88 1.05z"/></svg></template>
+                                            <template x-if="task.brand === 'youtube'"><svg viewBox="0 0 24 24" class="w-9 h-9"><rect width="24" height="24" rx="6" fill="#FF0000"/><path fill="#fff" d="M9.5 7.5v9l8-4.5z"/></svg></template>
+                                            <template x-if="task.iconUrl && !task.brand"><img :src="task.iconUrl" alt="" class="w-9 h-9 object-contain rounded-lg" @error="$event.target.style.display='none'"></template>
+                                            <template x-if="!task.iconUrl && !task.brand"><i :data-lucide="task.icon" class="w-9 h-9 text-red-400"></i></template>
                                         </div>
 
                                         <div class="flex flex-col items-end gap-1">
                                             <template x-if="!task.noReward">
                                                 <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg border mono flex items-center gap-1"
-                                                      :class="task.tier
-                                                          ? 'tier-coin-' + task.tier
-                                                          : 'text-amber-300 bg-amber-500/10 border-amber-500/25'">
+                                                      :class="task.tier ? 'tier-coin-' + task.tier : 'text-amber-300 bg-amber-500/10 border-amber-500/25'">
                                                     +<span x-text="task.reward"></span>
                                                     <i data-lucide="coins" class="w-3.5 h-3.5"></i>
                                                 </span>
                                             </template>
                                             <template x-if="task.noReward">
                                                 <span class="text-[11px] font-bold text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-lg border border-sky-500/25 mono flex items-center gap-1">
-                                                    <i data-lucide="external-link" class="w-3 h-3"></i>
-                                                    External
+                                                    <i data-lucide="external-link" class="w-3 h-3"></i> External
                                                 </span>
                                             </template>
                                             <template x-if="task.tier && task.isApiOffer">
-                                                <span class="text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded tier-label"
-                                                      :class="'tier-label-' + task.tier"
-                                                      x-text="tierLabel(task.tier)"></span>
+                                                <span class="tier-label" :class="'tier-label-' + task.tier">
+                                                    <span x-text="tierIcon(task.tier)" style="font-size: 9px; line-height: 1;"></span>
+                                                    <span x-text="tierLabel(task.tier)"></span>
+                                                </span>
                                             </template>
                                         </div>
                                     </div>
@@ -1602,10 +1548,7 @@
 
                                     <template x-if="task.status === 'in_progress'">
                                         <div class="mt-2.5 flex items-center gap-2 text-xs text-blue-300 font-medium">
-                                            <svg class="animate-spin h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                                            </svg>
+                                            <svg class="animate-spin h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
                                             <span x-text="task.isSocial ? 'In Progress — complete the task on its page' : 'In Progress — complete the offer on its page'"></span>
                                         </div>
                                     </template>
@@ -1618,9 +1561,7 @@
                                     </template>
 
                                     <template x-if="task.isRepeatable && task.status === 'completed' && task.cooldownUntil && task.cooldownUntil > Date.now()">
-                                        <div class="mt-2.5 text-xs text-amber-400 font-medium mono">
-                                            ⏳ Available in <span x-text="getCooldownDisplay(task.cooldownUntil)"></span>
-                                        </div>
+                                        <div class="mt-2.5 text-xs text-amber-400 font-medium mono">⏳ Available in <span x-text="getCooldownDisplay(task.cooldownUntil)"></span></div>
                                     </template>
                                 </div>
 
@@ -1631,13 +1572,8 @@
                                         <span x-show="task.noReward">External reward</span>
                                     </span>
                                     <div class="flex items-center gap-2">
-
-                                        <button x-show="task.status === 'idle'" @click="startTask(task)"
-                                            :disabled="isTaskRunning"
-                                            :class="{
-                                                'btn-primary': !isTaskRunning,
-                                                'bg-white/[0.03] border border-white/5 text-zinc-500 cursor-not-allowed': isTaskRunning
-                                            }"
+                                        <button x-show="task.status === 'idle'" @click="startTask(task)" :disabled="isTaskRunning"
+                                            :class="{ 'btn-primary': !isTaskRunning, 'bg-white/[0.03] border border-white/5 text-zinc-500 cursor-not-allowed': isTaskRunning }"
                                             class="text-[10px] font-bold px-3 py-2 rounded-xl transition duration-200 flex items-center gap-1.5">
                                             <template x-if="!isTaskRunning">
                                                 <span class="flex items-center gap-1">
@@ -1649,21 +1585,15 @@
                                                 <span class="flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i><span>Locked</span></span>
                                             </template>
                                         </button>
-
-                                        <button x-show="task.status === 'in_progress'" @click="openTaskUrl(task)"
-                                            class="btn-open-link text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
+                                        <button x-show="task.status === 'in_progress'" @click="openTaskUrl(task)" class="btn-open-link text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                                             <span x-text="task.isSocial ? 'Open Link' : 'Open Offer'"></span>
                                         </button>
-
-                                        <button x-show="task.status === 'confirm'" @click="openHonestConfirm(task)"
-                                            class="btn-confirm-completion text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
+                                        <button x-show="task.status === 'confirm'" @click="openHonestConfirm(task)" class="btn-confirm-completion text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
                                             <span x-text="task.isSocial ? 'Confirm & Claim' : 'Confirm Completion'"></span>
                                         </button>
-
-                                        <button x-show="task.status === 'completed'" disabled
-                                            class="bg-emerald-500/[0.08] border border-emerald-500/25 text-emerald-400 text-[11px] font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-not-allowed">
+                                        <button x-show="task.status === 'completed'" disabled class="bg-emerald-500/[0.08] border border-emerald-500/25 text-emerald-400 text-[11px] font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-not-allowed">
                                             <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
                                             <span x-text="task.isSocial ? 'Completed ✓' : 'Done'"></span>
                                         </button>
@@ -1674,7 +1604,7 @@
                     </div>
                 </div>
 
-                <!-- ===== WITHDRAW ===== -->
+                <!-- WITHDRAW -->
                 <div x-show="currentTab === 'withdraw'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-2xl font-black tracking-tight text-white">💳 Coin Exchange Portal</h2>
@@ -1685,9 +1615,7 @@
                         <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
                         <div>
                             <p class="text-sm font-bold text-amber-300">⚠️ Important – Withdraw Safely</p>
-                            <p class="text-xs text-zinc-300 leading-relaxed mt-1">
-                                <strong>All tasks must be completed honestly</strong>. Skipping tasks or collecting coins without genuinely completing them <strong class="text-red-400">may result in your Robux not being delivered</strong>.
-                            </p>
+                            <p class="text-xs text-zinc-300 leading-relaxed mt-1"><strong>All tasks must be completed honestly</strong>. Skipping tasks or collecting coins without genuinely completing them <strong class="text-red-400">may result in your Robux not being delivered</strong>.</p>
                         </div>
                     </div>
 
@@ -1696,26 +1624,16 @@
                             <div class="circular-progress">
                                 <svg viewBox="0 0 80 80">
                                     <circle class="bg-circle" cx="40" cy="40" r="34" />
-                                    <circle class="progress-circle" cx="40" cy="40" r="34"
-                                    :stroke="totalLoginDays >= 7 ? '#34d399' : '#fbbf24'"
-                                    :stroke-dasharray="213.6 * (Math.min(totalLoginDays, 7) / 7) + ' 213.6'" />
+                                    <circle class="progress-circle" cx="40" cy="40" r="34" :stroke="totalLoginDays >= 7 ? '#34d399' : '#fbbf24'" :stroke-dasharray="213.6 * (Math.min(totalLoginDays, 7) / 7) + ' 213.6'" />
                                 </svg>
-                                <div class="center-text">
-                                    <span class="num" x-text="Math.min(totalLoginDays, 7) + '/7'"></span>
-                                    <span class="label">Days</span>
-                                </div>
+                                <div class="center-text"><span class="num" x-text="Math.min(totalLoginDays, 7) + '/7'"></span><span class="label">Days</span></div>
                             </div>
                             <div class="circular-progress">
                                 <svg viewBox="0 0 80 80">
                                     <circle class="bg-circle" cx="40" cy="40" r="34" />
-                                    <circle class="progress-circle" cx="40" cy="40" r="34"
-                                    :stroke="completedTasksCount >= 30 ? '#34d399' : '#ef4444'"
-                                    :stroke-dasharray="213.6 * (Math.min(completedTasksCount, 30) / 30) + ' 213.6'" />
+                                    <circle class="progress-circle" cx="40" cy="40" r="34" :stroke="completedTasksCount >= 30 ? '#34d399' : '#ef4444'" :stroke-dasharray="213.6 * (Math.min(completedTasksCount, 30) / 30) + ' 213.6'" />
                                 </svg>
-                                <div class="center-text">
-                                    <span class="num" x-text="Math.min(completedTasksCount, 30) + '/30'"></span>
-                                    <span class="label">Tasks</span>
-                                </div>
+                                <div class="center-text"><span class="num" x-text="Math.min(completedTasksCount, 30) + '/30'"></span><span class="label">Tasks</span></div>
                             </div>
                         </div>
                         <div class="info">
@@ -1737,25 +1655,16 @@
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="glass-card p-5 flex flex-col justify-between md:col-span-1">
                             <div>
-                                <div class="flex items-center gap-2 mb-2">
-                                    <i data-lucide="info" class="text-red-400 w-4 h-4"></i>
-                                    <h3 class="text-sm font-bold text-white">Exchange Rate</h3>
-                                </div>
+                                <div class="flex items-center gap-2 mb-2"><i data-lucide="info" class="text-red-400 w-4 h-4"></i><h3 class="text-sm font-bold text-white">Exchange Rate</h3></div>
                                 <div class="bg-white/[0.03] p-3 rounded-xl border border-white/5 mt-4 text-center flex items-center justify-center gap-1.5">
-                                    <span class="text-xs mono text-zinc-300">5K Robux =</span>
-                                    <strong class="text-red-400">500</strong>
-                                    <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
+                                    <span class="text-xs mono text-zinc-300">5K Robux =</span><strong class="text-red-400">500</strong><i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
                                 </div>
                                 <div class="bg-white/[0.03] p-3 rounded-xl border border-white/5 mt-3 text-center flex items-center justify-center gap-1.5">
-                                    <span class="text-xs mono text-zinc-300">$25 = <strong class="text-emerald-400">500</strong></span>
-                                    <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
+                                    <span class="text-xs mono text-zinc-300">$25 = <strong class="text-emerald-400">500</strong></span><i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
                                 </div>
                                 <div class="mt-4 text-center">
                                     <span class="text-[10px] text-zinc-500 uppercase tracking-wider font-bold">Balance</span>
-                                    <p class="text-xl font-black text-white mono inline-flex items-center gap-2">
-                                        <span x-text="tokens"></span>
-                                        <i data-lucide="coins" class="w-5 h-5 text-amber-400"></i>
-                                    </p>
+                                    <p class="text-xl font-black text-white mono inline-flex items-center gap-2"><span x-text="tokens"></span><i data-lucide="coins" class="w-5 h-5 text-amber-400"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -1868,9 +1777,7 @@
 
                                     <div class="flex items-start gap-2.5 bg-white/[0.02] p-3 rounded-xl border border-white/5">
                                         <input type="checkbox" x-model="withdrawHonestConfirm" class="checkbox-honest mt-0.5" />
-                                        <label class="text-[11px] text-zinc-400 leading-relaxed cursor-pointer select-none">
-                                            I confirm that I have <strong class="text-white">honestly completed all tasks</strong> I claimed coins for.
-                                        </label>
+                                        <label class="text-[11px] text-zinc-400 leading-relaxed cursor-pointer select-none">I confirm that I have <strong class="text-white">honestly completed all tasks</strong> I claimed coins for.</label>
                                     </div>
 
                                     <button @click="processWithdraw()" :disabled="!withdrawHonestConfirm || !robloxUser.trim() || (!selectedTier && !selectedGiftCard)" class="withdraw-submit-btn w-full text-base py-3.5 rounded-xl flex items-center justify-center gap-2">
@@ -1883,7 +1790,7 @@
                     </div>
                 </div>
 
-                <!-- ===== REFERRALS ===== -->
+                <!-- REFERRALS -->
                 <div x-show="currentTab === 'referrals'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-2xl font-black tracking-tight text-white">Affiliate Architecture</h2>
@@ -1892,9 +1799,7 @@
 
                     <div class="glass-card p-6 space-y-5">
                         <div class="flex items-center gap-4 bg-white/[0.02] p-4 rounded-xl border border-white/5">
-                            <div class="bg-red-500/10 p-3 rounded-xl text-red-400 border border-red-500/20 flex-shrink-0">
-                                <i data-lucide="gift" class="w-6 h-6"></i>
-                            </div>
+                            <div class="bg-red-500/10 p-3 rounded-xl text-red-400 border border-red-500/20 flex-shrink-0"><i data-lucide="gift" class="w-6 h-6"></i></div>
                             <div>
                                 <h3 class="text-sm font-bold text-white flex items-center gap-1.5 flex-wrap">🎯 Earn Up to <span class="text-emerald-400 text-lg">200</span> <i data-lucide="coins" class="w-5 h-5 text-amber-400"></i> per Friend</h3>
                                 <p class="text-xs text-zinc-400 mt-1">Share your unique referral link. When friends join and complete tasks, you earn bonus coins automatically.</p>
@@ -1905,18 +1810,14 @@
                             <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-[0.12em]">Your Personal Tracking URL</label>
                             <div class="flex gap-2">
                                 <input type="text" readonly value="https://play.google.com/store/apps/details?id=silly.prize&pcampaignid=web_share" class="w-full bg-white/[0.03] border border-white/10 text-xs rounded-xl px-4 py-3 text-zinc-400 mono focus:outline-none" />
-                                <button @click="copyRefLink()" class="btn-primary px-4 rounded-xl flex items-center justify-center text-sm gap-2">
-                                    <i data-lucide="copy" class="w-4 h-4"></i> Copy
-                                </button>
+                                <button @click="copyRefLink()" class="btn-primary px-4 rounded-xl flex items-center justify-center text-sm gap-2"><i data-lucide="copy" class="w-4 h-4"></i> Copy</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="glass-card p-6 space-y-5">
                         <div class="bg-white/[0.02] border border-white/5 p-4 rounded-xl space-y-3">
-                            <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-[0.12em] flex items-center gap-1.5">
-                                <i data-lucide="ticket" class="w-4 h-4 text-red-400"></i> Redeem Promo / Activation Code
-                            </label>
+                            <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-[0.12em] flex items-center gap-1.5"><i data-lucide="ticket" class="w-4 h-4 text-red-400"></i> Redeem Promo / Activation Code</label>
                             <div class="flex gap-2">
                                 <input type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950/60 border border-white/10 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 mono focus:outline-none focus:border-red-500/50 transition" />
                                 <button @click="applyPromoCode()" class="btn-primary text-xs px-5 rounded-xl whitespace-nowrap">Apply Code</button>
@@ -1926,13 +1827,12 @@
                     </div>
                 </div>
 
-                <!-- ===== ACCOUNT ===== -->
+                <!-- ACCOUNT -->
                 <div x-show="currentTab === 'account'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
                     <div>
                         <h2 class="text-2xl font-black tracking-tight text-white">Profile & Account</h2>
                         <p class="text-zinc-500 text-xs mt-1">View your profile details and manage your account.</p>
                     </div>
-
                     <div class="glass-card p-6 space-y-6">
                         <div class="flex items-center gap-4">
                             <div class="profile-avatar" x-text="userId ? userId.slice(0,2) : 'U'"></div>
@@ -1941,7 +1841,6 @@
                                 <p class="text-xs text-zinc-500 mt-0.5">Level <span x-text="userLevel"></span> · <span x-text="totalTokensEarned"></span> total coins earned</p>
                             </div>
                         </div>
-
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-white/5 pt-4">
                             <div>
                                 <p class="text-[11px] text-zinc-500 uppercase tracking-wider font-bold">User ID</p>
@@ -1960,42 +1859,28 @@
                                 <p class="font-bold text-white mt-0.5" x-text="totalLoginDays + ' days'"></p>
                             </div>
                         </div>
-
                         <div class="border-t border-white/5 pt-4">
-                            <button @click="resetAccount()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/25 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i> Delete Account (Reset)
-                            </button>
+                            <button @click="resetAccount()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/25 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2"><i data-lucide="trash-2" class="w-4 h-4"></i> Delete Account (Reset)</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- ===== RULES ===== -->
+                <!-- RULES -->
                 <div x-show="currentTab === 'rules'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0" class="space-y-6">
-
                     <div class="flex items-start justify-between gap-3 flex-wrap">
                         <div>
-                            <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
-                                Compliance &amp; Fraud Prevention
-                                <span x-show="!rulesAccepted" class="notif-badge ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
-                            </h2>
+                            <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">Compliance &amp; Fraud Prevention <span x-show="!rulesAccepted" class="notif-badge ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span></h2>
                             <p class="text-zinc-500 text-xs mt-1">Review system rules to guarantee smooth coin settlement.</p>
                         </div>
-                        <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full border"
-                              :class="rulesAccepted
-                                  ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25'
-                                  : 'bg-red-500/10 text-red-300 border-red-500/25'">
+                        <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full border" :class="rulesAccepted ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25' : 'bg-red-500/10 text-red-300 border-red-500/25'">
                             <span class="w-1.5 h-1.5 rounded-full" :class="rulesAccepted ? 'bg-emerald-400' : 'bg-red-400 animate-pulse'"></span>
                             <span x-text="rulesAccepted ? 'Compliant' : 'Action Required'"></span>
                         </span>
                     </div>
 
                     <div class="eligibility-card" :class="rulesAccepted ? 'unlocked' : ''">
-                        <div x-show="rulesAccepted" class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
-                        </div>
-                        <div x-show="!rulesAccepted" class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/25 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="shield-alert" class="w-6 h-6 text-red-400"></i>
-                        </div>
+                        <div x-show="rulesAccepted" class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center flex-shrink-0"><i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i></div>
+                        <div x-show="!rulesAccepted" class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/25 flex items-center justify-center flex-shrink-0"><i data-lucide="shield-alert" class="w-6 h-6 text-red-400"></i></div>
                         <div class="info">
                             <h4 x-text="rulesAccepted ? '✅ Rules Accepted' : '🔒 Rules Acceptance Required'"></h4>
                             <p>
@@ -2003,79 +1888,33 @@
                                 <span x-show="!rulesAccepted">You must read and accept the platform rules before your coins can be safely settled.</span>
                             </p>
                         </div>
-                        <div class="status-badge" :class="rulesAccepted ? 'unlocked' : 'locked'">
-                            <span x-text="rulesAccepted ? 'Accepted' : 'Pending'"></span>
-                        </div>
+                        <div class="status-badge" :class="rulesAccepted ? 'unlocked' : 'locked'"><span x-text="rulesAccepted ? 'Accepted' : 'Pending'"></span></div>
                     </div>
 
                     <div class="bg-red-500/[0.07] border border-red-500/25 rounded-2xl p-4 flex items-start gap-3">
                         <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5"></i>
                         <div>
                             <p class="text-sm font-bold text-red-300">⚠️ Important – This directly affects your ability to receive Robux</p>
-                            <p class="text-xs text-zinc-300 leading-relaxed mt-1">
-                                Breaking any rule below may result in <strong class="text-red-400">rejected payouts</strong>, coin removal, or permanent account termination.
-                            </p>
+                            <p class="text-xs text-zinc-300 leading-relaxed mt-1">Breaking any rule below may result in <strong class="text-red-400">rejected payouts</strong>, coin removal, or permanent account termination.</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" :class="!rulesAccepted ? 'rules-locked-blur' : ''">
-
-                        <div class="rule-card" style="--rule-accent:#ef4444;">
-                            <div class="rule-icon"><i data-lucide="shield-x"></i></div>
-                            <div>
-                                <h4>Strict Anti-VPN Infrastructure</h4>
-                                <p>Proxy layers, VPN nodes, or data-center routing environments are systematically flagged and blocked.</p>
-                            </div>
-                        </div>
-
-                        <div class="rule-card" style="--rule-accent:#34d399;">
-                            <div class="rule-icon"><i data-lucide="shield-check"></i></div>
-                            <div>
-                                <h4>Honest Task Completion Required</h4>
-                                <p>All tasks must be completed honestly. We verify your activity before approving any payout.</p>
-                            </div>
-                        </div>
-
-                        <div class="rule-card" style="--rule-accent:#38bdf8;">
-                            <div class="rule-icon"><i data-lucide="user-check"></i></div>
-                            <div>
-                                <h4>Accurate Information</h4>
-                                <p>Provide real, valid details whenever you complete a task. Fake data voids your reward.</p>
-                            </div>
-                        </div>
-
-                        <div class="rule-card" style="--rule-accent:#fbbf24;">
-                            <div class="rule-icon"><i data-lucide="user-x"></i></div>
-                            <div>
-                                <h4>One Account Only</h4>
-                                <p>Creating multiple accounts to farm coins is forbidden and will result in termination.</p>
-                            </div>
-                        </div>
-
-                        <div class="rule-card md:col-span-2" style="--rule-accent:#a78bfa;">
-                            <div class="rule-icon"><i data-lucide="wallet"></i></div>
-                            <div>
-                                <h4>Withdrawal Integrity</h4>
-                                <p>Coins collected without genuine completion may result in rejected payouts. Every withdrawal is manually reviewed before it is sent.</p>
-                            </div>
-                        </div>
-
+                        <div class="rule-card" style="--rule-accent:#ef4444;"><div class="rule-icon"><i data-lucide="shield-x"></i></div><div><h4>Strict Anti-VPN Infrastructure</h4><p>Proxy layers, VPN nodes, or data-center routing environments are systematically flagged and blocked.</p></div></div>
+                        <div class="rule-card" style="--rule-accent:#34d399;"><div class="rule-icon"><i data-lucide="shield-check"></i></div><div><h4>Honest Task Completion Required</h4><p>All tasks must be completed honestly. We verify your activity before approving any payout.</p></div></div>
+                        <div class="rule-card" style="--rule-accent:#38bdf8;"><div class="rule-icon"><i data-lucide="user-check"></i></div><div><h4>Accurate Information</h4><p>Provide real, valid details whenever you complete a task. Fake data voids your reward.</p></div></div>
+                        <div class="rule-card" style="--rule-accent:#fbbf24;"><div class="rule-icon"><i data-lucide="user-x"></i></div><div><h4>One Account Only</h4><p>Creating multiple accounts to farm coins is forbidden and will result in termination.</p></div></div>
+                        <div class="rule-card md:col-span-2" style="--rule-accent:#a78bfa;"><div class="rule-icon"><i data-lucide="wallet"></i></div><div><h4>Withdrawal Integrity</h4><p>Coins collected without genuine completion may result in rejected payouts. Every withdrawal is manually reviewed before it is sent.</p></div></div>
                     </div>
 
                     <div class="glass-card p-5 flex items-center gap-3.5 flex-wrap">
-                        <div class="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="life-buoy" class="w-5 h-5 text-zinc-300"></i>
-                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center flex-shrink-0"><i data-lucide="life-buoy" class="w-5 h-5 text-zinc-300"></i></div>
                         <div class="min-w-0">
                             <h4 class="text-sm font-bold text-white">Questions about the rules?</h4>
                             <p class="text-[11px] text-zinc-500 mt-0.5">Join our community group and ask before completing tasks — never guess.</p>
                         </div>
-                        <button x-show="!rulesAccepted" @click="showRulesGate = true" class="btn-primary ml-auto text-xs px-4 py-2.5 rounded-xl flex items-center gap-2">
-                            <i data-lucide="book-open" class="w-3.5 h-3.5"></i> Read &amp; Accept Rules
-                        </button>
-                        <span x-show="rulesAccepted" class="ml-auto inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-400">
-                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> All rules accepted
-                        </span>
+                        <button x-show="!rulesAccepted" @click="showRulesGate = true" class="btn-primary ml-auto text-xs px-4 py-2.5 rounded-xl flex items-center gap-2"><i data-lucide="book-open" class="w-3.5 h-3.5"></i> Read &amp; Accept Rules</button>
+                        <span x-show="rulesAccepted" class="ml-auto inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-400"><i data-lucide="check-circle-2" class="w-4 h-4"></i> All rules accepted</span>
                     </div>
                 </div>
 
@@ -2084,268 +1923,122 @@
     </main>
 
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 mobile-nav px-2 py-2 z-50 flex justify-around items-center">
-        <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Home</span>
-        </button>
-        <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="clipboard-list" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Tasks</span>
-        </button>
-        <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="coins" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Payout</span>
-        </button>
-        <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="users" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Invite</span>
-        </button>
-        <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
-            <i data-lucide="user" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Profile</span>
-        </button>
+        <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition"><i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Home</span></button>
+        <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition"><i data-lucide="clipboard-list" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Tasks</span></button>
+        <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition"><i data-lucide="coins" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Payout</span></button>
+        <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition"><i data-lucide="users" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Invite</span></button>
+        <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition"><i data-lucide="user" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Profile</span></button>
         <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition relative">
             <i data-lucide="shield-alert" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Rules</span>
             <span x-show="!rulesAccepted" class="absolute -top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-600 text-[7px] font-black text-white">1</span>
         </button>
     </nav>
 
-    <div x-show="showHonestConfirm" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[110]"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 scale-95"
-        x-transition:enter-end="opacity-100 scale-100"
-        x-cloak>
+    <!-- HONEST CONFIRM MODAL -->
+    <div x-show="showHonestConfirm" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[110]" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-cloak>
         <div class="task-modal-content p-6 relative" style="max-width:460px;">
             <template x-if="confirmTask">
                 <div>
                     <div class="flex justify-center mb-4">
-                        <div class="w-16 h-16 rounded-full flex items-center justify-center"
-                            style="background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 0 0 6px rgba(16,185,129,0.1), 0 0 34px rgba(16,185,129,0.4);">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #34d399, #059669); box-shadow: 0 0 0 6px rgba(16,185,129,0.1), 0 0 34px rgba(16,185,129,0.4);">
                             <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
                         </div>
                     </div>
-
                     <div class="text-center mb-5">
                         <h3 class="text-xl font-black text-white tracking-tight">Confirm Honest Completion</h3>
                         <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Please confirm you really completed this task before claiming your reward.</p>
                     </div>
-
                     <div class="bg-[#0a0a0c] border border-[#232327] rounded-2xl p-4 mb-4 flex items-center justify-between gap-3 relative overflow-hidden">
                         <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background: linear-gradient(180deg, #10b981, #047857);"></div>
                         <div class="min-w-0 pl-2">
                             <p class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Task</p>
                             <p class="text-sm font-bold text-white truncate" x-text="confirmTask.title"></p>
-                            <template x-if="confirmTask.handle">
-                                <p class="text-[10px] mono text-red-400 mt-0.5" x-text="confirmTask.handle"></p>
-                            </template>
+                            <template x-if="confirmTask.handle"><p class="text-[10px] mono text-red-400 mt-0.5" x-text="confirmTask.handle"></p></template>
                         </div>
                         <span class="rounded-full px-3 py-1.5 text-xs font-extrabold"
-                            :style="confirmTask.noReward
-                                ? 'background: rgba(14,165,233,0.15); border: 1px solid rgba(56,189,248,0.35); color: #7dd3fc;'
-                                : 'background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #34d399;'">
-                            <template x-if="confirmTask.noReward">
-                                <span class="inline-flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> External</span>
-                            </template>
-                            <template x-if="!confirmTask.noReward">
-                                <span class="inline-flex items-center gap-1">+<span x-text="confirmTask.reward"></span><i data-lucide="coins" class="w-3.5 h-3.5 text-amber-400"></i></span>
-                            </template>
+                            :style="confirmTask.noReward ? 'background: rgba(14,165,233,0.15); border: 1px solid rgba(56,189,248,0.35); color: #7dd3fc;' : 'background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #34d399;'">
+                            <template x-if="confirmTask.noReward"><span class="inline-flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> External</span></template>
+                            <template x-if="!confirmTask.noReward"><span class="inline-flex items-center gap-1">+<span x-text="confirmTask.reward"></span><i data-lucide="coins" class="w-3.5 h-3.5 text-amber-400"></i></span></template>
                         </span>
                     </div>
-
-                    <div class="rounded-2xl p-4 flex gap-3 items-start"
-                        style="background: linear-gradient(135deg, rgba(251,191,36,0.09), rgba(251,191,36,0.02)); border: 1px solid rgba(251,191,36,0.22); border-left: 3px solid #fbbf24;">
+                    <div class="rounded-2xl p-4 flex gap-3 items-start" style="background: linear-gradient(135deg, rgba(251,191,36,0.09), rgba(251,191,36,0.02)); border: 1px solid rgba(251,191,36,0.22); border-left: 3px solid #fbbf24;">
                         <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 mt-0.5 text-amber-400"></i>
                         <div>
                             <p class="font-bold text-amber-400 mb-1 text-[12px] tracking-wide">⚠️ Honesty Check</p>
-                            <p class="text-zinc-300 text-[11px] leading-relaxed">
-                                By clicking <strong class="text-white">"Yes, I Completed Honestly"</strong>, you confirm that you genuinely completed this task. If you did not, your claim may be flagged and your <strong class="text-red-400">Robux payout can be rejected</strong>.
-                            </p>
+                            <p class="text-zinc-300 text-[11px] leading-relaxed">By clicking <strong class="text-white">"Yes, I Completed Honestly"</strong>, you confirm that you genuinely completed this task. If you did not, your claim may be flagged and your <strong class="text-red-400">Robux payout can be rejected</strong>.</p>
                         </div>
                     </div>
-
                     <div class="flex flex-col-reverse sm:flex-row gap-2.5 mt-5">
-                        <button @click="cancelConfirm()" class="btn-ghost flex-1 text-sm font-bold px-4 py-3 rounded-xl flex items-center justify-center gap-2">
-                            <i data-lucide="x" class="w-4 h-4"></i>
-                            Not Yet
-                        </button>
-                        <button @click="confirmHonest()" class="btn-confirm-completion flex-1 text-sm font-bold px-4 py-3 rounded-xl flex items-center justify-center gap-2">
-                            <i data-lucide="check-check" class="w-4 h-4"></i>
-                            Yes, I Completed Honestly
-                        </button>
+                        <button @click="cancelConfirm()" class="btn-ghost flex-1 text-sm font-bold px-4 py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="x" class="w-4 h-4"></i> Not Yet</button>
+                        <button @click="confirmHonest()" class="btn-confirm-completion flex-1 text-sm font-bold px-4 py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="check-check" class="w-4 h-4"></i> Yes, I Completed Honestly</button>
                     </div>
                 </div>
             </template>
         </div>
     </div>
 
-    <div x-show="!rulesAccepted && currentTab === 'rules'"
-        class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[120]"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 scale-95"
-        x-transition:enter-end="opacity-100 scale-100"
-        x-cloak>
+    <!-- RULES MODAL -->
+    <div x-show="!rulesAccepted && currentTab === 'rules'" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[120]" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-cloak>
         <div class="task-modal-content p-6 relative" style="max-width:620px;">
-
             <div class="flex items-center gap-3 border-b border-white/10 pb-4 mb-4">
-                <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
-                </div>
+                <div class="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0"><i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i></div>
                 <div>
                     <h3 class="text-lg font-black text-white tracking-tight">📋 Platform Rules</h3>
                     <p class="text-[11px] text-zinc-500 mt-0.5">Read carefully before you continue earning</p>
                 </div>
             </div>
-
             <div class="bg-red-500/[0.07] border border-red-500/25 rounded-xl p-3 flex gap-2.5 mb-4">
                 <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5"></i>
-                <p class="text-[11px] text-red-200 leading-relaxed">
-                    <strong class="text-red-300">Important:</strong> These rules directly affect your ability to receive Robux. Breaking any of them may result in <strong class="text-white">rejected payouts</strong> or account termination.
-                </p>
+                <p class="text-[11px] text-red-200 leading-relaxed"><strong class="text-red-300">Important:</strong> These rules directly affect your ability to receive Robux. Breaking any of them may result in <strong class="text-white">rejected payouts</strong> or account termination.</p>
             </div>
-
             <div class="rules-scroll space-y-2.5 pr-2">
-
                 <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
-                    <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="shield-x" class="w-4 h-4 text-red-400"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <h4 class="text-xs font-bold text-white">1. Anti-VPN &amp; Proxy</h4>
-                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Using VPNs, proxies, or any obfuscation tools is strictly prohibited. Proxy layers and data-center routing are systematically flagged.</p>
-                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0"><i data-lucide="shield-x" class="w-4 h-4 text-red-400"></i></div>
+                    <div class="min-w-0"><h4 class="text-xs font-bold text-white">1. Anti-VPN &amp; Proxy</h4><p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Using VPNs, proxies, or any obfuscation tools is strictly prohibited. Proxy layers and data-center routing are systematically flagged.</p></div>
                 </div>
-
                 <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
-                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="user-check" class="w-4 h-4 text-sky-400"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <h4 class="text-xs font-bold text-white">2. Accurate Information</h4>
-                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Provide real, valid details when completing tasks. Fake or mismatched data voids your reward.</p>
-                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center flex-shrink-0"><i data-lucide="user-check" class="w-4 h-4 text-sky-400"></i></div>
+                    <div class="min-w-0"><h4 class="text-xs font-bold text-white">2. Accurate Information</h4><p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Provide real, valid details when completing tasks. Fake or mismatched data voids your reward.</p></div>
                 </div>
-
                 <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
-                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="user-x" class="w-4 h-4 text-amber-400"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <h4 class="text-xs font-bold text-white">3. One Account Only</h4>
-                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Creating multiple accounts to farm coins is forbidden and will result in termination of all linked accounts.</p>
-                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0"><i data-lucide="user-x" class="w-4 h-4 text-amber-400"></i></div>
+                    <div class="min-w-0"><h4 class="text-xs font-bold text-white">3. One Account Only</h4><p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Creating multiple accounts to farm coins is forbidden and will result in termination of all linked accounts.</p></div>
                 </div>
-
                 <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <h4 class="text-xs font-bold text-white">4. Honest Task Completion</h4>
-                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Every task must be completed manually and honestly. We verify your activity before approving any payout.</p>
-                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i></div>
+                    <div class="min-w-0"><h4 class="text-xs font-bold text-white">4. Honest Task Completion</h4><p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Every task must be completed manually and honestly. We verify your activity before approving any payout.</p></div>
                 </div>
-
                 <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
-                    <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="wallet" class="w-4 h-4 text-violet-400"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <h4 class="text-xs font-bold text-white">5. Withdrawal Integrity</h4>
-                        <p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Coins collected without genuine completion may result in rejected payouts. Every withdrawal is reviewed before it is sent.</p>
-                    </div>
+                    <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0"><i data-lucide="wallet" class="w-4 h-4 text-violet-400"></i></div>
+                    <div class="min-w-0"><h4 class="text-xs font-bold text-white">5. Withdrawal Integrity</h4><p class="text-[11px] text-zinc-400 mt-1 leading-relaxed">Coins collected without genuine completion may result in rejected payouts. Every withdrawal is reviewed before it is sent.</p></div>
                 </div>
-
             </div>
-
             <div class="border-t border-white/10 pt-4 mt-4 space-y-3">
                 <label class="flex items-start gap-2.5 cursor-pointer select-none">
                     <input type="checkbox" x-model="rulesAgreed" class="checkbox-honest mt-0.5" />
-                    <span class="text-[11px] text-zinc-400 leading-relaxed">
-                        I have read and fully accept the platform rules, and I understand that <strong class="text-white">honest task completion is required</strong> to withdraw.
-                    </span>
+                    <span class="text-[11px] text-zinc-400 leading-relaxed">I have read and fully accept the platform rules, and I understand that <strong class="text-white">honest task completion is required</strong> to withdraw.</span>
                 </label>
-                <button @click="acceptRules()" :disabled="!rulesAgreed"
-                    class="btn-primary w-full text-sm py-3 rounded-xl flex items-center justify-center gap-2">
-                    <i data-lucide="check-check" class="w-4 h-4"></i>
-                    I Have Read &amp; Fully Accept
-                </button>
+                <button @click="acceptRules()" :disabled="!rulesAgreed" class="btn-primary w-full text-sm py-3 rounded-xl flex items-center justify-center gap-2"><i data-lucide="check-check" class="w-4 h-4"></i> I Have Read &amp; Fully Accept</button>
             </div>
         </div>
     </div>
 
+    <!-- TOAST -->
     <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
         <div class="toast-inner pointer-events-auto" :class="importantToast.reward ? 'reward-toast' : ''">
             <div class="toast-icon" x-text="importantToast.icon"></div>
             <div class="toast-msg" x-text="importantToast.msg"></div>
             <div class="toast-sub" x-show="importantToast.sub" x-text="importantToast.sub"></div>
-            <div class="toast-reward" x-show="importantToast.reward">
-                <span>+</span><span x-text="importantToast.rewardAmount || 0"></span>
-                <i data-lucide="coins" class="w-5 h-5 text-amber-400"></i>
-            </div>
+            <div class="toast-reward" x-show="importantToast.reward"><span>+</span><span x-text="importantToast.rewardAmount || 0"></span><i data-lucide="coins" class="w-5 h-5 text-amber-400"></i></div>
             <button class="toast-ok-btn" @click="dismissToast">OK</button>
         </div>
     </div>
 
     <script>
         const SOCIAL_TASKS_DEF = [
-            {
-                id: 'tiktok_alqfr',
-                title: 'TikTok',
-                handle: '@alqfr',
-                desc: 'Open the profile and follow @alqfr to earn coins',
-                reward: 80,
-                status: 'idle',
-                link: 'https://www.tiktok.com/@alqfr?_r=1&_t=ZN-9AeAoMcikEw',
-                icon: 'external-link',
-                brand: 'tiktok',
-                isRepeatable: false,
-                oneTime: true,
-                cooldownUntil: null,
-                endTime: null,
-                rating: 4.9,
-                badge: 'popular',
-                noReward: false,
-                isSocial: true,
-                needsCopy: false,
-                ctaLabel: 'Follow & Complete'
-            },
-            {
-                id: 'telegram_fundedfr',
-                title: 'Telegram',
-                handle: 't.me/fundedfr',
-                desc: 'Open the channel and join to earn coins',
-                reward: 50,
-                status: 'idle',
-                link: 'https://t.me/fundedfr',
-                icon: 'send',
-                brand: 'telegram',
-                isRepeatable: false,
-                oneTime: true,
-                cooldownUntil: null,
-                endTime: null,
-                rating: 4.7,
-                badge: 'recommended',
-                noReward: false,
-                isSocial: true,
-                needsCopy: false,
-                ctaLabel: 'Join & Complete'
-            },
-            {
-                id: 'youtube_vqlyr',
-                title: 'YouTube',
-                handle: '@vqlyr',
-                desc: 'Open the channel and subscribe to earn coins',
-                reward: 60,
-                status: 'idle',
-                link: 'https://youtube.com/@vqlyr?si=ShPmOWXWEzNVbp47',
-                icon: 'youtube',
-                brand: 'youtube',
-                isRepeatable: false,
-                oneTime: true,
-                cooldownUntil: null,
-                endTime: null,
-                rating: 4.8,
-                badge: 'new',
-                noReward: false,
-                isSocial: true,
-                needsCopy: false,
-                ctaLabel: 'Subscribe & Complete'
-            }
+            { id: 'tiktok_alqfr', title: 'TikTok', handle: '@alqfr', desc: 'Open the profile and follow @alqfr to earn coins', reward: 80, status: 'idle', link: 'https://www.tiktok.com/@alqfr?_r=1&_t=ZN-9AeAoMcikEw', icon: 'external-link', brand: 'tiktok', isRepeatable: false, oneTime: true, cooldownUntil: null, endTime: null, rating: 4.9, badge: 'popular', noReward: false, isSocial: true, needsCopy: false, ctaLabel: 'Follow & Complete' },
+            { id: 'telegram_fundedfr', title: 'Telegram', handle: 't.me/fundedfr', desc: 'Open the channel and join to earn coins', reward: 50, status: 'idle', link: 'https://t.me/fundedfr', icon: 'send', brand: 'telegram', isRepeatable: false, oneTime: true, cooldownUntil: null, endTime: null, rating: 4.7, badge: 'recommended', noReward: false, isSocial: true, needsCopy: false, ctaLabel: 'Join & Complete' },
+            { id: 'youtube_vqlyr', title: 'YouTube', handle: '@vqlyr', desc: 'Open the channel and subscribe to earn coins', reward: 60, status: 'idle', link: 'https://youtube.com/@vqlyr?si=ShPmOWXWEzNVbp47', icon: 'youtube', brand: 'youtube', isRepeatable: false, oneTime: true, cooldownUntil: null, endTime: null, rating: 4.8, badge: 'new', noReward: false, isSocial: true, needsCopy: false, ctaLabel: 'Subscribe & Complete' }
         ];
 
         const OFFER_CTA_LABELS = [
@@ -2357,10 +2050,9 @@
         ];
 
         const TIER_DISPLAY = { bronze: 'BRONZE', silver: 'SILVER', gold: 'GOLD', diamond: 'DIAMOND', platinum: 'LEGENDARY' };
+        const TIER_ICON    = { bronze: '🥉',     silver: '🥈',     gold: '🥇',   diamond: '💎',     platinum: '👑' };
 
-        function getFreshSocialTasks() {
-            return SOCIAL_TASKS_DEF.map(t => ({ ...t }));
-        }
+        function getFreshSocialTasks() { return SOCIAL_TASKS_DEF.map(t => ({ ...t })); }
 
         function appState() {
             return {
@@ -2424,53 +2116,71 @@
                 OFFER_COOLDOWN_MS: 4 * 60 * 1000,
 
                 tasks: getFreshSocialTasks(),
-
                 usedPromoCodes: [],
 
-                // ===== TIER HELPER =====
-                tierLabel(tier) {
-                    return TIER_DISPLAY[tier] || '';
-                },
+                tierLabel(tier) { return TIER_DISPLAY[tier] || ''; },
+                tierIcon(tier) { return TIER_ICON[tier] || ''; },
 
-                // Interpret the payout field into USD
-                // < 1 → dollars, 1-4 → dollars (rare small values), 5-99 → cents, >=100 → cents, >=10000 → eCPM
                 interpretOfferUSD(val) {
                     if (val == null || isNaN(val) || val <= 0) return null;
-                    if (val < 1) return val;                       // 0.16, 0.50 → dollars
-                    if (val < 5) return val;                       // 1-4 → dollars
-                    if (Number.isInteger(val) && val < 100) return val / 100;  // 5-99 → cents
-                    if (val < 10000) return val / 100;             // 100-9999 → cents
-                    return val / 1000;                             // >= 10000 → eCPM
+                    if (val < 1) return val;
+                    if (val < 5) return val;
+                    if (Number.isInteger(val) && val < 100) return val / 100;
+                    if (val < 10000) return val / 100;
+                    return val / 1000;
                 },
 
-                // Determine tier + coins from USD payout
-                // Bronze:  <$0.50 → 25+, $0.50-$0.99 → 50+
-                // Silver:  $1.00-$1.99 → 100+
-                // Gold:    $2.00-$2.99 → 200+
-                // Diamond: $3.00-$4.99 → 300+
-                // Legendary/Platinum: $5.00+ → 500+ (scales with value)
+                // Dynamic, continuous tier classification based on real USD value.
+                //   BRONZE     <  $0.50     : 25 → 50 coins   (baseline $0.16 = 25, ramps to 50 at $0.50)
+                //   SILVER     $0.50-$1.99  : 50 → 199 coins  ($1.00 = 100, $1.99 ≈ 199)
+                //   GOLD       $2.00-$2.99  : 200 → 299 coins ($2.00 = 200, $2.99 ≈ 299)
+                //   DIAMOND    $3.00-$4.99  : 300 → 499 coins ($3.00 = 300, $4.99 ≈ 499)
+                //   LEGENDARY  $5.00+       : 500 → 5000 coins ($5 = 500, +50 per $1 above $5; $13 ≈ 900, $60 ≈ 3250)
                 computeTierFromUSD(usd) {
                     if (usd == null || isNaN(usd) || usd <= 0) {
                         return { tier: 'bronze', coins: 25, usd: 0 };
                     }
-                    const rawCoins = Math.round(usd * 100);
-                    if (usd < 0.5) return { tier: 'bronze', coins: Math.max(25, rawCoins), usd };
-                    if (usd < 1)   return { tier: 'bronze', coins: Math.max(50, rawCoins), usd };
-                    if (usd < 2)   return { tier: 'silver', coins: Math.max(100, rawCoins), usd };
-                    if (usd < 3)   return { tier: 'gold', coins: Math.max(200, rawCoins), usd };
-                    if (usd < 5)   return { tier: 'diamond', coins: Math.max(300, rawCoins), usd };
-                    return { tier: 'platinum', coins: Math.max(500, rawCoins), usd };
+
+                    // BRONZE — anything strictly below $0.50
+                    if (usd < 0.50) {
+                        let coins;
+                        if (usd <= 0.16) coins = 25;
+                        else coins = Math.round(25 + ((usd - 0.16) / (0.50 - 0.16)) * 25);
+                        return { tier: 'bronze', coins: Math.max(25, Math.min(50, coins)), usd };
+                    }
+
+                    // SILVER — $0.50 to $1.99
+                    if (usd < 2.00) {
+                        const coins = Math.round(50 + ((usd - 0.50) / (2.00 - 0.50)) * 150);
+                        return { tier: 'silver', coins: Math.max(50, Math.min(199, coins)), usd };
+                    }
+
+                    // GOLD — $2.00 to $2.99
+                    if (usd < 3.00) {
+                        const coins = Math.round(200 + ((usd - 2.00) / (3.00 - 2.00)) * 100);
+                        return { tier: 'gold', coins: Math.max(200, Math.min(299, coins)), usd };
+                    }
+
+                    // DIAMOND — $3.00 to $4.99
+                    if (usd < 5.00) {
+                        const coins = Math.round(300 + ((usd - 3.00) / (5.00 - 3.00)) * 200);
+                        return { tier: 'diamond', coins: Math.max(300, Math.min(499, coins)), usd };
+                    }
+
+                    // LEGENDARY / PLATINUM — $5.00 and up (scales with real value)
+                    const coins = Math.round(500 + (usd - 5.00) * 50);
+                    return { tier: 'platinum', coins: Math.max(500, Math.min(5000, coins)), usd };
                 },
 
                 estimateOfferUSD(raw, title, desc) {
                     const combined = `${title} ${desc} ${raw.category || ''} ${raw.type || ''} ${raw.offer_type || ''}`.toLowerCase();
-                    if (/insurance|finance|loan|mortgage|credit|invest|crypto|trading|wealth|refinanc/.test(combined)) return 6.0;
-                    if (/lead.?gen|sign.?up|register|registration|subscription|trial|deposit|sweepstake/.test(combined)) return 2.5;
-                    if (/install|download|android|ios|mobile|app.?store|play.?store/.test(combined)) return 1.2;
-                    if (/game|play|puzzle|rpg|strategy/.test(combined)) return 1.8;
-                    if (/survey|quote|form/.test(combined)) return 0.6;
+                    if (/insurance|finance|loan|mortgage|credit|invest|crypto|trading|wealth|refinanc/.test(combined)) return 5.50;
+                    if (/lead.?gen|sign.?up|register|registration|subscription|trial|deposit|sweepstake/.test(combined)) return 2.50;
+                    if (/game|play|puzzle|rpg|strategy/.test(combined)) return 2.00;
+                    if (/install|download|android|ios|mobile|app.?store|play.?store/.test(combined)) return 1.20;
+                    if (/survey|quote|form/.test(combined)) return 0.75;
                     if (/video|watch|stream/.test(combined)) return 0.16;
-                    return 0.5;
+                    return 0.50;
                 },
 
                 enterSite() {
@@ -2491,17 +2201,13 @@
                 },
 
                 getSocialClaims() {
-                    try {
-                        return JSON.parse(localStorage.getItem('robux_social_claims_v1') || '{}');
-                    } catch (e) { return {}; }
+                    try { return JSON.parse(localStorage.getItem('robux_social_claims_v1') || '{}'); } catch (e) { return {}; }
                 },
-
                 isSocialClaimed(taskId) {
                     const claims = this.getSocialClaims();
                     const userClaims = claims[this.userId] || {};
                     return !!userClaims[taskId];
                 },
-
                 recordSocialClaim(taskId) {
                     const claims = this.getSocialClaims();
                     if (!claims[this.userId]) claims[this.userId] = {};
@@ -2516,7 +2222,6 @@
                     const m = Math.floor((diff % 3600000) / 60000);
                     return `${h}h ${m}m`;
                 },
-
                 getCooldownDisplay(cooldownUntil) {
                     const diff = cooldownUntil - Date.now();
                     if (diff <= 0) return 'Ready!';
@@ -2524,17 +2229,12 @@
                     const s = Math.floor((diff % 60000) / 1000);
                     return `${m}m ${s}s`;
                 },
-
-                get topPayoutThisWeek() {
-                    return this.leaderboardUsers.length ? this.leaderboardUsers[0].amount : 0;
-                },
+                get topPayoutThisWeek() { return this.leaderboardUsers.length ? this.leaderboardUsers[0].amount : 0; },
                 get topPayoutShort() {
                     if (!this.topPayoutThisWeek) return '0';
                     return Math.round(this.topPayoutThisWeek / 1000) + 'K';
                 },
-                get hundredKPlusCount() {
-                    return this.leaderboardUsers.filter(u => u.amount >= 100000).length;
-                },
+                get hundredKPlusCount() { return this.leaderboardUsers.filter(u => u.amount >= 100000).length; },
 
                 rankBadge(idx) {
                     const badges = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
@@ -2551,10 +2251,7 @@
                     return Math.min(Math.max(progress, 0), 100);
                 },
 
-                get isWithdrawUnlocked() {
-                    return this.totalLoginDays >= 7 && this.completedTasksCount >= 30;
-                },
-
+                get isWithdrawUnlocked() { return this.totalLoginDays >= 7 && this.completedTasksCount >= 30; },
                 get confirmTask() {
                     if (this.confirmTaskId === null) return null;
                     return this.tasks.find(t => t.id === this.confirmTaskId) || null;
@@ -2570,24 +2267,17 @@
                         this.importantToast.rewardAmount = opts.rewardAmount || 0;
                         this.importantToast.show = true;
                         if (this.toastTimeout) clearTimeout(this.toastTimeout);
-                        this.toastTimeout = setTimeout(() => {
-                            this.importantToast.show = false;
-                        }, opts.duration || 5000);
+                        this.toastTimeout = setTimeout(() => { this.importantToast.show = false; }, opts.duration || 5000);
                     });
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
-
                 dismissToast() {
                     this.importantToast.show = false;
                     if (this.toastTimeout) clearTimeout(this.toastTimeout);
                 },
 
                 async getVisitorIP() {
-                    const providers = [
-                        'https://api.ipify.org?format=json',
-                        'https://ipapi.co/json/',
-                        'https://api64.ipify.org?format=json'
-                    ];
+                    const providers = ['https://api.ipify.org?format=json', 'https://ipapi.co/json/', 'https://api64.ipify.org?format=json'];
                     for (const url of providers) {
                         try {
                             const r = await fetch(url, { cache: 'no-store' });
@@ -2620,29 +2310,12 @@
 
                 normalizeOffer(raw, index) {
                     if (!raw || typeof raw !== 'object') return null;
-
-                    const id = 'api_' + String(
-                        raw.id ?? raw.offer_id ?? raw.offerId ?? raw.campaign_id ??
-                        raw.cid ?? raw.transaction_id ?? `offer_${index}`
-                    );
-
-                    const title = String(
-                        raw.name ?? raw.title ?? raw.offer_name ?? raw.headline ?? `Offer #${index + 1}`
-                    ).trim();
-
-                    const rawDesc = String(
-                        raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary ?? ''
-                    ).trim();
-
-                    const link = (
-                        raw.url ?? raw.link ?? raw.click_url ?? raw.clickUrl ??
-                        raw.offer_url ?? raw.offerUrl ?? raw.tracking_url ?? raw.trackingUrl ??
-                        raw.landing_page ?? null
-                    );
-
+                    const id = 'api_' + String(raw.id ?? raw.offer_id ?? raw.offerId ?? raw.campaign_id ?? raw.cid ?? raw.transaction_id ?? `offer_${index}`);
+                    const title = String(raw.name ?? raw.title ?? raw.offer_name ?? raw.headline ?? `Offer #${index + 1}`).trim();
+                    const rawDesc = String(raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary ?? '').trim();
+                    const link = (raw.url ?? raw.link ?? raw.click_url ?? raw.clickUrl ?? raw.offer_url ?? raw.offerUrl ?? raw.tracking_url ?? raw.trackingUrl ?? raw.landing_page ?? null);
                     if (!link || link === '#') return null;
 
-                    // ===== TIER COMPUTATION =====
                     let usd = null;
                     for (const f of ['payout', 'revenue', 'price', 'value']) {
                         if (raw[f] != null) {
@@ -2658,19 +2331,13 @@
                         const n = parseFloat(String(raw.amount).replace(/[^0-9.]/g, ''));
                         if (!isNaN(n) && n > 0) usd = this.interpretOfferUSD(n);
                     }
-                    if (usd === null || usd <= 0) {
-                        usd = this.estimateOfferUSD(raw, title, rawDesc);
-                    }
+                    if (usd === null || usd <= 0) usd = this.estimateOfferUSD(raw, title, rawDesc);
 
                     const { tier, coins } = this.computeTierFromUSD(usd);
 
-                    const desc = rawDesc.length > 5
-                        ? rawDesc
-                        : `Complete this ${tier} offer to earn ${coins} coins.`;
+                    const desc = rawDesc.length > 5 ? rawDesc : `Complete this ${tier} offer to earn ${coins} coins.`;
 
-                    const category = String(
-                        raw.category ?? raw.type ?? raw.offer_type ?? raw.ctype ?? ''
-                    ).toLowerCase();
+                    const category = String(raw.category ?? raw.type ?? raw.offer_type ?? raw.ctype ?? '').toLowerCase();
 
                     let icon = 'star';
                     if (category.includes('survey')) icon = 'clipboard-list';
@@ -2692,15 +2359,11 @@
                     const ctaLabel = OFFER_CTA_LABELS[index % OFFER_CTA_LABELS.length];
 
                     return {
-                        id,
-                        title,
-                        desc,
+                        id, title, desc,
                         reward: coins,
                         tier,
                         status: 'idle',
-                        link,
-                        icon,
-                        iconUrl,
+                        link, icon, iconUrl,
                         isRepeatable: true,
                         cooldownUntil: null,
                         endTime: null,
@@ -2719,34 +2382,25 @@
                         const ua = navigator.userAgent;
                         const lang = navigator.language || 'en-US';
                         const site = window.location.origin + window.location.pathname;
-
                         const query = new URLSearchParams({ ip, user_agent: ua, lang, site });
                         const headers = {
                             'Authorization': `Bearer ${this.API_KEY}`,
                             'Accept': 'application/json'
                         };
-
                         const attempts = [
                             () => fetch(`${this.API_BASE_URL}/offers?${query}`, { method: 'GET', headers }),
-                            () => fetch(`${this.API_BASE_URL}/offers`, {
-                                method: 'POST',
-                                headers: { ...headers, 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ ip, user_agent: ua, lang, site })
-                            }),
+                            () => fetch(`${this.API_BASE_URL}/offers`, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: JSON.stringify({ ip, user_agent: ua, lang, site }) }),
                             () => fetch(`${this.API_BASE_URL}?${query}`, { method: 'GET', headers }),
                             () => fetch(`${this.API_BASE_URL}/offerwall?${query}`, { method: 'GET', headers })
                         ];
-
                         let data = null;
                         let lastErr = null;
-
                         for (let i = 0; i < attempts.length; i++) {
                             try {
                                 const res = await attempts[i]();
                                 const text = await res.text();
                                 let parsed = null;
                                 try { parsed = JSON.parse(text); } catch (_) { }
-
                                 if (!res.ok) {
                                     lastErr = new Error(`Attempt ${i + 1}: HTTP ${res.status}`);
                                     if (parsed && (parsed.offers || parsed.data)) { data = parsed; break; }
@@ -2756,20 +2410,13 @@
                                 lastErr = new Error(`Attempt ${i + 1}: non-JSON`);
                             } catch (e) { lastErr = e; }
                         }
-
                         if (!data) throw lastErr || new Error('All API attempts failed');
-
                         const rawOffers = this.extractOffersArray(data);
-                        const mapped = rawOffers
-                            .map((o, i) => this.normalizeOffer(o, i))
-                            .filter(Boolean);
-
+                        const mapped = rawOffers.map((o, i) => this.normalizeOffer(o, i)).filter(Boolean);
                         const special = getFreshSocialTasks();
-
                         this.tasks = [...mapped, ...special];
                         this.liveOfferCount = mapped.length;
                         this.offerStatus = 'live';
-
                         this.applySavedTaskState();
                         this.tasksHydrated = true;
                         this.saveState();
@@ -2789,15 +2436,10 @@
                 refreshOffers() { this.fetchOffers(); },
 
                 init() {
-                    try {
-                        if (sessionStorage.getItem('robux_gate_passed') === '1') this.gatePassed = true;
-                    } catch (e) { }
-
+                    try { if (sessionStorage.getItem('robux_gate_passed') === '1') this.gatePassed = true; } catch (e) { }
                     this.loadSavedState();
                     if (!this.userId) this.userId = 'RBLX-' + Math.floor(Math.random() * 900000 + 100000);
-
                     this.applySavedTaskState();
-
                     this.registerDailyLogin();
                     this.generateWeeklyLeaderboard();
                     this.updateDailyGiftStatus();
@@ -2805,10 +2447,7 @@
 
                     setInterval(() => {
                         this.updateDailyGiftStatus();
-                        if (this.getWeekKey() !== this.leaderboardWeekKey) {
-                            this.generateWeeklyLeaderboard();
-                        }
-
+                        if (this.getWeekKey() !== this.leaderboardWeekKey) this.generateWeeklyLeaderboard();
                         let anyChange = false;
                         this.tasks.forEach(t => {
                             if (t.status === 'in_progress' && t.endTime && Date.now() >= t.endTime) {
@@ -2822,14 +2461,12 @@
                                 anyChange = true;
                             }
                         });
-
                         const anyActive = this.tasks.some(t => t.status === 'in_progress' || t.status === 'confirm');
                         if (!anyActive && this.isTaskRunning) {
                             this.isTaskRunning = false;
                             this.activeTaskId = null;
                             anyChange = true;
                         }
-
                         if (anyChange && this.tasksHydrated) this.saveState();
                         this.drawCharts();
                     }, 1000);
@@ -2845,21 +2482,11 @@
                             if (this.currentTab === 'dashboard') setTimeout(() => this.drawCharts(), 200);
                         });
                     });
-                    this.$watch('tasks', () => {
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    });
-                    this.$watch('showHonestConfirm', () => {
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    });
-                    this.$watch('rulesAccepted', () => {
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    });
-                    this.$watch('gateView', () => {
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    });
-                    this.$watch('gatePassed', () => {
-                        this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-                    });
+                    this.$watch('tasks', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('showHonestConfirm', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('rulesAccepted', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('gateView', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
+                    this.$watch('gatePassed', () => { this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); }); });
                 },
 
                 registerDailyLogin() {
@@ -2877,25 +2504,19 @@
                         this.showImportantToast('⏳ One task at a time.', '⏳', 'Finish the current task first.');
                         return;
                     }
-
                     task.status = 'in_progress';
                     task.endTime = Date.now() + (task.isSocial ? this.SOCIAL_TASK_TIMER_MS : this.TASK_TIMER_MS);
                     this.isTaskRunning = true;
                     this.activeTaskId = task.id;
                     this.saveState();
-
                     this.openTaskUrl(task);
-
-                    this.showImportantToast('▶️ Task started!', '⏳',
-                        'Complete the task on the page that just opened, then come back to confirm completion.');
-
+                    this.showImportantToast('▶️ Task started!', '⏳', 'Complete the task on the page that just opened, then come back to confirm completion.');
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
                 openTaskUrl(task) {
                     if (!task || !task.link || task.link === '#') return;
                     let finalLink = task.link;
-
                     if (!task.isSocial) {
                         try {
                             const url = new URL(task.link);
@@ -2905,7 +2526,6 @@
                             finalLink = url.toString();
                         } catch (e) { }
                     }
-
                     window.open(finalLink, '_blank', 'noopener,noreferrer');
                 },
 
@@ -2933,8 +2553,7 @@
                         this.isTaskRunning = false;
                         this.activeTaskId = null;
                         this.saveState();
-                        this.showImportantToast('✓ Already claimed', '✓',
-                            'This reward has already been credited to your account.');
+                        this.showImportantToast('✓ Already claimed', '✓', 'This reward has already been credited to your account.');
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                         return;
                     }
@@ -2952,13 +2571,11 @@
                     if (!task.noReward) {
                         this.addTokens(task.reward);
                         this.completedTasksCount++;
-                        this.showImportantToast('🎉 Task completed!', '💰',
-                            'Coins credited to your balance.',
+                        this.showImportantToast('🎉 Task completed!', '💰', 'Coins credited to your balance.',
                             { reward: true, rewardAmount: task.reward, duration: 5500 });
                     } else {
                         this.completedTasksCount++;
-                        this.showImportantToast('✅ Task completed!', '✅',
-                            'You can now collect your external reward from the provider.');
+                        this.showImportantToast('✅ Task completed!', '✅', 'You can now collect your external reward from the provider.');
                     }
 
                     this.saveState();
@@ -3307,14 +2924,12 @@
 
                 acceptRules() {
                     if (!this.rulesAgreed) {
-                        this.showImportantToast('⚠️ Please tick the checkbox first.', '📋',
-                            'You must confirm you have read the rules.');
+                        this.showImportantToast('⚠️ Please tick the checkbox first.', '📋', 'You must confirm you have read the rules.');
                         return;
                     }
                     this.rulesAccepted = true;
                     this.saveState();
-                    this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋',
-                        'Thank you for reading carefully.');
+                    this.showImportantToast('✅ Rules accepted! You can now use the platform.', '📋', 'Thank you for reading carefully.');
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
@@ -3343,8 +2958,7 @@
                     this.isDailyGiftAvailable = false;
                     this.saveState();
                     this.updateDailyGiftStatus();
-                    this.showImportantToast(`🎉 Daily bonus claimed!`, '🔥',
-                        `Day ${this.currentStreak - 1} rewarded.`,
+                    this.showImportantToast(`🎉 Daily bonus claimed!`, '🔥', `Day ${this.currentStreak - 1} rewarded.`,
                         { reward: true, rewardAmount: rewardAmount });
                     this.drawCharts();
                 },
@@ -3440,7 +3054,6 @@
                         cost = giftCosts[this.selectedGiftCard] || 0;
                         payoutLabel = '$' + this.selectedGiftCard + ' Gift Card';
                     } else if (this.selectedTier) {
-                        // 5K Robux tier now costs 500 coins (was 1,000). Others unchanged.
                         cost = this.selectedTier === 5000 ? 500 : this.selectedTier / 5;
                         payoutLabel = this.selectedTier + ' Robux';
                     }
