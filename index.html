@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RobuxPrize | Earn Robux Honestly</title>
 
-    <!-- ===== SITE ICON / FAVICON / WEB PROFILE ===== -->
     <link rel="icon" type="image/jpeg" href="./robuxprizeprofile.jpg" />
     <link rel="shortcut icon" type="image/jpeg" href="./robuxprizeprofile.jpg" />
     <link rel="apple-touch-icon" href="./robuxprizeprofile.jpg" />
@@ -137,6 +136,46 @@
         }
         .btn-confirm-completion:hover:not(:disabled) { transform: translateY(-1px); }
 
+        /* ===== OFFER TIER STYLES ===== */
+        .task-tier-bronze { border-color: rgba(205, 127, 50, 0.45) !important; }
+        .task-tier-silver {
+            border-color: rgba(192, 192, 192, 0.55) !important;
+            box-shadow: 0 0 0 1px rgba(192, 192, 192, 0.15), 0 0 22px -6px rgba(192, 192, 192, 0.4) !important;
+        }
+        .task-tier-gold {
+            border-color: rgba(255, 215, 0, 0.6) !important;
+            box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.18), 0 0 26px -6px rgba(255, 215, 0, 0.5) !important;
+        }
+        .task-tier-diamond {
+            border-color: rgba(0, 217, 255, 0.65) !important;
+            box-shadow: 0 0 0 1px rgba(0, 217, 255, 0.22), 0 0 30px -6px rgba(0, 217, 255, 0.55) !important;
+        }
+        .task-tier-platinum {
+            border-color: rgba(168, 85, 247, 0.7) !important;
+            box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.3), 0 0 40px -8px rgba(168, 85, 247, 0.65) !important;
+            animation: platinum-glow 3s ease-in-out infinite;
+        }
+        @keyframes platinum-glow {
+            0%, 100% { box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.3), 0 0 40px -8px rgba(168, 85, 247, 0.65); }
+            50% { box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.4), 0 0 60px -8px rgba(168, 85, 247, 0.85); }
+        }
+
+        .tier-coin-bronze { color: #e8a866; background: rgba(205,127,50,0.12); border-color: rgba(205,127,50,0.45); }
+        .tier-coin-silver { color: #e8e8e8; background: rgba(192,192,192,0.12); border-color: rgba(192,192,192,0.45); }
+        .tier-coin-gold { color: #ffd700; background: rgba(255,215,0,0.12); border-color: rgba(255,215,0,0.5); }
+        .tier-coin-diamond { color: #00d9ff; background: rgba(0,217,255,0.12); border-color: rgba(0,217,255,0.5); }
+        .tier-coin-platinum { color: #c084fc; background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.55); }
+
+        .tier-label-bronze { color: #e8a866; background: rgba(205,127,50,0.18); }
+        .tier-label-silver { color: #e8e8e8; background: rgba(192,192,192,0.18); }
+        .tier-label-gold { color: #ffd700; background: rgba(255,215,0,0.18); }
+        .tier-label-diamond { color: #00d9ff; background: rgba(0,217,255,0.18); }
+        .tier-label-platinum {
+            color: #fff;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+        }
+
         .task-locked { position: relative; pointer-events: none; }
         .task-locked .lock-overlay {
             position: absolute; inset: 0;
@@ -183,7 +222,7 @@
         }
         @keyframes bar-scroll {
             0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            -100% { background-position: -200% 0; }
         }
 
         .wheel-wrap { position: relative; width: 176px; height: 176px; flex-shrink: 0; }
@@ -305,10 +344,6 @@
             50% { transform: scale(1.12); }
         }
         .notif-badge { animation: notif-pulse 1.8s ease-in-out infinite; }
-        .rules-modal-overlay {
-            background: rgba(4, 5, 8, 0.9);
-            backdrop-filter: blur(10px);
-        }
         .checkbox-honest { accent-color: #ef4444; width: 1.15rem; height: 1.15rem; cursor: pointer; }
         .rules-scroll { max-height: 60vh; overflow-y: auto; }
         .rules-scroll::-webkit-scrollbar { width: 6px; }
@@ -357,7 +392,6 @@
             width: fit-content;
         }
         .withdraw-tier-card.active .tier-cost { border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.12); color: #fca5a5; }
-        .tier-card-top { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
         .gift-card-selector {
             transition: all 0.2s ease;
             border: 1px solid var(--border);
@@ -460,15 +494,6 @@
         .gift-section-divider::before, .gift-section-divider::after {
             content: ''; flex: 1; height: 1px;
             background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
-        }
-        .selection-indicator {
-            font-size: 0.6rem; font-weight: 800;
-            color: #f87171;
-            background: rgba(239, 68, 68, 0.15);
-            padding: 0.15rem 0.65rem;
-            border-radius: 9999px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            display: inline-block; margin-top: 0.25rem;
         }
         .chart-container {
             background: linear-gradient(180deg, #101115 0%, #0c0d10 100%);
@@ -585,7 +610,6 @@
         .copy-link-box .copy-btn:hover { background: rgba(59, 130, 246, 0.25); border-color: #60a5fa; color: #bfdbfe; }
         .dragon-icon { width: 1.15rem; height: 1.15rem; color: #fff; }
 
-        /* ===== RULES PAGE ===== */
         .rule-card {
             background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
             border: 1px solid var(--border);
@@ -614,7 +638,6 @@
 
         .rules-locked-blur { opacity: 0.28; filter: blur(3px); pointer-events: none; user-select: none; }
 
-        /* ===== TASKS HERO BANNER ===== */
         .tasks-hero-banner {
             position: relative;
             border-radius: 1.5rem;
@@ -715,7 +738,6 @@
         .th-youtube { background: linear-gradient(180deg, #3a1010, #1a0808); }
         .th-youtube svg rect { fill: #FF0000; }
 
-        /* ===== ENTRY GATE (start screen) ===== */
         .entry-gate {
             position: fixed; inset: 0;
             z-index: 500;
@@ -758,7 +780,6 @@
         .gate-card:hover { transform: translateY(-3px); border-color: rgba(239, 68, 68, 0.45); box-shadow: 0 18px 40px -22px rgba(239, 68, 68, 0.75); }
         .gate-card.gate-card--web:hover { border-color: rgba(52, 211, 153, 0.45); box-shadow: 0 18px 40px -22px rgba(52, 211, 153, 0.6); }
 
-        /* Brand icon cluster (Apple, Windows, Android, Google Play) */
         .gate-icons {
             display: flex;
             align-items: center;
@@ -827,7 +848,6 @@
         <div class="min-h-full flex items-center justify-center px-4 py-10 sm:py-14">
             <div class="w-full max-w-3xl relative">
 
-                <!-- Brand -->
                 <div class="flex flex-col items-center text-center mb-8">
                     <div class="brand-mark" style="width:3.25rem;height:3.25rem;border-radius:1rem;">
                         <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -844,10 +864,8 @@
                     </p>
                 </div>
 
-                <!-- STEP 1 — CHOOSE PLATFORM -->
                 <div x-show="gateView === 'choose'" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                    <!-- Android -->
                     <button @click="gateView = 'android'" class="gate-card">
                         <div class="gate-icons">
                             <div class="gate-icon android" title="Android">
@@ -866,7 +884,6 @@
                         <span class="gate-cta">Get the App <span aria-hidden="true">→</span></span>
                     </button>
 
-                    <!-- iOS / Windows -->
                     <button @click="enterSite()" class="gate-card gate-card--web">
                         <div class="gate-icons">
                             <div class="gate-icon apple" title="iOS / Apple">
@@ -887,7 +904,6 @@
 
                 </div>
 
-                <!-- STEP 2 — ANDROID PLAY STORE PANEL -->
                 <div x-show="gateView === 'android'" x-cloak class="gate-panel">
 
                     <button @click="gateView = 'choose'" class="btn-ghost text-[11px] font-bold px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 mb-5">
@@ -944,7 +960,6 @@
         </div>
     </div>
 
-    <!-- TOP NAV -->
     <nav class="sticky top-0 z-50 top-nav px-4 py-3 lg:px-8">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-2.5 cursor-pointer select-none" @click="currentTab = 'dashboard'">
@@ -974,7 +989,6 @@
     <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 lg:px-8 pb-28 lg:pb-12">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-            <!-- SIDEBAR -->
             <aside class="hidden lg:block space-y-3">
                 <div class="glass-card p-4 space-y-1.5">
                     <p class="text-[10px] font-bold text-zinc-500 px-3 uppercase tracking-[0.15em] mb-3">Navigation</p>
@@ -1008,7 +1022,6 @@
                 </div>
             </aside>
 
-            <!-- CONTENT -->
             <section class="lg:col-span-3 min-h-[60vh]">
 
                 <!-- ===== DASHBOARD ===== -->
@@ -1227,7 +1240,6 @@
                         </div>
                     </div>
 
-                    <!-- Professional Tasks Banner -->
                     <div class="tasks-hero-banner">
                         <div class="th-glow"></div>
                         <div class="th-content">
@@ -1255,31 +1267,26 @@
                         </div>
                     </div>
 
-                    <!-- Info -->
                     <div class="bg-blue-500/[0.06] border border-blue-500/20 rounded-xl p-3 flex items-start gap-2.5 text-xs text-blue-300">
                         <i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-400"></i>
                         <span>Only one task can run at a time. Others lock until it finishes. Click <strong class="text-white">Confirm Completion</strong> once you have finished the task to claim your reward.</span>
                     </div>
 
-                    <!-- Honesty warning -->
                     <div class="bg-amber-500/[0.07] border border-amber-500/25 rounded-xl p-3 flex items-start gap-2.5 text-xs text-amber-200">
                         <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400"></i>
                         <span><strong class="text-amber-300">Important:</strong> You must complete every task <strong class="text-white">honestly</strong> to collect your coins and withdraw without problems. Skipping, avoiding, or claiming a task without genuinely completing it <strong class="text-red-400">may lead to your withdrawal being rejected</strong>.</span>
                     </div>
 
-                    <!-- Running indicator -->
                     <div x-show="isTaskRunning" x-transition class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-300 font-medium">
                         <svg class="animate-spin h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
                         <span>A task is in progress. Other tasks are locked until it finishes.</span>
                     </div>
 
-                    <!-- Loading indicator (small) -->
                     <div x-show="offerStatus === 'loading'" class="bg-slate-500/[0.05] border border-white/10 rounded-xl p-2.5 flex items-center gap-2.5 text-xs text-zinc-400">
                         <svg class="animate-spin h-3.5 w-3.5 flex-shrink-0 text-zinc-400" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
                         <span>Loading live offers from the network…</span>
                     </div>
 
-                    <!-- API error state -->
                     <div x-show="offerStatus === 'error'" class="offer-state-box" style="padding: 1.35rem 1rem;">
                         <i data-lucide="wifi-off" class="w-8 h-8 text-red-400 mx-auto mb-2"></i>
                         <h3 class="text-white font-bold text-base">Live offer network unreachable</h3>
@@ -1289,21 +1296,24 @@
                         </button>
                     </div>
 
-                    <!-- API empty state -->
                     <div x-show="offerStatus === 'empty'" class="offer-state-box" style="padding: 1.35rem 1rem;">
                         <i data-lucide="package-open" class="w-8 h-8 text-zinc-500 mx-auto mb-2"></i>
                         <h3 class="text-white font-bold text-base">No extra offers for your region right now</h3>
                         <p class="text-zinc-400 text-xs mt-1.5 max-w-md mx-auto">Social tasks below are still available. Try refreshing in a few minutes for more offers.</p>
                     </div>
 
-                    <!-- TASK GRID -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <template x-for="task in tasks" :key="task.id">
                             <div class="glass-card p-5 flex flex-col justify-between group relative"
                                 :class="{
                                     'task-locked': isTaskRunning && task.status === 'idle' && task.id !== activeTaskId,
                                     'task-in-progress': task.status === 'in_progress',
-                                    'task-confirm': task.status === 'confirm'
+                                    'task-confirm': task.status === 'confirm',
+                                    'task-tier-bronze': task.tier === 'bronze' && task.status === 'idle' && task.id !== activeTaskId,
+                                    'task-tier-silver': task.tier === 'silver' && task.status === 'idle' && task.id !== activeTaskId,
+                                    'task-tier-gold': task.tier === 'gold' && task.status === 'idle' && task.id !== activeTaskId,
+                                    'task-tier-diamond': task.tier === 'diamond' && task.status === 'idle' && task.id !== activeTaskId,
+                                    'task-tier-platinum': task.tier === 'platinum' && task.status === 'idle' && task.id !== activeTaskId
                                 }">
 
                                 <div x-show="isTaskRunning && task.status === 'idle' && task.id !== activeTaskId" class="lock-overlay">
@@ -1333,19 +1343,28 @@
                                             </template>
                                         </div>
 
-                                        <template x-if="!task.noReward">
-                                            <span class="text-[11px] font-bold text-amber-300 bg-amber-500/10 px-2.5 py-1 rounded-lg border border-amber-500/25 mono flex items-center gap-1">
-                                                +<span x-text="task.reward"></span>
-                                                <i data-lucide="coins" class="w-3.5 h-3.5 text-amber-400"></i>
-                                            </span>
-                                        </template>
-
-                                        <template x-if="task.noReward">
-                                            <span class="text-[11px] font-bold text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-lg border border-sky-500/25 mono flex items-center gap-1">
-                                                <i data-lucide="external-link" class="w-3 h-3"></i>
-                                                External
-                                            </span>
-                                        </template>
+                                        <div class="flex flex-col items-end gap-1">
+                                            <template x-if="!task.noReward">
+                                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg border mono flex items-center gap-1"
+                                                      :class="task.tier
+                                                          ? 'tier-coin-' + task.tier
+                                                          : 'text-amber-300 bg-amber-500/10 border-amber-500/25'">
+                                                    +<span x-text="task.reward"></span>
+                                                    <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+                                                </span>
+                                            </template>
+                                            <template x-if="task.noReward">
+                                                <span class="text-[11px] font-bold text-sky-300 bg-sky-500/10 px-2.5 py-1 rounded-lg border border-sky-500/25 mono flex items-center gap-1">
+                                                    <i data-lucide="external-link" class="w-3 h-3"></i>
+                                                    External
+                                                </span>
+                                            </template>
+                                            <template x-if="task.tier && task.isApiOffer">
+                                                <span class="text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded tier-label"
+                                                      :class="'tier-label-' + task.tier"
+                                                      x-text="tierLabel(task.tier)"></span>
+                                            </template>
+                                        </div>
                                     </div>
 
                                     <h3 class="text-sm font-bold text-white" x-text="task.title"></h3>
@@ -1398,7 +1417,6 @@
                                     </span>
                                     <div class="flex items-center gap-2">
 
-                                        <!-- Idle state CTA (uses per-offer ctaLabel) -->
                                         <button x-show="task.status === 'idle'" @click="startTask(task)"
                                             :disabled="isTaskRunning"
                                             :class="{
@@ -1417,21 +1435,18 @@
                                             </template>
                                         </button>
 
-                                        <!-- In-progress / Open Offer -->
                                         <button x-show="task.status === 'in_progress'" @click="openTaskUrl(task)"
                                             class="btn-open-link text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                                             <span x-text="task.isSocial ? 'Open Link' : 'Open Offer'"></span>
                                         </button>
 
-                                        <!-- Confirm Completion -->
                                         <button x-show="task.status === 'confirm'" @click="openHonestConfirm(task)"
                                             class="btn-confirm-completion text-[11px] px-3.5 py-2 rounded-xl flex items-center gap-1.5">
                                             <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
                                             <span x-text="task.isSocial ? 'Confirm & Claim' : 'Confirm Completion'"></span>
                                         </button>
 
-                                        <!-- Completed state -->
                                         <button x-show="task.status === 'completed'" disabled
                                             class="bg-emerald-500/[0.08] border border-emerald-500/25 text-emerald-400 text-[11px] font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 cursor-not-allowed">
                                             <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
@@ -1513,7 +1528,7 @@
                                 </div>
                                 <div class="bg-white/[0.03] p-3 rounded-xl border border-white/5 mt-4 text-center flex items-center justify-center gap-1.5">
                                     <span class="text-xs mono text-zinc-300">5K Robux =</span>
-                                    <strong class="text-red-400">1,000</strong>
+                                    <strong class="text-red-400">500</strong>
                                     <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
                                 </div>
                                 <div class="bg-white/[0.03] p-3 rounded-xl border border-white/5 mt-3 text-center flex items-center justify-center gap-1.5">
@@ -1570,7 +1585,7 @@
                                             <button @click="selectedTier = 5000; selectedGiftCard = null" :class="selectedTier === 5000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                                 <span class="tier-amount flex items-center">5K<img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1.5 bordered" onerror="this.style.display='none'" /></span>
                                                 <span class="tier-badge">Robux</span>
-                                                <span class="tier-cost inline-flex items-center gap-1">1,000 <i data-lucide="coins" class="w-3 h-3 text-amber-400"></i></span>
+                                                <span class="tier-cost inline-flex items-center gap-1">500 <i data-lucide="coins" class="w-3 h-3 text-amber-400"></i></span>
                                             </button>
                                             <button @click="selectedTier = 10000; selectedGiftCard = null" :class="selectedTier === 10000 && !selectedGiftCard ? 'active' : ''" class="withdraw-tier-card">
                                                 <span class="tier-amount flex items-center">10K<img src="./robuxlogo.jpg" alt="Robux" class="robux-logo-img w-5 h-5 ml-1.5 bordered" onerror="this.style.display='none'" /></span>
@@ -1853,7 +1868,6 @@
         </div>
     </main>
 
-    <!-- MOBILE TAB BAR -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 mobile-nav px-2 py-2 z-50 flex justify-around items-center">
         <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Home</span>
@@ -1876,7 +1890,6 @@
         </button>
     </nav>
 
-    <!-- ===== HONEST CONFIRM MODAL ===== -->
     <div x-show="showHonestConfirm" class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[110]"
         x-transition:enter="transition ease-out duration-200"
         x-transition:enter-start="opacity-0 scale-95"
@@ -1945,7 +1958,6 @@
         </div>
     </div>
 
-    <!-- ===== PLATFORM RULES GATE MODAL ===== -->
     <div x-show="!rulesAccepted && currentTab === 'rules'"
         class="task-modal-overlay fixed inset-0 flex items-center justify-center p-4 z-[120]"
         x-transition:enter="transition ease-out duration-200"
@@ -2041,7 +2053,6 @@
         </div>
     </div>
 
-    <!-- ===== TOAST ===== -->
     <div class="toast-center pointer-events-none" x-show="importantToast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100">
         <div class="toast-inner pointer-events-auto" :class="importantToast.reward ? 'reward-toast' : ''">
             <div class="toast-icon" x-text="importantToast.icon"></div>
@@ -2055,12 +2066,7 @@
         </div>
     </div>
 
-    <!-- ===== SCRIPT ===== -->
     <script>
-        // Social task definitions. TikTok, Telegram, and YouTube now behave
-        // exactly like API offers: clicking "Start" opens the link directly,
-        // the task enters the in_progress state with a timer, then becomes
-        // "Confirm & Claim" once the timer expires. No copy/paste modal.
         const SOCIAL_TASKS_DEF = [
             {
                 id: 'tiktok_alqfr',
@@ -2127,9 +2133,6 @@
             }
         ];
 
-        // Rotating CTA labels applied to every API-loaded offer.
-        // Each offer gets one of these based on its index, so the wall
-        // feels varied and engaging.
         const OFFER_CTA_LABELS = [
             'Tap to Claim Your Bonus',
             'Score to Have the Chance',
@@ -2138,6 +2141,8 @@
             'Tap to Claim Your Reward'
         ];
 
+        const TIER_DISPLAY = { bronze: 'BRONZE', silver: 'SILVER', gold: 'GOLD', diamond: 'DIAMOND', platinum: 'LEGENDARY' };
+
         function getFreshSocialTasks() {
             return SOCIAL_TASKS_DEF.map(t => ({ ...t }));
         }
@@ -2145,8 +2150,6 @@
         function appState() {
             return {
                 currentTab: 'dashboard',
-
-                // ===== ENTRY GATE =====
                 gatePassed: false,
                 gateView: 'choose',
 
@@ -2203,14 +2206,57 @@
 
                 TASK_TIMER_MS: 2 * 60 * 1000,
                 SOCIAL_TASK_TIMER_MS: 60 * 1000,
-
                 OFFER_COOLDOWN_MS: 4 * 60 * 1000,
 
                 tasks: getFreshSocialTasks(),
 
                 usedPromoCodes: [],
 
-                // ===== ENTRY GATE HELPERS =====
+                // ===== TIER HELPER =====
+                tierLabel(tier) {
+                    return TIER_DISPLAY[tier] || '';
+                },
+
+                // Interpret the payout field into USD
+                // < 1 → dollars, 1-4 → dollars (rare small values), 5-99 → cents, >=100 → cents, >=10000 → eCPM
+                interpretOfferUSD(val) {
+                    if (val == null || isNaN(val) || val <= 0) return null;
+                    if (val < 1) return val;                       // 0.16, 0.50 → dollars
+                    if (val < 5) return val;                       // 1-4 → dollars
+                    if (Number.isInteger(val) && val < 100) return val / 100;  // 5-99 → cents
+                    if (val < 10000) return val / 100;             // 100-9999 → cents
+                    return val / 1000;                             // >= 10000 → eCPM
+                },
+
+                // Determine tier + coins from USD payout
+                // Bronze: <$1 → 25 (below $0.50) or 50 ($0.50-$0.99)
+                // Silver: $1-$1.99 → 100
+                // Gold: $2-$2.99 → 200
+                // Diamond: $3-$3.99 → 300
+                // Legendary Platinum: $4+ → 500
+                computeTierFromUSD(usd) {
+                    if (usd == null || usd <= 0) {
+                        return { tier: 'bronze', coins: 25, usd: 0 };
+                    }
+                    if (usd < 0.5) return { tier: 'bronze', coins: 25, usd };
+                    if (usd < 1) return { tier: 'bronze', coins: 50, usd };
+                    if (usd < 2) return { tier: 'silver', coins: 100, usd };
+                    if (usd < 3) return { tier: 'gold', coins: 200, usd };
+                    if (usd < 4) return { tier: 'diamond', coins: 300, usd };
+                    return { tier: 'platinum', coins: 500, usd };
+                },
+
+                estimateOfferUSD(raw, title, desc) {
+                    const combined = `${title} ${desc} ${raw.category || ''} ${raw.type || ''} ${raw.offer_type || ''}`.toLowerCase();
+                    if (/insurance|finance|loan|mortgage|credit|invest|crypto|trading|wealth|refinanc/.test(combined)) return 4.0;
+                    if (/lead.?gen|sign.?up|register|registration|subscription|trial|deposit|sweepstake/.test(combined)) return 2.0;
+                    if (/install|download|android|ios|mobile|app.?store|play.?store/.test(combined)) return 1.0;
+                    if (/game|play|puzzle|rpg|strategy/.test(combined)) return 1.5;
+                    if (/survey|quote|form/.test(combined)) return 0.5;
+                    if (/video|watch|stream/.test(combined)) return 0.16;
+                    return 0.5;
+                },
+
                 enterSite() {
                     this.gatePassed = true;
                     try { sessionStorage.setItem('robux_gate_passed', '1'); } catch (e) { }
@@ -2228,7 +2274,6 @@
                     });
                 },
 
-                // ===== SOCIAL TASK CLAIM HELPERS =====
                 getSocialClaims() {
                     try {
                         return JSON.parse(localStorage.getItem('robux_social_claims_v1') || '{}');
@@ -2248,7 +2293,6 @@
                     localStorage.setItem('robux_social_claims_v1', JSON.stringify(claims));
                 },
 
-                // ===== GETTERS =====
                 get spinCooldownDisplay() {
                     const diff = this.spinCooldownUntil - Date.now();
                     if (diff <= 0) return 'Ready!';
@@ -2300,7 +2344,6 @@
                     return this.tasks.find(t => t.id === this.confirmTaskId) || null;
                 },
 
-                // ===== TOAST =====
                 showImportantToast(msg, icon = '✅', sub = '', opts = {}) {
                     this.importantToast.show = false;
                     this.$nextTick(() => {
@@ -2323,7 +2366,6 @@
                     if (this.toastTimeout) clearTimeout(this.toastTimeout);
                 },
 
-                // ===== OFFERS API =====
                 async getVisitorIP() {
                     const providers = [
                         'https://api.ipify.org?format=json',
@@ -2372,9 +2414,8 @@
                         raw.name ?? raw.title ?? raw.offer_name ?? raw.headline ?? `Offer #${index + 1}`
                     ).trim();
 
-                    const desc = String(
-                        raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary
-                        ?? 'Complete this offer to earn coins.'
+                    const rawDesc = String(
+                        raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary ?? ''
                     ).trim();
 
                     const link = (
@@ -2385,51 +2426,36 @@
 
                     if (!link || link === '#') return null;
 
-                    // ===== REWARD LOGIC (25-70 coins) =====
-                    // • Standard offers (surveys, videos, misc) → 25 coins
-                    // • High-ECPM offers (app installs, lead gen, signups,
-                    //   games, trials, finance) → 50-70 coins based on
-                    //   the offer's actual payout if provided, else rotating
-                    //   through the 50/55/60/65/70 ladder.
+                    // ===== TIER COMPUTATION =====
+                    let usd = null;
+                    for (const f of ['payout', 'revenue', 'price', 'value']) {
+                        if (raw[f] != null) {
+                            const n = parseFloat(String(raw[f]).replace(/[^0-9.]/g, ''));
+                            if (!isNaN(n) && n > 0) { usd = this.interpretOfferUSD(n); break; }
+                        }
+                    }
+                    if (usd === null && raw.ecpm != null) {
+                        const n = parseFloat(String(raw.ecpm).replace(/[^0-9.]/g, ''));
+                        if (!isNaN(n) && n > 0) usd = n / 1000;
+                    }
+                    if (usd === null && raw.amount != null) {
+                        const n = parseFloat(String(raw.amount).replace(/[^0-9.]/g, ''));
+                        if (!isNaN(n) && n > 0) usd = this.interpretOfferUSD(n);
+                    }
+                    if (usd === null || usd <= 0) {
+                        usd = this.estimateOfferUSD(raw, title, rawDesc);
+                    }
+
+                    const { tier, coins } = this.computeTierFromUSD(usd);
+
+                    const desc = rawDesc.length > 5
+                        ? rawDesc
+                        : `Complete this ${tier} offer to earn ${coins} coins.`;
+
                     const category = String(
                         raw.category ?? raw.type ?? raw.offer_type ?? raw.ctype ?? ''
                     ).toLowerCase();
-                    const titleLower = title.toLowerCase();
-                    const combined = `${category} ${titleLower}`;
 
-                    const HIGH_VALUE_PATTERN = /(^|[^a-z])(app|install|download|game|play|lead|signup|sign.?up|email|survey|form|registration|trial|subscription|deposit|invest|finance|insurance|crypto|casino|betting|trading|broker|wallet|bank)([^a-z]|$)/i;
-                    const isHighValue = HIGH_VALUE_PATTERN.test(combined);
-
-                    // Try to read the actual payout the API provides.
-                    // The user wants the payout shown to *them* to match the
-                    // value the offer actually pays out in coins: 25 for
-                    // standard, 50-70 for high ECPM.
-                    const rawPayout = parseFloat(
-                        raw.payout ?? raw.reward ?? raw.amount ?? raw.value ??
-                        raw.price ?? raw.coins ?? 0
-                    ) || 0;
-
-                    let tokensReward;
-                    if (isHighValue) {
-                        // High-ECPM range: 50 to 70 coins, in increments of 5
-                        if (rawPayout >= 50 && rawPayout <= 70) {
-                            tokensReward = Math.round(rawPayout / 5) * 5;
-                        } else {
-                            const HIGH_RANGE = [50, 55, 60, 65, 70];
-                            tokensReward = HIGH_RANGE[index % HIGH_RANGE.length];
-                        }
-                    } else if (rawPayout >= 25 && rawPayout < 50) {
-                        // API explicitly says this offer pays between 25-49
-                        tokensReward = Math.round(rawPayout);
-                    } else {
-                        // Standard offer → 25 coins
-                        tokensReward = 25;
-                    }
-
-                    // Clamp to the 25-70 hard limits
-                    tokensReward = Math.min(70, Math.max(25, tokensReward));
-
-                    // ===== ICON =====
                     let icon = 'star';
                     if (category.includes('survey')) icon = 'clipboard-list';
                     else if (category.includes('app') || category.includes('install') || category.includes('download')) icon = 'download-cloud';
@@ -2447,14 +2473,14 @@
                     else if (index < 6) badge = 'recommended';
                     else if (index < 9) badge = 'new';
 
-                    // Rotating CTA label so each offer has its own hook
                     const ctaLabel = OFFER_CTA_LABELS[index % OFFER_CTA_LABELS.length];
 
                     return {
                         id,
                         title,
                         desc,
-                        reward: tokensReward,
+                        reward: coins,
+                        tier,
                         status: 'idle',
                         link,
                         icon,
@@ -2546,7 +2572,6 @@
 
                 refreshOffers() { this.fetchOffers(); },
 
-                // ===== INIT =====
                 init() {
                     try {
                         if (sessionStorage.getItem('robux_gate_passed') === '1') this.gatePassed = true;
@@ -2630,7 +2655,6 @@
                     }
                 },
 
-                // ===== TASK FLOW =====
                 startTask(task) {
                     if (!task || task.status !== 'idle') return;
                     if (this.isTaskRunning) {
@@ -2726,7 +2750,6 @@
                     this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                 },
 
-                // ===== LEADERBOARD =====
                 getWeekKey() {
                     const d = new Date();
                     const day = d.getUTCDay();
@@ -2781,7 +2804,6 @@
                     return list;
                 },
 
-                // ===== CHARTS =====
                 drawCharts() { this.drawTokenChart(); this.drawTasksChart(); },
 
                 drawTokenChart() {
@@ -2902,7 +2924,6 @@
                     }
                 },
 
-                // ===== PERSISTENCE =====
                 loadSavedState() {
                     const savedRunning = localStorage.getItem('robux_task_running');
                     const savedTokens = localStorage.getItem('robux_tokens_balance');
@@ -3203,7 +3224,8 @@
                         cost = giftCosts[this.selectedGiftCard] || 0;
                         payoutLabel = '$' + this.selectedGiftCard + ' Gift Card';
                     } else if (this.selectedTier) {
-                        cost = this.selectedTier / 5;
+                        // 5K Robux tier now costs 500 coins (was 1,000). Others unchanged.
+                        cost = this.selectedTier === 5000 ? 500 : this.selectedTier / 5;
                         payoutLabel = this.selectedTier + ' Robux';
                     }
                     if (!this.robloxUser.trim()) {
