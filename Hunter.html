@@ -3,37 +3,37 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RobuxHunter | Earn Robux Honestly</title>
+    <title>RobuxPrize | Earn Robux Honestly</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --accent: #8b5cf6; --accent-soft: #a78bfa; --accent-deep: #6d28d9;
-            --emerald: #34d399; --surface: #0b0a12; --surface-2: #14121e;
+            --accent: #ef4444; --accent-soft: #f87171; --accent-deep: #b91c1c;
+            --emerald: #34d399; --surface: #0c0d10; --surface-2: #121317;
             --border: rgba(255, 255, 255, 0.06); --border-strong: rgba(255, 255, 255, 0.10);
         }
-        html, body { background-color: #08060f; }
+        html, body { background-color: #08090b; }
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #08060f;
+            font-family: 'Inter', sans-serif;
+            background-color: #08090b;
             color: #e4e4e7;
             background-image:
-                radial-gradient(1200px 600px at 80% -10%, rgba(139, 92, 246, 0.10), transparent 60%),
-                radial-gradient(900px 500px at -10% 20%, rgba(34, 211, 238, 0.05), transparent 55%);
+                radial-gradient(1200px 600px at 80% -10%, rgba(239, 68, 68, 0.06), transparent 60%),
+                radial-gradient(900px 500px at -10% 20%, rgba(52, 211, 153, 0.03), transparent 55%);
             background-attachment: fixed;
         }
         .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.4); border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.35); border-radius: 3px; }
         [x-cloak] { display: none !important; }
-        .glass { background: linear-gradient(180deg, rgba(24, 21, 34, 0.85), rgba(13, 11, 20, 0.9)); border: 1px solid var(--border); backdrop-filter: blur(14px); }
+        .glass { background: linear-gradient(180deg, rgba(24, 25, 30, 0.85), rgba(14, 15, 18, 0.9)); border: 1px solid var(--border); backdrop-filter: blur(14px); }
         .glass-card {
-            background: linear-gradient(180deg, #14121e 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
             border: 1px solid var(--border);
             border-radius: 1.25rem;
             position: relative; overflow: hidden;
@@ -48,8 +48,8 @@
         .brand-mark {
             position: relative; width: 2.25rem; height: 2.25rem;
             border-radius: 0.75rem;
-            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 60%, #4c1d95 100%);
-            box-shadow: 0 6px 20px -6px rgba(139, 92, 246, 0.7), inset 0 1px 0 rgba(255,255,255,0.3);
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 60%, #7f1d1d 100%);
+            box-shadow: 0 6px 20px -6px rgba(239, 68, 68, 0.65), inset 0 1px 0 rgba(255,255,255,0.3);
             display: flex; align-items: center; justify-content: center; color: #fff;
         }
         .brand-mark::after {
@@ -58,7 +58,7 @@
             pointer-events: none;
         }
         .top-nav {
-            background: linear-gradient(180deg, rgba(8,6,15,0.85), rgba(8,6,15,0.55));
+            background: linear-gradient(180deg, rgba(8,9,11,0.85), rgba(8,9,11,0.55));
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
         }
@@ -69,20 +69,20 @@
         }
         .nav-item { position: relative; transition: all 0.18s ease; }
         .nav-item.active {
-            background: linear-gradient(90deg, rgba(139, 92, 246, 0.16), rgba(139, 92, 246, 0.04));
-            color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.28);
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.14), rgba(239, 68, 68, 0.04));
+            color: #f87171; border: 1px solid rgba(239, 68, 68, 0.22);
         }
         .nav-item.active::before {
             content: ''; position: absolute; left: -1px; top: 20%; bottom: 20%; width: 3px;
             border-radius: 9999px;
-            background: linear-gradient(180deg, #a78bfa, #6d28d9);
+            background: linear-gradient(180deg, #f87171, #b91c1c);
         }
         .nav-item:not(.active) { color: #a1a1aa; border: 1px solid transparent; }
         .nav-item:not(.active):hover { background: rgba(255,255,255,0.03); color: #f4f4f5; }
         .btn-primary {
-            background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
-            color: #ffffff; border: 1px solid rgba(167, 139, 250, 0.5);
-            box-shadow: 0 10px 24px -10px rgba(139, 92, 246, 0.75), inset 0 1px 0 rgba(255,255,255,0.25);
+            background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+            color: #ffffff; border: 1px solid rgba(248, 113, 113, 0.5);
+            box-shadow: 0 10px 24px -10px rgba(239, 68, 68, 0.7), inset 0 1px 0 rgba(255,255,255,0.25);
             transition: all 0.18s ease; font-weight: 700;
         }
         .btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
@@ -95,28 +95,28 @@
         .btn-ghost:hover { background: rgba(255,255,255,0.06); color: #fff; }
 
         .btn-in-progress {
-            background: linear-gradient(180deg, #0891b2 0%, #0e7490 100%);
-            color: #cffafe;
-            border: 1px solid rgba(34, 211, 238, 0.5);
+            background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+            color: #dbeafe;
+            border: 1px solid rgba(96, 165, 250, 0.5);
             animation: in-progress-pulse 2s ease-in-out infinite;
             cursor: wait;
         }
         @keyframes in-progress-pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); }
-            50% { box-shadow: 0 0 0 8px rgba(34, 211, 238, 0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
         }
         .btn-open-link {
-            background: linear-gradient(180deg, #06b6d4 0%, #0891b2 100%);
+            background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
             color: #ffffff; font-weight: 700;
-            border: 1px solid rgba(103, 232, 249, 0.5);
-            box-shadow: 0 8px 20px -8px rgba(6, 182, 212, 0.7), inset 0 1px 0 rgba(255,255,255,0.25);
+            border: 1px solid rgba(125, 211, 252, 0.5);
+            box-shadow: 0 8px 20px -8px rgba(14, 165, 233, 0.7), inset 0 1px 0 rgba(255,255,255,0.25);
             transition: all 0.18s ease;
         }
         .btn-open-link:hover:not(:disabled) { transform: translateY(-1px); }
         .btn-open-link.blue {
-            background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
-            border-color: rgba(196, 181, 253, 0.5);
-            box-shadow: 0 8px 20px -8px rgba(124, 58, 237, 0.7), inset 0 1px 0 rgba(255,255,255,0.25);
+            background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%);
+            border-color: rgba(147, 197, 253, 0.5);
+            box-shadow: 0 8px 20px -8px rgba(37, 99, 235, 0.7), inset 0 1px 0 rgba(255,255,255,0.25);
         }
         .btn-confirm-completion {
             background: linear-gradient(180deg, #10b981 0%, #059669 100%);
@@ -130,7 +130,7 @@
         .task-locked { position: relative; pointer-events: none; }
         .task-locked .lock-overlay {
             position: absolute; inset: 0;
-            background: rgba(6, 4, 14, 0.75);
+            background: rgba(4, 5, 8, 0.72);
             backdrop-filter: blur(4px);
             border-radius: 1.25rem;
             display: flex; align-items: center; justify-content: center;
@@ -150,13 +150,13 @@
         }
 
         .task-in-progress {
-            border-color: rgba(34, 211, 238, 0.5) !important;
-            box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.2), 0 0 40px -12px rgba(34, 211, 238, 0.55) !important;
+            border-color: rgba(59, 130, 246, 0.5) !important;
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2), 0 0 40px -12px rgba(59, 130, 246, 0.55) !important;
         }
         .task-in-progress::after {
             content: '';
             position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, #67e8f9, transparent);
+            background: linear-gradient(90deg, transparent, #60a5fa, transparent);
             background-size: 200% 100%;
             animation: bar-scroll 2s linear infinite;
         }
@@ -179,7 +179,7 @@
         .wheel-wrap { position: relative; width: 176px; height: 176px; flex-shrink: 0; }
         .wheel-outer-glow {
             position: absolute; inset: -14px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(251, 191, 36, 0.28), rgba(139, 92, 246, 0.18) 45%, transparent 75%);
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.28), rgba(239, 68, 68, 0.14) 45%, transparent 75%);
             filter: blur(18px); animation: wheel-glow 3s ease-in-out infinite; pointer-events: none;
         }
         @keyframes wheel-glow { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
@@ -199,25 +199,25 @@
         .visual-wheel {
             position: absolute; inset: 8px; border-radius: 50%;
             background: conic-gradient(from 0deg,
-                #232030 0deg 45deg, #8b5cf6 45deg 90deg,
-                #232030 90deg 135deg, #10b981 135deg 180deg,
-                #232030 180deg 225deg, #8b5cf6 225deg 270deg,
-                #232030 270deg 315deg, #fbbf24 315deg 360deg);
+                #1e2530 0deg 45deg, #ef4444 45deg 90deg,
+                #1e2530 90deg 135deg, #10b981 135deg 180deg,
+                #1e2530 180deg 225deg, #ef4444 225deg 270deg,
+                #1e2530 270deg 315deg, #fbbf24 315deg 360deg);
             box-shadow: inset 0 0 30px rgba(0,0,0,0.75);
             transition: transform 5s cubic-bezier(0.15, 0.85, 0.15, 1);
         }
         .wheel-hub {
             position: absolute; top: 50%; left: 50%;
             width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #3a3350, #100e1a 70%);
-            border: 3px solid #0b0a12;
+            background: radial-gradient(circle at 35% 30%, #3a4250, #10131a 70%);
+            border: 3px solid #0c0d10;
             box-shadow: 0 0 0 2px rgba(251,191,36,0.4);
             display: flex; align-items: center; justify-content: center; z-index: 6;
         }
         .wheel-hub-dot {
             width: 12px; height: 12px; border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #c4b5fd, #7c3aed 70%);
-            box-shadow: 0 0 12px rgba(139, 92, 246, 0.9);
+            background: radial-gradient(circle at 35% 30%, #fca5a5, #dc2626 70%);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.9);
         }
         .wheel-pointer {
             position: absolute; top: -14px; left: 50%; transform: translateX(-50%); z-index: 10;
@@ -264,8 +264,8 @@
         }
         .toast-center .toast-inner {
             pointer-events: auto;
-            background: linear-gradient(180deg, rgba(24,21,34,0.98), rgba(10,8,18,0.98));
-            border: 1px solid rgba(139, 92, 246, 0.4);
+            background: linear-gradient(180deg, rgba(24,25,30,0.98), rgba(12,13,16,0.98));
+            border: 1px solid rgba(239, 68, 68, 0.35);
             border-radius: 1.1rem;
             padding: 0.9rem 1.1rem;
             text-align: center;
@@ -284,7 +284,7 @@
         }
         .toast-center .toast-ok-btn {
             margin-top: 0.65rem;
-            background: linear-gradient(180deg, #8b5cf6, #7c3aed);
+            background: linear-gradient(180deg, #ef4444, #dc2626);
             padding: 0.35rem 1.6rem;
             border-radius: 9999px;
             font-weight: 800; font-size: 0.72rem;
@@ -296,14 +296,14 @@
         }
         .notif-badge { animation: notif-pulse 1.8s ease-in-out infinite; }
         .rules-modal-overlay {
-            background: rgba(6, 4, 14, 0.9);
+            background: rgba(4, 5, 8, 0.9);
             backdrop-filter: blur(10px);
         }
-        .checkbox-honest { accent-color: #8b5cf6; width: 1.15rem; height: 1.15rem; cursor: pointer; }
+        .checkbox-honest { accent-color: #ef4444; width: 1.15rem; height: 1.15rem; cursor: pointer; }
         .rules-scroll { max-height: 60vh; overflow-y: auto; }
         .rules-scroll::-webkit-scrollbar { width: 6px; }
         .rules-scroll::-webkit-scrollbar-track { background: transparent; }
-        .rules-scroll::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.4); border-radius: 3px; }
+        .rules-scroll::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.35); border-radius: 3px; }
         .level-progress-bar { background: rgba(255,255,255,0.06); border-radius: 9999px; height: 6px; overflow: hidden; }
         .level-progress-fill {
             background: linear-gradient(90deg, #fbbf24, #f59e0b);
@@ -313,7 +313,7 @@
         .leaderboard-item { transition: all 0.15s; border: 1px solid transparent; }
         .leaderboard-item:hover { background: rgba(255,255,255,0.03); border-color: var(--border); }
         .profile-avatar {
-            background: linear-gradient(135deg, #a78bfa 0%, #6d28d9 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
             width: 3.25rem; height: 3.25rem;
             border-radius: 1rem;
             display: flex; align-items: center; justify-content: center;
@@ -322,7 +322,7 @@
         .withdraw-tier-card {
             transition: all 0.2s ease;
             border: 1px solid var(--border);
-            background: linear-gradient(180deg, #14121e 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
             border-radius: 1rem;
             padding: 1rem;
             cursor: pointer;
@@ -331,8 +331,8 @@
         }
         .withdraw-tier-card:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-2px); }
         .withdraw-tier-card.active {
-            border-color: rgba(139, 92, 246, 0.6);
-            background: linear-gradient(180deg, rgba(139, 92, 246, 0.12), rgba(109, 40, 217, 0.05));
+            border-color: rgba(239, 68, 68, 0.55);
+            background: linear-gradient(180deg, rgba(239, 68, 68, 0.08), rgba(185, 28, 28, 0.04));
         }
         .withdraw-tier-card .tier-amount { font-weight: 800; font-size: 1.25rem; color: #fff; }
         .withdraw-tier-card .tier-badge { font-size: 0.6rem; text-transform: uppercase; font-weight: 700; color: #8a8a92; }
@@ -346,12 +346,12 @@
             font-family: 'JetBrains Mono', monospace;
             width: fit-content;
         }
-        .withdraw-tier-card.active .tier-cost { border-color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.15); color: #c4b5fd; }
+        .withdraw-tier-card.active .tier-cost { border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.12); color: #fca5a5; }
         .tier-card-top { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
         .gift-card-selector {
             transition: all 0.2s ease;
             border: 1px solid var(--border);
-            background: linear-gradient(180deg, #14121e 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
             border-radius: 1rem;
             padding: 0.85rem 0.6rem;
             cursor: pointer;
@@ -359,7 +359,7 @@
             min-height: 150px; justify-content: center;
         }
         .gift-card-selector:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-2px); }
-        .gift-card-selector.active { border-color: rgba(139, 92, 246, 0.6); background: linear-gradient(180deg, rgba(139, 92, 246, 0.12), rgba(109, 40, 217, 0.05)); }
+        .gift-card-selector.active { border-color: rgba(239, 68, 68, 0.55); background: linear-gradient(180deg, rgba(239, 68, 68, 0.08), rgba(185, 28, 28, 0.04)); }
         .gift-card-selector .gift-img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border-strong); }
         .gift-card-selector .gift-amount { font-weight: 800; font-size: 1.05rem; color: #fff; }
         .gift-card-selector .gift-badge { font-size: 0.55rem; text-transform: uppercase; font-weight: 700; color: #8a8a92; }
@@ -371,21 +371,21 @@
             border: 1px solid var(--border);
             font-family: 'JetBrains Mono', monospace;
         }
-        .gift-card-selector.active .gift-cost { border-color: rgba(139, 92, 246, 0.4); background: rgba(139, 92, 246, 0.15); color: #c4b5fd; }
+        .gift-card-selector.active .gift-cost { border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.12); color: #fca5a5; }
         .withdraw-submit-btn {
-            background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
-            border: 1px solid rgba(167, 139, 250, 0.5);
+            background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+            border: 1px solid rgba(248, 113, 113, 0.5);
             color: #ffffff; font-weight: 800;
-            box-shadow: 0 14px 30px -12px rgba(139, 92, 246, 0.75);
+            box-shadow: 0 14px 30px -12px rgba(239, 68, 68, 0.7);
         }
         .withdraw-submit-btn:disabled { opacity: 0.45; cursor: not-allowed; filter: saturate(0.5); }
         .task-modal-overlay {
-            background: rgba(6, 4, 14, 0.9);
+            background: rgba(4, 5, 8, 0.88);
             backdrop-filter: blur(14px);
             z-index: 1000;
         }
         .task-modal-content {
-            background: linear-gradient(180deg, #16131f 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #14151a 0%, #0c0d10 100%);
             border: 1px solid var(--border-strong);
             border-radius: 1.5rem;
             max-width: 520px; width: 92%;
@@ -401,13 +401,13 @@
             text-transform: uppercase; letter-spacing: 0.08em;
             border: 1px solid;
         }
-        .task-badge.hot { background: rgba(249, 115, 22, 0.12); color: #fdba74; border-color: rgba(249, 115, 22, 0.35); }
+        .task-badge.hot { background: rgba(239, 68, 68, 0.12); color: #f87171; border-color: rgba(239, 68, 68, 0.35); }
         .task-badge.popular { background: rgba(251, 191, 36, 0.12); color: #fcd34d; border-color: rgba(251, 191, 36, 0.35); }
-        .task-badge.recommended { background: rgba(34, 211, 238, 0.12); color: #67e8f9; border-color: rgba(34, 211, 238, 0.35); }
-        .task-badge.new { background: rgba(167, 139, 250, 0.15); color: #c4b5fd; border-color: rgba(167, 139, 250, 0.45); }
+        .task-badge.recommended { background: rgba(96, 165, 250, 0.12); color: #93c5fd; border-color: rgba(96, 165, 250, 0.35); }
+        .task-badge.new { background: rgba(34, 211, 238, 0.15); color: #a5f3fc; border-color: rgba(34, 211, 238, 0.45); }
         .task-badge i { width: 0.75rem; height: 0.75rem; }
         .eligibility-card {
-            background: linear-gradient(180deg, #121020 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #101115 0%, #0c0d10 100%);
             border: 1px solid var(--border);
             border-radius: 1.25rem;
             padding: 1.35rem 1.5rem;
@@ -429,7 +429,7 @@
             border: 1px solid;
             margin-left: auto;
         }
-        .eligibility-card .status-badge.locked { color: #a78bfa; border-color: rgba(167, 139, 250, 0.4); background: rgba(167, 139, 250, 0.08); }
+        .eligibility-card .status-badge.locked { color: #f87171; border-color: rgba(248, 113, 113, 0.4); background: rgba(248, 113, 113, 0.08); }
         .eligibility-card .status-badge.unlocked { color: #34d399; border-color: rgba(52, 211, 153, 0.4); background: rgba(52, 211, 153, 0.08); }
         .circular-progress { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
         .circular-progress svg { transform: rotate(-90deg); width: 64px; height: 64px; }
@@ -453,15 +453,15 @@
         }
         .selection-indicator {
             font-size: 0.6rem; font-weight: 800;
-            color: #a78bfa;
-            background: rgba(139, 92, 246, 0.15);
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.15);
             padding: 0.15rem 0.65rem;
             border-radius: 9999px;
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.3);
             display: inline-block; margin-top: 0.25rem;
         }
         .chart-container {
-            background: linear-gradient(180deg, #121020 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #101115 0%, #0c0d10 100%);
             border: 1px solid var(--border);
             border-radius: 1.25rem;
             padding: 1.25rem 1.1rem 0.85rem;
@@ -478,7 +478,7 @@
         .robux-logo-img.bordered { border: 1px solid var(--border-strong); }
         .tier-amount .robux-logo-img { width: 1.15rem; height: 1.15rem; border-radius: 9999px; border: 1px solid var(--border-strong); }
         .stat-card {
-            background: linear-gradient(180deg, #14121e 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
             border: 1px solid var(--border);
             border-radius: 1.1rem;
             padding: 1rem 1.1rem;
@@ -494,9 +494,9 @@
             border-radius: 1.75rem;
             border: 1px solid var(--border);
             background:
-                radial-gradient(600px 200px at 0% 0%, rgba(139, 92, 246, 0.18), transparent 60%),
-                radial-gradient(500px 200px at 100% 100%, rgba(34, 211, 238, 0.07), transparent 60%),
-                linear-gradient(180deg, #131024 0%, #0a0812 100%);
+                radial-gradient(600px 200px at 0% 0%, rgba(239, 68, 68, 0.12), transparent 60%),
+                radial-gradient(500px 200px at 100% 100%, rgba(52, 211, 153, 0.06), transparent 60%),
+                linear-gradient(180deg, #101115 0%, #0b0c0f 100%);
             overflow: hidden;
         }
         .live-dot {
@@ -512,13 +512,13 @@
             100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
         }
         .mobile-nav {
-            background: linear-gradient(180deg, rgba(12,10,20,0.6), rgba(8,6,15,0.95));
+            background: linear-gradient(180deg, rgba(12,13,16,0.6), rgba(8,9,11,0.95));
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--border);
         }
         .offer-state-box {
             grid-column: 1 / -1;
-            background: linear-gradient(180deg, #121020 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #101115 0%, #0c0d10 100%);
             border: 1px dashed var(--border-strong);
             border-radius: 1.25rem;
             padding: 2.5rem 1.5rem;
@@ -539,7 +539,7 @@
             position: absolute;
             left: 0; top: 0;
             width: 1.2rem; height: 1.2rem;
-            background: #7c3aed;
+            background: #dc2626;
             color: #fff;
             font-size: 0.6rem;
             font-weight: 800;
@@ -548,22 +548,22 @@
         }
         .copy-link-box {
             display: flex; align-items: center; gap: 0.5rem;
-            background: #0a0812;
-            border: 1px solid #2c2438;
+            background: #0b0b0c;
+            border: 1px solid #2a2a2e;
             border-radius: 0.75rem;
             padding: 0.5rem 0.6rem 0.5rem 0.9rem;
         }
         .copy-link-box .link-text {
             font-size: 0.72rem;
             font-family: 'JetBrains Mono', monospace;
-            color: #a78bfa;
+            color: #60a5fa;
             word-break: break-all;
             flex: 1;
         }
         .copy-link-box .copy-btn {
-            background: rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            color: #c4b5fd;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
             font-size: 0.65rem;
             font-weight: 700;
             padding: 0.3rem 0.85rem;
@@ -572,12 +572,12 @@
             transition: all 0.2s;
             white-space: nowrap;
         }
-        .copy-link-box .copy-btn:hover { background: rgba(139, 92, 246, 0.25); border-color: #a78bfa; color: #ddd6fe; }
+        .copy-link-box .copy-btn:hover { background: rgba(59, 130, 246, 0.25); border-color: #60a5fa; color: #bfdbfe; }
         .dragon-icon { width: 1.15rem; height: 1.15rem; color: #fff; }
 
         /* ===== RULES PAGE ===== */
         .rule-card {
-            background: linear-gradient(180deg, #14121e 0%, #0b0a12 100%);
+            background: linear-gradient(180deg, #121317 0%, #0c0d10 100%);
             border: 1px solid var(--border);
             border-radius: 1.1rem;
             padding: 1.05rem 1.15rem;
@@ -588,7 +588,7 @@
         .rule-card:hover { border-color: rgba(255,255,255,0.14); transform: translateY(-2px); }
         .rule-card::before {
             content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-            background: var(--rule-accent, #8b5cf6);
+            background: var(--rule-accent, #ef4444);
         }
         .rule-card .rule-icon {
             width: 2.25rem; height: 2.25rem; border-radius: 0.7rem;
@@ -610,9 +610,9 @@
             border-radius: 1.5rem;
             border: 1px solid var(--border);
             background:
-                radial-gradient(600px 200px at 0% 0%, rgba(139, 92, 246, 0.2), transparent 60%),
-                radial-gradient(500px 200px at 100% 100%, rgba(34, 211, 238, 0.08), transparent 60%),
-                linear-gradient(180deg, #131024 0%, #0a0812 100%);
+                radial-gradient(600px 200px at 0% 0%, rgba(239, 68, 68, 0.14), transparent 60%),
+                radial-gradient(500px 200px at 100% 100%, rgba(52, 211, 153, 0.07), transparent 60%),
+                linear-gradient(180deg, #101115 0%, #0b0c0f 100%);
             overflow: hidden;
             padding: 1.5rem 1.5rem;
         }
@@ -631,7 +631,7 @@
             position: absolute;
             top: -120px; right: -80px;
             width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(139,92,246,0.18), transparent 70%);
+            background: radial-gradient(circle, rgba(239,68,68,0.12), transparent 70%);
             filter: blur(40px);
             pointer-events: none;
         }
@@ -649,9 +649,9 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            background: rgba(139,92,246,0.12);
-            border: 1px solid rgba(139,92,246,0.28);
-            color: #c4b5fd;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.25);
+            color: #fca5a5;
             font-size: 9px;
             font-weight: 800;
             letter-spacing: 0.15em;
@@ -664,8 +664,8 @@
             display: inline-block;
             width: 6px; height: 6px;
             border-radius: 9999px;
-            background: #8b5cf6;
-            box-shadow: 0 0 8px rgba(139,92,246,0.9);
+            background: #ef4444;
+            box-shadow: 0 0 8px rgba(239,68,68,0.9);
             animation: live-pulse 1.6s infinite;
         }
         .th-title {
@@ -675,7 +675,7 @@
             letter-spacing: -0.02em;
             line-height: 1.25;
         }
-        .th-arr { color: #8b5cf6; margin: 0 0.1rem; }
+        .th-arr { color: #ef4444; margin: 0 0.1rem; }
         .th-sub {
             font-size: 0.72rem;
             color: #a1a1aa;
@@ -728,13 +728,13 @@
                     </svg>
                 </div>
                 <div class="flex flex-col leading-none">
-                    <span class="text-lg font-black tracking-tight text-white">Robux<span class="text-violet-400">Hunter</span></span>
+                    <span class="text-lg font-black tracking-tight text-white">Robux<span class="text-red-500">Prize</span></span>
                     <span class="text-[9px] font-semibold tracking-[0.18em] uppercase text-zinc-500 mt-0.5">Earn Honestly</span>
                 </div>
             </div>
             <div class="flex items-center gap-3">
                 <div class="pill py-1.5 px-3.5 flex items-center gap-2">
-                    <span class="w-1.5 h-1.5 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(139,92,246,0.8)]"></span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span>
                     <span class="text-sm font-bold text-white mono tracking-tight" x-text="tokens"></span>
                     <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
                 </div>
@@ -766,7 +766,7 @@
                     </button>
                     <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'active' : ''" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold text-sm relative">
                         <i data-lucide="shield-alert" class="w-[18px] h-[18px]"></i> Platform Rules
-                        <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-violet-600 text-[10px] font-black text-white">1</span>
+                        <span x-show="!rulesAccepted" class="ml-auto notif-badge flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
                     </button>
                 </div>
 
@@ -787,8 +787,8 @@
 
                     <div class="hero-card p-6 sm:p-8">
                         <div class="max-w-lg space-y-3.5 relative z-10">
-                            <span class="inline-flex items-center gap-2 bg-violet-500/10 text-violet-300 border border-violet-500/25 text-[11px] font-bold uppercase tracking-[0.12em] px-3 py-1.5 rounded-full">
-                                <span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse"></span>
+                            <span class="inline-flex items-center gap-2 bg-red-500/10 text-red-300 border border-red-500/25 text-[11px] font-bold uppercase tracking-[0.12em] px-3 py-1.5 rounded-full">
+                                <span class="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></span>
                                 Live Offers Network
                             </span>
                             <h2 class="text-2xl sm:text-4xl font-black tracking-tight text-white leading-[1.1]">Turn simple micro-tasks into clean Robux.</h2>
@@ -804,7 +804,7 @@
                             <div class="stat-card">
                                 <div class="flex items-center justify-between mb-1">
                                     <span class="stat-label">Your Balance</span>
-                                    <i data-lucide="wallet" class="w-4 h-4 text-violet-400"></i>
+                                    <i data-lucide="wallet" class="w-4 h-4 text-red-400"></i>
                                 </div>
                                 <p class="stat-value" x-text="tokens"></p>
                                 <span class="text-[11px] text-zinc-500 font-medium flex items-center gap-1">Coins Available <i data-lucide="coins" class="w-3 h-3 text-amber-400"></i></span>
@@ -851,7 +851,7 @@
                             </div>
                             <div class="border-t border-white/5 pt-2.5 mt-2 space-y-1">
                                 <p class="text-[10px] text-amber-400 font-bold pt-1" x-text="'💰 Top payout: ' + topPayoutShort + ' ROBUX'"></p>
-                                <p class="text-[10px] text-violet-400 font-bold" x-text="'🔥 ' + hundredKPlusCount + ' users reached 100K+ ROBUX'"></p>
+                                <p class="text-[10px] text-red-400 font-bold" x-text="'🔥 ' + hundredKPlusCount + ' users reached 100K+ ROBUX'"></p>
                                 <p class="text-[10px] text-zinc-500 pt-1">Your ID: <span class="text-zinc-300 mono" x-text="userId"></span></p>
                             </div>
                         </div>
@@ -868,7 +868,7 @@
                         </div>
                         <div class="chart-container">
                             <div class="chart-title">
-                                <i data-lucide="bar-chart-2" class="text-violet-400"></i>
+                                <i data-lucide="bar-chart-2" class="text-red-400"></i>
                                 Task Completion
                                 <span class="ml-auto text-[10px] mono text-zinc-600" x-text="completedTasksCount + ' / 30'"></span>
                             </div>
@@ -918,10 +918,10 @@
 
                         <div class="glass-card p-6 flex flex-col justify-between">
                             <div class="flex items-center justify-between gap-2">
-                                <span x-show="isFirstSpin" class="bg-gradient-to-r from-amber-500/20 to-violet-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full inline-flex items-center gap-1">
+                                <span x-show="isFirstSpin" class="bg-gradient-to-r from-amber-500/20 to-red-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-black uppercase tracking-[0.12em] px-2.5 py-1 rounded-full inline-flex items-center gap-1">
                                     <i data-lucide="sparkles" class="w-3 h-3"></i> Free Spin
                                 </span>
-                                <span x-show="!isFirstSpin" class="bg-violet-500/10 text-violet-300 border border-violet-500/25 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full inline-flex items-center gap-1">Cost: 5 <i data-lucide="coins" class="w-3 h-3 text-amber-400"></i></span>
+                                <span x-show="!isFirstSpin" class="bg-red-500/10 text-red-300 border border-red-500/25 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full inline-flex items-center gap-1">Cost: 5 <i data-lucide="coins" class="w-3 h-3 text-amber-400"></i></span>
                                 <span class="text-xs text-zinc-400 mono">Win up to 120</span>
                             </div>
                             <div class="my-6 flex flex-col sm:flex-row items-center justify-center gap-6">
@@ -954,7 +954,7 @@
                                 </div>
                                 <div class="text-center sm:text-left space-y-2.5 flex-1">
                                     <h4 class="text-sm font-bold text-white">Wheel of Fortune</h4>
-                                    <p class="text-xs text-zinc-400 leading-relaxed">Win <strong class="text-amber-400">20</strong>, <strong class="text-violet-300">30</strong>, <strong class="text-emerald-400">60</strong> or the rare <strong class="text-amber-300">120</strong>!</p>
+                                    <p class="text-xs text-zinc-400 leading-relaxed">Win <strong class="text-amber-400">20</strong>, <strong class="text-red-300">30</strong>, <strong class="text-emerald-400">60</strong> or the rare <strong class="text-amber-300">120</strong>!</p>
                                     <button x-show="isFirstSpin && !isSpinning" @click="spinWheel()" class="btn-free-spin w-full text-sm px-5 py-3 rounded-xl flex items-center justify-center gap-2">
                                         <i data-lucide="sparkles" class="w-4 h-4"></i>
                                         <span>🎁 Claim Free Spin</span>
@@ -1025,14 +1025,14 @@
                         </div>
                     </div>
 
-                    <div class="bg-cyan-500/[0.06] border border-cyan-500/20 rounded-xl p-3 flex items-start gap-2.5 text-xs text-cyan-300">
-                        <i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5 text-cyan-400"></i>
+                    <div class="bg-blue-500/[0.06] border border-blue-500/20 rounded-xl p-3 flex items-start gap-2.5 text-xs text-blue-300">
+                        <i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-400"></i>
                         <span>Only one task can run at a time. Others lock until it finishes. Click <strong class="text-white">Confirm Completion</strong> once you have finished the task to claim your reward.</span>
                     </div>
 
                     <div class="bg-amber-500/[0.07] border border-amber-500/25 rounded-xl p-3 flex items-start gap-2.5 text-xs text-amber-200">
                         <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400"></i>
-                        <span><strong class="text-amber-300">Important:</strong> You must complete every task <strong class="text-white">honestly</strong> to collect your coins and withdraw without problems. Skipping, avoiding, or claiming a task without genuinely completing it <strong class="text-rose-400">may lead to your withdrawal being rejected</strong>.</span>
+                        <span><strong class="text-amber-300">Important:</strong> You must complete every task <strong class="text-white">honestly</strong> to collect your coins and withdraw without problems. Skipping, avoiding, or claiming a task without genuinely completing it <strong class="text-red-400">may lead to your withdrawal being rejected</strong>.</span>
                     </div>
 
                     <div x-show="isTaskRunning" x-transition class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-amber-300 font-medium">
@@ -1046,7 +1046,7 @@
                     </div>
 
                     <div x-show="offerStatus === 'error'" class="offer-state-box" style="padding: 1.35rem 1rem;">
-                        <i data-lucide="wifi-off" class="w-8 h-8 text-violet-400 mx-auto mb-2"></i>
+                        <i data-lucide="wifi-off" class="w-8 h-8 text-red-400 mx-auto mb-2"></i>
                         <h3 class="text-white font-bold text-base">Live offer network unreachable</h3>
                         <p class="text-zinc-400 text-xs mt-1.5 max-w-md mx-auto">Social tasks below are still available. Please check your connection and refresh for more offers.</p>
                         <button @click="refreshOffers()" class="btn-primary text-xs px-5 py-2.5 rounded-xl mt-3 inline-flex items-center gap-2">
@@ -1092,7 +1092,7 @@
                                                 <img :src="task.iconUrl" alt="" class="w-9 h-9 object-contain rounded-lg" @error="$event.target.style.display='none'">
                                             </template>
                                             <template x-if="!task.iconUrl && !task.brand">
-                                                <i :data-lucide="task.icon" class="w-9 h-9 text-violet-400"></i>
+                                                <i :data-lucide="task.icon" class="w-9 h-9 text-red-400"></i>
                                             </template>
                                         </div>
 
@@ -1113,7 +1113,7 @@
 
                                     <h3 class="text-sm font-bold text-white" x-text="task.title"></h3>
                                     <template x-if="task.handle">
-                                        <p class="text-[11px] text-violet-400 font-bold mono mt-0.5" x-text="task.handle"></p>
+                                        <p class="text-[11px] text-red-400 font-bold mono mt-0.5" x-text="task.handle"></p>
                                     </template>
                                     <div class="flex items-center gap-2 mt-1.5 flex-wrap">
                                         <div class="star-rating">
@@ -1130,8 +1130,8 @@
                                     <p class="text-xs text-zinc-400 mt-2 leading-relaxed" x-text="task.desc"></p>
 
                                     <template x-if="task.status === 'in_progress'">
-                                        <div class="mt-2.5 flex items-center gap-2 text-xs text-cyan-300 font-medium">
-                                            <svg class="animate-spin h-3.5 w-3.5 text-cyan-400" fill="none" viewBox="0 0 24 24">
+                                        <div class="mt-2.5 flex items-center gap-2 text-xs text-blue-300 font-medium">
+                                            <svg class="animate-spin h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24">
                                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                                             </svg>
@@ -1215,7 +1215,7 @@
                         <div>
                             <p class="text-sm font-bold text-amber-300">⚠️ Important – Withdraw Safely</p>
                             <p class="text-xs text-zinc-300 leading-relaxed mt-1">
-                                <strong>All tasks must be completed honestly</strong>. Skipping tasks or collecting coins without genuinely completing them <strong class="text-rose-400">may result in your Robux not being delivered</strong>.
+                                <strong>All tasks must be completed honestly</strong>. Skipping tasks or collecting coins without genuinely completing them <strong class="text-red-400">may result in your Robux not being delivered</strong>.
                             </p>
                         </div>
                     </div>
@@ -1238,7 +1238,7 @@
                                 <svg viewBox="0 0 80 80">
                                     <circle class="bg-circle" cx="40" cy="40" r="34" />
                                     <circle class="progress-circle" cx="40" cy="40" r="34"
-                                    :stroke="completedTasksCount >= 30 ? '#34d399' : '#8b5cf6'"
+                                    :stroke="completedTasksCount >= 30 ? '#34d399' : '#ef4444'"
                                     :stroke-dasharray="213.6 * (Math.min(completedTasksCount, 30) / 30) + ' 213.6'" />
                                 </svg>
                                 <div class="center-text">
@@ -1267,12 +1267,12 @@
                         <div class="glass-card p-5 flex flex-col justify-between md:col-span-1">
                             <div>
                                 <div class="flex items-center gap-2 mb-2">
-                                    <i data-lucide="info" class="text-violet-400 w-4 h-4"></i>
+                                    <i data-lucide="info" class="text-red-400 w-4 h-4"></i>
                                     <h3 class="text-sm font-bold text-white">Exchange Rate</h3>
                                 </div>
                                 <div class="bg-white/[0.03] p-3 rounded-xl border border-white/5 mt-4 text-center flex items-center justify-center gap-1.5">
                                     <span class="text-xs mono text-zinc-300">5K Robux =</span>
-                                    <strong class="text-violet-400">1,000</strong>
+                                    <strong class="text-red-400">1,000</strong>
                                     <i data-lucide="coins" class="w-4 h-4 text-amber-400"></i>
                                 </div>
                                 <div class="bg-white/[0.03] p-3 rounded-xl border border-white/5 mt-3 text-center flex items-center justify-center gap-1.5">
@@ -1292,18 +1292,18 @@
                         <div class="glass-card p-5 md:col-span-3 space-y-5">
                             <template x-if="withdrawStatus === 'loading'">
                                 <div class="py-10 text-center space-y-3">
-                                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-violet-500 mx-auto"></div>
+                                    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-600 mx-auto"></div>
                                     <p class="text-sm font-medium text-zinc-300">Validating compliance variables...</p>
                                 </div>
                             </template>
 
                             <template x-if="withdrawStatus === 'confirming'">
-                                <div class="py-6 text-center space-y-4 border border-violet-500/25 bg-violet-500/[0.04] rounded-xl p-5">
-                                    <i data-lucide="user-check" class="w-10 h-10 text-violet-400 mx-auto animate-bounce"></i>
+                                <div class="py-6 text-center space-y-4 border border-red-500/25 bg-red-500/[0.04] rounded-xl p-5">
+                                    <i data-lucide="user-check" class="w-10 h-10 text-red-400 mx-auto animate-bounce"></i>
                                     <div>
                                         <h4 class="text-base font-bold text-white">Account Parameter Verification</h4>
                                         <p class="text-xs text-zinc-300 mt-1">Please make sure the user is right:</p>
-                                        <p class="text-lg font-black text-violet-300 tracking-wide mt-2 bg-zinc-950 inline-block px-4 py-1.5 border border-white/10 rounded-xl mono" x-text="robloxUser"></p>
+                                        <p class="text-lg font-black text-red-300 tracking-wide mt-2 bg-zinc-950 inline-block px-4 py-1.5 border border-white/10 rounded-xl mono" x-text="robloxUser"></p>
                                     </div>
                                     <div class="flex gap-2 justify-center pt-2">
                                         <button @click="withdrawStatus = 'idle'" class="btn-ghost text-xs px-4 py-2 rounded-xl">Edit Name</button>
@@ -1392,7 +1392,7 @@
 
                                     <div>
                                         <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-[0.12em] mb-2">Target Roblox Username</label>
-                                        <input type="text" x-model="robloxUser" placeholder="e.g. CoolPlayer123" class="w-full bg-white/[0.03] border border-white/10 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-violet-500/50 transition" />
+                                        <input type="text" x-model="robloxUser" placeholder="e.g. CoolPlayer123" class="w-full bg-white/[0.03] border border-white/10 text-sm rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:border-red-500/50 transition" />
                                     </div>
 
                                     <div class="flex items-start gap-2.5 bg-white/[0.02] p-3 rounded-xl border border-white/5">
@@ -1421,7 +1421,7 @@
 
                     <div class="glass-card p-6 space-y-5">
                         <div class="flex items-center gap-4 bg-white/[0.02] p-4 rounded-xl border border-white/5">
-                            <div class="bg-violet-500/10 p-3 rounded-xl text-violet-400 border border-violet-500/20 flex-shrink-0">
+                            <div class="bg-red-500/10 p-3 rounded-xl text-red-400 border border-red-500/20 flex-shrink-0">
                                 <i data-lucide="gift" class="w-6 h-6"></i>
                             </div>
                             <div>
@@ -1444,10 +1444,10 @@
                     <div class="glass-card p-6 space-y-5">
                         <div class="bg-white/[0.02] border border-white/5 p-4 rounded-xl space-y-3">
                             <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-[0.12em] flex items-center gap-1.5">
-                                <i data-lucide="ticket" class="w-4 h-4 text-violet-400"></i> Redeem Promo / Activation Code
+                                <i data-lucide="ticket" class="w-4 h-4 text-red-400"></i> Redeem Promo / Activation Code
                             </label>
                             <div class="flex gap-2">
-                                <input type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950/60 border border-white/10 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 mono focus:outline-none focus:border-violet-500/50 transition" />
+                                <input type="text" x-model="promoCode" placeholder="Enter code here..." class="w-full bg-zinc-950/60 border border-white/10 text-sm rounded-xl px-4 py-2.5 text-white placeholder-zinc-600 mono focus:outline-none focus:border-red-500/50 transition" />
                                 <button @click="applyPromoCode()" class="btn-primary text-xs px-5 rounded-xl whitespace-nowrap">Apply Code</button>
                             </div>
                             <p class="text-[10px] text-zinc-500 italic">Have a promo code? Redeem it here for bonus coins.</p>
@@ -1491,7 +1491,7 @@
                         </div>
 
                         <div class="border-t border-white/5 pt-4">
-                            <button @click="resetAccount()" class="bg-violet-500/10 hover:bg-violet-500/20 text-violet-400 border border-violet-500/25 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
+                            <button @click="resetAccount()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/25 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2">
                                 <i data-lucide="trash-2" class="w-4 h-4"></i> Delete Account (Reset)
                             </button>
                         </div>
@@ -1505,15 +1505,15 @@
                         <div>
                             <h2 class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
                                 Compliance &amp; Fraud Prevention
-                                <span x-show="!rulesAccepted" class="notif-badge ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-violet-600 text-[10px] font-black text-white">1</span>
+                                <span x-show="!rulesAccepted" class="notif-badge ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-[10px] font-black text-white">1</span>
                             </h2>
                             <p class="text-zinc-500 text-xs mt-1">Review system rules to guarantee smooth coin settlement.</p>
                         </div>
                         <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.1em] px-2.5 py-1 rounded-full border"
                               :class="rulesAccepted
                                   ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/25'
-                                  : 'bg-violet-500/10 text-violet-300 border-violet-500/25'">
-                            <span class="w-1.5 h-1.5 rounded-full" :class="rulesAccepted ? 'bg-emerald-400' : 'bg-violet-400 animate-pulse'"></span>
+                                  : 'bg-red-500/10 text-red-300 border-red-500/25'">
+                            <span class="w-1.5 h-1.5 rounded-full" :class="rulesAccepted ? 'bg-emerald-400' : 'bg-red-400 animate-pulse'"></span>
                             <span x-text="rulesAccepted ? 'Compliant' : 'Action Required'"></span>
                         </span>
                     </div>
@@ -1522,8 +1522,8 @@
                         <div x-show="rulesAccepted" class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center flex-shrink-0">
                             <i data-lucide="shield-check" class="w-6 h-6 text-emerald-400"></i>
                         </div>
-                        <div x-show="!rulesAccepted" class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/25 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="shield-alert" class="w-6 h-6 text-violet-400"></i>
+                        <div x-show="!rulesAccepted" class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/25 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="shield-alert" class="w-6 h-6 text-red-400"></i>
                         </div>
                         <div class="info">
                             <h4 x-text="rulesAccepted ? '✅ Rules Accepted' : '🔒 Rules Acceptance Required'"></h4>
@@ -1537,19 +1537,19 @@
                         </div>
                     </div>
 
-                    <div class="bg-violet-500/[0.07] border border-violet-500/25 rounded-2xl p-4 flex items-start gap-3">
-                        <i data-lucide="alert-triangle" class="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5"></i>
+                    <div class="bg-red-500/[0.07] border border-red-500/25 rounded-2xl p-4 flex items-start gap-3">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5"></i>
                         <div>
-                            <p class="text-sm font-bold text-violet-300">⚠️ Important – This directly affects your ability to receive Robux</p>
+                            <p class="text-sm font-bold text-red-300">⚠️ Important – This directly affects your ability to receive Robux</p>
                             <p class="text-xs text-zinc-300 leading-relaxed mt-1">
-                                Breaking any rule below may result in <strong class="text-rose-400">rejected payouts</strong>, coin removal, or permanent account termination.
+                                Breaking any rule below may result in <strong class="text-red-400">rejected payouts</strong>, coin removal, or permanent account termination.
                             </p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" :class="!rulesAccepted ? 'rules-locked-blur' : ''">
 
-                        <div class="rule-card" style="--rule-accent:#8b5cf6;">
+                        <div class="rule-card" style="--rule-accent:#ef4444;">
                             <div class="rule-icon"><i data-lucide="shield-x"></i></div>
                             <div>
                                 <h4>Strict Anti-VPN Infrastructure</h4>
@@ -1581,7 +1581,7 @@
                             </div>
                         </div>
 
-                        <div class="rule-card md:col-span-2" style="--rule-accent:#22d3ee;">
+                        <div class="rule-card md:col-span-2" style="--rule-accent:#a78bfa;">
                             <div class="rule-icon"><i data-lucide="wallet"></i></div>
                             <div>
                                 <h4>Withdrawal Integrity</h4>
@@ -1614,24 +1614,24 @@
 
     <!-- MOBILE TAB BAR -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 mobile-nav px-2 py-2 z-50 flex justify-around items-center">
-        <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-violet-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+        <button @click="currentTab = 'dashboard'" :class="currentTab === 'dashboard' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Home</span>
         </button>
-        <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'text-violet-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+        <button @click="currentTab = 'tasks'" :class="currentTab === 'tasks' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
             <i data-lucide="clipboard-list" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Tasks</span>
         </button>
-        <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'text-violet-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+        <button @click="currentTab = 'withdraw'" :class="currentTab === 'withdraw' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
             <i data-lucide="coins" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Payout</span>
         </button>
-        <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'text-violet-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+        <button @click="currentTab = 'referrals'" :class="currentTab === 'referrals' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
             <i data-lucide="users" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Invite</span>
         </button>
-        <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'text-violet-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
+        <button @click="currentTab = 'account'" :class="currentTab === 'account' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition">
             <i data-lucide="user" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Profile</span>
         </button>
-        <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-violet-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition relative">
+        <button @click="currentTab = 'rules'" :class="currentTab === 'rules' ? 'text-red-400' : 'text-zinc-500'" class="flex flex-col items-center gap-1 p-2 transition relative">
             <i data-lucide="shield-alert" class="w-5 h-5"></i><span class="text-[10px] font-semibold">Rules</span>
-            <span x-show="!rulesAccepted" class="absolute -top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-violet-600 text-[7px] font-black text-white">1</span>
+            <span x-show="!rulesAccepted" class="absolute -top-0.5 right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-600 text-[7px] font-black text-white">1</span>
         </button>
     </nav>
 
@@ -1722,13 +1722,13 @@
                         <p class="text-xs text-zinc-400 mt-1.5 leading-relaxed">Please confirm you really completed this task before claiming your reward.</p>
                     </div>
 
-                    <div class="bg-[#0a0812] border border-[#2a2438] rounded-2xl p-4 mb-4 flex items-center justify-between gap-3 relative overflow-hidden">
+                    <div class="bg-[#0a0a0c] border border-[#232327] rounded-2xl p-4 mb-4 flex items-center justify-between gap-3 relative overflow-hidden">
                         <div class="absolute left-0 top-0 bottom-0 w-[3px]" style="background: linear-gradient(180deg, #10b981, #047857);"></div>
                         <div class="min-w-0 pl-2">
                             <p class="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Task</p>
                             <p class="text-sm font-bold text-white truncate" x-text="confirmTask.title"></p>
                             <template x-if="confirmTask.handle">
-                                <p class="text-[10px] mono text-violet-400 mt-0.5" x-text="confirmTask.handle"></p>
+                                <p class="text-[10px] mono text-red-400 mt-0.5" x-text="confirmTask.handle"></p>
                             </template>
                         </div>
                         <span class="rounded-full px-3 py-1.5 text-xs font-extrabold"
@@ -1750,7 +1750,7 @@
                         <div>
                             <p class="font-bold text-amber-400 mb-1 text-[12px] tracking-wide">⚠️ Honesty Check</p>
                             <p class="text-zinc-300 text-[11px] leading-relaxed">
-                                By clicking <strong class="text-white">"Yes, I Completed Honestly"</strong>, you confirm that you genuinely completed this task. If you did not, your claim may be flagged and your <strong class="text-rose-400">Robux payout can be rejected</strong>.
+                                By clicking <strong class="text-white">"Yes, I Completed Honestly"</strong>, you confirm that you genuinely completed this task. If you did not, your claim may be flagged and your <strong class="text-red-400">Robux payout can be rejected</strong>.
                             </p>
                         </div>
                     </div>
@@ -1789,18 +1789,18 @@
                 </div>
             </div>
 
-            <div class="bg-violet-500/[0.07] border border-violet-500/25 rounded-xl p-3 flex gap-2.5 mb-4">
-                <i data-lucide="alert-triangle" class="w-4 h-4 text-violet-400 flex-shrink-0 mt-0.5"></i>
-                <p class="text-[11px] text-violet-200 leading-relaxed">
-                    <strong class="text-violet-300">Important:</strong> These rules directly affect your ability to receive Robux. Breaking any of them may result in <strong class="text-white">rejected payouts</strong> or account termination.
+            <div class="bg-red-500/[0.07] border border-red-500/25 rounded-xl p-3 flex gap-2.5 mb-4">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5"></i>
+                <p class="text-[11px] text-red-200 leading-relaxed">
+                    <strong class="text-red-300">Important:</strong> These rules directly affect your ability to receive Robux. Breaking any of them may result in <strong class="text-white">rejected payouts</strong> or account termination.
                 </p>
             </div>
 
             <div class="rules-scroll space-y-2.5 pr-2">
 
                 <div class="flex gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3.5">
-                    <div class="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="shield-x" class="w-4 h-4 text-violet-400"></i>
+                    <div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="shield-x" class="w-4 h-4 text-red-400"></i>
                     </div>
                     <div class="min-w-0">
                         <h4 class="text-xs font-bold text-white">1. Anti-VPN &amp; Proxy</h4>
@@ -1951,14 +1951,6 @@
             }
         ];
 
-        const ACTION_TITLES = [
-            'Tap to Claim Your Bonus',
-            'Score to Have the Chance',
-            'Click to Catch Your Coins',
-            'Tap to Earn Your Bonus',
-            'Tap to Claim Your Reward'
-        ];
-
         // Reward range: minimum 50, maximum 300.
         // Variable curve scales with offer payout (the more it pays, the more coins).
         const COIN_MIN = 50;
@@ -2033,7 +2025,7 @@
 
                 getSocialClaims() {
                     try {
-                        return JSON.parse(localStorage.getItem('rbxhunter_social_claims_v1') || '{}');
+                        return JSON.parse(localStorage.getItem('robux_social_claims_v1') || '{}');
                     } catch (e) { return {}; }
                 },
 
@@ -2047,7 +2039,7 @@
                     const claims = this.getSocialClaims();
                     if (!claims[this.userId]) claims[this.userId] = {};
                     claims[this.userId][taskId] = { at: Date.now() };
-                    localStorage.setItem('rbxhunter_social_claims_v1', JSON.stringify(claims));
+                    localStorage.setItem('robux_social_claims_v1', JSON.stringify(claims));
                 },
 
                 get spinCooldownDisplay() {
@@ -2321,11 +2313,12 @@
                         raw.cid ?? raw.transaction_id ?? `offer_${index}`
                     );
 
-                    const displayTitle = ACTION_TITLES[index % ACTION_TITLES.length];
-
+                    // Use the API's own offer name. No more generic action titles.
                     const originalTitle = String(
                         raw.name ?? raw.title ?? raw.offer_name ?? raw.headline ?? ''
                     ).trim();
+                    const displayTitle = originalTitle || `Sponsored Offer #${index + 1}`;
+
                     const rawDesc = String(
                         raw.description ?? raw.desc ?? raw.instructions ?? raw.details ?? raw.summary ?? ''
                     ).trim();
@@ -2462,7 +2455,7 @@
                         this.saveState();
                         this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
                     } catch (e) {
-                        console.error('[RbxHunter] Offer fetch failed:', e);
+                        console.error('[RbxPrize] Offer fetch failed:', e);
                         const special = getFreshSocialTasks();
                         this.tasks = special;
                         this.liveOfferCount = 0;
@@ -2663,8 +2656,8 @@
                 generateWeeklyLeaderboard() {
                     const weekKey = this.getWeekKey();
                     this.leaderboardWeekKey = weekKey;
-                    const storedKey = localStorage.getItem('rbxhunter_leaderboard_week');
-                    const storedData = localStorage.getItem('rbxhunter_leaderboard_data');
+                    const storedKey = localStorage.getItem('robux_leaderboard_week');
+                    const storedData = localStorage.getItem('robux_leaderboard_data');
                     if (storedKey === weekKey && storedData) {
                         try {
                             const parsed = JSON.parse(storedData);
@@ -2675,8 +2668,8 @@
                         } catch (e) { }
                     }
                     this.leaderboardUsers = this.buildWeeklyLeaderboard();
-                    localStorage.setItem('rbxhunter_leaderboard_week', weekKey);
-                    localStorage.setItem('rbxhunter_leaderboard_data', JSON.stringify(this.leaderboardUsers));
+                    localStorage.setItem('robux_leaderboard_week', weekKey);
+                    localStorage.setItem('robux_leaderboard_data', JSON.stringify(this.leaderboardUsers));
                 },
 
                 buildWeeklyLeaderboard() {
@@ -2739,7 +2732,7 @@
                     const getX = (i) => pad.left + (i / (numPoints - 1)) * chartW;
                     const getY = (v) => pad.top + chartH - (v / maxVal) * chartH;
                     ctx.clearRect(0, 0, w, h);
-                    ctx.fillStyle = '#0b0a12';
+                    ctx.fillStyle = '#0c0d10';
                     ctx.fillRect(0, 0, w, h);
                     ctx.strokeStyle = 'rgba(255,255,255,0.05)';
                     ctx.lineWidth = 0.5;
@@ -2753,8 +2746,8 @@
                     }
                     ctx.setLineDash([]);
                     const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + chartH);
-                    grad.addColorStop(0, 'rgba(139, 92, 246, 0.32)');
-                    grad.addColorStop(1, 'rgba(139, 92, 246, 0.01)');
+                    grad.addColorStop(0, 'rgba(239, 68, 68, 0.28)');
+                    grad.addColorStop(1, 'rgba(239, 68, 68, 0.01)');
                     ctx.beginPath();
                     ctx.moveTo(getX(0), pad.top + chartH);
                     for (let i = 0; i < numPoints; i++) ctx.lineTo(getX(i), getY(dataPoints[i]));
@@ -2768,7 +2761,7 @@
                         if (i === 0) ctx.moveTo(x, y);
                         else ctx.lineTo(x, y);
                     }
-                    ctx.strokeStyle = '#8b5cf6';
+                    ctx.strokeStyle = '#ef4444';
                     ctx.lineWidth = 2;
                     ctx.stroke();
                 },
@@ -2802,9 +2795,9 @@
                     const barWidth = Math.min(28, (chartW / chartData.length) * 0.6);
                     const gap = (chartW - barWidth * chartData.length) / (chartData.length + 1);
                     ctx.clearRect(0, 0, w, h);
-                    ctx.fillStyle = '#0b0a12';
+                    ctx.fillStyle = '#0c0d10';
                     ctx.fillRect(0, 0, w, h);
-                    const colors = ['#8b5cf6', '#34d399', '#22d3ee'];
+                    const colors = ['#ef4444', '#34d399', '#60a5fa'];
                     for (let i = 0; i < chartData.length; i++) {
                         const d = chartData[i];
                         const x = pad.left + gap + i * (barWidth + gap);
@@ -2814,32 +2807,32 @@
                         ctx.fillRect(x, y, barWidth, barH);
                         if (d.count > 0) {
                             ctx.fillStyle = '#d4d4d8';
-                            ctx.font = '7px Outfit, sans-serif';
+                            ctx.font = '7px Inter, sans-serif';
                             ctx.textAlign = 'center';
                             ctx.fillText(d.count, x + barWidth / 2, y - 2);
                         }
                         ctx.fillStyle = '#71717a';
-                        ctx.font = '6px Outfit, sans-serif';
+                        ctx.font = '6px Inter, sans-serif';
                         ctx.textAlign = 'center';
                         ctx.fillText(d.label, x + barWidth / 2, pad.top + chartH + 4);
                     }
                 },
 
                 loadSavedState() {
-                    const savedRunning = localStorage.getItem('rbxhunter_task_running');
-                    const savedTokens = localStorage.getItem('rbxhunter_tokens_balance');
-                    const savedCount = localStorage.getItem('rbxhunter_completed_count');
-                    const savedUsedPromos = localStorage.getItem('rbxhunter_used_promos');
-                    const savedNextClaim = localStorage.getItem('rbxhunter_next_daily_claim');
-                    const savedStreak = localStorage.getItem('rbxhunter_streak_day');
-                    const savedFirstSpin = localStorage.getItem('rbxhunter_first_spin_available');
-                    const savedSpinCooldown = localStorage.getItem('rbxhunter_spin_cooldown');
-                    const savedRulesAccepted = localStorage.getItem('rbxhunter_rules_accepted');
-                    const savedUserId = localStorage.getItem('rbxhunter_user_id');
-                    const savedTotalEarned = localStorage.getItem('rbxhunter_total_earned');
-                    const savedLevel = localStorage.getItem('rbxhunter_user_level');
-                    const savedLoginDays = localStorage.getItem('rbxhunter_login_days');
-                    const savedLastLogin = localStorage.getItem('rbxhunter_last_login');
+                    const savedRunning = localStorage.getItem('robux_task_running');
+                    const savedTokens = localStorage.getItem('robux_tokens_balance');
+                    const savedCount = localStorage.getItem('robux_completed_count');
+                    const savedUsedPromos = localStorage.getItem('robux_used_promos');
+                    const savedNextClaim = localStorage.getItem('robux_next_daily_claim');
+                    const savedStreak = localStorage.getItem('robux_streak_day');
+                    const savedFirstSpin = localStorage.getItem('robux_first_spin_available');
+                    const savedSpinCooldown = localStorage.getItem('robux_spin_cooldown');
+                    const savedRulesAccepted = localStorage.getItem('robux_rules_accepted');
+                    const savedUserId = localStorage.getItem('robux_user_id');
+                    const savedTotalEarned = localStorage.getItem('robux_total_earned');
+                    const savedLevel = localStorage.getItem('robux_user_level');
+                    const savedLoginDays = localStorage.getItem('robux_login_days');
+                    const savedLastLogin = localStorage.getItem('robux_last_login');
 
                     if (savedTokens) this.tokens = parseInt(savedTokens);
                     if (savedCount) this.completedTasksCount = parseInt(savedCount);
@@ -2860,7 +2853,7 @@
                 },
 
                 applySavedTaskState() {
-                    const parsed = JSON.parse(localStorage.getItem('rbxhunter_tasks_state_v12') || '[]');
+                    const parsed = JSON.parse(localStorage.getItem('robux_tasks_state_v12') || '[]');
                     const claims = this.getSocialClaims();
                     const userClaims = claims[this.userId] || {};
 
@@ -2912,21 +2905,21 @@
                         endTime: t.endTime || null,
                         cooldownUntil: t.cooldownUntil || null
                     }));
-                    localStorage.setItem('rbxhunter_tasks_state_v12', JSON.stringify(mapped));
-                    localStorage.setItem('rbxhunter_task_running', this.isTaskRunning ? 'true' : 'false');
-                    localStorage.setItem('rbxhunter_tokens_balance', this.tokens);
-                    localStorage.setItem('rbxhunter_completed_count', this.completedTasksCount);
-                    localStorage.setItem('rbxhunter_used_promos', JSON.stringify(this.usedPromoCodes));
-                    localStorage.setItem('rbxhunter_next_daily_claim', this.nextDailyClaimTime);
-                    localStorage.setItem('rbxhunter_streak_day', this.currentStreak);
-                    localStorage.setItem('rbxhunter_first_spin_available', this.isFirstSpin ? 'true' : 'false');
-                    localStorage.setItem('rbxhunter_spin_cooldown', this.spinCooldownUntil);
-                    localStorage.setItem('rbxhunter_rules_accepted', this.rulesAccepted ? 'true' : 'false');
-                    localStorage.setItem('rbxhunter_user_id', this.userId);
-                    localStorage.setItem('rbxhunter_total_earned', this.totalTokensEarned);
-                    localStorage.setItem('rbxhunter_user_level', this.userLevel);
-                    localStorage.setItem('rbxhunter_login_days', this.totalLoginDays);
-                    localStorage.setItem('rbxhunter_last_login', this.lastLoginDate);
+                    localStorage.setItem('robux_tasks_state_v12', JSON.stringify(mapped));
+                    localStorage.setItem('robux_task_running', this.isTaskRunning ? 'true' : 'false');
+                    localStorage.setItem('robux_tokens_balance', this.tokens);
+                    localStorage.setItem('robux_completed_count', this.completedTasksCount);
+                    localStorage.setItem('robux_used_promos', JSON.stringify(this.usedPromoCodes));
+                    localStorage.setItem('robux_next_daily_claim', this.nextDailyClaimTime);
+                    localStorage.setItem('robux_streak_day', this.currentStreak);
+                    localStorage.setItem('robux_first_spin_available', this.isFirstSpin ? 'true' : 'false');
+                    localStorage.setItem('robux_spin_cooldown', this.spinCooldownUntil);
+                    localStorage.setItem('robux_rules_accepted', this.rulesAccepted ? 'true' : 'false');
+                    localStorage.setItem('robux_user_id', this.userId);
+                    localStorage.setItem('robux_total_earned', this.totalTokensEarned);
+                    localStorage.setItem('robux_user_level', this.userLevel);
+                    localStorage.setItem('robux_login_days', this.totalLoginDays);
+                    localStorage.setItem('robux_last_login', this.lastLoginDate);
                 },
 
                 updateLevel() {
@@ -2947,11 +2940,11 @@
 
                 resetAccount() {
                     if (confirm('Are you sure you want to reset all your progress? This cannot be undone.')) {
-                        const keys = ['rbxhunter_tasks_state_v12', 'rbxhunter_task_running', 'rbxhunter_tokens_balance',
-                            'rbxhunter_completed_count', 'rbxhunter_used_promos', 'rbxhunter_next_daily_claim',
-                            'rbxhunter_streak_day', 'rbxhunter_first_spin_available', 'rbxhunter_spin_cooldown',
-                            'rbxhunter_rules_accepted', 'rbxhunter_user_id', 'rbxhunter_total_earned', 'rbxhunter_user_level',
-                            'rbxhunter_login_days', 'rbxhunter_last_login'];
+                        const keys = ['robux_tasks_state_v12', 'robux_task_running', 'robux_tokens_balance',
+                            'robux_completed_count', 'robux_used_promos', 'robux_next_daily_claim',
+                            'robux_streak_day', 'robux_first_spin_available', 'robux_spin_cooldown',
+                            'robux_rules_accepted', 'robux_user_id', 'robux_total_earned', 'robux_user_level',
+                            'robux_login_days', 'robux_last_login'];
                         keys.forEach(k => localStorage.removeItem(k));
 
                         this.tokens = 5;
